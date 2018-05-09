@@ -7,9 +7,9 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Iterator
+from typing import List, Iterator
 from pygments import highlight
-from pygments.lexers import PythonLexer
+from pygments.lexer import RegexLexerMeta
 from pygments.formatters import HtmlFormatter
 from pygments.styles import (
     get_style_by_name,
@@ -26,9 +26,7 @@ from core.libs import VPoint, VLink
 from .Ui_script import Ui_Dialog
 
 
-_script_title = """\
-#This script is generate by Pyslvs {}.
-
+_script_title = """
 from math import (
     radians,
     hypot,
@@ -261,11 +259,11 @@ def slvsProcess(Point, Link, constraints):
             error = "Too many unknowns."
         raise SlvsException(error)
 
-if __name__=="__main__":
-    Point = {}
-    Link = {}
+if __name__ == "__main__":
+    vpoints = {}
+    vlinks = {}
     constraints = ()
-    print("Coordinates: {{}}\\nDOF: {{}}".format(*slvsProcess(Point, Link, constraints)))
+    print("Coordinates: {{}}\\nDOF: {{}}".format(*slvsProcess(vpoints, vlinks, constraints)))
 """
 
 
@@ -285,8 +283,10 @@ class ScriptDialog(QDialog, Ui_Dialog):
     """Dialog of script preview."""
     
     def __init__(self,
-        vpoints: Iterator[VPoint],
-        vlinks: Iterator[VLink],
+        script: str,
+        lexer: RegexLexerMeta,
+        filename: str,
+        filefotmat: List[str],
         parent
     ):
         super(ScriptDialog, self).__init__(parent)
@@ -297,11 +297,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
             Qt.WindowMaximizeButtonHint
         )
         self.script_view.zoomIn(5)
-        self.code = highlight(
-            slvsProcessScript(vpoints, vlinks),
-            PythonLexer(),
-            HtmlFormatter()
-        )
+        self.code = highlight(script, lexer, HtmlFormatter())
+        self.filename = filename
+        self.filefotmat = filefotmat
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
         self.style_option.addItems(list(get_all_styles()))
@@ -323,7 +321,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_save_clicked(self):
         """Save to .py file."""
-        file_name = self.outputTo("Python script", ["Python3 Script(*.py)"])
+        file_name = self.outputTo(self.filename, self.filefotmat)
         if not file_name:
             return
         with open(file_name, 'w', newline="") as f:

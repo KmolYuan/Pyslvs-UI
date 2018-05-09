@@ -458,8 +458,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _io.on_action_Output_to_Picture_clipboard_triggered(self)
     
     @pyqtSlot()
-    def on_action_Output_to_Expression_triggered(self):
-        _io.on_action_Output_to_Expression_triggered(self)
+    def on_action_See_Expression_triggered(self):
+        _io.on_action_See_Expression_triggered(self)
     
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):

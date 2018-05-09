@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .scriptIO import ScriptDialog
+from .scriptIO import ScriptDialog, slvsProcessScript
 from .undoRedo import (
     AddTable, DeleteTable,
     FixSequenceNumber,
@@ -21,11 +21,12 @@ from .images import QTIMAGES
 from .slvsIO import slvs2D
 from .dxfIO import dxfSketch
 from .loggingHandler import XStream
-from .larkParser import parse
+from .larkParser import parse, PMKSLexer
 from .peeweeIO import FileWidget
 
 __all__ = [
     'ScriptDialog',
+    'slvsProcessScript',
     'AddTable',
     'DeleteTable',
     'FixSequenceNumber',
@@ -44,6 +45,7 @@ __all__ = [
     'dxfSketch',
     'XStream',
     'parse',
+    'PMKSLexer',
     'FileWidget',
     'strbetween',
     'strbefore',

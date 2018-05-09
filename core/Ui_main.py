@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -233,9 +233,10 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 439, 823))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 276, 536))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.settings_ui_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_ui_groupbox.setObjectName("settings_ui_groupbox")
@@ -531,7 +532,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 30))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 22))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -685,9 +686,9 @@ class Ui_MainWindow(object):
         icon34.addPixmap(QtGui.QPixmap(":/icons/example.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Example.setIcon(icon34)
         self.action_Example.setObjectName("action_Example")
-        self.action_Output_to_Expression = QtWidgets.QAction(MainWindow)
-        self.action_Output_to_Expression.setIcon(icon23)
-        self.action_Output_to_Expression.setObjectName("action_Output_to_Expression")
+        self.action_See_Expression = QtWidgets.QAction(MainWindow)
+        self.action_See_Expression.setIcon(icon23)
+        self.action_See_Expression.setObjectName("action_See_Expression")
         self.action_Save_branch = QtWidgets.QAction(MainWindow)
         self.action_Save_branch.setIcon(icon13)
         self.action_Save_branch.setObjectName("action_Save_branch")
@@ -709,7 +710,6 @@ class Ui_MainWindow(object):
         self.menuExport.addAction(self.action_Output_to_DXF)
         self.menuExport.addSeparator()
         self.menuExport.addAction(self.OtherFormatMenuTitle)
-        self.menuExport.addAction(self.action_Output_to_Expression)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Picture_clipboard)
         self.menuExport.addAction(self.action_Output_to_PMKS)
@@ -744,6 +744,7 @@ class Ui_MainWindow(object):
         self.menu_Options.addAction(self.action_Display_Dimensions)
         self.menu_Options.addAction(self.action_Path_style)
         self.menu_Options.addSeparator()
+        self.menu_Options.addAction(self.action_See_Expression)
         self.menu_Options.addAction(self.action_See_Python_Scripts)
         self.menu_Help.addAction(self.action_Pyslvs_com)
         self.menu_Help.addAction(self.action_github_repository)
@@ -918,8 +919,8 @@ class Ui_MainWindow(object):
         self.action_Example.setText(_translate("MainWindow", "Example..."))
         self.action_Example.setStatusTip(_translate("MainWindow", "Load a example."))
         self.action_Example.setShortcut(_translate("MainWindow", "Ctrl+E"))
-        self.action_Output_to_Expression.setText(_translate("MainWindow", "Get expression"))
-        self.action_Output_to_Expression.setStatusTip(_translate("MainWindow", "Get the Pyslvs expression."))
+        self.action_See_Expression.setText(_translate("MainWindow", "Get expression"))
+        self.action_See_Expression.setStatusTip(_translate("MainWindow", "Get the Pyslvs expression."))
         self.action_Save_branch.setText(_translate("MainWindow", "Save to new branch"))
         self.action_Save_branch.setStatusTip(_translate("MainWindow", "Creat a new branch then save the commit to this branch."))
         self.action_Stash.setText(_translate("MainWindow", "Stash"))

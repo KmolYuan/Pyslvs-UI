@@ -35,13 +35,15 @@ class LibsTest(TestCase):
     
     def test_parser(self):
         """Test for PMKS parser."""
-        parse("M[" +
-            "J[R, color[Blue], P[0.0, 0.0], L[ground, link_1]], " +
-            "J[R, color[Green], P[12.92, 32.53], L[link_1, link_2]], " +
-            "J[R, color[Green], P[73.28, 67.97], L[link_2, link_3]], " +
-            "J[R, color[(255, 255, 255)], P[33.3, 66.95], L[link_2]], " +
-            "J[R, color[Blue], P[90.0, 0.0], L[ground, link_3]]" +
+        datalist = parse("M[\n" +
+            "J[R, color[Blue], P[0.0, 0.0], L[ground, link_1]],\n" +
+            "J[R, color[Green], P[12.92, 32.53], L[link_1, link_2]],\n" +
+            "#Commend line ...\n" +
+            "J[R, color[Green], P[73.28, 67.97], L[link_2, link_3]],\n" +
+            "J[R, color[(255, 255, 255)], P[33.3, 66.95], L[link_2]],\n" +
+            "J[R, color[Blue], P[90.0, 0.0], L[ground, link_3]],\n" +
             "]")
+        self.assertTrue(len(datalist) == 5)
     
     def test_plap(self):
         """Test for PLAP function."""
@@ -180,5 +182,5 @@ class LibsTest(TestCase):
         fun3.run()
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     unittest.main()

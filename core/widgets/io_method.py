@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from pygments.lexers import PythonLexer
 from typing import (
     Tuple,
     List,
@@ -31,10 +32,16 @@ from core.QtModules import (
     QComboBox,
     QCheckBox,
 )
-from core.info import PyslvsAbout, check_update
+from core.info import (
+    PyslvsAbout,
+    check_update,
+    VERSION,
+)
 from core.io import (
     ScriptDialog,
+    slvsProcessScript,
     parse,
+    PMKSLexer,
     AddTable,
     EditPointTable,
     slvs2D,
@@ -227,10 +234,10 @@ def parseExpression(self, expr: str):
     try:
         args_list = parse(expr)
     except Exception as e:
-        print(e)
         QMessageBox.warning(self,
             "Loading failed",
-            "Your expression is in an incorrect format."
+            "Your expression is in an incorrect format.\n" +
+            str(e)
         )
     else:
         for args in args_list:
@@ -454,32 +461,28 @@ def on_action_Output_to_Picture_clipboard_triggered(self):
     )
 
 
-def on_action_Output_to_Expression_triggered(self):
+def on_action_See_Expression_triggered(self):
     """Output as expression."""
-    expr = "M[{}]".format(", ".join(
-        vpoint.expr for vpoint in self.EntitiesPoint.data()
-    ))
-    text = (
-        "You can copy the expression and import to another workbook:" +
-        "\n\n{}\n\nClick the save button to copy it.".format(
-            expr if (len(expr) <= 30) else (expr[30:] + '...')
-        )
+    context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
+    dlg = ScriptDialog(
+        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*VERSION) +
+        ("M[\n{}\n]".format(context) if context else "M[]"),
+        PMKSLexer(),
+        "Pyslvs expression",
+        ["Text file(*.txt)"],
+        self
     )
-    reply = QMessageBox.question(self,
-        "Pyslvs Expression",
-        text,
-        (QMessageBox.Save | QMessageBox.Close),
-        QMessageBox.Save
-    )
-    if reply == QMessageBox.Save:
-        QApplication.clipboard().setText(expr)
+    dlg.show()
 
 
 def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
-        self.EntitiesPoint.data(),
-        self.EntitiesLink.data(),
+        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*VERSION) +
+        slvsProcessScript(self.EntitiesPoint.data(), self.EntitiesLink.data()),
+        PythonLexer(),
+        "Python script",
+        ["Python3 Script(*.py)"],
         self
     )
     dlg.show()

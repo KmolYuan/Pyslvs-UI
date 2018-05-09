@@ -497,8 +497,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>439</width>
-                  <height>823</height>
+                  <width>276</width>
+                  <height>536</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1187,7 +1187,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>30</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1211,7 +1211,6 @@
      <addaction name="action_Output_to_DXF"/>
      <addaction name="separator"/>
      <addaction name="OtherFormatMenuTitle"/>
-     <addaction name="action_Output_to_Expression"/>
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_Picture_clipboard"/>
      <addaction name="action_Output_to_PMKS"/>
@@ -1262,6 +1261,7 @@
     <addaction name="action_Display_Dimensions"/>
     <addaction name="action_Path_style"/>
     <addaction name="separator"/>
+    <addaction name="action_See_Expression"/>
     <addaction name="action_See_Python_Scripts"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
@@ -1717,7 +1717,7 @@
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="action_Output_to_Expression">
+  <action name="action_See_Expression">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>

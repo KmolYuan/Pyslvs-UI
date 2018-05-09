@@ -12,6 +12,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from lark import Lark, Transformer
+from pygments.lexer import RegexLexer
+from pygments.token import Token
 from typing import Dict, Union
 from core.graphics import colorNames
 
@@ -36,9 +38,12 @@ _pmks_parser = Lark(
     LETTER: UCASE_LETTER | LCASE_LETTER
     CNAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
     """
-    #White space
+    #White space and new line.
     """
     WS: /[ \\t\\f\\r\\n]/+
+    CR : /\\r/
+    LF : /\\n/
+    NEWLINE: (CR? LF)+
     """
     #Main document.
     """
@@ -53,12 +58,15 @@ _pmks_parser = Lark(
     angle    : "A[" num "]"
     colorv   : INT
     color    : "color[" (("(" colorv "," colorv "," colorv ")") | COLOR+) "]"
-    mechanism: "M[" [joint ("," joint)*] "]"
+    mechanism: "M[" [joint ("," joint)* (",")?] "]"
     
     JOINTTYPE: "RP" | "R" | "P"
     COLOR    : """ + _COLOR_LIST + """
     
     %ignore WS
+    %ignore NEWLINE
+    COMMENT: "#" /[^\\n]/*
+    %ignore COMMENT
     """, start = 'mechanism'
 )
 
@@ -116,3 +124,18 @@ class PMKSTransformer(Transformer):
 def parse(expr: str) -> Dict[str, Union[int, float, str]]:
     """Using to parse the expression and return arguments."""
     return PMKSTransformer().transform(_pmks_parser.parse(expr))
+
+
+class PMKSLexer(RegexLexer):
+    
+    """PMKS highlighter by Pygments."""
+    
+    name = 'PMKS'
+    
+    tokens = {'root': [
+        (r'#.*$', Token.Comment.Single),
+        ('(M)|(J)|(L)|(P)|(A)|(color)', Token.Name.Function),
+        ('|'.join("({})".format(color) for color in colorNames), Token.Name.Variable),
+        ('(R)|(P)|(RP)', Token.Keyword.Constant),
+        (r'(\d+\.\d*|\d*\.\d+)([eE][+-]?[0-9]+)?j?', Token.Number.Float),
+    ]}
