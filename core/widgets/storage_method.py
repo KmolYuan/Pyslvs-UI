@@ -19,7 +19,7 @@ from core.io import (
     DeleteStorage,
     AddStorageName,
     ClearStorageName,
-    parse,
+    parse_params,
 )
 
 
@@ -85,7 +85,7 @@ def on_mechanism_storage_paste_clicked(self):
         return
     try:
         #Put the expression into parser to see if it is legal.
-        parse(expr)
+        parse_params(expr)
     except:
         QMessageBox.warning(self,
             "Loading failed",

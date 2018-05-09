@@ -19,13 +19,14 @@ from pygments.token import (
     Name,
     Number,
 )
-from typing import Dict, Union
+from typing import List, Union
 from core.graphics import colorNames
+from core.libs import VPoint
 
 
 _COLOR_LIST = " | ".join('"{}"'.format(color) for color in reversed(colorNames))
 
-_pmks_parser = Lark(
+_pmks_grammar = Lark(
     #Number
     """
     DIGIT: "0".."9"
@@ -76,7 +77,7 @@ _pmks_parser = Lark(
 )
 
 
-class PMKSTransformer(Transformer):
+class _PMKSParams(Transformer):
     
     """Usage: tree = parser.parse(expr)
     
@@ -93,13 +94,12 @@ class PMKSTransformer(Transformer):
         else:
             return str(tuple(n))
     
-    def colorv(self, n):
-        return int(n[0])
-    
+    colorv = lambda self, n: int(n[0])
     neg = lambda self, n: -n[0]
     number = lambda self, n: float(n[0])
     point = lambda self, c: tuple(c)
     angle = number
+    link = lambda self, a: tuple(a)
     
     def joint(self, args):
         """Sort the argument list.
@@ -110,25 +110,44 @@ class PMKSTransformer(Transformer):
         [-2]: point
         [-1]: link
         """
-        hasAngle = args[0]!='R'
-        color = args[2] if hasAngle else args[1]
+        hasAngle = args[0] != 'R'
         x, y = args[-2]
-        pointArgs = [
+        return [
             ','.join(args[-1]),
             '{}:{}'.format(args[0], args[1]) if hasAngle else 'R',
-            color,
+            args[2] if hasAngle else args[1],
             x,
             y
         ]
-        return pointArgs
     
-    link = lambda self, a: tuple(a)
     mechanism = lambda self, j: j
 
+class _PMKSVPoints(_PMKSParams):
+    
+    """Using same grammar return as VPoints."""
+    
+    type = lambda self, n: ('R', 'P', 'RP').index(str(n[0]))
+    
+    def joint(self, args):
+        hasAngle = args[0] != 0
+        x, y = args[-2]
+        return VPoint(
+            ','.join(args[-1]),
+            args[0],
+            args[1] if hasAngle else 0.,
+            args[2] if hasAngle else args[1],
+            x,
+            y
+        )
 
-def parse(expr: str) -> Dict[str, Union[int, float, str]]:
+
+def parse_params(expr: str) -> List[List[Union[str, float]]]:
     """Using to parse the expression and return arguments."""
-    return PMKSTransformer().transform(_pmks_parser.parse(expr))
+    return _PMKSParams().transform(_pmks_grammar.parse(expr))
+
+def parse_vpoints(expr: str) -> List[VPoint]:
+    """Parse as VPoints."""
+    return _PMKSVPoints().transform(_pmks_grammar.parse(expr))
 
 
 class PMKSLexer(RegexLexer):

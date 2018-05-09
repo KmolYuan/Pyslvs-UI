@@ -40,7 +40,7 @@ from core.info import (
 from core.io import (
     ScriptDialog,
     slvsProcessScript,
-    parse,
+    parse_params,
     PMKSLexer,
     AddTable,
     EditPointTable,
@@ -232,7 +232,7 @@ def on_action_Import_PMKS_server_triggered(self):
 def parseExpression(self, expr: str):
     """Parse expression."""
     try:
-        args_list = parse(expr)
+        args_list = parse_params(expr)
     except Exception as e:
         QMessageBox.warning(self,
             "Loading failed",

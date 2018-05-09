@@ -12,9 +12,8 @@ from unittest import TestCase
 
 #For necessary modules.
 from math import sqrt, radians, isclose
-from core.io import parse
+from core.io import parse_vpoints
 from core.libs import (
-    VPoint,
     Coordinate,
     PLAP,
     PLLP,
@@ -32,18 +31,6 @@ from core.libs import (
 class LibsTest(TestCase):
     
     """Testing Cython libs."""
-    
-    def test_parser(self):
-        """Test for PMKS parser."""
-        datalist = parse("M[\n" +
-            "J[R, color[Blue], P[0.0, 0.0], L[ground, link_1]],\n" +
-            "J[R, color[Green], P[12.92, 32.53], L[link_1, link_2]],\n" +
-            "#Commend line ...\n" +
-            "J[R, color[Green], P[73.28, 67.97], L[link_2, link_3]],\n" +
-            "J[R, color[(255, 255, 255)], P[33.3, 66.95], L[link_2]],\n" +
-            "J[R, color[Blue], P[90.0, 0.0], L[ground, link_3]],\n" +
-            "]")
-        self.assertTrue(len(datalist) == 5)
     
     def test_plap(self):
         """Test for PLAP function."""
@@ -94,18 +81,21 @@ class LibsTest(TestCase):
     def test_solving(self):
         """Test triangular formula solving.
         
+        + Test for PMKS parser.
         + Jansen's linkage (Single).
         """
-        vpoints = [
-            VPoint("ground, link_1", 0, 0., 'Green', 0., 0.),
-            VPoint("link_1, link_2, link_4", 0, 0., 'Green', 9.61, 11.52),
-            VPoint("ground, link_3, link_5", 0, 0., 'Blue', -38.0, -7.8),
-            VPoint("link_2, link_3", 0, 0., 'Green', -35.24, 33.61),
-            VPoint("link_3, link_6", 0, 0., 'Green', -77.75, -2.54),
-            VPoint("link_4, link_5, link_7", 0, 0., 'Green', -20.1, -42.79),
-            VPoint("link_6, link_7", 0, 0., 'Green', -56.05, -35.42),
-            VPoint("link_7", 0, 0., 'Green', -22.22, -91.74),
-        ]
+        vpoints = parse_vpoints("M[\n" +
+            "# Jansen's linkage (Single).\n" +
+            "J[R, color[(255, 255, 255)], P[0.0, 0.0], L[ground, link_1]],\n" +
+            "J[R, color[Green], P[9.61, 11.52], L[link_1, link_2, link_4]],\n" +
+            "J[R, color[Blue], P[-38.0, -7.8], L[ground, link_3, link_5]],\n" +
+            "J[R, color[Green], P[-35.24, 33.61], L[link_2, link_3]],\n" +
+            "J[R, color[Green], P[-77.75, -2.54], L[link_3, link_6]],\n" +
+            "J[R, color[Green], P[-20.1, -42.79], L[link_4, link_5, link_7]],\n" +
+            "J[R, color[Green], P[-56.05, -35.42], L[link_6, link_7]],\n" +
+            "J[R, color[Green], P[-22.22, -91.74], L[link_7]],\n" +
+            "]")
+        self.assertTrue(len(vpoints) == 8)
         x, y = expr_solving(
             vpoints_configure(vpoints, [(0, 1)]),
             {n: 'P{}'.format(n) for n in range(len(vpoints))},
