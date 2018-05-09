@@ -29,7 +29,7 @@ from core.graphics import PreviewCanvas
 from .Ui_collections import Ui_Dialog
 
 
-mech_params_4Bar = {
+_mech_params_4Bar = {
     'Driver': {'P0': None},
     'Follower': {'P1': None},
     'Target': {'P4': None},
@@ -48,7 +48,7 @@ mech_params_4Bar = {
     'same': {},
 }
 
-mech_params_8Bar = {
+_mech_params_8Bar = {
     'Driver': {'P0': None},
     'Follower': {'P1': None},
     'Target': {'P10': None},
@@ -87,7 +87,7 @@ mech_params_8Bar = {
     'same': {2: 1, 4: 3, 7: 6},
 }
 
-mech_params_BallLifter = {
+_mech_params_BallLifter = {
     'Driver': {'P0': None},
     'Follower': {'P1': None, 'P2': None, 'P3': None, 'P4': None},
     'Target': {'P13': None, 'P14': None},
@@ -160,11 +160,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 return self.collections[self.__name_loaded]['Expression']
             except KeyError:
                 if self.__name_loaded == "Four bar linkage mechanism":
-                    return mech_params_4Bar['Expression']
+                    return _mech_params_4Bar['Expression']
                 elif self.__name_loaded == "Eight bar linkage mechanism":
-                    return mech_params_8Bar['Expression']
+                    return _mech_params_8Bar['Expression']
                 elif self.__name_loaded == "Ball lifter linkage mechanism":
-                    return mech_params_BallLifter['Expression']
+                    return _mech_params_BallLifter['Expression']
                 else:
                     return tuple()
         
@@ -281,11 +281,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             return
         self.__name_loaded = text
         if text == "Four bar linkage mechanism":
-            self.__mech_params = deepcopy(mech_params_4Bar)
+            self.__mech_params = deepcopy(_mech_params_4Bar)
         elif text == "Eight bar linkage mechanism":
-            self.__mech_params = deepcopy(mech_params_8Bar)
+            self.__mech_params = deepcopy(_mech_params_8Bar)
         elif self.__name_loaded == "Ball lifter linkage mechanism":
-            self.__mech_params = deepcopy(mech_params_BallLifter)
+            self.__mech_params = deepcopy(_mech_params_BallLifter)
         self.PreviewCanvas.from_profile(self.__mech_params)
     
     @pyqtSlot(str)

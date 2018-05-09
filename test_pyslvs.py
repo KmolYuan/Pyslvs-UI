@@ -28,7 +28,7 @@ from core.libs import (
 )
 
 
-class LibsTest(TestCase):
+class CoreTest(TestCase):
     
     """Testing Cython libs."""
     

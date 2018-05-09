@@ -31,7 +31,7 @@ from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
 
 
-class BaseTableWidget(QTableWidget):
+class _BaseTableWidget(QTableWidget):
     
     """Two tables has some shared function."""
     
@@ -42,7 +42,7 @@ class BaseTableWidget(QTableWidget):
         HorizontalHeaderItems: Tuple[str],
         parent
     ):
-        super(BaseTableWidget, self).__init__(parent)
+        super(_BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(
             QSizePolicy.Expanding,
             QSizePolicy.Expanding
@@ -95,7 +95,7 @@ class BaseTableWidget(QTableWidget):
             self.removeRow(0)
 
 
-class PointTableWidget(BaseTableWidget):
+class PointTableWidget(_BaseTableWidget):
     
     """Custom table widget for points."""
     
@@ -268,7 +268,7 @@ class PointTableWidget(BaseTableWidget):
         self.selectionLabelUpdate.emit([], [])
 
 
-class LinkTableWidget(BaseTableWidget):
+class LinkTableWidget(_BaseTableWidget):
     
     """Custom table widget for link."""
     
@@ -334,7 +334,7 @@ class LinkTableWidget(BaseTableWidget):
         self.editArgs(0, 'ground', 'White', '')
 
 
-class ExprTableWidget(BaseTableWidget):
+class ExprTableWidget(_BaseTableWidget):
     
     """Expression table."""
     

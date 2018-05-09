@@ -27,12 +27,12 @@ from core.io import strbetween
 from .Ui_preview import Ui_Dialog
 
 
-class DynamicCanvas(BaseCanvas):
+class _DynamicCanvas(BaseCanvas):
     
     """Custom canvas for preview algorithm result."""
     
     def __init__(self, mechanism, Path, parent):
-        super(DynamicCanvas, self).__init__(parent)
+        super(_DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
         self.length = 0
@@ -122,7 +122,7 @@ class DynamicCanvas(BaseCanvas):
         self.zoom = factor * 0.95
         self.ox = width / 2 - (x_left + x_right) / 2 *self.zoom
         self.oy = height / 2 + (y_top + y_bottom) / 2 *self.zoom
-        super(DynamicCanvas, self).paintEvent(event)
+        super(_DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
         """First check."""
         for path in self.Path.path:
@@ -252,7 +252,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([800, 100])
         self.splitter.setSizes([100, 100, 100])
-        previewWidget = DynamicCanvas(self.mechanism, Path, self)
+        previewWidget = _DynamicCanvas(self.mechanism, Path, self)
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         link_tags = []

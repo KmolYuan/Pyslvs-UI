@@ -137,26 +137,26 @@ def slvs2D(
     for i, edge in enumerate(edges):
         param_num += 0x10
         for p in edge:
-            script_param.append(Param(param_num, VPoints[p].cx))
+            script_param.append(_Param(param_num, VPoints[p].cx))
             param_num += 1
-            script_param.append(Param(param_num, VPoints[p].cy))
+            script_param.append(_Param(param_num, VPoints[p].cy))
             param_num += 2
-        param_num = up(param_num, 4)
+        param_num = _up(param_num, 4)
     #Add "Request"
     request_num = 0x4
     for i in range(len(edges)):
-        script_request.append(Request(request_num))
+        script_request.append(_Request(request_num))
         request_num += 1
     #Add "Entity"
     entity_num = 0x40000
     for i, edge in enumerate(edges):
-        script_entity.append(Entity_line(entity_num))
+        script_entity.append(_Entity_line(entity_num))
         for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity.append(Entity_point(entity_num, VPoints[p].cx, VPoints[p].cy))
+            script_entity.append(_Entity_point(entity_num, VPoints[p].cx, VPoints[p].cy))
             line_num[i].append(entity_num)
-        entity_num = up(entity_num, 4)
+        entity_num = _up(entity_num, 4)
     script_entity.append('\n\n'.join([
         entity_plane(0x80020000, 0x80020002, 0x80020001),
         entity_normal_w(0x80020001, 0x80020002, 3010),
@@ -168,21 +168,21 @@ def slvs2D(
     #Same point constraint
     for p in point_num:
         for p_ in p[1:]:
-            script_constraint.append(Constraint_point(constraint_num, p[0], p_))
+            script_constraint.append(_Constraint_point(constraint_num, p[0], p_))
             constraint_num += 1
     #Position constraint
     for i, vpoint in enumerate(VPoints):
         if "ground" in vpoint.links and point_num[i]:
-            script_constraint.append(Constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
+            script_constraint.append(_Constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
             constraint_num += 2
     #Distance constraint
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = edges[i]
-        script_constraint.append(Constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
+        script_constraint.append(_Constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
         constraint_num += 1
     #Comment constraint
     for i, vpoint in enumerate(VPoints):
-        script_constraint.append(Constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
+        script_constraint.append(_Constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
     #Write file
     with open(file_name, 'w', encoding="iso-8859-15") as f:
@@ -195,20 +195,20 @@ def slvs2D(
         ]) + '\n\n')
 
 
-def up(num, digit):
+def _up(num, digit):
     ten = 0x10**digit
     num += ten
     num -= num%ten
     return num
 
 
-Param = lambda num, val: '\n'.join([
+_Param = lambda num, val: '\n'.join([
     "Param.h.v.={:08x}".format(num),
     "Param.val={:.20f}".format(val),
     "AddParam"
 ])
 
-Request = lambda num: '\n'.join([
+_Request = lambda num: '\n'.join([
     "Request.h.v={:08x}".format(num),
     "Request.type=200",
     "Request.workplane.v=80020000",
@@ -217,7 +217,7 @@ Request = lambda num: '\n'.join([
     "AddRequest"
 ])
 
-Entity_line = lambda num: '\n'.join([
+_Entity_line = lambda num: '\n'.join([
     "Entity.h.v={:08x}".format(num),
     "Entity.type={}".format(11000),
     "Entity.construction={}".format(0),
@@ -228,7 +228,7 @@ Entity_line = lambda num: '\n'.join([
     "AddEntity"
 ])
 
-Entity_point = lambda num, x, y: '\n'.join([
+_Entity_point = lambda num, x, y: '\n'.join([
     "Entity.h.v={:08x}".format(num),
     "Entity.type={}".format(2001),
     "Entity.construction={}".format(0),
@@ -239,7 +239,7 @@ Entity_point = lambda num, x, y: '\n'.join([
     "AddEntity"
 ])
 
-Constraint_point = lambda num, p1, p2: '\n'.join([
+_Constraint_point = lambda num, p1, p2: '\n'.join([
     "Constraint.h.v={0:08x}".format(num),
     "Constraint.type={}".format(20),
     "Constraint.group.v=00000002",
@@ -252,9 +252,12 @@ Constraint_point = lambda num, p1, p2: '\n'.join([
     "AddConstraint"
 ])
 
-Constraint_fix = lambda num, p0, x, y: Constraint_fix_hv(num, p0, 0x30000, y) +'\n\n'+ Constraint_fix_hv(num+1, p0, 0x20000, x)
+_Constraint_fix = lambda num, p0, x, y: (
+    _Constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
+    _Constraint_fix_hv(num+1, p0, 0x20000, x)
+)
 
-Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
+_Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
     "Constraint.h.v={0:08x}".format(num),
     "Constraint.type={}".format(31),
     "Constraint.group.v=00000002",
@@ -270,7 +273,7 @@ Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
     "AddConstraint"
 ])
 
-Constraint_line = lambda num, p1, p2, leng: '\n'.join([
+_Constraint_line = lambda num, p1, p2, leng: '\n'.join([
     "Constraint.h.v={0:08x}".format(num),
     "Constraint.type={}".format(30),
     "Constraint.group.v=00000002",
@@ -286,7 +289,7 @@ Constraint_line = lambda num, p1, p2, leng: '\n'.join([
     "AddConstraint"
 ])
 
-Constraint_angle = lambda num, l1, l2, angle: '\n'.join([
+_Constraint_angle = lambda num, l1, l2, angle: '\n'.join([
     "Constraint.h.v={0:08x}".format(num),
     "Constraint.type={}".format(120),
     "Constraint.group.v=00000002",
@@ -302,7 +305,7 @@ Constraint_angle = lambda num, l1, l2, angle: '\n'.join([
     "AddConstraint"
 ])
 
-Constraint_comment = lambda num, comment, x, y: '\n'.join([
+_Constraint_comment = lambda num, comment, x, y: '\n'.join([
     "Constraint.h.v={:08x}".format(num),
     "Constraint.type={}".format(1000),
     "Constraint.group.v=00000002",

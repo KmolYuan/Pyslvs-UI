@@ -132,7 +132,7 @@ def graph2vpoints(
 #Radius of canvas dot.
 RADIUS = 3
 
-class Path:
+class _Path:
     
     """Path option class."""
     
@@ -172,7 +172,7 @@ class BaseCanvas(QWidget):
         self.showPointMark = True
         self.showDimension = True
         #Path track.
-        self.Path = Path()
+        self.Path = _Path()
         #Path solving.
         self.targetPath = {}
         self.showTargetPath = False

@@ -25,8 +25,8 @@ from core.QtModules import (
 )
 
 
-Qt_Version = qVersion().strip()
-PyQt_Version = PYQT_VERSION_STR.strip()
+_Qt_Version = qVersion().strip()
+_PyQt_Version = PYQT_VERSION_STR.strip()
 
 VERSION = (18, 5, 0, 'dev')
 
@@ -35,11 +35,11 @@ INFO = (
     "OS Type: {} {} [{}]".format(platform.system(), platform.release(), platform.machine()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
     "Python Compiler: {}".format(platform.python_compiler()),
-    "Qt Version: {}".format(Qt_Version),
-    "PyQt Version: {}".format(PyQt_Version)
+    "Qt Version: {}".format(_Qt_Version),
+    "PyQt Version: {}".format(_PyQt_Version)
 )
 
-POWERBY = (
+_POWERBY = (
     "Python IDE Eric 6",
     "PyQt 5",
     "dxfwrite",
@@ -58,7 +58,7 @@ POWERBY = (
 _parser = argparse.ArgumentParser(
     description = ("Pyslvs - Open Source Planar Linkage Mechanism Simulation" +
         "and Mechanical Synthesis System."),
-    epilog = "Power by {}.".format(", ".join(POWERBY))
+    epilog = "Power by {}.".format(", ".join(_POWERBY))
 )
 _parser.add_argument(
     '-v',

@@ -49,14 +49,14 @@ from .TriangularIteration_dialog import (
 from .Ui_TriangularIteration import Ui_Form
 
 
-class PreviewWindow(PreviewCanvas):
+class _PreviewWindow(PreviewCanvas):
     
     """Preview window has some functions of mouse interaction."""
     
     set_joint_number = pyqtSignal(int)
     
     def __init__(self, get_solutions: Callable[[], Tuple[str]], parent):
-        super(PreviewWindow, self).__init__(get_solutions, parent)
+        super(_PreviewWindow, self).__init__(get_solutions, parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
     
@@ -110,7 +110,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         """
         self.collections = {}
         #Canvas
-        self.PreviewWindow = PreviewWindow(
+        self.PreviewWindow = _PreviewWindow(
             lambda: ';'.join(
                 self.expression_list.item(row).text()
                 for row in range(self.expression_list.count())

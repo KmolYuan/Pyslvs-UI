@@ -50,8 +50,8 @@ from .DimensionalSynthesis_dialog import (
     DifferentialPrams,
     AlgorithmType,
     Options_show,
-    Path_adjust_show,
-    Progress_show,
+    PathAdjustDialog,
+    ProgressDialog,
     PreviewDialog,
     ChartDialog,
 )
@@ -268,7 +268,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Show up path adjust dialog and
         get back the changes of current target path.
         """
-        dlg = Path_adjust_show(self)
+        dlg = PathAdjustDialog(self)
         dlg.show()
         if not dlg.exec_():
             return
@@ -400,7 +400,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             setting['maxTime'] = self.Settings['maxTime']
         setting.update(self.Settings['algorithmPrams'])
         #Start progress dialog.
-        dlg = Progress_show(
+        dlg = ProgressDialog(
             type_num,
             mech_params,
             setting,

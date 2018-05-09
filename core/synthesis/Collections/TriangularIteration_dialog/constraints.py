@@ -24,14 +24,6 @@ from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
 
 
-def get_list(item: QListWidget) -> Iterator[str]:
-    """A generator to get symbols from list widget."""
-    if not item:
-        return []
-    for e in item.text().split(", "):
-        yield e
-
-
 def list_items(
     widget: QListWidget,
     returnRow: bool =False
@@ -44,7 +36,15 @@ def list_items(
             yield widget.item(row)
 
 
-def four_bar_loops(G: Graph) -> Iterator[Tuple[int, int, int, int]]:
+def _get_list(item: QListWidget) -> Iterator[str]:
+    """A generator to get symbols from list widget."""
+    if not item:
+        return []
+    for e in item.text().split(", "):
+        yield e
+
+
+def _four_bar_loops(G: Graph) -> Iterator[Tuple[int, int, int, int]]:
     """A generator to find out the four bar loops."""
     result = set([])
     vertexes = {v: k for k, v in edges_view(G)}
@@ -97,10 +97,10 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         cl = tuple(
-            set(get_list(item))
+            set(_get_list(item))
             for item in list_items(parent.constraint_list)
         )
-        for chain in four_bar_loops(parent.PreviewWindow.G):
+        for chain in _four_bar_loops(parent.PreviewWindow.G):
             chain = sorted(chain)
             for i, n in enumerate(chain):
                 if n in parent.PreviewWindow.same:
@@ -117,7 +117,7 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
         if not row > -1:
             return
         self.sorting_list.clear()
-        for point in get_list(self.Loops_list.item(row)):
+        for point in _get_list(self.Loops_list.item(row)):
             self.sorting_list.addItem(point)
     
     @pyqtSlot()

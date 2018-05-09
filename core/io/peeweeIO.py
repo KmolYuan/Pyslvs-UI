@@ -37,14 +37,14 @@ from .Ui_peeweeIO import Ui_Form
 
 
 """Use to encode the Python script."""
-compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
-decompress = lambda obj: eval(zlib.decompress(obj).decode())
+_compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
+_decompress = lambda obj: eval(zlib.decompress(obj).decode())
 
 """We need a not-a-number symbol for eval function."""
 nan = float('nan')
 
 """Create a empty Sqlite database object."""
-db = SqliteDatabase(None)
+_db = SqliteDatabase(None)
 
 
 class UserModel(Model):
@@ -54,7 +54,7 @@ class UserModel(Model):
     name = CharField(unique=True)
     
     class Meta:
-        database = db
+        database = _db
 
 
 class BranchModel(Model):
@@ -64,7 +64,7 @@ class BranchModel(Model):
     name = CharField(unique=True)
     
     class Meta:
-        database = db
+        database = _db
 
 
 class CommitModel(Model):
@@ -107,7 +107,7 @@ class CommitModel(Model):
     algorithmdata = BlobField()
     
     class Meta:
-        database = db
+        database = _db
 
 
 class LoadCommitButton(QPushButton):
@@ -230,14 +230,14 @@ class FileWidget(QWidget, Ui_Form):
     def __connectDatabase(self, file_name: str):
         """Connect database."""
         self.closeDatabase()
-        db.init(file_name)
-        db.connect()
-        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+        _db.init(file_name)
+        _db.connect()
+        _db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
     
     @pyqtSlot()
     def closeDatabase(self):
-        if not db.deferred:
-            db.close()
+        if not _db.deferred:
+            _db.close()
     
     def save(self, file_name: str, isBranch=False):
         """Save database.
@@ -281,7 +281,7 @@ class FileWidget(QWidget, Ui_Form):
             print("The original file has been overwritten.")
         self.__connectDatabase(file_name)
         isError = False
-        with db.atomic():
+        with _db.atomic():
             if author_name in (user.name for user in UserModel.select()):
                 author_model = (
                     UserModel
@@ -308,16 +308,16 @@ class FileWidget(QWidget, Ui_Form):
             args = {
                 'author':author_model,
                 'description':commit_text,
-                'mechanism':compress("M[{}]".format(", ".join(
+                'mechanism':_compress("M[{}]".format(", ".join(
                     vpoint.expr for vpoint in pointData
                 ))),
-                'linkcolor': compress(linkcolor),
-                'storage': compress(self.storageDataFunc()),
-                'pathdata': compress(self.pathDataFunc()),
-                'collectiondata': compress(self.CollectDataFunc()),
-                'triangledata': compress(self.TriangleDataFunc()),
-                'inputsdata': compress(self.InputsDataFunc()),
-                'algorithmdata': compress(self.AlgorithmDataFunc()),
+                'linkcolor': _compress(linkcolor),
+                'storage': _compress(self.storageDataFunc()),
+                'pathdata': _compress(self.pathDataFunc()),
+                'collectiondata': _compress(self.CollectDataFunc()),
+                'triangledata': _compress(self.TriangleDataFunc()),
+                'inputsdata': _compress(self.InputsDataFunc()),
+                'algorithmdata': _compress(self.AlgorithmDataFunc()),
                 'branch': branch_model
             }
             try:
@@ -336,7 +336,7 @@ class FileWidget(QWidget, Ui_Form):
                 new_commit.save()
             except Exception as e:
                 print(str(e))
-                db.rollback()
+                _db.rollback()
                 isError = True
             else:
                 self.history_commit = (
@@ -348,7 +348,7 @@ class FileWidget(QWidget, Ui_Form):
             os.remove(file_name)
             print("The file was removed.")
             return
-        self.read(file_name)
+        self.read(file_name, showdlg = False)
         print("Saving \"{}\" successful.".format(file_name))
         size = QFileInfo(file_name).size()
         print("Size: {}".format(
@@ -357,7 +357,7 @@ class FileWidget(QWidget, Ui_Form):
             else "{} KB".format(round(size/1024, 2))
         ))
     
-    def read(self, file_name: str):
+    def read(self, file_name: str, *, showdlg: bool = True):
         """Load database commit."""
         self.__connectDatabase(file_name)
         history_commit = CommitModel.select().order_by(CommitModel.id)
@@ -374,7 +374,10 @@ class FileWidget(QWidget, Ui_Form):
         for commit in self.history_commit:
             self.__addCommit(commit)
         print("{} commit(s) was find in database.".format(commit_count))
-        self.__loadCommit(self.history_commit.order_by(-CommitModel.id).get())
+        self.__loadCommit(
+            self.history_commit.order_by(-CommitModel.id).get(),
+            showdlg = showdlg
+        )
         self.file_name = QFileInfo(file_name)
         self.isSavedFunc()
     
@@ -482,7 +485,7 @@ class FileWidget(QWidget, Ui_Form):
         else:
             self.__loadCommit(commit)
     
-    def __loadCommit(self, commit: CommitModel):
+    def __loadCommit(self, commit: CommitModel, *, showdlg: bool = True):
         """Load the commit pointer."""
         if not self.__checkSaved():
             return
@@ -494,31 +497,31 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
         #Load the expression.
-        self.linkGroupFunc(decompress(commit.linkcolor))
-        self.parseFunc(decompress(commit.mechanism))
+        self.linkGroupFunc(_decompress(commit.linkcolor))
+        self.parseFunc(_decompress(commit.mechanism))
         #Load the storages.
-        self.loadStorageFunc(decompress(commit.storage))
+        self.loadStorageFunc(_decompress(commit.storage))
         #Load pathdata.
-        self.loadPathFunc(decompress(commit.pathdata))
+        self.loadPathFunc(_decompress(commit.pathdata))
         #Load collectiondata.
-        self.loadCollectFunc(decompress(commit.collectiondata))
+        self.loadCollectFunc(_decompress(commit.collectiondata))
         #Load triangledata.
-        self.loadTriangleFunc(decompress(commit.triangledata))
+        self.loadTriangleFunc(_decompress(commit.triangledata))
         #Load inputsdata.
-        self.loadInputsFunc(decompress(commit.inputsdata))
+        self.loadInputsFunc(_decompress(commit.inputsdata))
         #Load algorithmdata.
-        self.loadAlgorithmFunc(decompress(commit.algorithmdata))
+        self.loadAlgorithmFunc(_decompress(commit.algorithmdata))
         #Workbook loaded.
         self.isSavedFunc()
         print("The specified phase has been loaded.")
         #Show overview dialog.
-        dlg = WorkbookOverview(self, commit, decompress)
+        dlg = WorkbookOverview(self, commit, _decompress)
         dlg.show()
         dlg.exec_()
     
     def __importCommit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""
-        self.parseFunc(decompress(commit.mechanism))
+        self.parseFunc(_decompress(commit.mechanism))
         print("The specified phase has been merged.")
     
     @pyqtSlot()
@@ -610,7 +613,7 @@ class FileWidget(QWidget, Ui_Form):
             return
         file_name = self.file_name.absoluteFilePath()
         #Connect on database to remove all the commit in this branch.
-        with db.atomic():
+        with _db.atomic():
             branch_quary = (
                 BranchModel
                 .select()
@@ -628,7 +631,7 @@ class FileWidget(QWidget, Ui_Form):
                 .where(BranchModel.name == branch_name)
                 .execute()
             )
-        db.close()
+        _db.close()
         print("Branch {} was deleted.".format(branch_name))
         #Reload database.
         self.read(file_name)

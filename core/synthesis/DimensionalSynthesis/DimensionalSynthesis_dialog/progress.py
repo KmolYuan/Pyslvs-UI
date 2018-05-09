@@ -19,7 +19,7 @@ from .thread import WorkerThread
 from .options import AlgorithmType
 
 
-class Progress_show(QDialog, Ui_Dialog):
+class ProgressDialog(QDialog, Ui_Dialog):
     
     """Progress dialog.
     
@@ -33,7 +33,7 @@ class Progress_show(QDialog, Ui_Dialog):
         setting: Dict[str, Any],
         parent
     ):
-        super(Progress_show, self).__init__(parent)
+        super(ProgressDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.__closeWork)

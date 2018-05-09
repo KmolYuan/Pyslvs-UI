@@ -17,8 +17,8 @@ from .options import (
     AlgorithmType,
     Options_show
 )
-from .path_adjust import Path_adjust_show
-from .progress import Progress_show
+from .path_adjust import PathAdjustDialog
+from .progress import ProgressDialog
 from .preview import PreviewDialog
 from .chart import ChartDialog
 
@@ -29,8 +29,8 @@ __all__ = [
     'DifferentialPrams',
     'AlgorithmType',
     'Options_show',
-    'Path_adjust_show',
-    'Progress_show',
+    'PathAdjustDialog',
+    'ProgressDialog',
     'PreviewDialog',
     'ChartDialog'
 ]

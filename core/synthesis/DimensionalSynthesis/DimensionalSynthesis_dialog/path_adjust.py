@@ -18,7 +18,7 @@ from core.QtModules import (
 from .Ui_path_adjust import Ui_Dialog
 
 
-class Path_adjust_show(QDialog, Ui_Dialog):
+class PathAdjustDialog(QDialog, Ui_Dialog):
     
     """Option dialog.
     
@@ -26,7 +26,7 @@ class Path_adjust_show(QDialog, Ui_Dialog):
     """
     
     def __init__(self, parent):
-        super(Path_adjust_show, self).__init__(parent)
+        super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.path = parent.currentPath()

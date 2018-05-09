@@ -40,7 +40,7 @@ from core.QtModules import (
 )
 
 
-def noNoneString(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
+def _noNoneString(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
     """Filter to exclude empty string."""
     for s in str_list:
         if s:
@@ -194,7 +194,7 @@ class EditPointTable(QUndoCommand):
             self.setCell(row, newPoints)
     
     def setCell(self, row: int, points: List[str]):
-        item = QTableWidgetItem(','.join(noNoneString(points)))
+        item = QTableWidgetItem(','.join(_noNoneString(points)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.LinkTable.setItem(row, 2, item)
 
@@ -223,11 +223,11 @@ class EditLinkTable(QUndoCommand):
         oldPoints = self.OldArgs[2].split(',')
         newPoints = set(
             int(index.replace('Point', ''))
-            for index in noNoneString(newPoints)
+            for index in _noNoneString(newPoints)
         )
         oldPoints = set(
             int(index.replace('Point', ''))
-            for index in noNoneString(oldPoints)
+            for index in _noNoneString(oldPoints)
         )
         self.NewPointItems = tuple(newPoints - oldPoints)
         self.OldPointItems = tuple(oldPoints - newPoints)
@@ -250,10 +250,10 @@ class EditLinkTable(QUndoCommand):
         """
         if Args2[0] == Args1[0]:
             return
-        for index in noNoneString(Args2[2].split(',')):
+        for index in _noNoneString(Args2[2].split(',')):
             row = int(index.replace('Point', ''))
             newLinks = self.PointTable.item(row, 1).text().split(',')
-            item = QTableWidgetItem(','.join(noNoneString(
+            item = QTableWidgetItem(','.join(_noNoneString(
                 w.replace(Args2[0], Args1[0])
                 for w in newLinks
             )))
@@ -281,7 +281,7 @@ class EditLinkTable(QUndoCommand):
             self.setCell(row, newLinks)
     
     def setCell(self, row: int, links: List[str]):
-        item = QTableWidgetItem(','.join(noNoneString(links)))
+        item = QTableWidgetItem(','.join(_noNoneString(links)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.PointTable.setItem(row, 1, item)
 

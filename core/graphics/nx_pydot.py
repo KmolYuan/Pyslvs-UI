@@ -58,7 +58,7 @@ class EngineError(Exception):
     pass
 
 
-def reversed_graph(G: Graph) -> Graph:
+def _reversed_graph(G: Graph) -> Graph:
     G_ = Graph()
     nodes = dict(edges_view(G))
     for i, (l1, l2) in nodes.items():
@@ -73,7 +73,7 @@ def reversed_graph(G: Graph) -> Graph:
 def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     """Generate a position dict."""
     if not node_mode:
-        H = reversed_graph(G)
+        H = _reversed_graph(G)
     else:
         H = G
     if type(engine) != str:
