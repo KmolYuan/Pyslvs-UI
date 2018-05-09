@@ -78,10 +78,10 @@ class InputsWidget(QWidget, Ui_Form):
         + Copy data from Point{}
         + ...
         """
+        self.popMenu_record_list = QMenu(self)
         self.record_list.customContextMenuRequested.connect(
             self.on_record_list_context_menu
         )
-        self.popMenu_record_list = QMenu(self)
         self.pathData = {}
     
     def clear(self):
@@ -461,14 +461,19 @@ class InputsWidget(QWidget, Ui_Form):
         Or copy path coordinates.
         """
         row = self.record_list.currentRow()
-        if row > -1:
-            action = self.popMenu_record_list.addAction("Show all")
-            action.index = -1
-            name = self.record_list.item(row).text().split(":")[0]
-            try:
-                data = self.pathData[name]
-            except KeyError:
-                return
+        if not row > -1:
+            return
+        showall_action = self.popMenu_record_list.addAction("Show all")
+        showall_action.index = -1
+        copy_action = self.popMenu_record_list.addAction("Copy as new")
+        name = self.record_list.item(row).text().split(":")[0]
+        try:
+            data = self.pathData[name]
+        except KeyError:
+            #Auto preview path.
+            data = self.MainCanvas.Path.path
+            showall_action.setEnabled(False)
+        else:
             for action_text in ("Show", "Copy data from"):
                 self.popMenu_record_list.addSeparator()
                 for i in range(len(data)):
@@ -477,18 +482,26 @@ class InputsWidget(QWidget, Ui_Form):
                             "{} Point{}".format(action_text, i)
                         )
                         action.index = i
-        action = self.popMenu_record_list.exec_(
+        action_exec = self.popMenu_record_list.exec_(
             self.record_list.mapToGlobal(point)
         )
-        if action:
-            if "Copy data from" in action.text():
+        if action_exec:
+            if action_exec == copy_action:
+                """Copy path data."""
+                num = 0
+                while "Copied_{}".format(num) in self.pathData:
+                    num += 1
+                self.addPath("Copied_{}".format(num), data)
+            elif "Copy data from" in action_exec.text():
+                """Copy data to clipboard."""
                 QApplication.clipboard().setText('\n'.join(
-                    "{},{}".format(x, y) for x, y in data[action.index]
+                    "{},{}".format(x, y) for x, y in data[action_exec.index]
                 ))
-            elif "Show" in action.text():
-                if action.index==-1:
+            elif "Show" in action_exec.text():
+                """Switch points enabled status."""
+                if action_exec.index == -1:
                     self.record_show.setChecked(True)
-                self.MainCanvas.setPathShow(action.index)
+                self.MainCanvas.setPathShow(action_exec.index)
         self.popMenu_record_list.clear()
     
     @pyqtSlot()

@@ -256,9 +256,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.endMacro()
         #Add the path.
         i = 0
-        while "Algorithm_path_{}".format(i) in self.InputsWidget.pathData:
+        while "Algorithm_{}".format(i) in self.InputsWidget.pathData:
             i += 1
-        self.InputsWidget.addPath("Algorithm_path_{}".format(i), path)
+        self.InputsWidget.addPath("Algorithm_{}".format(i), path)
         self.MainCanvas.zoomToFit()
     
     @pyqtSlot()
