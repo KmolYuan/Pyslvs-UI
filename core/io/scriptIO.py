@@ -21,7 +21,6 @@ from core.QtModules import (
     QApplication,
     QDialog,
 )
-from core.info import VERSION
 from core.libs import VPoint, VLink
 from .Ui_script import Ui_Dialog
 
@@ -272,7 +271,6 @@ def slvsProcessScript(
     vlinks: Iterator[VLink]
 ):
     return _script_title.format(
-        "v{}.{}.{} ({})".format(*VERSION),
         [vpoint for vpoint in vpoints],
         [vlink for vlink in vlinks]
     )
@@ -302,7 +300,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.filefotmat = filefotmat
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
-        self.style_option.addItems(list(get_all_styles()))
+        styles = sorted(get_all_styles())
+        styles.insert(0, styles.pop(styles.index('default')))
+        self.style_option.addItems(styles)
         self.style_option.setCurrentIndex(0)
     
     @pyqtSlot(str)

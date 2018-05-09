@@ -21,7 +21,7 @@ from .images import QTIMAGES
 from .slvsIO import slvs2D
 from .dxfIO import dxfSketch
 from .loggingHandler import XStream
-from .larkParser import parse, PMKSLexer
+from .parser import parse, PMKSLexer
 from .peeweeIO import FileWidget
 
 __all__ = [
