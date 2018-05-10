@@ -15,8 +15,9 @@ from math import (
     isnan,
 )
 from typing import (
-    Dict,
     Tuple,
+    List,
+    Dict,
     Sequence,
     Iterator,
     Callable,
@@ -43,7 +44,7 @@ from core.libs import VPoint
 from . import colorQt, colorPath
 
 
-def convex_hull(points: Sequence[Tuple[float, float]]):
+def convex_hull(points: List[Tuple[float, float]]):
     """Returns points on convex hull in CCW order
     according to Graham's scan algorithm.
     """
@@ -72,7 +73,7 @@ def convex_hull(points: Sequence[Tuple[float, float]]):
             hull.append(r)
         return hull
     
-    points = sorted(points)
+    points.sort()
     l = reduce(keep_left, points, [])
     u = reduce(keep_left, reversed(points), [])
     return [
@@ -459,12 +460,12 @@ class PreviewCanvas(BaseCanvas):
                     if num in self.same:
                         num = self.same[num]
                     x, y = self.pos[num]
-                    points.append((x*self.zoom, y*-self.zoom))
+                    points.append((x * self.zoom, y * -self.zoom))
             #Customize points.
             for name, link_ in self.cus.items():
-                if link==link_:
+                if link == link_:
                     x, y = self.pos[int(name.replace('P', ''))]
-                    points.append((x*self.zoom, y*-self.zoom))
+                    points.append((x * self.zoom, y * -self.zoom))
             self.painter.drawPolygon(*convex_hull(points))
         self.painter.setFont(QFont("Arial", self.fontSize))
         #Nodes

@@ -20,10 +20,7 @@ from .TriangularIteration import TriangularIterationWidget
 
 class Collections(QWidget):
     
-    """Just a widget contains a sub tab widget.
-    
-    + TODO: Sharing data in THIS place.
-    """
+    """Just a widget contains a sub tab widget."""
     
     def __init__(self, parent):
         super(Collections, self).__init__(parent)
@@ -32,9 +29,9 @@ class Collections(QWidget):
         layout.addWidget(tabWidget)
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
         self.StructureWidget = StructureWidget(parent)
-        self.TriangularIterationWidget = TriangularIterationWidget(parent)
-        self.TriangularIterationWidget.addToCollection = (
-            self.StructureWidget.addCollection
+        self.TriangularIterationWidget = TriangularIterationWidget(
+            self.StructureWidget.addCollection,
+            parent
         )
         tabWidget.addTab(
             self.StructureWidget,

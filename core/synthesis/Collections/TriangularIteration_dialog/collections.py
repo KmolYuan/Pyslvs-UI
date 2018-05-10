@@ -142,7 +142,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Load the settings after closed.
     """
     
-    def __init__(self, getCollection: Callable[[], Dict[str, Any]], parent):
+    def __init__(self,
+        collections: Dict[str, Any],
+        getCollection: Callable[[], Dict[str, Any]],
+        parent
+    ):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(
@@ -150,7 +154,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             ~Qt.WindowContextHelpButtonHint |
             Qt.WindowMaximizeButtonHint
         )
-        self.collections = parent.collections
+        self.collections = collections
         self.getCollection = getCollection
         self.__name_loaded = ""
         
@@ -178,14 +182,12 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.sub_splitter.setSizes([100, 200])
         #Signals
         self.common_list.currentTextChanged.connect(self.__chooseCommon)
-        self.common_list.itemClicked.connect(self.__chooseCommon)
-        self.common_load.clicked.connect(self.__loadCommon)
         self.common_list.itemDoubleClicked.connect(self.__loadCommon)
+        self.common_load.clicked.connect(self.__loadCommon)
         self.collections_list.currentTextChanged.connect(self.__chooseCollections)
-        self.collections_list.itemClicked.connect(self.__chooseCollections)
-        self.buttonBox.accepted.connect(self.__loadCollections)
+        self.collections_list.currentTextChanged.connect(self.__canOpen)
         self.collections_list.itemDoubleClicked.connect(self.__loadCollections)
-        self.collections_list.currentRowChanged.connect(self.__canOpen)
+        self.buttonBox.accepted.connect(self.__loadCollections)
         self.__hasCollection()
         self.__canOpen()
     
@@ -296,7 +298,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if not item:
             return
         self.__name_loaded = item.text()
-        self.__mech_params = self.collections[self.__name_loaded]
+        self.__mech_params = deepcopy(self.collections[self.__name_loaded])
         self.PreviewCanvas.from_profile(self.__mech_params)
     
     @pyqtSlot()

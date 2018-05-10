@@ -576,7 +576,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_load_profile_clicked(self):
         """Load profile from collections dialog."""
-        dlg = CollectionsDialog(self.getCollection, self)
+        dlg = CollectionsDialog(
+            self.collections,
+            self.getCollection,
+            self
+        )
         dlg.show()
         if dlg.exec_():
             self.__setProfile(dlg.name(), dlg.params())

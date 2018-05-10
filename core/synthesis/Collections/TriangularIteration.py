@@ -100,14 +100,15 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     """Triangular iteration widget."""
     
-    def __init__(self, parent):
+    def __init__(self,
+        addToCollection: Callable[[Tuple[Tuple[int, int]]], None],
+        parent
+    ):
         super(TriangularIterationWidget, self).__init__(parent)
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
         self.getCollection = parent.getCollection
-        """
-        self.addToCollection = StructureWidget.addCollection
-        """
+        self.addToCollection = addToCollection
         self.collections = {}
         #Canvas
         self.PreviewWindow = _PreviewWindow(
@@ -187,7 +188,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         pos: Dict[int, Tuple[float, float]]
     ):
         """Set the graph to preview canvas."""
-        self.clear()
+        self.__clearPanel()
         self.PreviewWindow.setGraph(G, pos)
         ev = dict(edges_view(G))
         joints_count = set()
@@ -369,7 +370,11 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     @pyqtSlot()
     def on_load_button_clicked(self):
         """Show up the dialog to load structure data."""
-        dlg = CollectionsDialog(self.getCollection, self)
+        dlg = CollectionsDialog(
+            self.collections,
+            self.getCollection,
+            self
+        )
         dlg.show()
         if not dlg.exec_():
             return

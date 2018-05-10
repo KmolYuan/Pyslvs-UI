@@ -537,7 +537,7 @@ class FileWidget(QWidget, Ui_Form):
         example_name, ok = QInputDialog.getItem(self,
             "Examples",
             "Select a example to load:",
-            sorted(k for k in example_list),
+            sorted(example_list),
             0,
             False
         )
