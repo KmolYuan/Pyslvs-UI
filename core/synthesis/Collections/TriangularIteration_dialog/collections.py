@@ -259,7 +259,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def on_delete_button_clicked(self):
         """Delete a data."""
         row = self.collections_list.currentRow()
-        if not row>-1:
+        if not row > -1:
             return
         reply = QMessageBox.question(self,
             "Delete",
@@ -276,13 +276,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     @pyqtSlot(QListWidgetItem)
     def __chooseCommon(self, p0: Union[str, QListWidgetItem, None] = None):
         """Update preview canvas for common data."""
-        text = self.common_list.currentItem().text()
-        if not text:
+        item = self.common_list.currentItem()
+        if not item:
             return
-        self.__name_loaded = text
-        if text == "Four bar linkage mechanism":
+        self.__name_loaded = item.text()
+        if self.__name_loaded == "Four bar linkage mechanism":
             self.__mech_params = deepcopy(_mech_params_4Bar)
-        elif text == "Eight bar linkage mechanism":
+        elif self.__name_loaded == "Eight bar linkage mechanism":
             self.__mech_params = deepcopy(_mech_params_8Bar)
         elif self.__name_loaded == "Ball lifter linkage mechanism":
             self.__mech_params = deepcopy(_mech_params_BallLifter)
@@ -292,10 +292,10 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     @pyqtSlot(QListWidgetItem)
     def __chooseCollections(self, p0: Union[str, QListWidgetItem, None] = None):
         """Update preview canvas for a workbook data."""
-        text = self.collections_list.currentItem().text()
-        if not text:
+        item = self.collections_list.currentItem()
+        if not item:
             return
-        self.__name_loaded = text
+        self.__name_loaded = item.text()
         self.__mech_params = self.collections[self.__name_loaded]
         self.PreviewCanvas.from_profile(self.__mech_params)
     
@@ -311,19 +311,19 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             while "mechanism{}".format(num) in self.collections:
                 num += 1
             name = "mechanism{}".format(num)
-            self.collections[name] = collection
+            self.collections[name] = collection.copy()
             self.collections_list.addItem(name)
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def __loadCommon(self, p0: Optional[QListWidgetItem] = None):
         """Load a common data and close."""
-        self.__chooseCommon(self.common_list.currentItem().text())
+        self.__chooseCommon()
         self.accept()
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def __loadCollections(self, p0: Optional[QListWidgetItem] = None):
         """Load a workbook data and close."""
-        self.__chooseCollections(self.collections_list.currentItem().text())
+        self.__chooseCollections()
         self.accept()

@@ -220,7 +220,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.driver_rotator.clear()
         if has_choose:
             items = (
-                self.grounded_list.currentItem().text()
+                self.grounded_list.item(row).text()
                 .replace('(', '')
                 .replace(')', '')
                 .split(", ")
@@ -230,6 +230,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.__setWarning(self.follower_label, not has_choose)
         self.__setWarning(self.driver_label, True)
         self.__setWarning(self.expression_list_label, True)
+        if row != self.grounded_list.currentRow():
+            self.grounded_list.blockSignals(True)
+            self.grounded_list.setCurrentRow(row)
+            self.grounded_list.blockSignals(False)
     
     @pyqtSlot(str)
     def on_driver_base_currentIndexChanged(self, name):
@@ -380,12 +384,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         drivers = set(params['Driver'])
         followers = set(params['Follower'])
         for row, link in enumerate(G.nodes):
-            points = set(
+            points = {
                 'P{}'.format(n)
-                for n, edge in edges_view(G) if link in edge
-            )
+                for n, edge in edges_view(G) if (link in edge)
+            }
             if (drivers | followers) <= points:
-                self.grounded_list.setCurrentRow(row)
+                self.on_grounded_list_currentRowChanged(row)
                 break
         #Driver, Follower, Target
         for expr in params['Expression'].split(';'):
