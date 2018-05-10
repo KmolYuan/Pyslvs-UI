@@ -35,7 +35,7 @@ from core.QtModules import (
 from core.info import (
     PyslvsAbout,
     check_update,
-    VERSION,
+    __version__,
 )
 from core.io import (
     ScriptDialog,
@@ -465,7 +465,7 @@ def on_action_See_Expression_triggered(self):
     """Output as expression."""
     context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
     dlg = ScriptDialog(
-        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*VERSION) +
+        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
         ("M[\n{}\n]".format(context) if context else "M[]"),
         PMKSLexer(),
         "Pyslvs expression",
@@ -478,7 +478,7 @@ def on_action_See_Expression_triggered(self):
 def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
-        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*VERSION) +
+        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
         slvsProcessScript(self.EntitiesPoint.data(), self.EntitiesLink.data()),
         Python3Lexer(),
         "Python script",

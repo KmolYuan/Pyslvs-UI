@@ -28,10 +28,10 @@ from core.QtModules import (
 _Qt_Version = qVersion().strip()
 _PyQt_Version = PYQT_VERSION_STR.strip()
 
-VERSION = (18, 5, 0, 'dev')
+__version__ = (18, 5, 0, 'dev')
 
 INFO = (
-    "Pyslvs {}.{}.{}({})".format(*VERSION),
+    "Pyslvs {}.{}.{}({})".format(*__version__),
     "OS Type: {} {} [{}]".format(platform.system(), platform.release(), platform.machine()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
     "Python Compiler: {}".format(platform.python_compiler()),
@@ -116,7 +116,7 @@ def check_update(progdlg: QProgressDialog) -> Tuple[str, bool]:
         QCoreApplication.processEvents()
         if progdlg.wasCanceled():
             return
-        next_ver = list(VERSION[:m])
+        next_ver = list(__version__[:m])
         next_ver[i] += 1
         url = ("https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/" +
             "v{}.{:02}.{}".format(*next_ver))

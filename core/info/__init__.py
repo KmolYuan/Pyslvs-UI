@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from .info import (
     INFO,
     ARGUMENTS,
-    VERSION,
+    __version__,
     check_update
 )
 from .about import (
@@ -22,7 +22,7 @@ from .about import (
 __all__ = [
     'INFO',
     'ARGUMENTS',
-    'VERSION',
+    '__version__',
     'check_update',
     'PyslvsSplash',
     'PyslvsAbout',

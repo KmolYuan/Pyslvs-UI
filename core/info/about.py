@@ -13,7 +13,7 @@ from core.QtModules import (
     QSplashScreen,
     QPixmap,
 )
-from .info import VERSION, INFO, ARGUMENTS
+from .info import __version__, INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
 
 
@@ -43,7 +43,7 @@ class PyslvsSplash(QSplashScreen):
     
     def __init__(self):
         super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/Splash.png"))
-        self.showMessage("Version {}.{}.{}({})".format(*VERSION), (Qt.AlignBottom|Qt.AlignRight))
+        self.showMessage("Version {}.{}.{}({})".format(*__version__), (Qt.AlignBottom|Qt.AlignRight))
 
 
 class PyslvsAbout(QDialog, Ui_Dialog):
@@ -56,7 +56,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Title.setText(html(
             _title("Pyslvs") +
-            _content("Version {}.{}.{}({}) 2016-2018".format(*VERSION))
+            _content("Version {}.{}.{}({}) 2016-2018".format(*__version__))
         ))
         self.Content.setText(html(_content(
             "Pyslvs is a Open Source support tools to help user " +

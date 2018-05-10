@@ -23,7 +23,7 @@ from core.QtModules import (
     QSettings,
     QUndoView,
 )
-from core.info import VERSION
+from core.info import __version__
 from core.io import FileWidget
 from core.synthesis import (
     NumberAndTypeSynthesis,
@@ -81,7 +81,7 @@ def _undo_redo(self):
 def _appearance(self):
     """Start up and initialize custom widgets."""
     #Version label
-    self.version_label.setText("v{}.{}.{} ({})".format(*VERSION))
+    self.version_label.setText("v{}.{}.{} ({})".format(*__version__))
     
     #Entities tables.
     self.EntitiesPoint = PointTableWidget(self.Entities_Point_Widget)
