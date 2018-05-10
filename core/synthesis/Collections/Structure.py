@@ -46,14 +46,14 @@ class _TestError(Exception):
     pass
 
 
-class CollectionsStructure(QWidget, Ui_Form):
+class StructureWidget(QWidget, Ui_Form):
     
     """Structure widget."""
     
     layout_sender = pyqtSignal(Graph, dict)
     
     def __init__(self, parent):
-        super(CollectionsStructure, self).__init__(parent)
+        super(StructureWidget, self).__init__(parent)
         self.setupUi(self)
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox

@@ -175,7 +175,7 @@ def _appearance(self):
         "Collections"
     )
     self.NumberAndTypeSynthesis.addCollection = (
-        self.CollectionTabPage.CollectionsStructure.addCollection
+        self.CollectionTabPage.StructureWidget.addCollection
     )
     self.FileWidget.CollectDataFunc = (
         self.CollectionTabPage.CollectDataFunc
@@ -188,10 +188,10 @@ def _appearance(self):
         for variable in self.InputsWidget.getInputsVariables()
     )) #Call to get inputs variables data.
     self.FileWidget.loadCollectFunc = (
-        self.CollectionTabPage.CollectionsStructure.addCollections
+        self.CollectionTabPage.StructureWidget.addCollections
     ) #Call to load collections data.
     self.FileWidget.loadTriangleFunc = (
-        self.CollectionTabPage.CollectionsTriangularIteration.addCollections
+        self.CollectionTabPage.TriangularIterationWidget.addCollections
     ) #Call to load triangle data.
     self.FileWidget.loadInputsFunc = (
         self.InputsWidget.addInputsVariables

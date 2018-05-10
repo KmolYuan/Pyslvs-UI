@@ -96,17 +96,17 @@ class _PreviewWindow(PreviewCanvas):
         self.update()
 
 
-class CollectionsTriangularIteration(QWidget, Ui_Form):
+class TriangularIterationWidget(QWidget, Ui_Form):
     
     """Triangular iteration widget."""
     
     def __init__(self, parent):
-        super(CollectionsTriangularIteration, self).__init__(parent)
+        super(TriangularIterationWidget, self).__init__(parent)
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
         self.getCollection = parent.getCollection
         """
-        self.addToCollection = CollectionsStructure.addCollection
+        self.addToCollection = StructureWidget.addCollection
         """
         self.collections = {}
         #Canvas

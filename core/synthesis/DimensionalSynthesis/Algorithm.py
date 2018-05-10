@@ -68,7 +68,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mech_params = {}
         self.path = {}
         #A pointer reference of 'collections'.
-        self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
+        self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
         self.getCollection = parent.getCollection
         #Data and functions.
         self.mechanism_data = []
