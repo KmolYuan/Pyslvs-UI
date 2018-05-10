@@ -335,7 +335,7 @@ def _snap(self, num: float, isZoom: bool = True) -> float:
         return snap_val * (times + 1)
 
 
-def _zoomToFitLimit(self):
+def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
     """Limitations of four side."""
     inf = float('inf')
     x_right = inf

@@ -62,7 +62,7 @@ class _DynamicCanvas(BaseCanvas):
         timer.timeout.connect(self.change_index)
         timer.start(17)
     
-    def __zoomToFitLimit(self):
+    def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
         x_right = inf
@@ -113,15 +113,15 @@ class _DynamicCanvas(BaseCanvas):
         x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
         x_diff = x_left - x_right
         y_diff = y_top - y_bottom
-        x_diff = x_diff if x_diff!=0 else 1
-        y_diff = y_diff if y_diff!=0 else 1
+        x_diff = x_diff if (x_diff != 0) else 1
+        y_diff = y_diff if (y_diff != 0) else 1
         if width / x_diff < height / y_diff:
             factor = width / x_diff
         else:
             factor = height / y_diff
         self.zoom = factor * 0.95
-        self.ox = width / 2 - (x_left + x_right) / 2 *self.zoom
-        self.oy = height / 2 + (y_top + y_bottom) / 2 *self.zoom
+        self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
+        self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         super(_DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
         """First check."""
