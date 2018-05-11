@@ -28,7 +28,7 @@ from .firefly import Firefly
 from .de import DiffertialEvolution
 from .number import NumberSynthesis
 from .topologic import topo, Graph
-from .triangulation import vpoints_configure
+from .triangulation import vpoints_configure, dof
 
 __all__ = [
     'Genetic',
@@ -48,4 +48,5 @@ __all__ = [
     'topo',
     'Graph',
     'vpoints_configure',
+    'dof',
 ]

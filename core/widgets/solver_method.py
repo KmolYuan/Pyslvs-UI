@@ -23,15 +23,17 @@ from core.libs import (
     SlvsException,
     vpoints_configure,
     VPoint,
+    dof,
 )
 
 
 def resolve(self):
     """Resolve: Use Solvespace lib."""
     inputs = list(self.InputsWidget.getInputsVariables())
+    vpoints = self.EntitiesPoint.dataTuple()
     try:
-        result, dof = slvsProcess(
-            self.EntitiesPoint.dataTuple(),
+        result, _ = slvsProcess(
+            vpoints,
             self.EntitiesLink.dataTuple(),
             inputs if not self.freemode_button.isChecked() else ()
         )
@@ -44,7 +46,7 @@ def resolve(self):
         self.DOFview.setVisible(False)
     else:
         self.EntitiesPoint.updateCurrentPosition(result)
-        self.DOF = dof
+        self.DOF = dof(vpoints)
         self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)
@@ -210,7 +212,7 @@ def getTriangle(self,
 
 def rightInput(self) -> bool:
     """Is input same as DOF?"""
-    inputs = (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
+    inputs = self.InputsWidget.inputCount() == self.DOF
     if not inputs:
         self.Entities_Expr.clear()
     return inputs

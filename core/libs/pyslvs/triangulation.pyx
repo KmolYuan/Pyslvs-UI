@@ -93,6 +93,25 @@ cdef inline int get_input_base(int node, sequence inputs):
     return -1
 
 
+cpdef int dof(sequence vpoints):
+    cdef int R = 0
+    cdef int P = 0
+    cdef int RP = 0
+    cdef set vlinks = {'ground'}
+    cdef VPoint vpoint
+    for vpoint in vpoints:
+        if not len(vpoint.links) > 1:
+            continue
+        vlinks.update(vpoint.links)
+        if vpoint.type == 0:
+            R += 1
+        elif vpoint.type == 1:
+            P += 1
+        elif vpoint.type == 2:
+            RP += 1
+    return 3*(len(vlinks) - 1) - 2*(R + P) - RP
+
+
 cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}):
     """Auto configuration algorithm.
     
@@ -103,15 +122,13 @@ cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}
     Data:
     status: Dict[int, bool]
     """
-    cdef VPoint vpoint
     cdef list pos = []
-    for vpoint in vpoints:
-        pos.append(vpoint.c[0] if (vpoint.type == 0) else vpoint.c[1])
-    
     cdef dict vlinks = {}
     cdef int node
     cdef str link
+    cdef VPoint vpoint
     for node, vpoint in enumerate(vpoints):
+        pos.append(vpoint.c[0] if (vpoint.type == 0) else vpoint.c[1])
         status[node] = False
         if vpoint.links:
             for link in vpoint.links:

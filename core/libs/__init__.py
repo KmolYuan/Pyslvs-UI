@@ -25,11 +25,9 @@ from .pyslvs import (
     topo,
     Graph,
     vpoints_configure,
+    dof,
 )
-from .python_solvespace import (
-    slvsProcess,
-    SlvsException
-)
+from .python_solvespace import slvsProcess, SlvsException
 
 __all__ = [
     'Genetic',
@@ -49,6 +47,7 @@ __all__ = [
     'topo',
     'Graph',
     'vpoints_configure',
+    'dof',
     'slvsProcess',
     'SlvsException',
 ]
