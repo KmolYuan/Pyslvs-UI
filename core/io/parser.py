@@ -160,6 +160,6 @@ class PMKSLexer(RegexLexer):
         ('#.*$', Comment.Single),
         ('(M)|(J)|(L)|(P)|(A)|(color)', Name.Function),
         ('|'.join("({})".format(color) for color in colorNames), Name.Variable),
-        ('(R)|(P)|(RP)', Keyword.Constant),
+        ('(RP)|(R)|(P)', Keyword.Constant),
         (r'(\d+\.\d*|\d*\.\d+)([eE][+-]?[0-9]+)?j?', Number.Float),
     ]}
