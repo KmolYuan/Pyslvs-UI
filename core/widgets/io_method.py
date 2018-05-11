@@ -138,8 +138,9 @@ def on_action_github_repository_triggered(self):
 
 def on_action_About_Pyslvs_triggered(self):
     """Open Pyslvs about."""
-    about = PyslvsAbout(self)
-    about.show()
+    dlg = PyslvsAbout(self)
+    dlg.show()
+    dlg.exec_()
 
 
 def on_action_Console_triggered(self):
@@ -153,6 +154,7 @@ def on_action_Example_triggered(self):
     Return true if successed.
     """
     if self.FileWidget.loadExample():
+        self.on_action_See_Expression_triggered()
         self.MainCanvas.zoomToFit()
 
 
@@ -473,6 +475,7 @@ def on_action_See_Expression_triggered(self):
         self
     )
     dlg.show()
+    dlg.exec_()
 
 
 def on_action_See_Python_Scripts_triggered(self):
@@ -486,6 +489,7 @@ def on_action_See_Python_Scripts_triggered(self):
         self
     )
     dlg.show()
+    dlg.exec_()
 
 
 def on_action_Check_update_triggered(self):

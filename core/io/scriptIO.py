@@ -284,7 +284,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         script: str,
         lexer: RegexLexerMeta,
         filename: str,
-        filefotmat: List[str],
+        fileformat: List[str],
         parent
     ):
         super(ScriptDialog, self).__init__(parent)
@@ -297,9 +297,10 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.script_view.zoomIn(5)
         self.code = highlight(script, lexer, HtmlFormatter())
         self.filename = filename
-        self.filefotmat = filefotmat
+        self.fileformat = fileformat
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
+        self.setWindowTitle(self.filename)
         styles = sorted(get_all_styles())
         styles.insert(0, styles.pop(styles.index('default')))
         self.style_option.addItems(styles)
@@ -321,7 +322,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_save_clicked(self):
         """Save to .py file."""
-        file_name = self.outputTo(self.filename, self.filefotmat)
+        file_name = self.outputTo(self.filename, self.fileformat)
         if not file_name:
             return
         with open(file_name, 'w', newline="") as f:

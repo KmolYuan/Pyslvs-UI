@@ -21,8 +21,8 @@ from typing import (
     Optional,
 )
 from core.QtModules import (
-    QWidget,
     pyqtSlot,
+    QWidget,
     QApplication,
     QMessageBox,
     QListWidgetItem,
