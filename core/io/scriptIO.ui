@@ -78,9 +78,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="script_view"/>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_3">

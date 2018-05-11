@@ -20,6 +20,7 @@ from core.QtModules import (
     pyqtSlot,
     QApplication,
     QDialog,
+    QTextEdit,
 )
 from core.libs import VPoint, VLink
 from .Ui_scriptIO import Ui_Dialog
@@ -275,6 +276,23 @@ def slvsProcessScript(
         [vlink for vlink in vlinks]
     )
 
+class _ScriptBrowser(QTextEdit):
+    
+    """Custom text browser to implement text zooming."""
+    
+    def __init__(self, parent):
+        super(_ScriptBrowser, self).__init__(parent)
+        self.setReadOnly(True)
+        self.zoomIn(3)
+    
+    def wheelEvent(self, event):
+        super(_ScriptBrowser, self).wheelEvent(event)
+        if QApplication.keyboardModifiers() == Qt.ControlModifier:
+            if event.angleDelta().y() > 0:
+                self.zoomIn(1)
+            else:
+                self.zoomOut(1)
+
 
 class ScriptDialog(QDialog, Ui_Dialog):
     
@@ -294,7 +312,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
             ~Qt.WindowContextHelpButtonHint |
             Qt.WindowMaximizeButtonHint
         )
-        self.script_view.zoomIn(5)
+        self.script_view = _ScriptBrowser(self)
+        self.main_layout.insertWidget(1, self.script_view)
         self.code = highlight(script, lexer, HtmlFormatter())
         self.filename = filename
         self.fileformat = fileformat
