@@ -46,7 +46,7 @@ def _get_list(item: QListWidget) -> Iterator[str]:
 
 def _four_bar_loops(G: Graph) -> Iterator[Tuple[int, int, int, int]]:
     """A generator to find out the four bar loops."""
-    result = set([])
+    result = set()
     vertexes = {v: k for k, v in edges_view(G)}
     
     def loop_set(

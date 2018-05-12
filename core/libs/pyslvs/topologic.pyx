@@ -364,7 +364,7 @@ cdef class GMState:
             # Now we add every other node...
             
             # Updates for T_1^{inout}
-            new_nodes = set([])
+            new_nodes = set()
             for node in GM.core_1:
                 new_nodes.update([neighbor for neighbor in GM.G1.adj[node] if neighbor not in GM.core_1])
             for node in new_nodes:
@@ -372,7 +372,7 @@ cdef class GMState:
                     GM.inout_1[node] = self.depth
             
             # Updates for T_2^{inout}
-            new_nodes = set([])
+            new_nodes = set()
             for node in GM.core_2:
                 new_nodes.update([neighbor for neighbor in GM.G2.adj[node] if neighbor not in GM.core_2])
             for node in new_nodes:

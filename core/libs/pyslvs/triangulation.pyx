@@ -67,7 +67,8 @@ def _get_notbase_friend(
         raise StopIteration
     cdef int friend
     for friend in vlinks[vpoints[node].links[1]]:
-        yield friend
+        if status[friend]:
+            yield friend
 
 
 def _get_base_friend(
@@ -288,13 +289,22 @@ cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {
         
         elif vpoints[node].type == 1:
             """Need to solve P joint itself here."""
-            f1 = _get_reliable_friend(node, vpoints, vlinks, status)
+            f1 = _get_notbase_friend(node, vpoints, vlinks, status)
             try:
                 friend_a = next(f1)
             except StopIteration:
                 skip_times += 1
             else:
-                """TODO: New function PXY."""
+                exprs.append((
+                    'PXY',
+                    'P{}'.format(friend_a),
+                    'L{}'.format(link_symbol),
+                    'L{}'.format(link_symbol + 1),
+                    'P{}'.format(node),
+                ))
+                status[node] = True
+                link_symbol += 2
+                skip_times = 0
         
         elif vpoints[node].type == 2:
             """RP joint."""

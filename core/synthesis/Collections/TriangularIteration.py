@@ -451,7 +451,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     def __symbols(self) -> Set[List[str]]:
         """Return all symbols."""
-        expr_list = set([])
+        expr_list = set()
         for expr in self.expr_show.text().split(';'):
             param_list = strbetween(expr, '[', ']').split(',')
             param_list.append(strbetween(expr, '(', ')'))

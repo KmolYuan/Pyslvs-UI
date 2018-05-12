@@ -77,7 +77,7 @@ class _BaseTableWidget(QTableWidget):
     
     def selectedRows(self) -> List[int]:
         """Get what row is been selected."""
-        tmp_set = set([])
+        tmp_set = set()
         for r in self.selectedRanges():
             tmp_set.update([i for i in range(r.topRow(), r.bottomRow() + 1)])
         return sorted(tmp_set)
