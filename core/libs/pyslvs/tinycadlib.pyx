@@ -286,6 +286,11 @@ cpdef tuple PLPP(
         return (I.x + dx*d, I.y + dy*d)
 
 
+cpdef tuple PXY(Coordinate A, double x, double y):
+    """Using relative cartesian coordinate to get solution."""
+    return (A.x + x, A.y + y)
+
+
 cdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
     """
     verify the fourbar is satisfied the Gruebler's Equation, s + g <= p + q
@@ -346,6 +351,8 @@ cpdef void expr_parser(str exprs, dict data_dict):
             data_dict[target] = PLLP(*args)
         elif f == 'PLPP':
             data_dict[target] = PLPP(*args)
+        elif f == 'PXY':
+            data_dict[target] = PXY(*args)
     """'data_dict' has been updated."""
 
 

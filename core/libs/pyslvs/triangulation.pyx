@@ -44,7 +44,7 @@ def _get_reliable_friend(
     status: dict
 ) -> Iterator[int]:
     """Return a generator yield the nodes
-        that has solution on the same link.
+        that "has been solved" on the same link.
     """
     cdef str link
     cdef int friend
@@ -287,7 +287,14 @@ cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {
                     skip_times = 0
         
         elif vpoints[node].type == 1:
-            """TODO: Need to solve P joint itself here."""
+            """Need to solve P joint itself here."""
+            f1 = _get_reliable_friend(node, vpoints, vlinks, status)
+            try:
+                friend_a = next(f1)
+            except StopIteration:
+                skip_times += 1
+            else:
+                """TODO: New function PXY."""
         
         elif vpoints[node].type == 2:
             """RP joint."""
