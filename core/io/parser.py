@@ -24,7 +24,7 @@ from core.graphics import colorNames
 from core.libs import VPoint
 
 
-_COLOR_LIST = " | ".join('"{}"'.format(color) for color in reversed(colorNames))
+_colors = "|".join('"{}"'.format(color) for color in reversed(colorNames))
 
 _pmks_grammar = Lark(
     #Number
@@ -67,7 +67,7 @@ _pmks_grammar = Lark(
     mechanism: "M[" [joint ("," joint)* (",")?] "]"
     
     JOINTTYPE: "RP" | "R" | "P"
-    COLOR    : """ + _COLOR_LIST + """
+    COLOR    : """ + _colors + """
     
     %ignore WS
     %ignore NEWLINE
@@ -87,13 +87,7 @@ class _PMKSParams(Transformer):
     
     type = lambda self, n: str(n[0])
     name = type
-    
-    def color(self, n):
-        if len(n) == 1:
-            return str(n[0])
-        else:
-            return str(tuple(n))
-    
+    color = lambda self, n: str(n[0]) if (len(n) == 1) else str(tuple(n))
     colorv = lambda self, n: int(n[0])
     neg = lambda self, n: -n[0]
     number = lambda self, n: float(n[0])
@@ -101,7 +95,7 @@ class _PMKSParams(Transformer):
     angle = number
     link = lambda self, a: tuple(a)
     
-    def joint(self, args):
+    def joint(self, args) -> List[Union[str, int, float]]:
         """Sort the argument list.
         
         [0]: type
@@ -128,7 +122,8 @@ class _PMKSVPoints(_PMKSParams):
     
     type = lambda self, n: ('R', 'P', 'RP').index(str(n[0]))
     
-    def joint(self, args):
+    def joint(self, args) -> VPoint:
+        """Same as parent."""
         hasAngle = args[0] != 0
         x, y = args[-2]
         return VPoint(

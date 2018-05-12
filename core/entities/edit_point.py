@@ -34,37 +34,43 @@ class EditPointDialog(QDialog, Ui_Dialog):
     """
     
     def __init__(self,
-        points: List[VPoint],
-        links: List[VLink],
+        vpoints: List[VPoint],
+        vlinks: List[VLink],
         pos: bool,
         parent
     ):
+        """Input data reference from main window.
+        
+        + Needs VPoints and VLinks information.
+        + If row is false: Create action.
+        """
         super(EditPointDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
         self.LinkIcon = QIcon(QPixmap(":/icons/link.png"))
-        self.points = points
-        self.links = links
+        self.vpoints = vpoints
+        self.vlinks = vlinks
+        vpoints_count = len(vpoints)
         for i, e in enumerate(colorNames):
             self.color_box.insertItem(i, colorIcon(e), e)
-        for vlink in links:
+        for vlink in vlinks:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
         if pos is False:
-            self.name_box.addItem(icon, 'Point{}'.format(len(points)))
+            self.name_box.addItem(icon, 'Point{}'.format(vpoints_count))
             self.name_box.setEnabled(False)
             self.color_box.setCurrentIndex(self.color_box.findText('Green'))
         else:
-            for i in range(len(points)):
+            for i in range(vpoints_count):
                 self.name_box.insertItem(i, icon, 'Point{}'.format(i))
             self.name_box.setCurrentIndex(pos)
     
     @pyqtSlot(int)
     def on_name_box_currentIndexChanged(self, index):
         """Load the parameters of the point."""
-        if not len(self.points) > index:
+        if not len(self.vpoints) > index:
             return
-        vpoint = self.points[index]
+        vpoint = self.vpoints[index]
         self.x_box.setValue(vpoint.x)
         self.y_box.setValue(vpoint.y)
         colorText = vpoint.colorSTR
@@ -80,7 +86,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.selected.clear()
         for linkName in vpoint.links:
             self.selected.addItem(QListWidgetItem(self.LinkIcon, linkName))
-        for vlink in self.links:
+        for vlink in self.vlinks:
             if vlink.name in vpoint.links:
                 continue
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))

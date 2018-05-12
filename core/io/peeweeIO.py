@@ -144,6 +144,13 @@ class FileWidget(QWidget, Ui_Form):
     load_id = pyqtSignal(int)
     
     def __init__(self, parent):
+        """Set attributes.
+        
+        + UI part
+        + The main window functions
+        + Functions to get and set data
+        + External functions.
+        """
         super(FileWidget, self).__init__(parent)
         self.setupUi(self)
         """UI part

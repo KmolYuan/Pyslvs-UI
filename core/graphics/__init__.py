@@ -25,7 +25,7 @@ from .canvas import (
 from .nx_pydot import (
     graph,
     engine_picker,
-    EngineList,
+    engines,
     EngineError,
 )
 
@@ -43,6 +43,6 @@ __all__ = [
     'graph2vpoints',
     'graph',
     'engine_picker',
-    'EngineList',
+    'engines',
     'EngineError',
 ]

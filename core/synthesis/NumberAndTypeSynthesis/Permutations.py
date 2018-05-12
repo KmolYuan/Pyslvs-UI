@@ -36,7 +36,7 @@ from core.io import QTIMAGES
 from core.libs import NumberSynthesis, topo
 from core.graphics import (
     graph,
-    EngineList,
+    engines,
     EngineError,
 )
 from .Ui_Permutations import Ui_Form
@@ -58,7 +58,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
         self.NL_input.valueChanged.connect(self.__adjustStructureData)
         self.NJ_input.valueChanged.connect(self.__adjustStructureData)
-        self.graph_engine.addItems(EngineList)
+        self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(

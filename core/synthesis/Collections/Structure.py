@@ -36,7 +36,7 @@ from core.io import QTIMAGES
 from core.graphics import (
     graph,
     engine_picker,
-    EngineList,
+    engines,
     EngineError,
 )
 from .Ui_Structure import Ui_Form
@@ -63,7 +63,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections = []
         self.collections_layouts = []
         self.collections_grounded = []
-        self.graph_engine.addItems(EngineList)
+        self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
         self.graph_engine.currentIndexChanged.connect(
             self.on_reload_atlas_clicked
