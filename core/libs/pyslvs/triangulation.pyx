@@ -99,19 +99,26 @@ cpdef int dof(sequence vpoints):
     cdef int P = 0
     cdef int RP = 0
     cdef set vlinks = {'ground'}
+    
+    cdef int link_count
     cdef VPoint vpoint
     for vpoint in vpoints:
-        if not len(vpoint.links) > 1:
+        link_count = len(vpoint.links)
+        if not link_count > 1:
             """If a point doesn't have two more links,
             it can not be call a 'joint'.
             """
             continue
         vlinks.update(vpoint.links)
         if vpoint.type == 0:
-            R += 1
+            R += link_count - 1
         elif vpoint.type == 1:
+            if link_count > 2:
+                R += link_count - 2
             P += 1
         elif vpoint.type == 2:
+            if link_count > 2:
+                R += link_count - 2
             RP += 1
     return 3*(len(vlinks) - 1) - 2*(R + P) - RP
 
@@ -180,17 +187,6 @@ cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {
                     vpoint_.x,
                     vpoint_.y
                 )
-        #self
-        vpoints[base] = VPoint(
-            ",".join([vpoint.links[0]] + [
-                link_ for link_ in links if (link_ not in vpoint.links)
-            ]),
-            2,
-            vpoint.angle,
-            vpoint.colorSTR,
-            vpoint.x,
-            vpoint.y
-        )
     
     """Add positions parameters."""
     cdef list pos = []
@@ -291,7 +287,7 @@ cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {
                     skip_times = 0
         
         elif vpoints[node].type == 1:
-            raise ValueError("Should not have any P joint here.")
+            """TODO: Need to solve P joint itself here."""
         
         elif vpoints[node].type == 2:
             """RP joint."""

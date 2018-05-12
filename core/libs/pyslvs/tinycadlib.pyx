@@ -16,7 +16,6 @@ from libc.math cimport (
 )
 import numpy as np
 cimport numpy as np
-cimport cython
 
 
 cdef double nan = float('nan')
@@ -27,7 +26,6 @@ cdef inline double distance(double x1, double y1, double x2, double y2):
     return hypot(x2 - x1, y2 - y1)
 
 
-@cython.freelist(100)
 cdef class VPoint:
     
     """Symbol of joints."""
@@ -187,7 +185,6 @@ cdef class VLink:
         return "VLink('{l.name}', {l.points}, colorQt)".format(l=self)
 
 
-@cython.freelist(100)
 cdef class Coordinate:
     
     """A class to store the coordinate."""
@@ -474,7 +471,7 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
     cdef set links
     for base in range(len(vpoints)):
         vpoint = vpoints[base]
-        if not vpoint.type == 1:
+        if vpoint.type != 1:
             continue
         for link in vpoint.links[1:]:
             links = set()
@@ -491,20 +488,9 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
                     2,
                     vpoint.angle,
                     vpoint_.colorSTR,
-                    vpoint_.x,
-                    vpoint_.y
+                    vpoint_.cx,
+                    vpoint_.cy
                 )
-        #self
-        vpoints[base] = VPoint(
-            ",".join([vpoint.links[0]] + [
-                link_ for link_ in links if (link_ not in vpoint.links)
-            ]),
-            2,
-            vpoint.angle,
-            vpoint.colorSTR,
-            vpoint.x,
-            vpoint.y
-        )
     
     cdef int i
     cdef str m
@@ -567,6 +553,7 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
     for i in range(len(vpoints)):
         if mapping[i] not in targets:
             data_dict[mapping[i]] = pos[i]
+    
     return data_dict, dof
 
 
