@@ -437,19 +437,79 @@ cdef inline int base_friend(int node, object vpoints):
             return i
 
 
-cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
+cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
     """Input data:
     
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
     mapping: {0: 'P0', 1: 'P2', 2: 'P3', 3: 'P4', ...}
-    vpoints: [VPoint0, VPoint1, VPoint2, ...]
+    vpoints_: [VPoint0, VPoint1, VPoint2, ...]
     pos: [(x0, y0), (x1, y1), (x2, y2), ...]
+    
+    vpoints will make a copy that we don't want to modified itself.
     """
+    cdef list vpoints = list(vpoints_)
+    
+    """First, we create a "VLinks" that can help us to
+    find a releationship just like adjacency matrix.
+    """
+    cdef int node
+    cdef str link
+    cdef VPoint vpoint
+    cdef dict vlinks = {}
+    for node, vpoint in enumerate(vpoints):
+        for link in vpoint.links:
+            #Add as vlink.
+            if link not in vlinks:
+                vlinks[link] = {node}
+            else:
+                vlinks[link].add(node)
+    
+    """Replace the P joints and their friends with RP joint.
+    
+    DOF must be same after properties changed.
+    """
+    cdef int base
+    cdef str link_
+    cdef VPoint vpoint_
+    cdef set links
+    for base in range(len(vpoints)):
+        vpoint = vpoints[base]
+        if not vpoint.type == 1:
+            continue
+        for link in vpoint.links[1:]:
+            links = set()
+            for node in vlinks[link]:
+                vpoint_ = vpoints[node]
+                if (node == base) or (vpoint_.type != 0):
+                    continue
+                links.update(vpoint_.links)
+                vpoints[node] = VPoint(
+                    ",".join([vpoint.links[0]] + [
+                        link_ for link_ in vpoint_.links
+                        if (link_ not in vpoint.links)
+                    ]),
+                    2,
+                    vpoint.angle,
+                    vpoint_.colorSTR,
+                    vpoint_.x,
+                    vpoint_.y
+                )
+        #self
+        vpoints[base] = VPoint(
+            ",".join([vpoint.links[0]] + [
+                link_ for link_ in links if (link_ not in vpoint.links)
+            ]),
+            2,
+            vpoint.angle,
+            vpoint.colorSTR,
+            vpoint.x,
+            vpoint.y
+        )
+    
     cdef int i
     cdef str m
     cdef dict mapping_r = {m: i for i, m in mapping.items()}
     
-    cdef VPoint vpoint
     cdef list pos = []
     for vpoint in vpoints:
         if vpoint.type == 0:

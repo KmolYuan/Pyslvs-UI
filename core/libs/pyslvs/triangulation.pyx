@@ -16,6 +16,11 @@ from tinycadlib cimport VPoint
 from cpython cimport bool
 
 
+ctypedef fused sequence:
+    list
+    tuple
+
+
 cdef inline bool isAllLock(dict status, dict same={}):
     """Test is all status done."""
     cdef int node
@@ -30,11 +35,6 @@ cdef inline bool clockwise(tuple c1, tuple c2, tuple c3):
     """Check orientation of three points."""
     cdef double val = (c2[1] - c1[1])*(c3[0] - c2[0]) - (c2[0] - c1[0])*(c3[1] - c2[1])
     return ((val == 0) or (val > 0))
-
-
-ctypedef fused sequence:
-    list
-    tuple
 
 
 def _get_reliable_friend(
@@ -94,6 +94,7 @@ cdef inline int get_input_base(int node, sequence inputs):
 
 
 cpdef int dof(sequence vpoints):
+    """Degree of freedoms calculate from PMKS expressions."""
     cdef int R = 0
     cdef int P = 0
     cdef int RP = 0
@@ -101,6 +102,9 @@ cpdef int dof(sequence vpoints):
     cdef VPoint vpoint
     for vpoint in vpoints:
         if not len(vpoint.links) > 1:
+            """If a point doesn't have two more links,
+            it can not be call a 'joint'.
+            """
             continue
         vlinks.update(vpoint.links)
         if vpoint.type == 0:
@@ -112,26 +116,30 @@ cpdef int dof(sequence vpoints):
     return 3*(len(vlinks) - 1) - 2*(R + P) - RP
 
 
-cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}):
+cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {}):
     """Auto configuration algorithm.
     
     For VPoint list.
-    vpoints: [vpoint0, vpoint1, ...]
-    inputs: [(p0, p1), (p0, p2), ...]
+    + vpoints_: [vpoint0, vpoint1, ...]
+    + inputs: [(p0, p1), (p0, p2), ...]
+    + status: Dict[int, bool]
     
-    Data:
-    status: Dict[int, bool]
+    vpoints will make a copy that we don't want to modified itself.
     """
-    cdef list pos = []
-    cdef dict vlinks = {}
+    cdef list vpoints = list(vpoints_)
+    
+    """First, we create a "VLinks" that can help us to
+    find a releationship just like adjacency matrix.
+    """
     cdef int node
     cdef str link
     cdef VPoint vpoint
+    cdef dict vlinks = {}
     for node, vpoint in enumerate(vpoints):
-        pos.append(vpoint.c[0] if (vpoint.type == 0) else vpoint.c[1])
         status[node] = False
         if vpoint.links:
             for link in vpoint.links:
+                #Connect on the ground and it is not a slider.
                 if ('ground' == link) and (vpoint.type == 0):
                     status[node] = True
                 #Add as vlink.
@@ -142,13 +150,58 @@ cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}
         else:
             status[node] = True
     
+    """Replace the P joints and their friends with RP joint.
+    
+    DOF must be same after properties changed.
+    """
+    cdef int base
+    cdef str link_
+    cdef VPoint vpoint_
+    cdef set links
+    for base in range(len(vpoints)):
+        vpoint = vpoints[base]
+        if not vpoint.type == 1:
+            continue
+        for link in vpoint.links[1:]:
+            links = set()
+            for node in vlinks[link]:
+                vpoint_ = vpoints[node]
+                if (node == base) or (vpoint_.type != 0):
+                    continue
+                links.update(vpoint_.links)
+                vpoints[node] = VPoint(
+                    ",".join([vpoint.links[0]] + [
+                        link_ for link_ in vpoint_.links
+                        if (link_ not in vpoint.links)
+                    ]),
+                    2,
+                    vpoint.angle,
+                    vpoint_.colorSTR,
+                    vpoint_.x,
+                    vpoint_.y
+                )
+        #self
+        vpoints[base] = VPoint(
+            ",".join([vpoint.links[0]] + [
+                link_ for link_ in links if (link_ not in vpoint.links)
+            ]),
+            2,
+            vpoint.angle,
+            vpoint.colorSTR,
+            vpoint.x,
+            vpoint.y
+        )
+    
+    """Add positions parameters."""
+    cdef list pos = []
+    for vpoint in vpoints:
+        pos.append(vpoint.c[0] if (vpoint.type == 0) else vpoint.c[1])
+    
     cdef list exprs = []
     cdef int link_symbol = 0
     cdef int angle_symbol = 0
     
-    cdef int base
-    cdef set input_targets = {node for base, node in inputs}
-    
+    """Input joints (R) that was connect with ground."""
     for base, node in inputs:
         if status[base]:
             exprs.append((
@@ -162,6 +215,9 @@ cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}
             link_symbol += 1
             angle_symbol += 1
     
+    """Now let we search around all of points,
+    until find the solutions that we could.
+    """
     node = 0
     cdef int friend_a, friend_b, friend_c, friend_d
     cdef bool not_grounded
@@ -169,6 +225,7 @@ cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}
     cdef int around = len(status)
     cdef double tmp_x, tmp_y, angle
     cdef object f1
+    cdef set input_targets = {node for base, node in inputs}
     while not isAllLock(status):
         
         if node not in status:
@@ -234,7 +291,7 @@ cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}
                     skip_times = 0
         
         elif vpoints[node].type == 1:
-            """TODO: P joint."""
+            raise ValueError("Should not have any P joint here.")
         
         elif vpoints[node].type == 2:
             """RP joint."""
