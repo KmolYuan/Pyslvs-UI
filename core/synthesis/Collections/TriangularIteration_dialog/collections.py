@@ -140,6 +140,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     """Option dialog.
     
     Load the settings after closed.
+    Any add, rename, delete opreations will be apply immediately
     """
     
     def __init__(self,
@@ -147,6 +148,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         getCollection: Callable[[], Dict[str, Any]],
         parent
     ):
+        """We put the 'collections' (from iteration widget) reference here."""
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(
@@ -154,8 +156,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             ~Qt.WindowContextHelpButtonHint |
             Qt.WindowMaximizeButtonHint
         )
+        
         self.collections = collections
         self.getCollection = getCollection
+        
+        #Current profile name.
         self.__name_loaded = ""
         
         def get_solutions_func() -> Tuple[str]:
@@ -177,9 +182,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
         for name in self.collections:
             self.collections_list.addItem(name)
+        
         #Splitter
         self.main_splitter.setSizes([200, 200])
         self.sub_splitter.setSizes([100, 200])
+        
         #Signals
         self.common_list.currentTextChanged.connect(self.__chooseCommon)
         self.common_list.itemDoubleClicked.connect(self.__loadCommon)

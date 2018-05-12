@@ -37,14 +37,17 @@ class ChartDialog(QDialog):
     """
     
     def __init__(self, title, mechanism_data, parent):
+        """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
+        
         self.title = title
         self.mechanism_data = mechanism_data
+        
         #Widgets
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(6, 6, 6, 6)

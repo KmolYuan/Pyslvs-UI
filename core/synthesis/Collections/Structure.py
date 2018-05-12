@@ -48,11 +48,15 @@ class _TestError(Exception):
 
 class StructureWidget(QWidget, Ui_Form):
     
-    """Structure widget."""
+    """Structure widget.
+    
+    Preview the structures that was been added in collection list by user.
+    """
     
     layout_sender = pyqtSignal(Graph, dict)
     
     def __init__(self, parent):
+        """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)
         self.outputTo = parent.outputTo
@@ -60,9 +64,13 @@ class StructureWidget(QWidget, Ui_Form):
         self.inputFrom = parent.inputFrom
         self.addPointsByGraph = parent.addPointsByGraph
         self.unsaveFunc = parent.workbookNoSave
+        
+        """Data structures."""
         self.collections = []
         self.collections_layouts = []
         self.collections_grounded = []
+        
+        """Engine list."""
         self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
         self.graph_engine.currentIndexChanged.connect(

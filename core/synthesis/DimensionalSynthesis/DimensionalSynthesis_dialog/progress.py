@@ -33,11 +33,14 @@ class ProgressDialog(QDialog, Ui_Dialog):
         setting: Dict[str, Any],
         parent
     ):
+        """Input the algorithm settings."""
         super(ProgressDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.__closeWork)
+        
         self.mechanisms = []
+        
         #Batch label.
         if 'maxGen' in setting:
             self.limit = setting['maxGen']
@@ -58,11 +61,13 @@ class ProgressDialog(QDialog, Ui_Dialog):
             ))
             self.limit_mode = 'maxTime'
         self.loopTime.setEnabled(self.limit > 0)
+        
         #Timer.
         self.time = 0
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__setTime)
+        
         #Worker thread.
         self.work = WorkerThread(type_num, mech_params, setting)
         self.work.progress_update.connect(self.__setProgress)

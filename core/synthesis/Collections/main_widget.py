@@ -23,6 +23,7 @@ class Collections(QWidget):
     """Just a widget contains a sub tab widget."""
     
     def __init__(self, parent):
+        """Create two widget page and using main window to make their parent."""
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)
         tabWidget = QTabWidget(self)

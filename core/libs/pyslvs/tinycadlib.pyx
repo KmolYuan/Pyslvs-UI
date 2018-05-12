@@ -125,23 +125,6 @@ cdef class VPoint:
             ", ".join(l for l in self.links)
         )
     
-    def __richcmp__(p1: VPoint, p2: VPoint, op: int):
-        """Equal comparison.
-        
-        op == 2: __eq__
-        op == 3: __ne__
-        """
-        if (op != 2) and (op != 3):
-            raise TypeError("Only allow to compare two VPoints.")
-        return (
-            (op == 2) and
-            (p1.x == p2.x) and
-            (p1.y == p2.y) and
-            (p1.cx == p2.cx) and
-            (p1.cy == p2.cy) and
-            (p1.angle == p2.angle)
-        )
-    
     def __getitem__(self, i: int):
         """Get coordinate like this:
         

@@ -4,7 +4,7 @@
 
 + class MainWindow:
     
-    + Events and overrided method.
+    + Events and Overridden method.
     + Solver method.
     + Actions method.
     + IO method.
@@ -63,38 +63,47 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     Inherited from QMainWindow.
     Exit with QApplication.
     
-    The main window is too much method that I will split it
+    The main window is so much method that was been split it
     into wrapper function as 'widgets.custom_xxx' module.
     """
     
     def __init__(self, args: Namespace):
+        """Notes:
+        
+        + Input command line arguments object from Python parser.
+        + Command line arguments excluding any Qt startup option.
+        + Start main window with no parent.
+        """
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        
         self.args = args
         self.env = ""
+        
         self.setLocate(
             QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
+        
         #Console widget.
         self.consoleerror_option.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        #Undo Stack
+        
+        #Undo stack streem.
         self.CommandStack = QUndoStack(self)
+        
         #Initialize custom UI.
         initCustomWidgets(self)
         self.restoreSettings()
         self.resolve()
+        
         #Load workbook from argument.
         if self.args.r:
             self.FileWidget.read(self.args.r)
     
     def show(self):
-        """Overrided function.
-        
-        Adjust the canvas size after display.
-        """
+        """Overridden function to zoom the canvas's size after startup."""
         super(MainWindow, self).show()
         self.MainCanvas.zoomToFit()
     
