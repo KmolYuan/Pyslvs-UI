@@ -12,6 +12,7 @@ Version 18.05:
     -- Pyslvs can support custom color by using '(R, G, B)' string.
     -- Add color picker in setting interface.
   -- Add copy path function in path context menu.
+  -- Path preview function are support P joint.
 - Development
   -- Expression grammar:
     -- New highlight module Pygments, use to support Python and PMKS expression.
@@ -21,6 +22,7 @@ Version 18.05:
     -- Merge into 'pyslvs' folder.
     -- Using Python typing for Python functions in Cython libraries.
     -- Add Cython header to sharing declarations between libraries.
+    -- Add new "PXY" function to make solution of P joint.
   -- Compile process improvement.
   -- Reduce size while packing AppImage file.
   -- Modules and objects naming adjustment.
