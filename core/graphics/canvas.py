@@ -350,8 +350,11 @@ class BaseCanvas(QWidget):
         elif func == 'PLAP':
             color = QColor(249, 84, 216)
             params = [args[0]]
-        elif func == 'PLPP':
-            color = QColor(94, 255, 185)
+        elif func in ('PLPP', 'PXY'):
+            if func == 'PLPP':
+                color = QColor(94, 255, 185)
+            else:
+                color = QColor(249, 175, 27)
             params = [args[0]]
         params.append(target)
         

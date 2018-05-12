@@ -18,6 +18,7 @@ from core.libs import (
     PLAP,
     PLLP,
     PLPP,
+    PXY,
     vpoints_configure,
     expr_solving,
     topo,
@@ -62,6 +63,12 @@ class CoreTest(TestCase):
         x, y = PLPP(A, sqrt(5), B, C)
         self.assertTrue(isclose(x, 2))
         self.assertTrue(isclose(y, 1))
+    
+    def test_pxy(self):
+        A = Coordinate(80, 90)
+        x, y = PXY(A, 40, -20)
+        self.assertTrue(isclose(x, 120))
+        self.assertTrue(isclose(y, 70))
     
     def test_topologic(self):
         """Testing 'topologic' libraries.

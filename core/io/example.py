@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-#TODO: Add examples as expression.
 
 example_list = {
     #TODO: 2 DOF example.
@@ -72,7 +71,14 @@ example_list = {
         "J[R, color[Green], P[90.0, 0.0], L[ground, link_3]]" +
         "]", ((0, 'ground', 'link_1'),)),
     
-    "Crank slider": ("M[" +
+    "Crank slider (P joint)": (("M[" +
+        "J[R, color[Green], P[-33.625, -19.625], L[ground, link_1]]," +
+        "J[R, color[Green], P[-25.375, 13.125], L[link_1, link_3]]," +
+        "J[R, color[Green], P[17.125, 33.875], L[link_2, link_3]]," +
+        "J[P, A[0.0], color[Green], P[38.38, -20.63], L[ground, link_2]]" +
+        "]"), ((0, 'ground', 'link_1'),)),
+    
+    "Crank slider (RP joint)": ("M[" +
         "J[R, color[Green], P[-67.38, 36.13], L[ground, link_1]], " +
         "J[R, color[Green], P[-68.925, 55.925], L[link_1, link_2]], " +
         "J[RP, A[0.0], color[Green], P[11.88, 0.0], L[ground, link_2, link_3]], " +

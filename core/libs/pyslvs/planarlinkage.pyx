@@ -18,6 +18,7 @@ from tinycadlib import (
     PLAP,
     PLLP,
     PLPP,
+    PXY,
 )
 import numpy as np
 cimport numpy as np
@@ -216,6 +217,8 @@ cdef class Planar:
             return Coordinate(*PLLP(*params))
         elif fun == 'PLPP':
             return Coordinate(*PLPP(*params))
+        elif fun == 'PXY':
+            return Coordinate(*PXY(*params))
     
     cdef double run(self, np.ndarray v) except *:
         """
