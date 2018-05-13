@@ -44,8 +44,8 @@ from core.io import (
     strbetween,
 )
 #Method wrappers.
-from core.widgets import (
-    initCustomWidgets,
+from core.widgets import initCustomWidgets
+from core.main_method import (
     _solver,
     _actions,
     _io,

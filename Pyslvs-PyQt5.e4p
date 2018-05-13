@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-05-11, 10:56:29 -->
+<!-- Saved: 2018-05-13, 11:58:30 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -62,6 +62,12 @@
     <Source>core/libs/python_solvespace/__init__.py</Source>
     <Source>core/libs/python_solvespace/planarSolving.py</Source>
     <Source>core/main.py</Source>
+    <Source>core/main_method/__init__.py</Source>
+    <Source>core/main_method/actions.py</Source>
+    <Source>core/main_method/entities.py</Source>
+    <Source>core/main_method/io.py</Source>
+    <Source>core/main_method/solver.py</Source>
+    <Source>core/main_method/storage.py</Source>
     <Source>core/synthesis/Collections/Structure.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_collections.py</Source>
@@ -99,16 +105,11 @@
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/Ui_inputs.py</Source>
     <Source>core/widgets/__init__.py</Source>
-    <Source>core/widgets/actions_method.py</Source>
-    <Source>core/widgets/canvas_method.py</Source>
     <Source>core/widgets/custom.py</Source>
-    <Source>core/widgets/entities_method.py</Source>
     <Source>core/widgets/inputs.py</Source>
-    <Source>core/widgets/io_method.py</Source>
     <Source>core/widgets/main_canvas.py</Source>
+    <Source>core/widgets/main_canvas_method.py</Source>
     <Source>core/widgets/rotatable.py</Source>
-    <Source>core/widgets/solver_method.py</Source>
-    <Source>core/widgets/storage_method.py</Source>
     <Source>core/widgets/tables.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>

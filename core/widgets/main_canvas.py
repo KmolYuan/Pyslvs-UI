@@ -23,8 +23,8 @@ from core.QtModules import (
 )
 from core.graphics import BaseCanvas
 from core.libs import VPoint, VLink
-from . import canvas_method as _method
-from .canvas_method import Selector, FreeMode
+from . import main_canvas_method as _method
+from .main_canvas_method import Selector, FreeMode
 
 
 class DynamicCanvas(BaseCanvas):

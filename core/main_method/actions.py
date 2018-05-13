@@ -14,7 +14,7 @@ from core.QtModules import (
     QPoint,
 )
 from core.io import EditPointTable
-from .entities_method import _deletePoint
+from .entities import _deletePoint
 
 
 def _enablePointContext(self):
