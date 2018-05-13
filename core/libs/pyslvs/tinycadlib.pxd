@@ -22,6 +22,7 @@ cdef class VPoint:
     cdef readonly double x, y, angle
     
     cpdef void move(self, tuple, tuple c2 = *)
+    cpdef void rotate(self, double)
     cpdef double distance(self, VPoint)
     cpdef double slopeAngle(self, VPoint, int num1 = *, int num2 = *)
     cpdef bool grounded(self)

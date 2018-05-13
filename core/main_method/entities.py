@@ -15,9 +15,6 @@ from typing import (
     Dict,
     Optional,
 )
-from core.QtModules import (
-    pyqtSlot,
-)
 from core.entities import (
     EditPointDialog,
     EditLinkDialog,
@@ -270,7 +267,6 @@ def on_action_New_Point_triggered(self):
     _editPoint(self)
 
 
-@pyqtSlot()
 def on_action_Edit_Point_triggered(self):
     """Edit a point with arguments."""
     row = self.EntitiesPoint.currentRow()
@@ -319,12 +315,14 @@ def clonePoint(self):
     self.CommandStack.endMacro()
 
 
-def setFreemoved(self, coords: Tuple[Tuple[int, Tuple[float, float]]]):
+def setFreemoved(self,
+    coords: Tuple[Tuple[int, Tuple[float, float]]]
+):
     """Free move function."""
     self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
         "Point{}".format(c[0]) for c in coords
     )))
-    for row, (x, y) in coords:
+    for row, (x, y, angle) in coords:
         args = self.EntitiesPoint.rowTexts(row)
         args[3] = x
         args[4] = y
@@ -337,7 +335,6 @@ def setFreemoved(self, coords: Tuple[Tuple[int, Tuple[float, float]]]):
     self.CommandStack.endMacro()
 
 
-@pyqtSlot()
 def on_action_New_Link_triggered(self):
     """Create a link with arguments.
     

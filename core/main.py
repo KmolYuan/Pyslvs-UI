@@ -43,8 +43,8 @@ from core.io import (
     XStream,
     strbetween,
 )
-#Method wrappers.
 from core.widgets import initCustomWidgets
+#Method wrappers.
 from core.main_method import (
     _solver,
     _actions,
@@ -525,7 +525,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _entities.clonePoint(self)
     
     @pyqtSlot(tuple)
-    def setFreemoved(self, coordinates: Tuple[Tuple[int, Tuple[float, float]]]):
+    def setFreemoved(self,
+        coordinates: Tuple[Tuple[int, Tuple[float, float]]]
+    ):
         _entities.setFreemoved(self, coordinates)
     
     def setCoordsAsCurrent(self):

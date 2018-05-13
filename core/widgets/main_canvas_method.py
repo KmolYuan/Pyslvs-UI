@@ -9,6 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from enum import Enum
 from math import (
+    degrees,
     sin,
     cos,
     atan2,
@@ -525,10 +526,10 @@ def mouseReleaseEvent(self, event):
                 self.noselected.emit()
         #Edit point coordinates.
         elif (self.freemove != FreeMode.NoFreeMove):
-            self.freemoved.emit(tuple(
-                (row, (self.Points[row].cx, self.Points[row].cy))
-                for row in self.selections
-            ))
+            self.freemoved.emit(tuple((row, (
+                self.Points[row].cx,
+                self.Points[row].cy,
+            )) for row in self.selections))
     self.selector.selection_rect.clear()
     self.selector.middleDragged = False
     self.selector.leftDragged = False
@@ -568,12 +569,11 @@ def mouseMoveEvent(self, event):
             elif self.freemove == FreeMode.Rotate:
                 #Free move rotate function.
                 alpha = atan2(y, x) - atan2(
-                    self.selector.y / -self.zoom,
-                    self.selector.x / self.zoom
+                    -self.selector.y, self.selector.x
                 )
                 QToolTip.showText(
                     event.globalPos(),
-                    "{:+.02f}°".format(alpha),
+                    "{:+.02f}°".format(degrees(alpha)),
                     self
                 )
                 for row in self.selections:
@@ -634,8 +634,8 @@ def zoomToFit(self):
     """Zoom to fit function."""
     width = self.width()
     height = self.height()
-    width = width if not width==0 else 1
-    height = height if not height==0 else 1
+    width = width if not (width == 0) else 1
+    height = height if not (height == 0) else 1
     x_right, x_left, y_top, y_bottom = _zoomToFitLimit(self)
     inf = float('inf')
     if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
