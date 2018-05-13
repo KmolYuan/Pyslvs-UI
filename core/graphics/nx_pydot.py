@@ -47,11 +47,12 @@ _graphviz_engine = (
     "twopi",
     "circo",
 )
-EngineList = []
+
+engines = []
 for engine_name in _nx_engine:
-    EngineList.append("NetworkX - {}".format(engine_name))
+    engines.append("NetworkX - {}".format(engine_name))
 for engine_name in _graphviz_engine:
-    EngineList.append("Graphviz - {}".format(engine_name))
+    engines.append("Graphviz - {}".format(engine_name))
 
 
 class EngineError(Exception):
@@ -59,6 +60,7 @@ class EngineError(Exception):
 
 
 def _reversed_graph(G: Graph) -> Graph:
+    """Edges will become nodes."""
     G_ = Graph()
     nodes = dict(edges_view(G))
     for i, (l1, l2) in nodes.items():

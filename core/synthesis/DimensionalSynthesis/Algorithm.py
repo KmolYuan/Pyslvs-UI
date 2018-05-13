@@ -60,23 +60,35 @@ from .Ui_Algorithm import Ui_Form
 
 class DimensionalSynthesis(QWidget, Ui_Form):
     
-    """Dimensional synthesis widget."""
+    """Dimensional synthesis widget.
+    
+    User can run the dimensional synthesis here.
+    """
     
     def __init__(self, parent):
+        """Reference names:
+        
+        + Iteration collections.
+        + Result data.
+        + Main window function references.
+        """
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
+        
         self.mech_params = {}
         self.path = {}
-        #A pointer reference of 'collections'.
+        
+        #Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
         self.getCollection = parent.getCollection
-        #Data and functions.
-        self.mechanism_data = []
         self.inputFrom = parent.inputFrom
         self.unsaveFunc = parent.workbookNoSave
         self.mergeResult = parent.mergeResult
         self.updateRanges = parent.MainCanvas.updateRanges
         self.setSolvingPath = parent.MainCanvas.setSolvingPath
+        
+        #Data and functions.
+        self.mechanism_data = []
         self.Settings = deepcopy(defaultSettings)
         self.__setAlgorithmToDefault()
         
@@ -90,18 +102,22 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
+        
         #Splitter
         self.up_splitter.setSizes([80, 100])
+        
         #Table widget column width.
         self.ground_joints.setColumnWidth(0, 50)
         self.ground_joints.setColumnWidth(1, 80)
         self.ground_joints.setColumnWidth(2, 70)
         self.ground_joints.setColumnWidth(3, 70)
         self.ground_joints.setColumnWidth(4, 80)
+        
         #Default value of algorithm parameters.
         self.type0.clicked.connect(self.__setAlgorithmToDefault)
         self.type1.clicked.connect(self.__setAlgorithmToDefault)
         self.type2.clicked.connect(self.__setAlgorithmToDefault)
+        
         #Signals
         self.Result_list.clicked.connect(self.__hasResult)
         self.path_clear.clicked.connect(self.__clearPath)

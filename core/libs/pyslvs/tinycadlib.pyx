@@ -80,7 +80,8 @@ cdef class VPoint:
     cpdef void move(self, tuple c1, tuple c2 = None):
         """Change coordinates of this point."""
         self.c[0] = c1
-        self.c[1] = c2
+        if self.type != 0:
+            self.c[1] = c2 if c2 else c1
     
     cpdef double distance(self, VPoint p):
         """Distance."""
@@ -122,23 +123,6 @@ cdef class VPoint:
             self.colorSTR,
             "{}, {}".format(self.x, self.y),
             ", ".join(l for l in self.links)
-        )
-    
-    def __richcmp__(p1: VPoint, p2: VPoint, op: int):
-        """Equal comparison.
-        
-        op == 2: __eq__
-        op == 3: __ne__
-        """
-        if (op != 2) and (op != 3):
-            raise TypeError("Only allow to compare two VPoints.")
-        return (
-            (op == 2) and
-            (p1.x == p2.x) and
-            (p1.y == p2.y) and
-            (p1.cx == p2.cx) and
-            (p1.cy == p2.cy) and
-            (p1.angle == p2.angle)
         )
     
     def __getitem__(self, i: int):
@@ -536,24 +520,43 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
     + Counting DOF and targets.
     """
     for expr in exprs:
-        #Link 1: expr[2]
-        data_dict[expr[2]] = tuple_distance(
-            pos[mapping_r[expr[1]]],
-            pos[mapping_r[expr[-1]]]
-        )
         if expr[0] == 'PLAP':
+            #Link 1: expr[2]
+            data_dict[expr[2]] = tuple_distance(
+                pos[mapping_r[expr[1]]],
+                pos[mapping_r[expr[-1]]]
+            )
             #Inputs
             dof += 1
         elif expr[0] == 'PLLP':
+            #Link 1: expr[2]
+            data_dict[expr[2]] = tuple_distance(
+                pos[mapping_r[expr[1]]],
+                pos[mapping_r[expr[-1]]]
+            )
             #Link 2: expr[3]
             data_dict[expr[3]] = tuple_distance(
                 pos[mapping_r[expr[4]]],
                 pos[mapping_r[expr[-1]]]
             )
         elif expr[0] == 'PLPP':
+            #Link 1: expr[2]
+            data_dict[expr[2]] = tuple_distance(
+                pos[mapping_r[expr[1]]],
+                pos[mapping_r[expr[-1]]]
+            )
             #PLPP[P1, L0, P2, S2](P2)
             #So we should get P2 first.
             data_dict[expr[3]] = pos[mapping_r[expr[3]]]
+        elif expr[0] == 'PXY':
+            #X: expr[2]
+            data_dict[expr[2]] = (
+                pos[mapping_r[expr[-1]]][0] - pos[mapping_r[expr[1]]][0]
+            )
+            #Y: expr[3]
+            data_dict[expr[3]] = (
+                pos[mapping_r[expr[-1]]][1] - pos[mapping_r[expr[1]]][1]
+            )
         #Targets
         targets.add(expr[-1])
     

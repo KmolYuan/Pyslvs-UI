@@ -36,7 +36,7 @@ from core.io import QTIMAGES
 from core.libs import NumberSynthesis, topo
 from core.graphics import (
     graph,
-    EngineList,
+    engines,
     EngineError,
 )
 from .Ui_Permutations import Ui_Form
@@ -44,21 +44,40 @@ from .Ui_Permutations import Ui_Form
 
 class NumberAndTypeSynthesis(QWidget, Ui_Form):
     
-    """Number and type synthesis widget."""
+    """Number and type synthesis widget.
+    
+    Calculate the combinations of mechanism family and show the atlas.
+    """
     
     def __init__(self, parent):
+        """Reference names:
+        
+        + IO functions from main window.
+        + Table data from PMKS expression.
+        + Graph data function from main window.
+        """
         super(NumberAndTypeSynthesis, self).__init__(parent)
         self.setupUi(self)
+        self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
+        
+        #Function references
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
         self.inputFrom = parent.inputFrom
+        self.jointDataFunc = parent.EntitiesPoint.data
+        self.linkDataFunc = parent.EntitiesLink.data
+        self.getGraph = parent.getGraph
+        
+        #Splitters
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
+        
         self.answer = []
-        self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
+        
+        #Signals
         self.NL_input.valueChanged.connect(self.__adjustStructureData)
         self.NJ_input.valueChanged.connect(self.__adjustStructureData)
-        self.graph_engine.addItems(EngineList)
+        self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(
@@ -67,6 +86,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.Topologic_result.customContextMenuRequested.connect(
             self.__topologicResultContextMenu
         )
+        
         """Context menu
         
         + Add to collections
@@ -86,9 +106,6 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             self.copy_edges,
             self.copy_image
         ])
-        self.jointDataFunc = parent.EntitiesPoint.data
-        self.linkDataFunc = parent.EntitiesLink.data
-        self.getGraph = parent.getGraph
         self.clear()
     
     def clear(self):

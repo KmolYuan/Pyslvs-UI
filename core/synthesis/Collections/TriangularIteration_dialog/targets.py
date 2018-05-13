@@ -41,10 +41,13 @@ class TargetsDialog(QDialog, Ui_Dialog):
     """
     
     def __init__(self, parent):
+        """Filter and show the target option (just like moveable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        
         currentItem = parent.grounded_list.currentItem()
+        
         if currentItem:
             
             def combo_texts(widget) -> Iterator[str]:
@@ -60,6 +63,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
                     .split(", ")
                 )):
                     self.other_list.addItem(text)
+        
         target_list = [text for text in list_texts(parent.target_list)]
         for row, text in list_texts(self.other_list, True):
             if text in target_list:

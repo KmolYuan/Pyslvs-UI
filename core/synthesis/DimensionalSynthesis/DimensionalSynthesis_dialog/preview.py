@@ -8,7 +8,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from math import isnan
-from typing import Tuple
+from typing import (
+    Tuple,
+    Dict,
+    Any,
+)
 from core.QtModules import (
     QTimer,
     QPen,
@@ -31,10 +35,15 @@ class _DynamicCanvas(BaseCanvas):
     
     """Custom canvas for preview algorithm result."""
     
-    def __init__(self, mechanism, Path, parent):
+    def __init__(self,
+        mechanism: Dict[str, Any],
+        path: Tuple[Tuple[Tuple[float, float]]],
+        parent
+    ):
+        """Input linkage and path data."""
         super(_DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
-        self.Path.path = Path
+        self.Path.path = path
         self.length = 0
         for path in self.Path.path:
             l = len(path)
@@ -242,43 +251,50 @@ class PreviewDialog(QDialog, Ui_Dialog):
     We will not be able to change result settings here.
     """
     
-    def __init__(self, mechanism, Path, parent):
+    def __init__(self,
+        mechanism: Dict[str, Any],
+        path: Tuple[Tuple[Tuple[float, float]]],
+        parent
+    ):
+        """Show the informations of results, and setup the preview canvas."""
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
-        self.mechanism = mechanism
         self.setWindowTitle("Preview: {} (max {} generations)".format(
-            self.mechanism['Algorithm'], self.mechanism['lastGen']
+            mechanism['Algorithm'], mechanism['lastGen']
         ))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([800, 100])
         self.splitter.setSizes([100, 100, 100])
-        previewWidget = _DynamicCanvas(self.mechanism, Path, self)
+        previewWidget = _DynamicCanvas(mechanism, path, self)
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         link_tags = []
-        for expr in self.mechanism['Expression'].split(';'):
+        for expr in mechanism['Expression'].split(';'):
             for p in strbetween(expr, '[', ']').split(','):
                 if ('L' in p) and (p not in link_tags):
                     link_tags.append(p)
         self.basic_label.setText("\n".join(
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']] +
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in self.mechanism['Driver']] +
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in self.mechanism['Follower']] +
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in sorted(link_tags)]
+            ["{}: {}".format(tag, mechanism[tag]) for tag in ['Algorithm', 'time']] +
+            ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['Driver']] +
+            ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['Follower']] +
+            ["{}: {}".format(tag, mechanism[tag]) for tag in sorted(link_tags)]
         ))
         #Algorithm information
-        interrupt = self.mechanism['interrupted']
-        fitness = self.mechanism['TimeAndFitness'][-1]
-        self.algorithm_label.setText("<html><head/><body><p>"+
-            "<br/>".join(["Max generation: {}".format(self.mechanism['lastGen'])]+
-            ["Fitness: {}".format(fitness if type(fitness)==float else fitness[1])]+
-            ["<img src=\"{}\" width=\"15\"/>".format(":/icons/task-completed.png" if interrupt=='False' else
-            ":/icons/question-mark.png" if interrupt=='N/A' else ":/icons/interrupted.png")+
-            "Interrupted at: {}".format(interrupt)]+
-            ["{}: {}".format(k, v) for k, v in self.mechanism['settings'].items()])+
+        interrupt = mechanism['interrupted']
+        fitness = mechanism['TimeAndFitness'][-1]
+        self.algorithm_label.setText("<html><head/><body><p>" +
+            "<br/>".join(["Max generation: {}".format(mechanism['lastGen'])] +
+            ["Fitness: {}".format(
+                fitness if (type(fitness) == float) else fitness[1]
+            )] + ["<img src=\"{}\" width=\"15\"/>".format(
+                ":/icons/task-completed.png" if (interrupt == 'False') else
+                ":/icons/question-mark.png" if (interrupt == 'N/A') else
+                ":/icons/interrupted.png"
+            ) + "Interrupted at: {}".format(interrupt)] +
+            ["{}: {}".format(k, v) for k, v in mechanism['settings'].items()]) +
             "</p></body></html>")
         #Hardware information
         self.hardware_label.setText("\n".join([
-            "{}: {}".format(tag, self.mechanism['hardwareInfo'][tag])
+            "{}: {}".format(tag, mechanism['hardwareInfo'][tag])
             for tag in ['os', 'memory', 'cpu']
         ]))

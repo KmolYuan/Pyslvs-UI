@@ -82,9 +82,11 @@ class Options_show(QDialog, Ui_Dialog):
         settings: Dict[str, Any],
         parent
     ):
+        """Load the settings to user interface."""
         super(Options_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        
         self.algorithm = algorithm
         self.settings_tab.setTabText(1, self.algorithm.value)
         self.__initPLTable()

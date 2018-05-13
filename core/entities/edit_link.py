@@ -35,32 +35,37 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     """
     
     def __init__(self,
-        points: List[VPoint],
-        links: List[VLink],
-        pos: bool,
+        vpoints: List[VPoint],
+        vlinks: List[VLink],
+        row: bool,
         parent
     ):
+        """Input data reference from main window.
+        
+        + Needs VPoints and VLinks information.
+        + If row is false: Create action.
+        """
         super(EditLinkDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.points = points
-        self.links = links
+        self.vpoints = vpoints
+        self.vlinks = vlinks
         icon = self.windowIcon()
         self.PointIcon = QIcon(QPixmap(":/icons/bearing.png"))
         for i, e in enumerate(colorNames):
             self.color_box.insertItem(i, colorIcon(e), e)
-        for i in range(len(self.points)):
+        for i in range(len(self.vpoints)):
             self.noSelected.addItem(
                 QListWidgetItem(self.PointIcon, 'Point{}'.format(i))
             )
-        if pos is False:
+        if row is False:
             self.name_box.addItem(icon, "New link")
             self.name_box.setEnabled(False)
             self.color_box.setCurrentIndex(self.color_box.findText('Blue'))
         else:
-            for vlink in self.links:
+            for vlink in self.vlinks:
                 self.name_box.insertItem(i, icon, vlink.name)
-            self.name_box.setCurrentIndex(pos)
+            self.name_box.setCurrentIndex(row)
         self.name_edit.textChanged.connect(self.__isOk)
         self.__isOk()
     
@@ -75,7 +80,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         """Return this name is usable or not."""
         if not name.isidentifier():
             return False
-        for i, vlink in enumerate(self.links):
+        for i, vlink in enumerate(self.vlinks):
             if (i != self.name_box.currentIndex()) and (name == vlink.name):
                 return False
         return True
@@ -83,8 +88,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @pyqtSlot(int)
     def on_name_box_currentIndexChanged(self, index):
         """Load the parameters of the link."""
-        if len(self.links) > index:
-            vlink = self.links[index]
+        if len(self.vlinks) > index:
+            vlink = self.vlinks[index]
             self.name_edit.setText(vlink.name)
             colorText = vlink.colorSTR
             colorIndex = self.color_box.findText(colorText)
@@ -99,7 +104,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
                 self.selected.addItem(
                     QListWidgetItem(self.PointIcon, 'Point{}'.format(point))
                 )
-            for point in range(len(self.points)):
+            for point in range(len(self.vpoints)):
                 if point in vlink.points:
                     continue
                 self.noSelected.addItem(

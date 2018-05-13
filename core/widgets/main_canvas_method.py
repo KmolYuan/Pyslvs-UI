@@ -186,15 +186,15 @@ def _drawLink(self, vlink: VLink):
     points = []
     for i in vlink.points:
         vpoint = self.Points[i]
-        if vpoint.type in (1, 2):
+        if vpoint.type == 0:
+            x = vpoint.cx * self.zoom
+            y = vpoint.cy * -self.zoom
+        else:
             coordinate = vpoint.c[
                 0 if (vlink.name == vpoint.links[0]) else 1
             ]
             x = coordinate[0] * self.zoom
             y = coordinate[1] * -self.zoom
-        else:
-            x = vpoint.cx * self.zoom
-            y = vpoint.cy * -self.zoom
         points.append((x, y))
     pen = QPen(vlink.color)
     pen.setWidth(self.linkWidth)

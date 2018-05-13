@@ -18,12 +18,7 @@ from typing import (
     Dict,
     Any,
 )
-from core.QtModules import (
-    QThread,
-    pyqtSignal,
-    QMutex,
-    QMutexLocker,
-)
+from core.QtModules import pyqtSignal, QThread
 from core.libs import (
     Genetic,
     Firefly,
@@ -46,9 +41,11 @@ class WorkerThread(QThread):
         mech_params: Dict[str, Any],
         settings: Dict[str, Any]
     ):
+        """Input settings from dialog, then call public method 'start'
+        to start the algorithm.
+        """
         super(WorkerThread, self).__init__(None)
         self.stoped = False
-        self.mutex = QMutex()
         self.type_num = type_num
         self.mech_params = mech_params
         self.settings = settings
@@ -60,8 +57,6 @@ class WorkerThread(QThread):
     
     def run(self):
         """Start the algorithm loop."""
-        with QMutexLocker(self.mutex):
-            self.stoped = False
         for name, path in self.mech_params['Target'].items():
             print("- [{}]: {}".format(name, tuple(
                 (round(x, 2), round(y, 2)) for x, y in path
@@ -143,5 +138,4 @@ class WorkerThread(QThread):
     
     def stop(self):
         """Stop the algorithm."""
-        with QMutexLocker(self.mutex):
-            self.stoped = True
+        self.stoped = True

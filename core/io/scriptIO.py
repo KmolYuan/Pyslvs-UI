@@ -305,6 +305,13 @@ class ScriptDialog(QDialog, Ui_Dialog):
         fileformat: List[str],
         parent
     ):
+        """Input parameters:
+        
+        + Script
+        + Lexer
+        + File name
+        + File suffix
+        """
         super(ScriptDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(

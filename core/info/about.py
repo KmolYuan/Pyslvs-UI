@@ -51,6 +51,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
     """Pyslvs about dialog."""
     
     def __init__(self, parent):
+        """About descript strings."""
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)

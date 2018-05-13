@@ -11,9 +11,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
-    QChart,
-    QSizePolicy,
     Qt,
+    QChart,
+    QValueAxis,
+    QSizePolicy,
     QFont,
 )
 
@@ -22,12 +23,17 @@ class DataChart(QChart):
     
     """A axis setted Qt chart widget."""
     
-    def __init__(self, Title, axisX, axisY):
+    def __init__(self,
+        title: str,
+        axis_x: QValueAxis,
+        axis_y: QValueAxis
+    ):
+        """Input title and two axis, QChart class has no parent."""
         super(DataChart, self).__init__()
-        self.setTitle(Title)
+        self.setTitle(title)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         legend = self.legend()
         legend.setAlignment(Qt.AlignBottom)
         legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
-        self.addAxis(axisX, Qt.AlignBottom)
-        self.addAxis(axisY, Qt.AlignLeft)
+        self.addAxis(axis_x, Qt.AlignBottom)
+        self.addAxis(axis_y, Qt.AlignLeft)

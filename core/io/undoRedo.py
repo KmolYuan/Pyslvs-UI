@@ -52,6 +52,10 @@ class AddTable(QUndoCommand):
     """Add a row at last of the table."""
     
     def __init__(self, table: QTableWidget):
+        """Attributes
+        
+        + Table reference
+        """
         QUndoCommand.__init__(self)
         self.table = table
     
@@ -81,6 +85,12 @@ class DeleteTable(QUndoCommand):
         table: QTableWidget,
         isRename: bool
     ):
+        """Attributes
+        
+        + Table reference
+        + Row
+        + Should rename
+        """
         QUndoCommand.__init__(self)
         self.table = table
         self.row = row
@@ -105,11 +115,17 @@ class FixSequenceNumber(QUndoCommand):
     
     """Fix sequence number when deleting a point."""
     
-    def __init__(self, table, row, q):
+    def __init__(self, table: QTableWidget, row: int, benchmark: int):
+        """Attributes
+        
+        + Table reference
+        + Row
+        + Benchmark
+        """
         QUndoCommand.__init__(self)
         self.table = table
         self.row = row
-        self.q = q
+        self.benchmark = benchmark
     
     def redo(self):
         self.sorting(True)
@@ -118,15 +134,15 @@ class FixSequenceNumber(QUndoCommand):
         self.sorting(False)
     
     def sorting(self, bs: bool):
-        """Sorting point number by q."""
+        """Sorting point number by benchmark."""
         item = self.table.item(self.row, 2)
         if not item.text():
             return
         points = [int(p.replace('Point', '')) for p in item.text().split(',')]
         if bs:
-            points = [p-1 if p > self.q else p for p in points]
+            points = [p-1 if p > self.benchmark else p for p in points]
         else:
-            points = [p+1 if p >= self.q else p for p in points]
+            points = [p+1 if p >= self.benchmark else p for p in points]
         points = ['Point{}'.format(p) for p in points]
         item.setText(','.join(points))
 

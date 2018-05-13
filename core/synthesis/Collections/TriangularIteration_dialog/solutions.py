@@ -20,17 +20,19 @@ class SolutionsDialog(QDialog, Ui_Dialog):
     
     """Option dialog.
     
-    PLAP: Must have a driving joint.
-    PLLP: Two known joints.
+    + PLAP: Must have a driving joint.
+    + PLLP: Two known joints.
     
     Only edit the settings after closed.
     """
     
-    def __init__(self, mode, parent):
+    def __init__(self, mode: str, parent):
+        """Show the requirements and preview picture on interface."""
         super(SolutionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("{} solution".format(mode))
+        
         if mode == 'PLAP':
             self.main_label.setText(
                 "Two known points A (Driver) and B, " +
@@ -45,6 +47,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
                 "with length L0 and R0 to find out the coordinate of point C."
             )
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
+        
         for node, status in parent.PreviewWindow.status.items():
             if not status:
                 continue
@@ -60,7 +63,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
     def __isOk(self):
         """Make button box enable if the settings is already."""
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
-            self.point_A.currentText()!=self.point_B.currentText() and
+            (self.point_A.currentText() != self.point_B.currentText()) and
             bool(self.point_A.currentText()) and
             bool(self.point_B.currentText())
         )

@@ -46,7 +46,7 @@ def _get_list(item: QListWidget) -> Iterator[str]:
 
 def _four_bar_loops(G: Graph) -> Iterator[Tuple[int, int, int, int]]:
     """A generator to find out the four bar loops."""
-    result = set([])
+    result = set()
     vertexes = {v: k for k, v in edges_view(G)}
     
     def loop_set(
@@ -93,13 +93,15 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     """
     
     def __init__(self, parent):
+        """Load constraints option from parent."""
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        cl = tuple(
+        
+        cl = {
             set(_get_list(item))
             for item in list_items(parent.constraint_list)
-        )
+        }
         for chain in _four_bar_loops(parent.PreviewWindow.G):
             chain = sorted(chain)
             for i, n in enumerate(chain):

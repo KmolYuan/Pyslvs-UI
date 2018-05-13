@@ -28,14 +28,17 @@ class CustomsDialog(QDialog, Ui_Dialog):
     """
     
     def __init__(self, parent):
+        """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        
         self.cus = parent.PreviewWindow.cus
         self.same = parent.PreviewWindow.same
         self.pos = parent.PreviewWindow.pos
         self.status = parent.PreviewWindow.status
         self.joint_combobox = parent.joint_name
+        
         for row in range(parent.grounded_list.count()):
             self.link_choose.addItem(parent.grounded_list.item(row).text())
         for name, link in self.cus.items():

@@ -51,11 +51,15 @@ from .Ui_TriangularIteration import Ui_Form
 
 class _PreviewWindow(PreviewCanvas):
     
-    """Preview window has some functions of mouse interaction."""
+    """Customized preview window has some functions of mouse interaction.
+    
+    Emit signal call to change current point when pressed a dot.
+    """
     
     set_joint_number = pyqtSignal(int)
     
     def __init__(self, get_solutions: Callable[[], Tuple[str]], parent):
+        """Add a function use to get current point from parent."""
         super(_PreviewWindow, self).__init__(get_solutions, parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
@@ -81,7 +85,7 @@ class _PreviewWindow(PreviewCanvas):
         if not self.pressed:
             return
         row = self.get_joint_number()
-        if not row>-1:
+        if not row > -1:
             return
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
@@ -98,19 +102,26 @@ class _PreviewWindow(PreviewCanvas):
 
 class TriangularIterationWidget(QWidget, Ui_Form):
     
-    """Triangular iteration widget."""
+    """Triangular iteration widget.
+    
+    This interface use to modify structure profile.
+    """
     
     def __init__(self,
         addToCollection: Callable[[Tuple[Tuple[int, int]]], None],
         parent
     ):
+        """We need some function from structure collections."""
         super(TriangularIterationWidget, self).__init__(parent)
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
         self.getCollection = parent.getCollection
         self.addToCollection = addToCollection
+        
+        #Iteration data.
         self.collections = {}
-        #Canvas
+        
+        #Customized preview canvas.
         self.PreviewWindow = _PreviewWindow(
             lambda: ';'.join(
                 self.expression_list.item(row).text()
@@ -123,6 +134,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         )
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
+        
         #Signals
         self.joint_name.currentIndexChanged.connect(self.__hasSolution)
         self.clear()
@@ -451,7 +463,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     def __symbols(self) -> Set[List[str]]:
         """Return all symbols."""
-        expr_list = set([])
+        expr_list = set()
         for expr in self.expr_show.text().split(';'):
             param_list = strbetween(expr, '[', ']').split(',')
             param_list.append(strbetween(expr, '(', ')'))
