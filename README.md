@@ -22,12 +22,12 @@ Website: <http://www.pyslvs.com/blog/index.html>
 1. [Modules Requirement](#modules-requirement)
 
     + [Graphviz (Optional)](#graphviz-optional)
-    + [PyQt Stuff](#pyqt-stuff)
+    + [PyQt Stuff (Development)](#pyqt-stuff-development)
 
 1. [Kernels Requirement](#kernels-requirement)
 
-    + [Python-solvespace Kernel](#python-solvespace-kernel)
     + [Cython Kernel](#cython-kernel)
+    + [Python-solvespace Kernel](#python-solvespace-kernel)
 
 1. [Stand-alone Executable File](#stand-alone-executable-file)
 
@@ -215,7 +215,7 @@ Then use the `dot` command to check if it works.
 
 If you are not willing to install Graphviz, you can just using built-in layout from NetworkX.
 
-## PyQt Stuff
+## PyQt Stuff (Development)
 
 PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can use them.
 
@@ -265,6 +265,39 @@ make build-kernel
 ```
 
 This project including 2 kernels should build, please following the steps if you are first time to use.
+
+## Cython Kernel
+
+Cython libraries of Pyslvs, including:
+
++ Dimensional synthesis algorithms.
++ Number synthesis function.
++ Type synthesis algorithms.
++ Triangle solver.
+
+Make command:
+
+```bash
+make build-cython
+```
+
+**Ubuntu**:
+
+Ubuntu user can compile the kernel by Cython directly.
+
+**Windows**:
+
+There's two options to choose SDK:
+
+1. Using Microsoft Visual Studio. You can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
+1. Using [Msys 2][msys]. It is based on MinGW 64-bit version.
+1. Just using [MinGW 64-bit][mingw64].
+
+[visualstudio-link]: https://www.visualstudio.com/downloads/
+[msys]: http://www.msys2.org/
+[mingw64]: https://sourceforge.net/projects/mingw-w64/
+
+When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
 
 ## Python-solvespace Kernel
 
@@ -347,34 +380,6 @@ Edit it to this:
 #define hypot _hypot
 #endif
 ```
-
-## Cython Kernel
-
-Type and Dimensional synthesis libraries.
-
-Make command:
-
-```bash
-make build-cython
-```
-
-**Ubuntu**:
-
-Ubuntu user can compile the kernel by Cython directly.
-
-**Windows**:
-
-There's two options to choose SDK:
-
-1. Using Microsoft Visual Studio. You can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
-1. Using [Msys 2][msys]. It is based on MinGW 64-bit version.
-1. Just using [MinGW 64-bit][mingw64].
-
-[visualstudio-link]: https://www.visualstudio.com/downloads/
-[msys]: http://www.msys2.org/
-[mingw64]: https://sourceforge.net/projects/mingw-w64/
-
-When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
 
 # Stand-alone Executable File
 
