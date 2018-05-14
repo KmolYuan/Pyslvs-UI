@@ -75,7 +75,7 @@ example_list = {
         "J[R, color[Green], P[-33.625, -19.625], L[ground, link_1]]," +
         "J[R, color[Green], P[-25.375, 13.125], L[link_1, link_3]]," +
         "J[R, color[Green], P[17.125, 33.875], L[link_2, link_3]]," +
-        "J[P, A[0.0], color[Green], P[38.38, -20.63], L[ground, link_2]]" +
+        "J[P, A[30.0], color[Green], P[38.38, -20.63], L[ground, link_2]]" +
         "]"), ((0, 'ground', 'link_1'),)),
     
     "Crank slider (RP joint)": ("M[" +

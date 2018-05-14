@@ -83,8 +83,12 @@ cdef class VPoint:
         if self.type != 0:
             self.c[1] = c2 if c2 else c1
     
+    cpdef void rotate(self, double angle):
+        """Change the angle of slider slot."""
+        self.angle = angle
+    
     cpdef double distance(self, VPoint p):
-        """Distance."""
+        """Distance between two VPoint."""
         return distance(self.x, self.y, p.x, p.y)
     
     cpdef double slopeAngle(self, VPoint p, int num1 = -1, int num2 = -1):
@@ -112,6 +116,7 @@ cdef class VPoint:
         return np.rad2deg(atan2(y1 - y2, x1 - x2))
     
     cpdef bool grounded(self):
+        """Return True if the joint is connect with the ground."""
         return 'ground' in self.links
     
     @property
