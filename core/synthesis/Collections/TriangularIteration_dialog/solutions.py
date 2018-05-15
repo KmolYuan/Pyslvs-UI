@@ -44,7 +44,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
         elif mode == 'PLLP':
             self.main_label.setText(
                 "Two known points A and B, " +
-                "with length L0 and R0 to find out the coordinate of point C."
+                "with length L0 and L1 to find out the coordinate of point C."
             )
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
         
