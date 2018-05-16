@@ -57,46 +57,50 @@ Group.remap={
 AddGroup"""]
 
 
-entity_plane = lambda n, p, v, : '\n'.join([
-    "Entity.h.v={:08x}".format(n),
-    "Entity.type={}".format(10000),
-    "Entity.construction={}".format(0),
-    "Entity.point[0].v={:08x}".format(p),
-    "Entity.normal.v={:08x}".format(v),
-    "Entity.actVisible=1",
-    "AddEntity"
-])
+def _entity_plane(n, p, v):
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(n),
+        "Entity.type={}".format(10000),
+        "Entity.construction={}".format(0),
+        "Entity.point[0].v={:08x}".format(p),
+        "Entity.normal.v={:08x}".format(v),
+        "Entity.actVisible=1",
+        "AddEntity"
+    ])
 
-entity_point = lambda n, t=2000, con=0: '\n'.join([
-    "Entity.h.v={:08x}".format(n),
-    "Entity.type={}".format(t),
-    "Entity.construction={}".format(con),
-    "Entity.actVisible=1",
-    "AddEntity"
-])
+def _entity_point(n, t=2000, con=0):
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(n),
+        "Entity.type={}".format(t),
+        "Entity.construction={}".format(con),
+        "Entity.actVisible=1",
+        "AddEntity"
+    ])
 
-entity_normal_w = lambda n, p, t=3000: '\n'.join([
-    "Entity.h.v={:08x}".format(n),
-    "Entity.type={}".format(t),
-    "Entity.construction={}".format(0),
-    "Entity.point[0].v={:08x}".format(p),
-    "Entity.actNormal.w={:.020f}".format(1),
-    "Entity.actVisible=1",
-    "AddEntity"
-])
+def _entity_normal_w(n, p, t=3000):
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(n),
+        "Entity.type={}".format(t),
+        "Entity.construction={}".format(0),
+        "Entity.point[0].v={:08x}".format(p),
+        "Entity.actNormal.w={:.020f}".format(1),
+        "Entity.actVisible=1",
+        "AddEntity"
+    ])
 
-entity_normal_xyz = lambda n, p, reversed=False: '\n'.join([
-    "Entity.h.v={:08x}".format(n),
-    "Entity.type={}".format(3000),
-    "Entity.construction={}".format(0),
-    "Entity.point[0].v={:08x}".format(p),
-    "Entity.actNormal.w={:.020f}".format(0.5),
-    "Entity.actNormal.vx={:.020f}".format(-0.5 if reversed else 0.5),
-    "Entity.actNormal.vy={:.020f}".format(-0.5 if reversed else 0.5),
-    "Entity.actNormal.vz={:.020f}".format(-0.5 if reversed else 0.5),
-    "Entity.actVisible=1",
-    "AddEntity"
-])
+def _entity_normal_xyz(n, p, reversed=False):
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(n),
+        "Entity.type={}".format(3000),
+        "Entity.construction={}".format(0),
+        "Entity.point[0].v={:08x}".format(p),
+        "Entity.actNormal.w={:.020f}".format(0.5),
+        "Entity.actNormal.vx={:.020f}".format(-0.5 if reversed else 0.5),
+        "Entity.actNormal.vy={:.020f}".format(-0.5 if reversed else 0.5),
+        "Entity.actNormal.vz={:.020f}".format(-0.5 if reversed else 0.5),
+        "Entity.actVisible=1",
+        "AddEntity"
+    ])
 
 
 def slvs2D(
@@ -118,15 +122,15 @@ def slvs2D(
         "Request.h.v={:08x}\nRequest.type=100\nRequest.group.v=00000001\nRequest.construction=0\nAddRequest".format(n) for n in range(1, 4)
     )]
     script_entity = ['\n\n'.join([
-        entity_plane(0x10000, 0x10001, 0x10020),
-        entity_point(0x10001),
-        entity_normal_w(0x10020, 0x10001),
-        entity_plane(0x20000, 0x20001, 0x20020),
-        entity_point(0x20001),
-        entity_normal_xyz(0x20020, 0x20001),
-        entity_plane(0x30000, 0x30001, 0x30020),
-        entity_point(0x30001),
-        entity_normal_xyz(0x30020, 0x30001, True)
+        _entity_plane(0x10000, 0x10001, 0x10020),
+        _entity_point(0x10001),
+        _entity_normal_w(0x10020, 0x10001),
+        _entity_plane(0x20000, 0x20001, 0x20020),
+        _entity_point(0x20001),
+        _entity_normal_xyz(0x20020, 0x20001),
+        _entity_plane(0x30000, 0x30001, 0x30020),
+        _entity_point(0x30001),
+        _entity_normal_xyz(0x30020, 0x30001, True)
     ])]
     #The number of same points.
     point_num = [[] for i in range(len(VPoints))]
@@ -158,9 +162,9 @@ def slvs2D(
             line_num[i].append(entity_num)
         entity_num = _up(entity_num, 4)
     script_entity.append('\n\n'.join([
-        entity_plane(0x80020000, 0x80020002, 0x80020001),
-        entity_normal_w(0x80020001, 0x80020002, 3010),
-        entity_point(0x80020002, 2012, 1)
+        _entity_plane(0x80020000, 0x80020002, 0x80020001),
+        _entity_normal_w(0x80020001, 0x80020002, 3010),
+        _entity_point(0x80020002, 2012, 1)
     ]))
     #Add "Constraint"
     script_constraint = []
@@ -202,119 +206,129 @@ def _up(num, digit):
     return num
 
 
-_Param = lambda num, val: '\n'.join([
-    "Param.h.v.={:08x}".format(num),
-    "Param.val={:.20f}".format(val),
-    "AddParam"
-])
+def _Param(num, val):
+    return '\n'.join([
+        "Param.h.v.={:08x}".format(num),
+        "Param.val={:.20f}".format(val),
+        "AddParam"
+    ])
 
-_Request = lambda num: '\n'.join([
-    "Request.h.v={:08x}".format(num),
-    "Request.type=200",
-    "Request.workplane.v=80020000",
-    "Request.group.v=00000002",
-    "Request.construction=0",
-    "AddRequest"
-])
+def _Request(num):
+    return '\n'.join([
+        "Request.h.v={:08x}".format(num),
+        "Request.type=200",
+        "Request.workplane.v=80020000",
+        "Request.group.v=00000002",
+        "Request.construction=0",
+        "AddRequest"
+    ])
 
-_Entity_line = lambda num: '\n'.join([
-    "Entity.h.v={:08x}".format(num),
-    "Entity.type={}".format(11000),
-    "Entity.construction={}".format(0),
-    "Entity.point[0].v={:08x}".format(num+1),
-    "Entity.point[1].v={:08x}".format(num+2),
-    "Entity.workplane.v=80020000",
-    "Entity.actVisible=1",
-    "AddEntity"
-])
+def _Entity_line(num):
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(11000),
+        "Entity.construction={}".format(0),
+        "Entity.point[0].v={:08x}".format(num+1),
+        "Entity.point[1].v={:08x}".format(num+2),
+        "Entity.workplane.v=80020000",
+        "Entity.actVisible=1",
+        "AddEntity"
+    ])
 
-_Entity_point = lambda num, x, y: '\n'.join([
-    "Entity.h.v={:08x}".format(num),
-    "Entity.type={}".format(2001),
-    "Entity.construction={}".format(0),
-    "Entity.workplane.v=80020000",
-    "Entity.actPoint.x={:.20f}".format(x),
-    "Entity.actPoint.y={:.20f}".format(y),
-    "Entity.actVisible=1",
-    "AddEntity"
-])
+def _Entity_point(num, x, y):
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(2001),
+        "Entity.construction={}".format(0),
+        "Entity.workplane.v=80020000",
+        "Entity.actPoint.x={:.20f}".format(x),
+        "Entity.actPoint.y={:.20f}".format(y),
+        "Entity.actVisible=1",
+        "AddEntity"
+    ])
 
-_Constraint_point = lambda num, p1, p2: '\n'.join([
-    "Constraint.h.v={0:08x}".format(num),
-    "Constraint.type={}".format(20),
-    "Constraint.group.v=00000002",
-    "Constraint.workplane.v=80020000",
-    "Constraint.ptA.v={:08x}".format(p1),
-    "Constraint.ptB.v={:08x}".format(p2),
-    "Constraint.other=0",
-    "Constraint.other2=0",
-    "Constraint.reference=0",
-    "AddConstraint"
-])
+def _Constraint_point(num, p1, p2):
+    return '\n'.join([
+        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.type={}".format(20),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.ptA.v={:08x}".format(p1),
+        "Constraint.ptB.v={:08x}".format(p2),
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "AddConstraint"
+    ])
 
-_Constraint_fix = lambda num, p0, x, y: (
-    _Constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
-    _Constraint_fix_hv(num+1, p0, 0x20000, x)
-)
+def _Constraint_fix(num, p0, x, y):
+    return (
+        _Constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
+        _Constraint_fix_hv(num+1, p0, 0x20000, x)
+    )
 
-_Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
-    "Constraint.h.v={0:08x}".format(num),
-    "Constraint.type={}".format(31),
-    "Constraint.group.v=00000002",
-    "Constraint.workplane.v=80020000",
-    "Constraint.valA={:.20f}".format(val),
-    "Constraint.ptA.v={:08x}".format(p0),
-    "Constraint.entityA.v={:08x}".format(phv),
-    "Constraint.other=0",
-    "Constraint.other2=0",
-    "Constraint.reference=0",
-    "Constraint.disp.offset.x={:.20f}".format(10),
-    "Constraint.disp.offset.y={:.20f}".format(10),
-    "AddConstraint"
-])
+def _Constraint_fix_hv(num, p0, phv, val):
+    return '\n'.join([
+        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.type={}".format(31),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.valA={:.20f}".format(val),
+        "Constraint.ptA.v={:08x}".format(p0),
+        "Constraint.entityA.v={:08x}".format(phv),
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.disp.offset.x={:.20f}".format(10),
+        "Constraint.disp.offset.y={:.20f}".format(10),
+        "AddConstraint"
+    ])
 
-_Constraint_line = lambda num, p1, p2, leng: '\n'.join([
-    "Constraint.h.v={0:08x}".format(num),
-    "Constraint.type={}".format(30),
-    "Constraint.group.v=00000002",
-    "Constraint.workplane.v=80020000",
-    "Constraint.valA={:.20f}".format(leng),
-    "Constraint.ptA.v={:08x}".format(p1),
-    "Constraint.ptB.v={:08x}".format(p2),
-    "Constraint.other=0",
-    "Constraint.other2=0",
-    "Constraint.reference=0",
-    "Constraint.disp.offset.x={:.20f}".format(10),
-    "Constraint.disp.offset.y={:.20f}".format(10),
-    "AddConstraint"
-])
+def _Constraint_line(num, p1, p2, leng):
+    return '\n'.join([
+        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.type={}".format(30),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.valA={:.20f}".format(leng),
+        "Constraint.ptA.v={:08x}".format(p1),
+        "Constraint.ptB.v={:08x}".format(p2),
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.disp.offset.x={:.20f}".format(10),
+        "Constraint.disp.offset.y={:.20f}".format(10),
+        "AddConstraint"
+    ])
 
-_Constraint_angle = lambda num, l1, l2, angle: '\n'.join([
-    "Constraint.h.v={0:08x}".format(num),
-    "Constraint.type={}".format(120),
-    "Constraint.group.v=00000002",
-    "Constraint.workplane.v=80020000",
-    "Constraint.valA={:.20f}".format(angle),
-    "Constraint.ptA.v={:08x}".format(l1),
-    "Constraint.ptB.v={:08x}".format(l2),
-    "Constraint.other=1",
-    "Constraint.other2=0",
-    "Constraint.reference=0",
-    "Constraint.disp.offset.x={:.20f}".format(10),
-    "Constraint.disp.offset.y={:.20f}".format(10),
-    "AddConstraint"
-])
+def _Constraint_angle(num, l1, l2, angle):
+    return '\n'.join([
+        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.type={}".format(120),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.valA={:.20f}".format(angle),
+        "Constraint.ptA.v={:08x}".format(l1),
+        "Constraint.ptB.v={:08x}".format(l2),
+        "Constraint.other=1",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.disp.offset.x={:.20f}".format(10),
+        "Constraint.disp.offset.y={:.20f}".format(10),
+        "AddConstraint"
+    ])
 
-_Constraint_comment = lambda num, comment, x, y: '\n'.join([
-    "Constraint.h.v={:08x}".format(num),
-    "Constraint.type={}".format(1000),
-    "Constraint.group.v=00000002",
-    "Constraint.workplane.v=80020000",
-    "Constraint.other=0",
-    "Constraint.other2=0",
-    "Constraint.reference=0",
-    "Constraint.comment={}".format(comment),
-    "Constraint.disp.offset.x={:.20f}".format(x),
-    "Constraint.disp.offset.y={:.20f}".format(y),
-    "AddConstraint"
-])
+def _Constraint_comment(num, comment, x, y):
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(1000),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.comment={}".format(comment),
+        "Constraint.disp.offset.x={:.20f}".format(x),
+        "Constraint.disp.offset.y={:.20f}".format(y),
+        "AddConstraint"
+    ])
