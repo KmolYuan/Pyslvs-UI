@@ -21,6 +21,9 @@ __all__ = ['main']
 
 def main():
     """Startup function."""
+    if ARGUMENTS.test:
+        print("All module loaded successfully.")
+        exit(0)
     for info in INFO:
         print(info)
     print('-' * 7)

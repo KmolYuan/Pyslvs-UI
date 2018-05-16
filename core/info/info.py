@@ -105,6 +105,12 @@ _parser.add_argument(
     action = 'store_true',
     help = "do not connect to GUI console when opening"
 )
+_parser.add_argument(
+    '-t',
+    '--test',
+    action = 'store_true',
+    help = "just test module states and exit"
+)
 ARGUMENTS = _parser.parse_args()
 
 
