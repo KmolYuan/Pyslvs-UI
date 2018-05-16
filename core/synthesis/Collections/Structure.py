@@ -206,7 +206,7 @@ class StructureWidget(QWidget, Ui_Form):
         try:
             edges = eval(edgesSTR)
             if any(len(edge)!=2 for edge in edges):
-                raise SyntaxError("Wrong format")
+                raise IOError("Wrong format")
         except Exception as e:
             QMessageBox.warning(self, str(e), "Error: {}".format(e))
             return
