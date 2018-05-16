@@ -13,6 +13,7 @@ Version 18.05:
     -- Add color picker in setting interface.
   -- Add copy path function in path context menu.
   -- Path preview function are support P joint.
+  -- Comments will be generate into a new layout in Solvespace format.
 - Development
   -- Expression grammar:
     -- New highlight module Pygments, use to support Python and PMKS expression.

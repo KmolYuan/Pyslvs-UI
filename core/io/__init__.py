@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .scriptIO import ScriptDialog, slvsProcessScript
-from .undoRedo import (
+from .script_io import ScriptDialog, slvsProcessScript
+from .undo_redo import (
     AddTable, DeleteTable,
     FixSequenceNumber,
     EditPointTable, EditLinkTable,
@@ -18,15 +18,15 @@ from .undoRedo import (
     AddVariable, DeleteVariable,
 )
 from .images import QTIMAGES
-from .slvsIO import slvs2D
-from .dxfIO import dxfSketch
+from .slvs_io import slvs2D
+from .dxf_io import dxfSketch
 from .loggingHandler import XStream
 from .parser import (
     parse_params,
     parse_vpoints,
     PMKSLexer,
 )
-from .peeweeIO import FileWidget
+from .peewee_io import FileWidget
 
 __all__ = [
     'ScriptDialog',
@@ -57,6 +57,11 @@ __all__ = [
 ]
 
 
-"""Get from parenthesis."""
-strbetween = lambda s, front, back: s[(s.find(front) + 1):s.find(back)]
-strbefore = lambda s, front: s[:s.find(front)]
+def strbetween(s: str, front: str, back: str) -> str:
+    """Get from parenthesis."""
+    return s[(s.find(front) + 1):s.find(back)]
+
+
+def strbefore(s: str, front: str) -> str:
+    """Get from parenthesis."""
+    return s[:s.find(front)]

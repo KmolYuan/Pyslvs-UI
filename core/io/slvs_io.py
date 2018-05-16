@@ -54,10 +54,33 @@ Group.allDimsReference=0
 Group.scale=1.00000000000000000000
 Group.remap={
 }
+AddGroup
+
+Group.h.v=00000003
+Group.type=5001
+Group.order=1
+Group.name=comments
+Group.activeWorkplane.v=80020000
+Group.color=ff000000
+Group.subtype=6000
+Group.skipFirst=0
+Group.predef.q.w=1.00000000000000000000
+Group.predef.origin.v=00010001
+Group.predef.swapUV=0
+Group.predef.negateU=0
+Group.predef.negateV=0
+Group.visible=1
+Group.suppress=0
+Group.relaxConstraints=0
+Group.allowRedundant=0
+Group.allDimsReference=0
+Group.scale=1.00000000000000000000
+Group.remap={
+}
 AddGroup"""]
 
 
-def _entity_plane(n, p, v):
+def _entity_plane(n: int, p: int, v: int) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(n),
         "Entity.type={}".format(10000),
@@ -68,7 +91,8 @@ def _entity_plane(n, p, v):
         "AddEntity"
     ])
 
-def _entity_point(n, t=2000, con=0):
+
+def _entity_point(n: int, t: int = 2000, con: int = 0) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(n),
         "Entity.type={}".format(t),
@@ -77,7 +101,8 @@ def _entity_point(n, t=2000, con=0):
         "AddEntity"
     ])
 
-def _entity_normal_w(n, p, t=3000):
+
+def _entity_normal_w(n: int, p: int, t: int = 3000) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(n),
         "Entity.type={}".format(t),
@@ -88,7 +113,8 @@ def _entity_normal_w(n, p, t=3000):
         "AddEntity"
     ])
 
-def _entity_normal_xyz(n, p, reversed=False):
+
+def _entity_normal_xyz(n: int, p: int, *, reversed: bool = False) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(n),
         "Entity.type={}".format(3000),
@@ -130,7 +156,7 @@ def slvs2D(
         _entity_normal_xyz(0x20020, 0x20001),
         _entity_plane(0x30000, 0x30001, 0x30020),
         _entity_point(0x30001),
-        _entity_normal_xyz(0x30020, 0x30001, True)
+        _entity_normal_xyz(0x30020, 0x30001, reversed=True)
     ])]
     #The number of same points.
     point_num = [[] for i in range(len(VPoints))]
@@ -145,7 +171,7 @@ def slvs2D(
             param_num += 1
             script_param.append(_Param(param_num, VPoints[p].cy))
             param_num += 2
-        param_num = _up(param_num, 4)
+        param_num = _up(param_num)
     #Add "Request"
     request_num = 0x4
     for i in range(len(edges)):
@@ -160,7 +186,7 @@ def slvs2D(
             point_num[p].append(entity_num)
             script_entity.append(_Entity_point(entity_num, VPoints[p].cx, VPoints[p].cy))
             line_num[i].append(entity_num)
-        entity_num = _up(entity_num, 4)
+        entity_num = _up(entity_num)
     script_entity.append('\n\n'.join([
         _entity_plane(0x80020000, 0x80020002, 0x80020001),
         _entity_normal_w(0x80020001, 0x80020002, 3010),
@@ -199,21 +225,23 @@ def slvs2D(
         ]) + '\n\n')
 
 
-def _up(num, digit):
-    ten = 0x10**digit
+def _up(num: int) -> int:
+    """Carry 16 bit."""
+    ten = 1 << 16
     num += ten
-    num -= num%ten
+    num -= num % ten
     return num
 
 
-def _Param(num, val):
+def _Param(num: int, val: float) -> str:
     return '\n'.join([
         "Param.h.v.={:08x}".format(num),
         "Param.val={:.20f}".format(val),
         "AddParam"
     ])
 
-def _Request(num):
+
+def _Request(num: int) -> str:
     return '\n'.join([
         "Request.h.v={:08x}".format(num),
         "Request.type=200",
@@ -223,7 +251,8 @@ def _Request(num):
         "AddRequest"
     ])
 
-def _Entity_line(num):
+
+def _Entity_line(num: int) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(11000),
@@ -235,7 +264,8 @@ def _Entity_line(num):
         "AddEntity"
     ])
 
-def _Entity_point(num, x, y):
+
+def _Entity_point(num: int, x: float, y: float) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(2001),
@@ -247,7 +277,8 @@ def _Entity_point(num, x, y):
         "AddEntity"
     ])
 
-def _Constraint_point(num, p1, p2):
+
+def _Constraint_point(num: int, p1: int, p2: int) -> str:
     return '\n'.join([
         "Constraint.h.v={0:08x}".format(num),
         "Constraint.type={}".format(20),
@@ -261,13 +292,15 @@ def _Constraint_point(num, p1, p2):
         "AddConstraint"
     ])
 
-def _Constraint_fix(num, p0, x, y):
+
+def _Constraint_fix(num: int, p0: int, x: float, y: float) -> str:
     return (
         _Constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
         _Constraint_fix_hv(num+1, p0, 0x20000, x)
     )
 
-def _Constraint_fix_hv(num, p0, phv, val):
+
+def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
     return '\n'.join([
         "Constraint.h.v={0:08x}".format(num),
         "Constraint.type={}".format(31),
@@ -284,7 +317,8 @@ def _Constraint_fix_hv(num, p0, phv, val):
         "AddConstraint"
     ])
 
-def _Constraint_line(num, p1, p2, leng):
+
+def _Constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
     return '\n'.join([
         "Constraint.h.v={0:08x}".format(num),
         "Constraint.type={}".format(30),
@@ -301,7 +335,8 @@ def _Constraint_line(num, p1, p2, leng):
         "AddConstraint"
     ])
 
-def _Constraint_angle(num, l1, l2, angle):
+
+def _Constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
     return '\n'.join([
         "Constraint.h.v={0:08x}".format(num),
         "Constraint.type={}".format(120),
@@ -318,11 +353,12 @@ def _Constraint_angle(num, l1, l2, angle):
         "AddConstraint"
     ])
 
-def _Constraint_comment(num, comment, x, y):
+
+def _Constraint_comment(num: int, comment: str, x: float, y: float) -> str:
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(1000),
-        "Constraint.group.v=00000002",
+        "Constraint.group.v=00000003",
         "Constraint.workplane.v=80020000",
         "Constraint.other=0",
         "Constraint.other2=0",
