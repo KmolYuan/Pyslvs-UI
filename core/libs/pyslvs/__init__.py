@@ -1,15 +1,34 @@
 # -*- coding: utf-8 -*-
 
-"""'pyslvs' module contains
+"""Kernel of Pyslvs.
 
-+ Algorithm libraries to do triangular formula and dimentional synthesis.
-+ Number synthesis and type synthesis libraries.
+This kernel can work without GUI.
+
+Modules:
++ Solver:
+    + parser
+    + tinycadlib
+    + triangulation
++ Dimensional synthesis:
+    + planarlinkage
+    + rga
+    + firefly
+    + de
++ Number synthesis:
+    + number
++ Topologic synthesis:
+    + topologic
+
+Dependents:
++ lark-parser
++ pygment (optional: provide highlighting)
 """
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
+__version__ = (18, 5, 0, 'dev')
 
 from .tinycadlib import (
     Coordinate,

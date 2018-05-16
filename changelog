@@ -19,6 +19,7 @@ Version 18.05:
     -- New highlight module Pygments, use to support Python and PMKS expression.
     -- Now PMKS grammar can support color string, one-line annotations, multiple line and indentations.
   -- Cython libraries:
+    -- Pyslvs kernel has been independently.
     -- Compile method adjustment.
     -- Merge into 'pyslvs' folder.
     -- Using Python typing for Python functions in Cython libraries.

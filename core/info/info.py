@@ -2,7 +2,6 @@
 
 """Informations.
 
-+ Pyslvs version.
 + Module versions.
 + Help descriptions.
 + Check for update function.
@@ -23,12 +22,11 @@ from core.QtModules import (
     qVersion,
     PYQT_VERSION_STR
 )
+from core.libs import __version__
 
 
 _Qt_Version = qVersion().strip()
 _PyQt_Version = PYQT_VERSION_STR.strip()
-
-__version__ = (18, 5, 0, 'dev')
 
 INFO = (
     "Pyslvs {}.{}.{}({})".format(*__version__),

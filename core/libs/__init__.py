@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .pyslvs import (
+    __version__,
     Genetic,
     Firefly,
     DiffertialEvolution,
@@ -36,6 +37,7 @@ from .pyslvs import (
 from .python_solvespace import slvsProcess, SlvsException
 
 __all__ = [
+    '__version__',
     'Genetic',
     'Firefly',
     'DiffertialEvolution',
