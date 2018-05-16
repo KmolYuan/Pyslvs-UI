@@ -27,6 +27,11 @@ from .pyslvs import (
     Graph,
     vpoints_configure,
     dof,
+    colorNames,
+    colorRGB,
+    parse_params,
+    parse_vpoints,
+    PMKSLexer,
 )
 from .python_solvespace import slvsProcess, SlvsException
 
@@ -50,6 +55,11 @@ __all__ = [
     'Graph',
     'vpoints_configure',
     'dof',
+    'colorNames',
+    'colorRGB',
+    'parse_params',
+    'parse_vpoints',
+    'PMKSLexer',
     'slvsProcess',
     'SlvsException',
 ]

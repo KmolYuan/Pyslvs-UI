@@ -21,11 +21,6 @@ from .images import QTIMAGES
 from .slvs_io import slvs2D
 from .dxf_io import dxfSketch
 from .loggingHandler import XStream
-from .parser import (
-    parse_params,
-    parse_vpoints,
-    PMKSLexer,
-)
 from .peewee_io import FileWidget
 
 __all__ = [
@@ -48,9 +43,6 @@ __all__ = [
     'slvs2D',
     'dxfSketch',
     'XStream',
-    'parse_params',
-    'parse_vpoints',
-    'PMKSLexer',
     'FileWidget',
     'strbetween',
     'strbefore',

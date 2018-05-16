@@ -203,17 +203,20 @@ class BaseCanvas(QWidget):
         y_t = self.height()-self.oy
         y_b = -self.oy
         self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
-        #Draw tick.
-        Indexing = lambda v: int(v/self.zoom - (v/self.zoom)%5)
-        for x in range(Indexing(x_l), Indexing(x_r)+1, 5):
+        
+        def indexing(v):
+            """Draw tick."""
+            return int(v / self.zoom - v / self.zoom % 5)
+        
+        for x in range(indexing(x_l), indexing(x_r)+1, 5):
             self.painter.drawLine(
                 QPointF(x*self.zoom, 0),
-                QPointF(x*self.zoom, -10 if (x%10 == 0) else -5)
+                QPointF(x*self.zoom, -10 if (x % 10 == 0) else -5)
             )
-        for y in range(Indexing(y_b), Indexing(y_t)+1, 5):
+        for y in range(indexing(y_b), indexing(y_t) + 1, 5):
             self.painter.drawLine(
                 QPointF(0, y*self.zoom),
-                QPointF(10 if (y%10 == 0) else 5, y*self.zoom)
+                QPointF(10 if (y % 10 == 0) else 5, y*self.zoom)
             )
         #Please to call the "end" method when ending paint event.
         #self.painter.end()

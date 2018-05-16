@@ -9,66 +9,21 @@ __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QColor,
-    Qt,
     QIcon,
     QPixmap,
     QSize,
 )
-
-
-#Color dictionary.
-_color_list = {
-    'Red': QColor(172, 68, 68),
-    'Green': QColor(110, 190, 30),
-    'Blue': QColor(68, 120, 172),
-    'Cyan': Qt.cyan,
-    'Magenta': Qt.magenta,
-    'Brick-Red': QColor(255, 130, 130),
-    'Yellow': Qt.yellow,
-    'Gray': Qt.gray,
-    'Orange': QColor(225, 165, 0),
-    'Pink': QColor(225, 192, 230),
-    'Black': Qt.black,
-    'White': Qt.white,
-    'Dark-Red': Qt.darkRed,
-    'Dark-Green': Qt.darkGreen,
-    'Dark-Blue': Qt.darkBlue,
-    'Dark-Cyan': Qt.darkCyan,
-    'Dark-Magenta': Qt.darkMagenta,
-    'Dark-Yellow': Qt.darkYellow,
-    'Dark-Gray': Qt.darkGray,
-    'Dark-Orange': QColor(225, 140, 0),
-    'Dark-Pink': QColor(225, 20, 147),
-}
-
-colorNames = tuple(sorted(_color_list.keys()))
+from core.libs import colorNames, colorRGB
 
 
 def colorQt(name: str) -> QColor:
-    """Get color by name.
-    
-    + Invalid color
-    + Color key
-    + RGB string.
-    """
-    if not name:
-        return QColor()
-    elif name in _color_list:
-        return _color_list[name]
-    else:
-        #Input RGB as a "(255, 255, 255)" string.
-        r, g, b = tuple(int(i) for i in (
-            name.replace('(', '')
-            .replace(')', '')
-            .replace(" ", '')
-            .split(',')
-        ))
-        return QColor(r, g, b)
+    """Get color and translate to QColor."""
+    return QColor(*colorRGB(name))
 
 
 def colorNum(colorIndex: int) -> QColor:
     """Get color by index."""
-    return _color_list[colorNames[colorIndex % len(_color_list)]]
+    return colorQt(colorNames[colorIndex % len(colorNames)])
 
 
 def colorIcon(name: str, size: int = 20) -> QIcon:

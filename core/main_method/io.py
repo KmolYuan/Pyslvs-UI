@@ -40,8 +40,6 @@ from core.info import (
 from core.io import (
     ScriptDialog,
     slvsProcessScript,
-    parse_params,
-    PMKSLexer,
     AddTable,
     EditPointTable,
     slvs2D,
@@ -49,6 +47,7 @@ from core.io import (
     QTIMAGES,
     strbetween,
 )
+from core.libs import parse_params, PMKSLexer
 
 
 def _openURL(url: str):

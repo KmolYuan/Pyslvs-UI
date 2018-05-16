@@ -30,6 +30,18 @@ from .de import DiffertialEvolution
 from .number import NumberSynthesis
 from .topologic import topo, Graph
 from .triangulation import vpoints_configure, dof
+from .parser import (
+    colorNames,
+    colorRGB,
+    parse_params,
+    parse_vpoints,
+    HAS_PYGMENTS,
+)
+if HAS_PYGMENTS:
+    try:
+        from .parser import PMKSLexer
+    except ImportError:
+        raise ImportError("no module name 'Pygment'")
 
 __all__ = [
     'Genetic',
@@ -51,4 +63,9 @@ __all__ = [
     'Graph',
     'vpoints_configure',
     'dof',
+    'colorNames',
+    'colorRGB',
+    'parse_params',
+    'parse_vpoints',
+    'PMKSLexer',
 ]
