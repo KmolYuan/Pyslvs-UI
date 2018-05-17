@@ -266,7 +266,7 @@ def _Entity_point(num: int, x: float, y: float) -> str:
 
 def _Constraint_point(num: int, p1: int, p2: int) -> str:
     return '\n'.join([
-        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(20),
         "Constraint.group.v=00000002",
         "Constraint.workplane.v=80020000",
@@ -288,7 +288,7 @@ def _Constraint_fix(num: int, p0: int, x: float, y: float) -> str:
 
 def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
     return '\n'.join([
-        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(31),
         "Constraint.group.v=00000002",
         "Constraint.workplane.v=80020000",
@@ -306,7 +306,7 @@ def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
 
 def _Constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
     return '\n'.join([
-        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(30),
         "Constraint.group.v=00000002",
         "Constraint.workplane.v=80020000",
@@ -324,7 +324,7 @@ def _Constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
 
 def _Constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
     return '\n'.join([
-        "Constraint.h.v={0:08x}".format(num),
+        "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(120),
         "Constraint.group.v=00000002",
         "Constraint.workplane.v=80020000",

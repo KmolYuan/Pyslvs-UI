@@ -74,7 +74,7 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
 
 
 def _readSlvs(self, file_name: str):
-    """TODO: Read slvs format.
+    """Read slvs format.
     
     + Choose a layout.
     + Read the entities of the layout.
@@ -91,13 +91,16 @@ def _readSlvs(self, file_name: str):
         "Choose a layout:\n" +
         "(Please know that the layout must contain a sketch only.)",
         parser.layouts(),
-        0,
+        1,
         False
     )
     if not ok:
+        parser.close()
         return
     print("Read from layout: {}".format(layout))
-    self.parseExpression(parser.parse())
+    expr = parser.parse(layout.split(':')[0])
+    parser.close()
+    self.parseExpression(expr)
 
 
 def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:

@@ -523,7 +523,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         read_data = []
         for file_name in file_names:
             with open(file_name, 'r') as f:
-                read_data += f.read().split('\n')
+                for line in f:
+                    read_data.append(line[:-1])
         answer = []
         for edges in read_data:
             try:
