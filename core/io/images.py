@@ -15,5 +15,6 @@ QTIMAGES = (
     "Tagged Image File Format (*.tiff)",
     "Windows Icon (*.ico)",
     "Wireless Application Protocol Bitmap (*.wbmp)",
-    "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
+    "X Bitmap (*.xbm)",
+    "X Pixmap (*.xpm)",
 )

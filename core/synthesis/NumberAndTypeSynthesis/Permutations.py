@@ -515,7 +515,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         """
         file_names = self.inputFrom(
             "Edges data",
-            ["Text File (*.txt)"],
+            ["Text file (*.txt)"],
             multiple=True
         )
         if not file_names:

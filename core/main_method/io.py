@@ -312,7 +312,7 @@ def on_action_Load_File_triggered(self):
     file_name = self.inputFrom(
         "Workbook database",
         ["Pyslvs workbook (*.pyslvs)",
-        "Solvespace module(*.slvs)"]
+        "Solvespace module (*.slvs)"]
     )
     if not file_name:
         return
@@ -363,7 +363,7 @@ def on_action_Output_to_Solvespace_triggered(self):
     """Solvespace 2d save function."""
     file_name = self.outputTo(
         "Solvespace sketch",
-        ["Solvespace module(*.slvs)"]
+        ["Solvespace module (*.slvs)"]
     )
     if not file_name:
         return
@@ -379,7 +379,7 @@ def on_action_Output_to_DXF_triggered(self):
     """DXF 2d save function."""
     file_name = self.outputTo(
         "Drawing Exchange Format",
-        ["Drawing Exchange Format(*.dxf)"]
+        ["Drawing Exchange Format (*.dxf)"]
     )
     if not file_name:
         return
@@ -511,7 +511,7 @@ def on_action_See_Expression_triggered(self):
         ("M[\n{}\n]".format(context) if context else "M[]"),
         PMKSLexer(),
         "Pyslvs expression",
-        ["Text file(*.txt)"],
+        ["Text file (*.txt)"],
         self
     )
     dlg.show()
@@ -525,7 +525,7 @@ def on_action_See_Python_Scripts_triggered(self):
         slvsProcessScript(self.EntitiesPoint.data(), self.EntitiesLink.data()),
         Python3Lexer(),
         "Python script",
-        ["Python3 Script(*.py)"],
+        ["Python3 Script (*.py)"],
         self
     )
     dlg.show()

@@ -220,7 +220,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Paste path data from a text file."""
         file_name = self.inputFrom(
             "Path data",
-            ["Text File (*.txt)", "CSV File (*.csv)"]
+            ["Text file (*.txt)",
+            "Comma-Separated Values (*.csv)"]
         )
         if not file_name:
             return
