@@ -21,7 +21,7 @@ Modules:
 
 Dependents:
 + lark-parser
-+ pygment (optional: provide highlighting)
++ pygments (optional: provide highlighting)
 """
 
 __author__ = "Yuan Chang"
