@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\DimensionalSynthesis_dialog\options.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -61,7 +61,6 @@ class Ui_Dialog(object):
         self.maxTime.setEnabled(False)
         self.maxTime.setObjectName("maxTime")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.maxTime)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.maxTime_h = QtWidgets.QSpinBox(self.maxTime)
         self.maxTime_h.setMaximum(24)

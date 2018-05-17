@@ -31,7 +31,7 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-from .workbook_overview import WorkbookOverview
+from .overview import WorkbookOverview
 from .example import example_list
 from .Ui_peewee import Ui_Form
 

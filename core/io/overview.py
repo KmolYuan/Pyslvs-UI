@@ -17,7 +17,7 @@ from core.QtModules import (
     QDialog,
     QListWidgetItem,
 )
-from .Ui_workbook_overview import Ui_Dialog
+from .Ui_overview import Ui_Dialog
 
 
 class WorkbookOverview(QDialog, Ui_Dialog):
