@@ -129,7 +129,7 @@ def _entity_normal_xyz(n: int, p: int, *, reversed: bool = False) -> str:
     ])
 
 
-def slvs2D(
+def slvs_output(
     VPoints: Sequence[VPoint],
     v_to_slvs: Callable[[], Tuple[int, int]],
     file_name: str

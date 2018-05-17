@@ -33,7 +33,7 @@ from core.QtModules import (
 )
 from .workbook_overview import WorkbookOverview
 from .example import example_list
-from .Ui_peewee_io import Ui_Form
+from .Ui_peewee import Ui_Form
 
 
 """Use to encode the Python script."""

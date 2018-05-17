@@ -42,7 +42,7 @@ from core.io import (
     slvsProcessScript,
     AddTable,
     EditPointTable,
-    slvs2D,
+    slvs_output,
     dxfSketch,
     QTIMAGES,
     strbetween,
@@ -326,7 +326,7 @@ def on_action_Output_to_Solvespace_triggered(self):
     )
     if not file_name:
         return
-    slvs2D(
+    slvs_output(
         self.EntitiesPoint.dataTuple(),
         _v_to_slvs(self),
         file_name

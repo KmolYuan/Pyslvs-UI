@@ -23,7 +23,7 @@ from core.QtModules import (
     QTextEdit,
 )
 from core.libs import VPoint, VLink
-from .Ui_script_io import Ui_Dialog
+from .Ui_script import Ui_Dialog
 
 
 _script_title = """
