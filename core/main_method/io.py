@@ -98,7 +98,7 @@ def _readSlvs(self, file_name: str):
         parser.close()
         return
     print("Read from layout: {}".format(layout))
-    expr = parser.parse(layout.split(':')[0])
+    expr = parser.parse(layout)
     parser.close()
     self.parseExpression(expr)
 

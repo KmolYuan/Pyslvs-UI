@@ -46,8 +46,10 @@ class SlvsParser:
         
         + Requests: Get all linkages.
             + Independence points will be ignored.
+        + Constraint: Adjacency.
         + Entities: Get positions.
         """
+        layout = layout.split(':')[0]
         #Block handle.
         lock = False
         
@@ -67,7 +69,7 @@ class SlvsParser:
             
             #Append data first, if wrong, just remove it.
             if attribute == 'Request.h.v':
-                #4<<16 -> 262144
+                #4<<16 == 0x40000
                 requests.append(int(data, 16) << 16)
             elif attribute == 'Request.type':
                 wrong_type = data != '200'
@@ -76,6 +78,44 @@ class SlvsParser:
             elif not wrong_type and (attribute == 'Request.group.v'):
                 if data != layout:
                     del requests[-1]
+        
+        vlinks = {link: {link + 1, link + 2} for link in requests}
+        
+        #Constraint: Adjacency.
+        self.f.seek(0)
+        is_multiple = False
+        now_replace = 0x0
+        for line in self.f:
+            if 'Constraint.h.v' in line:
+                lock = True
+            if 'AddConstraint' in line:
+                lock = False
+            if not lock:
+                is_multiple = False
+                continue
+            
+            attribute, data = line[:-1].split('=')
+            
+            if attribute == 'Constraint.type':
+                if data == '20':
+                    is_multiple = True
+            
+            if not is_multiple:
+                continue
+            
+            if attribute == 'Constraint.ptA.v':
+                now_replace = int(data, 16)
+            elif attribute == 'Constraint.ptB.v':
+                for vlink in vlinks.values():
+                    num = int(data, 16)
+                    if num in vlink:
+                        vlink.remove(num)
+                        vlink.add(now_replace)
+        
+        vpoints = set()
+        for vlink in vlinks.values():
+            vpoints.update(vlink)
+        print(len(vpoints))
         
         #TODO: Can be simplify.
         #Entities: Get positions.
