@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from .script import ScriptDialog, slvsProcessScript
 from .images import QTIMAGES
 from .slvs import (
-    slvs_layouts,
+    SlvsParser,
     slvs_output,
 )
 from .dxf import dxfSketch
@@ -43,7 +43,7 @@ __all__ = [
     'AddVariable',
     'DeleteVariable',
     'QTIMAGES',
-    'slvs_layouts',
+    'SlvsParser',
     'slvs_output',
     'dxfSketch',
     'XStream',

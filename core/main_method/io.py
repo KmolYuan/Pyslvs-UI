@@ -42,7 +42,7 @@ from core.io import (
     slvsProcessScript,
     AddTable,
     EditPointTable,
-    slvs_layouts,
+    SlvsParser,
     slvs_output,
     dxfSketch,
     QTIMAGES,
@@ -74,17 +74,31 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
 
 
 def _readSlvs(self, file_name: str):
-    layouts = slvs_layouts(file_name)
-    layout = QInputDialog.getItem(self,
+    """TODO: Read slvs format.
+    
+    + Choose a layout.
+    + Read the entities of the layout.
+    """
+    parser = SlvsParser(file_name)
+    if not parser.isValid():
+        QMessageBox.warning(self,
+            "Format error",
+            "The format is not support."
+        )
+        return
+    layout, ok = QInputDialog.getItem(self,
         "Solvespace layout",
         "Choose a layout:\n" +
-        "(Please know that the layout must contain the sketch only.)",
-        layouts,
+        "(Please know that the layout must contain a sketch only.)",
+        parser.layouts(),
         0,
         False
     )
-    """TODO: Read slvs."""
+    if not ok:
+        return
     print("Read from layout: {}".format(layout))
+    exprs = parser.parse()
+    print(exprs)
 
 
 def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
