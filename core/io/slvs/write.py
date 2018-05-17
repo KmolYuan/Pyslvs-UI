@@ -11,6 +11,32 @@ from typing import Tuple, Sequence, Callable
 from core.libs import VPoint
 
 
+def _group(n: int, name: str) -> str:
+    return '\n'.join([
+        "Group.h.v={:08x}".format(n),
+        "Group.type=5001",
+        "Group.order=1",
+        "Group.name={}".format(name),
+        "Group.activeWorkplane.v=80020000",
+        "Group.color=ff000000",
+        "Group.subtype=6000",
+        "Group.skipFirst=0",
+        "Group.predef.q.w={:.020f}".format(1),
+        "Group.predef.origin.v={:08x}".format((1<<16) + 1),
+        "Group.predef.swapUV=0",
+        "Group.predef.negateU=0",
+        "Group.predef.negateV=0",
+        "Group.visible=1",
+        "Group.suppress=0",
+        "Group.relaxConstraints=0",
+        "Group.allowRedundant=0",
+        "Group.allDimsReference=0",
+        "Group.scale={:.020f}".format(1),
+        "Group.remap={\n}",
+        "AddGroup",
+    ])
+
+
 _script_group = ["""\
 ±²³SolveSpaceREVa
 
@@ -33,51 +59,7 @@ Group.remap={
 }
 AddGroup
 
-Group.h.v=00000002
-Group.type=5001
-Group.order=1
-Group.name=sketch-in-plane
-Group.activeWorkplane.v=80020000
-Group.color=ff000000
-Group.subtype=6000
-Group.skipFirst=0
-Group.predef.q.w=1.00000000000000000000
-Group.predef.origin.v=00010001
-Group.predef.swapUV=0
-Group.predef.negateU=0
-Group.predef.negateV=0
-Group.visible=1
-Group.suppress=0
-Group.relaxConstraints=0
-Group.allowRedundant=0
-Group.allDimsReference=0
-Group.scale=1.00000000000000000000
-Group.remap={
-}
-AddGroup
-
-Group.h.v=00000003
-Group.type=5001
-Group.order=1
-Group.name=comments
-Group.activeWorkplane.v=80020000
-Group.color=ff000000
-Group.subtype=6000
-Group.skipFirst=0
-Group.predef.q.w=1.00000000000000000000
-Group.predef.origin.v=00010001
-Group.predef.swapUV=0
-Group.predef.negateU=0
-Group.predef.negateV=0
-Group.visible=1
-Group.suppress=0
-Group.relaxConstraints=0
-Group.allowRedundant=0
-Group.allDimsReference=0
-Group.scale=1.00000000000000000000
-Group.remap={
-}
-AddGroup"""]
+""" + _group(2, "sketch-in-plane") + '\n\n' + _group(3, "comments")]
 
 
 def _entity_plane(n: int, p: int, v: int) -> str:
@@ -88,7 +70,7 @@ def _entity_plane(n: int, p: int, v: int) -> str:
         "Entity.point[0].v={:08x}".format(p),
         "Entity.normal.v={:08x}".format(v),
         "Entity.actVisible=1",
-        "AddEntity"
+        "AddEntity",
     ])
 
 
@@ -98,7 +80,7 @@ def _entity_point(n: int, t: int = 2000, con: int = 0) -> str:
         "Entity.type={}".format(t),
         "Entity.construction={}".format(con),
         "Entity.actVisible=1",
-        "AddEntity"
+        "AddEntity",
     ])
 
 
@@ -110,7 +92,7 @@ def _entity_normal_w(n: int, p: int, t: int = 3000) -> str:
         "Entity.point[0].v={:08x}".format(p),
         "Entity.actNormal.w={:.020f}".format(1),
         "Entity.actVisible=1",
-        "AddEntity"
+        "AddEntity",
     ])
 
 
@@ -125,7 +107,7 @@ def _entity_normal_xyz(n: int, p: int, *, reversed: bool = False) -> str:
         "Entity.actNormal.vy={:.020f}".format(-0.5 if reversed else 0.5),
         "Entity.actNormal.vz={:.020f}".format(-0.5 if reversed else 0.5),
         "Entity.actVisible=1",
-        "AddEntity"
+        "AddEntity",
     ])
 
 
@@ -145,7 +127,11 @@ def slvs_output(
         '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5 if n==0 else -0.5) for n in range(4))
     ])]
     script_request = ['\n\n'.join(
-        "Request.h.v={:08x}\nRequest.type=100\nRequest.group.v=00000001\nRequest.construction=0\nAddRequest".format(n) for n in range(1, 4)
+        ("Request.h.v={:08x}\n".format(n) +
+        "Request.type=100\n" +
+        "Request.group.v=00000001\n" +
+        "Request.construction=0\n" +
+        "AddRequest") for n in range(1, 4)
     )]
     script_entity = ['\n\n'.join([
         _entity_plane(0x10000, 0x10001, 0x10020),
@@ -237,7 +223,7 @@ def _Param(num: int, val: float) -> str:
     return '\n'.join([
         "Param.h.v.={:08x}".format(num),
         "Param.val={:.20f}".format(val),
-        "AddParam"
+        "AddParam",
     ])
 
 
@@ -248,7 +234,7 @@ def _Request(num: int) -> str:
         "Request.workplane.v=80020000",
         "Request.group.v=00000002",
         "Request.construction=0",
-        "AddRequest"
+        "AddRequest",
     ])
 
 
@@ -261,7 +247,7 @@ def _Entity_line(num: int) -> str:
         "Entity.point[1].v={:08x}".format(num+2),
         "Entity.workplane.v=80020000",
         "Entity.actVisible=1",
-        "AddEntity"
+        "AddEntity",
     ])
 
 
@@ -274,7 +260,7 @@ def _Entity_point(num: int, x: float, y: float) -> str:
         "Entity.actPoint.x={:.20f}".format(x),
         "Entity.actPoint.y={:.20f}".format(y),
         "Entity.actVisible=1",
-        "AddEntity"
+        "AddEntity",
     ])
 
 
@@ -289,7 +275,7 @@ def _Constraint_point(num: int, p1: int, p2: int) -> str:
         "Constraint.other=0",
         "Constraint.other2=0",
         "Constraint.reference=0",
-        "AddConstraint"
+        "AddConstraint",
     ])
 
 
@@ -314,7 +300,7 @@ def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
         "Constraint.reference=0",
         "Constraint.disp.offset.x={:.20f}".format(10),
         "Constraint.disp.offset.y={:.20f}".format(10),
-        "AddConstraint"
+        "AddConstraint",
     ])
 
 
@@ -332,7 +318,7 @@ def _Constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
         "Constraint.reference=0",
         "Constraint.disp.offset.x={:.20f}".format(10),
         "Constraint.disp.offset.y={:.20f}".format(10),
-        "AddConstraint"
+        "AddConstraint",
     ])
 
 
@@ -350,7 +336,7 @@ def _Constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
         "Constraint.reference=0",
         "Constraint.disp.offset.x={:.20f}".format(10),
         "Constraint.disp.offset.y={:.20f}".format(10),
-        "AddConstraint"
+        "AddConstraint",
     ])
 
 
@@ -366,5 +352,5 @@ def _Constraint_comment(num: int, comment: str, x: float, y: float) -> str:
         "Constraint.comment={}".format(comment),
         "Constraint.disp.offset.x={:.20f}".format(x),
         "Constraint.disp.offset.y={:.20f}".format(y),
-        "AddConstraint"
+        "AddConstraint",
     ])

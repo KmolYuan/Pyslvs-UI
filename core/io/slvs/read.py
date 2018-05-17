@@ -12,17 +12,17 @@ from typing import List
 
 class SlvsParser:
     
-    """"""
+    """Use to read data from solvespace file format."""
     
     def __init__(self, file_name: str):
+        """Initialize just saved the file name."""
         self.file_name = file_name
     
     def isValid(self) -> bool:
         """Simple check whether if file is valid."""
         with open(self.file_name, 'r', encoding="iso-8859-15") as f:
             first_line = f.readline()
-        print(first_line)
-        return True
+        return first_line == "±²³SolveSpaceREVa\n"
     
     def layouts(self) -> List[str]:
         """Read and return layout names."""

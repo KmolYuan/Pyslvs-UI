@@ -97,8 +97,7 @@ def _readSlvs(self, file_name: str):
     if not ok:
         return
     print("Read from layout: {}".format(layout))
-    exprs = parser.parse()
-    print(exprs)
+    self.parseExpression(parser.parse())
 
 
 def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
