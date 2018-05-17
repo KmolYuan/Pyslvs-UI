@@ -63,6 +63,9 @@ Previews in Windows 8.1 theme:
 Here's some command line options for Pyslvs.
 
 ```bash
+#After following compile steps:
+make build-kernel
+
 # Open GUI by Python:
 python launch_pyslvs.py
 
@@ -262,7 +265,7 @@ Make command:
 make build-kernel
 ```
 
-This project including 2 kernels should build, please following the steps if you are first time to use.
+This project including two kernels should build, please following the steps if you are first time to use.
 
 ## Cython Kernel
 
