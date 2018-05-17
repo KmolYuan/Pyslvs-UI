@@ -42,6 +42,7 @@ from core.io import (
     slvsProcessScript,
     AddTable,
     EditPointTable,
+    slvs_layouts,
     slvs_output,
     dxfSketch,
     QTIMAGES,
@@ -72,6 +73,20 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
     return v_to_slvs
 
 
+def _readSlvs(self, file_name: str):
+    layouts = slvs_layouts(file_name)
+    layout = QInputDialog.getItem(self,
+        "Solvespace layout",
+        "Choose a layout:\n" +
+        "(Please know that the layout must contain the sketch only.)",
+        layouts,
+        0,
+        False
+    )
+    """TODO: Read slvs."""
+    print("Read from layout: {}".format(layout))
+
+
 def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
     """Give the settings of all option widgets."""
     return (
@@ -92,6 +107,28 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         #Do not save settings.
         (self.dontsave_option, True),
     )
+
+
+def dragEnterEvent(self, event):
+    """Drag file in to our window."""
+    mimeData = event.mimeData()
+    if not mimeData.hasUrls():
+        return
+    for url in mimeData.urls():
+        file_name = url.toLocalFile()
+        if QFileInfo(file_name).suffix() in ('pyslvs', 'slvs'):
+            event.acceptProposedAction()
+
+
+def dropEvent(self, event):
+    """Drop file in to our window."""
+    file_name = event.mimeData().urls()[-1].toLocalFile()
+    suffix = QFileInfo(file_name).suffix()
+    if suffix == 'pyslvs':
+        self.FileWidget.read(file_name)
+    elif suffix == 'slvs':
+        _readSlvs(self, file_name)
+    event.acceptProposedAction()
 
 
 def workbookNoSave(self):
@@ -237,8 +274,7 @@ def parseExpression(self, expr: str):
     except Exception as e:
         QMessageBox.warning(self,
             "Loading failed",
-            "Your expression is in an incorrect format.\n" +
-            str(e)
+            "Your expression is in an incorrect format.\n" + str(e)
         )
     else:
         for args in args_list:
@@ -269,17 +305,22 @@ def addEmptyLinkGroup(self, linkcolor: Dict[str, str]):
             self.addLink(name, color)
 
 
-def on_action_Load_Workbook_triggered(self):
+def on_action_Load_File_triggered(self):
     """Load workbook."""
     if self.checkFileChanged():
         return
     file_name = self.inputFrom(
         "Workbook database",
-        ["Pyslvs workbook (*.pyslvs)"]
+        ["Pyslvs workbook (*.pyslvs)",
+        "Solvespace module(*.slvs)"]
     )
     if not file_name:
         return
-    self.FileWidget.read(file_name)
+    suffix = QFileInfo(file_name).suffix()
+    if suffix == 'pyslvs':
+        self.FileWidget.read(file_name)
+    elif suffix == 'slvs':
+        _readSlvs(self, file_name)
     self.MainCanvas.zoomToFit()
 
 
@@ -410,7 +451,7 @@ def inputFrom(self,
     if file_name_s:
         suffix = strbetween(suffix, '(', ')').split('*')[-1]
         print("Format: {}".format(suffix))
-        if type(file_name_s)==str:
+        if type(file_name_s) == str:
             self.setLocate(QFileInfo(file_name_s).absolutePath())
         else:
             self.setLocate(QFileInfo(file_name_s[0]).absolutePath())
@@ -584,3 +625,14 @@ def resetOptions(self):
             widget.setCurrentIndex(option[-1])
         elif type(widget) == QCheckBox:
             widget.setChecked(option[-1])
+
+def readFromArgs(self):
+    if not self.args.r:
+        return
+    suffix = QFileInfo(self.args.r).suffix()
+    if suffix == 'pyslvs':
+        self.FileWidget.read(self.args.r)
+    elif suffix == 'slvs':
+        _readSlvs(self, self.args.r)
+    else:
+        print("Unsupported format has been ignore when startup.")

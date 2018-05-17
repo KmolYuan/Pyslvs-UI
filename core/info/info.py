@@ -20,7 +20,7 @@ from typing import Tuple
 from core.QtModules import (
     QProgressDialog,
     qVersion,
-    PYQT_VERSION_STR
+    PYQT_VERSION_STR,
 )
 from core.libs import __version__
 
@@ -67,7 +67,7 @@ _parser.add_argument(
 )
 _parser.add_argument(
     'r',
-    metavar = 'FILE PATH',
+    metavar = "file path",
     default = False,
     nargs = '?',
     type = str,
@@ -75,7 +75,7 @@ _parser.add_argument(
 )
 _parser.add_argument(
     '-i',
-    metavar = 'START PATH',
+    metavar = "start path",
     default = False,
     nargs = '?',
     type = str,

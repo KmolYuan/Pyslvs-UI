@@ -39,12 +39,8 @@ from core.QtModules import (
     QTextCursor,
     QListWidgetItem,
 )
-from core.io import (
-    XStream,
-    strbetween,
-)
+from core.io import XStream, strbetween
 from core.widgets import initCustomWidgets
-#Method wrappers.
 from core.main_method import (
     _solver,
     _actions,
@@ -99,8 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.resolve()
         
         #Load workbook from argument.
-        if self.args.r:
-            self.FileWidget.read(self.args.r)
+        _io.readFromArgs(self)
     
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""
@@ -115,20 +110,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("~Set workplace to: [\"{}\"]".format(self.env))
     
     def dragEnterEvent(self, event):
-        """Drag file in to our window."""
-        mimeData = event.mimeData()
-        if not mimeData.hasUrls():
-            return
-        for url in mimeData.urls():
-            file_name = url.toLocalFile()
-            if QFileInfo(file_name).suffix() in ('pyslvs', 'db'):
-                event.acceptProposedAction()
+        _io.dragEnterEvent(self, event)
     
     def dropEvent(self, event):
-        """Drop file in to our window."""
-        file_name = event.mimeData().urls()[-1].toLocalFile()
-        self.FileWidget.read(file_name)
-        event.acceptProposedAction()
+        _io.dropEvent(self, event)
     
     def closeEvent(self, event):
         """Close event to avoid user close the window accidentally."""
@@ -414,8 +399,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _io.addEmptyLinkGroup(self, linkcolor)
     
     @pyqtSlot()
-    def on_action_Load_Workbook_triggered(self):
-        _io.on_action_Load_Workbook_triggered(self)
+    def on_action_Load_File_triggered(self):
+        _io.on_action_Load_File_triggered(self)
     
     @pyqtSlot()
     def on_action_Import_Workbook_triggered(self):
