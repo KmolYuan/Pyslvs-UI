@@ -280,28 +280,28 @@ def _Constraint_point(num: int, p1: int, p2: int) -> str:
 
 
 def _Constraint_fix(num: int, p0: int, x: float, y: float) -> str:
+    
+    def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
+        return '\n'.join([
+            "Constraint.h.v={:08x}".format(num),
+            "Constraint.type={}".format(31),
+            "Constraint.group.v=00000002",
+            "Constraint.workplane.v=80020000",
+            "Constraint.valA={:.20f}".format(val),
+            "Constraint.ptA.v={:08x}".format(p0),
+            "Constraint.entityA.v={:08x}".format(phv),
+            "Constraint.other=0",
+            "Constraint.other2=0",
+            "Constraint.reference=0",
+            "Constraint.disp.offset.x={:.20f}".format(10),
+            "Constraint.disp.offset.y={:.20f}".format(10),
+            "AddConstraint",
+        ])
+    
     return (
         _Constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
         _Constraint_fix_hv(num+1, p0, 0x20000, x)
     )
-
-
-def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
-    return '\n'.join([
-        "Constraint.h.v={:08x}".format(num),
-        "Constraint.type={}".format(31),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
-        "Constraint.valA={:.20f}".format(val),
-        "Constraint.ptA.v={:08x}".format(p0),
-        "Constraint.entityA.v={:08x}".format(phv),
-        "Constraint.other=0",
-        "Constraint.other2=0",
-        "Constraint.reference=0",
-        "Constraint.disp.offset.x={:.20f}".format(10),
-        "Constraint.disp.offset.y={:.20f}".format(10),
-        "AddConstraint",
-    ])
 
 
 def _Constraint_line(num: int, p1: int, p2: int, leng: float) -> str:

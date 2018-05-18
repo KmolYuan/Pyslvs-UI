@@ -7,7 +7,11 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List
+from typing import (
+    Tuple,
+    List,
+    Iterator,
+)
 
 
 class SlvsParser:
@@ -21,25 +25,45 @@ class SlvsParser:
     def isValid(self) -> bool:
         """Simple check whether if file is valid."""
         self.f.seek(0)
-        first_line = self.f.readline()
-        return first_line == "±²³SolveSpaceREVa\n"
+        return self.f.readline() == "±²³SolveSpaceREVa\n"
+    
+    def __readBlock(self,
+        start: str,
+        end: str,
+        *,
+        match: Tuple[str, str] = None
+    ) -> Iterator[Tuple[str, str]]:
+        """A generator can scan around of the file.
+        
+        parameter:
+        + match: Skip the block when the data of attribute is not correct.
+        """
+        self.f.seek(0)
+        lock = False
+        for line in self.f:
+            if start in line:
+                lock = True
+            if end in line:
+                lock = False
+            if (not lock) or ('=' not in line):
+                continue
+            attribute, data = line[:-1].split('=')
+            if match is not None:
+                if (attribute == match[0]) and (data != match[1]):
+                    lock = False
+                    continue
+            yield attribute, data
     
     def layouts(self) -> List[str]:
         """Read and return layout names."""
         layouts = []
-        self.f.seek(0)
-        for line in self.f:
-            if ('Group.h.v' not in line) and ('Group.name' not in line):
-                continue
-            
-            attribute, data = line[:-1].split('=')
-            
+        for attribute, data in self.__readBlock('Group.h.v', 'AddGroup'):
             #Number code and layout name.
             if attribute == 'Group.h.v':
                 layouts.append(data)
             elif attribute == 'Group.name':
                 layouts[-1] += ':' + data
-        return layouts
+        return layouts[1:]
     
     def parse(self, layout: str) -> str:
         """Parse as PMKS expression.
@@ -51,23 +75,11 @@ class SlvsParser:
         + Entities: Get positions.
         """
         layout = layout.split(':')[0]
-        #Block handle.
-        lock = False
         
         #Requests: Get all linkages.
-        self.f.seek(0)
         wrong_type = False
         requests = []
-        for line in self.f:
-            if 'Request.h.v' in line:
-                lock = True
-            if 'AddRequest' in line:
-                lock = False
-            if not lock:
-                continue
-            
-            attribute, data = line[:-1].split('=')
-            
+        for attribute, data in self.__readBlock('Request.h.v', 'AddRequest'):
             #Append data first, if wrong, just remove it.
             if attribute == 'Request.h.v':
                 #4 << 16 == 0x40000
@@ -82,29 +94,14 @@ class SlvsParser:
         
         vlinks = {link: {link + 1, link + 2} for link in requests}
         
-        #TODO: Grounded.
         #Constraint: Adjacency.
         self.f.seek(0)
-        is_multiple = False
         now_replace = 0x0
-        for line in self.f:
-            if 'Constraint.h.v' in line:
-                lock = True
-            if 'AddConstraint' in line:
-                lock = False
-            if not lock:
-                is_multiple = False
-                continue
-            
-            attribute, data = line[:-1].split('=')
-            
-            if attribute == 'Constraint.type':
-                if data == '20':
-                    is_multiple = True
-            
-            if not is_multiple:
-                continue
-            
+        for attribute, data in self.__readBlock(
+            'Constraint.h.v',
+            'AddConstraint',
+            match=('Constraint.type', '20')
+        ):
             if attribute == 'Constraint.ptA.v':
                 now_replace = int(data, 16)
             elif attribute == 'Constraint.ptB.v':
@@ -114,12 +111,23 @@ class SlvsParser:
                         vlink.remove(num)
                         vlink.add(now_replace)
         
+        #Grounded. Other linkages at least will greater than 4.
+        vlinks[0] = set()
+        lock = False
+        self.f.seek(0)
+        for attribute, data in self.__readBlock(
+            'Constraint.h.v',
+            'AddConstraint',
+            match=('Constraint.type', '31')
+        ):
+            if attribute == 'Constraint.ptA.v':
+                vlinks[0].add(int(data, 16))
+        
         pos = {}
         for vlink in vlinks.values():
             for point in vlink:
                 if point not in pos:
                     pos[point] = []
-        
         points = sorted(pos)
         
         #Entities: Get positions.
@@ -161,7 +169,7 @@ class SlvsParser:
             if i == 0:
                 vlinks['ground'] = vlinks.pop(name)
             else:
-                vlinks['link_{}'.format(i)] = vlinks.pop(name)
+                vlinks['link_{}'.format(i - 1)] = vlinks.pop(name)
         
         exprs = []
         for num in points:
@@ -170,7 +178,7 @@ class SlvsParser:
             exprs.append("J[R, color[Green], P[{}, {}], L[{}]]".format(
                 x, y, ", ".join(links)
             ))
-        print(exprs)
+        
         return "M[{}]".format(", ".join(exprs))
     
     def close(self):

@@ -91,12 +91,14 @@ def _readSlvs(self, file_name: str):
         "Choose a layout:\n" +
         "(Please know that the layout must contain a sketch only.)",
         parser.layouts(),
-        1,
+        0,
         False
     )
     if not ok:
         parser.close()
         return
+    self.clear()
+    self.FileWidget.reset()
     print("Read from layout: {}".format(layout))
     expr = parser.parse(layout)
     parser.close()
@@ -221,7 +223,6 @@ def on_action_New_Workbook_triggered(self):
         return
     self.clear()
     self.FileWidget.reset()
-    self.FileWidget.closeDatabase()
     print("Created a new workbook.")
 
 
