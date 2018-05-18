@@ -47,6 +47,7 @@ class SlvsParser:
         + Requests: Get all linkages.
             + Independence points will be ignored.
         + Constraint: Adjacency.
+            + Collecting linkages for each point.
         + Entities: Get positions.
         """
         layout = layout.split(':')[0]
@@ -69,7 +70,7 @@ class SlvsParser:
             
             #Append data first, if wrong, just remove it.
             if attribute == 'Request.h.v':
-                #4<<16 == 0x40000
+                #4 << 16 == 0x40000
                 requests.append(int(data, 16) << 16)
             elif attribute == 'Request.type':
                 wrong_type = data != '200'
@@ -81,6 +82,7 @@ class SlvsParser:
         
         vlinks = {link: {link + 1, link + 2} for link in requests}
         
+        #TODO: Grounded.
         #Constraint: Adjacency.
         self.f.seek(0)
         is_multiple = False
@@ -112,34 +114,33 @@ class SlvsParser:
                         vlink.remove(num)
                         vlink.add(now_replace)
         
-        vpoints = set()
+        pos = {}
         for vlink in vlinks.values():
-            vpoints.update(vlink)
-        print(len(vpoints))
+            for point in vlink:
+                if point not in pos:
+                    pos[point] = []
         
-        #TODO: Can be simplify.
+        points = sorted(pos)
+        
         #Entities: Get positions.
         self.f.seek(0)
-        in_p1 = False
-        in_p2 = False
-        request_index = 0
-        entities = {}
+        in_c = False
+        point = 0
         for line in self.f:
             if 'Entity.h.v' in line:
                 lock = True
             if 'AddEntity' in line:
                 lock = False
             if not lock:
-                if in_p2:
+                if in_c:
                     #Next entity.
-                    request_index += 1
-                    if request_index == len(requests):
+                    point += 1
+                    if point == len(points):
                         break
-                in_p1 = False
-                in_p2 = False
+                in_c = False
                 continue
             
-            num = requests[request_index]
+            num = points[point]
             attribute, data = line[:-1].split('=')
             
             if attribute == 'Entity.type':
@@ -150,20 +151,27 @@ class SlvsParser:
             
             if attribute == 'Entity.h.v':
                 if data == "{:08x}".format(num):
-                    entities[num] = ([], [])
-                elif data == "{:08x}".format(num + 1):
-                    in_p1 = True
-                elif data == "{:08x}".format(num + 2):
-                    in_p1 = False
-                    in_p2 = True
-            elif 'Entity.actPoint.' in attribute:
+                    in_c = True
+            elif in_c and ('Entity.actPoint.' in attribute):
                 #X or Y value.
-                if in_p1:
-                    entities[num][0].append(float(data))
-                elif in_p2:
-                    entities[num][1].append(float(data))
+                pos[num].append(float(data))
         
-        return ""
+        #Rename link names.
+        for i, name in enumerate(sorted(vlinks)):
+            if i == 0:
+                vlinks['ground'] = vlinks.pop(name)
+            else:
+                vlinks['link_{}'.format(i)] = vlinks.pop(name)
+        
+        exprs = []
+        for num in points:
+            x, y = pos[num]
+            links = [name for name, link in vlinks.items() if (num in link)]
+            exprs.append("J[R, color[Green], P[{}, {}], L[{}]]".format(
+                x, y, ", ".join(links)
+            ))
+        print(exprs)
+        return "M[{}]".format(", ".join(exprs))
     
     def close(self):
         """Close the file."""
