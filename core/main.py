@@ -531,8 +531,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _entities.releaseGround(self)
     
     @pyqtSlot()
-    def constrainLink(self, row: int = None):
-        _entities.constrainLink(self, row)
+    def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
+        _entities.constrainLink(self, row1, row2)
     
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self):

@@ -13,6 +13,7 @@ from typing import (
     Tuple,
     List,
     Dict,
+    Union,
     Optional,
 )
 from core.entities import (
@@ -29,7 +30,7 @@ from core.io import (
 )
 
 
-def _editPoint(self, row: int = False):
+def _editPoint(self, row: Union[int, bool] = False):
     """Edit point function."""
     dlg = EditPointDialog(
         self.EntitiesPoint.dataTuple(),
@@ -70,7 +71,7 @@ def _editPoint(self, row: int = False):
     self.CommandStack.endMacro()
 
 
-def _editLink(self, row=False):
+def _editLink(self, row: Union[int, bool] = False):
     """Edit link function."""
     dlg = EditLinkDialog(
         self.EntitiesPoint.dataTuple(),
@@ -93,7 +94,7 @@ def _editLink(self, row=False):
     if row is False:
         self.CommandStack.beginMacro("Add {{Link: {}}}".format(name))
         self.CommandStack.push(AddTable(self.EntitiesLink))
-        row = self.EntitiesLink.rowCount()-1
+        row = self.EntitiesLink.rowCount() - 1
     else:
         row = dlg.name_box.currentIndex()
         self.CommandStack.beginMacro("Edit {{Link: {}}}".format(name))
@@ -412,40 +413,38 @@ def releaseGround(self):
     self.CommandStack.endMacro()
 
 
-def constrainLink(self, row: Optional[int] = None):
+def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
     """Turn a link to ground, then delete this link."""
-    if row is None:
-        row = self.EntitiesLink.currentRow()
-    name = self.EntitiesLink.item(row, 0).text()
-    linkArgs = [
-        self.EntitiesLink.item(row, 0).text(),
-        self.EntitiesLink.item(row, 1).text(),
-        ''
-    ]
+    if row1 is None:
+        row1 = self.EntitiesLink.currentRow()
+    name = self.EntitiesLink.item(row1, 0).text()
+    linkArgs = self.EntitiesLink.rowTexts(row1, hasName=True)
+    linkArgs[2] = ''
     newPoints = sorted(
         set(self.EntitiesLink.item(0, 2).text().split(',')) |
-        set(self.EntitiesLink.item(row, 2).text().split(','))
+        set(self.EntitiesLink.item(row1, 2).text().split(','))
     )
-    groundArgs = ['ground', 'White', ','.join(e for e in newPoints if e)]
+    baseArgs = self.EntitiesLink.rowTexts(row2, hasName=True)
+    baseArgs[2] = ','.join(e for e in newPoints if e)
     self.CommandStack.beginMacro(
         "Constrain {{Link: {}}} to ground".format(name)
     )
     #Turn to ground.
     self.CommandStack.push(EditLinkTable(
-        0,
+        row2,
         self.EntitiesLink,
         self.EntitiesPoint,
-        groundArgs
+        baseArgs
     ))
     #Free all points and delete the link.
     self.CommandStack.push(EditLinkTable(
-        row,
+        row1,
         self.EntitiesLink,
         self.EntitiesPoint,
         linkArgs
     ))
     self.CommandStack.push(DeleteTable(
-        row,
+        row1,
         self.EntitiesLink,
         isRename=False
     ))

@@ -16,9 +16,10 @@ Version 18.05:
         -- Comments will be generate into a new layout in Solvespace format.
         -- Simple reading function for *.slvs format (only support P joint).
     -- Path record:
-        -- Add copy path function in path context menu.
+        -- Add "copy path" function in path context menu.
         -- Path preview function are support P joint.
     -- "Add" command of storage function will not clean the canvas (should do it by self).
+    -- Add "merge linkages" function in link context menu.
 - Development
     -- Expression grammar:
         -- New highlight module Pygments, use to support Python and PMKS expression.
