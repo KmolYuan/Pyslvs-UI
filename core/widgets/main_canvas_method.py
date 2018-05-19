@@ -466,7 +466,7 @@ def mousePressEvent(self, event):
     """Press event.
     
     Middle button: Move canvas of view.
-    Left button: Select the point(s).
+    Left button: Select the point (only first point will be catch).
     """
     self.selector.x = _snap(self, event.x() - self.ox)
     self.selector.y = _snap(self, event.y() - self.oy)
@@ -479,7 +479,7 @@ def mousePressEvent(self, event):
         self.selector.leftDragged = True
         _mouseSelectedPoint(self)
         if self.selector.selection:
-            self.selected.emit(tuple(self.selector.selection), True)
+            self.selected.emit(tuple(self.selector.selection[:1]), True)
 
 
 def mouseDoubleClickEvent(self, event):
