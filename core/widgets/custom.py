@@ -263,9 +263,9 @@ def _freemove(self):
     
     for i, (text, icon) in enumerate((
         ("View mode", "freemove_off"),
-        ("Translate mode", "freemove_on"),
-        ("Rotate mode", "freemove_on"),
-        ("Reflect mode", "freemove_on"),
+        ("Translate mode", "translate"),
+        ("Rotate mode", "rotate"),
+        ("Reflect mode", "reflect"),
     )):
         action = QAction(
             QIcon(QPixmap(":/icons/{}.png".format(icon))),
