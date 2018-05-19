@@ -34,6 +34,7 @@ cdef class Coordinate:
     cpdef double distance(self, Coordinate)
     #cpdef bool isnan(self) # cause error??
 
+
 cdef bool legal_crank(Coordinate, Coordinate, Coordinate, Coordinate)
 cdef str strbetween(str, str, str)
 cdef str strbefore(str, str)

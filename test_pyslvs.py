@@ -12,7 +12,6 @@ from unittest import TestCase
 
 #For necessary modules.
 from math import sqrt, radians, isclose
-from core.io import parse_vpoints
 from core.libs import (
     Coordinate,
     PLAP,
@@ -26,6 +25,7 @@ from core.libs import (
     Firefly,
     DiffertialEvolution,
     Planar,
+    parse_vpoints,
 )
 
 

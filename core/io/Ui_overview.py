@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/workbook_overview.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/overview.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -22,7 +22,6 @@ class Ui_Dialog(object):
         self.page0.setGeometry(QtCore.QRect(0, 0, 424, 329))
         self.page0.setObjectName("page0")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.page0)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.storage_label = QtWidgets.QLabel(self.page0)
         self.storage_label.setObjectName("storage_label")
@@ -37,7 +36,6 @@ class Ui_Dialog(object):
         self.page1.setGeometry(QtCore.QRect(0, 0, 171, 121))
         self.page1.setObjectName("page1")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.page1)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -64,7 +62,6 @@ class Ui_Dialog(object):
         self.page2.setGeometry(QtCore.QRect(0, 0, 259, 121))
         self.page2.setObjectName("page2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.page2)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
         self.verticalLayout_6.setObjectName("verticalLayout_6")
@@ -91,7 +88,6 @@ class Ui_Dialog(object):
         self.page3.setGeometry(QtCore.QRect(0, 0, 98, 119))
         self.page3.setObjectName("page3")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page3)
-        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.results_label = QtWidgets.QLabel(self.page3)
         self.results_label.setObjectName("results_label")

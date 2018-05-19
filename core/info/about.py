@@ -60,23 +60,10 @@ class PyslvsAbout(QDialog, Ui_Dialog):
             _content("Version {}.{}.{}({}) 2016-2018".format(*__version__))
         ))
         self.Content.setText(html(_content(
-            "Pyslvs is a Open Source support tools to help user " +
-            "solving 2D linkage problem.",
-            "It can use in Mechanical Design and Simulation.",
-            "This program using Python 3 with Python Solvespace.",
-            "Pyslvs just like a ordinary CAD software, but use table to " +
-            "add and edit points.",
-            "Within changing points location, finally give the answer " +
-            "to designer.",
-            "We have these features:"
-        ) + _orderList(
-            "2D Linkages dynamic simulation.",
-            "Dimensional Synthesis of Planar Four-bar Linkages.",
-            "Output points coordinate to Data Sheet (*.csv) format.",
-            "Change canvas appearance.",
-            "Draw dynamic simulation path with any point in the machinery.",
-            "Using triangle iterate the mechanism results.") + _content(
-            "If you want to know about more, you can reference by our website."))
+            "A GUI-based tool use to solving 2D linkage subject.",
+            "Author: {}".format(__author__),
+            "Email: {}".format(__email__),
+            "If you want to know more, go to see to our website or contact the email."))
         )
         self.Versions.setText(html(_orderList(*INFO)))
         self.Arguments.setText(html(_content(

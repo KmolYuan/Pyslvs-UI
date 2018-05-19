@@ -64,8 +64,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
         self.inputFrom = parent.inputFrom
-        self.jointDataFunc = parent.EntitiesPoint.data
-        self.linkDataFunc = parent.EntitiesLink.data
+        self.jointDataFunc = parent.EntitiesPoint.dataTuple
+        self.linkDataFunc = parent.EntitiesLink.dataTuple
         self.getGraph = parent.getGraph
         
         #Splitters
@@ -133,15 +133,15 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.NL_input.setValue(
-            sum(len(vlink.points)>1 for vlink in linkData)+
+            sum(len(vlink.points) > 1 for vlink in linkData)+
             sum(
-                len(vpoint.links)-1 for vpoint in jointData
+                len(vpoint.links) - 2 for vpoint in jointData
                 if (vpoint.type == 2) and (len(vpoint.links) > 1)
             )
         )
         self.NJ_input.setValue(sum(
-            (len(vpoint.links)-1 + int(vpoint.type == 2))
-            for vpoint in jointData if len(vpoint.links)>1
+            (len(vpoint.links) - 1 + int(vpoint.type == 2))
+            for vpoint in jointData if (len(vpoint.links) > 1)
         ))
         self.keep_dof.setChecked(keep_dof_checked)
     
@@ -515,7 +515,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         """
         file_names = self.inputFrom(
             "Edges data",
-            ["Text File (*.txt)"],
+            ["Text file (*.txt)"],
             multiple=True
         )
         if not file_names:
@@ -523,7 +523,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         read_data = []
         for file_name in file_names:
             with open(file_name, 'r') as f:
-                read_data += f.read().split('\n')
+                for line in f:
+                    read_data.append(line[:-1])
         answer = []
         for edges in read_data:
             try:

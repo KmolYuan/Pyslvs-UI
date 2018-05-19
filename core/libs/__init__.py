@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .pyslvs import (
+    __version__,
     Genetic,
     Firefly,
     DiffertialEvolution,
@@ -27,10 +28,16 @@ from .pyslvs import (
     Graph,
     vpoints_configure,
     dof,
+    colorNames,
+    colorRGB,
+    parse_params,
+    parse_vpoints,
+    PMKSLexer,
 )
 from .python_solvespace import slvsProcess, SlvsException
 
 __all__ = [
+    '__version__',
     'Genetic',
     'Firefly',
     'DiffertialEvolution',
@@ -50,6 +57,11 @@ __all__ = [
     'Graph',
     'vpoints_configure',
     'dof',
+    'colorNames',
+    'colorRGB',
+    'parse_params',
+    'parse_vpoints',
+    'PMKSLexer',
     'slvsProcess',
     'SlvsException',
 ]

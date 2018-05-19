@@ -31,9 +31,9 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-from .workbook_overview import WorkbookOverview
+from .overview import WorkbookOverview
 from .example import example_list
-from .Ui_peeweeIO import Ui_Form
+from .Ui_peewee import Ui_Form
 
 
 """Use to encode the Python script."""
@@ -208,7 +208,7 @@ class FileWidget(QWidget, Ui_Form):
         self.loadPathFunc #Call after loaded paths.
         """
         #Close database when destroyed.
-        self.destroyed.connect(self.closeDatabase)
+        self.destroyed.connect(self.__closeDatabase)
         #Undo Stack
         self.CommandStack = parent.CommandStack
         #Reset
@@ -233,16 +233,17 @@ class FileWidget(QWidget, Ui_Form):
         self.branch_current.clear()
         self.commit_search_text.clear()
         self.commit_current_id.setValue(0)
+        self.__closeDatabase()
     
     def __connectDatabase(self, file_name: str):
         """Connect database."""
-        self.closeDatabase()
+        self.__closeDatabase()
         _db.init(file_name)
         _db.connect()
         _db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
     
     @pyqtSlot()
-    def closeDatabase(self):
+    def __closeDatabase(self):
         if not _db.deferred:
             _db.close()
     
@@ -396,7 +397,7 @@ class FileWidget(QWidget, Ui_Form):
         if self.history_commit != None:
             self.__connectDatabase(self.file_name.absoluteFilePath())
         else:
-            self.closeDatabase()
+            self.__closeDatabase()
         branch_name, ok = QInputDialog.getItem(self,
             "Branch",
             "Select the latest commit in the branch to load.",

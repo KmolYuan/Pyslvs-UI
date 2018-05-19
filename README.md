@@ -48,8 +48,6 @@ Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
 
 Cross-platform Development: Ubuntu and Windows (64-bit).
 
-You can install Graphviz optionally. See [here](#graphviz-optional).
-
 **Please note that the other platforms may be available but I have not tested before.**
 
 Previews in KDE Plasma desktop:
@@ -65,6 +63,9 @@ Previews in Windows 8.1 theme:
 Here's some command line options for Pyslvs.
 
 ```bash
+#After following compile steps:
+make build-kernel
+
 # Open GUI by Python:
 python launch_pyslvs.py
 
@@ -264,21 +265,32 @@ Make command:
 make build-kernel
 ```
 
-This project including 2 kernels should build, please following the steps if you are first time to use.
+This project including two kernels should build, please following the steps if you are first time to use.
 
 ## Cython Kernel
 
 Cython libraries of Pyslvs, including:
 
-+ Dimensional synthesis algorithms.
-+ Number synthesis function.
-+ Type synthesis algorithms.
-+ Triangle solver.
+1. Solver:
+    + parser
+    + tinycadlib
+    + triangulation
+1. Dimensional synthesis:
+    + planarlinkage
+    + rga
+    + firefly
+    + de
+1. Number synthesis:
+    + number
+1. Topologic synthesis:
+    + topologic
+
+This module only require "[Lark-parser]" module (and [Pygments] provide highlighting optionaly), so it can works independently without to startup GUI.
 
 Make command:
 
 ```bash
-make build-cython
+make build-pyslvs
 ```
 
 **Ubuntu**:

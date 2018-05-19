@@ -1224,7 +1224,7 @@
      <addaction name="action_Import_Workbook"/>
     </widget>
     <addaction name="action_New_Workbook"/>
-    <addaction name="action_Load_Workbook"/>
+    <addaction name="action_Load_File"/>
     <addaction name="action_Example"/>
     <addaction name="menuImport"/>
     <addaction name="separator"/>
@@ -1607,16 +1607,16 @@
     <string>Show Qt about.</string>
    </property>
   </action>
-  <action name="action_Load_Workbook">
+  <action name="action_Load_File">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
-    <string>L&amp;oad Workbook</string>
+    <string>L&amp;oad File</string>
    </property>
    <property name="statusTip">
-    <string>Load Workbook from xml or csv file.</string>
+    <string>Load Workbook from *.pyslvs database or *.slvs file.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>

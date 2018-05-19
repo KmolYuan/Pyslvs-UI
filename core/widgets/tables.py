@@ -16,12 +16,12 @@ from typing import (
     Union,
 )
 from core.QtModules import (
-    QTableWidget,
+    Qt,
     pyqtSignal,
+    QTableWidget,
     QSizePolicy,
     QAbstractItemView,
     QTableWidgetItem,
-    Qt,
     pyqtSlot,
     QApplication,
     QTableWidgetSelectionRange,
@@ -38,8 +38,8 @@ class _BaseTableWidget(QTableWidget):
     deleteRequest = pyqtSignal()
     
     def __init__(self,
-        RowCount: int,
-        HorizontalHeaderItems: Tuple[str],
+        row: int,
+        headers: Tuple[str],
         parent
     ):
         super(_BaseTableWidget, self).__init__(parent)
@@ -51,9 +51,9 @@ class _BaseTableWidget(QTableWidget):
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
-        self.setRowCount(RowCount)
-        self.setColumnCount(len(HorizontalHeaderItems)+1)
-        for i, e in enumerate(('Name',) + HorizontalHeaderItems):
+        self.setRowCount(row)
+        self.setColumnCount(len(headers)+1)
+        for i, e in enumerate(('Name',) + headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
     def rowTexts(self, row: int, *, hasName: bool = False) -> List[str]:
@@ -77,10 +77,7 @@ class _BaseTableWidget(QTableWidget):
     
     def selectedRows(self) -> List[int]:
         """Get what row is been selected."""
-        tmp_set = set()
-        for r in self.selectedRanges():
-            tmp_set.update([i for i in range(r.topRow(), r.bottomRow() + 1)])
-        return sorted(tmp_set)
+        return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
     
     def keyPressEvent(self, event):
         """Hit the delete key,

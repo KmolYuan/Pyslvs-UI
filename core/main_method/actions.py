@@ -13,8 +13,12 @@ from core.QtModules import (
     QApplication,
     QPoint,
 )
-from core.io import EditPointTable
-from .entities import _deletePoint
+from core.io import (
+    AddTable,
+    EditPointTable,
+    EditLinkTable,
+)
+from .entities import _deletePoint, _deleteLink
 
 
 def _enablePointContext(self):
@@ -23,8 +27,8 @@ def _enablePointContext(self):
     What ever we have least one point or not,
     need to enable / disable QAction.
     """
-    selectedRows = self.EntitiesPoint.selectedRows()
-    selectionCount = len(selectedRows)
+    selection = self.EntitiesPoint.selectedRows()
+    selectionCount = len(selection)
     row = self.EntitiesPoint.currentRow()
     #If connecting with the ground.
     if selectionCount:
@@ -54,11 +58,11 @@ def _enablePointContext(self):
     self.action_New_Link.setVisible(selectionCount > 1)
     self.popMenu_point_merge.menuAction().setVisible(selectionCount > 1)
     
-    def mjFunc(i):
+    def mjFunc(i: int):
         """Generate a merge function."""
-        return lambda: _toMultipleJoint(self, i, selectedRows)
+        return lambda: _toMultipleJoint(self, i, selection)
     
-    for i, p in enumerate(selectedRows):
+    for i, p in enumerate(selection):
         action = QAction("Base on Point{}".format(p), self)
         action.triggered.connect(mjFunc(i))
         self.popMenu_point_merge.addAction(action)
@@ -66,15 +70,28 @@ def _enablePointContext(self):
 
 def _enableLinkContext(self):
     """Enable / disable link's QAction, same as point table."""
-    selectionCount = len(self.EntitiesLink.selectedRows())
+    selection = self.EntitiesLink.selectedRows()
+    selectionCount = len(selection)
     row = self.EntitiesLink.currentRow()
     self.action_link_context_add.setVisible(selectionCount <= 0)
     selected_one = selectionCount == 1
-    self.action_link_context_edit.setEnabled((row > -1) and selected_one)
-    self.action_link_context_delete.setEnabled((row > 0) and selected_one)
-    self.action_link_context_copydata.setEnabled((row > -1) and selected_one)
+    not_ground = row > 0
+    any_link = row > -1
+    self.action_link_context_edit.setEnabled(any_link and selected_one)
+    self.action_link_context_delete.setEnabled(not_ground and selected_one)
+    self.action_link_context_copydata.setEnabled(any_link and selected_one)
     self.action_link_context_release.setVisible((row == 0) and selected_one)
-    self.action_link_context_constrain.setVisible((row > 0) and selected_one)
+    self.action_link_context_constrain.setVisible(not_ground and selected_one)
+    self.popMenu_link_merge.menuAction().setVisible(selectionCount > 1)
+    
+    def mlFunc(i: int):
+        """Generate a merge function."""
+        return lambda: _mergeLinkage(self, i, selection)
+    
+    for i, row in enumerate(selection):
+        action = QAction("Base on \"{}\"".format(self.EntitiesLink.item(row, 0).text()), self)
+        action.triggered.connect(mlFunc(i))
+        self.popMenu_link_merge.addAction(action)
 
 
 def _copyTableData(self, table):
@@ -92,28 +109,57 @@ def _toMultipleJoint(self, index: int, points: Tuple[int]):
     row = points[index]
     self.CommandStack.beginMacro(
         "Merge {{{}}} as multiple joint {{{}}}".format(
-            ", ".join('Point{}'.format(p) for p in points),
+            ", ".join('Point{}'.format(point) for point in points),
             'Point{}'.format(row)
         )
     )
-    points_data = self.EntitiesPoint.dataTuple()
-    for i, p in enumerate(points):
-        if i == index:
-            continue
-        newLinks = points_data[row].links
-        for l in points_data[p].links:
-            #Add new links.
-            if l not in newLinks:
-                newLinks.append(l)
-        args = self.EntitiesPoint.rowTexts(row)
-        args[0] = ','.join(newLinks)
-        self.CommandStack.push(EditPointTable(
-            row,
-            self.EntitiesPoint,
-            self.EntitiesLink,
-            args
-        ))
-        _deletePoint(self, p)
+    vpoints = self.EntitiesPoint.dataTuple()
+    links = list(vpoints[row].links)
+    args = self.EntitiesPoint.rowTexts(row)
+    for point in sorted(points, reverse=True):
+        for link in vpoints[point].links:
+            if link not in links:
+                links.append(link)
+        _deletePoint(self, point)
+    args[0] = ','.join(links)
+    self.CommandStack.push(AddTable(self.EntitiesPoint))
+    self.CommandStack.push(EditPointTable(
+        self.EntitiesPoint.rowCount() - 1,
+        self.EntitiesPoint,
+        self.EntitiesLink,
+        args
+    ))
+    self.CommandStack.endMacro()
+
+
+def _mergeLinkage(self, index: int, links: Tuple[int]):
+    """Merge links to a base linkage.
+    
+    @index: The index of main joint in the sequence.
+    """
+    row = links[index]
+    self.CommandStack.beginMacro(
+        "Merge {{{}}} to joint {{{}}}".format(
+            ", ".join(self.EntitiesLink.item(link, 0).text() for link in links),
+            self.EntitiesLink.item(row, 0).text()
+        )
+    )
+    vlinks = self.EntitiesLink.dataTuple()
+    points = list(vlinks[row].points)
+    args = self.EntitiesLink.rowTexts(row, hasName=True)
+    for link in sorted(links, reverse=True):
+        for point in vlinks[link].points:
+            if point not in points:
+                points.append(point)
+        _deleteLink(self, link)
+    args[2] = ','.join('Point{}'.format(p) for p in points)
+    self.CommandStack.push(AddTable(self.EntitiesLink))
+    self.CommandStack.push(EditLinkTable(
+        self.EntitiesLink.rowCount() - 1,
+        self.EntitiesLink,
+        self.EntitiesPoint,
+        args
+    ))
     self.CommandStack.endMacro()
 
 
@@ -135,6 +181,7 @@ def on_link_context_menu(self, point: QPoint):
     """EntitiesLink context menu."""
     _enableLinkContext(self)
     self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
+    self.popMenu_link_merge.clear()
 
 
 def on_canvas_context_menu(self, point: QPoint):

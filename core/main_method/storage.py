@@ -19,8 +19,8 @@ from core.io import (
     DeleteStorage,
     AddStorageName,
     ClearStorageName,
-    parse_params,
 )
+from core.libs import parse_params
 
 
 def _clearStorage(self):
@@ -32,11 +32,9 @@ def _clearStorage(self):
     self.InputsWidget.variableExcluding()
 
 
-def _addStorage(self, name, expr, clear=True):
+def _addStorage(self, name, expr):
     """Add storage data function."""
     self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
-    if clear:
-        _clearStorage(self)
     self.CommandStack.push(AddStorage(
         name,
         self.mechanism_storage,
@@ -107,7 +105,7 @@ def on_mechanism_storage_paste_clicked(self):
         while "Prototype_{}".format(i) in nameList:
             i += 1
         name = "Prototype_{}".format(i)
-    _addStorage(self, name, expr, clear=False)
+    _addStorage(self, name, expr)
 
 
 def on_mechanism_storage_delete_clicked(self):
@@ -160,4 +158,4 @@ def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
 def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
     """Load storage data from database."""
     for name, expr in exprs:
-        _addStorage(self, name, expr, clear=False)
+        _addStorage(self, name, expr)

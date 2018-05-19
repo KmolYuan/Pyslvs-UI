@@ -2,7 +2,6 @@
 
 """Informations.
 
-+ Pyslvs version.
 + Module versions.
 + Help descriptions.
 + Check for update function.
@@ -21,14 +20,13 @@ from typing import Tuple
 from core.QtModules import (
     QProgressDialog,
     qVersion,
-    PYQT_VERSION_STR
+    PYQT_VERSION_STR,
 )
+from core.libs import __version__
 
 
 _Qt_Version = qVersion().strip()
 _PyQt_Version = PYQT_VERSION_STR.strip()
-
-__version__ = (18, 5, 0, 'dev')
 
 INFO = (
     "Pyslvs {}.{}.{}({})".format(*__version__),
@@ -69,7 +67,7 @@ _parser.add_argument(
 )
 _parser.add_argument(
     'r',
-    metavar = 'FILE PATH',
+    metavar = "file path",
     default = False,
     nargs = '?',
     type = str,
@@ -77,7 +75,7 @@ _parser.add_argument(
 )
 _parser.add_argument(
     '-i',
-    metavar = 'START PATH',
+    metavar = "start path",
     default = False,
     nargs = '?',
     type = str,
@@ -104,6 +102,12 @@ _parser.add_argument(
     '--debug-mode',
     action = 'store_true',
     help = "do not connect to GUI console when opening"
+)
+_parser.add_argument(
+    '-t',
+    '--test',
+    action = 'store_true',
+    help = "just test module states and exit"
 )
 ARGUMENTS = _parser.parse_args()
 

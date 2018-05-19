@@ -350,6 +350,13 @@ def _zoom(self):
 
 
 def _context_menu(self):
+    """All context menu."""
+    _point_context_menu(self)
+    _link_context_menu(self)
+    _canvas_context_menu(self)
+
+
+def _point_context_menu(self):
     """EntitiesPoint context menu
     
     + Add
@@ -358,9 +365,9 @@ def _context_menu(self):
     + Edit
     + Fixed [v]
     + Multiple joint
-      - Point0
-      - Point1
-      - ...
+        - Point0
+        - Point1
+        - ...
     + Copy table data
     + Clone
     -------
@@ -405,10 +412,17 @@ def _context_menu(self):
         self.on_action_Delete_Point_triggered
     )
     self.popMenu_point.addAction(self.action_point_context_delete)
+
+
+def _link_context_menu(self):
     """EntitiesLink context menu
     
     + Add
     + Edit
+    + Merge linkage
+        - Link0
+        - Link1
+        - ...
     + Copy table data
     + Release / Constrain
     -------
@@ -429,6 +443,9 @@ def _context_menu(self):
         self.on_action_Edit_Link_triggered
     )
     self.popMenu_link.addAction(self.action_link_context_edit)
+    self.popMenu_link_merge = QMenu(self)
+    self.popMenu_link_merge.setTitle("Merge linkage")
+    self.popMenu_link.addMenu(self.popMenu_link_merge)
     self.action_link_context_copydata = QAction("&Copy table data", self)
     self.action_link_context_copydata.triggered.connect(self.copyLinksTable)
     self.popMenu_link.addAction(self.action_link_context_copydata)
@@ -444,6 +461,9 @@ def _context_menu(self):
         self.on_action_Delete_Link_triggered
     )
     self.popMenu_link.addAction(self.action_link_context_delete)
+
+
+def _canvas_context_menu(self):
     """MainCanvas context menu
     
     + Add
@@ -455,9 +475,9 @@ def _context_menu(self):
     + Edit
     + Fixed
     + Multiple joint
-      - Point0
-      - Point1
-      - ...
+        - Point0
+        - Point1
+        - ...
     + Clone
     + Copy coordinate
     -------
