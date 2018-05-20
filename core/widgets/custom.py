@@ -229,10 +229,22 @@ def _appearance(self):
     select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
     select_all_button.setToolTip("Select all")
     select_all_button.setStatusTip("Select all item of point table.")
-    select_all_button.clicked.connect(self.EntitiesPoint.selectAll)
+    
+    @pyqtSlot()
+    def table_select_all():
+        """Distinguish table by tab index."""
+        index = self.EntitiesTab.currentIndex()
+        if index == 0:
+            self.EntitiesPoint.selectAll()
+        elif index == 1:
+            self.EntitiesLink.selectAll()
+        elif index == 2:
+            self.Entities_Expr.selectAll()
+    
+    select_all_button.clicked.connect(table_select_all)
     self.EntitiesTab.setCornerWidget(select_all_button)
     select_all_action = QAction("Select all point", self)
-    select_all_action.triggered.connect(self.EntitiesPoint.selectAll)
+    select_all_action.triggered.connect(table_select_all)
     select_all_action.setShortcut("Ctrl+A")
     select_all_action.setShortcutContext(Qt.WindowShortcut)
     self.addAction(select_all_action)

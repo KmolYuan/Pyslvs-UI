@@ -212,9 +212,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_SynthesisTab_currentChanged(self, index: int):
         """Dimensional synthesis information will show on the canvas."""
-        self.MainCanvas.setShowTargetPath(
-            self.SynthesisTab.tabText(index)=="Dimensional"
-        )
+        self.MainCanvas.setShowTargetPath(index == 2)
     
     def addTargetPoint(self):
         """Use context menu to add a target path coordinate."""
@@ -291,9 +289,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_EntitiesTab_currentChanged(self, index: int):
-        self.MainCanvas.setSolutionShow(
-            self.EntitiesTab.tabText(index) == "Formulas"
-        )
+        self.MainCanvas.setSolutionShow(index == 2)
     
     @pyqtSlot(float, float)
     def setMousePos(self, x: float, y: float):

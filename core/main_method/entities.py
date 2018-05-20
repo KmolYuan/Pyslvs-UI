@@ -173,8 +173,7 @@ def _deletePoint(self, row: int):
 
 def qAddNormalPoint(self):
     """Add point group using alt key."""
-    tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
-    if tabText == "Dimensional":
+    if self.SynthesisTab.currentIndex() == 2:
         self.addTargetPoint()
     else:
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)

@@ -187,8 +187,7 @@ def on_link_context_menu(self, point: QPoint):
 def on_canvas_context_menu(self, point: QPoint):
     """MainCanvas context menu."""
     _enablePointContext(self)
-    tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
-    self.action_canvas_context_path.setVisible(tabText == "Dimensional")
+    self.action_canvas_context_path.setVisible(self.SynthesisTab.currentIndex() == 2)
     self.popMenu_canvas.exec_(self.MainCanvas.mapToGlobal(point))
     self.action_New_Link.setVisible(True)
     self.popMenu_point_merge.clear()
