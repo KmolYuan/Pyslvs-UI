@@ -497,7 +497,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>413</width>
+                  <width>453</width>
                   <height>823</height>
                  </rect>
                 </property>
@@ -948,7 +948,7 @@
                 <enum>QSlider::TicksBelow</enum>
                </property>
                <property name="tickInterval">
-                <number>100</number>
+                <number>200</number>
                </property>
               </widget>
              </item>

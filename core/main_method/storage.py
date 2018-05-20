@@ -75,7 +75,7 @@ def on_mechanism_storage_copy_clicked(self):
 
 def on_mechanism_storage_paste_clicked(self):
     """Add the storage data from string."""
-    expr, ok = QInputDialog.getText(self,
+    expr, ok = QInputDialog.getMultiLineText(self,
         "Storage",
         "Please input expression:"
     )
