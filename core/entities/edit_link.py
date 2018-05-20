@@ -7,7 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Optional
+from re import match
+from typing import List, Union, Optional
 from core.QtModules import (
     pyqtSlot,
     Qt,
@@ -37,7 +38,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     def __init__(self,
         vpoints: List[VPoint],
         vlinks: List[VLink],
-        row: bool,
+        row: Union[int, bool],
         parent
     ):
         """Input data reference from main window.
@@ -78,7 +79,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     
     def __legalName(self, name: str) -> bool:
         """Return this name is usable or not."""
-        if not name.isidentifier():
+        if not match("^[A-Za-z0-9_-]*$", name):
             return False
         for i, vlink in enumerate(self.vlinks):
             if (i != self.name_box.currentIndex()) and (name == vlink.name):
@@ -88,6 +89,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @pyqtSlot(int)
     def on_name_box_currentIndexChanged(self, index):
         """Load the parameters of the link."""
+        if self.name_box.itemText(index) == "New link":
+            return
         if len(self.vlinks) > index:
             vlink = self.vlinks[index]
             self.name_edit.setText(vlink.name)
@@ -110,9 +113,9 @@ class EditLinkDialog(QDialog, Ui_Dialog):
                 self.noSelected.addItem(
                     QListWidgetItem(self.PointIcon, 'Point{}'.format(point))
                 )
-        not_grounded = index > 0
+        not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.colorpick_button):
-            self.name_edit.setEnabled(not_grounded)
+            self.name_edit.setEnabled(not_ground)
     
     @pyqtSlot(int)
     def on_color_box_currentIndexChanged(self, index):
