@@ -15,7 +15,7 @@ from math import (
     atan2,
     hypot,
 )
-from typing import Tuple
+from typing import Tuple, List
 from core.QtModules import (
     Qt,
     QApplication,
@@ -208,10 +208,8 @@ def _drawPoint(self, i: int, vpoint: VPoint):
         )
 
 
-def _drawLink(self, vlink: VLink):
-    """Draw a link."""
-    if vlink.name == 'ground':
-        return
+def _pointsPos(self, vlink: VLink) -> List[Tuple[float, float]]:
+    """Get geometry of the vlink."""
     points = []
     for i in vlink.points:
         vpoint = self.Points[i]
@@ -225,8 +223,14 @@ def _drawLink(self, vlink: VLink):
             x = coordinate[0] * self.zoom
             y = coordinate[1] * -self.zoom
         points.append((x, y))
-    if not points:
+    return points
+
+
+def _drawLink(self, vlink: VLink):
+    """Draw a link."""
+    if (vlink.name == 'ground') or (not vlink.points):
         return
+    points = _pointsPos(self, vlink)
     pen = QPen()
     #Rearrange: Put the nearest point to the next position.
     qpoints = convex_hull(points)
@@ -352,13 +356,13 @@ def _select_func(self, *, rect: bool = False):
                     self.selector.selection_rect.append(i)
     elif self.selectionMode == 1:
         
-        def catch(points: Tuple[int]) -> bool:
+        def catch(vlink: VLink) -> bool:
             """Detection function for links.
             
             + Is polygon: Using Qt polygon geometry.
             + If just a line: Create a range for mouse detection.
             """
-            points = [(self.Points[p].cx * self.zoom, self.Points[p].cy * -self.zoom) for p in points]
+            points = _pointsPos(self, vlink)
             if len(points) > 2:
                 polygon = QPolygonF(convex_hull(points))
             else:
@@ -373,7 +377,7 @@ def _select_func(self, *, rect: bool = False):
         for i, vlink in enumerate(self.Links):
             if i == 0:
                 continue
-            if catch(vlink.points):
+            if catch(vlink):
                 if i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
