@@ -65,7 +65,7 @@ class DynamicCanvas(BaseCanvas):
         self.Links = tuple()
         #Select function.
         self.selectionMode = 0
-        self.selectionRadius = 10
+        self.sr = 10
         self.selections = []
         #Linkage transparency.
         self.transparency = 1.
@@ -171,9 +171,9 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     @pyqtSlot(int)
-    def setSelectionRadius(self, selectionRadius: int):
+    def setSelectionRadius(self, sr: int):
         """Update radius of point selector."""
-        self.selectionRadius = selectionRadius
+        self.sr = sr
     
     @pyqtSlot(int)
     def setTransparency(self, transparency: int):

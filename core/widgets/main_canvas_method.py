@@ -344,7 +344,7 @@ def _select_func(self, *, rect: bool = False):
             if rect:
                 return self.selector.inRect(x, y)
             else:
-                return self.selector.isClose(x, y, self.selectionRadius)
+                return self.selector.isClose(x, y, self.sr)
         
         for i, vpoint in enumerate(self.Points):
             if catch(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
@@ -362,8 +362,8 @@ def _select_func(self, *, rect: bool = False):
             if len(points) > 2:
                 polygon = QPolygonF(convex_hull(points))
             else:
-                points_up = [(x + 5, y + 5) for x, y in points]
-                points_down = [(x - 5, y - 5) for x, y in points]
+                points_up = [(x + self.sr, y + self.sr) for x, y in points]
+                points_down = [(x - self.sr, y - self.sr) for x, y in points]
                 polygon = QPolygonF(convex_hull(points_up + points_down))
             if rect:
                 return polygon.intersects(QPolygonF(self.selector.toQRect()))
@@ -568,8 +568,8 @@ def mouseReleaseEvent(self, event):
             self.alt_add.emit()
         #Only one clicked.
         elif (
-            (abs(event.x() - self.ox - self.selector.x) < self.selectionRadius/2) and
-            (abs(event.y() - self.oy - self.selector.y) < self.selectionRadius/2)
+            (abs(event.x() - self.ox - self.selector.x) < self.sr/2) and
+            (abs(event.y() - self.oy - self.selector.y) < self.sr/2)
         ):
             if (
                 (not self.selector.selection_rect) and
@@ -604,8 +604,8 @@ def mouseMoveEvent(self, event):
         if self.freemove != FreeMode.NoFreeMove:
             if self.freemove == FreeMode.Translate:
                 #Free move translate function.
-                mouse_x = _snap(self, x - self.selector.x/self.zoom, False)
-                mouse_y = _snap(self, y - self.selector.y/-self.zoom, False)
+                mouse_x = _snap(self, x - self.selector.x / self.zoom, False)
+                mouse_y = _snap(self, y - self.selector.y / -self.zoom, False)
                 QToolTip.showText(
                     event.globalPos(),
                     "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
@@ -632,8 +632,8 @@ def mouseMoveEvent(self, event):
                     r = hypot(vpoint.x, vpoint.y)
                     beta = atan2(vpoint.y, vpoint.x)
                     vpoint.move((
-                        r*cos(alpha + beta),
-                        r*sin(alpha + beta)
+                        r * cos(alpha + beta),
+                        r * sin(alpha + beta)
                     ))
             elif self.freemove == FreeMode.Reflect:
                 #Free move reflect function.
@@ -672,7 +672,7 @@ def mouseMoveEvent(self, event):
                     self.selector.sx / self.zoom,
                     self.selector.sy / -self.zoom,
                     len(selection),
-                    'point' if self.selectionMode == 0 else 'link'
+                    'link' if self.selectionMode == 1 else 'point'
                 ),
                 self
             )
