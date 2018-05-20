@@ -35,6 +35,7 @@ class _BaseTableWidget(QTableWidget):
     
     """Two tables has some shared function."""
     
+    rowSelectionChanged = pyqtSignal(list)
     deleteRequest = pyqtSignal()
     
     def __init__(self,
@@ -51,10 +52,13 @@ class _BaseTableWidget(QTableWidget):
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+        
         self.setRowCount(row)
         self.setColumnCount(len(headers)+1)
         for i, e in enumerate(('Name',) + headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
+        
+        self.itemSelectionChanged.connect(self.__emitSelectionChanged)
     
     def rowTexts(self, row: int, *, hasName: bool = False) -> List[str]:
         """Get the whole row of texts.
@@ -79,24 +83,67 @@ class _BaseTableWidget(QTableWidget):
         """Get what row is been selected."""
         return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
     
+    def setSelections(self, selections: Tuple[int], keyDetect: bool):
+        """Auto select function, get the signal from canvas."""
+        self.setFocus()
+        keyboardModifiers = QApplication.keyboardModifiers()
+        if keyDetect:
+            if keyboardModifiers == Qt.ShiftModifier:
+                self.__setSelectedRanges(selections, continueSelect=True, unSelect=False)
+            elif keyboardModifiers == Qt.ControlModifier:
+                self.__setSelectedRanges(selections, continueSelect=True, unSelect=True)
+            else:
+                self.__setSelectedRanges(selections, continueSelect=False, unSelect=False)
+        else:
+            continueSelect = (keyboardModifiers == Qt.ShiftModifier)
+            self.__setSelectedRanges(selections, continueSelect=continueSelect, unSelect=False)
+    
+    def __setSelectedRanges(self,
+        selections: Tuple[int],
+        *,
+        continueSelect: bool,
+        unSelect: bool
+    ):
+        """Different mode of select function."""
+        selectedRows = self.selectedRows()
+        if not continueSelect:
+            self.clearSelection()
+        self.setCurrentCell(selections[-1], 0)
+        for row in selections:
+            isSelected = not row in selectedRows
+            self.setRangeSelected(
+                QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
+                isSelected if unSelect else True)
+            self.scrollToItem(self.item(row, 0))
+    
     def keyPressEvent(self, event):
         """Hit the delete key,
         will emit delete signal from this table.
         """
-        if event.key()==Qt.Key_Delete:
+        if event.key() == Qt.Key_Delete:
             self.deleteRequest.emit()
     
     def clear(self):
         """Overridden the clear function, just removed all items."""
         for row in range(self.rowCount()):
             self.removeRow(0)
+    
+    @pyqtSlot()
+    def clearSelection(self):
+        """Overridden the 'clearSelection' slot to emit 'rowSelectionChanged'"""
+        super(_BaseTableWidget, self).clearSelection()
+        self.rowSelectionChanged.emit([])
+    
+    @pyqtSlot()
+    def __emitSelectionChanged(self):
+        """Let canvas to show the point selections."""
+        self.rowSelectionChanged.emit(self.selectedRows())
 
 
 class PointTableWidget(_BaseTableWidget):
     
     """Custom table widget for points."""
     
-    rowSelectionChanged = pyqtSignal(list)
     selectionLabelUpdate = pyqtSignal(list, list)
     
     def __init__(self, parent):
@@ -115,7 +162,6 @@ class PointTableWidget(_BaseTableWidget):
         self.setColumnWidth(4, 60)
         self.setColumnWidth(5, 60)
         self.setColumnWidth(6, 130)
-        self.itemSelectionChanged.connect(self.__emitSelectionChanged)
     
     def data(self) -> Iterator[VPoint]:
         """Yield the digitization of all table data."""
@@ -194,21 +240,14 @@ class PointTableWidget(_BaseTableWidget):
             for row in range(self.rowCount())
         ))
     
-    @pyqtSlot(tuple, bool)
+    def getLinks(self, row: int) -> List[str]:
+        item = self.item(row, 1)
+        if not item:
+            return []
+        return [s for s in item.text().split(',') if s]
+    
     def setSelections(self, selections: Tuple[int], keyDetect: bool):
-        """Auto select function, get the signal from canvas."""
-        self.setFocus()
-        keyboardModifiers = QApplication.keyboardModifiers()
-        if keyDetect:
-            if keyboardModifiers == Qt.ShiftModifier:
-                self.__setSelectedRanges(selections, continueSelect=True, unSelect=False)
-            elif keyboardModifiers == Qt.ControlModifier:
-                self.__setSelectedRanges(selections, continueSelect=True, unSelect=True)
-            else:
-                self.__setSelectedRanges(selections, continueSelect=False, unSelect=False)
-        else:
-            continueSelect = (keyboardModifiers == Qt.ShiftModifier)
-            self.__setSelectedRanges(selections, continueSelect=continueSelect, unSelect=False)
+        super(PointTableWidget, self).setSelections(selections, keyDetect)
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows) > 1:
@@ -219,41 +258,12 @@ class PointTableWidget(_BaseTableWidget):
                 distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
         self.selectionLabelUpdate.emit(selectedRows, distance)
     
-    def __setSelectedRanges(self,
-        selections: Tuple[int],
-        *,
-        continueSelect: bool,
-        unSelect: bool
-    ):
-        """Different mode of select function."""
-        selectedRows = self.selectedRows()
-        if not continueSelect:
-            self.clearSelection()
-        self.setCurrentCell(selections[-1], 0)
-        for row in selections:
-            isSelected = not row in selectedRows
-            self.setRangeSelected(
-                QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
-                isSelected if unSelect else True)
-            self.scrollToItem(self.item(row, 0))
-    
-    def getLinks(self, row: int) -> List[str]:
-        item = self.item(row, 1)
-        if not item:
-            return []
-        return [s for s in item.text().split(',') if s]
-    
     def effectiveRange(self, hasName: bool):
         """Row range that can be delete."""
         if hasName:
             return range(self.columnCount())
         else:
-            return range(1, self.columnCount()-1)
-    
-    @pyqtSlot()
-    def __emitSelectionChanged(self):
-        """Let canvas to show the point selections."""
-        self.rowSelectionChanged.emit(self.selectedRows())
+            return range(1, self.columnCount() - 1)
     
     @pyqtSlot()
     def clearSelection(self):

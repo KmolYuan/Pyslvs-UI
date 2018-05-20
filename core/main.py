@@ -253,6 +253,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.InputsWidget.addPath("Algorithm_{}".format(i), path)
         self.MainCanvas.zoomToFit()
     
+    @pyqtSlot(int)
+    def on_EntitiesTab_currentChanged(self, index):
+        """Connect selection signal for main canvas."""
+        if index == 0:
+            self.EntitiesLink.rowSelectionChanged.disconnect()
+            self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.setSelection)
+        elif index == 1:
+            self.EntitiesPoint.rowSelectionChanged.disconnect()
+            self.EntitiesLink.rowSelectionChanged.connect(self.MainCanvas.setSelection)
+        self.EntitiesPoint.clearSelection()
+        self.EntitiesLink.clearSelection()
+        self.EntitiesExpr.clearSelection()
+        #TODO: Switch actions when selection mode changed.
+    
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):
         """Turn the OS command line (stdout) log to console."""
@@ -286,10 +300,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showFullScreen()
         else:
             self.showMaximized()
-    
-    @pyqtSlot(int)
-    def on_EntitiesTab_currentChanged(self, index: int):
-        self.MainCanvas.setSolutionShow(index == 2)
     
     @pyqtSlot(float, float)
     def setMousePos(self, x: float, y: float):

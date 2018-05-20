@@ -129,11 +129,11 @@
                       <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="Entities_Point_Widget" native="true">
+                      <widget class="QWidget" name="EntitiesPoint_widget" native="true">
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="Entities_Point_Layout">
+                       <layout class="QVBoxLayout" name="EntitiesPoint_layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -173,11 +173,11 @@
                       <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="Entities_Link_Widget" native="true">
+                      <widget class="QWidget" name="EntitiesLink_widget" native="true">
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="Entities_Link_Layout">
+                       <layout class="QVBoxLayout" name="EntitiesLink_layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -205,11 +205,11 @@
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_8">
                      <item>
-                      <widget class="QWidget" name="Expression_Widget" native="true">
+                      <widget class="QWidget" name="EntitiesExpr_widget" native="true">
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="Expression_Layout">
+                       <layout class="QVBoxLayout" name="EntitiesExpr_layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>

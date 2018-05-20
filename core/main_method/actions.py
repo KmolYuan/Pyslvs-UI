@@ -172,7 +172,7 @@ def setMousePos(self, x: float, y: float):
 def on_point_context_menu(self, point: QPoint):
     """EntitiesPoint context menu."""
     _enablePointContext(self)
-    self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
+    self.popMenu_point.exec_(self.EntitiesPoint_widget.mapToGlobal(point))
     self.action_New_Link.setVisible(True)
     self.popMenu_point_merge.clear()
 
@@ -180,7 +180,7 @@ def on_point_context_menu(self, point: QPoint):
 def on_link_context_menu(self, point: QPoint):
     """EntitiesLink context menu."""
     _enableLinkContext(self)
-    self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
+    self.popMenu_link.exec_(self.EntitiesLink_widget.mapToGlobal(point))
     self.popMenu_link_merge.clear()
 
 

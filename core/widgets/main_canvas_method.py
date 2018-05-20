@@ -15,10 +15,11 @@ from math import (
     atan2,
     hypot,
 )
-from typing import Tuple, Callable
+from typing import Tuple
 from core.QtModules import (
     Qt,
     QApplication,
+    QPolygonF,
     QRectF,
     QPointF,
     QFont,
@@ -58,8 +59,8 @@ class Selector:
         + x, y, sx, sy: Four coordinates of selection rectangle.
         + selection_rect: The selection of mouse dragging.
         + selection_old: The selection before mouse dragging.
-        + middle_dragged: Is dragging using middle button.
-        + left_dragged: Is dragging using left button.
+        + middle_dragged: Is dragged by middle button.
+        + left_dragged: Is dragged by left button.
         + picking: Is selecting (for drawing function).
         """
         self.x = 0.
@@ -88,7 +89,7 @@ class Selector:
         return hypot(x - self.x, y - self.y) <= limit
     
     def inRect(self, x: float, y: float) -> bool:
-        """Return if input coordinate is in the rectangle."""
+        """Return True if input coordinate is in the rectangle."""
         return (
             min(self.x, self.sx) <= x <= max(self.x, self.sx) and
             min(self.y, self.sy) <= y <= max(self.y, self.sy)
@@ -196,7 +197,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
             vpoint.color
         )
     #For selects function.
-    if i in self.selections:
+    if (self.selectionMode == 0) and (i in self.selections):
         pen = QPen(QColor(161, 16, 239))
         pen.setWidth(3)
         self.painter.setPen(pen)
@@ -209,6 +210,8 @@ def _drawPoint(self, i: int, vpoint: VPoint):
 
 def _drawLink(self, vlink: VLink):
     """Draw a link."""
+    if vlink.name == 'ground':
+        return
     points = []
     for i in vlink.points:
         vpoint = self.Points[i]
@@ -222,28 +225,39 @@ def _drawLink(self, vlink: VLink):
             x = coordinate[0] * self.zoom
             y = coordinate[1] * -self.zoom
         points.append((x, y))
-    pen = QPen(vlink.color)
+    if not points:
+        return
+    pen = QPen()
+    #Rearrange: Put the nearest point to the next position.
+    qpoints = convex_hull(points)
+    if (
+        (self.selectionMode == 1) and
+        (self.Links.index(vlink) in self.selections)
+    ):
+        pen.setWidth(self.linkWidth + 6)
+        pen.setColor(QColor(161, 16, 239))
+        self.painter.setPen(pen)
+        self.painter.drawPolygon(*qpoints)
     pen.setWidth(self.linkWidth)
+    pen.setColor(vlink.color)
     self.painter.setPen(pen)
     brush = QColor(226, 219, 190)
     brush.setAlphaF(self.transparency)
     self.painter.setBrush(brush)
-    #Rearrange: Put the nearest point to the next position.
-    qpoints = convex_hull(points)
-    if qpoints:
-        self.painter.drawPolygon(*qpoints)
+    self.painter.drawPolygon(*qpoints)
     self.painter.setBrush(Qt.NoBrush)
-    if (
-        (not self.showPointMark) or
-        (vlink.name == 'ground') or
-        (not qpoints)
-    ):
+    if not self.showPointMark:
         return
     pen.setColor(Qt.darkGray)
     self.painter.setPen(pen)
-    cenX = sum(p[0] for p in points) / len(points)
-    cenY = sum(p[1] for p in points) / len(points)
-    self.painter.drawText(QPointF(cenX, cenY), '[{}]'.format(vlink.name))
+    p_count = len(points)
+    cen_x = sum(p[0] for p in points) / p_count
+    cen_y = sum(p[1] for p in points) / p_count
+    self.painter.drawText(
+        QRectF(cen_x-50, cen_y-50, 100, 100),
+        Qt.AlignCenter,
+        '[{}]'.format(vlink.name)
+    )
 
 
 def _drawPath(self):
@@ -258,7 +272,7 @@ def _drawPath(self):
             self.Points,
             self.pathInterval()
         )
-        if self.solutionShow:
+        if self.selectionMode == 2:
             for expr in exprs:
                 self._BaseCanvas__drawSolution(
                     expr[0],
@@ -320,29 +334,48 @@ def _drawSlvsRanges(self):
         self.painter.setBrush(Qt.NoBrush)
 
 
-def _selectedPointFunc(self,
-    inSelection: Callable[[float, float], bool]
-):
-    """Select point(s) function."""
+def _select_func(self, *, rect: bool = False):
+    """Select function."""
     self.selector.selection_rect.clear()
-    for i, vpoint in enumerate(self.Points):
-        if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
-            if i not in self.selector.selection_rect:
-                self.selector.selection_rect.append(i)
-
-
-def _mouseSelectedPoint(self):
-    """Select one point."""
-    _selectedPointFunc(self,
-        lambda x, y: self.selector.isClose(x, y, self.selectionRadius)
-    )
-
-
-def _rectangularSelectedPoint(self):
-    """Select points by rectangle."""
-    _selectedPointFunc(self,
-        self.selector.inRect
-    )
+    if self.selectionMode == 0:
+        
+        def catch(x: float, y: float) -> bool:
+            """Detection function for points."""
+            if rect:
+                return self.selector.inRect(x, y)
+            else:
+                return self.selector.isClose(x, y, self.selectionRadius)
+        
+        for i, vpoint in enumerate(self.Points):
+            if catch(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
+                if i not in self.selector.selection_rect:
+                    self.selector.selection_rect.append(i)
+    elif self.selectionMode == 1:
+        
+        def catch(points: Tuple[int]) -> bool:
+            """Detection function for links.
+            
+            + Is polygon: Using Qt polygon geometry.
+            + If just a line: Create a range for mouse detection.
+            """
+            points = [(self.Points[p].cx * self.zoom, self.Points[p].cy * -self.zoom) for p in points]
+            if len(points) > 2:
+                polygon = QPolygonF(convex_hull(points))
+            else:
+                points_up = [(x + 5, y + 5) for x, y in points]
+                points_down = [(x - 5, y - 5) for x, y in points]
+                polygon = QPolygonF(convex_hull(points_up + points_down))
+            if rect:
+                return polygon.intersects(QPolygonF(self.selector.toQRect()))
+            else:
+                return polygon.containsPoint(QPointF(self.selector.x, self.selector.y), Qt.WindingFill)
+        
+        for i, vlink in enumerate(self.Links):
+            if i == 0:
+                continue
+            if catch(vlink.points):
+                if i not in self.selector.selection_rect:
+                    self.selector.selection_rect.append(i)
 
 
 def _snap(self, num: float, isZoom: bool = True) -> float:
@@ -496,7 +529,7 @@ def mousePressEvent(self, event):
         self.browse_tracking.emit(x, y)
     if event.buttons() == Qt.LeftButton:
         self.selector.left_dragged = True
-        _mouseSelectedPoint(self)
+        _select_func(self)
         if self.selector.selection_rect:
             self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
 
@@ -513,7 +546,7 @@ def mouseDoubleClickEvent(self, event):
     if button == Qt.LeftButton:
         self.selector.x = _snap(self, event.x() - self.ox)
         self.selector.y = _snap(self, event.y() - self.oy)
-        _mouseSelectedPoint(self)
+        _select_func(self)
         if self.selector.selection_rect:
             self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
             self.doubleclick_edit.emit(self.selector.selection_rect[0])
@@ -625,7 +658,7 @@ def mouseMoveEvent(self, event):
             self.selector.picking = True
             self.selector.sx = _snap(self, event.x() - self.ox)
             self.selector.sy = _snap(self, event.y() - self.oy)
-            _rectangularSelectedPoint(self)
+            _select_func(self, rect=True)
             selection = self.selector.currentSelection()
             if selection:
                 self.selected.emit(selection, False)
@@ -633,12 +666,13 @@ def mouseMoveEvent(self, event):
                 self.noselected.emit()
             QToolTip.showText(
                 event.globalPos(),
-                "({:.02f}, {:.02f})\n({:.02f}, {:.02f})\n{} point(s)".format(
+                "({:.02f}, {:.02f})\n({:.02f}, {:.02f})\n{} {}(s)".format(
                     self.selector.x / self.zoom,
                     self.selector.y / self.zoom,
                     self.selector.sx / self.zoom,
                     self.selector.sy / -self.zoom,
-                    len(selection)
+                    len(selection),
+                    'point' if self.selectionMode == 0 else 'link'
                 ),
                 self
             )

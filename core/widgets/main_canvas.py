@@ -63,9 +63,10 @@ class DynamicCanvas(BaseCanvas):
         #Entities.
         self.Points = tuple()
         self.Links = tuple()
-        #Point selection.
+        #Select function.
+        self.selectionMode = 0
         self.selectionRadius = 10
-        self.selections = tuple()
+        self.selections = []
         #Linkage transparency.
         self.transparency = 1.
         #Path solving range.
@@ -76,8 +77,6 @@ class DynamicCanvas(BaseCanvas):
         self.freemove = FreeMode.NoFreeMove
         #Auto preview function.
         self.autoPathShow = True
-        #Show solution.
-        self.solutionShow = False
         #Zooming center.
         """
         0: By cursor.
@@ -207,9 +206,15 @@ class DynamicCanvas(BaseCanvas):
         """Update mouse capture value."""
         self.snap = snap
     
+    @pyqtSlot(int)
+    def setSelectionMode(self, selectionMode: int):
+        """Update the selection."""
+        self.selectionMode = selectionMode
+        self.update()
+    
     @pyqtSlot(list)
-    def changePointsSelection(self, selections: List[int]):
-        """Update the selected points."""
+    def setSelection(self, selections: List[int]):
+        """Update the selection."""
         self.selections = selections
         self.update()
     
@@ -233,11 +238,6 @@ class DynamicCanvas(BaseCanvas):
     def setAutoPath(self, autoPathShow: bool):
         """Enable auto preview function."""
         self.autoPathShow = autoPathShow
-        self.update()
-    
-    def setSolutionShow(self, solutionShow: bool):
-        """Update solution preview mode."""
-        self.solutionShow = solutionShow
         self.update()
     
     def updateRanges(self, ranges: Dict[str, Tuple[float, float, float]]):

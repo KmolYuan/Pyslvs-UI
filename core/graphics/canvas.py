@@ -44,7 +44,7 @@ from core.libs import VPoint
 from . import colorQt, colorPath
 
 
-def convex_hull(points: List[Tuple[float, float]]):
+def convex_hull(points: List[Tuple[float, float]]) -> List[QPointF]:
     """Returns points on convex hull in CCW order
     according to Graham's scan algorithm.
     """

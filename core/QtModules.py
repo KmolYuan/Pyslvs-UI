@@ -80,6 +80,7 @@ from PyQt5.QtGui import (
     QPainterPath,
     QPen,
     QPixmap,
+    QPolygonF,
     QTextCursor,
 )
 from PyQt5.QtChart import (
@@ -142,6 +143,7 @@ __all__ = [
     'QPixmap',
     'QPoint',
     'QPointF',
+    'QPolygonF',
     'QProgressDialog',
     'QPushButton',
     'QRectF',

@@ -206,7 +206,7 @@ def getTriangle(self,
         vpoints,
         tuple(self.InputsWidget.inputPair())
     )
-    self.Entities_Expr.setExpr(exprs)
+    self.EntitiesExpr.setExpr(exprs)
     return exprs
 
 
@@ -214,7 +214,7 @@ def rightInput(self) -> bool:
     """Is input same as DOF?"""
     inputs = self.InputsWidget.inputCount() == self.DOF
     if not inputs:
-        self.Entities_Expr.clear()
+        self.EntitiesExpr.clear()
     return inputs
 
 

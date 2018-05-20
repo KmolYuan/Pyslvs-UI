@@ -3,6 +3,7 @@ Change Log
 
 Version 18.05:
 - Features
+    -- New linkage selection function for both of table widget and main canvas.
     -- Add mouse snapping option (default 1 unit). Using ctrl + mouse wheel can adjust the value.
     -- Triple ball lifter example.
     -- Shortcut keys adjustment.

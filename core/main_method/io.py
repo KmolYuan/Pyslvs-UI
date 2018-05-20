@@ -236,7 +236,7 @@ def clear(self):
     self.DimensionalSynthesis.clear()
     self.EntitiesPoint.clear()
     self.EntitiesLink.clear()
-    self.Entities_Expr.clear()
+    self.EntitiesExpr.clear()
     self.resolve()
 
 
