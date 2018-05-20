@@ -15,11 +15,7 @@ from math import (
     atan2,
     hypot,
 )
-from typing import (
-    Tuple,
-    List,
-    Callable,
-)
+from typing import Tuple, Callable
 from core.QtModules import (
     Qt,
     QApplication,
@@ -51,24 +47,43 @@ class Selector:
         'selection',
         'selection_rect',
         'selection_old',
-        'middleDragged',
-        'leftDragged',
-        'hasSelection',
+        'middle_dragged',
+        'left_dragged',
+        'picking',
     )
     
     def __init__(self):
+        """Attributes:
+        
+        + x, y, sx, sy: Four coordinates of selection rectangle.
+        + selection_rect: The selection of mouse dragging.
+        + selection_old: The selection before mouse dragging.
+        + middle_dragged: Is dragging using middle button.
+        + left_dragged: Is dragging using left button.
+        + picking: Is selecting (for drawing function).
+        """
         self.x = 0.
         self.y = 0.
-        self.selection = []
-        self.selection_rect = []
-        self.selection_old = []
-        self.middleDragged = False
-        self.leftDragged = False
-        self.hasSelection = False
         self.sx = 0.
         self.sy = 0.
+        self.selection_rect = []
+        self.selection_old = []
+        self.middle_dragged = False
+        self.left_dragged = False
+        self.picking = False
     
-    def distanceLimit(self, x: float, y: float, limit: float) -> bool:
+    def km(self) -> int:
+        """Qt keyboard modifiers."""
+        return QApplication.keyboardModifiers()
+    
+    def release(self):
+        """Release the dragging status."""
+        self.selection_rect.clear()
+        self.middle_dragged = False
+        self.left_dragged = False
+        self.picking = False
+    
+    def isClose(self, x: float, y: float, limit: float) -> bool:
         """Return the distance of selector."""
         return hypot(x - self.x, y - self.y) <= limit
     
@@ -78,6 +93,16 @@ class Selector:
             min(self.x, self.sx) <= x <= max(self.x, self.sx) and
             min(self.y, self.sy) <= y <= max(self.y, self.sy)
         )
+    
+    def toQRect(self) -> QRectF:
+        """Return limit as QRectF type."""
+        return QRectF(QPointF(self.x, self.y), QPointF(self.sx, self.sy))
+    
+    def currentSelection(self) -> Tuple[int]:
+        if self.km() in (Qt.ControlModifier, Qt.ShiftModifier):
+            return tuple(set(self.selection_old + self.selection_rect))
+        else:
+            return tuple(self.selection_rect)
 
 
 class FreeMode(Enum):
@@ -296,29 +321,26 @@ def _drawSlvsRanges(self):
 
 
 def _selectedPointFunc(self,
-    selection: List[int],
     inSelection: Callable[[float, float], bool]
 ):
     """Select point(s) function."""
-    selection.clear()
+    self.selector.selection_rect.clear()
     for i, vpoint in enumerate(self.Points):
         if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
-            if i not in selection:
-                selection.append(i)
+            if i not in self.selector.selection_rect:
+                self.selector.selection_rect.append(i)
 
 
 def _mouseSelectedPoint(self):
     """Select one point."""
     _selectedPointFunc(self,
-        self.selector.selection,
-        lambda x, y: self.selector.distanceLimit(x, y, self.selectionRadius)
+        lambda x, y: self.selector.isClose(x, y, self.selectionRadius)
     )
 
 
 def _rectangularSelectedPoint(self):
     """Select points by rectangle."""
     _selectedPointFunc(self,
-        self.selector.selection_rect,
         self.selector.inRect
     )
 
@@ -438,14 +460,11 @@ def paintEvent(self, event):
         self.painter.setPen(pen)
         _drawFrame(self)
     #Rectangular selection
-    if self.selector.hasSelection:
+    if self.selector.picking:
         pen = QPen(Qt.gray)
         pen.setWidth(1)
         self.painter.setPen(pen)
-        self.painter.drawRect(QRectF(
-            QPointF(self.selector.x, self.selector.y),
-            QPointF(self.selector.sx, self.selector.sy)
-        ))
+        self.painter.drawRect(self.selector.toQRect())
     self.painter.end()
     #Record the widget size.
     self.width_old = width
@@ -471,15 +490,15 @@ def mousePressEvent(self, event):
     self.selector.x = _snap(self, event.x() - self.ox)
     self.selector.y = _snap(self, event.y() - self.oy)
     if event.buttons() == Qt.MiddleButton:
-        self.selector.middleDragged = True
+        self.selector.middle_dragged = True
         x = self.selector.x / self.zoom
         y = self.selector.y / -self.zoom
         self.browse_tracking.emit(x, y)
     if event.buttons() == Qt.LeftButton:
-        self.selector.leftDragged = True
+        self.selector.left_dragged = True
         _mouseSelectedPoint(self)
-        if self.selector.selection:
-            self.selected.emit(tuple(self.selector.selection[:1]), True)
+        if self.selector.selection_rect:
+            self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
 
 
 def mouseDoubleClickEvent(self, event):
@@ -495,9 +514,10 @@ def mouseDoubleClickEvent(self, event):
         self.selector.x = _snap(self, event.x() - self.ox)
         self.selector.y = _snap(self, event.y() - self.oy)
         _mouseSelectedPoint(self)
-        if self.selector.selection:
-            self.selected.emit((self.selector.selection[0],), True)
-            self.doubleclick_edit.emit(self.selector.selection[0])
+        if self.selector.selection_rect:
+            self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
+            self.doubleclick_edit.emit(self.selector.selection_rect[0])
+    event.accept()
 
 
 def mouseReleaseEvent(self, event):
@@ -507,9 +527,9 @@ def mouseReleaseEvent(self, event):
     + Left button: Select a point.
     + Free move mode: Edit the point(s) coordinate.
     """
-    if self.selector.leftDragged:
+    if self.selector.left_dragged:
         self.selector.selection_old = list(self.selections)
-        km = QApplication.keyboardModifiers()
+        km = self.selector.km()
         #Add Point
         if km == Qt.AltModifier:
             self.alt_add.emit()
@@ -519,7 +539,7 @@ def mouseReleaseEvent(self, event):
             (abs(event.y() - self.oy - self.selector.y) < self.selectionRadius/2)
         ):
             if (
-                (not self.selector.selection) and
+                (not self.selector.selection_rect) and
                 km != Qt.ControlModifier and
                 km != Qt.ShiftModifier
             ):
@@ -530,11 +550,9 @@ def mouseReleaseEvent(self, event):
                 self.Points[row].cx,
                 self.Points[row].cy,
             )) for row in self.selections))
-    self.selector.selection_rect.clear()
-    self.selector.middleDragged = False
-    self.selector.leftDragged = False
-    self.selector.hasSelection = False
+    self.selector.release()
     self.update()
+    event.accept()
 
 
 def mouseMoveEvent(self, event):
@@ -545,11 +563,11 @@ def mouseMoveEvent(self, event):
     """
     x = (event.x() - self.ox) / self.zoom
     y = (event.y() - self.oy) / -self.zoom
-    if self.selector.middleDragged:
+    if self.selector.middle_dragged:
         self.ox = event.x() - self.selector.x
         self.oy = event.y() - self.selector.y
         self.update()
-    elif self.selector.leftDragged:
+    elif self.selector.left_dragged:
         if self.freemove != FreeMode.NoFreeMove:
             if self.freemove == FreeMode.Translate:
                 #Free move translate function.
@@ -604,30 +622,29 @@ def mouseMoveEvent(self, event):
                         )
         else:
             #Rectangular selection.
-            self.selector.hasSelection = True
+            self.selector.picking = True
             self.selector.sx = _snap(self, event.x() - self.ox)
             self.selector.sy = _snap(self, event.y() - self.oy)
-            QToolTip.showText(event.globalPos(), "{:.02f}, {:.02f}".format(
-                self.selector.sx / self.zoom,
-                self.selector.sy / -self.zoom
-            ), self)
             _rectangularSelectedPoint(self)
-            km = QApplication.keyboardModifiers()
-            if self.selector.selection_rect:
-                if km in (Qt.ControlModifier, Qt.ShiftModifier):
-                    self.selected.emit(tuple(set(
-                        self.selector.selection_old +
-                        self.selector.selection_rect
-                    )), False)
-                else:
-                    self.selected.emit(
-                        tuple(self.selector.selection_rect),
-                        False
-                    )
+            selection = self.selector.currentSelection()
+            if selection:
+                self.selected.emit(selection, False)
             else:
                 self.noselected.emit()
+            QToolTip.showText(
+                event.globalPos(),
+                "({:.02f}, {:.02f})\n({:.02f}, {:.02f})\n{} point(s)".format(
+                    self.selector.x / self.zoom,
+                    self.selector.y / self.zoom,
+                    self.selector.sx / self.zoom,
+                    self.selector.sy / -self.zoom,
+                    len(selection)
+                ),
+                self
+            )
         self.update()
     self.tracking.emit(x, y)
+    event.accept()
 
 
 def zoomToFit(self):

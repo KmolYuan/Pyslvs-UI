@@ -313,7 +313,6 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.snap_label)
         self.snap_option = QtWidgets.QDoubleSpinBox(self.settings_ui_groupbox)
         self.snap_option.setMaximum(50.0)
-        self.snap_option.setSingleStep(0.5)
         self.snap_option.setObjectName("snap_option")
         self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.snap_option)
         self.zoomby_label = QtWidgets.QLabel(self.settings_ui_groupbox)
