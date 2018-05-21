@@ -3,13 +3,9 @@ Change Log
 
 Version 18.05:
 - Features
-    -- New solving kernel option "Pyslvs" as default.
     -- Linkage selection mode:
         -- New linkage selection function for both of table widget and main canvas.
         -- Using ctrl + mouse wheel can adjust the tab of entities table widget.
-    -- Add mouse snapping option (default 1 unit).
-    -- Triple ball lifter example.
-    -- Shortcut keys adjustment.
     -- Main canvas:
         -- Add cursor tooltips when dragging on main canvas.
         -- Center zooming function and option with 'by cursor' and 'by canvas center'.
@@ -22,6 +18,10 @@ Version 18.05:
     -- Path record:
         -- Add "copy path" function in path context menu.
         -- Path preview function are support P joint.
+    -- New solving kernel option "Pyslvs" as default.
+    -- Add mouse snapping option (default 1 unit).
+    -- Triple ball lifter example.
+    -- Shortcut keys adjustment.
     -- "Add" command of storage function will not clean the canvas (should do it by self).
     -- Add "merge linkages" function in link context menu.
 - Development
@@ -35,8 +35,10 @@ Version 18.05:
         -- Using Python typing for Python functions in Cython libraries.
         -- Add Cython header to sharing declarations between libraries.
         -- Add new "PXY" function to make solution of P joint.
-    -- Compile process improvement.
-    -- Reduce size while packing AppImage file.
+    -- Compile:
+        -- Compile process improvement.
+        -- Reduce the size while packing AppImage file.
+        -- Reduce the size of images.
     -- Modules and objects naming adjustment.
     -- PyQt version should upgrade to 5.10 or above to support Qt graph methods.
 

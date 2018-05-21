@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
-![title](icons/title.png)
+![title](icons/Splash.png)
 
 Website: <http://www.pyslvs.com/blog/index.html>
 
