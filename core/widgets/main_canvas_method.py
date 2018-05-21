@@ -144,12 +144,14 @@ def _drawPoint(self, i: int, vpoint: VPoint):
         silder_points = vpoint.c
         for j, (cx, cy) in enumerate(silder_points):
             if not vpoint.links:
-                continue
+                grounded = False
+            else:
+                grounded = vpoint.links[j] == 'ground'
             if vpoint.type == 1:
                 if j == 0:
                     self._BaseCanvas__drawPoint(
                         i, cx, cy,
-                        vpoint.links[j] == 'ground',
+                        grounded,
                         vpoint.color
                     )
                 else:
@@ -165,7 +167,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 if j == 0:
                     self._BaseCanvas__drawPoint(
                         i, cx, cy,
-                        vpoint.links[j] == 'ground',
+                        grounded,
                         vpoint.color
                     )
                 else:
@@ -174,7 +176,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                     self.showPointMark = False
                     self._BaseCanvas__drawPoint(
                         i, cx, cy,
-                        vpoint.links[j] == 'ground',
+                        grounded,
                         vpoint.color
                     )
                     self.showPointMark = showPointMark
