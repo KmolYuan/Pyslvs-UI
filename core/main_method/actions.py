@@ -146,14 +146,15 @@ def _mergeLinkage(self, index: int, links: Tuple[int]):
     points = list(vlinks[row].points)
     args = self.EntitiesLink.rowTexts(row, hasName=True)
     for link in sorted(links, reverse=True):
+        if vlinks[link].name == vlinks[row].name:
+            continue
         for point in vlinks[link].points:
             if point not in points:
                 points.append(point)
         _deleteLink(self, link)
     args[2] = ','.join('Point{}'.format(p) for p in points)
-    self.CommandStack.push(AddTable(self.EntitiesLink))
     self.CommandStack.push(EditLinkTable(
-        self.EntitiesLink.rowCount() - 1,
+        [vlink.name for vlink in self.EntitiesLink.data()].index(args[0]),
         self.EntitiesLink,
         self.EntitiesPoint,
         args
