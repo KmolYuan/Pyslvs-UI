@@ -98,7 +98,7 @@ class Ui_MainWindow(object):
         self.EntitiesExpr_layout.setObjectName("EntitiesExpr_layout")
         self.verticalLayout_8.addWidget(self.EntitiesExpr_widget)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icons/collection-triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/icons/triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.EntitiesTab.addTab(self.tab, icon3, "")
         self.verticalLayout_29.addWidget(self.EntitiesTab)
         self.MechanismsTabWidget = QtWidgets.QWidget(self.MechanismPanelSplitter)

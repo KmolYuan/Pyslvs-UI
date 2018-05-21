@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
-    <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
+    <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_12">
    <item>
@@ -27,7 +27,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/collection-structure.png</normaloff>:/icons/collection-structure.png</iconset>
+         <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
        </property>
       </widget>
      </item>

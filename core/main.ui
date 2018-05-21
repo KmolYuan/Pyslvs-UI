@@ -198,7 +198,7 @@
                    <widget class="QWidget" name="tab">
                     <attribute name="icon">
                      <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
+                      <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
                     </attribute>
                     <attribute name="title">
                      <string>Formulas</string>

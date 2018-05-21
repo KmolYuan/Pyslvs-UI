@@ -34,8 +34,8 @@
     <file>icons/capture.png</file>
     <file>icons/chart.png</file>
     <file>icons/clean.png</file>
-    <file>icons/collection-structure.png</file>
-    <file>icons/collection-triangular-iteration.png</file>
+    <file>icons/structure.png</file>
+    <file>icons/triangular-iteration.png</file>
     <file>icons/collections.png</file>
     <file>icons/ConflictGuide.png</file>
     <file>icons/connect.png</file>

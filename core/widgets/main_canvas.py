@@ -89,10 +89,9 @@ class DynamicCanvas(BaseCanvas):
         self.__setZoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
         self.__zoom_factor = parent.scalefactor_option.value
-        #Dependent functions to set snap option.
-        self.__setSnap = parent.snap_option.setValue
-        self.__snap = parent.snap_option.value
-        self.__snap_factor = parent.snap_option.singleStep
+        #Dependent functions to set selection mode.
+        self.__setSelectionMode = parent.EntitiesTab.setCurrentIndex
+        self.__selectionMode = parent.EntitiesTab.currentIndex
         #Default margin factor.
         self.marginFactor = 0.95
         #Widget size.
@@ -268,8 +267,16 @@ class DynamicCanvas(BaseCanvas):
         """Set zoom bar value by mouse wheel."""
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            self.__setSnap(self.__snap() + self.__snap_factor() * (1 if (value > 0) else -1))
-            QToolTip.showText(event.globalPos(), "Accuracy: {:.02f}".format(self.__snap()), self)
+            self.__setSelectionMode(self.__selectionMode() + (-1 if (value > 0) else 1))
+            i = self.__selectionMode()
+            QToolTip.showText(
+                event.globalPos(),
+                "<p style=\"background-color: #77abff\">{}</p>".format(''.join(
+                    "<img width=\"{}\" src=\":icons/{}.png\"/>".format(70 if (i == j) else 40, icon)
+                    for j, icon in enumerate(('bearing', 'link', 'triangular-iteration'))
+                )),
+                self
+            )
         else:
             self.__setZoom(self.__zoom() + self.__zoom_factor() * (1 if (value > 0) else -1))
         event.accept()
