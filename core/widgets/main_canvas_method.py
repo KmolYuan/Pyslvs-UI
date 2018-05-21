@@ -29,6 +29,7 @@ from core.QtModules import (
 )
 from core.graphics import (
     convex_hull,
+    BaseCanvas,
     colorQt,
     colorNum,
 )
@@ -468,8 +469,8 @@ def paintEvent(self, event):
     )):
         self.ox += (width - self.width_old) / 2
         self.oy += (height - self.height_old) / 2
-    #It only can be called when 'self' is the instance of 'DynamicCanvas'.
-    super(self.__class__, self).paintEvent(event)
+    #'self' is the instance of 'DynamicCanvas'.
+    BaseCanvas.paintEvent(self, event)
     self.painter.setFont(QFont('Arial', self.fontSize))
     #Draw links except ground.
     for vlink in self.Links[1:]:
@@ -582,7 +583,7 @@ def mouseReleaseEvent(self, event):
             ):
                 self.noselected.emit()
         #Edit point coordinates.
-        elif (self.freemove != FreeMode.NoFreeMove):
+        elif (self.selectionMode == 0) and (self.freemove != FreeMode.NoFreeMove):
             self.freemoved.emit(tuple((row, (
                 self.Points[row].cx,
                 self.Points[row].cy,
@@ -605,7 +606,30 @@ def mouseMoveEvent(self, event):
         self.oy = event.y() - self.selector.y
         self.update()
     elif self.selector.left_dragged:
-        if self.freemove != FreeMode.NoFreeMove:
+        if self.freemove == FreeMode.NoFreeMove:
+            #Rectangular selection.
+            self.selector.picking = True
+            self.selector.sx = _snap(self, event.x() - self.ox)
+            self.selector.sy = _snap(self, event.y() - self.oy)
+            _select_func(self, rect=True)
+            selection = self.selector.currentSelection()
+            if selection:
+                self.selected.emit(selection, False)
+            else:
+                self.noselected.emit()
+            QToolTip.showText(
+                event.globalPos(),
+                "({:.02f}, {:.02f})\n({:.02f}, {:.02f})\n{} {}(s)".format(
+                    self.selector.x / self.zoom,
+                    self.selector.y / self.zoom,
+                    self.selector.sx / self.zoom,
+                    self.selector.sy / -self.zoom,
+                    len(selection),
+                    'link' if self.selectionMode == 1 else 'point'
+                ),
+                self
+            )
+        elif self.selectionMode == 0:
             if self.freemove == FreeMode.Translate:
                 #Free move translate function.
                 mouse_x = _snap(self, x - self.selector.x / self.zoom, False)
@@ -657,29 +681,6 @@ def mouseMoveEvent(self, event):
                             (vpoint.x * fx, vpoint.y * fy),
                             (vpoint.x * fx, vpoint.y * fy)
                         )
-        else:
-            #Rectangular selection.
-            self.selector.picking = True
-            self.selector.sx = _snap(self, event.x() - self.ox)
-            self.selector.sy = _snap(self, event.y() - self.oy)
-            _select_func(self, rect=True)
-            selection = self.selector.currentSelection()
-            if selection:
-                self.selected.emit(selection, False)
-            else:
-                self.noselected.emit()
-            QToolTip.showText(
-                event.globalPos(),
-                "({:.02f}, {:.02f})\n({:.02f}, {:.02f})\n{} {}(s)".format(
-                    self.selector.x / self.zoom,
-                    self.selector.y / self.zoom,
-                    self.selector.sx / self.zoom,
-                    self.selector.sy / -self.zoom,
-                    len(selection),
-                    'link' if self.selectionMode == 1 else 'point'
-                ),
-                self
-            )
         self.update()
     self.tracking.emit(x, y)
     event.accept()

@@ -322,7 +322,7 @@ def setFreemoved(self,
     self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
         "Point{}".format(c[0]) for c in coords
     )))
-    for row, (x, y, angle) in coords:
+    for row, (x, y) in coords:
         args = self.EntitiesPoint.rowTexts(row)
         args[3] = x
         args[4] = y

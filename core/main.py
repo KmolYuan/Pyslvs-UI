@@ -271,7 +271,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.EntitiesPoint.clearSelection()
         self.EntitiesLink.clearSelection()
         self.EntitiesExpr.clearSelection()
-        #TODO: Switch actions when selection mode changed.
     
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):

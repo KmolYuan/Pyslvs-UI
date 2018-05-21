@@ -89,7 +89,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @pyqtSlot(int)
     def on_name_box_currentIndexChanged(self, index):
         """Load the parameters of the link."""
-        if self.name_box.itemText(index) == "New link":
+        if not self.name_box.isEnabled():
             return
         if len(self.vlinks) > index:
             vlink = self.vlinks[index]
@@ -115,7 +115,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
                 )
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.colorpick_button):
-            self.name_edit.setEnabled(not_ground)
+            widget.setEnabled(not_ground)
     
     @pyqtSlot(int)
     def on_color_box_currentIndexChanged(self, index):
