@@ -1,8 +1,8 @@
 [![Version](https://img.shields.io/badge/version-18.5.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-[![PYTHON](https://img.shields.io/badge/python-3.5%20--%203.6-blue.svg)](https://www.python.org/)
-[![PYQT](https://img.shields.io/badge/pyqt-5.7%20--%205.10-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
-[![OS](https://img.shields.io/badge/os-Ubuntu%2C%20Windows-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
+[![PYTHON](https://img.shields.io/badge/python-3.5%20↑-blue.svg)](https://www.python.org/)
+[![PYQT](https://img.shields.io/badge/pyqt-5.10%20↑-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
+[![OS](https://img.shields.io/badge/os-Ubuntu%20x64%2C%20Windows%20x64-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
@@ -44,7 +44,7 @@ A GUI-based tool use to solving 2D linkage subject.
     - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
     - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
-Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
+Compatible with Python 3.5, PyQt 5.10 (same as PyQtChart) and above.
 
 Cross-platform Development: Ubuntu and Windows (64-bit).
 
@@ -427,6 +427,8 @@ Make command:
 
 Made by [Qt5] and Python IDE [Eric 6].
 
+If there is no special reason, please to use the new version of the kits.
+
 Including Python modules:
 
 * [SIP] (GPLv2, GPLv3)
@@ -434,7 +436,6 @@ Including Python modules:
 * [dxfwrite] (MIT)
 * [numpy] (BSD 3-Clause)
 * [Cython] (Apache 2.0)
-* [PyZMQ] (New BSD 3-Clause, LGPL, Apache)
 * [openpyxl] (MIT)
 * [psutil] (BSD)
 * [peewee] (MIT)
@@ -443,7 +444,7 @@ Including Python modules:
 * [Pydot] (MIT)
 * [Pygments] (BSD)
 
-Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
+Pyslvs is under [GNU Affero General Public License v3].
 
 Here is the **origin kernel** repository:
 
@@ -465,7 +466,6 @@ Here is the **origin kernel** repository:
 [numpy]: http://www.numpy.org/
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
 [Cython]: http://cython.org/
-[PyZMQ]: http://zeromq.org/bindings:python
 [openpyxl]: http://openpyxl.readthedocs.io/
 [psutil]: https://github.com/giampaolo/psutil
 [peewee]: http://docs.peewee-orm.com/en/latest/
@@ -477,3 +477,5 @@ Here is the **origin kernel** repository:
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
 [Triangle solver]: https://gist.github.com/KmolYuan/c5a94b769bc410524bba66acc5204a8f
+
+[GNU Affero General Public License v3]: https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE

@@ -36,6 +36,7 @@ Version 18.05:
     -- Compile process improvement.
     -- Reduce size while packing AppImage file.
     -- Modules and objects naming adjustment.
+    -- PyQt version should upgrade to 5.10 or above to support Qt graph methods.
 
 Version 18.04:
 - Features

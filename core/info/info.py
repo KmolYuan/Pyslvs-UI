@@ -42,7 +42,6 @@ _POWERBY = (
     "PyQt 5",
     "dxfwrite",
     "Cython",
-    "PyZMQ",
     "openpyxl",
     "psutil",
     "peewee",
