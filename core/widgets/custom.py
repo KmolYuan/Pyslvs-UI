@@ -169,12 +169,16 @@ def _appearance(self):
     self.inputs_tab_layout.addWidget(self.InputsWidget)
     self.freemode_button.toggled.connect(self.InputsWidget.variableValueReset)
     self.InputsWidget.aboutToResolve.connect(self.resolve)
-    self.MainCanvas.selected.connect(
-        self.InputsWidget.setSelection
-    )
-    self.MainCanvas.noselected.connect(
-        self.InputsWidget.clearSelection
-    )
+    
+    @pyqtSlot(tuple, bool)
+    def inputs_setSelection(selections: Tuple[int], keyDetect: bool):
+        """Distinguish table by tab index."""
+        self.InputsWidget.clearSelection()
+        if self.EntitiesTab.currentIndex() == 0:
+            self.InputsWidget.setSelection(selections)
+    
+    self.MainCanvas.selected.connect(inputs_setSelection)
+    self.MainCanvas.noselected.connect(self.InputsWidget.clearSelection)
     
     #Number and type synthesis.
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)

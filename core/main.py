@@ -271,6 +271,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.EntitiesPoint.clearSelection()
         self.EntitiesLink.clearSelection()
         self.EntitiesExpr.clearSelection()
+        self.InputsWidget.clearSelection()
     
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):

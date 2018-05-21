@@ -91,17 +91,15 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_list.clear()
     
     @pyqtSlot(tuple)
-    def setSelection(self, selections):
+    def setSelection(self, selections: Tuple[int]):
         """Set one selection from canvas."""
-        self.joint_list.setCurrentRow(
-            selections[0]
-            if selections[0] in self.EntitiesPoint.selectedRows()
-            else -1
-        )
+        self.joint_list.setCurrentRow(selections[0])
     
     @pyqtSlot()
     def clearSelection(self):
         """Clear the points selection."""
+        self.drive_link_list.clear()
+        self.base_link_list.clear()
         self.joint_list.setCurrentRow(-1)
     
     @pyqtSlot(int)
