@@ -143,6 +143,8 @@ def _drawPoint(self, i: int, vpoint: VPoint):
         #Draw slider
         silder_points = vpoint.c
         for j, (cx, cy) in enumerate(silder_points):
+            if not vpoint.links:
+                continue
             if vpoint.type == 1:
                 if j == 0:
                     self._BaseCanvas__drawPoint(

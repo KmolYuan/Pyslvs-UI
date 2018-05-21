@@ -740,6 +740,11 @@
                      <widget class="QComboBox" name="planarsolver_option">
                       <item>
                        <property name="text">
+                        <string>Pyslvs</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
                         <string>Python-Solvespace</string>
                        </property>
                       </item>

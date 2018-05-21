@@ -319,6 +319,9 @@ cpdef void expr_parser(str exprs, dict data_dict):
     cdef object p
     cdef list args
     for expr in exprs.split(';'):
+        #If the mechanism has no any solution.
+        if not expr:
+            return
         f = strbefore(expr, '[')
         params = strbetween(expr, '[', ']').split(',')
         target = strbetween(expr, '(', ')')
@@ -426,6 +429,8 @@ cdef inline int base_friend(int node, object vpoints):
     cdef int i
     cdef VPoint vpoint
     for i, vpoint in enumerate(vpoints):
+        if not vpoints[node].links:
+            continue
         if vpoints[node].links[0] in vpoint.links:
             return i
 
@@ -590,8 +595,7 @@ cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval
 cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angles):
     """Solving function."""
     cdef dict data_dict
-    cdef int dof
-    data_dict, dof = data_collecting(exprs, mapping, vpoints)
+    data_dict, _ = data_collecting(exprs, mapping, vpoints)
     
     #Angles.
     cdef double a
@@ -603,6 +607,11 @@ cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angle
     
     cdef list solved_points = []
     for i in range(len(vpoints)):
-        solved_points.append(data_dict[mapping[i]])
+        if np.isnan(data_dict[mapping[i]][0]):
+            raise Exception("Result contains failure: Point{}".format(i))
+        if vpoints[i].type == 0:
+            solved_points.append(data_dict[mapping[i]])
+        else:
+            solved_points.append((vpoints[i].c[0], data_dict[mapping[i]]))
     
     return solved_points
