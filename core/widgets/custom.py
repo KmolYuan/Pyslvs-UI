@@ -389,7 +389,7 @@ def _point_context_menu(self):
     ///////
     + New Linkage
     + Edit
-    + Fixed [v]
+    + Grounded
     + Multiple joint
         - Point0
         - Point1
@@ -416,7 +416,7 @@ def _point_context_menu(self):
         self.on_action_Edit_Point_triggered
     )
     self.popMenu_point.addAction(self.action_point_context_edit)
-    self.action_point_context_lock = QAction("&Fixed", self)
+    self.action_point_context_lock = QAction("&Grounded", self)
     self.action_point_context_lock.setCheckable(True)
     self.action_point_context_lock.triggered.connect(self.lockPoints)
     self.popMenu_point.addAction(self.action_point_context_lock)
@@ -490,8 +490,16 @@ def _link_context_menu(self):
 
 
 def _canvas_context_menu(self):
-    #TODO: Switch actions when selection mode changed.
-    """MainCanvas context menu
+    """MainCanvas context menus,
+        switch the actions when selection mode changed.
+    
+    + Actions set of points.
+    + Actions set of links.
+    """
+    self.MainCanvas.setContextMenuPolicy(Qt.CustomContextMenu)
+    self.MainCanvas.customContextMenuRequested.connect(self.on_canvas_context_menu)
+    """
+    Actions set of points:
     
     + Add
     ///////
@@ -500,7 +508,7 @@ def _canvas_context_menu(self):
     + Add [target path]
     ///////
     + Edit
-    + Fixed
+    + Grounded
     + Multiple joint
         - Point0
         - Point1
@@ -510,32 +518,52 @@ def _canvas_context_menu(self):
     -------
     + Delete
     """
-    self.MainCanvas.setContextMenuPolicy(Qt.CustomContextMenu)
-    self.MainCanvas.customContextMenuRequested.connect(
-        self.on_canvas_context_menu
-    )
-    self.popMenu_canvas = QMenu(self)
-    self.popMenu_canvas.setSeparatorsCollapsible(True)
+    self.popMenu_canvas_p = QMenu(self)
+    self.popMenu_canvas_p.setSeparatorsCollapsible(True)
     self.action_canvas_context_add = QAction("&Add", self)
     self.action_canvas_context_add.triggered.connect(self.addNormalPoint)
-    self.popMenu_canvas.addAction(self.action_canvas_context_add)
+    self.popMenu_canvas_p.addAction(self.action_canvas_context_add)
     #New Link
-    self.popMenu_canvas.addAction(self.action_New_Link)
-    self.action_canvas_context_fix_add = QAction("Add [fixed]", self)
-    self.action_canvas_context_fix_add.triggered.connect(
+    self.popMenu_canvas_p.addAction(self.action_New_Link)
+    self.action_canvas_context_grounded_add = QAction("Add [grounded]", self)
+    self.action_canvas_context_grounded_add.triggered.connect(
         self.addFixedPoint
     )
-    self.popMenu_canvas.addAction(self.action_canvas_context_fix_add)
+    self.popMenu_canvas_p.addAction(self.action_canvas_context_grounded_add)
     self.action_canvas_context_path = QAction("Add [target path]", self)
     self.action_canvas_context_path.triggered.connect(
         self.addTargetPoint
     )
-    self.popMenu_canvas.addAction(self.action_canvas_context_path)
+    self.popMenu_canvas_p.addAction(self.action_canvas_context_path)
     #The following actions will be shown when points selected.
-    self.popMenu_canvas.addAction(self.action_point_context_edit)
-    self.popMenu_canvas.addAction(self.action_point_context_lock)
-    self.popMenu_canvas.addMenu(self.popMenu_point_merge)
-    self.popMenu_canvas.addAction(self.action_point_context_copyCoord)
-    self.popMenu_canvas.addAction(self.action_point_context_copyPoint)
-    self.popMenu_canvas.addSeparator()
-    self.popMenu_canvas.addAction(self.action_point_context_delete)
+    self.popMenu_canvas_p.addAction(self.action_point_context_edit)
+    self.popMenu_canvas_p.addAction(self.action_point_context_lock)
+    self.popMenu_canvas_p.addMenu(self.popMenu_point_merge)
+    self.popMenu_canvas_p.addAction(self.action_point_context_copyCoord)
+    self.popMenu_canvas_p.addAction(self.action_point_context_copyPoint)
+    self.popMenu_canvas_p.addSeparator()
+    self.popMenu_canvas_p.addAction(self.action_point_context_delete)
+    """
+    Actions set of links:
+    
+    + Add
+    ///////
+    + Add [target path]
+    ///////
+    + Edit
+    + Merge linkage
+        - Link0
+        - Link1
+        - ...
+    + Release / Constrain
+    -------
+    + Delete
+    """
+    self.popMenu_canvas_l = QMenu(self)
+    self.popMenu_canvas_l.setSeparatorsCollapsible(True)
+    self.popMenu_canvas_l.addAction(self.action_link_context_add)
+    self.popMenu_canvas_l.addAction(self.action_link_context_edit)
+    self.popMenu_canvas_l.addMenu(self.popMenu_link_merge)
+    self.popMenu_canvas_l.addAction(self.action_link_context_constrain)
+    self.popMenu_canvas_l.addSeparator()
+    self.popMenu_canvas_l.addAction(self.action_link_context_delete)

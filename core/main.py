@@ -257,10 +257,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_EntitiesTab_currentChanged(self, index):
         """Connect selection signal for main canvas."""
         if index == 0:
-            self.EntitiesLink.rowSelectionChanged.disconnect()
+            try:
+                self.EntitiesLink.rowSelectionChanged.disconnect()
+            except TypeError:
+                pass
             self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.setSelection)
         elif index == 1:
-            self.EntitiesPoint.rowSelectionChanged.disconnect()
+            try:
+                self.EntitiesPoint.rowSelectionChanged.disconnect()
+            except TypeError:
+                pass
             self.EntitiesLink.rowSelectionChanged.connect(self.MainCanvas.setSelection)
         self.EntitiesPoint.clearSelection()
         self.EntitiesLink.clearSelection()

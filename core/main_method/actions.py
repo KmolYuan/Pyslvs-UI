@@ -28,10 +28,9 @@ def _enablePointContext(self):
     need to enable / disable QAction.
     """
     selection = self.EntitiesPoint.selectedRows()
-    selectionCount = len(selection)
-    row = self.EntitiesPoint.currentRow()
+    count = len(selection)
     #If connecting with the ground.
-    if selectionCount:
+    if count:
         self.action_point_context_lock.setChecked(all(
             'ground' in self.EntitiesPoint.item(row, 1).text()
             for row in self.EntitiesPoint.selectedRows()
@@ -40,11 +39,11 @@ def _enablePointContext(self):
     for action in (
         self.action_point_context_add,
         self.action_canvas_context_add,
-        self.action_canvas_context_fix_add,
+        self.action_canvas_context_grounded_add,
     ):
-        action.setVisible(selectionCount <= 0)
-    self.action_point_context_lock.setVisible(row > -1)
-    self.action_point_context_delete.setVisible(row > -1)
+        action.setVisible(count == 0)
+    self.action_point_context_lock.setVisible(count > 0)
+    self.action_point_context_delete.setVisible(count > 0)
     #If a point selected.
     for action in (
         self.action_point_context_edit,
@@ -52,11 +51,10 @@ def _enablePointContext(self):
         self.action_point_context_copydata,
         self.action_point_context_copyCoord,
     ):
-        action.setVisible(row > -1)
-        action.setEnabled(selectionCount == 1)
+        action.setVisible(count == 1)
     #If two or more points selected.
-    self.action_New_Link.setVisible(selectionCount > 1)
-    self.popMenu_point_merge.menuAction().setVisible(selectionCount > 1)
+    self.action_New_Link.setVisible(count > 1)
+    self.popMenu_point_merge.menuAction().setVisible(count > 1)
     
     def mjFunc(i: int):
         """Generate a merge function."""
@@ -71,18 +69,18 @@ def _enablePointContext(self):
 def _enableLinkContext(self):
     """Enable / disable link's QAction, same as point table."""
     selection = self.EntitiesLink.selectedRows()
-    selectionCount = len(selection)
+    count = len(selection)
     row = self.EntitiesLink.currentRow()
-    self.action_link_context_add.setVisible(selectionCount <= 0)
-    selected_one = selectionCount == 1
+    self.action_link_context_add.setVisible(count == 0)
+    selected_one = count == 1
     not_ground = row > 0
     any_link = row > -1
-    self.action_link_context_edit.setEnabled(any_link and selected_one)
-    self.action_link_context_delete.setEnabled(not_ground and selected_one)
-    self.action_link_context_copydata.setEnabled(any_link and selected_one)
+    self.action_link_context_edit.setVisible(any_link and selected_one)
+    self.action_link_context_delete.setVisible(not_ground and (count > 0))
+    self.action_link_context_copydata.setVisible(any_link and selected_one)
     self.action_link_context_release.setVisible((row == 0) and selected_one)
     self.action_link_context_constrain.setVisible(not_ground and selected_one)
-    self.popMenu_link_merge.menuAction().setVisible(selectionCount > 1)
+    self.popMenu_link_merge.menuAction().setVisible(count > 1)
     
     def mlFunc(i: int):
         """Generate a merge function."""
@@ -186,11 +184,17 @@ def on_link_context_menu(self, point: QPoint):
 
 def on_canvas_context_menu(self, point: QPoint):
     """MainCanvas context menu."""
-    _enablePointContext(self)
-    self.action_canvas_context_path.setVisible(self.SynthesisTab.currentIndex() == 2)
-    self.popMenu_canvas.exec_(self.MainCanvas.mapToGlobal(point))
-    self.action_New_Link.setVisible(True)
-    self.popMenu_point_merge.clear()
+    index = self.EntitiesTab.currentIndex()
+    if index == 0:
+        _enablePointContext(self)
+        self.action_canvas_context_path.setVisible(self.SynthesisTab.currentIndex() == 2)
+        self.popMenu_canvas_p.exec_(self.MainCanvas.mapToGlobal(point))
+        self.action_New_Link.setVisible(True)
+        self.popMenu_point_merge.clear()
+    elif index == 1:
+        _enableLinkContext(self)
+        self.popMenu_canvas_l.exec_(self.MainCanvas.mapToGlobal(point))
+        self.popMenu_link_merge.clear()
 
 
 def enableMechanismActions(self):
