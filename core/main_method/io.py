@@ -76,8 +76,8 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
 def _readSlvs(self, file_name: str):
     """Read slvs format.
     
-    + Choose a layout.
-    + Read the entities of the layout.
+    + Choose a group.
+    + Read the entities of the group.
     """
     parser = SlvsParser(file_name)
     if not parser.isValid():
@@ -86,22 +86,27 @@ def _readSlvs(self, file_name: str):
             "The format is not support."
         )
         return
-    layout, ok = QInputDialog.getItem(self,
-        "Solvespace layout",
-        "Choose a layout:\n" +
-        "(Please know that the layout must contain a sketch only.)",
-        parser.layouts(),
+    groups = parser.getGroups()
+    if not groups:
+        QMessageBox.warning(self,
+            "Format error",
+            "The model file is empty."
+        )
+        return
+    group, ok = QInputDialog.getItem(self,
+        "Solvespace groups",
+        "Choose a group:\n" +
+        "(Please know that the group must contain a sketch only.)",
+        groups,
         0,
         False
     )
     if not ok:
-        parser.close()
         return
     self.clear()
     self.FileWidget.reset()
-    print("Read from layout: {}".format(layout))
-    expr = parser.parse(layout)
-    parser.close()
+    print("Read from group: {}".format(group))
+    expr = parser.parse(group)
     self.parseExpression(expr)
 
 
