@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 
-"""Python-Solvespace wrapper."""
+"""Python-Solvespace wrapper for PMKS expression."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from .cad import create2DSystem
 from .slvs import (
-    #System base
-    System,
-    groupNum,
-    Slvs_MakeQuaternion,
     #Entities & Constraint
-    Point3d,
-    Workplane,
-    Normal3d,
     Point2d,
     LineSegment2d,
     Constraint,
@@ -31,19 +25,18 @@ from math import (
     cos,
     sin,
 )
-from typing import Tuple
-
-
-class SlvsException(Exception):
-    pass
+from typing import Tuple, List
 
 
 def slvsProcess(
     vpoints: Tuple[VPoint],
     vlinks: Tuple[VLink],
     constraints: Tuple[Tuple[int, str, str, float]]
-):
-    """Use element module to convert into solvespace expression."""
+) -> Tuple[List[Tuple[float, float]], int]:
+    """Use element module to convert into solvespace expression.
+    
+    + TODO: Remove VLink here.
+    """
     #Limitation of Solvespacce kernel sys.
     pointCount = 0
     sliderCount = 0
@@ -53,42 +46,8 @@ def slvsProcess(
             sliderCount += 1
     constraintCount = len(constraints)
     
-    #Create CAD system.
-    sys = System(pointCount*2 + sliderCount*2 + constraintCount*2 + 12)
-    sys.default_group = groupNum(1)
-    origin = Point3d(
-        sys.add_param(0.),
-        sys.add_param(0.),
-        sys.add_param(0.)
-    )
-    qw, qx, qy, qz = Slvs_MakeQuaternion(1, 0, 0, 0, 1, 0)
-    wp1 = Workplane(origin, Normal3d(
-        sys.add_param(qw),
-        sys.add_param(qx),
-        sys.add_param(qy),
-        sys.add_param(qz)
-    ))
-    origin2d = Point2d(
-        wp1,
-        sys.add_param(0.),
-        sys.add_param(0.)
-    )
-    Constraint.dragged(wp1, origin2d)
-    hp = Point2d(
-        wp1,
-        sys.add_param(10.),
-        sys.add_param(0.)
-    )
-    Constraint.dragged(wp1, hp)
-    vp = Point2d(
-        wp1,
-        sys.add_param(10.),
-        sys.add_param(0.)
-    )
-    Constraint.dragged(wp1, vp)
-    #Name 'ground' is a horizontal line through (0, 0) and (10, 0).
-    h_line = LineSegment2d(wp1, origin2d, hp)
-    sys.default_group = groupNum(2)
+    sys, wp1, h_line = create2DSystem(pointCount*2 + sliderCount*2 + constraintCount*2)
+    
     solved_points = []
     
     for vpoint in vpoints:
@@ -294,4 +253,4 @@ def slvsProcess(
         error = "Did not converge."
     elif result_flag == SLVS_RESULT_TOO_MANY_UNKNOWNS:
         error = "Too many unknowns."
-    raise SlvsException(error)
+    raise Exception(error)

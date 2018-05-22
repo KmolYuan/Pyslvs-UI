@@ -9,12 +9,11 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .planarSolving import (
-    slvsProcess,
-    SlvsException
-)
+from .cad import create2DSystem, aidedDrawing
+from .planarSolving import slvsProcess
 
 __all__ = [
+    'create2DSystem',
+    'aidedDrawing',
     'slvsProcess',
-    'SlvsException',
 ]

@@ -34,7 +34,11 @@ from .pyslvs import (
     parse_vpoints,
     PMKSLexer,
 )
-from .python_solvespace import slvsProcess, SlvsException
+from .python_solvespace import (
+    create2DSystem,
+    aidedDrawing,
+    slvsProcess,
+)
 
 __all__ = [
     '__version__',
@@ -62,6 +66,7 @@ __all__ = [
     'parse_params',
     'parse_vpoints',
     'PMKSLexer',
+    'create2DSystem',
+    'aidedDrawing',
     'slvsProcess',
-    'SlvsException',
 ]

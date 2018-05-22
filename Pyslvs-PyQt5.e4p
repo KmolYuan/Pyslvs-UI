@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-05-17, 12:32:17 -->
+<!-- Saved: 2018-05-22, 22:32:38 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -61,6 +61,7 @@
     <Source>core/libs/pyslvs/topologic.pyx</Source>
     <Source>core/libs/pyslvs/triangulation.pyx</Source>
     <Source>core/libs/python_solvespace/__init__.py</Source>
+    <Source>core/libs/python_solvespace/cad.py</Source>
     <Source>core/libs/python_solvespace/planarSolving.py</Source>
     <Source>core/main.py</Source>
     <Source>core/main_method/__init__.py</Source>

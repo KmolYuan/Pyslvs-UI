@@ -42,6 +42,7 @@ from slvs import (
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
 )
 
+
 class VPoint:
     __slots__ = ('links', 'type', 'angle', '__c')
     
@@ -66,6 +67,7 @@ class VPoint:
     def distance(self, p):
         return hypot(p.cx - self.cx, p.cy - self.cy)
 
+
 class VLink:
     __slots__ = ('name', 'points')
     
@@ -73,8 +75,6 @@ class VLink:
         self.name = name
         self.points = points
 
-class SlvsException(Exception):
-    pass
 
 def slvsProcess(Point, Link, constraints):
     pointCount = sum([len(vpoint.c) for vpoint in Point])
@@ -257,7 +257,7 @@ def slvsProcess(Point, Link, constraints):
             error = "Did not converge."
         elif result_flag==SLVS_RESULT_TOO_MANY_UNKNOWNS:
             error = "Too many unknowns."
-        raise SlvsException(error)
+        raise Exception(error)
 
 if __name__ == "__main__":
     vpoints = {}
