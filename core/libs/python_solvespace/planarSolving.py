@@ -39,47 +39,59 @@ class SlvsException(Exception):
 
 
 def slvsProcess(
-    Point: Tuple[VPoint],
-    Link: Tuple[VLink],
+    vpoints: Tuple[VPoint],
+    vlinks: Tuple[VLink],
     constraints: Tuple[Tuple[int, str, str, float]]
 ):
     """Use element module to convert into solvespace expression."""
     #Limitation of Solvespacce kernel sys.
     pointCount = 0
     sliderCount = 0
-    for vpoint in Point:
+    for vpoint in vpoints:
         pointCount += len(vpoint.c)
         if (vpoint.type == 1) or (vpoint.type == 2):
             sliderCount += 1
     constraintCount = len(constraints)
     
-    #Create CAD sys.
+    #Create CAD system.
     sys = System(pointCount*2 + sliderCount*2 + constraintCount*2 + 12)
     sys.default_group = groupNum(1)
-    p0 = sys.add_param(0.)
-    p1 = sys.add_param(0.)
-    p2 = sys.add_param(0.)
-    origin = Point3d(p0, p1, p2)
+    origin = Point3d(
+        sys.add_param(0.),
+        sys.add_param(0.),
+        sys.add_param(0.)
+    )
     qw, qx, qy, qz = Slvs_MakeQuaternion(1, 0, 0, 0, 1, 0)
-    p3 = sys.add_param(qw)
-    p4 = sys.add_param(qx)
-    p5 = sys.add_param(qy)
-    p6 = sys.add_param(qz)
-    wp1 = Workplane(origin, Normal3d(p3, p4, p5, p6))
-    p7 = sys.add_param(0.)
-    p8 = sys.add_param(0.)
-    origin2d = Point2d(wp1, p7, p8)
+    wp1 = Workplane(origin, Normal3d(
+        sys.add_param(qw),
+        sys.add_param(qx),
+        sys.add_param(qy),
+        sys.add_param(qz)
+    ))
+    origin2d = Point2d(
+        wp1,
+        sys.add_param(0.),
+        sys.add_param(0.)
+    )
     Constraint.dragged(wp1, origin2d)
-    p9 = sys.add_param(10.)
-    p10 = sys.add_param(0.)
-    hp = Point2d(wp1, p9, p10)
+    hp = Point2d(
+        wp1,
+        sys.add_param(10.),
+        sys.add_param(0.)
+    )
     Constraint.dragged(wp1, hp)
-    #Name 'ground' is a horizontal line through (0, 0).
-    ground = LineSegment2d(wp1, origin2d, hp)
+    vp = Point2d(
+        wp1,
+        sys.add_param(10.),
+        sys.add_param(0.)
+    )
+    Constraint.dragged(wp1, vp)
+    #Name 'ground' is a horizontal line through (0, 0) and (10, 0).
+    h_line = LineSegment2d(wp1, origin2d, hp)
     sys.default_group = groupNum(2)
     solved_points = []
     
-    for vpoint in Point:
+    for vpoint in vpoints:
         """Append all points first.
         
         This is the point recorded in the table.
@@ -108,11 +120,11 @@ def slvsProcess(
     
     def LinkIndex(name: str) -> int:
         """Topology of PMKS points."""
-        for i, vlink in enumerate(Link):
+        for i, vlink in enumerate(vlinks):
             if name == vlink.name:
                 return i
     
-    for i, vpoint in enumerate(Point):
+    for i, vpoint in enumerate(vpoints):
         """P and RP Joint:
         
         If the point has a sliding degree of freedom.
@@ -133,13 +145,13 @@ def slvsProcess(
                 if linkName == 'ground':
                     """Angle can not be zero."""
                     if (vpoint.angle == 0.) or (vpoint.angle == 180.):
-                        Constraint.parallel(wp1, ground, l_slot)
+                        Constraint.parallel(wp1, h_line, l_slot)
                     else:
-                        Constraint.angle(wp1, vpoint.angle, ground, l_slot)
+                        Constraint.angle(wp1, vpoint.angle, h_line, l_slot)
                     return
-                relate = Link[LinkIndex(linkName)].points
+                relate = vlinks[LinkIndex(linkName)].points
                 relate_n = relate[relate.index(i) - 1]
-                relate_vp = Point[relate_n]
+                relate_vp = vpoints[relate_n]
                 p_main = solved_points[i][vpoint.links.index(linkName)]
                 if (relate_vp.type == 1) or (relate_vp.type == 2):
                     p_link_assist = solved_points[relate_n][
@@ -164,7 +176,7 @@ def slvsProcess(
                     relateWith(linkName)
         
         for j, linkName in enumerate(vpoint.links):
-            """Link to other points on the same link.
+            """vlinks to other points on the same link.
             
             If the joint is a slider, defined its base.
             """
@@ -177,7 +189,7 @@ def slvsProcess(
             if linkName == 'ground':
                 Constraint.dragged(wp1, p_base)
                 continue
-            relate = Link[LinkIndex(linkName)].points
+            relate = vlinks[LinkIndex(linkName)].points
             relate_n = relate.index(i)
             
             #Pass if this is the first point.
@@ -187,7 +199,7 @@ def slvsProcess(
             def getConnection(index: int) -> (float, Point2d):
                 """Connect function, and return the distance."""
                 n = relate[index]
-                p = Point[n]
+                p = vpoints[n]
                 d = p.distance(vpoint)
                 if (p.type == 1) or (p.type == 2):
                     p_contact = solved_points[n][
@@ -235,28 +247,28 @@ def slvsProcess(
         Simulate the input variables to the mechanism.
         The 'base points' are shaft center.
         """
-        if Point[shaft].type != 0:
+        if vpoints[shaft].type != 0:
             p_base = solved_points[shaft][0]
         else:
             p_base = solved_points[shaft]
         
         #Base link slope angle.
         if base_link != 'ground':
-            relate_base = Link[LinkIndex(base_link)].points
+            relate_base = vlinks[LinkIndex(base_link)].points
             newRelateOrder_base = relate_base.index(shaft)-1
-            angle -= Point[shaft].slopeAngle(Point[newRelateOrder_base])
+            angle -= vpoints[shaft].slopeAngle(vpoints[newRelateOrder_base])
             angle %= 360.
         
-        x = sys.add_param(round(Point[shaft].cx + 10.*cos(radians(angle)), 8))
-        y = sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
+        x = sys.add_param(round(vpoints[shaft].cx + 10.*cos(radians(angle)), 8))
+        y = sys.add_param(round(vpoints[shaft].cy + 10.*sin(radians(angle)), 8))
         p_hand = Point2d(wp1, x, y)
         Constraint.dragged(wp1, p_hand)
         #The virtual link that dragged by "hand".
         leader = LineSegment2d(wp1, p_base, p_hand)
         #Make another virtual link that should follow "hand".
-        relate_drive = Link[LinkIndex(drive_link)].points
+        relate_drive = vlinks[LinkIndex(drive_link)].points
         newRelateOrder_drive = relate_drive[relate_drive.index(shaft)-1]
-        if Point[newRelateOrder_drive].type != 0:
+        if vpoints[newRelateOrder_drive].type != 0:
             p_drive = solved_points[newRelateOrder_drive][0]
         else:
             p_drive = solved_points[newRelateOrder_drive]
