@@ -18,6 +18,7 @@ Website: <http://www.pyslvs.com/blog/index.html>
     + [Number and Type Synthesis](#number-and-type-synthesis)
     + [Triangular iteration](#triangular-iteration)
     + [Dimensional Synthesis](#dimensional-synthesis)
+    + [IO Support](#io-support)
 
 1. [Modules Requirement](#modules-requirement)
 
@@ -27,7 +28,7 @@ Website: <http://www.pyslvs.com/blog/index.html>
 1. [Kernels Requirement](#kernels-requirement)
 
     + [Cython Kernel](#cython-kernel)
-    + [Python-solvespace Kernel](#python-solvespace-kernel)
+    + [Python-Solvespace Kernel](#python-solvespace-kernel)
 
 1. [Stand-alone Executable File](#stand-alone-executable-file)
 
@@ -96,13 +97,22 @@ The "ground" label is a default name, this link will be the absolute coordinate 
 
 ![PMKS example](images/PMKS_example.png)
 
-Pyslvs was translate the PMKS expression as a string, like below:
+Pyslvs was translate the PMKS expression as a string, likes below:
 
-```
-M[J[R, color[Green], P[0.0, 0.0], L[ground, link_0]], J[R, color[Green], P[12.92, 32.53], L[link_0, link_1]], J[R, color[Green], P[73.28, 67.97], L[link_1, link_2]], J[R, color[Green], P[33.3, 66.95], L[link_1]], J[R, color[Green], P[90.0, 0.0], L[ground, link_2]]]
+```python
+#Single line annotation.
+M[
+    J[R, color[Green], P[0.0, 0.0], L[ground, link_0]],
+    J[R, color[Green], P[12.92, 32.53], L[link_0, link_1]],
+    J[R, color[Green], P[73.28, 67.97], L[link_1, link_2]],
+    J[R, color[Green], P[33.3, 66.95], L[link_1]],
+    J[R, color[Green], P[90.0, 0.0], L[ground, link_2]],
+]
 ```
 
 Then the expression can be parse in Pyslvs to create the mechanism.
+
+The grammar is defined with Extended Backus–Naur Form (EBNF), you can checkout the source code of parser.
 
 ## Kinematics Simulation
 
@@ -160,7 +170,7 @@ When the structure profile is complete, is time to doing dimensional synthesis!
 Generate a mechanism with path requirement by random variables.
 
 + The structure settings is get from triangular iteration.
-+ There also have algorithm options, such like constrains or probability.
++ There also have algorithm options, such like constraints or probability.
 
 ![](images/Dimensional_Synthesis.png)
 
@@ -177,6 +187,26 @@ Three kinds of task target:
 + Stop at the maximum generation.
 + Get the minimum fitness value.
 + Stop at the maximum time.
+
+## IO Support
+
+Pyslvs can support for following format.
+
+**Output formats**:
+
++ Pyslvs workbook database (*.pyslvs).
++ Expression (just a string).
++ Solvespace format (*.slvs).
++ DXF format (*.dxf).
++ Image capture (all of [Qt supports]).
+
+[Qt supports]: http://doc.qt.io/qt-5/qimage.html#reading-and-writing-image-files
+
+**Input formats**:
+
++ Pyslvs workbook database (*.pyslvs).
++ Expression (just a string).
++ Solvespace format (*.slvs, only supports very few of constraints).
 
 # Modules Requirement
 
@@ -311,7 +341,7 @@ There's two options to choose SDK:
 
 When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
 
-## Python-solvespace Kernel
+## Python-Solvespace Kernel
 
 Make command:
 
