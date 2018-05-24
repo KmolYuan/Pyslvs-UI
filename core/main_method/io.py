@@ -43,7 +43,7 @@ from core.io import (
     AddTable,
     EditPointTable,
     SlvsParser,
-    slvs_output,
+    SlvsOutputDialog,
     dxfSketch,
     QTIMAGES,
     strbetween,
@@ -383,18 +383,20 @@ def on_action_Save_branch_triggered(self):
 
 def on_action_Output_to_Solvespace_triggered(self):
     """Solvespace 2d save function."""
-    file_name = self.outputTo(
-        "Solvespace sketch",
-        ["Solvespace module (*.slvs)"]
-    )
-    if not file_name:
-        return
-    slvs_output(
+    dlg = SlvsOutputDialog(
+        self.env,
+        self.FileWidget.file_name.baseName(),
         self.EntitiesPoint.dataTuple(),
         _v_to_slvs(self),
-        file_name
+        self
     )
-    self.saveReplyBox("Solvespace sketch", file_name)
+    dlg.show()
+    if dlg.exec_():
+        path = dlg.path_edit.text()
+        if not path:
+            path = dlg.path_edit.placeholderText()
+        self.setLocate(path)
+        self.saveReplyBox("Solvespace sketch", path)
 
 
 def on_action_Output_to_DXF_triggered(self):
@@ -429,13 +431,13 @@ def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
     file_name, suffix = QFileDialog.getSaveFileName(
         self,
         "Save to {}...".format(formatName),
-        self.env+'/'+self.FileWidget.file_name.baseName()+suffix0,
+        self.env + '/' + self.FileWidget.file_name.baseName() + suffix0,
         ';;'.join(formatChoose)
     )
     if file_name:
         suffix = strbetween(suffix, '(', ')').split('*')[-1]
         print("Format: {}".format(suffix))
-        if QFileInfo(file_name).suffix()!=suffix[1:]:
+        if QFileInfo(file_name).suffix() != suffix[1:]:
             file_name += suffix
         self.setLocate(QFileInfo(file_name).absolutePath())
     return file_name

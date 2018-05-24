@@ -9,10 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from .script import ScriptDialog, slvsProcessScript
 from .images import QTIMAGES
-from .slvs import (
-    SlvsParser,
-    slvs_output,
-)
+from .slvs import SlvsParser, SlvsOutputDialog
 from .dxf import dxfSketch
 from .loggingHandler import XStream
 from .peewee import FileWidget
@@ -44,7 +41,7 @@ __all__ = [
     'DeleteVariable',
     'QTIMAGES',
     'SlvsParser',
-    'slvs_output',
+    'SlvsOutputDialog',
     'dxfSketch',
     'XStream',
     'FileWidget',

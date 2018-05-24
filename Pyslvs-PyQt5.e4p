@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-05-22, 22:32:38 -->
+<!-- Saved: 2018-05-24, 11:48:50 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -42,7 +42,9 @@
     <Source>core/io/overview.py</Source>
     <Source>core/io/peewee.py</Source>
     <Source>core/io/script.py</Source>
+    <Source>core/io/slvs/Ui_output_option.py</Source>
     <Source>core/io/slvs/__init__.py</Source>
+    <Source>core/io/slvs/output_option.py</Source>
     <Source>core/io/slvs/read.py</Source>
     <Source>core/io/slvs/write.py</Source>
     <Source>core/io/undo_redo.py</Source>
@@ -125,6 +127,7 @@
     <Form>core/io/overview.ui</Form>
     <Form>core/io/peewee.ui</Form>
     <Form>core/io/script.ui</Form>
+    <Form>core/io/slvs/output_option.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
