@@ -11,10 +11,37 @@ from typing import Tuple, Sequence, Callable
 from core.libs import VPoint
 
 
+def _up(num: int) -> int:
+    """Left shift with 16 bit."""
+    ten = 1 << 16
+    return num + ten - (num % ten)
+
+
+def _group_origin(n: int, name: str) -> str:
+    return '\n'.join([
+        "Group.h.v={:08x}".format(n),
+        "Group.type={}".format(5000),
+        "Group.name={}".format(name),
+        "Group.color=ff000000",
+        "Group.skipFirst=0",
+        "Group.predef.swapUV=0",
+        "Group.predef.negateU=0",
+        "Group.predef.negateV=0",
+        "Group.visible=1",
+        "Group.suppress=0",
+        "Group.relaxConstraints=0",
+        "Group.allowRedundant=0",
+        "Group.allDimsReference=0",
+        "Group.scale={:.020f}".format(1),
+        "Group.remap={\n}",
+        "AddGroup",
+    ])
+
+
 def _group(n: int, name: str) -> str:
     return '\n'.join([
         "Group.h.v={:08x}".format(n),
-        "Group.type=5001",
+        "Group.type={}".format(5001),
         "Group.order=1",
         "Group.name={}".format(name),
         "Group.activeWorkplane.v=80020000",
@@ -37,29 +64,23 @@ def _group(n: int, name: str) -> str:
     ])
 
 
-_script_group = ["""\
-±²³SolveSpaceREVa
+def _param(num: int, val: float) -> str:
+    return '\n'.join([
+        "Param.h.v.={:08x}".format(num),
+        "Param.val={:.20f}".format(val),
+        "AddParam",
+    ])
 
 
-Group.h.v=00000001
-Group.type=5000
-Group.name=#references
-Group.color=ff000000
-Group.skipFirst=0
-Group.predef.swapUV=0
-Group.predef.negateU=0
-Group.predef.negateV=0
-Group.visible=1
-Group.suppress=0
-Group.relaxConstraints=0
-Group.allowRedundant=0
-Group.allDimsReference=0
-Group.scale=1.00000000000000000000
-Group.remap={
-}
-AddGroup
-
-""" + _group(2, "sketch-in-plane") + '\n\n' + _group(3, "comments")]
+def _request(num: int) -> str:
+    return '\n'.join([
+        "Request.h.v={:08x}".format(num),
+        "Request.type=200",
+        "Request.workplane.v=80020000",
+        "Request.group.v=00000002",
+        "Request.construction=0",
+        "AddRequest",
+    ])
 
 
 def _entity_plane(n: int, p: int, v: int) -> str:
@@ -111,6 +132,124 @@ def _entity_normal_xyz(n: int, p: int, *, reversed: bool = False) -> str:
     ])
 
 
+def _entity_line(num: int) -> str:
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(11000),
+        "Entity.construction={}".format(0),
+        "Entity.point[0].v={:08x}".format(num+1),
+        "Entity.point[1].v={:08x}".format(num+2),
+        "Entity.workplane.v=80020000",
+        "Entity.actVisible=1",
+        "AddEntity",
+    ])
+
+
+def _entity_line_point(num: int, x: float, y: float) -> str:
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(2001),
+        "Entity.construction={}".format(0),
+        "Entity.workplane.v=80020000",
+        "Entity.actPoint.x={:.20f}".format(x),
+        "Entity.actPoint.y={:.20f}".format(y),
+        "Entity.actVisible=1",
+        "AddEntity",
+    ])
+
+
+def _constraint_point(num: int, p1: int, p2: int) -> str:
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(20),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.ptA.v={:08x}".format(p1),
+        "Constraint.ptB.v={:08x}".format(p2),
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "AddConstraint",
+    ])
+
+
+def _constraint_fix(num: int, p0: int, x: float, y: float) -> str:
+    
+    def _constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
+        return '\n'.join([
+            "Constraint.h.v={:08x}".format(num),
+            "Constraint.type={}".format(31),
+            "Constraint.group.v=00000002",
+            "Constraint.workplane.v=80020000",
+            "Constraint.valA={:.20f}".format(val),
+            "Constraint.ptA.v={:08x}".format(p0),
+            "Constraint.entityA.v={:08x}".format(phv),
+            "Constraint.other=0",
+            "Constraint.other2=0",
+            "Constraint.reference=0",
+            "Constraint.disp.offset.x={:.20f}".format(10),
+            "Constraint.disp.offset.y={:.20f}".format(10),
+            "AddConstraint",
+        ])
+    
+    return (
+        _constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
+        _constraint_fix_hv(num+1, p0, 0x20000, x)
+    )
+
+
+def _constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(30),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.valA={:.20f}".format(leng),
+        "Constraint.ptA.v={:08x}".format(p1),
+        "Constraint.ptB.v={:08x}".format(p2),
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.disp.offset.x={:.20f}".format(10),
+        "Constraint.disp.offset.y={:.20f}".format(10),
+        "AddConstraint",
+    ])
+
+
+def _constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(120),
+        "Constraint.group.v=00000002",
+        "Constraint.workplane.v=80020000",
+        "Constraint.valA={:.20f}".format(angle),
+        "Constraint.ptA.v={:08x}".format(l1),
+        "Constraint.ptB.v={:08x}".format(l2),
+        "Constraint.other=1",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.disp.offset.x={:.20f}".format(10),
+        "Constraint.disp.offset.y={:.20f}".format(10),
+        "AddConstraint",
+    ])
+
+
+def _constraint_comment(num: int, comment: str, x: float, y: float) -> str:
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(1000),
+        "Constraint.group.v=00000003",
+        "Constraint.workplane.v=80020000",
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "Constraint.comment={}".format(comment),
+        "Constraint.disp.offset.x={:.20f}".format(x),
+        "Constraint.disp.offset.y={:.20f}".format(y),
+        "AddConstraint",
+    ])
+
+
 def slvs_output(
     VPoints: Sequence[VPoint],
     v_to_slvs: Callable[[], Tuple[int, int]],
@@ -153,30 +292,30 @@ def slvs_output(
     for i, edge in enumerate(edges):
         param_num += 0x10
         for p in edge:
-            script_param.append(_Param(param_num, VPoints[p].cx))
+            script_param.append(_param(param_num, VPoints[p].cx))
             param_num += 1
-            script_param.append(_Param(param_num, VPoints[p].cy))
+            script_param.append(_param(param_num, VPoints[p].cy))
             param_num += 2
         param_num = _up(param_num)
     #Add "Request"
     request_num = 0x4
     for i in range(len(edges)):
-        script_request.append(_Request(request_num))
+        script_request.append(_request(request_num))
         request_num += 1
     #Add "Entity"
     entity_num = 0x40000
     for i, edge in enumerate(edges):
-        script_entity.append(_Entity_line(entity_num))
+        script_entity.append(_entity_line(entity_num))
         for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity.append(_Entity_point(entity_num, VPoints[p].cx, VPoints[p].cy))
+            script_entity.append(_entity_line_point(entity_num, VPoints[p].cx, VPoints[p].cy))
             line_num[i].append(entity_num)
         entity_num = _up(entity_num)
     script_entity.append('\n\n'.join([
         _entity_plane(0x80020000, 0x80020002, 0x80020001),
         _entity_normal_w(0x80020001, 0x80020002, 3010),
-        _entity_point(0x80020002, 2012, 1)
+        _entity_line_point(0x80020002, 2012, 1)
     ]))
     #Add "Constraint"
     script_constraint = []
@@ -184,173 +323,33 @@ def slvs_output(
     #Same point constraint
     for p in point_num:
         for p_ in p[1:]:
-            script_constraint.append(_Constraint_point(constraint_num, p[0], p_))
+            script_constraint.append(_constraint_point(constraint_num, p[0], p_))
             constraint_num += 1
     #Position constraint
     for i, vpoint in enumerate(VPoints):
         if "ground" in vpoint.links and point_num[i]:
-            script_constraint.append(_Constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
+            script_constraint.append(_constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
             constraint_num += 2
     #Distance constraint
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = edges[i]
-        script_constraint.append(_Constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
+        script_constraint.append(_constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
         constraint_num += 1
     #Comment constraint
     for i, vpoint in enumerate(VPoints):
-        script_constraint.append(_Constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
+        script_constraint.append(_constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
     #Write file
     with open(file_name, 'w', encoding="iso-8859-15") as f:
         f.write('\n\n'.join('\n\n'.join(script) for script in [
-            _script_group,
+            ['\n\n'.join([
+                "±²³SolveSpaceREVa\n",
+                _group_origin(1, "#references"),
+                _group(2, "sketch-in-plane"),
+                _group(3, "comments"),
+            ])],
             script_param,
             script_request,
             script_entity,
             script_constraint
         ]) + '\n\n')
-
-
-def _up(num: int) -> int:
-    """Carry 16 bit."""
-    ten = 1 << 16
-    num += ten
-    num -= num % ten
-    return num
-
-
-def _Param(num: int, val: float) -> str:
-    return '\n'.join([
-        "Param.h.v.={:08x}".format(num),
-        "Param.val={:.20f}".format(val),
-        "AddParam",
-    ])
-
-
-def _Request(num: int) -> str:
-    return '\n'.join([
-        "Request.h.v={:08x}".format(num),
-        "Request.type=200",
-        "Request.workplane.v=80020000",
-        "Request.group.v=00000002",
-        "Request.construction=0",
-        "AddRequest",
-    ])
-
-
-def _Entity_line(num: int) -> str:
-    return '\n'.join([
-        "Entity.h.v={:08x}".format(num),
-        "Entity.type={}".format(11000),
-        "Entity.construction={}".format(0),
-        "Entity.point[0].v={:08x}".format(num+1),
-        "Entity.point[1].v={:08x}".format(num+2),
-        "Entity.workplane.v=80020000",
-        "Entity.actVisible=1",
-        "AddEntity",
-    ])
-
-
-def _Entity_point(num: int, x: float, y: float) -> str:
-    return '\n'.join([
-        "Entity.h.v={:08x}".format(num),
-        "Entity.type={}".format(2001),
-        "Entity.construction={}".format(0),
-        "Entity.workplane.v=80020000",
-        "Entity.actPoint.x={:.20f}".format(x),
-        "Entity.actPoint.y={:.20f}".format(y),
-        "Entity.actVisible=1",
-        "AddEntity",
-    ])
-
-
-def _Constraint_point(num: int, p1: int, p2: int) -> str:
-    return '\n'.join([
-        "Constraint.h.v={:08x}".format(num),
-        "Constraint.type={}".format(20),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
-        "Constraint.ptA.v={:08x}".format(p1),
-        "Constraint.ptB.v={:08x}".format(p2),
-        "Constraint.other=0",
-        "Constraint.other2=0",
-        "Constraint.reference=0",
-        "AddConstraint",
-    ])
-
-
-def _Constraint_fix(num: int, p0: int, x: float, y: float) -> str:
-    
-    def _Constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
-        return '\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(31),
-            "Constraint.group.v=00000002",
-            "Constraint.workplane.v=80020000",
-            "Constraint.valA={:.20f}".format(val),
-            "Constraint.ptA.v={:08x}".format(p0),
-            "Constraint.entityA.v={:08x}".format(phv),
-            "Constraint.other=0",
-            "Constraint.other2=0",
-            "Constraint.reference=0",
-            "Constraint.disp.offset.x={:.20f}".format(10),
-            "Constraint.disp.offset.y={:.20f}".format(10),
-            "AddConstraint",
-        ])
-    
-    return (
-        _Constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
-        _Constraint_fix_hv(num+1, p0, 0x20000, x)
-    )
-
-
-def _Constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
-    return '\n'.join([
-        "Constraint.h.v={:08x}".format(num),
-        "Constraint.type={}".format(30),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
-        "Constraint.valA={:.20f}".format(leng),
-        "Constraint.ptA.v={:08x}".format(p1),
-        "Constraint.ptB.v={:08x}".format(p2),
-        "Constraint.other=0",
-        "Constraint.other2=0",
-        "Constraint.reference=0",
-        "Constraint.disp.offset.x={:.20f}".format(10),
-        "Constraint.disp.offset.y={:.20f}".format(10),
-        "AddConstraint",
-    ])
-
-
-def _Constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
-    return '\n'.join([
-        "Constraint.h.v={:08x}".format(num),
-        "Constraint.type={}".format(120),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
-        "Constraint.valA={:.20f}".format(angle),
-        "Constraint.ptA.v={:08x}".format(l1),
-        "Constraint.ptB.v={:08x}".format(l2),
-        "Constraint.other=1",
-        "Constraint.other2=0",
-        "Constraint.reference=0",
-        "Constraint.disp.offset.x={:.20f}".format(10),
-        "Constraint.disp.offset.y={:.20f}".format(10),
-        "AddConstraint",
-    ])
-
-
-def _Constraint_comment(num: int, comment: str, x: float, y: float) -> str:
-    return '\n'.join([
-        "Constraint.h.v={:08x}".format(num),
-        "Constraint.type={}".format(1000),
-        "Constraint.group.v=00000003",
-        "Constraint.workplane.v=80020000",
-        "Constraint.other=0",
-        "Constraint.other2=0",
-        "Constraint.reference=0",
-        "Constraint.comment={}".format(comment),
-        "Constraint.disp.offset.x={:.20f}".format(x),
-        "Constraint.disp.offset.y={:.20f}".format(y),
-        "AddConstraint",
-    ])

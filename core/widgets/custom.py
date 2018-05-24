@@ -85,6 +85,7 @@ def _appearance(self):
     self.version_label.setText("v{}.{}.{} ({})".format(*__version__))
     
     #Entities tables.
+    self.EntitiesTab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
     self.EntitiesPoint = PointTableWidget(self.EntitiesPoint_widget)
     self.EntitiesPoint.cellDoubleClicked.connect(
         self.on_action_Edit_Point_triggered

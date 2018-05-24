@@ -48,6 +48,7 @@ class _BaseTableWidget(QTableWidget):
             QSizePolicy.Expanding,
             QSizePolicy.Expanding
         ))
+        self.setStatusTip("This table will show about the entities items in current view mode.")
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)

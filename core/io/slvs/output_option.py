@@ -59,7 +59,7 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
     def on_buttonBox_accepted(self):
         """Write file and close if saved successfully.
         
-        TODO: Output types:
+        Output types:
         + Assembly
         + Only wire frame
         """
@@ -76,9 +76,25 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
         if self.warn_radio.isChecked() and isfile(file_name):
             QMessageBox.warning(self, "File exist", "The file is exist.")
             return
+        
+        #Wire frame
         slvs_output(
             self.vpoints,
             self.v_to_slvs,
             file_name
         )
+        if self.frame_radio.isChecked():
+            self.accept()
+            return
+        
+        #TODO: Assembly
+        vlinks = {}
+        for i, vpoint in enumerate(self.vpoints):
+            for link in vpoint.links:
+                if link in vlinks:
+                    vlinks[link].add(i)
+                else:
+                    vlinks[link] = {i}
+        
+        
         self.accept()
