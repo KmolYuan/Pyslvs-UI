@@ -11,7 +11,9 @@ from typing import List
 from core.libs import VPoint
 from core.graphics import convex_hull
 from .write import (
-    header_group,
+    group_origin,
+    group_normal,
+    first_line,
     header_param,
     header_request,
     header_entity,
@@ -32,7 +34,12 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     #Write file
     save_slvs(
         file_name,
-        header_group(),
+        ['\n\n'.join([
+            first_line(),
+            group_origin(1, "#references"),
+            group_normal(2, "sketch-in-plane"),
+            group_normal(3, "outfit"),
+        ])],
         script_param,
         script_request,
         script_entity,

@@ -145,7 +145,6 @@ def group_origin(n: int = 1, name: str = "#references") -> str:
         "Group.relaxConstraints=0",
         "Group.allowRedundant=0",
         "Group.allDimsReference=0",
-        "Group.scale={:.020f}".format(1),
         "Group.remap={\n}",
         "AddGroup",
     ])
@@ -172,7 +171,6 @@ def group_normal(n: int, name: str) -> str:
         "Group.relaxConstraints=0",
         "Group.allowRedundant=0",
         "Group.allDimsReference=0",
-        "Group.scale={:.020f}".format(1),
         "Group.remap={\n}",
         "AddGroup",
     ])
@@ -471,6 +469,44 @@ def constraint_angle(
     ])
 
 
+def constraint_arc_line_tangent(
+    num: int,
+    e1: int,
+    e2: int,
+    *,
+    reversed: bool = False
+) -> str:
+    """Constraint an arc is tangent with a line."""
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(123),
+        "Constraint.group.v={:08x}".format(_comment_group),
+        "Constraint.workplane.v={:08x}".format(_workplane),
+        "Constraint.entityA.v={:08x}".format(e1),
+        "Constraint.entityB.v={:08x}".format(e2),
+        "Constraint.other={}".format(1 if reversed else 0),
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "AddConstraint",
+    ])
+
+
+def constraint_equal_radius(num: int, e1: int, e2: int) -> str:
+    """Constraint two arcs or circles are be the same radius."""
+    return '\n'.join([
+        "Constraint.h.v={:08x}".format(num),
+        "Constraint.type={}".format(130),
+        "Constraint.group.v={:08x}".format(_comment_group),
+        "Constraint.workplane.v={:08x}".format(_workplane),
+        "Constraint.entityA.v={:08x}".format(e1),
+        "Constraint.entityB.v={:08x}".format(e2),
+        "Constraint.other=0",
+        "Constraint.other2=0",
+        "Constraint.reference=0",
+        "AddConstraint",
+    ])
+
+
 def constraint_comment(
     num: int,
     comment: str,
@@ -495,19 +531,24 @@ def constraint_comment(
     ])
 
 
+def first_line() -> str:
+    """File first line."""
+    return "±²³SolveSpaceREVa\n"
+
+
 def header_group() -> List[str]:
     """Standard group settings."""
-    return ['\n\n'.join([
-        "±²³SolveSpaceREVa\n",
+    return [
+        first_line(),
         group_origin(1, "#references"),
         group_normal(2, "sketch-in-plane"),
         group_normal(3, "comments"),
-    ])]
+    ]
 
 
 def header_param() -> List[str]:
     """Standard param settings."""
-    return ['\n\n'.join([
+    return [
         '\n\n'.join(param(0x10010 + n) for n in range(3)),
         param_val(0x10020, 1),
         '\n\n'.join(param(0x10020 + n) for n in range(1, 4)),
@@ -515,17 +556,17 @@ def header_param() -> List[str]:
         '\n\n'.join(param_val(0x20020 + n, 0.5) for n in range(4)),
         '\n\n'.join(param(0x30010 + n) for n in range(3)),
         '\n\n'.join(param_val(0x30020 + n, 0.5 if (n == 0) else -0.5) for n in range(4))
-    ])]
+    ]
 
 
 def header_request() -> List[str]:
     """Standard request settings."""
-    return ['\n\n'.join(request_workplane(n) for n in range(1, 4))]
+    return [request_workplane(n) for n in range(1, 4)]
 
 
 def header_entity() -> List[str]:
     """Standard entity settings."""
-    return ['\n\n'.join([
+    return [
         entity_plane(0x10000, 0x10001, 0x10020),
         entity_point(0x10001),
         entity_normal_3d(0x10020, 0x10001),
@@ -535,7 +576,7 @@ def header_entity() -> List[str]:
         entity_plane(0x30000, 0x30001, 0x30020),
         entity_point(0x30001),
         entity_normal_xyz(0x30020, 0x30001, reversed=True)
-    ])]
+    ]
 
 
 def save_slvs(

@@ -9,6 +9,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Callable
 from os.path import isdir, isfile
+import shutil
+from subprocess import Popen, DEVNULL
 from core.QtModules import (
     pyqtSlot,
     Qt,
@@ -90,6 +92,11 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
         
         #Wire frame
         slvs_frame(self.vpoints, self.v_to_slvs, file_name)
+        
+        #Open Solvespace from commend line if available.
+        cmd = shutil.which("solvespace")
+        if cmd:
+            Popen([cmd , file_name], stdout=DEVNULL, stderr=DEVNULL)
         
         if self.frame_radio.isChecked():
             self.accept()

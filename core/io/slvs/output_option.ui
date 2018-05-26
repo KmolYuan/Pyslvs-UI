@@ -77,9 +77,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QRadioButton" name="assembly_radio">
+       <widget class="QRadioButton" name="frame_radio">
         <property name="text">
-         <string>Assembly</string>
+         <string>Only wire frame</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -87,7 +87,17 @@
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="assembly_radio">
+        <property name="text">
+         <string>Assembly</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QWidget" name="assembly_group" native="true">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="leftMargin">
           <number>0</number>
@@ -132,13 +142,6 @@
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="frame_radio">
-        <property name="text">
-         <string>Only wire frame</string>
-        </property>
        </widget>
       </item>
      </layout>
