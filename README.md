@@ -4,12 +4,13 @@
 [![PYQT](https://img.shields.io/badge/pyqt-5.10%20↑-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
 [![OS](https://img.shields.io/badge/os-Ubuntu%2C%20Windows%20(x64)-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
-[![Sourceforge](https://img.shields.io/sourceforge/dt/pyslvs.svg)](https://sourceforge.net/projects/pyslvs/)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
 ![title](icons/Splash.png)
 
 Website: <http://www.pyslvs.com/blog/index.html>
+
+Pyslvs on [Sourceforge](https://sourceforge.net/projects/pyslvs/).
 
 1. [Introduction](#introduction)
 
