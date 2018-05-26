@@ -7,17 +7,15 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence, Callable
-from core.libs import VPoint
 
-
-def _up(num: int) -> int:
+def shift16(num: int) -> int:
     """Left shift with 16 bit."""
     ten = 1 << 16
     return num + ten - (num % ten)
 
 
-def _group_origin(n: int, name: str) -> str:
+def group_origin(n: int = 1, name: str = "#references") -> str:
+    """First group called "#references"."""
     return '\n'.join([
         "Group.h.v={:08x}".format(n),
         "Group.type={}".format(5000),
@@ -38,7 +36,8 @@ def _group_origin(n: int, name: str) -> str:
     ])
 
 
-def _group(n: int, name: str) -> str:
+def group_normal(n: int, name: str) -> str:
+    """A normal group."""
     return '\n'.join([
         "Group.h.v={:08x}".format(n),
         "Group.type={}".format(5001),
@@ -49,7 +48,7 @@ def _group(n: int, name: str) -> str:
         "Group.subtype=6000",
         "Group.skipFirst=0",
         "Group.predef.q.w={:.020f}".format(1),
-        "Group.predef.origin.v={:08x}".format((1<<16) + 1),
+        "Group.predef.origin.v={:08x}".format((1 << 16) + 1),
         "Group.predef.swapUV=0",
         "Group.predef.negateU=0",
         "Group.predef.negateV=0",
@@ -64,7 +63,8 @@ def _group(n: int, name: str) -> str:
     ])
 
 
-def _param(num: int, val: float) -> str:
+def param(num: int, val: float) -> str:
+    """A parameter for point coordinate value."""
     return '\n'.join([
         "Param.h.v.={:08x}".format(num),
         "Param.val={:.20f}".format(val),
@@ -72,10 +72,11 @@ def _param(num: int, val: float) -> str:
     ])
 
 
-def _request(num: int) -> str:
+def request(num: int, type_num: int) -> str:
+    """A request for an entity."""
     return '\n'.join([
         "Request.h.v={:08x}".format(num),
-        "Request.type=200",
+        "Request.type={}".format(type_num),
         "Request.workplane.v=80020000",
         "Request.group.v=00000002",
         "Request.construction=0",
@@ -83,9 +84,25 @@ def _request(num: int) -> str:
     ])
 
 
-def _entity_plane(n: int, p: int, v: int) -> str:
+def request_line(num: int) -> str:
+    """Line segment request."""
+    return request(num, 200)
+
+
+def request_arc(num: int) -> str:
+    """Arc request."""
+    return request(num, 500)
+
+
+def request_circle(num: int) -> str:
+    """Circle request."""
+    return request(num, 400)
+
+
+def entity_plane(num: int, p: int, v: int) -> str:
+    """A workplane."""
     return '\n'.join([
-        "Entity.h.v={:08x}".format(n),
+        "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(10000),
         "Entity.construction={}".format(0),
         "Entity.point[0].v={:08x}".format(p),
@@ -95,20 +112,22 @@ def _entity_plane(n: int, p: int, v: int) -> str:
     ])
 
 
-def _entity_point(n: int, t: int = 2000, con: int = 0) -> str:
+def entity_point(num: int) -> str:
+    """A independent point."""
     return '\n'.join([
-        "Entity.h.v={:08x}".format(n),
-        "Entity.type={}".format(t),
-        "Entity.construction={}".format(con),
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(2000),
+        "Entity.construction={}".format(0),
         "Entity.actVisible=1",
         "AddEntity",
     ])
 
 
-def _entity_normal_w(n: int, p: int, t: int = 3000) -> str:
+def entity_normal(num: int, p: int, type: int) -> str:
+    """A 3D normal."""
     return '\n'.join([
-        "Entity.h.v={:08x}".format(n),
-        "Entity.type={}".format(t),
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(type),
         "Entity.construction={}".format(0),
         "Entity.point[0].v={:08x}".format(p),
         "Entity.actNormal.w={:.020f}".format(1),
@@ -117,9 +136,20 @@ def _entity_normal_w(n: int, p: int, t: int = 3000) -> str:
     ])
 
 
-def _entity_normal_xyz(n: int, p: int, *, reversed: bool = False) -> str:
+def entity_normal_w(num: int, p: int) -> str:
+    """A 3D normal."""
+    return entity_normal(num, p, 3000)
+
+
+def entity_normal_h(num: int, p: int) -> str:
+    """A 3D normal."""
+    return entity_normal(num, p, 3010)
+
+
+def entity_normal_xyz(num: int, p: int, *, reversed: bool = False) -> str:
+    """A 3D normal from quaternion."""
     return '\n'.join([
-        "Entity.h.v={:08x}".format(n),
+        "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(3000),
         "Entity.construction={}".format(0),
         "Entity.point[0].v={:08x}".format(p),
@@ -132,7 +162,8 @@ def _entity_normal_xyz(n: int, p: int, *, reversed: bool = False) -> str:
     ])
 
 
-def _entity_line(num: int) -> str:
+def entity_line(num: int) -> str:
+    """A line segment."""
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(11000),
@@ -145,7 +176,8 @@ def _entity_line(num: int) -> str:
     ])
 
 
-def _entity_line_point(num: int, x: float, y: float) -> str:
+def entity_line_point(num: int, x: float, y: float) -> str:
+    """A point on the line segment."""
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(2001),
@@ -158,7 +190,8 @@ def _entity_line_point(num: int, x: float, y: float) -> str:
     ])
 
 
-def _constraint_point(num: int, p1: int, p2: int) -> str:
+def constraint_point(num: int, p1: int, p2: int) -> str:
+    """Constraint two points as same one."""
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(20),
@@ -173,9 +206,17 @@ def _constraint_point(num: int, p1: int, p2: int) -> str:
     ])
 
 
-def _constraint_fix(num: int, p0: int, x: float, y: float) -> str:
+def constraint_fix(
+    num: int,
+    p0: int,
+    x: float,
+    y: float,
+    *,
+    offset: int = 10
+) -> str:
+    """Constraint two distence of line segment."""
     
-    def _constraint_fix_hv(num: int, p0: int, phv: int, val: float) -> str:
+    def constraint_fix_hv(num: int, phv: int, val: float) -> str:
         return '\n'.join([
             "Constraint.h.v={:08x}".format(num),
             "Constraint.type={}".format(31),
@@ -187,18 +228,26 @@ def _constraint_fix(num: int, p0: int, x: float, y: float) -> str:
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
-            "Constraint.disp.offset.x={:.20f}".format(10),
-            "Constraint.disp.offset.y={:.20f}".format(10),
+            "Constraint.disp.offset.x={:.20f}".format(offset),
+            "Constraint.disp.offset.y={:.20f}".format(offset),
             "AddConstraint",
         ])
     
-    return (
-        _constraint_fix_hv(num, p0, 0x30000, y) + '\n\n' +
-        _constraint_fix_hv(num+1, p0, 0x20000, x)
-    )
+    return '\n\n'.join([
+        constraint_fix_hv(num, 0x30000, y),
+        constraint_fix_hv(num + 1, 0x20000, x)
+    ])
 
 
-def _constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
+def constraint_line(
+    num: int,
+    p1: int,
+    p2: int,
+    leng: float,
+    *,
+    offset: int = 10
+) -> str:
+    """Constraint the distence of line segment."""
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(30),
@@ -210,13 +259,21 @@ def _constraint_line(num: int, p1: int, p2: int, leng: float) -> str:
         "Constraint.other=0",
         "Constraint.other2=0",
         "Constraint.reference=0",
-        "Constraint.disp.offset.x={:.20f}".format(10),
-        "Constraint.disp.offset.y={:.20f}".format(10),
+        "Constraint.disp.offset.x={:.20f}".format(offset),
+        "Constraint.disp.offset.y={:.20f}".format(offset),
         "AddConstraint",
     ])
 
 
-def _constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
+def constraint_angle(
+    num: int,
+    l1: int,
+    l2: int,
+    angle: float,
+    *,
+    offset: int = 10
+) -> str:
+    """Constraint the angle between two line segments."""
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(120),
@@ -228,13 +285,21 @@ def _constraint_angle(num: int, l1: int, l2: int, angle: float) -> str:
         "Constraint.other=1",
         "Constraint.other2=0",
         "Constraint.reference=0",
-        "Constraint.disp.offset.x={:.20f}".format(10),
-        "Constraint.disp.offset.y={:.20f}".format(10),
+        "Constraint.disp.offset.x={:.20f}".format(offset),
+        "Constraint.disp.offset.y={:.20f}".format(offset),
         "AddConstraint",
     ])
 
 
-def _constraint_comment(num: int, comment: str, x: float, y: float) -> str:
+def constraint_comment(
+    num: int,
+    comment: str,
+    x: float,
+    y: float,
+    *,
+    offset: int = 5
+) -> str:
+    """Comment in group."""
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(1000),
@@ -244,112 +309,7 @@ def _constraint_comment(num: int, comment: str, x: float, y: float) -> str:
         "Constraint.other2=0",
         "Constraint.reference=0",
         "Constraint.comment={}".format(comment),
-        "Constraint.disp.offset.x={:.20f}".format(x),
-        "Constraint.disp.offset.y={:.20f}".format(y),
+        "Constraint.disp.offset.x={:.20f}".format(x + offset),
+        "Constraint.disp.offset.y={:.20f}".format(y + offset),
         "AddConstraint",
     ])
-
-
-def slvs_output(
-    VPoints: Sequence[VPoint],
-    v_to_slvs: Callable[[], Tuple[int, int]],
-    file_name: str
-):
-    edges = tuple(v_to_slvs())
-    script_param = ['\n\n'.join([
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
-        "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10020+n) for n in range(1, 4)),
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x20010+n) for n in range(3)),
-        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x20020+n, 0.5) for n in range(4)),
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x30010+n) for n in range(3)),
-        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5 if n==0 else -0.5) for n in range(4))
-    ])]
-    script_request = ['\n\n'.join(
-        ("Request.h.v={:08x}\n".format(n) +
-        "Request.type=100\n" +
-        "Request.group.v=00000001\n" +
-        "Request.construction=0\n" +
-        "AddRequest") for n in range(1, 4)
-    )]
-    script_entity = ['\n\n'.join([
-        _entity_plane(0x10000, 0x10001, 0x10020),
-        _entity_point(0x10001),
-        _entity_normal_w(0x10020, 0x10001),
-        _entity_plane(0x20000, 0x20001, 0x20020),
-        _entity_point(0x20001),
-        _entity_normal_xyz(0x20020, 0x20001),
-        _entity_plane(0x30000, 0x30001, 0x30020),
-        _entity_point(0x30001),
-        _entity_normal_xyz(0x30020, 0x30001, reversed=True)
-    ])]
-    #The number of same points.
-    point_num = [[] for i in range(len(VPoints))]
-    #The number of same lines.
-    line_num = [[] for i in range(len(edges))]
-    #Add "Param"
-    param_num = 0x40000
-    for i, edge in enumerate(edges):
-        param_num += 0x10
-        for p in edge:
-            script_param.append(_param(param_num, VPoints[p].cx))
-            param_num += 1
-            script_param.append(_param(param_num, VPoints[p].cy))
-            param_num += 2
-        param_num = _up(param_num)
-    #Add "Request"
-    request_num = 0x4
-    for i in range(len(edges)):
-        script_request.append(_request(request_num))
-        request_num += 1
-    #Add "Entity"
-    entity_num = 0x40000
-    for i, edge in enumerate(edges):
-        script_entity.append(_entity_line(entity_num))
-        for p in edge:
-            entity_num += 1
-            point_num[p].append(entity_num)
-            script_entity.append(_entity_line_point(entity_num, VPoints[p].cx, VPoints[p].cy))
-            line_num[i].append(entity_num)
-        entity_num = _up(entity_num)
-    script_entity.append('\n\n'.join([
-        _entity_plane(0x80020000, 0x80020002, 0x80020001),
-        _entity_normal_w(0x80020001, 0x80020002, 3010),
-        _entity_line_point(0x80020002, 2012, 1)
-    ]))
-    #Add "Constraint"
-    script_constraint = []
-    constraint_num = 0x1
-    #Same point constraint
-    for p in point_num:
-        for p_ in p[1:]:
-            script_constraint.append(_constraint_point(constraint_num, p[0], p_))
-            constraint_num += 1
-    #Position constraint
-    for i, vpoint in enumerate(VPoints):
-        if "ground" in vpoint.links and point_num[i]:
-            script_constraint.append(_constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
-            constraint_num += 2
-    #Distance constraint
-    for i, (n1, n2) in enumerate(line_num):
-        p1, p2 = edges[i]
-        script_constraint.append(_constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
-        constraint_num += 1
-    #Comment constraint
-    for i, vpoint in enumerate(VPoints):
-        script_constraint.append(_constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
-        constraint_num += 1
-    #Write file
-    with open(file_name, 'w', encoding="iso-8859-15") as f:
-        f.write('\n\n'.join('\n\n'.join(script) for script in [
-            ['\n\n'.join([
-                "±²³SolveSpaceREVa\n",
-                _group_origin(1, "#references"),
-                _group(2, "sketch-in-plane"),
-                _group(3, "comments"),
-            ])],
-            script_param,
-            script_request,
-            script_entity,
-            script_constraint
-        ]) + '\n\n')

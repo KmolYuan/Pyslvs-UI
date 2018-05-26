@@ -19,7 +19,7 @@ from core.QtModules import (
     QTextEdit,
 )
 from core.libs import VPoint
-from .write import slvs_output
+from .frame import slvs_output
 from .Ui_output_option import Ui_Dialog
 
 
@@ -64,15 +64,20 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
         + Only wire frame
         """
         
-        def getname(widget: QTextEdit) -> str:
+        def getname(widget: QTextEdit, *, test: Callable[[str], bool] = None) -> str:
             """Return the file name of widget."""
             text = widget.text()
+            if test:
+                if test(text):
+                    return text
+                else:
+                    return widget.placeholderText()
             if text:
                 return text
             else:
                 return widget.placeholderText()
         
-        file_name = QDir(getname(self.path_edit)).filePath(getname(self.filename_edit) + '.slvs')
+        file_name = QDir(getname(self.path_edit, test=isdir)).filePath(getname(self.filename_edit) + '.slvs')
         if self.warn_radio.isChecked() and isfile(file_name):
             QMessageBox.warning(self, "File exist", "The file is exist.")
             return
@@ -95,6 +100,5 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
                     vlinks[link].add(i)
                 else:
                     vlinks[link] = {i}
-        
         
         self.accept()
