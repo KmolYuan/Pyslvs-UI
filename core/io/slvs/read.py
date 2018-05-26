@@ -73,7 +73,7 @@ class SlvsParser:
         requests = []
         for request in self.requests:
             if request['Request.group.v'] == group:
-                #4 << 16 == 0x40000
+                #0x4 << 16 == 0x40000
                 requests.append(int16(request['Request.h.v']) << 16)
         
         vlinks = {link: {link + 1, link + 2} for link in requests}

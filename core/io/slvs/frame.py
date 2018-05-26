@@ -14,7 +14,7 @@ from .write import (
     param_val,
     request_line,
     entity_plane,
-    entity_normal_h,
+    entity_normal_2d,
     entity_relative_point,
     entity_line,
     constraint_point,
@@ -68,7 +68,7 @@ def slvs_output(
         entity_num = shift16(entity_num)
     script_entity.append('\n\n'.join([
         entity_plane(0x80020000, 0x80020002, 0x80020001),
-        entity_normal_h(0x80020001, 0x80020002),
+        entity_normal_2d(0x80020001, 0x80020002),
         entity_relative_point(0x80020002, 2012, 1)
     ]))
     #Add "Constraint"

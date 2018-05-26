@@ -209,6 +209,8 @@ Pyslvs can support for following format.
 + Expression (just a string).
 + Solvespace format (*.slvs, only supports very few of constraints).
 
+For the IO method of Solvespace format, you can also refer to two Python scripts 'read' and 'write' in Pyslvs IO module.
+
 # Modules Requirement
 
 You should install some python module and SDK first.

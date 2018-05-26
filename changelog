@@ -39,6 +39,8 @@ Version 18.05:
         -- Compile process improvement.
         -- Reduce the size while packing AppImage file.
         -- Reduce the size of images.
+    -- Solvespace format:
+        -- Python API for simple 2D sketch IO.
     -- Modules and objects naming adjustment.
     -- PyQt version should upgrade to 5.10 or above to support Qt graph methods.
 

@@ -1,6 +1,87 @@
 # -*- coding: utf-8 -*-
 
-"""Solvespace format output function."""
+"""Solvespace format output function.
+
+Here is the type codes (from "sketch.h"):
+
+class EntityBase {
+public:
+    enum class Type : uint32_t {
+        POINT_IN_3D            =  2000,
+        POINT_IN_2D            =  2001,
+        POINT_N_TRANS          =  2010,
+        POINT_N_ROT_TRANS      =  2011,
+        POINT_N_COPY           =  2012,
+        POINT_N_ROT_AA         =  2013,
+
+        NORMAL_IN_3D           =  3000,
+        NORMAL_IN_2D           =  3001,
+        NORMAL_N_COPY          =  3010,
+        NORMAL_N_ROT           =  3011,
+        NORMAL_N_ROT_AA        =  3012,
+
+        DISTANCE               =  4000,
+        DISTANCE_N_COPY        =  4001,
+
+        FACE_NORMAL_PT         =  5000,
+        FACE_XPROD             =  5001,
+        FACE_N_ROT_TRANS       =  5002,
+        FACE_N_TRANS           =  5003,
+        FACE_N_ROT_AA          =  5004,
+
+        WORKPLANE              = 10000,
+        LINE_SEGMENT           = 11000,
+        CUBIC                  = 12000,
+        CUBIC_PERIODIC         = 12001,
+        CIRCLE                 = 13000,
+        ARC_OF_CIRCLE          = 14000,
+        TTF_TEXT               = 15000,
+        IMAGE                  = 16000
+    };
+}
+
+class ConstraintBase {
+public:
+    enum class Type : uint32_t {
+        POINTS_COINCIDENT      =  20,
+        PT_PT_DISTANCE         =  30,
+        PT_PLANE_DISTANCE      =  31,
+        PT_LINE_DISTANCE       =  32,
+        PT_FACE_DISTANCE       =  33,
+        PROJ_PT_DISTANCE       =  34,
+        PT_IN_PLANE            =  41,
+        PT_ON_LINE             =  42,
+        PT_ON_FACE             =  43,
+        EQUAL_LENGTH_LINES     =  50,
+        LENGTH_RATIO           =  51,
+        EQ_LEN_PT_LINE_D       =  52,
+        EQ_PT_LN_DISTANCES     =  53,
+        EQUAL_ANGLE            =  54,
+        EQUAL_LINE_ARC_LEN     =  55,
+        LENGTH_DIFFERENCE      =  56,
+        SYMMETRIC              =  60,
+        SYMMETRIC_HORIZ        =  61,
+        SYMMETRIC_VERT         =  62,
+        SYMMETRIC_LINE         =  63,
+        AT_MIDPOINT            =  70,
+        HORIZONTAL             =  80,
+        VERTICAL               =  81,
+        DIAMETER               =  90,
+        PT_ON_CIRCLE           = 100,
+        SAME_ORIENTATION       = 110,
+        ANGLE                  = 120,
+        PARALLEL               = 121,
+        PERPENDICULAR          = 122,
+        ARC_LINE_TANGENT       = 123,
+        CUBIC_LINE_TANGENT     = 124,
+        CURVE_CURVE_TANGENT    = 125,
+        EQUAL_RADIUS           = 130,
+        WHERE_DRAGGED          = 200,
+
+        COMMENT                = 1000
+    };
+}
+"""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -9,14 +90,19 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import List
 
-
 _group = 0x2
 _comment_group = 0x3
 _workplane = 0x80020000
 
 
 def shift16(num: int) -> int:
-    """Left shift with 16 bit."""
+    """Left shift with 16 bit.
+    
+    Usage:
+    >>> a = 0x20009
+    >>> hex(shift16(a))
+    '0x30000'
+    """
     ten = 1 << 16
     return num + ten - (num % ten)
 
@@ -89,7 +175,7 @@ def group_normal(n: int, name: str) -> str:
 
 
 def param(num: int) -> str:
-    """A parameter no value."""
+    """A no value parameter."""
     return '\n'.join([
         "Param.h.v.={:08x}".format(num),
         "AddParam",
@@ -97,7 +183,7 @@ def param(num: int) -> str:
 
 
 def param_val(num: int, val: float) -> str:
-    """A parameter has value."""
+    """A value parameter."""
     return '\n'.join([
         "Param.h.v.={:08x}".format(num),
         "Param.val={:.20f}".format(val),
@@ -143,14 +229,14 @@ def request_circle(num: int) -> str:
     return request(num, 400)
 
 
-def entity_plane(num: int, p: int, v: int) -> str:
+def entity_plane(num: int, origin: int, normal: int) -> str:
     """A workplane."""
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(10000),
         "Entity.construction=0",
-        "Entity.point[0].v={:08x}".format(p),
-        "Entity.normal.v={:08x}".format(v),
+        "Entity.point[0].v={:08x}".format(origin),
+        "Entity.normal.v={:08x}".format(normal),
         "Entity.actVisible=1",
         "AddEntity",
     ])
@@ -180,27 +266,28 @@ def entity_normal(num: int, p: int, type: int) -> str:
     ])
 
 
-def entity_normal_w(num: int, p: int) -> str:
+def entity_normal_3d(num: int, p: int) -> str:
     """A 3D normal."""
     return entity_normal(num, p, 3000)
 
 
-def entity_normal_h(num: int, p: int) -> str:
-    """A 3D normal."""
+def entity_normal_2d(num: int, p: int) -> str:
+    """A 2D normal."""
     return entity_normal(num, p, 3010)
 
 
 def entity_normal_xyz(num: int, p: int, *, reversed: bool = False) -> str:
     """A 3D normal from quaternion."""
+    unit = 0.5
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(3000),
         "Entity.construction=0",
         "Entity.point[0].v={:08x}".format(p),
-        "Entity.actNormal.w={:.020f}".format(0.5),
-        "Entity.actNormal.vx={:.020f}".format(-0.5 if reversed else 0.5),
-        "Entity.actNormal.vy={:.020f}".format(-0.5 if reversed else 0.5),
-        "Entity.actNormal.vz={:.020f}".format(-0.5 if reversed else 0.5),
+        "Entity.actNormal.w={:.020f}".format(unit),
+        "Entity.actNormal.vx={:.020f}".format(-unit if reversed else unit),
+        "Entity.actNormal.vy={:.020f}".format(-unit if reversed else unit),
+        "Entity.actNormal.vz={:.020f}".format(-unit if reversed else unit),
         "Entity.actVisible=1",
         "AddEntity",
     ])
@@ -302,9 +389,10 @@ def constraint_fix(
     *,
     offset: int = 10
 ) -> str:
-    """Constraint two distance of line segment."""
+    """Constraint two distance between two workplane."""
     
     def constraint_fix_hv(num: int, phv: int, val: float) -> str:
+        """Constraint a distance from a point to a plane."""
         return '\n'.join([
             "Constraint.h.v={:08x}".format(num),
             "Constraint.type={}".format(31),
@@ -436,7 +524,7 @@ def header_entity() -> List[str]:
     return ['\n\n'.join([
         entity_plane(0x10000, 0x10001, 0x10020),
         entity_point(0x10001),
-        entity_normal_w(0x10020, 0x10001),
+        entity_normal_3d(0x10020, 0x10001),
         entity_plane(0x20000, 0x20001, 0x20020),
         entity_point(0x20001),
         entity_normal_xyz(0x20020, 0x20001),
