@@ -14,6 +14,7 @@ from .write import (
     group_origin,
     group_normal,
     param,
+    param_val,
     request_line,
     entity_plane,
     entity_point,
@@ -36,13 +37,13 @@ def slvs_output(
 ):
     edges = tuple(v_to_slvs())
     script_param = ['\n\n'.join([
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
-        "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10020+n) for n in range(1, 4)),
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x20010+n) for n in range(3)),
-        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x20020+n, 0.5) for n in range(4)),
-        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x30010+n) for n in range(3)),
-        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5 if n==0 else -0.5) for n in range(4))
+        '\n\n'.join(param(0x10010 + n) for n in range(3)),
+        param_val(0x10020, 1),
+        '\n\n'.join(param(0x10020 + n) for n in range(1, 4)),
+        '\n\n'.join(param(0x20010 + n) for n in range(3)),
+        '\n\n'.join(param_val(0x20020 + n, 0.5) for n in range(4)),
+        '\n\n'.join(param(0x30010 + n) for n in range(3)),
+        '\n\n'.join(param_val(0x30020 + n, 0.5 if (n == 0) else -0.5) for n in range(4))
     ])]
     script_request = ['\n\n'.join(
         ("Request.h.v={:08x}\n".format(n) +
@@ -71,9 +72,9 @@ def slvs_output(
     for i, edge in enumerate(edges):
         param_num += 0x10
         for p in edge:
-            script_param.append(param(param_num, VPoints[p].cx))
+            script_param.append(param_val(param_num, VPoints[p].cx))
             param_num += 1
-            script_param.append(param(param_num, VPoints[p].cy))
+            script_param.append(param_val(param_num, VPoints[p].cy))
             param_num += 2
         param_num = shift16(param_num)
     #Add "Request"

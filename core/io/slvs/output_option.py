@@ -73,7 +73,7 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
                 else:
                     return widget.placeholderText()
             if text:
-                return "".join(x for x in text if (x.isalnum() or (x in "._- ")))
+                return "".join(x for x in text if x.isalnum() or (x in "._- "))
             else:
                 return widget.placeholderText()
         

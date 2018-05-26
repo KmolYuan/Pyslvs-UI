@@ -49,11 +49,14 @@ class SlvsParser:
         groups = []
         for group in self.groups:
             #Number code and group name.
-            groups.append("{}:{}".format(group['Group.h.v'], group['Group.name']))
+            groups.append((
+                group['Group.h.v'],
+                "".join(x for x in group['Group.name'] if x.isalnum() or (x in "._- "))
+            ))
         return groups[1:]
     
     def parse(self, group: str) -> str:
-        """Parse as PMKS expression.
+        """Parse as PMKS expression for specified group.
         
         + Requests: Get all linkages.
             + Independence points will be ignored.
@@ -61,7 +64,6 @@ class SlvsParser:
             + Collecting linkages for each point.
         + Entities: Get positions.
         """
-        group = group.split(':')[0]
         
         def int16(num: str) -> int:
             """Generate 16 bit interger."""
@@ -80,6 +82,8 @@ class SlvsParser:
         #Constraint: Adjacency.
         #Grounded. Other linkages at least will greater than 4.
         for constraint in self.constraints:
+            if constraint['Constraint.group.v'] != group:
+                continue
             if constraint['Constraint.type'] == '20':
                 now_replace = int16(constraint['Constraint.ptA.v'])
                 for vlink in vlinks.values():

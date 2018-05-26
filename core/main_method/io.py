@@ -97,7 +97,7 @@ def _readSlvs(self, file_name: str):
         "Solvespace groups",
         "Choose a group:\n" +
         "(Please know that the group must contain a sketch only.)",
-        groups,
+        ["@".join(g) for g in groups],
         0,
         False
     )
@@ -106,7 +106,7 @@ def _readSlvs(self, file_name: str):
     self.clear()
     self.FileWidget.reset()
     print("Read from group: {}".format(group))
-    expr = parser.parse(group)
+    expr = parser.parse(group.split('@')[0])
     self.parseExpression(expr)
 
 

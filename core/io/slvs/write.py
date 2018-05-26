@@ -85,8 +85,16 @@ def group_normal(n: int, name: str) -> str:
     ])
 
 
-def param(num: int, val: float) -> str:
-    """A parameter for point coordinate value."""
+def param(num: int) -> str:
+    """A parameter no value."""
+    return '\n'.join([
+        "Param.h.v.={:08x}".format(num),
+        "AddParam",
+    ])
+
+
+def param_val(num: int, val: float) -> str:
+    """A parameter has value."""
     return '\n'.join([
         "Param.h.v.={:08x}".format(num),
         "Param.val={:.20f}".format(val),
