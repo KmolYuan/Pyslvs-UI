@@ -7,11 +7,33 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+_group = 0x2
+_comment_group = 0x3
+_workplane = 0x80020000
+
 
 def shift16(num: int) -> int:
     """Left shift with 16 bit."""
     ten = 1 << 16
     return num + ten - (num % ten)
+
+
+def set_group(num: int):
+    """Set the group number."""
+    global _group
+    _group = num
+
+
+def set_comment_group(num: int):
+    """Set the comment group number."""
+    global _comment_group
+    _comment_group = num
+
+
+def set_workplane(num: int):
+    """Set main workplane."""
+    global _workplane
+    _workplane = num
 
 
 def group_origin(n: int = 1, name: str = "#references") -> str:
@@ -43,7 +65,7 @@ def group_normal(n: int, name: str) -> str:
         "Group.type={}".format(5001),
         "Group.order=1",
         "Group.name={}".format(name),
-        "Group.activeWorkplane.v=80020000",
+        "Group.activeWorkplane.v={:08x}".format(_workplane),
         "Group.color=ff000000",
         "Group.subtype=6000",
         "Group.skipFirst=0",
@@ -72,13 +94,13 @@ def param(num: int, val: float) -> str:
     ])
 
 
-def request(num: int, type_num: int) -> str:
+def request(num: int, type: int) -> str:
     """A request for an entity."""
     return '\n'.join([
         "Request.h.v={:08x}".format(num),
-        "Request.type={}".format(type_num),
-        "Request.workplane.v=80020000",
-        "Request.group.v=00000002",
+        "Request.type={}".format(type),
+        "Request.workplane.v={:08x}".format(_workplane),
+        "Request.group.v={:08x}".format(_group),
         "Request.construction=0",
         "AddRequest",
     ])
@@ -104,7 +126,7 @@ def entity_plane(num: int, p: int, v: int) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(10000),
-        "Entity.construction={}".format(0),
+        "Entity.construction=0",
         "Entity.point[0].v={:08x}".format(p),
         "Entity.normal.v={:08x}".format(v),
         "Entity.actVisible=1",
@@ -117,7 +139,7 @@ def entity_point(num: int) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(2000),
-        "Entity.construction={}".format(0),
+        "Entity.construction=0",
         "Entity.actVisible=1",
         "AddEntity",
     ])
@@ -128,7 +150,7 @@ def entity_normal(num: int, p: int, type: int) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(type),
-        "Entity.construction={}".format(0),
+        "Entity.construction=0",
         "Entity.point[0].v={:08x}".format(p),
         "Entity.actNormal.w={:.020f}".format(1),
         "Entity.actVisible=1",
@@ -151,7 +173,7 @@ def entity_normal_xyz(num: int, p: int, *, reversed: bool = False) -> str:
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
         "Entity.type={}".format(3000),
-        "Entity.construction={}".format(0),
+        "Entity.construction=0",
         "Entity.point[0].v={:08x}".format(p),
         "Entity.actNormal.w={:.020f}".format(0.5),
         "Entity.actNormal.vx={:.020f}".format(-0.5 if reversed else 0.5),
@@ -162,29 +184,73 @@ def entity_normal_xyz(num: int, p: int, *, reversed: bool = False) -> str:
     ])
 
 
-def entity_line(num: int) -> str:
-    """A line segment."""
+def entity_relative_point(num: int, x: float, y: float) -> str:
+    """A point related with the entity."""
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
-        "Entity.type={}".format(11000),
-        "Entity.construction={}".format(0),
-        "Entity.point[0].v={:08x}".format(num+1),
-        "Entity.point[1].v={:08x}".format(num+2),
-        "Entity.workplane.v=80020000",
+        "Entity.type={}".format(2001),
+        "Entity.construction=0",
+        "Entity.workplane.v={:08x}".format(_workplane),
+        "Entity.actPoint.x={:.20f}".format(x),
+        "Entity.actPoint.y={:.20f}".format(y),
         "Entity.actVisible=1",
         "AddEntity",
     ])
 
 
-def entity_line_point(num: int, x: float, y: float) -> str:
-    """A point on the line segment."""
+def entity_line(num: int) -> str:
+    """A line segment."""
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
-        "Entity.type={}".format(2001),
-        "Entity.construction={}".format(0),
-        "Entity.workplane.v=80020000",
-        "Entity.actPoint.x={:.20f}".format(x),
-        "Entity.actPoint.y={:.20f}".format(y),
+        "Entity.type={}".format(11000),
+        "Entity.construction=0",
+        "Entity.point[0].v={:08x}".format(num + 1),
+        "Entity.point[1].v={:08x}".format(num + 2),
+        "Entity.workplane.v={:08x}".format(_workplane),
+        "Entity.actVisible=1",
+        "AddEntity",
+    ])
+
+
+def entity_arc(num: int) -> str:
+    """An arc."""
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(14000),
+        "Entity.construction=0",
+        "Entity.point[0].v={:08x}".format(num + 1),
+        "Entity.point[1].v={:08x}".format(num + 2),
+        "Entity.point[2].v={:08x}".format(num + 3),
+        "Entity.normal.v={:08x}".format(num + 0x20),
+        "Entity.workplane.v={:08x}".format(_workplane),
+        "Entity.actVisible=1",
+        "AddEntity",
+    ])
+
+
+def entity_circle(num: int) -> str:
+    """A circle."""
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(13000),
+        "Entity.construction=0",
+        "Entity.point[0].v={:08x}".format(num + 1),
+        "Entity.normal.v={:08x}".format(num + 0x20),
+        "Entity.distance.v={:08x}".format(num + 0x40),
+        "Entity.workplane.v={:08x}".format(_workplane),
+        "Entity.actVisible=1",
+        "AddEntity",
+    ])
+
+
+def entity_distance(num: int, val: float) -> str:
+    """A distance entity."""
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(4000),
+        "Entity.construction=0",
+        "Entity.workplane.v={:08x}".format(_workplane),
+        "Entity.actDistance={:.20f}".format(val),
         "Entity.actVisible=1",
         "AddEntity",
     ])
@@ -195,8 +261,8 @@ def constraint_point(num: int, p1: int, p2: int) -> str:
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(20),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
+        "Constraint.group.v={:08x}".format(_group),
+        "Constraint.workplane.v={:08x}".format(_workplane),
         "Constraint.ptA.v={:08x}".format(p1),
         "Constraint.ptB.v={:08x}".format(p2),
         "Constraint.other=0",
@@ -214,14 +280,14 @@ def constraint_fix(
     *,
     offset: int = 10
 ) -> str:
-    """Constraint two distence of line segment."""
+    """Constraint two distance of line segment."""
     
     def constraint_fix_hv(num: int, phv: int, val: float) -> str:
         return '\n'.join([
             "Constraint.h.v={:08x}".format(num),
             "Constraint.type={}".format(31),
-            "Constraint.group.v=00000002",
-            "Constraint.workplane.v=80020000",
+            "Constraint.group.v={:08x}".format(_group),
+            "Constraint.workplane.v={:08x}".format(_workplane),
             "Constraint.valA={:.20f}".format(val),
             "Constraint.ptA.v={:08x}".format(p0),
             "Constraint.entityA.v={:08x}".format(phv),
@@ -239,7 +305,7 @@ def constraint_fix(
     ])
 
 
-def constraint_line(
+def constraint_distence(
     num: int,
     p1: int,
     p2: int,
@@ -247,12 +313,12 @@ def constraint_line(
     *,
     offset: int = 10
 ) -> str:
-    """Constraint the distence of line segment."""
+    """Constraint the distance of line segment."""
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(30),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
+        "Constraint.group.v={:08x}".format(_group),
+        "Constraint.workplane.v={:08x}".format(_workplane),
         "Constraint.valA={:.20f}".format(leng),
         "Constraint.ptA.v={:08x}".format(p1),
         "Constraint.ptB.v={:08x}".format(p2),
@@ -277,8 +343,8 @@ def constraint_angle(
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(120),
-        "Constraint.group.v=00000002",
-        "Constraint.workplane.v=80020000",
+        "Constraint.group.v={:08x}".format(_group),
+        "Constraint.workplane.v={:08x}".format(_workplane),
         "Constraint.valA={:.20f}".format(angle),
         "Constraint.ptA.v={:08x}".format(l1),
         "Constraint.ptB.v={:08x}".format(l2),
@@ -303,8 +369,8 @@ def constraint_comment(
     return '\n'.join([
         "Constraint.h.v={:08x}".format(num),
         "Constraint.type={}".format(1000),
-        "Constraint.group.v=00000003",
-        "Constraint.workplane.v=80020000",
+        "Constraint.group.v={:08x}".format(_comment_group),
+        "Constraint.workplane.v={:08x}".format(_workplane),
         "Constraint.other=0",
         "Constraint.other2=0",
         "Constraint.reference=0",

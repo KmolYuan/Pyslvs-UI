@@ -20,11 +20,11 @@ from .write import (
     entity_normal_w,
     entity_normal_h,
     entity_normal_xyz,
+    entity_relative_point,
     entity_line,
-    entity_line_point,
     constraint_point,
     constraint_fix,
-    constraint_line,
+    constraint_distence,
     constraint_comment,
 )
 
@@ -88,13 +88,13 @@ def slvs_output(
         for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity.append(entity_line_point(entity_num, VPoints[p].cx, VPoints[p].cy))
+            script_entity.append(entity_relative_point(entity_num, VPoints[p].cx, VPoints[p].cy))
             line_num[i].append(entity_num)
         entity_num = shift16(entity_num)
     script_entity.append('\n\n'.join([
         entity_plane(0x80020000, 0x80020002, 0x80020001),
         entity_normal_h(0x80020001, 0x80020002),
-        entity_line_point(0x80020002, 2012, 1)
+        entity_relative_point(0x80020002, 2012, 1)
     ]))
     #Add "Constraint"
     script_constraint = []
@@ -112,7 +112,7 @@ def slvs_output(
     #Distance constraint
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = edges[i]
-        script_constraint.append(constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
+        script_constraint.append(constraint_distence(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
         constraint_num += 1
     #Comment constraint
     for i, vpoint in enumerate(VPoints):
