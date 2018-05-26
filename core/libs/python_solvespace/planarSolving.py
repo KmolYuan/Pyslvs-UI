@@ -19,24 +19,26 @@ from .slvs import (
     SLVS_RESULT_DIDNT_CONVERGE,
     SLVS_RESULT_TOO_MANY_UNKNOWNS,
 )
-from core.libs import VPoint, VLink
-from math import (
-    radians,
-    cos,
-    sin,
-)
+from core.libs import VPoint
+from math import radians, cos, sin
 from typing import Tuple, List
 
 
 def slvsProcess(
     vpoints: Tuple[VPoint],
-    vlinks: Tuple[VLink],
     constraints: Tuple[Tuple[int, str, str, float]]
 ) -> Tuple[List[Tuple[float, float]], int]:
-    """Use element module to convert into solvespace expression.
+    """Use element module to convert into solvespace expression."""
+    #Define VLinks here.
+    vlinks = {}
+    for i, vpoint in enumerate(vpoints):
+        for linkName in vpoint.links:
+            if linkName in vlinks:
+                if i not in vlinks[linkName]:
+                    vlinks[linkName].append(i)
+            else:
+                vlinks[linkName] = [i]
     
-    + TODO: Remove VLink here.
-    """
     #Limitation of Solvespacce kernel sys.
     pointCount = 0
     sliderCount = 0
@@ -77,12 +79,6 @@ def slvsProcess(
                 ),
             ))
     
-    def LinkIndex(name: str) -> int:
-        """Topology of PMKS points."""
-        for i, vlink in enumerate(vlinks):
-            if name == vlink.name:
-                return i
-    
     for i, vpoint in enumerate(vpoints):
         """P and RP Joint:
         
@@ -108,7 +104,7 @@ def slvsProcess(
                     else:
                         Constraint.angle(wp1, vpoint.angle, h_line, l_slot)
                     return
-                relate = vlinks[LinkIndex(linkName)].points
+                relate = vlinks[linkName]
                 relate_n = relate[relate.index(i) - 1]
                 relate_vp = vpoints[relate_n]
                 p_main = solved_points[i][vpoint.links.index(linkName)]
@@ -148,7 +144,7 @@ def slvsProcess(
             if linkName == 'ground':
                 Constraint.dragged(wp1, p_base)
                 continue
-            relate = vlinks[LinkIndex(linkName)].points
+            relate = vlinks[linkName]
             relate_n = relate.index(i)
             
             #Pass if this is the first point.
@@ -213,7 +209,7 @@ def slvsProcess(
         
         #Base link slope angle.
         if base_link != 'ground':
-            relate_base = vlinks[LinkIndex(base_link)].points
+            relate_base = vlinks[base_link]
             newRelateOrder_base = relate_base.index(shaft)-1
             angle -= vpoints[shaft].slopeAngle(vpoints[newRelateOrder_base])
             angle %= 360.
@@ -225,7 +221,7 @@ def slvsProcess(
         #The virtual link that dragged by "hand".
         leader = LineSegment2d(wp1, p_base, p_hand)
         #Make another virtual link that should follow "hand".
-        relate_drive = vlinks[LinkIndex(drive_link)].points
+        relate_drive = vlinks[drive_link]
         newRelateOrder_drive = relate_drive[relate_drive.index(shaft)-1]
         if vpoints[newRelateOrder_drive].type != 0:
             p_drive = solved_points[newRelateOrder_drive][0]

@@ -43,7 +43,6 @@ def resolve(self):
         elif solve_kernel == 1:
             result, _ = slvsProcess(
                 vpoints,
-                self.EntitiesLink.dataTuple(),
                 inputs if not self.freemode_button.isChecked() else ()
             )
     except Exception as e:

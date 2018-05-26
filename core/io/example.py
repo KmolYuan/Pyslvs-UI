@@ -9,7 +9,6 @@ __email__ = "pyslvs@gmail.com"
 
 
 example_list = {
-    #TODO: 2 DOF example.
     "Arm": ("M[" +
         "J[R, color[Green], P[-34.25, -20.625], L[ground, link_1, link_2]], " +
         "J[R, color[Green], P[29.75, 77.375], L[link_2, link_5, link_6]], " +
