@@ -25,6 +25,7 @@ from .write import (
     header_param,
     header_request,
     header_entity,
+    save_slvs,
 )
 
 
@@ -37,10 +38,13 @@ def slvs_output(
     script_param = header_param()
     script_request = header_request()
     script_entity = header_entity()
+    
     #The number of same points.
     point_num = [[] for i in range(len(VPoints))]
+    
     #The number of same lines.
     line_num = [[] for i in range(len(edges))]
+    
     #Add "Param"
     param_num = 0x40000
     for i, edge in enumerate(edges):
@@ -51,11 +55,13 @@ def slvs_output(
             script_param.append(param_val(param_num, VPoints[p].cy))
             param_num += 2
         param_num = shift16(param_num)
+    
     #Add "Request"
     request_num = 0x4
     for i in range(len(edges)):
         script_request.append(request_line(request_num))
         request_num += 1
+    
     #Add "Entity"
     entity_num = 0x40000
     for i, edge in enumerate(edges):
@@ -71,6 +77,7 @@ def slvs_output(
         entity_normal_2d(0x80020001, 0x80020002),
         entity_relative_point(0x80020002, 2012, 1)
     ]))
+    
     #Add "Constraint"
     script_constraint = []
     constraint_num = 0x1
@@ -93,12 +100,13 @@ def slvs_output(
     for i, vpoint in enumerate(VPoints):
         script_constraint.append(constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
+    
     #Write file
-    with open(file_name, 'w', encoding="iso-8859-15") as f:
-        f.write('\n\n'.join('\n\n'.join(script) for script in [
-            header_group(),
-            script_param,
-            script_request,
-            script_entity,
-            script_constraint,
-        ]) + '\n\n')
+    save_slvs(
+        file_name,
+        header_group(),
+        script_param,
+        script_request,
+        script_entity,
+        script_constraint
+    )

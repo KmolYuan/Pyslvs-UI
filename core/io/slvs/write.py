@@ -2,7 +2,11 @@
 
 """Solvespace format output function.
 
-Here is the type codes (from "sketch.h"):
+This module are use a workplane and two groups for sketching and placing comments.
+But the number codes can decide by functions.
+The number code is all hexadecimal.
+
+Here is the type codes of Solvespace (from "sketch.h"):
 
 class EntityBase {
 public:
@@ -532,3 +536,22 @@ def header_entity() -> List[str]:
         entity_point(0x30001),
         entity_normal_xyz(0x30020, 0x30001, reversed=True)
     ])]
+
+
+def save_slvs(
+    file_name: str,
+    script_group: List[str],
+    script_param: List[str],
+    script_request: List[str],
+    script_entity: List[str],
+    script_constraint: List[str],
+):
+    """Save the file."""
+    with open(file_name, 'w', encoding="iso-8859-15") as f:
+        f.write('\n\n'.join('\n\n'.join(script) for script in [
+            script_group,
+            script_param,
+            script_request,
+            script_entity,
+            script_constraint,
+        ]) + '\n\n')
