@@ -238,7 +238,7 @@ def _drawLink(self, vlink: VLink):
     points = _pointsPos(self, vlink)
     pen = QPen()
     #Rearrange: Put the nearest point to the next position.
-    qpoints = convex_hull(points)
+    qpoints = convex_hull(points, as_qpoint=True)
     if (
         (self.selectionMode == 1) and
         (self.Links.index(vlink) in self.selections)
@@ -369,11 +369,11 @@ def _select_func(self, *, rect: bool = False):
             """
             points = _pointsPos(self, vlink)
             if len(points) > 2:
-                polygon = QPolygonF(convex_hull(points))
+                polygon = QPolygonF(convex_hull(points, as_qpoint=True))
             else:
                 points_up = [(x + self.sr, y + self.sr) for x, y in points]
                 points_down = [(x - self.sr, y - self.sr) for x, y in points]
-                polygon = QPolygonF(convex_hull(points_up + points_down))
+                polygon = QPolygonF(convex_hull(points_up + points_down, as_qpoint=True))
             if rect:
                 return polygon.intersects(QPolygonF(self.selector.toQRect()))
             else:

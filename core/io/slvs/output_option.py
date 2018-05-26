@@ -19,7 +19,8 @@ from core.QtModules import (
     QTextEdit,
 )
 from core.libs import VPoint
-from .frame import slvs_output
+from .frame import slvs_frame
+from .part import slvs_part
 from .Ui_output_option import Ui_Dialog
 
 
@@ -77,22 +78,24 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
             else:
                 return widget.placeholderText()
         
-        file_name = QDir(getname(self.path_edit, ispath=True)).filePath(getname(self.filename_edit) + '.slvs')
+        path = getname(self.path_edit, ispath=True)
+        file_name = QDir(path).filePath(getname(self.filename_edit) + '.slvs')
         if self.warn_radio.isChecked() and isfile(file_name):
-            QMessageBox.warning(self, "File exist", "The file is exist.")
+            QMessageBox.warning(
+                self,
+                "File exist",
+                "The file {} is exist.".format(file_name)
+            )
             return
         
         #Wire frame
-        slvs_output(
-            self.vpoints,
-            self.v_to_slvs,
-            file_name
-        )
+        slvs_frame(self.vpoints, self.v_to_slvs, file_name)
+        
         if self.frame_radio.isChecked():
             self.accept()
             return
         
-        #TODO: Assembly
+        #Assembly
         vlinks = {}
         for i, vpoint in enumerate(self.vpoints):
             for link in vpoint.links:
@@ -100,5 +103,19 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
                     vlinks[link].add(i)
                 else:
                     vlinks[link] = {i}
+        for name, points in vlinks.items():
+            file_name = QDir(path).filePath(name + '.slvs')
+            if self.warn_radio.isChecked() and isfile(file_name):
+                QMessageBox.warning(
+                    self,
+                    "File exist",
+                    "The file {} is exist.".format(file_name)
+                )
+                return
+            slvs_part(
+                [self.vpoints[i] for i in points],
+                self.link_radius.value(),
+                file_name
+            )
         
         self.accept()

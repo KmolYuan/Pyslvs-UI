@@ -134,6 +134,9 @@ cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {
     
     vpoints will make a copy that we don't want to modified itself.
     """
+    if (not vpoints_) or (not inputs):
+        return []
+    
     cdef list vpoints = list(vpoints_)
     
     """First, we create a "VLinks" that can help us to

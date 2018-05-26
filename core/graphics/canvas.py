@@ -27,24 +27,28 @@ from typing import (
 from functools import reduce
 from networkx import Graph
 from core.QtModules import (
+    pyqtSlot,
+    Qt,
     QPointF,
     QWidget,
     QSizePolicy,
     QPainter,
     QBrush,
-    Qt,
     QPen,
     QColor,
     QFont,
     QPainterPath,
-    pyqtSlot,
 )
 from core import io
 from core.libs import VPoint
 from . import colorQt, colorPath
 
 
-def convex_hull(points: List[Tuple[float, float]]) -> List[QPointF]:
+def convex_hull(
+    points: List[Tuple[float, float]],
+    *,
+    as_qpoint: bool = False
+) -> Union[List[Tuple[float, float]], List[QPointF]]:
     """Returns points on convex hull in CCW order
     according to Graham's scan algorithm.
     """
@@ -76,10 +80,15 @@ def convex_hull(points: List[Tuple[float, float]]) -> List[QPointF]:
     points.sort()
     l = reduce(keep_left, points, [])
     u = reduce(keep_left, reversed(points), [])
-    return [
-        QPointF(x, y)
-        for x, y in (l.extend(u[i] for i in range(1, len(u) - 1)) or l)
-    ]
+    l.extend(u[i] for i in range(1, len(u) - 1))
+    
+    result = []
+    for x, y in l:
+        if as_qpoint:
+            result.append(QPointF(x, y))
+        else:
+            result.append((x, y))
+    return result
 
 def edges_view(G: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
     """This generator can keep the numbering be consistent."""
@@ -479,7 +488,7 @@ class PreviewCanvas(BaseCanvas):
                 if link == link_:
                     x, y = self.pos[int(name.replace('P', ''))]
                     points.append((x * self.zoom, y * -self.zoom))
-            self.painter.drawPolygon(*convex_hull(points))
+            self.painter.drawPolygon(*convex_hull(points, as_qpoint=True))
         self.painter.setFont(QFont("Arial", self.fontSize))
         #Nodes
         for node, (x, y) in self.pos.items():

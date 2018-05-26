@@ -104,7 +104,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Linkage width:</string>
+            <string>Linkage radius:</string>
            </property>
           </widget>
          </item>
@@ -122,12 +122,12 @@
           </spacer>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBox">
+          <widget class="QDoubleSpinBox" name="link_radius">
            <property name="minimum">
-            <double>0.500000000000000</double>
+            <double>0.010000000000000</double>
            </property>
            <property name="value">
-            <double>20.000000000000000</double>
+            <double>10.000000000000000</double>
            </property>
           </widget>
          </item>

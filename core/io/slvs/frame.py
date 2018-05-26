@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence, Callable
+from typing import Tuple, List, Callable
 from core.libs import VPoint
 from .write import (
     shift16,
@@ -29,18 +29,22 @@ from .write import (
 )
 
 
-def slvs_output(
-    VPoints: Sequence[VPoint],
+def slvs_frame(
+    vpoints: List[VPoint],
     v_to_slvs: Callable[[], Tuple[int, int]],
     file_name: str
 ):
+    """Generate frame sketch, ignore all points that was no any connection."""
     edges = tuple(v_to_slvs())
+    
+    #File headers of default framework.
     script_param = header_param()
     script_request = header_request()
     script_entity = header_entity()
+    script_constraint = []
     
     #The number of same points.
-    point_num = [[] for i in range(len(VPoints))]
+    point_num = [[] for i in range(len(vpoints))]
     
     #The number of same lines.
     line_num = [[] for i in range(len(edges))]
@@ -50,9 +54,9 @@ def slvs_output(
     for i, edge in enumerate(edges):
         param_num += 0x10
         for p in edge:
-            script_param.append(param_val(param_num, VPoints[p].cx))
+            script_param.append(param_val(param_num, vpoints[p].cx))
             param_num += 1
-            script_param.append(param_val(param_num, VPoints[p].cy))
+            script_param.append(param_val(param_num, vpoints[p].cy))
             param_num += 2
         param_num = shift16(param_num)
     
@@ -69,7 +73,7 @@ def slvs_output(
         for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity.append(entity_relative_point(entity_num, VPoints[p].cx, VPoints[p].cy))
+            script_entity.append(entity_relative_point(entity_num, vpoints[p].cx, vpoints[p].cy))
             line_num[i].append(entity_num)
         entity_num = shift16(entity_num)
     script_entity.append('\n\n'.join([
@@ -79,7 +83,6 @@ def slvs_output(
     ]))
     
     #Add "Constraint"
-    script_constraint = []
     constraint_num = 0x1
     #Same point constraint
     for p in point_num:
@@ -87,17 +90,17 @@ def slvs_output(
             script_constraint.append(constraint_point(constraint_num, p[0], p_))
             constraint_num += 1
     #Position constraint
-    for i, vpoint in enumerate(VPoints):
+    for i, vpoint in enumerate(vpoints):
         if "ground" in vpoint.links and point_num[i]:
             script_constraint.append(constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
             constraint_num += 2
     #Distance constraint
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = edges[i]
-        script_constraint.append(constraint_distence(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
+        script_constraint.append(constraint_distence(constraint_num, n1, n2, vpoints[p1].distance(vpoints[p2])))
         constraint_num += 1
     #Comment constraint
-    for i, vpoint in enumerate(VPoints):
+    for i, vpoint in enumerate(vpoints):
         script_constraint.append(constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
     

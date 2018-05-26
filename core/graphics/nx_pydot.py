@@ -162,7 +162,7 @@ def graph(
             painter.drawPolygon(*convex_hull([
                 (pos[n][0], -pos[n][1])
                 for n, edge in edges_view(G) if link in edge
-            ]))
+            ], as_qpoint=True))
     for k, (x, y) in pos.items():
         if node_mode:
             color = colorNum(len(list(G.neighbors(k)))-1)

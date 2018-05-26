@@ -544,7 +544,7 @@ def save_slvs(
     script_param: List[str],
     script_request: List[str],
     script_entity: List[str],
-    script_constraint: List[str],
+    script_constraint: List[str]
 ):
     """Save the file."""
     with open(file_name, 'w', encoding="iso-8859-15") as f:
@@ -555,3 +555,15 @@ def save_slvs(
             script_entity,
             script_constraint,
         ]) + '\n\n')
+
+
+def save_empty_slvs(file_name: str):
+    """Save an empty file."""
+    save_slvs(
+        file_name,
+        header_group(),
+        header_param(),
+        header_request(),
+        header_entity(),
+        []
+    )
