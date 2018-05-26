@@ -273,12 +273,7 @@ def entity_normal_3d(num: int, p: int) -> str:
     return entity_normal(num, p, 3000)
 
 
-def entity_normal_2d(num: int, p: int) -> str:
-    """A 2D normal."""
-    return entity_normal(num, p, 3010)
-
-
-def entity_normal_xyz(num: int, p: int, *, reversed: bool = False) -> str:
+def entity_normal_3d_wxyz(num: int, p: int, *, reversed: bool = False) -> str:
     """A 3D normal from quaternion."""
     unit = 0.5
     return '\n'.join([
@@ -295,7 +290,27 @@ def entity_normal_xyz(num: int, p: int, *, reversed: bool = False) -> str:
     ])
 
 
-def entity_relative_point(num: int, x: float, y: float) -> str:
+def entity_normal_2d(num: int, p: int):
+    """A 2D normal."""
+    unit = 1
+    return '\n'.join([
+        "Entity.h.v={:08x}".format(num),
+        "Entity.type={}".format(3001),
+        "Entity.construction=0",
+        "Entity.point[0].v={:08x}".format(p),
+        "Entity.workplane.v={:08x}".format(_workplane),
+        "Entity.actNormal.w={:.020f}".format(unit),
+        "Entity.actVisible=1",
+        "AddEntity",
+    ])
+
+
+def entity_normal_copy(num: int, p: int) -> str:
+    """A copied normal."""
+    return entity_normal(num, p, 3010)
+
+
+def entity_point_2d(num: int, x: float, y: float) -> str:
     """A point related with the entity."""
     return '\n'.join([
         "Entity.h.v={:08x}".format(num),
@@ -572,10 +587,10 @@ def header_entity() -> List[str]:
         entity_normal_3d(0x10020, 0x10001),
         entity_plane(0x20000, 0x20001, 0x20020),
         entity_point(0x20001),
-        entity_normal_xyz(0x20020, 0x20001),
+        entity_normal_3d_wxyz(0x20020, 0x20001),
         entity_plane(0x30000, 0x30001, 0x30020),
         entity_point(0x30001),
-        entity_normal_xyz(0x30020, 0x30001, reversed=True)
+        entity_normal_3d_wxyz(0x30020, 0x30001, reversed=True)
     ]
 
 

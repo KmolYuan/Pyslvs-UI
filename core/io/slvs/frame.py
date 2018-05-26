@@ -14,8 +14,8 @@ from .write import (
     param_val,
     request_line,
     entity_plane,
-    entity_normal_2d,
-    entity_relative_point,
+    entity_normal_copy,
+    entity_point_2d,
     entity_line,
     constraint_point,
     constraint_fix,
@@ -73,13 +73,13 @@ def slvs_frame(
         for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity.append(entity_relative_point(entity_num, vpoints[p].cx, vpoints[p].cy))
+            script_entity.append(entity_point_2d(entity_num, vpoints[p].cx, vpoints[p].cy))
             line_num[i].append(entity_num)
         entity_num = shift16(entity_num)
     script_entity.append('\n\n'.join([
         entity_plane(0x80020000, 0x80020002, 0x80020001),
-        entity_normal_2d(0x80020001, 0x80020002),
-        entity_relative_point(0x80020002, 2012, 1)
+        entity_normal_copy(0x80020001, 0x80020002),
+        entity_point_2d(0x80020002, 2012, 1)
     ]))
     
     #Add "Constraint"
