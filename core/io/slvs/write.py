@@ -7,6 +7,9 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import List
+
+
 _group = 0x2
 _comment_group = 0x3
 _workplane = 0x80020000
@@ -109,6 +112,17 @@ def request(num: int, type: int) -> str:
         "Request.type={}".format(type),
         "Request.workplane.v={:08x}".format(_workplane),
         "Request.group.v={:08x}".format(_group),
+        "Request.construction=0",
+        "AddRequest",
+    ])
+
+
+def request_workplane(num: int) -> str:
+    """Workplane request."""
+    return '\n'.join([
+        "Request.h.v={:08x}".format(num),
+        "Request.type={}".format(100),
+        "Request.group.v={:08x}".format(0x1),
         "Request.construction=0",
         "AddRequest",
     ])
@@ -387,3 +401,46 @@ def constraint_comment(
         "Constraint.disp.offset.y={:.20f}".format(y + offset),
         "AddConstraint",
     ])
+
+
+def header_group() -> List[str]:
+    """Standard group settings."""
+    return ['\n\n'.join([
+        "±²³SolveSpaceREVa\n",
+        group_origin(1, "#references"),
+        group_normal(2, "sketch-in-plane"),
+        group_normal(3, "comments"),
+    ])]
+
+
+def header_param() -> List[str]:
+    """Standard param settings."""
+    return ['\n\n'.join([
+        '\n\n'.join(param(0x10010 + n) for n in range(3)),
+        param_val(0x10020, 1),
+        '\n\n'.join(param(0x10020 + n) for n in range(1, 4)),
+        '\n\n'.join(param(0x20010 + n) for n in range(3)),
+        '\n\n'.join(param_val(0x20020 + n, 0.5) for n in range(4)),
+        '\n\n'.join(param(0x30010 + n) for n in range(3)),
+        '\n\n'.join(param_val(0x30020 + n, 0.5 if (n == 0) else -0.5) for n in range(4))
+    ])]
+
+
+def header_request() -> List[str]:
+    """Standard request settings."""
+    return ['\n\n'.join(request_workplane(n) for n in range(1, 4))]
+
+
+def header_entity() -> List[str]:
+    """Standard entity settings."""
+    return ['\n\n'.join([
+        entity_plane(0x10000, 0x10001, 0x10020),
+        entity_point(0x10001),
+        entity_normal_w(0x10020, 0x10001),
+        entity_plane(0x20000, 0x20001, 0x20020),
+        entity_point(0x20001),
+        entity_normal_xyz(0x20020, 0x20001),
+        entity_plane(0x30000, 0x30001, 0x30020),
+        entity_point(0x30001),
+        entity_normal_xyz(0x30020, 0x30001, reversed=True)
+    ])]

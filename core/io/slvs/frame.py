@@ -11,22 +11,20 @@ from typing import Tuple, Sequence, Callable
 from core.libs import VPoint
 from .write import (
     shift16,
-    group_origin,
-    group_normal,
-    param,
     param_val,
     request_line,
     entity_plane,
-    entity_point,
-    entity_normal_w,
     entity_normal_h,
-    entity_normal_xyz,
     entity_relative_point,
     entity_line,
     constraint_point,
     constraint_fix,
     constraint_distence,
     constraint_comment,
+    header_group,
+    header_param,
+    header_request,
+    header_entity,
 )
 
 
@@ -36,33 +34,9 @@ def slvs_output(
     file_name: str
 ):
     edges = tuple(v_to_slvs())
-    script_param = ['\n\n'.join([
-        '\n\n'.join(param(0x10010 + n) for n in range(3)),
-        param_val(0x10020, 1),
-        '\n\n'.join(param(0x10020 + n) for n in range(1, 4)),
-        '\n\n'.join(param(0x20010 + n) for n in range(3)),
-        '\n\n'.join(param_val(0x20020 + n, 0.5) for n in range(4)),
-        '\n\n'.join(param(0x30010 + n) for n in range(3)),
-        '\n\n'.join(param_val(0x30020 + n, 0.5 if (n == 0) else -0.5) for n in range(4))
-    ])]
-    script_request = ['\n\n'.join(
-        ("Request.h.v={:08x}\n".format(n) +
-        "Request.type=100\n" +
-        "Request.group.v=00000001\n" +
-        "Request.construction=0\n" +
-        "AddRequest") for n in range(1, 4)
-    )]
-    script_entity = ['\n\n'.join([
-        entity_plane(0x10000, 0x10001, 0x10020),
-        entity_point(0x10001),
-        entity_normal_w(0x10020, 0x10001),
-        entity_plane(0x20000, 0x20001, 0x20020),
-        entity_point(0x20001),
-        entity_normal_xyz(0x20020, 0x20001),
-        entity_plane(0x30000, 0x30001, 0x30020),
-        entity_point(0x30001),
-        entity_normal_xyz(0x30020, 0x30001, reversed=True)
-    ])]
+    script_param = header_param()
+    script_request = header_request()
+    script_entity = header_entity()
     #The number of same points.
     point_num = [[] for i in range(len(VPoints))]
     #The number of same lines.
@@ -122,14 +96,9 @@ def slvs_output(
     #Write file
     with open(file_name, 'w', encoding="iso-8859-15") as f:
         f.write('\n\n'.join('\n\n'.join(script) for script in [
-            ['\n\n'.join([
-                "±²³SolveSpaceREVa\n",
-                group_origin(1, "#references"),
-                group_normal(2, "sketch-in-plane"),
-                group_normal(3, "comments"),
-            ])],
+            header_group(),
             script_param,
             script_request,
             script_entity,
-            script_constraint
+            script_constraint,
         ]) + '\n\n')
