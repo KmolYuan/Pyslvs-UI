@@ -80,8 +80,13 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
             else:
                 return widget.placeholderText()
         
-        path = getname(self.path_edit, ispath=True)
-        file_name = QDir(path).filePath(getname(self.filename_edit) + '.slvs')
+        dir = QDir(getname(self.path_edit, ispath=True))
+        if self.newfolder_option.isChecked():
+            new_folder = self.filename_edit.placeholderText()
+            dir.mkdir(new_folder)
+            dir.cd(new_folder)
+            del new_folder
+        file_name = dir.filePath(getname(self.filename_edit) + '.slvs')
         if self.warn_radio.isChecked() and isfile(file_name):
             QMessageBox.warning(
                 self,
@@ -111,7 +116,7 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
                 else:
                     vlinks[link] = {i}
         for name, points in vlinks.items():
-            file_name = QDir(path).filePath(name + '.slvs')
+            file_name = dir.filePath(name + '.slvs')
             if self.warn_radio.isChecked() and isfile(file_name):
                 QMessageBox.warning(
                     self,

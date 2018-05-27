@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(358, 472)
+        Dialog.resize(358, 483)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/Solvespace.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -34,6 +34,9 @@ class Ui_Dialog(object):
         self.choosedir_button.setObjectName("choosedir_button")
         self.horizontalLayout_2.addWidget(self.choosedir_button)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.newfolder_option = QtWidgets.QCheckBox(Dialog)
+        self.newfolder_option.setObjectName("newfolder_option")
+        self.verticalLayout_3.addWidget(self.newfolder_option)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.filename_label = QtWidgets.QLabel(Dialog)
@@ -109,6 +112,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.path_label.setText(_translate("Dialog", "Directory:"))
         self.choosedir_button.setText(_translate("Dialog", "..."))
+        self.newfolder_option.setText(_translate("Dialog", "Create a new folder with workbook name"))
         self.filename_label.setText(_translate("Dialog", "Main file name:"))
         self.filename_suffix_label.setText(_translate("Dialog", ".slvs"))
         self.output_group.setTitle(_translate("Dialog", "Output as"))

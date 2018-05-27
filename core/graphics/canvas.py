@@ -49,7 +49,7 @@ def convex_hull(
     *,
     as_qpoint: bool = False
 ) -> Union[List[Tuple[float, float]], List[QPointF]]:
-    """Returns points on convex hull in CCW order
+    """Returns points on convex hull in counterclockwise order
     according to Graham's scan algorithm.
     """
     
@@ -60,7 +60,7 @@ def convex_hull(
         p: Tuple[float, float],
         q: Tuple[float, float],
         r: Tuple[float, float]
-    ):
+    ) -> int:
         return cmp(
             (q[0] - p[0])*(r[1] - p[1]) -
             (r[0] - p[0])*(q[1] - p[1]),
@@ -68,9 +68,9 @@ def convex_hull(
         )
     
     def keep_left(
-        hull: Sequence[Tuple[float, float]],
+        hull: List[Tuple[float, float]],
         r: Tuple[float, float]
-    ):
+    ) -> List[Tuple[float, float]]:
         while (len(hull) > 1) and (turn(hull[-2], hull[-1], r) != 1):
             hull.pop()
         if not len(hull) or hull[-1] != r:
@@ -90,10 +90,12 @@ def convex_hull(
             result.append((x, y))
     return result
 
+
 def edges_view(G: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
     """This generator can keep the numbering be consistent."""
     for n, edge in enumerate(sorted(sorted(e) for e in G.edges)):
         yield (n, tuple(edge))
+
 
 def graph2vpoints(
     G: Graph,
@@ -139,8 +141,6 @@ def graph2vpoints(
         ))
     return tmp_list
 
-#Radius of canvas dot.
-RADIUS = 3
 
 class _Path:
     
@@ -160,6 +160,11 @@ class _Path:
         self.path = ()
         self.show = -1
         self.curve = True
+
+
+#Radius of canvas dot.
+RADIUS = 3
+
 
 class BaseCanvas(QWidget):
     
@@ -402,6 +407,7 @@ class BaseCanvas(QWidget):
             qpoints.append(QPointF(x, -y) * self.zoom)
         self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
+
 
 class PreviewCanvas(BaseCanvas):
     
