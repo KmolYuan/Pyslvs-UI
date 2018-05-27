@@ -83,7 +83,13 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
         dir = QDir(getname(self.path_edit, ispath=True))
         if self.newfolder_option.isChecked():
             new_folder = self.filename_edit.placeholderText()
-            dir.mkdir(new_folder)
+            if self.warn_radio.isChecked() and (not dir.mkdir(new_folder)):
+                QMessageBox.warning(
+                    self,
+                    "Folder exist",
+                    "The folder named {} is exist.".format(new_folder)
+                )
+                return
             dir.cd(new_folder)
             del new_folder
         file_name = dir.filePath(getname(self.filename_edit) + '.slvs')

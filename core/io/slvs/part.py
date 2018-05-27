@@ -16,15 +16,7 @@ from math import (
 )
 from core.libs import VPoint
 from core.graphics import convex_hull
-from .write import (
-    group_origin,
-    group_normal,
-    first_line,
-    header_param,
-    header_request,
-    header_entity,
-    save_slvs,
-)
+from .write import shift16, SlvsWriter
 
 
 def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
@@ -49,23 +41,8 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     boundary = boundary_tmp
     print(boundary)
     
-    #File headers of default framework.
-    script_param = header_param()
-    script_request = header_request()
-    script_entity = header_entity()
-    script_constraint = []
+    #Writer object
+    writer = SlvsWriter()
     
     #Write file
-    save_slvs(
-        file_name,
-        ['\n\n'.join([
-            first_line(),
-            group_origin(1, "#references"),
-            group_normal(2, "sketch-in-plane"),
-            group_normal(3, "outfit"),
-        ])],
-        script_param,
-        script_request,
-        script_entity,
-        script_constraint
-    )
+    writer.save_slvs(file_name)

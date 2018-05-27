@@ -35,6 +35,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.choosedir_button)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
         self.newfolder_option = QtWidgets.QCheckBox(Dialog)
+        self.newfolder_option.setChecked(True)
         self.newfolder_option.setObjectName("newfolder_option")
         self.verticalLayout_3.addWidget(self.newfolder_option)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
