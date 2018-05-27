@@ -93,12 +93,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 
-def shift16(num: int) -> int:
+def _shift16(num: int) -> int:
     """Left shift with 16 bit.
     
     Usage:
     >>> a = 0x20009
-    >>> hex(shift16(a))
+    >>> hex(_shift16(a))
     '0x30000'
     """
     ten = 1 << 16
@@ -171,6 +171,14 @@ class SlvsWriter:
     def set_workplane(self, num: int):
         """Set main workplane."""
         self.__workplane = num
+    
+    def param_shift16(self):
+        """Shift param count."""
+        self.param_num = _shift16(self.param_num)
+    
+    def entity_shift16(self):
+        """Shift param count."""
+        self.entity_num = _shift16(self.entity_num)
     
     def save_slvs(self, file_name: str):
         """Save the file."""

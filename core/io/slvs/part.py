@@ -16,7 +16,7 @@ from math import (
 )
 from core.libs import VPoint
 from core.graphics import convex_hull
-from .write import shift16, SlvsWriter
+from .write import SlvsWriter
 
 
 def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):

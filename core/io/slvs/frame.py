@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, List, Callable
 from core.libs import VPoint
-from .write import shift16, SlvsWriter
+from .write import SlvsWriter
 
 
 def slvs_frame(
@@ -37,7 +37,7 @@ def slvs_frame(
             writer.param_num += 1
             writer.param_val(writer.param_num, vpoints[p].cy)
             writer.param_num += 2
-        writer.param_num = shift16(writer.param_num)
+        writer.param_shift16()
     
     #Add "Request"
     for i in range(len(edges)):
@@ -52,7 +52,7 @@ def slvs_frame(
             point_num[p].append(writer.entity_num)
             writer.entity_point_2d(writer.entity_num, vpoints[p].cx, vpoints[p].cy)
             line_num[i].append(writer.entity_num)
-        writer.entity_num = shift16(writer.entity_num)
+        writer.entity_shift16()
     
     #Add "Constraint"
     #Same point constraint
