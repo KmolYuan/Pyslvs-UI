@@ -7,12 +7,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import Graph, is_isomorphic
 from typing import (
     List,
     Tuple,
     Optional,
 )
+from networkx import Graph, is_isomorphic
 from core.QtModules import (
     QWidget,
     pyqtSignal,

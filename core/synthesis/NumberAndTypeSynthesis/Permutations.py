@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import Graph
 from typing import List, Optional
+from networkx import Graph
 from core.QtModules import (
     QWidget,
     QMenu,
@@ -31,7 +31,6 @@ from core.QtModules import (
     QInputDialog,
     QFileInfo,
 )
-
 from core.io import QTIMAGES
 from core.libs import NumberSynthesis, topo
 from core.graphics import (

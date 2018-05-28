@@ -7,6 +7,9 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Tuple, List
+from math import radians, cos, sin
+from core.libs import VPoint
 from .cad import create2DSystem
 from .slvs import (
     #Entities & Constraint
@@ -19,9 +22,6 @@ from .slvs import (
     SLVS_RESULT_DIDNT_CONVERGE,
     SLVS_RESULT_TOO_MANY_UNKNOWNS,
 )
-from core.libs import VPoint
-from math import radians, cos, sin
-from typing import Tuple, List
 
 
 def slvsProcess(

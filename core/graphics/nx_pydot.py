@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Dict, Tuple
 from networkx import (
     Graph,
     nx_pydot,
@@ -16,7 +17,6 @@ from networkx import (
     spectral_layout,
     random_layout
 )
-from typing import Dict, Tuple
 from core.QtModules import (
     QImage,
     QSize,

@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from pygments.lexers import Python3Lexer
 from typing import (
     Tuple,
     List,
@@ -16,6 +15,7 @@ from typing import (
     Iterator,
     Union,
 )
+from pygments.lexers import Python3Lexer
 from core.QtModules import (
     Qt,
     QApplication,

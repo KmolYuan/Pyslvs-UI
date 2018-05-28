@@ -23,12 +23,6 @@ def slvs_frame(
     #Writer object
     writer = SlvsWriter()
     
-    #The number of same points.
-    point_num = [[] for i in range(len(vpoints))]
-    
-    #The number of same lines.
-    line_num = [[] for i in range(len(edges))]
-    
     #Add "Param"
     for i, edge in enumerate(edges):
         writer.param_num += 0x10
@@ -43,6 +37,11 @@ def slvs_frame(
     for i in range(len(edges)):
         writer.request_line(writer.request_num)
         writer.request_num += 1
+    
+    #The number of same points.
+    point_num = [[] for i in range(len(vpoints))]
+    #The number of same lines.
+    line_num = [[] for i in range(len(edges))]
     
     #Add "Entity"
     for i, edge in enumerate(edges):

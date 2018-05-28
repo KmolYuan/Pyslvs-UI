@@ -17,22 +17,22 @@ public:
         POINT_N_ROT_TRANS      =  2011,
         POINT_N_COPY           =  2012,
         POINT_N_ROT_AA         =  2013,
-
+        
         NORMAL_IN_3D           =  3000,
         NORMAL_IN_2D           =  3001,
         NORMAL_N_COPY          =  3010,
         NORMAL_N_ROT           =  3011,
         NORMAL_N_ROT_AA        =  3012,
-
+        
         DISTANCE               =  4000,
         DISTANCE_N_COPY        =  4001,
-
+        
         FACE_NORMAL_PT         =  5000,
         FACE_XPROD             =  5001,
         FACE_N_ROT_TRANS       =  5002,
         FACE_N_TRANS           =  5003,
         FACE_N_ROT_AA          =  5004,
-
+        
         WORKPLANE              = 10000,
         LINE_SEGMENT           = 11000,
         CUBIC                  = 12000,
@@ -81,7 +81,7 @@ public:
         CURVE_CURVE_TANGENT    = 125,
         EQUAL_RADIUS           = 130,
         WHERE_DRAGGED          = 200,
-
+        
         COMMENT                = 1000
     };
 }
@@ -120,9 +120,9 @@ class SlvsWriter:
         self.__workplane = workplane
         
         self.script_group = ["±²³SolveSpaceREVa\n"]
-        self.group_origin(1)
-        self.group_normal(2, "sketch-in-plane")
-        self.group_normal(3, "comments")
+        self.group_origin(0x1)
+        self.group_normal(0x2, "sketch-in-plane")
+        self.group_normal(0x3, "comments")
         
         self.param_num = 0x40000
         self.script_param = []
@@ -173,11 +173,11 @@ class SlvsWriter:
         self.__workplane = num
     
     def param_shift16(self):
-        """Shift param count."""
+        """Shift param counting."""
         self.param_num = _shift16(self.param_num)
     
     def entity_shift16(self):
-        """Shift param count."""
+        """Shift entity counting."""
         self.entity_num = _shift16(self.entity_num)
     
     def save_slvs(self, file_name: str):

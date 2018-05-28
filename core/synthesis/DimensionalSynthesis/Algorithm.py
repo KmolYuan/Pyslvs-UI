@@ -7,12 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import Graph
-import csv
-import openpyxl
-import pprint
-from copy import deepcopy
-from re import split as charSplit
 from typing import (
     List,
     Dict,
@@ -20,6 +14,12 @@ from typing import (
     Any,
     Optional,
 )
+import csv
+import pprint
+from copy import deepcopy
+from re import split as charSplit
+import openpyxl
+from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
     QWidget,
@@ -736,7 +736,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.Firefly
         elif self.type2.isChecked():
             type_num = AlgorithmType.DE
-        dlg = Options_show(type_num, self.Settings)
+        dlg = Options_show(type_num, self.Settings, self)
         dlg.show()
         if not dlg.exec_():
             return

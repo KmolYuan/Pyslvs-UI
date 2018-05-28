@@ -11,6 +11,11 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import (
+    Tuple,
+    List,
+    Union,
+)
 from lark import Lark, Transformer
 from lark.lexer import Token
 
@@ -27,11 +32,6 @@ except ImportError:
 else:
     HAS_PYGMENTS = True
 
-from typing import (
-    Tuple,
-    List,
-    Union,
-)
 from .tinycadlib import VPoint
 
 

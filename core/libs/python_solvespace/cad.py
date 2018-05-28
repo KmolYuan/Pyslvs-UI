@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, List
+from core.libs import VPoint
 from .slvs import (
     #System base
     System,
@@ -26,7 +27,6 @@ from .slvs import (
     SLVS_RESULT_DIDNT_CONVERGE,
     SLVS_RESULT_TOO_MANY_UNKNOWNS,
 )
-from core.libs import VPoint
 
 
 def create2DSystem(num: int) -> Tuple[System, Workplane, LineSegment2d]:

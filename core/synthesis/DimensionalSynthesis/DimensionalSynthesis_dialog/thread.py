@@ -7,17 +7,17 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-import timeit
-import platform
-import numpy
-import numpy.distutils.cpuinfo
-from psutil import virtual_memory
 from typing import (
     Tuple,
     List,
     Dict,
     Any,
 )
+import timeit
+import platform
+from psutil import virtual_memory
+import numpy
+import numpy.distutils.cpuinfo
 from core.QtModules import pyqtSignal, QThread
 from core.libs import (
     Genetic,

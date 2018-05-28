@@ -7,8 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import Graph
-from itertools import chain
 from typing import (
     Tuple,
     List,
@@ -16,6 +14,8 @@ from typing import (
     Union,
     Optional,
 )
+from itertools import chain
+from networkx import Graph
 from core.entities import (
     EditPointDialog,
     EditLinkDialog,

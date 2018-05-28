@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import List
 import numpy as np
-from typing import Sequence
 from core.QtModules import (
     QDialog,
     Qt,
@@ -70,7 +70,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
             return
         index = list(range(l))
         
-        def polyfit(x: Sequence[float], y: Sequence[float], d: int):
+        def polyfit(x: List[float], y: List[float], d: int):
             """Return a 2D fitting equation."""
             coeffs = np.polyfit(x, y, d)
             #Fit values and mean.

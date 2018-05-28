@@ -7,12 +7,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import Graph
 from typing import (
     Tuple,
     Iterator,
     Optional,
 )
+from networkx import Graph
 from core.QtModules import (
     Qt,
     QDialog,

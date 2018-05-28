@@ -7,9 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-import pprint
-from math import hypot
-from networkx import Graph
 from typing import (
     Dict,
     List,
@@ -19,6 +16,9 @@ from typing import (
     Any,
     Optional,
 )
+from math import hypot
+import pprint
+from networkx import Graph
 from core.QtModules import (
     Qt,
     pyqtSignal,
