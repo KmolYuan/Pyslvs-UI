@@ -497,6 +497,21 @@ class SlvsWriter:
             "AddConstraint",
         ]))
     
+    def constraint_diameter(self, num: int, e1: int, val: float):
+        """Constraint the diameter of a circle."""
+        self.script_constraint.append('\n'.join([
+            "Constraint.h.v={:08x}".format(num),
+            "Constraint.type={}".format(90),
+            "Constraint.group.v={:08x}".format(self.__group),
+            "Constraint.workplane.v={:08x}".format(self.__workplane),
+            "Constraint.valA={:.20f}".format(val),
+            "Constraint.entityA.v={:08x}".format(e1),
+            "Constraint.other=0",
+            "Constraint.other2=0",
+            "Constraint.reference=0",
+            "AddConstraint",
+        ]))
+    
     def constraint_angle(self,
         num: int,
         l1: int,

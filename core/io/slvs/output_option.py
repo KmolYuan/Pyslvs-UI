@@ -83,7 +83,7 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
         dir = QDir(getname(self.path_edit, ispath=True))
         if self.newfolder_option.isChecked():
             new_folder = self.filename_edit.placeholderText()
-            if self.warn_radio.isChecked() and (not dir.mkdir(new_folder)):
+            if (not dir.mkdir(new_folder)) and self.warn_radio.isChecked():
                 QMessageBox.warning(
                     self,
                     "Folder exist",
@@ -122,6 +122,8 @@ class SlvsOutputDialog(QDialog, Ui_Dialog):
                 else:
                     vlinks[link] = {i}
         for name, points in vlinks.items():
+            if name == 'ground':
+                continue
             file_name = dir.filePath(name + '.slvs')
             if self.warn_radio.isChecked() and isfile(file_name):
                 QMessageBox.warning(
