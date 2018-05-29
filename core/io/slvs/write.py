@@ -92,6 +92,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Optional
+
 
 def _shift16(num: int) -> int:
     """Left shift with 16 bit.
@@ -483,8 +485,16 @@ class SlvsWriter:
             "AddConstraint",
         ]))
     
-    def constraint_diameter(self, num: int, e1: int, val: float):
+    def constraint_diameter(self,
+        num: int,
+        e1: int,
+        val: float,
+        *,
+        offset: Optional[int] = None
+    ):
         """Constraint the diameter of a circle."""
+        if offset is None:
+            offset = val
         self.script_constraint.append('\n'.join([
             "Constraint.h.v={:08x}".format(num),
             "Constraint.type={}".format(90),
@@ -495,6 +505,8 @@ class SlvsWriter:
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
+            "Constraint.disp.offset.x={:.20f}".format(offset),
+            "Constraint.disp.offset.y={:.20f}".format(offset),
             "AddConstraint",
         ]))
     
