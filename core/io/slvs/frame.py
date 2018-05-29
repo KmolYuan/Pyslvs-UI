@@ -75,4 +75,4 @@ def slvs_frame(
         writer.constraint_num += 1
     
     #Write file
-    writer.save_slvs(file_name)
+    writer.save(file_name)

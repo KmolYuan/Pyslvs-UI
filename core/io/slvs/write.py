@@ -180,20 +180,6 @@ class SlvsWriter:
         """Shift entity counting."""
         self.entity_num = _shift16(self.entity_num)
     
-    def save_slvs(self, file_name: str):
-        """Save the file."""
-        self.entity_plane(0x80020000, 0x80020002, 0x80020001)
-        self.entity_normal_copy(0x80020001, 0x80020002)
-        self.entity_point_2d(0x80020002, 2012, 1)
-        with open(file_name, 'w', encoding="iso-8859-15") as f:
-            f.write('\n\n'.join('\n\n'.join(script) for script in [
-                self.script_group,
-                self.script_param,
-                self.script_request,
-                self.script_entity,
-                self.script_constraint,
-            ]) + '\n\n')
-    
     def group_origin(self, num: int = 1, name: str = "#references"):
         """First group called "#references"."""
         self.script_group.append('\n'.join([
@@ -595,3 +581,17 @@ class SlvsWriter:
             "Constraint.disp.offset.y={:.20f}".format(y + offset),
             "AddConstraint",
         ]))
+    
+    def save(self, file_name: str):
+        """Save the file."""
+        self.entity_plane(0x80020000, 0x80020002, 0x80020001)
+        self.entity_normal_copy(0x80020001, 0x80020002)
+        self.entity_point_2d(0x80020002, 2012, 1)
+        with open(file_name, 'w', encoding="iso-8859-15") as f:
+            f.write('\n\n'.join('\n\n'.join(script) for script in [
+                self.script_group,
+                self.script_param,
+                self.script_request,
+                self.script_entity,
+                self.script_constraint,
+            ]) + '\n\n')

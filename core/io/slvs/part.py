@@ -128,8 +128,11 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         writer.constraint_fix(writer.constraint_num, point_num[i][0], c.x, c.y)
         if i == 1:
             writer.script_constraint.pop()
+            writer.constraint_num += 1
         else:
             writer.constraint_num += 2
+    
+    center_num = [nums[0] for nums in point_num]
     
     #Group 3:
     writer.set_group(0x3)
@@ -138,12 +141,15 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     point_num = [[] for i in range(point_count*2)]
     #The number of same lines.
     line_num = [[] for i in range(len(boundary))]
+    #The number of circles.
+    circles = []
     
     segment_processing(boundary)
     
-    def addCircle(x: float, y: float):
+    def addCircle(i: int, x: float, y: float):
         #Add "Entity"
         writer.entity_circle(writer.entity_num)
+        circles.append(writer.entity_num)
         writer.entity_num += 1
         writer.entity_point_2d(writer.entity_num, x, y)
         p = writer.entity_num
@@ -154,15 +160,24 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         writer.entity_num += 0x20
         writer.entity_distance(writer.entity_num, radius / 2)
         writer.entity_shift16()
+        #Add "Constraint" for centers.
+        writer.constraint_point(writer.constraint_num, p, center_num[i])
+        writer.constraint_num += 1
+        #Add "Constraint" for diameter.
+        if i == 0:
+            writer.constraint_diameter(writer.constraint_num, circles[-1], radius)
+        else:
+            writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
+        writer.constraint_num += 1
     
-    #TODO: Add circle
-    for x, y in centers:
+    #Add circle
+    for i, (x, y) in enumerate(centers):
         #Add "Request"
         writer.request_circle(writer.request_num)
         writer.request_num += 1
-        addCircle(x, y)
+        addCircle(i, x, y)
     
     #TODO: Add arc
     
     #Write file
-    writer.save_slvs(file_name)
+    writer.save(file_name)
