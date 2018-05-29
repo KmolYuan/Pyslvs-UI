@@ -163,6 +163,8 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     
     segment_processing(boundary)
     
+    print([(hex(num[0]), hex(num[1])) for num in point_num])
+    
     def addCircle(i: int, x: float, y: float):
         """Add circle"""
         #Add "Request"
@@ -207,11 +209,14 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         writer.entity_num += 0x3d
         writer.entity_normal_2d(writer.entity_num, p3[0])
         writer.entity_shift16()
-        #TODO: Add "Constraint" for three points.
+        #Add "Constraint" for three points.
+        num1, num2 = point_num[i]
+        if (num1 % 16) < (num2 % 16):
+            num1, num2 = num2, num1
         for j, num in enumerate((
             center_num[i],
-            #point_num[i-1][1],
-            #point_num[i][0],
+            num1,
+            num2,
         )):
             writer.constraint_point(writer.constraint_num, p3[j], num)
             writer.constraint_num += 1
@@ -221,6 +226,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         else:
             writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
         writer.constraint_num += 1
+        #TODO: Add "Constraint" for become tangent line.
     
     for i, (x, y) in enumerate(centers):
         addCircle(i, x, y)
