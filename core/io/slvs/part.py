@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Tuple
+from typing import List, Tuple, Iterator
 from math import (
     radians,
     sin,
@@ -29,10 +29,9 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     
     #Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
     frame = [tuple(Coordinate(*c) for c in centers[:2])]
-    if len(centers) > 2:
-        for c in centers[2:]:
-            frame.append((Coordinate(*c), Coordinate(*centers[0])))
-            frame.append((Coordinate(*c), Coordinate(*centers[1])))
+    for c in centers[2:]:
+        frame.append((frame[0][0], Coordinate(*c)))
+        frame.append((frame[0][1], Coordinate(*c)))
     
     #Boundary
     boundary = convex_hull(centers)
@@ -49,12 +48,12 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         ))
     boundary = boundary_tmp
     
-    #Writer object
+    #Writer object.
     writer = SlvsWriter()
     writer.script_group.pop()
     writer.group_normal(0x3, "boundary")
     
-    #Add "Param"
+    #Add "Param".
     def addParam(edges: Tuple[Tuple[Coordinate, Coordinate]]):
         """Add param by pair of coordinates."""
         for edge in edges:
@@ -105,27 +104,47 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     line_num = [[] for i in range(len(frame))]
     
     def segment_processing(edges: Tuple[Tuple[Coordinate, Coordinate]]):
-        """Add edges to workplane.
-        
-        + No any constraint.
-        + TODO: There might be a constraint error need to fix.
-            (When the amount of points come to four or more.)
-        """
-        #Add "Request"
+        """Add edges to workplane. (No any constraint.)"""
+        #Add "Request".
         for i in range(len(edges)):
             writer.request_line(writer.request_num)
             writer.request_num += 1
         
-        #Add "Entity"
-        p_count = 0
+        def edges_is_frame() -> Iterator[int]:
+            """Number code of frame."""
+            yield 0
+            yield 1
+            k = 2
+            while True:
+                for i in (0, 1):
+                    yield i
+                    yield k
+                k += 1
+        
+        def edges_is_boundary() -> Iterator[int]:
+            """Number code of boundary.
+            
+            TODO: Fix the error that may be here.
+            """
+            k = 0
+            while True:
+                yield k
+                k += 1
+                k %= len(point_num)
+                yield k
+        
+        #Add "Entity".
+        if edges is frame:
+            p_count = edges_is_frame()
+            del edges_is_boundary
+        else:
+            p_count = edges_is_boundary()
+            del edges_is_frame
         for i, edge in enumerate(edges):
             writer.entity_line(writer.entity_num)
             for j, c in enumerate(edge):
                 writer.entity_num += 1
-                point_num[p_count].append(writer.entity_num)
-                if j == 0:
-                    p_count += 1
-                    p_count %= len(point_num)
+                point_num[next(p_count)].append(writer.entity_num)
                 writer.entity_point_2d(writer.entity_num, c.x, c.y)
                 line_num[i].append(writer.entity_num)
             writer.entity_shift16()
@@ -134,7 +153,8 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     
     center_num = [nums[0] for nums in point_num]
     
-    #Add "Constraint"
+    #Add "Constraint".
+    #Same point constraint.
     for p in point_num:
         for p_ in p[1:]:
             writer.constraint_point(writer.constraint_num, p[0], p_)
@@ -143,7 +163,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         p1, p2 = frame[i]
         writer.constraint_distence(writer.constraint_num, n1, n2, p1.distance(p2))
         writer.constraint_num += 1
-    #Position constraint
+    #Add "Constraint" of position.
     for i in range(2):
         c = frame[0][i]
         writer.constraint_fix(writer.constraint_num, point_num[i][0], c.x, c.y)
@@ -240,5 +260,5 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     for i, (x, y) in enumerate(centers):
         addArc(i, x, y)
     
-    #Write file
+    #Write file.
     writer.save(file_name)

@@ -192,7 +192,7 @@ cdef class Coordinate:
     
     def __repr__(self):
         """Debug printing."""
-        return "Coordinate({p.x}, {p.y})".format(p=self)
+        return "Coordinate({p.x:.02f}, {p.y:.02f})".format(p=self)
 
 
 cpdef tuple PLAP(
