@@ -25,7 +25,14 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     min_x = min(vpoint.cx for vpoint in vpoints)
     min_y = min(vpoint.cy for vpoint in vpoints)
     centers = [(vpoint.cx - min_x, vpoint.cy - min_y) for vpoint in vpoints]
-    del vpoints, min_x, min_y
+    #Synchronous the point coordinates after using convex hull.
+    centers_ch = convex_hull(centers)
+    boundary = centers_ch.copy()
+    for c in centers:
+        if c not in centers_ch:
+            centers_ch.append(c)
+    centers = centers_ch
+    del vpoints, min_x, min_y, centers_ch
     
     #Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
     frame = [tuple(Coordinate(*c) for c in centers[:2])]
@@ -34,7 +41,6 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         frame.append((frame[0][1], Coordinate(*c)))
     
     #Boundary
-    boundary = convex_hull(centers)
     boundary_tmp = []
     for i in range(len(boundary)):
         p1 = Coordinate(*boundary[i])
@@ -86,7 +92,8 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         writer.param_val(writer.param_num, radius / 2)
         writer.param_shift16()
     #Arc
-    for i, (cx, cy) in enumerate(centers):
+    for i in range(len(boundary)):
+        cx, cy = centers[i]
         writer.param_num += 0x10
         for x, y in arc_coords(i, cx, cy):
             writer.param_val(writer.param_num, x)
@@ -122,10 +129,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
                 k += 1
         
         def edges_is_boundary() -> Iterator[int]:
-            """Number code of boundary.
-            
-            TODO: Fix the error that may be here.
-            """
+            """Number code of boundary."""
             k = 0
             while True:
                 yield k
@@ -185,8 +189,6 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     
     segment_processing(boundary)
     
-    boundary_num = [num[0] - 1 for num in line_num]
-    
     def addCircle(i: int, x: float, y: float):
         """Add circle"""
         #Add "Request"
@@ -232,6 +234,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         writer.entity_normal_2d(writer.entity_num, p3[0])
         writer.entity_shift16()
         #Add "Constraint" for three points.
+        #TODO: Avoid inside points.
         num1, num2 = point_num[i]
         if (num1 % 16) < (num2 % 16):
             num1, num2 = num2, num1
@@ -249,7 +252,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
             writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
         writer.constraint_num += 1
         #Add "Constraint" for become tangent line.
-        for i, num in enumerate((boundary_num[i-1], boundary_num[i])):
+        for i, num in enumerate((num1 - num1 % 16, num2 - num2 % 16)):
             r = i == 1
             writer.constraint_arc_line_tangent(writer.constraint_num, circles[-1], num, reversed=r)
             writer.constraint_num += 1
@@ -257,7 +260,8 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     for i, (x, y) in enumerate(centers):
         addCircle(i, x, y)
     circles.clear()
-    for i, (x, y) in enumerate(centers):
+    for i in range(len(boundary)):
+        x, y = centers[i]
         addArc(i, x, y)
     
     #Write file.
