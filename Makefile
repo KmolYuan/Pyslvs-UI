@@ -1,5 +1,11 @@
 #Pyslvs Makefile
 
+#author: Yuan Chang
+#copyright: Copyright (C) 2016-2018
+#license: AGPL
+#email: pyslvs@gmail.com
+
+
 all: test
 
 help:
@@ -55,17 +61,19 @@ ifeq ($(OS),Windows_NT)
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	@echo --Python Version $(PYTHON)--
-	@bash ./appimage_recipe.sh
+	bash ./appimage_recipe.sh
+	$(eval APPIMAGE = $(shell ls -1 out))
+	chmod +x ./out/$(APPIMAGE)
 endif
 	@echo ---Done---
 
 test: build
 ifeq ($(OS),Windows_NT)
 	$(eval EXE = $(shell dir dist /b))
-	@./dist/$(EXE) --test
+	./dist/$(EXE) --test
 else
 	$(eval APPIMAGE = $(shell ls -1 out))
-	@./out/$(APPIMAGE) --test
+	./out/$(APPIMAGE) --test
 endif
 
 clean:
