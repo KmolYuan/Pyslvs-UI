@@ -494,7 +494,7 @@ class SlvsWriter:
     ):
         """Constraint the diameter of a circle."""
         if offset is None:
-            offset = val
+            offset = val / 2
         self.script_constraint.append('\n'.join([
             "Constraint.h.v={:08x}".format(num),
             "Constraint.type={}".format(90),

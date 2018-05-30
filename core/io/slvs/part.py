@@ -108,6 +108,8 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         """Add edges to workplane.
         
         + No any constraint.
+        + TODO: There might be a constraint error need to fix.
+            (When the amount of points come to four or more.)
         """
         #Add "Request"
         for i in range(len(edges)):
@@ -163,7 +165,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     
     segment_processing(boundary)
     
-    print([(hex(num[0]), hex(num[1])) for num in point_num])
+    boundary_num = [num[0] - 1 for num in line_num]
     
     def addCircle(i: int, x: float, y: float):
         """Add circle"""
@@ -226,7 +228,11 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         else:
             writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
         writer.constraint_num += 1
-        #TODO: Add "Constraint" for become tangent line.
+        #Add "Constraint" for become tangent line.
+        for i, num in enumerate((boundary_num[i-1], boundary_num[i])):
+            r = i == 1
+            writer.constraint_arc_line_tangent(writer.constraint_num, circles[-1], num, reversed=r)
+            writer.constraint_num += 1
     
     for i, (x, y) in enumerate(centers):
         addCircle(i, x, y)
