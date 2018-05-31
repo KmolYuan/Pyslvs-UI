@@ -46,7 +46,7 @@ ifeq ($(OS),Windows_NT)
 	$(eval LARKPATH = $(shell python -c "import lark, os, sys;sys.stdout.write(os.path.dirname(lark.__file__))"))
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main.ico \
-#--path="$(PYQTPATH)\Qt\bin" \
+--hidden-import=PyQt5 \
 --add-binary="core/libs/python_solvespace/libslvs.so;." \
 --add-binary="core/libs/pyslvs/de.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/firefly.$(CPPYTHON)-win_amd64.pyd;." \
