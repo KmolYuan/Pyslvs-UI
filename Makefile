@@ -42,8 +42,6 @@ build: launch_pyslvs.py build-kernel
 ifeq ($(OS),Windows_NT)
 	$(eval PYTHON = py$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)")w)
 	$(eval CPPYTHON = cp$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
-	$(eval PYQTPATH = $(shell python -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
-	$(eval LARKPATH = $(shell python -c "import lark, os, sys;sys.stdout.write(os.path.dirname(lark.__file__))"))
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main.ico \
 --hidden-import=PyQt5 \
