@@ -15,6 +15,7 @@ Version 18.05:
     -- Solvespace format:
         -- Comments will be generate into a new layout in Solvespace format.
         -- Simple reading function for *.slvs format (only support P joint).
+        -- New option to generate part files.
     -- Path record:
         -- Add "copy path" function in path context menu.
         -- Path preview function are support P joint.

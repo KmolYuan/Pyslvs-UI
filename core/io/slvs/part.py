@@ -258,7 +258,6 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     for i, (x, y) in enumerate(centers):
         addCircle(i, x, y)
     circles.clear()
-    print([[hex(n) for n in num] for num in point_num])
     for i in range(len(boundary)):
         x, y = centers[i]
         addArc(i, x, y)
