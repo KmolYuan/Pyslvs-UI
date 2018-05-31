@@ -180,7 +180,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     writer.set_group(0x3)
     
     #The number of same points.
-    point_num = [[] for i in range(point_count)]
+    point_num = [[] for i in range(len(boundary))]
     #The number of same lines.
     line_num = [[] for i in range(len(boundary))]
     #The number of circles.
@@ -233,7 +233,6 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         writer.entity_normal_2d(writer.entity_num, p3[0])
         writer.entity_shift16()
         #Add "Constraint" for three points.
-        #TODO: Avoid inside points.
         num1, num2 = point_num[i]
         if (num1 % 16) < (num2 % 16):
             num1, num2 = num2, num1
@@ -259,6 +258,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     for i, (x, y) in enumerate(centers):
         addCircle(i, x, y)
     circles.clear()
+    print([[hex(n) for n in num] for num in point_num])
     for i in range(len(boundary)):
         x, y = centers[i]
         addArc(i, x, y)
