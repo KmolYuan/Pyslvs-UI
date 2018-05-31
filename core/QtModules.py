@@ -159,7 +159,7 @@ __all__ = [
     'QProgressDialog',
     'QPushButton',
     'QRectF',
-    'QRoundedPolygonF',
+    'QBoaderPolygonF',
     'QScatterSeries',
     'QSettings',
     'QSize',
@@ -188,13 +188,13 @@ __all__ = [
 ]
 
 
-class QRoundedPolygonF(QPainterPath):
+class QBoaderPolygonF(QPainterPath):
     
     """Reality of a rounded polygon path generator."""
     
-    def __init__(self, boundary: Sequence[Union[QPoint, QPointF]], radius: float = 10):
+    def __init__(self, centers: Sequence[Union[QPoint, QPointF]], radius: float = 10):
         """Initialized with empty list."""
-        super(QRoundedPolygonF, self).__init__()
+        super(QBoaderPolygonF, self).__init__()
         
         def intersection(
             line1: Tuple[Tuple[float, float], Tuple[float, float]],
@@ -225,25 +225,24 @@ class QRoundedPolygonF(QPainterPath):
             else:
                 return False
         
-        boundary_tmp = []
-        for i in range(len(boundary)):
-            p1 = boundary[i]
-            p2 = boundary[i + 1 if (i + 1) < len(boundary) else 0]
+        pt_count = len(centers)
+        boundary = []
+        for i in range(pt_count):
+            p1 = centers[i]
+            p2 = centers[i + 1 if (i + 1) < pt_count else 0]
             alpha = atan2(p2.y() - p1.y(), p2.x() - p1.x()) - radians(90)
             offset_x = radius * cos(alpha)
             offset_y = radius * sin(alpha)
-            boundary_tmp.append((
+            boundary.append((
                 (p1.x() + offset_x, p1.y() + offset_y),
                 (p2.x() + offset_x, p2.y() + offset_y)
             ))
-        boundary = boundary_tmp
-        boundary_count = len(boundary)
         
         for i, (p1, p2) in enumerate(boundary):
             if i == 0:
                 self.moveTo(*p1)
             self.lineTo(*p2)
-            next_line = boundary[(i + 1) % boundary_count]
+            next_line = boundary[(i + 1) % pt_count]
             nx, ny = next_line[0]
             try:
                 ix, iy = intersection((p1, p2), next_line)
