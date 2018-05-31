@@ -210,6 +210,16 @@ Pyslvs can support for following format.
 + Expression (just a string).
 + Solvespace format (*.slvs, only supports very few of constraints).
 
+The workbook mechanism will generate sketch likes following:
+
+![](images/IO_slvs_origin.png)
+
+![](images/IO_slvs_frame.png)
+
+A part file will split the sketch and boundary with two groups.
+
+![](images/IO_slvs_part.png)
+
 For the IO method of Solvespace format, you can also refer to two Python scripts 'read' and 'write' in Pyslvs IO module.
 
 # Modules Requirement
