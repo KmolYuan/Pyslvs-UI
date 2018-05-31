@@ -153,9 +153,9 @@ class _DynamicCanvas(BaseCanvas):
             if i == 0:
                 continue
             name = "link_{}".format(i)
-            self.drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
+            self._drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
         #Draw path.
-        self.drawPath()
+        self._drawPath()
         #Draw solving path.
         self._BaseCanvas__drawTargetPath()
         #Draw points.
@@ -181,7 +181,7 @@ class _DynamicCanvas(BaseCanvas):
         else:
             self.no_error = self.index
     
-    def drawLink(self,
+    def _drawLink(self,
         name: str,
         points: Tuple[int]
     ):
@@ -220,7 +220,7 @@ class _DynamicCanvas(BaseCanvas):
             cenY *= -self.zoom / len(points)
             self.painter.drawText(QPointF(cenX, cenY), text)
     
-    def drawPath(self):
+    def _drawPath(self):
         """Draw a path.
         
         A simple function than main canvas.

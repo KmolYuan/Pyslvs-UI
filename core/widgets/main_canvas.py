@@ -85,6 +85,8 @@ class DynamicCanvas(BaseCanvas):
         self.zoomby = 0
         #Mouse snapping value.
         self.snap = 5
+        #Virtual model.
+        self.virtualmodel = False
         #Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
@@ -204,6 +206,11 @@ class DynamicCanvas(BaseCanvas):
     def setSnap(self, snap: float):
         """Update mouse capture value."""
         self.snap = snap
+    
+    @pyqtSlot(bool)
+    def setVirtualmodel(self, virtualmodel: bool):
+        self.virtualmodel = virtualmodel
+        self.update()
     
     @pyqtSlot(int)
     def setSelectionMode(self, selectionMode: int):

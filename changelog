@@ -24,6 +24,7 @@ Version 18.05:
     -- Shortcut keys adjustment.
     -- "Add" command of storage function will not clean the canvas (should do it by self).
     -- Add "merge linkages" function in link context menu.
+    -- Add virtual model option to change linkages appearance.
 - Development
     -- Expression grammar:
         -- New highlight module Pygments, use to support Python and PMKS expression.

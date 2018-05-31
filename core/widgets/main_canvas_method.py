@@ -26,6 +26,7 @@ from core.QtModules import (
     QPen,
     QColor,
     QToolTip,
+    QRoundedPolygonF,
 )
 from core.graphics import (
     convex_hull,
@@ -253,7 +254,10 @@ def _drawLink(self, vlink: VLink):
     brush = QColor(226, 219, 190)
     brush.setAlphaF(self.transparency)
     self.painter.setBrush(brush)
-    self.painter.drawPolygon(*qpoints)
+    if self.virtualmodel:
+        self.painter.drawPath(QRoundedPolygonF(qpoints))
+    else:
+        self.painter.drawPolygon(*qpoints)
     self.painter.setBrush(Qt.NoBrush)
     if not self.showPointMark:
         return

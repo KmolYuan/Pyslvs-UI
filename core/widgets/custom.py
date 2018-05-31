@@ -347,6 +347,7 @@ def _options(self):
     self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
     self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
+    self.virtualmodel_option.clicked.connect(self.MainCanvas.setVirtualmodel)
     self.settings_reset.clicked.connect(self.resetOptions)
 
 

@@ -32,7 +32,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         if c not in centers_ch:
             centers_ch.append(c)
     centers = centers_ch
-    del vpoints, min_x, min_y, centers_ch
+    del vpoints, min_x, min_y
     
     #Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
     frame = [tuple(Coordinate(*c) for c in centers[:2])]
@@ -140,10 +140,9 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         #Add "Entity".
         if edges is frame:
             p_count = edges_is_frame()
-            del edges_is_boundary
         else:
             p_count = edges_is_boundary()
-            del edges_is_frame
+        del edges_is_boundary, edges_is_frame
         for i, edge in enumerate(edges):
             writer.entity_line(writer.entity_num)
             for j, c in enumerate(edge):
