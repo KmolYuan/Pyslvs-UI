@@ -66,7 +66,7 @@ find usr/bin/core/libs/ -type f -name '*.c' -delete
 get_apprun
 
 cd ../..
-VERSION=$(python3 -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))")
+VERSION=$(python3 -c "from core.info.info import __version__; print(\"{}.{}.{}\".format(*__version__))")
 cd ENV/$APP.AppDir/
 
 cat > $LOWERAPP.desktop <<EOF

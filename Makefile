@@ -62,8 +62,6 @@ else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	@echo --Python Version $(PYTHON)--
 	bash ./appimage_recipe.sh
-	$(eval APPIMAGE = $(shell ls -1 out))
-	chmod +x ./out/$(APPIMAGE)
 endif
 	@echo ---Done---
 
