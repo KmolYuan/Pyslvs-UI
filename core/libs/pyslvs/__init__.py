@@ -28,7 +28,7 @@ __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
-__version__ = (18, 5, 0, 'dev')
+__version__ = (18, 5, 0, 'release')
 
 from .tinycadlib import (
     Coordinate,
