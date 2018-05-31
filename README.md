@@ -198,10 +198,11 @@ Pyslvs can support for following format.
 
 + Pyslvs workbook database (*.pyslvs).
 + Expression (just a string).
-+ Solvespace format (*.slvs).
++ [Solvespace] format (*.slvs).
 + DXF format (*.dxf).
 + Image capture (all of [Qt supports]).
 
+[Solvespace]: https://github.com/solvespace/solvespace
 [Qt supports]: http://doc.qt.io/qt-5/qimage.html#reading-and-writing-image-files
 
 **Input formats**:
@@ -210,7 +211,7 @@ Pyslvs can support for following format.
 + Expression (just a string).
 + Solvespace format (*.slvs, only supports very few of constraints).
 
-The workbook mechanism will generate sketch likes following:
+The workbook mechanism will generate the sketch frame as *.slvs format like follow:
 
 ![](images/IO_slvs_origin.png)
 
@@ -219,6 +220,8 @@ The workbook mechanism will generate sketch likes following:
 A part file will split the sketch and boundary with two groups.
 
 ![](images/IO_slvs_part.png)
+
+The part files can be import to assemble with main sketch file. However, the 3D features still can not be generated from external program yet, so user need to do it by self.
 
 For the IO method of Solvespace format, you can also refer to two Python scripts 'read' and 'write' in Pyslvs IO module.
 
