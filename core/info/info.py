@@ -37,7 +37,7 @@ INFO = (
     "PyQt Version: {}".format(_PyQt_Version)
 )
 
-_POWERBY = (
+_POWEREDBY = (
     "Python IDE Eric 6",
     "PyQt 5",
     "dxfwrite",
@@ -45,7 +45,7 @@ _POWERBY = (
     "openpyxl",
     "psutil",
     "peewee",
-    "Lark-_parser",
+    "Lark-parser",
     "NetworkX",
     "Pydot",
     "Pygments",
@@ -55,7 +55,7 @@ _POWERBY = (
 _parser = argparse.ArgumentParser(
     description = ("Pyslvs - Open Source Planar Linkage Mechanism Simulation" +
         "and Mechanical Synthesis System."),
-    epilog = "Power by {}.".format(", ".join(_POWERBY))
+    epilog = "Powered by {}.".format(", ".join(_POWEREDBY))
 )
 _parser.add_argument(
     '-v',

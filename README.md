@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-18.05.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
+[![Version](https://img.shields.io/badge/version-18.06.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases/latest)
 [![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
 [![PYTHON](https://img.shields.io/badge/python-3.5%20↑-blue.svg)](https://www.python.org/)
 [![PYQT](https://img.shields.io/badge/pyqt-5.10%20↑-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
@@ -34,7 +34,7 @@ Pyslvs on [Sourceforge](https://sourceforge.net/projects/pyslvs/).
 
 1. [Stand-alone Executable File](#stand-alone-executable-file)
 
-1. [Power By](#power-by)
+1. [Powered By](#powered-by)
 
 # Introduction
 
@@ -470,11 +470,11 @@ Make command:
 > make
 ```
 
-# Power By
+# Powered By
 
 Made by [Qt5] and Python IDE [Eric 6].
 
-If there is no special reason, please to use the new version of the kits.
+If there is no special reason, please install the new version of the kits.
 
 Including Python modules:
 
