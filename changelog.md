@@ -1,7 +1,22 @@
 Change Log
-----------
+===
 
-Version 18.05:
+Version 18.06
+===
+
+Features
+---
+
++ None.
+
+Development
+---
+
++ Update module "dxfwrite" to "ezdxf".
+
+
+Version 18.05
+===
 
 Features
 ---
@@ -53,7 +68,8 @@ Development
 + PyQt version should upgrade to 5.10 or above to support Qt graph methods.
 
 
-Version 18.04:
+Version 18.04
+===
 
 Features
 ---
@@ -95,7 +111,8 @@ Development
 + Windows executable file was compiled by Mysys 2.
 
 
-Version 18.02:
+Version 18.02
+===
 
 Features
 ---
@@ -121,7 +138,8 @@ Development
 + More errors fixed.
 
 
-Version 18.01:
+Version 18.01
+===
 
 Features
 ---
