@@ -480,7 +480,7 @@ Including Python modules:
 
 * [SIP] (GPLv2, GPLv3)
 * [PyQt5], [PyQtChart] (GPLv3)
-* [dxfwrite] (MIT)
+* [ezdxf] (MIT)
 * [numpy] (BSD 3-Clause)
 * [Cython] (Apache 2.0)
 * [openpyxl] (MIT)
@@ -511,7 +511,7 @@ Here is the **origin kernel** repository:
 [Eric 6]: http://eric-ide.python-projects.org/
 
 [numpy]: http://www.numpy.org/
-[dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
+[ezdxf]: https://ezdxf.readthedocs.io/en/latest/index.html
 [Cython]: http://cython.org/
 [openpyxl]: http://openpyxl.readthedocs.io/
 [psutil]: https://github.com/giampaolo/psutil

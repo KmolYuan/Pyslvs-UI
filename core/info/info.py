@@ -40,7 +40,7 @@ INFO = (
 _POWEREDBY = (
     "Python IDE Eric 6",
     "PyQt 5",
-    "dxfwrite",
+    "ezdxf",
     "Cython",
     "openpyxl",
     "psutil",

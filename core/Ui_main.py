@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -233,10 +233,9 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 450, 745))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 436, 723))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.settings_ui_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_ui_groupbox.setObjectName("settings_ui_groupbox")
@@ -324,13 +323,6 @@ class Ui_MainWindow(object):
         self.snap_option.setMaximum(50.0)
         self.snap_option.setObjectName("snap_option")
         self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.snap_option)
-        self.virtualmodel_label = QtWidgets.QLabel(self.settings_ui_groupbox)
-        self.virtualmodel_label.setObjectName("virtualmodel_label")
-        self.formLayout.setWidget(11, QtWidgets.QFormLayout.LabelRole, self.virtualmodel_label)
-        self.virtualmodel_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
-        self.virtualmodel_option.setSingleStep(10)
-        self.virtualmodel_option.setObjectName("virtualmodel_option")
-        self.formLayout.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.virtualmodel_option)
         self.verticalLayout_3.addWidget(self.settings_ui_groupbox)
         self.settings_history_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_history_groupbox.setObjectName("settings_history_groupbox")
@@ -539,7 +531,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -814,7 +806,6 @@ class Ui_MainWindow(object):
         self.zoomby_option.setItemText(0, _translate("MainWindow", "Cursor"))
         self.zoomby_option.setItemText(1, _translate("MainWindow", "Cavas center"))
         self.snap_label.setText(_translate("MainWindow", "Snap the mouse when dragging"))
-        self.virtualmodel_label.setText(_translate("MainWindow", "Show virtual modeling"))
         self.settings_history_groupbox.setTitle(_translate("MainWindow", "History"))
         self.UndoLimit_label.setText(_translate("MainWindow", "Undo limit"))
         self.undolimit_option.setSuffix(_translate("MainWindow", " times"))
