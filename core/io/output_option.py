@@ -23,6 +23,7 @@ from core.QtModules import (
 )
 from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
+from .dxf import dxf_frame, dxf_boundary
 from .Ui_output_option import Ui_Dialog
 
 
@@ -44,7 +45,14 @@ class _OutputDialog(QDialog, Ui_Dialog):
     
     """Output dialog template."""
     
-    def __init__(self, env: str, file_name: str, format: str, parent: QWidget):
+    def __init__(self,
+        format: str,
+        env: str,
+        file_name: str,
+        vpoints: Tuple[VPoint],
+        v_to_slvs: Callable[[], Tuple[int, int]],
+        parent: QWidget
+    ):
         """Comes in environment variable and workbook name."""
         super(_OutputDialog, self).__init__(parent)
         self.setupUi(self)
@@ -52,6 +60,8 @@ class _OutputDialog(QDialog, Ui_Dialog):
         self.path_edit.setPlaceholderText(env)
         self.filename_edit.setPlaceholderText(file_name)
         self.setWindowTitle("Export {} project".format(format))
+        self.vpoints = vpoints
+        self.v_to_slvs = v_to_slvs
     
     @pyqtSlot()
     def on_choosedir_button_clicked(self):
@@ -65,57 +75,47 @@ class _OutputDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_buttonBox_accepted(self):
-        """Do the saving work, return True if done."""
-        if self.do():
-            self.accept()
-    
-    def exist_warning(self, name: str, *, folder: bool = False):
-        """Show the "file is exist" message box."""
-        if self.warn_radio.isChecked():
-            QMessageBox.warning(self,
-                "{} exist".format("Folder" if folder else "File"),
-                "The folder named {} is exist.".format(name) if folder else
-                "The file {} is exist.".format(name)
-            )
-    
-    def do(self) -> Optional[bool]:
-        """Do the saving work here."""
-        raise NotImplementedError("virtual function")
-
-
-class SlvsOutputDialog(_OutputDialog):
-    
-    """Setting the path and output name."""
-    
-    def __init__(self,
-        env: str,
-        file_name: str,
-        vpoints: Tuple[VPoint],
-        v_to_slvs: Callable[[], Tuple[int, int]],
-        parent: QWidget
-    ):
-        """Parameters of 'v_to_slvs' function."""
-        super(SlvsOutputDialog, self).__init__(env, file_name, "Solvespace module", parent)
-        self.vpoints = vpoints
-        self.v_to_slvs = v_to_slvs
-    
-    def do(self):
-        """Write file and close if saved successfully.
-        
-        Output types:
-        + Assembly
-        + Only wire frame
-        """
+        """Use the file path to export the project."""
         dir = QDir(_getname(self.path_edit, ispath=True))
         if self.newfolder_option.isChecked():
             new_folder = self.filename_edit.placeholderText()
-            if (not dir.mkdir(new_folder)):
+            if (not dir.mkdir(new_folder)) and self.warn_radio.isChecked():
                 self.exist_warning(new_folder, folder=True)
                 return
             dir.cd(new_folder)
             del new_folder
+        if self.do(dir):
+            self.accept()
+    
+    def do(self) -> Optional[bool]:
+        """Do the saving work here, return True if done."""
+        raise NotImplementedError("virtual function")
+    
+    def exist_warning(self, name: str, *, folder: bool = False):
+        """Show the "file is exist" message box."""
+        QMessageBox.warning(self,
+            "{} exist".format("Folder" if folder else "File"),
+            "The folder named {} is exist.".format(name) if folder else
+            "The file {} is exist.".format(name)
+        )
+
+
+class SlvsOutputDialog(_OutputDialog):
+    
+    """Solvespace format."""
+    
+    def __init__(self, *args):
+        """Type name: "Solvespace module"."""
+        super(SlvsOutputDialog, self).__init__("Solvespace module", *args)
+    
+    def do(self, dir: QDir) -> Optional[bool]:
+        """Output types:
+        
+        + Assembly
+        + Only wire frame
+        """
         file_name = dir.filePath(_getname(self.filename_edit) + '.slvs')
-        if isfile(file_name):
+        if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
             return
         
@@ -143,11 +143,39 @@ class SlvsOutputDialog(_OutputDialog):
             if name == 'ground':
                 continue
             file_name = dir.filePath(name + '.slvs')
-            if isfile(file_name):
+            if isfile(file_name) and self.warn_radio.isChecked():
                 self.exist_warning(file_name)
                 return
             slvs_part([
                 self.vpoints[i] for i in points
             ], self.link_radius.value(), file_name)
         
+        return True
+
+
+class DxfOutputDialog(_OutputDialog):
+    
+    """DXF format."""
+    
+    def __init__(self, *args):
+        """Type name: "Solvespace module"."""
+        super(DxfOutputDialog, self).__init__("Solvespace module", *args)
+    
+    def do(self, dir: QDir) -> Optional[bool]:
+        """Output types:
+        
+        + Boundary
+        + Frame
+        """
+        file_name = dir.filePath(_getname(self.filename_edit) + '.dxf')
+        if isfile(file_name) and self.warn_radio.isChecked():
+            self.exist_warning(file_name)
+            return
+        
+        if self.frame_radio.isChecked():
+            #Frame
+            dxf_frame(self.vpoints, self.v_to_slvs, file_name)
+        elif self.assembly_radio.isChecked():
+            #Boundary
+            dxf_boundary(self.vpoints, file_name)
         return True

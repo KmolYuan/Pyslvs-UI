@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
+   <iconset resource="../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -39,7 +39,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
+        <iconset resource="../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
          <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
        </property>
       </widget>
@@ -238,7 +238,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../../Desktop/Pyslvs-PyQt5/icons.qrc"/>
+  <include location="../../../../Desktop/Pyslvs-PyQt5/icons.qrc"/>
  </resources>
  <connections>
   <connection>

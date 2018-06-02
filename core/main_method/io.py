@@ -44,7 +44,7 @@ from core.io import (
     EditPointTable,
     SlvsParser,
     SlvsOutputDialog,
-    dxf_frame,
+    DxfOutputDialog,
     QTIMAGES,
     strbetween,
 )
@@ -401,18 +401,20 @@ def on_action_Output_to_Solvespace_triggered(self):
 
 def on_action_Output_to_DXF_triggered(self):
     """DXF 2d save function."""
-    file_name = self.outputTo(
-        "Drawing Exchange Format",
-        ["Drawing Exchange Format (*.dxf)"]
-    )
-    if not file_name:
-        return
-    dxf_frame(
+    dlg = DxfOutputDialog(
+        self.env,
+        self.FileWidget.file_name.baseName(),
         self.EntitiesPoint.dataTuple(),
         _v_to_slvs(self),
-        file_name
+        self
     )
-    self.saveReplyBox("Drawing Exchange Format", file_name)
+    dlg.show()
+    if dlg.exec_():
+        path = dlg.path_edit.text()
+        if not path:
+            path = dlg.path_edit.placeholderText()
+        self.setLocate(path)
+        self.saveReplyBox("Drawing Exchange Format", path)
 
 
 def on_action_Output_to_Picture_triggered(self):
