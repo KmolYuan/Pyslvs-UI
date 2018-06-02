@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-06-01, 22:33:25 -->
+<!-- Saved: 2018-06-02, 12:37:22 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -31,6 +31,7 @@
     <Source>core/info/__init__.py</Source>
     <Source>core/info/about.py</Source>
     <Source>core/info/info.py</Source>
+    <Source>core/io/Ui_output_option.py</Source>
     <Source>core/io/Ui_overview.py</Source>
     <Source>core/io/Ui_peewee.py</Source>
     <Source>core/io/Ui_script.py</Source>
@@ -39,13 +40,12 @@
     <Source>core/io/example.py</Source>
     <Source>core/io/images.py</Source>
     <Source>core/io/loggingHandler.py</Source>
+    <Source>core/io/output_option.py</Source>
     <Source>core/io/overview.py</Source>
     <Source>core/io/peewee.py</Source>
     <Source>core/io/script.py</Source>
-    <Source>core/io/slvs/Ui_output_option.py</Source>
     <Source>core/io/slvs/__init__.py</Source>
     <Source>core/io/slvs/frame.py</Source>
-    <Source>core/io/slvs/output_option.py</Source>
     <Source>core/io/slvs/part.py</Source>
     <Source>core/io/slvs/read.py</Source>
     <Source>core/io/slvs/write.py</Source>
@@ -126,10 +126,10 @@
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
     <Form>core/info/about.ui</Form>
+    <Form>core/io/output_option.ui</Form>
     <Form>core/io/overview.ui</Form>
     <Form>core/io/peewee.ui</Form>
     <Form>core/io/script.ui</Form>
-    <Form>core/io/slvs/output_option.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>

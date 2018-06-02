@@ -34,11 +34,7 @@ from .pyslvs import (
     parse_vpoints,
     PMKSLexer,
 )
-from .python_solvespace import (
-    create2DSystem,
-    aidedDrawing,
-    slvsProcess,
-)
+from .python_solvespace import create2DSystem, slvsProcess
 
 __all__ = [
     '__version__',
@@ -67,6 +63,5 @@ __all__ = [
     'parse_vpoints',
     'PMKSLexer',
     'create2DSystem',
-    'aidedDrawing',
     'slvsProcess',
 ]

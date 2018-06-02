@@ -126,7 +126,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.path_label.setText(_translate("Dialog", "Directory:"))
         self.choosedir_button.setText(_translate("Dialog", "..."))
         self.newfolder_option.setText(_translate("Dialog", "Create a new folder with workbook name"))

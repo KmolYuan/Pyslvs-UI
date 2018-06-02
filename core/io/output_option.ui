@@ -10,9 +10,6 @@
     <height>641</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Dialog</string>
-  </property>
   <property name="windowIcon">
    <iconset resource="../../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>

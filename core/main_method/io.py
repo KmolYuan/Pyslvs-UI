@@ -44,7 +44,7 @@ from core.io import (
     EditPointTable,
     SlvsParser,
     SlvsOutputDialog,
-    dxfSketch,
+    dxf_frame,
     QTIMAGES,
     strbetween,
 )
@@ -362,7 +362,7 @@ def on_action_Import_Workbook_triggered(self):
 def on_action_Save_triggered(self, isBranch: bool):
     """Save action."""
     file_name = self.FileWidget.file_name.absoluteFilePath()
-    if self.FileWidget.file_name.suffix()=='pyslvs':
+    if self.FileWidget.file_name.suffix() == 'pyslvs':
         self.FileWidget.save(file_name, isBranch)
     else:
         self.on_action_Save_as_triggered(isBranch)
@@ -407,7 +407,7 @@ def on_action_Output_to_DXF_triggered(self):
     )
     if not file_name:
         return
-    dxfSketch(
+    dxf_frame(
         self.EntitiesPoint.dataTuple(),
         _v_to_slvs(self),
         file_name

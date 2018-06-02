@@ -7,8 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List
-from core.libs import VPoint
+from typing import Tuple
 from .slvs import (
     #System base
     System,
@@ -21,11 +20,6 @@ from .slvs import (
     Point2d,
     LineSegment2d,
     Constraint,
-    #Result flags
-    SLVS_RESULT_OKAY,
-    SLVS_RESULT_INCONSISTENT,
-    SLVS_RESULT_DIDNT_CONVERGE,
-    SLVS_RESULT_TOO_MANY_UNKNOWNS,
 )
 
 
@@ -67,25 +61,3 @@ def create2DSystem(num: int) -> Tuple[System, Workplane, LineSegment2d]:
     h_line = LineSegment2d(wp1, origin2d, hp)
     sys.default_group = groupNum(2)
     return sys, wp1, h_line
-
-
-def aidedDrawing(vpoints: VPoint) -> List[Tuple[float, float]]:
-    """TODO: Solving unknown result."""
-    sys, wp1, h_line = create2DSystem(len(vpoints)*2)
-    
-    solved_points = []
-    
-    #Solve
-    result_flag = sys.solve()
-    if result_flag == SLVS_RESULT_OKAY:
-        resultList = []
-        for p in solved_points:
-            resultList.append((p.u().value, p.v().value))
-        return resultList
-    elif result_flag == SLVS_RESULT_INCONSISTENT:
-        error = "Inconsistent."
-    elif result_flag == SLVS_RESULT_DIDNT_CONVERGE:
-        error = "Did not converge."
-    elif result_flag == SLVS_RESULT_TOO_MANY_UNKNOWNS:
-        error = "Too many unknowns."
-    raise Exception(error)
