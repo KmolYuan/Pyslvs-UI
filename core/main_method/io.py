@@ -51,7 +51,7 @@ from core.io import (
 from core.libs import parse_params, PMKSLexer
 
 
-def _openURL(url: str):
+def _open_url(url: str):
     """Use to open link."""
     QDesktopServices.openUrl(QUrl(url))
 
@@ -182,17 +182,17 @@ def on_windowTitle_fullpath_clicked(self):
 
 def on_action_Get_Help_triggered(self):
     """Open website: mde.tw"""
-    _openURL("http://mde.tw")
+    _open_url("http://mde.tw")
 
 
 def on_action_Pyslvs_com_triggered(self):
     """Open website: pyslvs.com"""
-    _openURL("http://www.pyslvs.com/blog/index.html")
+    _open_url("http://www.pyslvs.com/blog/index.html")
 
 
 def on_action_github_repository_triggered(self):
     """Open website: Github repository."""
-    _openURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
+    _open_url("https://github.com/KmolYuan/Pyslvs-PyQt5")
 
 
 def on_action_About_Pyslvs_triggered(self):
@@ -233,6 +233,7 @@ def on_action_New_Workbook_triggered(self):
 
 def clear(self):
     """Clear to create commit stage."""
+    self.freemode_disable.trigger()
     self.mechanism_storage_name_tag.clear()
     self.mechanism_storage.clear()
     self.CollectionTabPage.clear()
@@ -515,7 +516,7 @@ def on_action_Output_to_PMKS_triggered(self):
         QMessageBox.Save
     )
     if reply == QMessageBox.Open:
-        _openURL(url)
+        _open_url(url)
     elif reply == QMessageBox.Save:
         QApplication.clipboard().setText(url)
 
@@ -581,7 +582,7 @@ def on_action_Check_update_triggered(self):
         QMessageBox.Ok
     )
     if reply == QMessageBox.Ok:
-        _openURL(url)
+        _open_url(url)
 
 
 def checkFileChanged(self) -> bool:

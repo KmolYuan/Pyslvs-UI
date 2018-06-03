@@ -313,6 +313,8 @@ def _freemove(self):
         ])
         action.setShortcutContext(Qt.WindowShortcut)
         free_move_mode_menu.addAction(action)
+        if i == 0:
+            self.freemode_disable = action
     self.freemode_button.setMenu(free_move_mode_menu)
 
 
