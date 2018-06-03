@@ -81,7 +81,7 @@ cdef class VPoint:
         """Change coordinates of this point."""
         self.c[0] = c1
         if self.type != 0:
-            self.c[1] = c2 if c2 else c1
+            self.c[1] = c2 if (c2 is not None) else c1
     
     cpdef void rotate(self, double angle):
         """Change the angle of slider slot."""
@@ -91,28 +91,23 @@ cdef class VPoint:
         """Distance between two VPoint."""
         return distance(self.x, self.y, p.x, p.y)
     
-    cpdef double slopeAngle(self, VPoint p, int num1 = -1, int num2 = -1):
+    cpdef double slopeAngle(self, VPoint p, int num1 = 2, int num2 = 2):
         """Angle between horizontal line and two point.
         
         num1: me.
         num2: other side.
+        [0]: base (slot) link.
+        [1]: pin link.
         """
-        cdef double y1
-        cdef double x1
-        cdef double y2
-        cdef double x2
-        if num1 == -1:
-            y2 = self.y
-            x2 = self.x
+        cdef double x1, y1, x2, y2
+        if num1 > 1:
+            x2, y2 = self.x, self.y
         else:
-            y2 = self.c[num2][1]
-            x2 = self.c[num2][0]
-        if num2 == -1:
-            y1 = p.y
-            x1 = p.x
+            x2, y2 = self.c[num2]
+        if num2 > 1:
+            x1, y1 = p.x, p.y
         else:
-            y1 = p.c[num2][1]
-            x1 = p.c[num2][0]
+            x1, y1 = p.c[num2]
         return np.rad2deg(atan2(y1 - y2, x1 - x2))
     
     cpdef bool grounded(self):
@@ -130,7 +125,7 @@ cdef class VPoint:
             ", ".join(l for l in self.links)
         )
     
-    def __getitem__(self, i: int):
+    def __getitem__(self, i: int) -> float:
         """Get coordinate like this:
         
         x, y = VPoint(10, 20)
@@ -494,30 +489,30 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
                 )
     
     cdef int i
-    cdef str m
-    cdef dict mapping_r = {m: i for i, m in mapping.items()}
+    cdef dict mapping_r = {link: i for i, link in mapping.items()}
     
     cdef list pos = []
     for vpoint in vpoints:
         if vpoint.type == 0:
-            pos.append((vpoint.cx, vpoint.cy))
+            pos.append(vpoint.c[0])
         else:
-            pos.append((vpoint.c[1][0], vpoint.c[1][1]))
+            pos.append(vpoint.c[1])
     
     cdef int bf
     cdef double angle
-    #Add slider coordinates.
+    #Add slider slot virtual coordinates.
     for i, vpoint in enumerate(vpoints):
         #PLPP dependents.
-        if vpoint.type == 2:
-            bf = base_friend(i, vpoints)
-            angle = np.deg2rad(
-                vpoint.angle +
-                vpoint.slopeAngle(vpoints[bf], 1, 0) -
-                vpoint.slopeAngle(vpoints[bf])
-            )
-            pos.append((vpoint.c[1][0] + cos(angle), vpoint.c[1][1] + sin(angle)))
-            mapping_r['S{}'.format(i)] = len(pos) - 1
+        if vpoint.type != 2:
+            continue
+        bf = base_friend(i, vpoints)
+        angle = np.deg2rad(
+            vpoint.angle -
+            vpoint.slopeAngle(vpoints[bf], 1, 0) +
+            vpoint.slopeAngle(vpoints[bf], 0, 0)
+        )
+        pos.append((vpoint.c[1][0] + cos(angle), vpoint.c[1][1] + sin(angle)))
+        mapping_r['S{}'.format(i)] = len(pos) - 1
     
     cdef int dof = 0
     cdef tuple expr
@@ -529,44 +524,31 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
     + Add 'L' (link) parameters.
     + Counting DOF and targets.
     """
+    cdef int target
     for expr in exprs:
+        node = mapping_r[expr[1]]
+        target = mapping_r[expr[-1]]
         if expr[0] == 'PLAP':
             #Link 1: expr[2]
-            data_dict[expr[2]] = tuple_distance(
-                pos[mapping_r[expr[1]]],
-                pos[mapping_r[expr[-1]]]
-            )
+            data_dict[expr[2]] = tuple_distance(pos[node], pos[target])
             #Inputs
             dof += 1
         elif expr[0] == 'PLLP':
             #Link 1: expr[2]
-            data_dict[expr[2]] = tuple_distance(
-                pos[mapping_r[expr[1]]],
-                pos[mapping_r[expr[-1]]]
-            )
+            data_dict[expr[2]] = tuple_distance(pos[node], pos[target])
             #Link 2: expr[3]
-            data_dict[expr[3]] = tuple_distance(
-                pos[mapping_r[expr[4]]],
-                pos[mapping_r[expr[-1]]]
-            )
+            data_dict[expr[3]] = tuple_distance(pos[mapping_r[expr[4]]], pos[target])
         elif expr[0] == 'PLPP':
             #Link 1: expr[2]
-            data_dict[expr[2]] = tuple_distance(
-                pos[mapping_r[expr[1]]],
-                pos[mapping_r[expr[-1]]]
-            )
+            data_dict[expr[2]] = tuple_distance(pos[node], pos[target])
             #PLPP[P1, L0, P2, S2](P2)
             #So we should get P2 first.
             data_dict[expr[3]] = pos[mapping_r[expr[3]]]
         elif expr[0] == 'PXY':
             #X: expr[2]
-            data_dict[expr[2]] = (
-                pos[mapping_r[expr[-1]]][0] - pos[mapping_r[expr[1]]][0]
-            )
+            data_dict[expr[2]] = pos[target][0] - pos[node][0]
             #Y: expr[3]
-            data_dict[expr[3]] = (
-                pos[mapping_r[expr[-1]]][1] - pos[mapping_r[expr[1]]][1]
-            )
+            data_dict[expr[3]] = pos[target][1] - pos[node][1]
         #Targets
         targets.add(expr[-1])
     
