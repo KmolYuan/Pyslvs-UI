@@ -375,7 +375,7 @@ cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {
                     'L{}'.format(link_symbol + 2),
                     'P{}'.format(node),
                     'S{}'.format(node),
-                    'T' if (pos[friend_a][0] - pos[node][0] > 0) else 'F',
+                    'T' if (pos[friend_a][0] - pos[node][0] > 0) != (vpoints[node].angle > 90) else 'F',
                     'P{}'.format(node),
                 ))
                 status[node] = True

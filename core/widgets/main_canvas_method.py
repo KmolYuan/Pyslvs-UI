@@ -669,8 +669,7 @@ def mouseMoveEvent(self, event):
                         r * sin(beta + alpha)
                     ))
                     if vpoint.type != 0:
-                        angle = self.vangles[num] + degrees(beta + alpha)
-                        vpoint.rotate(angle)
+                        vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
             elif self.freemove == FreeMode.Reflect:
                 #Free move reflect function.
                 fx = 1 if (x > 0) else -1
@@ -689,6 +688,8 @@ def mouseMoveEvent(self, event):
                             (vpoint.x * fx, vpoint.y * fy),
                             (vpoint.x * fx, vpoint.y * fy)
                         )
+                        if (x > 0) != (y > 0):
+                            vpoint.rotate(180 - self.vangles[num])
         self.update()
     self.tracking.emit(x, y)
     event.accept()

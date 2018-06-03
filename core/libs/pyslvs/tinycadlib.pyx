@@ -85,7 +85,7 @@ cdef class VPoint:
     
     cpdef void rotate(self, double angle):
         """Change the angle of slider slot by degrees."""
-        self.angle = angle % 360
+        self.angle = angle % 180
     
     cpdef double distance(self, VPoint p):
         """Distance between two VPoint."""
