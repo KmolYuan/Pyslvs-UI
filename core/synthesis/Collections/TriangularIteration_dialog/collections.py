@@ -175,7 +175,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 elif self.__name_loaded == "Ball lifter linkage mechanism":
                     return _mech_params_BallLifter['Expression']
                 else:
-                    return tuple()
+                    return ()
         
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)

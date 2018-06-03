@@ -7,7 +7,8 @@ Version 18.06
 Features
 ---
 
-+ None.
++ Free move mode:
+    + Fix the error of angle updating.
 
 Development
 ---

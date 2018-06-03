@@ -61,8 +61,9 @@ class DynamicCanvas(BaseCanvas):
         #The current mouse coordinates.
         self.selector = Selector()
         #Entities.
-        self.Points = tuple()
-        self.Links = tuple()
+        self.vpoints = ()
+        self.vlinks = ()
+        self.vangles = ()
         #Select function.
         self.selectionMode = 0
         self.sr = 10
@@ -104,8 +105,9 @@ class DynamicCanvas(BaseCanvas):
         path: List[Tuple[float, float]]
     ):
         """Update with Point and Links data."""
-        self.Points = Points
-        self.Links = Links
+        self.vpoints = Points
+        self.vlinks = Links
+        self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.Path.path = path
         self.update()
     
@@ -250,11 +252,11 @@ class DynamicCanvas(BaseCanvas):
     
     def recordStart(self, limit: int):
         """Start a limit from main window."""
-        self.path_record = [deque([], limit) for i in range(len(self.Points))]
+        self.path_record = [deque([], limit) for i in range(len(self.vpoints))]
     
     def recordPath(self):
         """Recording path."""
-        for i, vpoint in enumerate(self.Points):
+        for i, vpoint in enumerate(self.vpoints):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
     
     def getRecordPath(self) -> Tuple[Tuple[Tuple[float, float]]]:

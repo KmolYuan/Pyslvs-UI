@@ -316,16 +316,18 @@ def clonePoint(self):
 
 
 def setFreemoved(self,
-    coords: Tuple[Tuple[int, Tuple[float, float]]]
+    coords: Tuple[Tuple[int, Tuple[float, float, float]]]
 ):
     """Free move function."""
     self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
         "Point{}".format(c[0]) for c in coords
     )))
-    for row, (x, y) in coords:
+    for row, (x, y, angle) in coords:
         args = self.EntitiesPoint.rowTexts(row)
         args[3] = x
         args[4] = y
+        if args[1] != 'R':
+            args[1] = "{}:{:.02f}".format(args[1].split(':')[0], angle)
         self.CommandStack.push(EditPointTable(
             row,
             self.EntitiesPoint,

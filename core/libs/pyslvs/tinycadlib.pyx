@@ -81,11 +81,11 @@ cdef class VPoint:
         """Change coordinates of this point."""
         self.c[0] = c1
         if self.type != 0:
-            self.c[1] = c2 if (c2 is not None) else c1
+            self.c[1] = c2 if c2 else c1
     
     cpdef void rotate(self, double angle):
-        """Change the angle of slider slot."""
-        self.angle = angle
+        """Change the angle of slider slot by degrees."""
+        self.angle = angle % 360
     
     cpdef double distance(self, VPoint p):
         """Distance between two VPoint."""

@@ -217,7 +217,7 @@ def _pointsPos(self, vlink: VLink) -> List[Tuple[float, float]]:
     """Get geometry of the vlink."""
     points = []
     for i in vlink.points:
-        vpoint = self.Points[i]
+        vpoint = self.vpoints[i]
         if vpoint.type == 0:
             x = vpoint.cx * self.zoom
             y = vpoint.cy * -self.zoom
@@ -241,7 +241,7 @@ def _drawLink(self, vlink: VLink):
     qpoints = convex_hull(points, as_qpoint=True)
     if (
         (self.selectionMode == 1) and
-        (self.Links.index(vlink) in self.selections)
+        (self.vlinks.index(vlink) in self.selections)
     ):
         pen.setWidth(self.linkWidth + 6)
         pen.setColor(QColor(161, 16, 239))
@@ -274,11 +274,11 @@ def _drawPath(self):
     pen = QPen()
     if self.autoPathShow and self.rightInput():
         """Replace to auto preview path."""
-        exprs = self.getTriangle(self.Points)
+        exprs = self.getTriangle(self.vpoints)
         self.Path.path = expr_path(
             exprs,
-            {n: 'P{}'.format(n) for n in range(len(self.Points))},
-            self.Points,
+            {n: 'P{}'.format(n) for n in range(len(self.vpoints))},
+            self.vpoints,
             self.pathInterval()
         )
         if self.selectionMode == 2:
@@ -287,7 +287,7 @@ def _drawPath(self):
                     expr[0],
                     expr[1:-1],
                     expr[-1],
-                    self.Points
+                    self.vpoints
                 )
     if hasattr(self, 'path_record'):
         paths = self.path_record
@@ -301,7 +301,7 @@ def _drawPath(self):
         ):
             continue
         try:
-            color = self.Points[i].color
+            color = self.vpoints[i].color
         except:
             color = colorQt('Green')
         pen.setColor(color)
@@ -355,7 +355,7 @@ def _select_func(self, *, rect: bool = False):
             else:
                 return self.selector.isClose(x, y, self.sr)
         
-        for i, vpoint in enumerate(self.Points):
+        for i, vpoint in enumerate(self.vpoints):
             if catch(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 if i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
@@ -379,7 +379,7 @@ def _select_func(self, *, rect: bool = False):
             else:
                 return polygon.containsPoint(QPointF(self.selector.x, self.selector.y), Qt.WindingFill)
         
-        for i, vlink in enumerate(self.Links):
+        for i, vlink in enumerate(self.vlinks):
             if i == 0:
                 continue
             if catch(vlink):
@@ -423,7 +423,7 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
                 if y > y_top:
                     y_top = y
     #Points
-    for vpoint in self.Points:
+    for vpoint in self.vpoints:
         if has_path and (not vpoint.grounded()):
             continue
         if vpoint.cx < x_right:
@@ -477,7 +477,7 @@ def paintEvent(self, event):
     BaseCanvas.paintEvent(self, event)
     self.painter.setFont(QFont('Arial', self.fontSize))
     #Draw links except ground.
-    for vlink in self.Links[1:]:
+    for vlink in self.vlinks[1:]:
         _drawLink(self, vlink)
     #Draw path.
     if self.Path.show != -2:
@@ -487,7 +487,7 @@ def paintEvent(self, event):
         _drawSlvsRanges(self)
         self._BaseCanvas__drawTargetPath()
     #Draw points.
-    for i, vpoint in enumerate(self.Points):
+    for i, vpoint in enumerate(self.vpoints):
         _drawPoint(self, i, vpoint)
     #Draw a colored frame for free move mode.
     if self.freemove != FreeMode.NoFreeMove:
@@ -588,10 +588,11 @@ def mouseReleaseEvent(self, event):
                 self.noselected.emit()
         #Edit point coordinates.
         elif (self.selectionMode == 0) and (self.freemove != FreeMode.NoFreeMove):
-            self.freemoved.emit(tuple((row, (
-                self.Points[row].cx,
-                self.Points[row].cy,
-            )) for row in self.selections))
+            self.freemoved.emit(tuple((num, (
+                self.vpoints[num].cx,
+                self.vpoints[num].cy,
+                self.vpoints[num].angle,
+            )) for num in self.selections))
     self.selector.release()
     self.update()
     event.accept()
@@ -643,8 +644,8 @@ def mouseMoveEvent(self, event):
                     "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
                     self
                 )
-                for row in self.selections:
-                    vpoint = self.Points[row]
+                for num in self.selections:
+                    vpoint = self.vpoints[num]
                     vpoint.move((
                         mouse_x + vpoint.x,
                         mouse_y + vpoint.y
@@ -659,14 +660,17 @@ def mouseMoveEvent(self, event):
                     "{:+.02f}°".format(degrees(alpha)),
                     self
                 )
-                for row in self.selections:
-                    vpoint = self.Points[row]
+                for num in self.selections:
+                    vpoint = self.vpoints[num]
                     r = hypot(vpoint.x, vpoint.y)
                     beta = atan2(vpoint.y, vpoint.x)
                     vpoint.move((
-                        r * cos(alpha + beta),
-                        r * sin(alpha + beta)
+                        r * cos(beta + alpha),
+                        r * sin(beta + alpha)
                     ))
+                    if vpoint.type != 0:
+                        angle = self.vangles[num] + degrees(beta + alpha)
+                        vpoint.rotate(angle)
             elif self.freemove == FreeMode.Reflect:
                 #Free move reflect function.
                 fx = 1 if (x > 0) else -1
@@ -676,8 +680,8 @@ def mouseMoveEvent(self, event):
                     "{:+d}, {:+d}".format(fx, fy),
                     self
                 )
-                for row in self.selections:
-                    vpoint = self.Points[row]
+                for num in self.selections:
+                    vpoint = self.vpoints[num]
                     if vpoint.type == 0:
                         vpoint.move((vpoint.x * fx, vpoint.y * fy))
                     else:
