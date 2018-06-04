@@ -9,10 +9,11 @@ __email__ = "pyslvs@gmail.com"
 
 from .read import SlvsParser
 from .frame import slvs_frame
-from .part import slvs_part
+from .part import slvs_part, boundaryloop
 
 __all__ = [
     'SlvsParser',
     'slvs_frame',
     'slvs_part',
+    'boundaryloop',
 ]

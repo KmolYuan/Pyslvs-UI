@@ -14,7 +14,6 @@ Development
 ---
 
 + Update module "dxfwrite" to "ezdxf".
-+ Add Wing project support.
 
 
 Version 18.05

@@ -7,16 +7,39 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Tuple, Iterator
+from typing import (
+    Sequence,
+    List,
+    Tuple,
+    Iterator,
+)
 from math import (
     radians,
     sin,
     cos,
     atan2,
 )
-from core.libs import VPoint, Coordinate
+from core.libs import VPoint
 from core.graphics import convex_hull
 from .write import SlvsWriter
+
+
+def boundaryloop(
+    boundary: Sequence[Tuple[float, float]]
+) -> List[Tuple[Tuple[float, float], Tuple[float, float]]]:
+    """Create boundary edges by pairs of coordinates."""
+    boundary_tmp = []
+    for i in range(len(boundary)):
+        p1 = Coordinate(*boundary[i])
+        p2 = Coordinate(*boundary[i + 1 if (i + 1) < len(boundary) else 0])
+        alpha = atan2(p2.y - p1.y, p2.x - p1.x) - radians(90)
+        offset_x = radius * cos(alpha)
+        offset_y = radius * sin(alpha)
+        boundary_tmp.append((
+            Coordinate(p1.x + offset_x, p1.y + offset_y),
+            Coordinate(p2.x + offset_x, p2.y + offset_y),
+        ))
+    return boundary_tmp
 
 
 def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
@@ -41,18 +64,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         frame.append((frame[0][1], Coordinate(*c)))
     
     #Boundary
-    boundary_tmp = []
-    for i in range(len(boundary)):
-        p1 = Coordinate(*boundary[i])
-        p2 = Coordinate(*boundary[i + 1 if (i + 1) < len(boundary) else 0])
-        alpha = atan2(p2.y - p1.y, p2.x - p1.x) - radians(90)
-        offset_x = radius * cos(alpha)
-        offset_y = radius * sin(alpha)
-        boundary_tmp.append((
-            Coordinate(p1.x + offset_x, p1.y + offset_y),
-            Coordinate(p2.x + offset_x, p2.y + offset_y)
-        ))
-    boundary = boundary_tmp
+    boundary = boundaryloop(boundary)
     
     #Writer object.
     writer = SlvsWriter()
@@ -71,7 +83,11 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
                 writer.param_num += 2
             writer.param_shift16()
     
-    def arc_coords(i: int, cx: float, cy: float) -> Tuple[float, float]:
+    def arc_coords(
+        i: int,
+        cx: float,
+        cy: float
+    ) -> Iterator[Tuple[float, float]]:
         for x, y in (
             (cx, cy),
             (boundary[i-1][1].x, boundary[i-1][1].y),
