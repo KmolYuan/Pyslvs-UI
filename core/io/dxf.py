@@ -23,11 +23,11 @@ DXF_VERSIONS = ezdxf.lldxf.const.versions_supported_by_new
 def dxf_frame(
     vpoints: Sequence[VPoint],
     v_to_slvs: Callable[[], Tuple[int, int]],
-    version: str,
+    version: int,
     file_name: str
 ):
     """Create frame sketch only."""
-    dwg = ezdxf.new('AC1015')
+    dwg = ezdxf.new(DXF_VERSIONS[version])
     msp = dwg.modelspace()
     for vpoint in vpoints:
         msp.add_point((vpoint.cx, vpoint.cy))
