@@ -95,7 +95,7 @@
       </item>
       <item>
        <widget class="QWidget" name="assembly_group" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QVBoxLayout" name="assembly_layout">
          <item>
           <widget class="QLabel" name="assembly_label">
            <property name="text">

@@ -22,8 +22,10 @@ from core.QtModules import (
     QWidget,
     QLabel,
     QComboBox,
+    QDoubleSpinBox,
     QHBoxLayout,
     QSizePolicy,
+    QSpacerItem,
 )
 from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
@@ -187,6 +189,18 @@ class DxfOutputDialog(_OutputDialog):
         dxf_version_layout.addWidget(version_label)
         dxf_version_layout.addWidget(self.version_option)
         self.main_layout.insertLayout(3, dxf_version_layout)
+        #Parts interval.
+        interval_label = QLabel("Parts interval:", self)
+        self.interval_option = QDoubleSpinBox(self)
+        self.interval_option.setMinimum(0.01)
+        self.interval_option.setValue(30)
+        dxf_interval_layout = QHBoxLayout()
+        dxf_interval_layout.addWidget(interval_label)
+        dxf_interval_layout.addItem(
+            QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        )
+        dxf_interval_layout.addWidget(self.interval_option)
+        self.assembly_layout.insertLayout(2, dxf_interval_layout)
     
     def do(self, dir: QDir) -> Optional[bool]:
         """Output types:
@@ -203,9 +217,20 @@ class DxfOutputDialog(_OutputDialog):
         
         if self.frame_radio.isChecked():
             #Frame
-            dxf_frame(self.vpoints, self.v_to_slvs, version, file_name)
+            dxf_frame(
+                self.vpoints,
+                self.v_to_slvs,
+                version,
+                file_name
+            )
         elif self.assembly_radio.isChecked():
             #Boundary
-            dxf_boundary(self.vpoints, version, file_name)
+            dxf_boundary(
+                self.vpoints,
+                self.link_radius.value(),
+                self.interval_option.value(),
+                version,
+                file_name
+            )
         
         return True

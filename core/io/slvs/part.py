@@ -19,14 +19,15 @@ from math import (
     cos,
     atan2,
 )
-from core.libs import VPoint
+from core.libs import VPoint, Coordinate
 from core.graphics import convex_hull
 from .write import SlvsWriter
 
 
 def boundaryloop(
-    boundary: Sequence[Tuple[float, float]]
-) -> List[Tuple[Tuple[float, float], Tuple[float, float]]]:
+    boundary: Sequence[Tuple[float, float]],
+    radius: float
+) -> List[Tuple[Coordinate, Coordinate]]:
     """Create boundary edges by pairs of coordinates."""
     boundary_tmp = []
     for i in range(len(boundary)):
@@ -64,7 +65,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         frame.append((frame[0][1], Coordinate(*c)))
     
     #Boundary
-    boundary = boundaryloop(boundary)
+    boundary = boundaryloop(boundary, radius)
     
     #Writer object.
     writer = SlvsWriter()
