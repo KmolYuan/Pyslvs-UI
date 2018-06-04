@@ -20,7 +20,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="main_layout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>

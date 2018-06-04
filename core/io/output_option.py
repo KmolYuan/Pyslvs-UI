@@ -20,10 +20,13 @@ from core.QtModules import (
     QFileDialog,
     QTextEdit,
     QWidget,
+    QLabel,
+    QComboBox,
+    QHBoxLayout,
 )
 from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
-from .dxf import dxf_frame, dxf_boundary
+from .dxf import DXF_VERSIONS, dxf_frame, dxf_boundary
 from .Ui_output_option import Ui_Dialog
 
 
@@ -160,6 +163,14 @@ class DxfOutputDialog(_OutputDialog):
     def __init__(self, *args):
         """Type name: "Solvespace module"."""
         super(DxfOutputDialog, self).__init__("Solvespace module", *args)
+        #DXF version option.
+        version_label = QLabel("DXF version:", self)
+        self.version_option = QComboBox(self)
+        self.version_option.addItems(DXF_VERSIONS)
+        dxf_version_layout = QHBoxLayout()
+        dxf_version_layout.addWidget(version_label)
+        dxf_version_layout.addWidget(self.version_option)
+        self.main_layout.insertLayout(3, dxf_version_layout)
     
     def do(self, dir: QDir) -> Optional[bool]:
         """Output types:
@@ -174,7 +185,7 @@ class DxfOutputDialog(_OutputDialog):
         
         if self.frame_radio.isChecked():
             #Frame
-            dxf_frame(self.vpoints, self.v_to_slvs, file_name)
+            dxf_frame(self.vpoints, self.v_to_slvs, self.version_option.currentText(), file_name)
         elif self.assembly_radio.isChecked():
             #Boundary
             dxf_boundary(self.vpoints, file_name)

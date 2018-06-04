@@ -16,9 +16,14 @@ import ezdxf
 from core.libs import VPoint
 
 
+#A list of support versions with "ezdxf" module.
+DXF_VERSIONS = ezdxf.lldxf.const.versions_supported_by_new
+
+
 def dxf_frame(
     vpoints: Sequence[VPoint],
     v_to_slvs: Callable[[], Tuple[int, int]],
+    version: str,
     file_name: str
 ):
     """Create frame sketch only."""
@@ -31,6 +36,7 @@ def dxf_frame(
         vp2 = vpoints[p2]
         msp.add_line((vp1.cx, vp1.cy), (vp2.cx, vp2.cy))
     dwg.saveas(file_name)
+
 
 def dxf_boundary(
     vpoints: Sequence[VPoint],
