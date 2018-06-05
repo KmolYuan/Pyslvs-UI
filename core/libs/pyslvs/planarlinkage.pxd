@@ -31,9 +31,8 @@ cdef class Chromosome:
 cdef class Planar:
     cdef int POINTS, VARS
     cdef list constraint, Link, driver_list, follower_list
-    cdef tuple targetPoint
     cdef dict Driver, Follower
-    cdef np.ndarray exprs, target, upper, lower
+    cdef np.ndarray target_names, exprs, target, upper, lower
     
     cdef inline np.ndarray get_upper(self):
         return self.upper

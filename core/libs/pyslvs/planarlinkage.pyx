@@ -93,13 +93,17 @@ cdef class Planar:
         self.Follower = mech_params['Follower']
         #target point name
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
+        cdef int i = 0
+        cdef int target_count = len(mech_params['Target'])
         cdef double x, y
-        self.targetPoint = tuple(mech_params['Target'])
-        self.target = np.ndarray((len(mech_params['Target']),), dtype=np.object)
-        cdef int i
-        cdef object target
-        for i, target in enumerate(mech_params['Target'].values()):
+        cdef str name
+        cdef list target
+        self.target_names = np.ndarray((target_count,), dtype=np.object)
+        self.target = np.ndarray((target_count,), dtype=np.object)
+        for name, target in mech_params['Target'].items():
+            self.target_names[i] = name
             self.target[i] = tuple(Coordinate(x, y) for x, y in target)
+            i += 1
         
         #constraint
         self.constraint = mech_params['constraint']
@@ -152,8 +156,6 @@ cdef class Planar:
         self.VARS = length before matching angles.
         """
         
-        cdef str name
-        
         #upper
         cdef list tmp_upper = []
         for name in self.driver_list:
@@ -201,9 +203,9 @@ cdef class Planar:
     
     cdef inline np.ndarray get_path_array(self):
         """Create and return path array."""
-        cdef np.ndarray path = np.ndarray((len(self.targetPoint),), dtype=np.object)
+        cdef np.ndarray path = np.ndarray((len(self.target_names),), dtype=np.object)
         cdef int i
-        for i in range(len(self.targetPoint)):
+        for i in range(len(self.target_names)):
             path[i] = []
         return path
     
@@ -245,7 +247,9 @@ cdef class Planar:
             #a0: random angle to generate target point.
             #match to path points.
             for j in range(len(self.driver_list)):
-                test_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + i*len(self.driver_list) + j])
+                test_dict['a{}'.format(j)] = np.deg2rad(
+                    v[self.VARS + i*len(self.driver_list) + j]
+                )
             for e in self.exprs:
                 #target
                 target_coordinate = self.from_formula(e, test_dict)
@@ -253,7 +257,7 @@ cdef class Planar:
                     return FAILURE
                 else:
                     test_dict[e[1]] = target_coordinate
-            for i, name in enumerate(self.targetPoint):
+            for i, name in enumerate(self.target_names):
                 path[i].append(test_dict[name])
         #constraint
         for constraint in self.constraint:
@@ -267,7 +271,7 @@ cdef class Planar:
         #swap
         cdef list errors
         cdef Coordinate c
-        for k in range(len(self.targetPoint)):
+        for k in range(len(self.target_names)):
             errors = path_error(path[k], self.target[k])
             path[k] = [c for _, c in sorted(zip(errors, path[k]))]
             fitness += sum(path_error(path[k], self.target[k]))
@@ -291,7 +295,7 @@ cdef class Planar:
         for j in range(len(self.driver_list)):
             tmp_list = []
             for i in range(self.POINTS):
-                tmp_list.append(v[self.VARS + i*len(self.driver_list) + j])
+                tmp_list.append(v[self.VARS + i * len(self.driver_list) + j])
             final_dict['a{}'.format(j)] = tuple(tmp_list)
         return final_dict
     
