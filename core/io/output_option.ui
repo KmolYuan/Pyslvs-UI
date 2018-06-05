@@ -49,7 +49,7 @@
    <item>
     <widget class="QCheckBox" name="newfolder_option">
      <property name="text">
-      <string>Create a new folder with workbook name</string>
+      <string>Export to a folder with workbook name (it will be create if not exist)</string>
      </property>
      <property name="checked">
       <bool>true</bool>
