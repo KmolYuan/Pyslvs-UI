@@ -6,6 +6,12 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
+from typing import (
+    Tuple,
+    Sequence,
+    Dict,
+    Union,
+)
 from cpython cimport bool
 from libc.math cimport (
     sqrt,
@@ -430,7 +436,16 @@ cdef inline int base_friend(int node, object vpoints):
             return i
 
 
-cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
+def data_collecting(
+    exprs: Sequence[Tuple[str]],
+    mapping: Dict[int, str],
+    vpoints_: Sequence[VPoint]
+) -> Tuple[Dict[str, Union[Tuple[float, float], float]], int]:
+    """Python wrapper of c version function."""
+    return data_collecting_c(exprs, mapping, vpoints_)
+
+
+cdef inline tuple data_collecting_c(object exprs, dict mapping, object vpoints_):
     """Input data:
     
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
@@ -559,11 +574,16 @@ cdef inline tuple data_collecting(object exprs, dict mapping, object vpoints_):
     return data_dict, dof
 
 
-cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval):
+cpdef list expr_path(
+    object exprs,
+    dict mapping,
+    object vpoints,
+    double interval
+):
     """Auto preview function."""
     cdef dict data_dict
     cdef int dof
-    data_dict, dof = data_collecting(exprs, mapping, vpoints)
+    data_dict, dof = data_collecting_c(exprs, mapping, vpoints)
     
     #Angles.
     cdef double a = 0
@@ -574,10 +594,15 @@ cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval
     return return_path(expr_join(exprs), data_dict, mapping, dof, interval)
 
 
-cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angles):
+cpdef list expr_solving(
+    object exprs,
+    dict mapping,
+    object vpoints,
+    object angles
+):
     """Solving function."""
     cdef dict data_dict
-    data_dict, _ = data_collecting(exprs, mapping, vpoints)
+    data_dict, _ = data_collecting_c(exprs, mapping, vpoints)
     
     #Angles.
     cdef double a

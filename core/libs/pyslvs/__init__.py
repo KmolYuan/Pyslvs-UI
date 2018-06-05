@@ -39,6 +39,7 @@ from .tinycadlib import (
     expr_parser,
     expr_solving,
     expr_path,
+    data_collecting,
     VPoint,
     VLink,
 )
@@ -74,6 +75,7 @@ __all__ = [
     'expr_parser',
     'expr_solving',
     'expr_path',
+    'data_collecting',
     'VPoint',
     'VLink',
     'Planar',

@@ -21,8 +21,9 @@ from core.graphics import edges_view
 from core.libs import (
     slvsProcess,
     vpoints_configure,
-    expr_solving,
     VPoint,
+    data_collecting,
+    expr_solving,
     dof,
 )
 
@@ -214,7 +215,12 @@ def getTriangle(self,
         vpoints,
         tuple(self.InputsWidget.inputPair())
     )
-    self.EntitiesExpr.setExpr(exprs)
+    data_dict, _ = data_collecting(
+        exprs,
+        {n: 'P{}'.format(n) for n in range(len(vpoints))},
+        vpoints
+    )
+    self.EntitiesExpr.setExpr(exprs, data_dict)
     return exprs
 
 

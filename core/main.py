@@ -75,6 +75,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         self.args = args
         self.env = ""
+        self.DOF = 0
         
         self.setLocate(
             QFileInfo(self.args.i).canonicalFilePath() if self.args.i else

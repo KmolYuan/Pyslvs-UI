@@ -12,6 +12,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
+    Dict,
     Iterator,
     Union,
 )
@@ -353,7 +354,10 @@ class ExprTableWidget(_BaseTableWidget):
             self.setColumnWidth(column, 60)
         self.exprs = []
     
-    def setExpr(self, exprs: List[Tuple[str]]):
+    def setExpr(self,
+        exprs: List[Tuple[str]],
+        data_dict: Dict[str, Union[Tuple[float, float], float]]
+    ):
         if exprs == self.exprs:
             return
         self.clear()
@@ -361,7 +365,17 @@ class ExprTableWidget(_BaseTableWidget):
         for row, expr in enumerate(exprs):
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(expr[-1]))
             for column, e in enumerate(expr[:-1]):
-                self.setItem(row, column, QTableWidgetItem(e))
+                if e in data_dict:
+                    if type(data_dict[e]) == float:
+                        t = "{}: {:.02f}"
+                    else:
+                        t = "{0}: ({1[0]:.02f}, {1[1]:.02f})"
+                    text = t.format(e, data_dict[e])
+                else:
+                    text = e
+                item = QTableWidgetItem(text)
+                item.setToolTip(text)
+                self.setItem(row, column, item)
         self.exprs = exprs
 
 
