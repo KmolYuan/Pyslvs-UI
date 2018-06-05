@@ -196,12 +196,13 @@ class DxfOutputDialog(_OutputDialog):
         dxf_version_layout.addWidget(self.version_option)
         self.main_layout.insertLayout(3, dxf_version_layout)
         #Parts interval.
-        self.interval_enabled_option = QCheckBox("Parts interval:", self)
-        self.interval_enabled_option.setCheckState(Qt.Checked)
+        self.interval_enable = QCheckBox("Parts interval:", self)
+        self.interval_enable.setCheckState(Qt.Checked)
         self.interval_option = QDoubleSpinBox(self)
         self.interval_option.setValue(10)
+        self.interval_enable.stateChanged.connect(self.interval_option.setEnabled)
         dxf_interval_layout = QHBoxLayout()
-        dxf_interval_layout.addWidget(self.interval_enabled_option)
+        dxf_interval_layout.addWidget(self.interval_enable)
         dxf_interval_layout.addItem(
             QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         )
@@ -235,7 +236,7 @@ class DxfOutputDialog(_OutputDialog):
                 self.vpoints,
                 self.link_radius.value(),
                 self.interval_option.value()
-                if self.interval_enabled_option.isChecked() else None,
+                if self.interval_enable.isChecked() else None,
                 version,
                 file_name
             )
