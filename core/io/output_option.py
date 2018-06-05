@@ -22,6 +22,7 @@ from core.QtModules import (
     QWidget,
     QLabel,
     QComboBox,
+    QCheckBox,
     QDoubleSpinBox,
     QHBoxLayout,
     QSizePolicy,
@@ -97,8 +98,13 @@ class _OutputDialog(QDialog, Ui_Dialog):
                 return
             dir.cd(new_folder)
             del new_folder
-        if self.do(dir):
-            self.accept()
+        try:
+            ok = self.do(dir)
+        except PermissionError as e:
+            QMessageBox.warning(self, "Permission error", str(e))
+        else:
+            if ok:
+                self.accept()
     
     def do(self) -> Optional[bool]:
         """Do the saving work here, return True if done."""
@@ -190,12 +196,12 @@ class DxfOutputDialog(_OutputDialog):
         dxf_version_layout.addWidget(self.version_option)
         self.main_layout.insertLayout(3, dxf_version_layout)
         #Parts interval.
-        interval_label = QLabel("Parts interval:", self)
+        self.interval_enabled_option = QCheckBox("Parts interval:", self)
+        self.interval_enabled_option.setCheckState(Qt.Checked)
         self.interval_option = QDoubleSpinBox(self)
-        self.interval_option.setMinimum(0.01)
-        self.interval_option.setValue(30)
+        self.interval_option.setValue(10)
         dxf_interval_layout = QHBoxLayout()
-        dxf_interval_layout.addWidget(interval_label)
+        dxf_interval_layout.addWidget(self.interval_enabled_option)
         dxf_interval_layout.addItem(
             QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         )
@@ -228,7 +234,8 @@ class DxfOutputDialog(_OutputDialog):
             dxf_boundary(
                 self.vpoints,
                 self.link_radius.value(),
-                self.interval_option.value(),
+                self.interval_option.value()
+                if self.interval_enabled_option.isChecked() else None,
                 version,
                 file_name
             )

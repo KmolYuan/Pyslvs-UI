@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/output_option.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\output_option.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(447, 641)
+        Dialog.resize(447, 663)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/Solvespace.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -52,12 +52,12 @@ class Ui_Dialog(object):
         self.main_layout.addLayout(self.horizontalLayout_3)
         self.output_group = QtWidgets.QGroupBox(Dialog)
         self.output_group.setObjectName("output_group")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.output_group)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.output_layout = QtWidgets.QVBoxLayout(self.output_group)
+        self.output_layout.setObjectName("output_layout")
         self.assembly_radio = QtWidgets.QRadioButton(self.output_group)
         self.assembly_radio.setChecked(True)
         self.assembly_radio.setObjectName("assembly_radio")
-        self.verticalLayout_5.addWidget(self.assembly_radio)
+        self.output_layout.addWidget(self.assembly_radio)
         self.assembly_group = QtWidgets.QWidget(self.output_group)
         self.assembly_group.setObjectName("assembly_group")
         self.assembly_layout = QtWidgets.QVBoxLayout(self.assembly_group)
@@ -79,10 +79,10 @@ class Ui_Dialog(object):
         self.link_radius.setObjectName("link_radius")
         self.horizontalLayout_5.addWidget(self.link_radius)
         self.assembly_layout.addLayout(self.horizontalLayout_5)
-        self.verticalLayout_5.addWidget(self.assembly_group)
+        self.output_layout.addWidget(self.assembly_group)
         self.frame_radio = QtWidgets.QRadioButton(self.output_group)
         self.frame_radio.setObjectName("frame_radio")
-        self.verticalLayout_5.addWidget(self.frame_radio)
+        self.output_layout.addWidget(self.frame_radio)
         self.frame_group = QtWidgets.QWidget(self.output_group)
         self.frame_group.setEnabled(False)
         self.frame_group.setObjectName("frame_group")
@@ -92,7 +92,7 @@ class Ui_Dialog(object):
         self.frame_label.setWordWrap(True)
         self.frame_label.setObjectName("frame_label")
         self.verticalLayout.addWidget(self.frame_label)
-        self.verticalLayout_5.addWidget(self.frame_group)
+        self.output_layout.addWidget(self.frame_group)
         self.main_layout.addWidget(self.output_group)
         self.groupBox = QtWidgets.QGroupBox(Dialog)
         self.groupBox.setObjectName("groupBox")

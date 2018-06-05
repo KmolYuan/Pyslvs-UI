@@ -15,6 +15,7 @@ from typing import (
     Tuple,
     Sequence,
     Callable,
+    Optional,
 )
 from math import degrees, atan2
 import ezdxf
@@ -42,9 +43,6 @@ def dxf_frame(
     dwg = ezdxf.new(version)
     msp = dwg.modelspace()
     
-    for vpoint in vpoints:
-        msp.add_point((vpoint.cx, vpoint.cy))
-    
     for p1, p2 in v_to_slvs():
         vp1 = vpoints[p1]
         vp2 = vpoints[p2]
@@ -56,7 +54,7 @@ def dxf_frame(
 def dxf_boundary(
     vpoints: Sequence[VPoint],
     radius: float,
-    interval: float,
+    interval: Optional[float],
     version: str,
     file_name: str
 ):
@@ -72,15 +70,35 @@ def dxf_boundary(
     dwg = ezdxf.new(version)
     msp = dwg.modelspace()
     
+    #Interval: Offset with x axis.
+    if interval is not None:
+        interval += radius * 2
+        x_max = -interval
+    
     #Draw linkage boundaries.
-    #TODO: Add interval.
-    for name in sorted(vlinks, key=lambda name: len(vlinks[name])):
+    for name in sorted(
+        vlinks,
+        key=lambda name: min(vpoints[p].cx for p in vlinks[name])
+    ):
         if name == 'ground':
             continue
         #Draw joint holes.
-        centers = [(vpoints[p].cx, vpoints[p].cy) for p in vlinks[name]]
+        if interval is not None:
+            x_min = min(vpoints[p].cx for p in vlinks[name])
+        
+        centers = [(
+            vpoints[p].cx
+            if (interval is None) else
+            x_max + interval + (vpoints[p].cx - x_min),
+            vpoints[p].cy
+        ) for p in vlinks[name]]
+        
         for coord in centers:
             msp.add_circle(coord, radius / 2)
+        
+        if interval is not None:
+            x_max = max(coord[0] for coord in centers)
+        
         #Sort the centers.
         centers_ch = convex_hull(centers)
         boundary = centers_ch.copy()
@@ -88,10 +106,12 @@ def dxf_boundary(
             if c not in centers_ch:
                 centers_ch.append(c)
         centers = centers_ch
+        
         #Draw boundary edges.
         boundary = boundaryloop(boundary, radius)
         for c1, c2 in boundary:
             msp.add_line((c1.x, c1.y), (c2.x, c2.y))
+        
         #Draw filets.
         for i in range(len(boundary)):
             x, y = centers[i]

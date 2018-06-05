@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>447</width>
-    <height>641</height>
+    <height>663</height>
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -39,7 +39,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../Desktop/Pyslvs-PyQt5/icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
        </property>
       </widget>
@@ -82,7 +82,7 @@
      <property name="title">
       <string>Output types</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="output_layout">
       <item>
        <widget class="QRadioButton" name="assembly_radio">
         <property name="text">
@@ -238,7 +238,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../Desktop/Pyslvs-PyQt5/icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections>
   <connection>
