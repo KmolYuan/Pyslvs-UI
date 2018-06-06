@@ -542,7 +542,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>413</width>
+                  <width>453</width>
                   <height>823</height>
                  </rect>
                 </property>
@@ -589,7 +589,7 @@
                        <number>30</number>
                       </property>
                       <property name="singleStep">
-                       <number>5</number>
+                       <number>2</number>
                       </property>
                      </widget>
                     </item>

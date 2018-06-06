@@ -331,6 +331,13 @@ class BaseCanvas(QWidget):
         )
         if not text:
             return
+        #Font
+        font = self.painter.font()
+        font_copy = QFont(font)
+        font.setBold(True)
+        font.setPointSize(font.pointSize() + 8)
+        self.painter.setFont(font)
+        #Color
         pen = self.painter.pen()
         color = pen.color()
         pen.setColor(color.darker())
@@ -338,6 +345,7 @@ class BaseCanvas(QWidget):
         self.painter.drawText(first_point, text)
         pen.setColor(color)
         self.painter.setPen(pen)
+        self.painter.setFont(font_copy)
     
     def drawCurve(self, path: Sequence[Tuple[float, float]]):
         """Draw path as curve."""

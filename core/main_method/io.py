@@ -114,7 +114,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
     """Give the settings of all option widgets."""
     return (
         (self.linewidth_option, 3),
-        (self.fontsize_option, 15),
+        (self.fontsize_option, 14),
         (self.pathwidth_option, 3),
         (self.scalefactor_option, 10),
         (self.selectionradius_option, 10),
