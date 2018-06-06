@@ -439,10 +439,10 @@ cdef inline int base_friend(int node, object vpoints):
 def data_collecting(
     exprs: Sequence[Tuple[str]],
     mapping: Dict[int, str],
-    vpoints_: Sequence[VPoint]
+    vpoints: Sequence[VPoint]
 ) -> Tuple[Dict[str, Union[Tuple[float, float], float]], int]:
     """Python wrapper of c version function."""
-    return data_collecting_c(exprs, mapping, vpoints_)
+    return data_collecting_c(exprs, mapping, vpoints)
 
 
 cdef inline tuple data_collecting_c(object exprs, dict mapping, object vpoints_):

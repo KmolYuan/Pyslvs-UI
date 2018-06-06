@@ -10,6 +10,7 @@ Features
 + Free move mode:
     + Fix the error of angle updating.
 + Show the values on expression table.
++ Add solution selection mode with expression table.
 
 Development
 ---

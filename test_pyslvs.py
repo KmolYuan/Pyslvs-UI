@@ -20,6 +20,7 @@ from core.libs import (
     PXY,
     vpoints_configure,
     expr_solving,
+    data_collecting,
     topo,
     Genetic,
     Firefly,
@@ -88,8 +89,10 @@ class CoreTest(TestCase):
     def test_solving(self):
         """Test triangular formula solving.
         
+        Example: Jansen's linkage (Single).
         + Test for PMKS parser.
-        + Jansen's linkage (Single).
+        + Test data collecting function.
+        + Test expression solving function.
         """
         vpoints = parse_vpoints("M[\n" +
             "# Jansen's linkage (Single).\n" +
@@ -103,12 +106,25 @@ class CoreTest(TestCase):
             "J[R, color[Green], P[-22.22, -91.74], L[link_7]],\n" +
             "]")
         self.assertTrue(len(vpoints) == 8)
-        x, y = expr_solving(
-            vpoints_configure(vpoints, [(0, 1)]),
-            {n: 'P{}'.format(n) for n in range(len(vpoints))},
-            vpoints,
-            [0.]
-        )[-1]
+        exprs = vpoints_configure(vpoints, [(0, 1)])
+        mapping = {n: 'P{}'.format(n) for n in range(len(vpoints))}
+        data_dict, dof = data_collecting(exprs, mapping, vpoints)
+        for link, link_length in [
+            ('L0', 15.002083188677497),
+            ('L1', 41.50187586121861),
+            ('L2', 49.9949057404852),
+            ('L3', 40.09650982317538),
+            ('L4', 55.80253220060896),
+            ('L5', 61.90525179659639),
+            ('L6', 39.302800154696364),
+            ('L7', 36.69767567571548),
+            ('L8', 39.395233214184685),
+            ('L9', 48.995886562037015),
+            ('L10', 65.69940106271898),
+        ]:
+            self.assertTrue(isclose(data_dict[link], link_length))
+        self.assertEqual(dof, 1)
+        x, y = expr_solving(exprs, mapping, vpoints, [0.])[-1]
         self.assertTrue(isclose(x, -43.17005515543241))
         self.assertTrue(isclose(y, -91.75322590542523))
     

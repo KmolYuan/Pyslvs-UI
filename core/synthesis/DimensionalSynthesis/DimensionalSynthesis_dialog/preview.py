@@ -157,7 +157,7 @@ class _DynamicCanvas(BaseCanvas):
         #Draw path.
         self._drawPath()
         #Draw solving path.
-        self._BaseCanvas__drawTargetPath()
+        self.drawTargetPath()
         #Draw points.
         for i, name in enumerate(self.exp_symbol):
             if not self.Point[i]:
@@ -173,7 +173,7 @@ class _DynamicCanvas(BaseCanvas):
             elif name in self.mechanism['Follower']:
                 color = colorQt('Blue')
                 fixed = True
-            self._BaseCanvas__drawPoint(i, x, y, fixed, color)
+            self.drawPoint(i, x, y, fixed, color)
         self.painter.end()
         if self.ERROR:
             self.ERROR = False
@@ -234,7 +234,7 @@ class _DynamicCanvas(BaseCanvas):
             pen.setColor(color)
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
-            self._BaseCanvas__drawCurve(path)
+            self.drawCurve(path)
     
     @pyqtSlot()
     def change_index(self):

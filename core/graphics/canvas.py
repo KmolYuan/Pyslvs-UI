@@ -235,7 +235,7 @@ class BaseCanvas(QWidget):
         #Please to call the "end" method when ending paint event.
         #self.painter.end()
     
-    def __drawPoint(self,
+    def drawPoint(self,
         i: int,
         cx,
         cy,
@@ -271,7 +271,7 @@ class BaseCanvas(QWidget):
             text += ":({:.02f}, {:.02f})".format(cx, cy)
         self.painter.drawText(QPointF(x+6, y-6), text)
     
-    def __drawTargetPath(self):
+    def drawTargetPath(self):
         """Draw solving path."""
         pen = QPen()
         pen.setWidth(self.pathWidth)
@@ -292,7 +292,7 @@ class BaseCanvas(QWidget):
                         pointPath.moveTo(x, y)
                     else:
                         x2, y2 = path[j-1]
-                        self.__drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
+                        self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
                         pointPath.lineTo(QPointF(x, y))
                 self.painter.drawPath(pointPath)
                 for x, y in path:
@@ -310,7 +310,7 @@ class BaseCanvas(QWidget):
                 self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
         self.painter.setBrush(Qt.NoBrush)
     
-    def __drawArrow(self, x1: float, y1: float, x2: float, y2: float):
+    def drawArrow(self, x1: float, y1: float, x2: float, y2: float):
         """Front point -> Back point"""
         a = atan2(y2 - y1, x2 - x1)
         x1 = (x1 + x2) / 2 - 7.5*cos(a)
@@ -324,7 +324,7 @@ class BaseCanvas(QWidget):
             QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
         )
     
-    def __drawCurve(self, path: Sequence[Tuple[float, float]]):
+    def drawCurve(self, path: Sequence[Tuple[float, float]]):
         """Draw path as curve."""
         pointPath = QPainterPath()
         error = False
@@ -347,20 +347,20 @@ class BaseCanvas(QWidget):
                     pointPath.lineTo(x, y)
         self.painter.drawPath(pointPath)
     
-    def __drawDot(self, path: Sequence[Tuple[float, float]]):
+    def drawDot(self, path: Sequence[Tuple[float, float]]):
         """Draw path as dots."""
         for x, y in path:
             if isnan(x):
                 continue
             self.painter.drawPoint(QPointF(x, -y) * self.zoom)
     
-    def __drawSolution(self,
+    def solutionPolygon(self,
         func: str,
         args: Tuple[str],
         target: str,
         pos: Union[Tuple[VPoint], Dict[int, Tuple[float, float]]]
-    ):
-        """Draw the solution triangle."""
+    ) -> Tuple[List[Tuple[float, float]], QColor]:
+        """Get solution polygon."""
         if func == 'PLLP':
             color = QColor(121, 171, 252)
             params = [args[0], args[-1]]
@@ -374,21 +374,39 @@ class BaseCanvas(QWidget):
                 color = QColor(249, 175, 27)
             params = [args[0]]
         params.append(target)
+        tmp_list = []
+        for name in params:
+            try:
+                index = int(name.replace('P', ''))
+            except ValueError:
+                continue
+            else:
+                tmp_list.append(pos[index])
+        return tmp_list, color
+    
+    def drawSolution(self,
+        func: str,
+        args: Tuple[str],
+        target: str,
+        pos: Union[Tuple[VPoint], Dict[int, Tuple[float, float]]]
+    ):
+        """Draw the solution triangle."""
+        params, color = self.solutionPolygon(func, args, target, pos)
         
         color.setAlpha(150)
         pen = QPen(color)
         pen.setWidth(RADIUS)
         self.painter.setPen(pen)
         
-        def drawArrow(n: int) -> bool:
+        def drawArrow(index: int) -> bool:
             """Draw arrow and return True if done."""
             try:
-                x, y = pos[int(params[-1].replace('P', ''))]
-                x2, y2 = pos[int(params[n].replace('P', ''))]
+                x, y = params[-1]
+                x2, y2 = params[index]
             except ValueError:
                 return False
             else:
-                self.__drawArrow(
+                self.drawArrow(
                     x * self.zoom, y * -self.zoom,
                     x2 * self.zoom, y2 * -self.zoom
                 )
@@ -402,8 +420,7 @@ class BaseCanvas(QWidget):
         color.setAlpha(30)
         self.painter.setBrush(QBrush(color))
         qpoints = []
-        for name in params:
-            x, y = pos[int(name.replace('P', ''))]
+        for x, y in params:
             qpoints.append(QPointF(x, -y) * self.zoom)
         self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
@@ -524,7 +541,7 @@ class PreviewCanvas(BaseCanvas):
             solutions = self.get_solutions()
             if solutions:
                 for expr in solutions.split(';'):
-                    self._BaseCanvas__drawSolution(
+                    self.drawSolution(
                         io.strbefore(expr, '['),
                         io.strbetween(expr, '[', ']').split(','),
                         io.strbetween(expr, '(', ')'),

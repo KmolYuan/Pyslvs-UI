@@ -120,10 +120,8 @@ def _appearance(self):
     def table_set_selection(selections: Tuple[int], keyDetect: bool):
         """Distinguish table by tab index."""
         index = self.EntitiesTab.currentIndex()
-        if index == 0:
-            self.EntitiesPoint.setSelections(selections, keyDetect)
-        elif index == 1:
-            self.EntitiesLink.setSelections(selections, keyDetect)
+        tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+        tables[index].setSelections(selections, keyDetect)
     
     self.MainCanvas.selected.connect(table_set_selection)
     self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.setSelection)
@@ -132,12 +130,8 @@ def _appearance(self):
     def table_clear_selection():
         """Distinguish table by tab index."""
         index = self.EntitiesTab.currentIndex()
-        if index == 0:
-            self.EntitiesPoint.clearSelection()
-        elif index == 1:
-            self.EntitiesLink.clearSelection()
-        elif index == 2:
-            self.EntitiesExpr.clearSelection()
+        tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+        tables[index].clearSelection()
     
     self.MainCanvas.noselected.connect(table_clear_selection)
     

@@ -78,7 +78,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DOF = 0
         
         self.setLocate(
-            QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
+            QFileInfo(self.args.i).canonicalFilePath()
+            if self.args.i else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         
@@ -255,23 +256,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.MainCanvas.zoomToFit()
     
     @pyqtSlot(int)
-    def on_EntitiesTab_currentChanged(self, index):
+    def on_EntitiesTab_currentChanged(self, index: int):
         """Connect selection signal for main canvas."""
-        if index == 0:
-            try:
-                self.EntitiesLink.rowSelectionChanged.disconnect()
-            except TypeError:
-                pass
-            self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.setSelection)
-        elif index == 1:
-            try:
-                self.EntitiesPoint.rowSelectionChanged.disconnect()
-            except TypeError:
-                pass
-            self.EntitiesLink.rowSelectionChanged.connect(self.MainCanvas.setSelection)
-        self.EntitiesPoint.clearSelection()
-        self.EntitiesLink.clearSelection()
-        self.EntitiesExpr.clearSelection()
+        tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+        try:
+            for table in tables:
+                table.rowSelectionChanged.disconnect()
+        except TypeError:
+            pass
+        tables[index].rowSelectionChanged.connect(self.MainCanvas.setSelection)
+        for table in tables:
+            table.clearSelection()
         self.InputsWidget.clearSelection()
     
     @pyqtSlot()

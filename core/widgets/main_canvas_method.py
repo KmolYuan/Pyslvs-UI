@@ -149,7 +149,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 grounded = vpoint.links[j] == 'ground'
             if vpoint.type == 1:
                 if j == 0:
-                    self._BaseCanvas__drawPoint(
+                    self.drawPoint(
                         i, cx, cy,
                         grounded,
                         vpoint.color
@@ -165,7 +165,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                     ))
             elif vpoint.type == 2:
                 if j == 0:
-                    self._BaseCanvas__drawPoint(
+                    self.drawPoint(
                         i, cx, cy,
                         grounded,
                         vpoint.color
@@ -174,7 +174,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                     #Turn off point mark.
                     showPointMark = self.showPointMark
                     self.showPointMark = False
-                    self._BaseCanvas__drawPoint(
+                    self.drawPoint(
                         i, cx, cy,
                         grounded,
                         vpoint.color
@@ -196,7 +196,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 QPointF(p_right[0] * self.zoom, p_right[1] * -self.zoom)
             )
     else:
-        self._BaseCanvas__drawPoint(
+        self.drawPoint(
             i, vpoint.cx, vpoint.cy,
             vpoint.grounded(),
             vpoint.color
@@ -274,21 +274,13 @@ def _drawPath(self):
     pen = QPen()
     if self.autoPathShow and self.rightInput():
         """Replace to auto preview path."""
-        exprs = self.getTriangle(self.vpoints)
+        self.exprs = self.getTriangle(self.vpoints)
         self.Path.path = expr_path(
-            exprs,
+            self.exprs,
             {n: 'P{}'.format(n) for n in range(len(self.vpoints))},
             self.vpoints,
             self.pathInterval()
         )
-        if self.selectionMode == 2:
-            for expr in exprs:
-                self._BaseCanvas__drawSolution(
-                    expr[0],
-                    expr[1:-1],
-                    expr[-1],
-                    self.vpoints
-                )
     if hasattr(self, 'path_record'):
         paths = self.path_record
     else:
@@ -308,9 +300,9 @@ def _drawPath(self):
         pen.setWidth(self.pathWidth)
         self.painter.setPen(pen)
         if self.Path.curve:
-            self._BaseCanvas__drawCurve(path)
+            self.drawCurve(path)
         else:
-            self._BaseCanvas__drawDot(path)
+            self.drawDot(path)
 
 
 def _drawSlvsRanges(self):
@@ -359,6 +351,7 @@ def _select_func(self, *, rect: bool = False):
             if catch(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 if i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
+        
     elif self.selectionMode == 1:
         
         def catch(vlink: VLink) -> bool:
@@ -383,6 +376,27 @@ def _select_func(self, *, rect: bool = False):
             if i == 0:
                 continue
             if catch(vlink):
+                if i not in self.selector.selection_rect:
+                    self.selector.selection_rect.append(i)
+        
+    elif self.selectionMode == 2:
+        
+        def catch(expr: str) -> bool:
+            """Detection function for solution polygons."""
+            pos, _ = self.solutionPolygon(
+                expr[0],
+                expr[1:-1],
+                expr[-1],
+                self.vpoints
+            )
+            polygon = QPolygonF([QPointF(x, -y) * self.zoom for x, y in pos])
+            if rect:
+                return polygon.intersects(QPolygonF(self.selector.toQRect()))
+            else:
+                return polygon.containsPoint(QPointF(self.selector.x, self.selector.y), Qt.WindingFill)
+        
+        for i, expr in enumerate(self.exprs):
+            if catch(expr):
                 if i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
@@ -485,15 +499,34 @@ def paintEvent(self, event):
     #Draw solving path.
     if self.showTargetPath:
         _drawSlvsRanges(self)
-        self._BaseCanvas__drawTargetPath()
+        self.drawTargetPath()
     #Draw points.
     for i, vpoint in enumerate(self.vpoints):
         _drawPoint(self, i, vpoint)
+    #Draw solutions.
+    if self.selectionMode == 2:
+        for i, expr in enumerate(self.exprs):
+            args = [
+                expr[0],
+                expr[1:-1],
+                expr[-1],
+                self.vpoints
+            ]
+            self.drawSolution(*args)
+            if i in self.selections:
+                pos, _ = self.solutionPolygon(*args)
+                pen = QPen()
+                pen.setWidth(self.linkWidth + 3)
+                pen.setColor(QColor(161, 16, 239))
+                self.painter.setPen(pen)
+                self.painter.drawPolygon(*[
+                    QPointF(x, -y) * self.zoom for x, y in pos
+                ])
     #Draw a colored frame for free move mode.
     if self.freemove != FreeMode.NoFreeMove:
         pen = QPen()
         if self.freemove == FreeMode.Translate:
-            pen.setColor(QColor(161, 105, 229))
+            pen.setColor(QColor(161, 16, 229))
         elif self.freemove == FreeMode.Rotate:
             pen.setColor(QColor(219, 162, 6))
         elif self.freemove == FreeMode.Reflect:
@@ -630,7 +663,9 @@ def mouseMoveEvent(self, event):
                     self.selector.sx / self.zoom,
                     self.selector.sy / -self.zoom,
                     len(selection),
-                    'link' if self.selectionMode == 1 else 'point'
+                    'point' if self.selectionMode == 0 else
+                    'link' if self.selectionMode == 1 else
+                    'solution'
                 ),
                 self
             )

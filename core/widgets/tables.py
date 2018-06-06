@@ -27,6 +27,7 @@ from core.QtModules import (
     QApplication,
     QTableWidgetSelectionRange,
     QLabel,
+    QInputDialog,
 )
 from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
@@ -353,6 +354,9 @@ class ExprTableWidget(_BaseTableWidget):
         for column in range(self.columnCount()):
             self.setColumnWidth(column, 60)
         self.exprs = []
+        
+        #Double click behavior.
+        self.itemDoubleClicked.connect(self.__adjustRequest)
     
     def setExpr(self,
         exprs: List[Tuple[str]],
@@ -367,9 +371,9 @@ class ExprTableWidget(_BaseTableWidget):
             for column, e in enumerate(expr[:-1]):
                 if e in data_dict:
                     if type(data_dict[e]) == float:
-                        t = "{}: {:.02f}"
+                        t = "{}:{:.02f}"
                     else:
-                        t = "{0}: ({1[0]:.02f}, {1[1]:.02f})"
+                        t = "{0}:({1[0]:.02f}, {1[1]:.02f})"
                     text = t.format(e, data_dict[e])
                 else:
                     text = e
@@ -377,6 +381,21 @@ class ExprTableWidget(_BaseTableWidget):
                 item.setToolTip(text)
                 self.setItem(row, column, item)
         self.exprs = exprs
+    
+    @pyqtSlot(QTableWidgetItem)
+    def __adjustRequest(self, item: QTableWidgetItem):
+        text = item.text()
+        if {"L", ":"} < set(text):
+            value, ok = QInputDialog.getDouble(self,
+                "Set length",
+                "Adjust length to:",
+                float(text.split(":")[-1]),
+                0,
+                10000
+            )
+            if ok:
+                #TODO: Set the value.
+                print("Request:", value)
 
 
 class SelectionLabel(QLabel):
