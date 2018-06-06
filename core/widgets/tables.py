@@ -91,25 +91,31 @@ class _BaseTableWidget(QTableWidget):
         self.setFocus()
         keyboardModifiers = QApplication.keyboardModifiers()
         if keyDetect:
-            if keyboardModifiers == Qt.ShiftModifier:
-                self.__setSelectedRanges(selections, continueSelect=True, unSelect=False)
-            elif keyboardModifiers == Qt.ControlModifier:
-                self.__setSelectedRanges(selections, continueSelect=True, unSelect=True)
-            else:
-                self.__setSelectedRanges(selections, continueSelect=False, unSelect=False)
+            continue_select, unselect = {
+                Qt.ShiftModifier: (True, False),
+                Qt.ControlModifier: (True, True),
+            }.get(keyboardModifiers, (False, False))
+            self.__setSelectedRanges(
+                selections,
+                continue_select=continue_select,
+                unSelect=unselect
+            )
         else:
-            continueSelect = (keyboardModifiers == Qt.ShiftModifier)
-            self.__setSelectedRanges(selections, continueSelect=continueSelect, unSelect=False)
+            self.__setSelectedRanges(
+                selections,
+                continue_select=(keyboardModifiers == Qt.ShiftModifier),
+                unSelect=False
+            )
     
     def __setSelectedRanges(self,
         selections: Tuple[int],
         *,
-        continueSelect: bool,
+        continue_select: bool,
         unSelect: bool
     ):
         """Different mode of select function."""
         selectedRows = self.selectedRows()
-        if not continueSelect:
+        if not continue_select:
             self.clearSelection()
         self.setCurrentCell(selections[-1], 0)
         for row in selections:
@@ -346,11 +352,19 @@ class LinkTableWidget(_BaseTableWidget):
 
 class ExprTableWidget(_BaseTableWidget):
     
-    """Expression table."""
+    """Expression table.
+    
+    + Freemove request: linkage name, length
+    """
+    
+    freemove_request = pyqtSignal(str, float)
     
     def __init__(self, parent):
         column_count = ('p0', 'p1', 'p2', 'p3', 'p4', 'target')
         super(ExprTableWidget, self).__init__(0, column_count, parent)
+        #Change back to select item.
+        self.setSelectionBehavior(QAbstractItemView.SelectItems)
+        
         for column in range(self.columnCount()):
             self.setColumnWidth(column, 60)
         self.exprs = []
@@ -390,16 +404,16 @@ class ExprTableWidget(_BaseTableWidget):
         """
         text = item.text()
         if {"L", ":"} < set(text):
+            name, value = text.split(":")
             value, ok = QInputDialog.getDouble(self,
                 "Set length",
                 "Adjust length to:",
-                float(text.split(":")[-1]),
+                float(value),
                 0,
                 10000
             )
             if ok:
-                #TODO: Set the value.
-                print("Request:", value)
+                self.freemove_request.emit(name, value)
 
 
 class SelectionLabel(QLabel):

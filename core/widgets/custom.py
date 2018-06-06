@@ -103,7 +103,28 @@ def _appearance(self):
     )
     self.EntitiesLink_layout.addWidget(self.EntitiesLink)
     self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
+    self.EntitiesExpr.freemove_request.connect(self.setLinkageFreemove)
     self.EntitiesExpr_layout.addWidget(self.EntitiesExpr)
+    
+    #Select all button on the Point and Link tab as corner widget.
+    select_all_button = QPushButton()
+    select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
+    select_all_button.setToolTip("Select all")
+    select_all_button.setStatusTip("Select all item of point table.")
+    
+    @pyqtSlot()
+    def table_select_all():
+        """Distinguish table by tab index."""
+        tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+        tables[self.EntitiesTab.currentIndex()].selectAll()
+    
+    select_all_button.clicked.connect(table_select_all)
+    self.EntitiesTab.setCornerWidget(select_all_button)
+    select_all_action = QAction("Select all point", self)
+    select_all_action.triggered.connect(table_select_all)
+    select_all_action.setShortcut("Ctrl+A")
+    select_all_action.setShortcutContext(Qt.WindowShortcut)
+    self.addAction(select_all_action)
     
     #Selection label on status bar right side.
     selectionLabel = SelectionLabel(self)
@@ -119,9 +140,8 @@ def _appearance(self):
     @pyqtSlot(tuple, bool)
     def table_set_selection(selections: Tuple[int], keyDetect: bool):
         """Distinguish table by tab index."""
-        index = self.EntitiesTab.currentIndex()
         tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
-        tables[index].setSelections(selections, keyDetect)
+        tables[self.EntitiesTab.currentIndex()].setSelections(selections, keyDetect)
     
     self.MainCanvas.selected.connect(table_set_selection)
     self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.setSelection)
@@ -129,9 +149,8 @@ def _appearance(self):
     @pyqtSlot()
     def table_clear_selection():
         """Distinguish table by tab index."""
-        index = self.EntitiesTab.currentIndex()
         tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
-        tables[index].clearSelection()
+        tables[self.EntitiesTab.currentIndex()].clearSelection()
     
     self.MainCanvas.noselected.connect(table_clear_selection)
     
@@ -141,7 +160,7 @@ def _appearance(self):
     clean_selection_action.setShortcutContext(Qt.WindowShortcut)
     self.addAction(clean_selection_action)
     
-    self.MainCanvas.freemoved.connect(self.setFreemoved)
+    self.MainCanvas.freemoved.connect(self.setFreemove)
     self.MainCanvas.alt_add.connect(self.qAddNormalPoint)
     self.MainCanvas.doubleclick_edit.connect(self.on_action_Edit_Point_triggered)
     self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
@@ -239,31 +258,6 @@ def _appearance(self):
     #Connect to GUI button switching.
     self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
-    
-    #Select all button on the Point and Link tab as corner widget.
-    select_all_button = QPushButton()
-    select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
-    select_all_button.setToolTip("Select all")
-    select_all_button.setStatusTip("Select all item of point table.")
-    
-    @pyqtSlot()
-    def table_select_all():
-        """Distinguish table by tab index."""
-        index = self.EntitiesTab.currentIndex()
-        if index == 0:
-            self.EntitiesPoint.selectAll()
-        elif index == 1:
-            self.EntitiesLink.selectAll()
-        elif index == 2:
-            self.EntitiesExpr.selectAll()
-    
-    select_all_button.clicked.connect(table_select_all)
-    self.EntitiesTab.setCornerWidget(select_all_button)
-    select_all_action = QAction("Select all point", self)
-    select_all_action.triggered.connect(table_select_all)
-    select_all_action.setShortcut("Ctrl+A")
-    select_all_action.setShortcutContext(Qt.WindowShortcut)
-    self.addAction(select_all_action)
     
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)

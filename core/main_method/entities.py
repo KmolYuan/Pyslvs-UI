@@ -315,7 +315,7 @@ def clonePoint(self):
     self.CommandStack.endMacro()
 
 
-def setFreemoved(self,
+def setFreemove(self,
     coords: Tuple[Tuple[int, Tuple[float, float, float]]]
 ):
     """Free move function."""
@@ -335,6 +335,12 @@ def setFreemoved(self,
             args
         ))
     self.CommandStack.endMacro()
+
+
+def setLinkageFreemove(self, name: str, value: float):
+    """Adjust linkage length by expression table."""
+    #TODO: Edit coordinates here.
+    print(name, value)
 
 
 def on_action_New_Link_triggered(self):
@@ -479,7 +485,7 @@ def on_action_Delete_Link_triggered(self):
 
 def setCoordsAsCurrent(self):
     """Update points position as current coordinate."""
-    self.setFreemoved(tuple(
+    self.setFreemove(tuple(
         (row, self.EntitiesPoint.currentPosition(row)[0])
         for row in range(self.EntitiesPoint.rowCount())
     ))

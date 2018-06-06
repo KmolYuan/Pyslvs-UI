@@ -363,13 +363,18 @@ def _select_func(self, *, rect: bool = False):
             if len(points) > 2:
                 polygon = QPolygonF(convex_hull(points, as_qpoint=True))
             else:
-                points_up = [(x + self.sr, y + self.sr) for x, y in points]
-                points_down = [(x - self.sr, y - self.sr) for x, y in points]
-                polygon = QPolygonF(convex_hull(points_up + points_down, as_qpoint=True))
+                polygon = QPolygonF(convex_hull(
+                    [(x + self.sr, y + self.sr) for x, y in points] +
+                    [(x - self.sr, y - self.sr) for x, y in points],
+                    as_qpoint=True
+                ))
             if rect:
                 return polygon.intersects(QPolygonF(self.selector.toQRect()))
             else:
-                return polygon.containsPoint(QPointF(self.selector.x, self.selector.y), Qt.WindingFill)
+                return polygon.containsPoint(
+                    QPointF(self.selector.x, self.selector.y),
+                    Qt.WindingFill
+                )
         
         for i, vlink in enumerate(self.vlinks):
             if i == 0:
@@ -382,17 +387,20 @@ def _select_func(self, *, rect: bool = False):
         
         def catch(expr: str) -> bool:
             """Detection function for solution polygons."""
-            pos, _ = self.solutionPolygon(
+            points, _ = self.solutionPolygon(
                 expr[0],
                 expr[1:-1],
                 expr[-1],
                 self.vpoints
             )
-            polygon = QPolygonF([QPointF(x, -y) * self.zoom for x, y in pos])
+            polygon = QPolygonF([QPointF(x, -y) * self.zoom for x, y in points])
             if rect:
                 return polygon.intersects(QPolygonF(self.selector.toQRect()))
             else:
-                return polygon.containsPoint(QPointF(self.selector.x, self.selector.y), Qt.WindingFill)
+                return polygon.containsPoint(
+                    QPointF(self.selector.x, self.selector.y),
+                    Qt.WindingFill
+                )
         
         for i, expr in enumerate(self.exprs):
             if catch(expr):
@@ -753,6 +761,6 @@ def zoomToFit(self):
     else:
         factor = height / y_diff
     self.zoom_changed.emit(int(factor * self.marginFactor * 50))
-    self.ox = width / 2 - (x_left + x_right) / 2 *self.zoom
-    self.oy = height / 2 + (y_top + y_bottom) / 2 *self.zoom
+    self.ox = (width - (x_left + x_right) * self.zoom) / 2
+    self.oy = (height + (y_top + y_bottom) * self.zoom) / 2
     self.update()
