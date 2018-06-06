@@ -365,7 +365,7 @@ class ExprTableWidget(_BaseTableWidget):
         column_count = ('p0', 'p1', 'p2', 'p3', 'p4', 'target')
         super(ExprTableWidget, self).__init__(0, column_count, parent)
         for column in range(self.columnCount()):
-            self.setColumnWidth(column, 60)
+            self.setColumnWidth(column, 80)
         self.exprs = []
         
         @pyqtSlot(QTableWidgetItem)
@@ -386,10 +386,9 @@ class ExprTableWidget(_BaseTableWidget):
         data_dict: Dict[str, Union[Tuple[float, float], float]]
     ):
         """Set the table items for new coming expression."""
-        if exprs == self.exprs:
-            return
-        self.clear()
-        self.setRowCount(len(exprs))
+        if exprs != self.exprs:
+            self.clear()
+            self.setRowCount(len(exprs))
         for row, expr in enumerate(exprs):
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(expr[-1]))
             for column, e in enumerate(expr[:-1]):

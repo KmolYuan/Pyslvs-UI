@@ -351,7 +351,7 @@ def adjustLinkage(self, value: int):
             [v[-1] for v in self.InputsWidget.getInputsVariables()]
         )
     except Exception:
-        return
+        pass
     else:
         self.MainCanvas.adjustLinkage(result)
         if not self.linkage_freemode_slider.isSliderDown():
