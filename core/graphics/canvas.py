@@ -207,6 +207,7 @@ class BaseCanvas(QWidget):
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         self.painter.translate(self.ox, self.oy)
+        self.painter.setFont(QFont("Arial", self.fontSize))
         #Draw origin lines.
         pen = QPen(Qt.gray)
         pen.setWidth(1)
@@ -265,11 +266,10 @@ class BaseCanvas(QWidget):
         pen.setColor(Qt.darkGray)
         pen.setWidth(2)
         self.painter.setPen(pen)
-        self.painter.setFont(QFont("Arial", self.fontSize))
-        text = "[{}]".format(i) if type(i)==str else "[Point{}]".format(i)
+        text = "[{}]".format(i) if (type(i) == str) else "[Point{}]".format(i)
         if self.showDimension:
             text += ":({:.02f}, {:.02f})".format(cx, cy)
-        self.painter.drawText(QPointF(x+6, y-6), text)
+        self.painter.drawText(QPointF(x + 6, y - 6), text)
     
     def drawTargetPath(self):
         """Draw solving path."""
@@ -292,7 +292,7 @@ class BaseCanvas(QWidget):
                         pointPath.moveTo(x, y)
                     else:
                         x2, y2 = path[j-1]
-                        self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
+                        self.drawArrow(x, y, x2 * self.zoom, y2 * -self.zoom)
                         pointPath.lineTo(QPointF(x, y))
                 self.painter.drawPath(pointPath)
                 for x, y in path:
@@ -310,19 +310,39 @@ class BaseCanvas(QWidget):
                 self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
         self.painter.setBrush(Qt.NoBrush)
     
-    def drawArrow(self, x1: float, y1: float, x2: float, y2: float):
+    def drawArrow(self,
+        x1: float,
+        y1: float,
+        x2: float,
+        y2: float,
+        *,
+        text: str = ''
+    ):
         """Front point -> Back point"""
         a = atan2(y2 - y1, x2 - x1)
         x1 = (x1 + x2) / 2 - 7.5*cos(a)
         y1 = (y1 + y2) / 2 - 7.5*sin(a)
+        first_point = QPointF(x1, y1)
         self.painter.drawLine(
-            QPointF(x1, y1),
+            first_point,
             QPointF(x1 + 15*cos(a + radians(20)), y1 + 15*sin(a + radians(20)))
         )
         self.painter.drawLine(
-            QPointF(x1, y1),
+            first_point,
             QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
         )
+        if not text:
+            return
+        pen = self.painter.pen()
+        color = pen.color()
+        alpha = color.alpha()
+        color.setAlpha(255)
+        pen.setColor(color)
+        self.painter.setPen(pen)
+        self.painter.drawText(first_point, text)
+        color.setAlpha(alpha)
+        pen.setColor(color)
+        self.painter.setPen(pen)
     
     def drawCurve(self, path: Sequence[Tuple[float, float]]):
         """Draw path as curve."""
@@ -398,7 +418,7 @@ class BaseCanvas(QWidget):
         pen.setWidth(RADIUS)
         self.painter.setPen(pen)
         
-        def drawArrow(index: int) -> bool:
+        def tryDrawArrow(index: int, text: str) -> bool:
             """Draw arrow and return True if done."""
             try:
                 x, y = params[-1]
@@ -408,14 +428,15 @@ class BaseCanvas(QWidget):
             else:
                 self.drawArrow(
                     x * self.zoom, y * -self.zoom,
-                    x2 * self.zoom, y2 * -self.zoom
+                    x2 * self.zoom, y2 * -self.zoom,
+                    text = text
                 )
                 return True
         
-        if not drawArrow(0):
+        if not tryDrawArrow(0, args[1]):
             return
         if func == 'PLLP':
-            if not drawArrow(1):
+            if not tryDrawArrow(1, args[2]):
                 return
         color.setAlpha(30)
         self.painter.setBrush(QBrush(color))
@@ -512,7 +533,6 @@ class PreviewCanvas(BaseCanvas):
                     x, y = self.pos[int(name.replace('P', ''))]
                     points.append((x * self.zoom, y * -self.zoom))
             self.painter.drawPolygon(*convex_hull(points, as_qpoint=True))
-        self.painter.setFont(QFont("Arial", self.fontSize))
         #Nodes
         for node, (x, y) in self.pos.items():
             if node in self.same:

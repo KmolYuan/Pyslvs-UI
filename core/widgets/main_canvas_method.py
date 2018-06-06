@@ -308,7 +308,6 @@ def _drawPath(self):
 def _drawSlvsRanges(self):
     """Draw solving range."""
     pen = QPen()
-    self.painter.setFont(QFont("Arial", self.fontSize + 5))
     pen.setWidth(5)
     for i, (tag, rect) in enumerate(self.ranges.items()):
         range_color = QColor(colorNum(i+1))
@@ -489,7 +488,6 @@ def paintEvent(self, event):
         self.oy += (height - self.height_old) / 2
     #'self' is the instance of 'DynamicCanvas'.
     BaseCanvas.paintEvent(self, event)
-    self.painter.setFont(QFont('Arial', self.fontSize))
     #Draw links except ground.
     for vlink in self.vlinks[1:]:
         _drawLink(self, vlink)
@@ -498,8 +496,10 @@ def paintEvent(self, event):
         _drawPath(self)
     #Draw solving path.
     if self.showTargetPath:
+        self.painter.setFont(QFont("Arial", self.fontSize + 5))
         _drawSlvsRanges(self)
         self.drawTargetPath()
+        self.painter.setFont(QFont("Arial", self.fontSize))
     #Draw points.
     for i, vpoint in enumerate(self.vpoints):
         _drawPoint(self, i, vpoint)

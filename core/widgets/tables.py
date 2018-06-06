@@ -362,6 +362,7 @@ class ExprTableWidget(_BaseTableWidget):
         exprs: List[Tuple[str]],
         data_dict: Dict[str, Union[Tuple[float, float], float]]
     ):
+        """Set the table items for new coming expression."""
         if exprs == self.exprs:
             return
         self.clear()
@@ -384,6 +385,9 @@ class ExprTableWidget(_BaseTableWidget):
     
     @pyqtSlot(QTableWidgetItem)
     def __adjustRequest(self, item: QTableWidgetItem):
+        """This function is use to change linkage length
+        without to drag the points.
+        """
         text = item.text()
         if {"L", ":"} < set(text):
             value, ok = QInputDialog.getDouble(self,
