@@ -49,7 +49,7 @@ class _DynamicCanvas(BaseCanvas):
             l = len(path)
             if l > self.length:
                 self.length = l
-        self.targetPath = self.mechanism['Target']
+        self.target_path = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = set()
@@ -103,7 +103,7 @@ class _DynamicCanvas(BaseCanvas):
                 if y > y_top:
                     y_top = y
         #Solving paths
-        for path in self.targetPath.values():
+        for path in self.target_path.values():
             for x, y in path:
                 if x < x_right:
                     x_right = x
@@ -191,7 +191,7 @@ class _DynamicCanvas(BaseCanvas):
         """
         color = colorQt('Blue')
         pen = QPen(color)
-        pen.setWidth(self.linkWidth)
+        pen.setWidth(self.link_width)
         self.painter.setPen(pen)
         brush = QColor(226, 219, 190)
         brush.setAlphaF(0.70)
@@ -203,10 +203,10 @@ class _DynamicCanvas(BaseCanvas):
         if len(qpoints)==len(points):
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.showPointMark and name!='ground' and qpoints:
+        if self.show_point_mark and name!='ground' and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.fontSize))
+            self.painter.setFont(QFont('Arial', self.font_size))
             text = "[{}]".format(name)
             cenX = sum(
                 self.Point[i][0]
@@ -232,7 +232,7 @@ class _DynamicCanvas(BaseCanvas):
             if self.exp_symbol[i] in self.mechanism['Target']:
                 color = colorQt('Dark-Orange')
             pen.setColor(color)
-            pen.setWidth(self.pathWidth)
+            pen.setWidth(self.path_width)
             self.painter.setPen(pen)
             self.drawCurve(path)
     

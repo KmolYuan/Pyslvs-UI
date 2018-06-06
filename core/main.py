@@ -526,8 +526,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _entities.setLinkageFreemove(self, enable)
     
     @pyqtSlot(int)
-    def on_linkage_freemode_slider_valueChanged(self, value: int):
-        _entities.on_linkage_freemode_slider_valueChanged(self, value)
+    def adjustLinkage(self, value: int):
+        _entities.adjustLinkage(self, value)
     
     def setCoordsAsCurrent(self):
         _entities.setCoordsAsCurrent(self)

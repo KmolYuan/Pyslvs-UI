@@ -182,20 +182,20 @@ class BaseCanvas(QWidget):
         self.rate = 2
         self.zoom = 2 * self.rate
         #Joint size.
-        self.jointsize = 5
+        self.joint_size = 5
         #Canvas line width.
-        self.linkWidth = 3
-        self.pathWidth = 3
+        self.link_width = 3
+        self.path_width = 3
         #Font size.
-        self.fontSize = 15
+        self.font_size = 15
         #Show point mark or dimension.
-        self.showPointMark = True
-        self.showDimension = True
+        self.show_point_mark = True
+        self.show_dimension = True
         #Path track.
         self.Path = _Path()
         #Path solving.
-        self.targetPath = {}
-        self.showTargetPath = False
+        self.target_path = {}
+        self.show_target_path = False
     
     def paintEvent(self, event):
         """Using a QPainter under 'self',
@@ -205,7 +205,7 @@ class BaseCanvas(QWidget):
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         self.painter.translate(self.ox, self.oy)
-        self.painter.setFont(QFont("Arial", self.fontSize))
+        self.painter.setFont(QFont("Arial", self.font_size))
         #Draw origin lines.
         pen = QPen(Qt.gray)
         pen.setWidth(1)
@@ -258,23 +258,23 @@ class BaseCanvas(QWidget):
             )
             self.painter.drawEllipse(QPointF(x, y), width, width)
         else:
-            self.painter.drawEllipse(QPointF(x, y), self.jointsize, self.jointsize)
-        if not self.showPointMark:
+            self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
+        if not self.show_point_mark:
             return
         pen.setColor(Qt.darkGray)
         pen.setWidth(2)
         self.painter.setPen(pen)
         text = "[{}]".format(i) if (type(i) == str) else "[Point{}]".format(i)
-        if self.showDimension:
+        if self.show_dimension:
             text += ":({:.02f}, {:.02f})".format(cx, cy)
         self.painter.drawText(QPointF(x + 6, y - 6), text)
     
     def drawTargetPath(self):
         """Draw solving path."""
         pen = QPen()
-        pen.setWidth(self.pathWidth)
-        for i, name in enumerate(sorted(self.targetPath)):
-            path = self.targetPath[name]
+        pen.setWidth(self.path_width)
+        for i, name in enumerate(sorted(self.target_path)):
+            path = self.target_path[name]
             Pen, Dot, Brush = colorPath(i)
             pen.setColor(Pen)
             self.painter.setPen(pen)
