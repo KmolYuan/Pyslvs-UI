@@ -222,6 +222,32 @@
                         <property name="bottomMargin">
                          <number>0</number>
                         </property>
+                        <item>
+                         <widget class="QWidget" name="linkage_freemode_widget" native="true">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <layout class="QHBoxLayout" name="horizontalLayout_3">
+                           <item>
+                            <widget class="QLabel" name="linkage_freemode_label">
+                             <property name="text">
+                              <string>Linkage free move mode</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QSlider" name="linkage_freemode_slider">
+                             <property name="orientation">
+                              <enum>Qt::Horizontal</enum>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QDoubleSpinBox" name="linkage_freemode_spinbox"/>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
                        </layout>
                       </widget>
                      </item>
@@ -497,8 +523,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>436</width>
-                  <height>723</height>
+                  <width>450</width>
+                  <height>745</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1189,7 +1215,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

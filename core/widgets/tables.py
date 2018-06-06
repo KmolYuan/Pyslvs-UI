@@ -17,8 +17,8 @@ from typing import (
     Union,
 )
 from core.QtModules import (
-    Qt,
     pyqtSignal,
+    Qt,
     QTableWidget,
     QSizePolicy,
     QAbstractItemView,
@@ -27,7 +27,6 @@ from core.QtModules import (
     QApplication,
     QTableWidgetSelectionRange,
     QLabel,
-    QInputDialog,
 )
 from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
@@ -357,7 +356,7 @@ class ExprTableWidget(_BaseTableWidget):
     + Freemove request: linkage name, length
     """
     
-    freemove_request = pyqtSignal(str, float)
+    freemove_request = pyqtSignal(bool)
     
     def __init__(self, parent):
         column_count = ('p0', 'p1', 'p2', 'p3', 'p4', 'target')
@@ -369,8 +368,16 @@ class ExprTableWidget(_BaseTableWidget):
             self.setColumnWidth(column, 60)
         self.exprs = []
         
+        @pyqtSlot(QTableWidgetItem)
+        def adjustRequest(item: QTableWidgetItem):
+            """This function is use to change linkage length
+            without to drag the points.
+            """
+            if item:
+                self.freemove_request.emit({"L", ":"} < set(item.text()))
+        
         #Double click behavior.
-        self.itemDoubleClicked.connect(self.__adjustRequest)
+        self.currentItemChanged.connect(adjustRequest)
     
     def setExpr(self,
         exprs: List[Tuple[str]],
@@ -396,24 +403,6 @@ class ExprTableWidget(_BaseTableWidget):
                 item.setToolTip(text)
                 self.setItem(row, column, item)
         self.exprs = exprs
-    
-    @pyqtSlot(QTableWidgetItem)
-    def __adjustRequest(self, item: QTableWidgetItem):
-        """This function is use to change linkage length
-        without to drag the points.
-        """
-        text = item.text()
-        if {"L", ":"} < set(text):
-            name, value = text.split(":")
-            value, ok = QInputDialog.getDouble(self,
-                "Set length",
-                "Adjust length to:",
-                float(value),
-                0,
-                10000
-            )
-            if ok:
-                self.freemove_request.emit(name, value)
 
 
 class SelectionLabel(QLabel):

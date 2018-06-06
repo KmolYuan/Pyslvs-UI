@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -96,6 +96,22 @@ class Ui_MainWindow(object):
         self.EntitiesExpr_layout = QtWidgets.QVBoxLayout(self.EntitiesExpr_widget)
         self.EntitiesExpr_layout.setContentsMargins(0, 0, 0, 0)
         self.EntitiesExpr_layout.setObjectName("EntitiesExpr_layout")
+        self.linkage_freemode_widget = QtWidgets.QWidget(self.EntitiesExpr_widget)
+        self.linkage_freemode_widget.setEnabled(False)
+        self.linkage_freemode_widget.setObjectName("linkage_freemode_widget")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.linkage_freemode_widget)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.linkage_freemode_label = QtWidgets.QLabel(self.linkage_freemode_widget)
+        self.linkage_freemode_label.setObjectName("linkage_freemode_label")
+        self.horizontalLayout_3.addWidget(self.linkage_freemode_label)
+        self.linkage_freemode_slider = QtWidgets.QSlider(self.linkage_freemode_widget)
+        self.linkage_freemode_slider.setOrientation(QtCore.Qt.Horizontal)
+        self.linkage_freemode_slider.setObjectName("linkage_freemode_slider")
+        self.horizontalLayout_3.addWidget(self.linkage_freemode_slider)
+        self.linkage_freemode_spinbox = QtWidgets.QDoubleSpinBox(self.linkage_freemode_widget)
+        self.linkage_freemode_spinbox.setObjectName("linkage_freemode_spinbox")
+        self.horizontalLayout_3.addWidget(self.linkage_freemode_spinbox)
+        self.EntitiesExpr_layout.addWidget(self.linkage_freemode_widget)
         self.verticalLayout_8.addWidget(self.EntitiesExpr_widget)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icons/triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -233,7 +249,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 436, 723))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 450, 745))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -531,7 +547,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 22))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -771,6 +787,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Pyslvs - Untitled"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.PointsTab), _translate("MainWindow", "Points"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.LinksTab), _translate("MainWindow", "Links"))
+        self.linkage_freemode_label.setText(_translate("MainWindow", "Linkage free move mode"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.tab), _translate("MainWindow", "Formulas"))
         self.mechanism_storage_name_tag_text.setText(_translate("MainWindow", "Mechanism name:"))
         self.mechanism_storage_name_tag.setPlaceholderText(_translate("MainWindow", "Prototype_0"))

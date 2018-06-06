@@ -337,12 +337,6 @@ def setFreemove(self,
     self.CommandStack.endMacro()
 
 
-def setLinkageFreemove(self, name: str, value: float):
-    """Adjust linkage length by expression table."""
-    #TODO: Edit coordinates here.
-    print(name, value)
-
-
 def on_action_New_Link_triggered(self):
     """Create a link with arguments.
     

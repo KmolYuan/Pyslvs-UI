@@ -518,14 +518,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _entities.clonePoint(self)
     
     @pyqtSlot(tuple)
-    def setFreemove(self,
-        coords: Tuple[Tuple[int, Tuple[float, float, float]]]
-    ):
+    def setFreemove(self, coords: Tuple[Tuple[int, Tuple[float, float, float]]]):
         _entities.setFreemove(self, coords)
-    
-    @pyqtSlot(str, float)
-    def setLinkageFreemove(self, name: str, value: float):
-        _entities.setLinkageFreemove(self, name, value)
     
     def setCoordsAsCurrent(self):
         _entities.setCoordsAsCurrent(self)
