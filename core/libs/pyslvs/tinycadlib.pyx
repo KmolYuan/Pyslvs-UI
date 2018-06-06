@@ -504,11 +504,11 @@ cdef inline tuple data_collecting_c(object exprs, dict mapping, object vpoints_)
                     vpoint_.cy
                 )
     
-    cdef int i
+    cdef k, v
     #Reverse mapping, exclude specified linkage length.
     cdef dict mapping_r = {
-        link: i
-        for i, link in mapping.items() if (type(i) == int)
+        v: k
+        for k, v in mapping.items() if (type(k) == int)
     }
     
     cdef list pos = []
@@ -518,7 +518,7 @@ cdef inline tuple data_collecting_c(object exprs, dict mapping, object vpoints_)
         else:
             pos.append(vpoint.c[1])
     
-    cdef int bf
+    cdef int i, bf
     cdef double angle
     #Add slider slot virtual coordinates.
     for i, vpoint in enumerate(vpoints):

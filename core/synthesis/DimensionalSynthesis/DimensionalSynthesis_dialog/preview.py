@@ -122,8 +122,8 @@ class _DynamicCanvas(BaseCanvas):
         x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
         x_diff = x_left - x_right
         y_diff = y_top - y_bottom
-        x_diff = x_diff if (x_diff != 0) else 1
-        y_diff = y_diff if (y_diff != 0) else 1
+        x_diff = x_diff if x_diff else 1
+        y_diff = y_diff if y_diff else 1
         if width / x_diff < height / y_diff:
             factor = width / x_diff
         else:

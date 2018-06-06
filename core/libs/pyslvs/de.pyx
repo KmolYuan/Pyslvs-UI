@@ -308,7 +308,7 @@ cdef class DiffertialEvolution:
         # copy the currentbest to lastgenbest
         self.lastgenbest.assign(self.currentbest)
         # if report generation is set, report
-        if self.rpt != 0:
+        if self.rpt:
             if self.gen % self.rpt == 0:
                 self.report()
         else:

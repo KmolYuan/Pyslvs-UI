@@ -12,6 +12,7 @@ from typing import (
     List,
     Tuple,
     Dict,
+    Union,
 )
 from core.QtModules import (
     pyqtSignal,
@@ -262,13 +263,38 @@ class DynamicCanvas(BaseCanvas):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
     
     def getRecordPath(self) -> Tuple[Tuple[Tuple[float, float]]]:
-        return _method.getRecordPath(self)
+        """Return paths."""
+        path = tuple(
+            tuple(path) if (len(set(path)) > 1) else ()
+            for path in self.path_record
+        )
+        del self.path_record
+        return path
+    
+    def adjustLinkage(self,
+        coords: Tuple[Union[Tuple[Tuple[float, float], Tuple[float, float]]]]
+    ):
+        """Change points coordinates."""
+        for i, c in enumerate(coords):
+            vpoint = self.vpoints[i]
+            if type(c[0]) == float:
+                vpoint.move(c)
+            else:
+                vpoint.move(*c)
+        self.update()
+    
+    def emit_freemove_all(self):
+        _method.emit_freemove_all(self)
     
     def paintEvent(self, event):
         _method.paintEvent(self, event)
     
     def wheelEvent(self, event):
-        """Set zoom bar value by mouse wheel."""
+        """Switch function by mouse wheel.
+        
+        + Set zoom bar value.
+        + Set select mode.
+        """
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
             self.__setSelectionMode(self.__selectionMode() + (-1 if (value > 0) else 1))

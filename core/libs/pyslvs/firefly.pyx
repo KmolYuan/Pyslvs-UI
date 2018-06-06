@@ -194,7 +194,7 @@ cdef class Firefly:
             self.bestFirefly.assign(self.genbest)
         # self.bestFirefly.assign(gen_best)
         self.calculate_new_alpha()
-        if self.rpt != 0:
+        if self.rpt:
             if self.gen % self.rpt == 0:
                 self.report()
         else:

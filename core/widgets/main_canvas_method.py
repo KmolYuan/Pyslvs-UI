@@ -336,6 +336,15 @@ def _drawSlvsRanges(self):
         self.painter.setBrush(Qt.NoBrush)
 
 
+def _emit_freemove(self, targets: List[int]):
+    """Emit free move targets to edit."""
+    self.freemoved.emit(tuple((num, (
+        self.vpoints[num].cx,
+        self.vpoints[num].cy,
+        self.vpoints[num].angle,
+    )) for num in targets))
+
+
 def _select_func(self, *, rect: bool = False):
     """Select function."""
     self.selector.selection_rect.clear()
@@ -410,9 +419,9 @@ def _select_func(self, *, rect: bool = False):
                     self.selector.selection_rect.append(i)
 
 
-def _snap(self, num: float, isZoom: bool = True) -> float:
+def _snap(self, num: float, *, is_zoom: bool = True) -> float:
     """Close to a multiple of coefficient."""
-    snap_val = self.snap * self.zoom if isZoom else self.snap
+    snap_val = self.snap * self.zoom if is_zoom else self.snap
     if not snap_val:
         return num
     times = num // snap_val
@@ -486,6 +495,11 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
     return x_right, x_left, y_top, y_bottom
 
 
+def emit_freemove_all(self):
+    """Edit all points to edit."""
+    _emit_freemove(self, list(range(len(self.vpoints))))
+
+
 def paintEvent(self, event):
     """Drawing functions."""
     width = self.width()
@@ -556,16 +570,6 @@ def paintEvent(self, event):
     self.height_old = height
 
 
-def getRecordPath(self) -> Tuple[Tuple[Tuple[float, float]]]:
-    """Return paths."""
-    path = tuple(
-        tuple(path) if (len(set(path)) > 1) else ()
-        for path in self.path_record
-    )
-    del self.path_record
-    return path
-
-
 def mousePressEvent(self, event):
     """Press event.
     
@@ -631,11 +635,7 @@ def mouseReleaseEvent(self, event):
                 self.noselected.emit()
         #Edit point coordinates.
         elif (self.selectionMode == 0) and (self.freemove != FreeMode.NoFreeMove):
-            self.freemoved.emit(tuple((num, (
-                self.vpoints[num].cx,
-                self.vpoints[num].cy,
-                self.vpoints[num].angle,
-            )) for num in self.selections))
+            _emit_freemove(self, self.selections)
     self.selector.release()
     self.update()
     event.accept()
@@ -682,8 +682,14 @@ def mouseMoveEvent(self, event):
         elif self.selectionMode == 0:
             if self.freemove == FreeMode.Translate:
                 #Free move translate function.
-                mouse_x = _snap(self, x - self.selector.x / self.zoom, False)
-                mouse_y = _snap(self, y - self.selector.y / -self.zoom, False)
+                mouse_x = _snap(self,
+                    x - self.selector.x / self.zoom,
+                    is_zoom=False
+                )
+                mouse_y = _snap(self,
+                    y - self.selector.y / -self.zoom,
+                    is_zoom=False
+                )
                 QToolTip.showText(
                     event.globalPos(),
                     "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
@@ -691,10 +697,7 @@ def mouseMoveEvent(self, event):
                 )
                 for num in self.selections:
                     vpoint = self.vpoints[num]
-                    vpoint.move((
-                        mouse_x + vpoint.x,
-                        mouse_y + vpoint.y
-                    ))
+                    vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             elif self.freemove == FreeMode.Rotate:
                 #Free move rotate function.
                 alpha = atan2(y, x) - atan2(
@@ -709,10 +712,7 @@ def mouseMoveEvent(self, event):
                     vpoint = self.vpoints[num]
                     r = hypot(vpoint.x, vpoint.y)
                     beta = atan2(vpoint.y, vpoint.x)
-                    vpoint.move((
-                        r * cos(beta + alpha),
-                        r * sin(beta + alpha)
-                    ))
+                    vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
                     if vpoint.type != 0:
                         vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
             elif self.freemove == FreeMode.Reflect:
@@ -729,10 +729,7 @@ def mouseMoveEvent(self, event):
                     if vpoint.type == 0:
                         vpoint.move((vpoint.x * fx, vpoint.y * fy))
                     else:
-                        vpoint.move(
-                            (vpoint.x * fx, vpoint.y * fy),
-                            (vpoint.x * fx, vpoint.y * fy)
-                        )
+                        vpoint.move((vpoint.x * fx, vpoint.y * fy))
                         if (x > 0) != (y > 0):
                             vpoint.rotate(180 - self.vangles[num])
         self.update()
@@ -744,20 +741,20 @@ def zoomToFit(self):
     """Zoom to fit function."""
     width = self.width()
     height = self.height()
-    width = width if not (width == 0) else 1
-    height = height if not (height == 0) else 1
+    width = width if width else 1
+    height = height if height else 1
     x_right, x_left, y_top, y_bottom = _zoomToFitLimit(self)
     inf = float('inf')
     if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
         self.zoom_changed.emit(200)
-        self.ox = width/2
-        self.oy = height/2
+        self.ox = width / 2
+        self.oy = height / 2
         self.update()
         return
     x_diff = x_left - x_right
     y_diff = y_top - y_bottom
-    x_diff = x_diff if (x_diff != 0) else 1
-    y_diff = y_diff if (y_diff != 0) else 1
+    x_diff = x_diff if x_diff else 1
+    y_diff = y_diff if y_diff else 1
     if (width / x_diff) < (height / y_diff):
         factor = width / x_diff
     else:

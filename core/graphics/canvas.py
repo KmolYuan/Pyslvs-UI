@@ -121,9 +121,7 @@ def graph2vpoints(
             if i in same_r:
                 for j in same_r[i]:
                     e.update(set(ev[j]))
-            link = ", ".join(
-                (str(l) if (l != 0) else 'ground') for l in e
-            )
+            link = ", ".join((str(l) if l else 'ground') for l in e)
         tmp_list.append(VPoint(
             link,
             0,
@@ -133,7 +131,7 @@ def graph2vpoints(
         ))
     for name in sorted(cus):
         tmp_list.append(VPoint(
-            str(cus[name]) if (cus[name] != 0) else 'ground',
+            str(cus[name]) if cus[name] else 'ground',
             0,
             0.,
             'Green',
@@ -335,12 +333,9 @@ class BaseCanvas(QWidget):
             return
         pen = self.painter.pen()
         color = pen.color()
-        alpha = color.alpha()
-        color.setAlpha(255)
-        pen.setColor(color)
+        pen.setColor(color.darker())
         self.painter.setPen(pen)
         self.painter.drawText(first_point, text)
-        color.setAlpha(alpha)
         pen.setColor(color)
         self.painter.setPen(pen)
     
@@ -496,8 +491,8 @@ class PreviewCanvas(BaseCanvas):
             x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
             x_diff = x_left - x_right
             y_diff = y_top - y_bottom
-            x_diff = x_diff if (x_diff != 0) else 1
-            y_diff = y_diff if (y_diff != 0) else 1
+            x_diff = x_diff if x_diff else 1
+            y_diff = y_diff if y_diff else 1
             if width / x_diff < height / y_diff:
                 factor = width / x_diff
             else:

@@ -316,6 +316,11 @@ def _freemove(self):
         if i == 0:
             self.freemode_disable = action
     self.freemode_button.setMenu(free_move_mode_menu)
+    
+    #Linkage free move by expression table.
+    self.linkage_freemode_slider.sliderReleased.connect(
+        self.MainCanvas.emit_freemove_all
+    )
 
 
 def _options(self):

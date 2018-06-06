@@ -216,7 +216,7 @@ cdef class Genetic:
         self.crossOver()
         self.mutate()
         self.fitness()
-        if self.rpt != 0:
+        if self.rpt:
             if self.gen % self.rpt == 0:
                 self.report()
         else:

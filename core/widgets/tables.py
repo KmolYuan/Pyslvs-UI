@@ -230,7 +230,9 @@ class PointTableWidget(_BaseTableWidget):
             coords.append(coords[0])
         return coords
     
-    def updateCurrentPosition(self, coords: Tuple[Tuple[Tuple[float, float]]]):
+    def updateCurrentPosition(self,
+        coords: Tuple[Union[Tuple[Tuple[float, float], Tuple[float, float]]]]
+    ):
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
             if type(c[0]) == float:

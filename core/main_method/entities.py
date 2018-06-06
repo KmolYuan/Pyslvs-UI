@@ -20,6 +20,7 @@ from core.entities import (
     EditPointDialog,
     EditLinkDialog,
 )
+from core.libs import expr_solving
 from core.graphics import edges_view
 from core.io import (
     AddTable,
@@ -351,12 +352,22 @@ def setLinkageFreemove(self, enable: bool):
     self.linkage_freemode_slider.setValue(float(value))
 
 
-def on_linkage_freemode_slider_valueChanged(self, value: float):
-    """TODO: Preview the free move result."""
-
-
-def on_linkage_freemode_slider_sliderReleased(self):
-    """TODO: Edit the point coordinates by free move function."""
+def on_linkage_freemode_slider_valueChanged(self, value: int):
+    """Preview the free move result."""
+    vpoints = self.EntitiesPoint.dataTuple()
+    mapping = {n: 'P{}'.format(n) for n in range(len(vpoints))}
+    mapping[self.linkage_freemode_linkname.text()] = float(value)
+    try:
+        result = expr_solving(
+            self.getTriangle(),
+            mapping,
+            vpoints,
+            [v[-1] for v in self.InputsWidget.getInputsVariables()]
+        )
+    except Exception:
+        return
+    else:
+        self.MainCanvas.adjustLinkage(result)
 
 
 def on_action_New_Link_triggered(self):
