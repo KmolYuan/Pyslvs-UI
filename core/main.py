@@ -521,6 +521,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setFreemove(self, coords: Tuple[Tuple[int, Tuple[float, float, float]]]):
         _entities.setFreemove(self, coords)
     
+    @pyqtSlot(bool)
+    def setLinkageFreemove(self, enable: bool):
+        _entities.setLinkageFreemove(self, enable)
+    
+    @pyqtSlot(float)
+    def on_linkage_freemode_slider_valueChanged(self, value: float):
+        _entities.on_linkage_freemode_slider_valueChanged(self, value)
+    
+    @pyqtSlot()
+    def on_linkage_freemode_slider_sliderReleased(self):
+        _entities.on_linkage_freemode_slider_sliderReleased(self)
+    
     def setCoordsAsCurrent(self):
         _entities.setCoordsAsCurrent(self)
     

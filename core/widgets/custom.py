@@ -103,14 +103,19 @@ def _appearance(self):
     )
     self.EntitiesLink_layout.addWidget(self.EntitiesLink)
     self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
-    self.EntitiesExpr.freemove_request.connect(
-        self.linkage_freemode_widget.setEnabled
-    )
+    self.EntitiesExpr.reset.connect(self.linkage_freemode_widget.setEnabled)
+    self.EntitiesExpr.freemove_request.connect(self.setLinkageFreemove)
     self.EntitiesExpr_layout.insertWidget(0, self.EntitiesExpr)
     
     #Linkage free mode slide bar.
     self.linkage_freemode_slider.valueChanged.connect(
         self.linkage_freemode_spinbox.setValue
+    )
+    self.linkage_freemode_spinbox.valueChanged.connect(
+        self.linkage_freemode_slider.setValue
+    )
+    self.linkage_freemode_slider.rangeChanged.connect(
+        self.linkage_freemode_spinbox.setRange
     )
     
     #Select all button on the Point and Link tab as corner widget.

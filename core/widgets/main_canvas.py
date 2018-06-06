@@ -64,6 +64,8 @@ class DynamicCanvas(BaseCanvas):
         self.vpoints = ()
         self.vlinks = ()
         self.vangles = ()
+        #Solution.
+        self.exprs = []
         #Select function.
         self.selectionMode = 0
         self.sr = 10

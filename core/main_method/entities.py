@@ -337,6 +337,28 @@ def setFreemove(self,
     self.CommandStack.endMacro()
 
 
+def setLinkageFreemove(self, enable: bool):
+    """Free move function for linkage length."""
+    self.linkage_freemode_widget.setEnabled(enable)
+    self.linkage_freemode_linkname.clear()
+    if not enable:
+        return
+    item = self.EntitiesExpr.currentItem()
+    if not item:
+        return
+    name, value = item.text().split(':')
+    self.linkage_freemode_linkname.setText(name)
+    self.linkage_freemode_slider.setValue(float(value))
+
+
+def on_linkage_freemode_slider_valueChanged(self, value: float):
+    """TODO: Preview the free move result."""
+
+
+def on_linkage_freemode_slider_sliderReleased(self):
+    """TODO: Edit the point coordinates by free move function."""
+
+
 def on_action_New_Link_triggered(self):
     """Create a link with arguments.
     

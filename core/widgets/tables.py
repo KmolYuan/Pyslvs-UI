@@ -356,14 +356,12 @@ class ExprTableWidget(_BaseTableWidget):
     + Freemove request: linkage name, length
     """
     
+    reset = pyqtSignal(bool)
     freemove_request = pyqtSignal(bool)
     
     def __init__(self, parent):
         column_count = ('p0', 'p1', 'p2', 'p3', 'p4', 'target')
         super(ExprTableWidget, self).__init__(0, column_count, parent)
-        #Change back to select item.
-        self.setSelectionBehavior(QAbstractItemView.SelectItems)
-        
         for column in range(self.columnCount()):
             self.setColumnWidth(column, 60)
         self.exprs = []
@@ -374,7 +372,9 @@ class ExprTableWidget(_BaseTableWidget):
             without to drag the points.
             """
             if item:
-                self.freemove_request.emit({"L", ":"} < set(item.text()))
+                self.freemove_request.emit(item.text().startswith('L'))
+            else:
+                self.freemove_request.emit(False)
         
         #Double click behavior.
         self.currentItemChanged.connect(adjustRequest)
@@ -403,6 +403,11 @@ class ExprTableWidget(_BaseTableWidget):
                 item.setToolTip(text)
                 self.setItem(row, column, item)
         self.exprs = exprs
+    
+    def clear(self):
+        """Emit to close the linkage free move widget."""
+        super(ExprTableWidget, self).clear()
+        self.reset.emit(False)
 
 
 class SelectionLabel(QLabel):

@@ -281,6 +281,8 @@ def _drawPath(self):
             self.vpoints,
             self.pathInterval()
         )
+    else:
+        self.exprs = []
     if hasattr(self, 'path_record'):
         paths = self.path_record
     else:

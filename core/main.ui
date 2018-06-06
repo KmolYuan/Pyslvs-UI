@@ -229,21 +229,40 @@
                           </property>
                           <layout class="QHBoxLayout" name="horizontalLayout_3">
                            <item>
-                            <widget class="QLabel" name="linkage_freemode_label">
-                             <property name="text">
-                              <string>Linkage free move mode</string>
+                            <widget class="QLineEdit" name="linkage_freemode_linkname">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>30</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="readOnly">
+                              <bool>true</bool>
                              </property>
                             </widget>
                            </item>
                            <item>
                             <widget class="QSlider" name="linkage_freemode_slider">
+                             <property name="maximum">
+                              <number>100</number>
+                             </property>
                              <property name="orientation">
                               <enum>Qt::Horizontal</enum>
                              </property>
                             </widget>
                            </item>
                            <item>
-                            <widget class="QDoubleSpinBox" name="linkage_freemode_spinbox"/>
+                            <widget class="QDoubleSpinBox" name="linkage_freemode_spinbox">
+                             <property name="maximum">
+                              <double>100.000000000000000</double>
+                             </property>
+                            </widget>
                            </item>
                           </layout>
                          </widget>
@@ -523,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>450</width>
-                  <height>745</height>
+                  <width>413</width>
+                  <height>823</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1215,7 +1234,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

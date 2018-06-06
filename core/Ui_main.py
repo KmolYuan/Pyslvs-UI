@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -101,14 +101,23 @@ class Ui_MainWindow(object):
         self.linkage_freemode_widget.setObjectName("linkage_freemode_widget")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.linkage_freemode_widget)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.linkage_freemode_label = QtWidgets.QLabel(self.linkage_freemode_widget)
-        self.linkage_freemode_label.setObjectName("linkage_freemode_label")
-        self.horizontalLayout_3.addWidget(self.linkage_freemode_label)
+        self.linkage_freemode_linkname = QtWidgets.QLineEdit(self.linkage_freemode_widget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.linkage_freemode_linkname.sizePolicy().hasHeightForWidth())
+        self.linkage_freemode_linkname.setSizePolicy(sizePolicy)
+        self.linkage_freemode_linkname.setMaximumSize(QtCore.QSize(30, 16777215))
+        self.linkage_freemode_linkname.setReadOnly(True)
+        self.linkage_freemode_linkname.setObjectName("linkage_freemode_linkname")
+        self.horizontalLayout_3.addWidget(self.linkage_freemode_linkname)
         self.linkage_freemode_slider = QtWidgets.QSlider(self.linkage_freemode_widget)
+        self.linkage_freemode_slider.setMaximum(100)
         self.linkage_freemode_slider.setOrientation(QtCore.Qt.Horizontal)
         self.linkage_freemode_slider.setObjectName("linkage_freemode_slider")
         self.horizontalLayout_3.addWidget(self.linkage_freemode_slider)
         self.linkage_freemode_spinbox = QtWidgets.QDoubleSpinBox(self.linkage_freemode_widget)
+        self.linkage_freemode_spinbox.setMaximum(100.0)
         self.linkage_freemode_spinbox.setObjectName("linkage_freemode_spinbox")
         self.horizontalLayout_3.addWidget(self.linkage_freemode_spinbox)
         self.EntitiesExpr_layout.addWidget(self.linkage_freemode_widget)
@@ -249,7 +258,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 450, 745))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 413, 823))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -547,7 +556,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 30))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -787,7 +796,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Pyslvs - Untitled"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.PointsTab), _translate("MainWindow", "Points"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.LinksTab), _translate("MainWindow", "Links"))
-        self.linkage_freemode_label.setText(_translate("MainWindow", "Linkage free move mode"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.tab), _translate("MainWindow", "Formulas"))
         self.mechanism_storage_name_tag_text.setText(_translate("MainWindow", "Mechanism name:"))
         self.mechanism_storage_name_tag.setPlaceholderText(_translate("MainWindow", "Prototype_0"))
