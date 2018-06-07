@@ -6,13 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
+    <width>540</width>
     <height>663</height>
    </rect>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -98,9 +94,6 @@
         <layout class="QVBoxLayout" name="assembly_layout">
          <item>
           <widget class="QLabel" name="assembly_label">
-           <property name="text">
-            <string>The part sketchs file will be generated automatically with target directory.</string>
-           </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
@@ -158,9 +151,6 @@
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="frame_label">
-           <property name="text">
-            <string>There is only sketch file of main mechanism will be generated.</string>
-           </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>

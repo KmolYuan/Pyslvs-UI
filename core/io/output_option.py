@@ -27,6 +27,8 @@ from core.QtModules import (
     QHBoxLayout,
     QSizePolicy,
     QSpacerItem,
+    QIcon,
+    QPixmap,
 )
 from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
@@ -58,7 +60,10 @@ class _OutputDialog(QDialog, Ui_Dialog):
     """Output dialog template."""
     
     def __init__(self,
-        format: str,
+        format_name: str,
+        format_icon: str,
+        assembly_description: str,
+        frame_description: str,
         env: str,
         file_name: str,
         vpoints: Tuple[VPoint],
@@ -69,9 +74,12 @@ class _OutputDialog(QDialog, Ui_Dialog):
         super(_OutputDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowTitle("Export {} module project".format(format_name))
+        self.setWindowIcon(QIcon(QPixmap(":/icons/{}".format(format_icon))))
+        self.assembly_label.setText(assembly_description)
+        self.frame_label.setText(frame_description)
         self.path_edit.setPlaceholderText(env)
         self.filename_edit.setPlaceholderText(file_name)
-        self.setWindowTitle("Export {} project".format(format))
         self.vpoints = vpoints
         self.v_to_slvs = v_to_slvs
     
@@ -125,7 +133,14 @@ class SlvsOutputDialog(_OutputDialog):
     
     def __init__(self, *args):
         """Type name: "Solvespace module"."""
-        super(SlvsOutputDialog, self).__init__("Solvespace module", *args)
+        super(SlvsOutputDialog, self).__init__(
+            "Solvespace",
+            "Solvespace.ico",
+            "The part sketchs file will be generated automatically " +
+            "with target directory.",
+            "There is only sketch file of main mechanism will be generated.",
+            *args
+        )
     
     def do(self, dir: QDir) -> Optional[bool]:
         """Output types:
@@ -177,15 +192,21 @@ class DxfOutputDialog(_OutputDialog):
     """Dialog for DXF format."""
     
     def __init__(self, *args):
-        """Type name: "Solvespace module"."""
-        super(DxfOutputDialog, self).__init__("Solvespace module", *args)
+        """Type name: "DXF module"."""
+        super(DxfOutputDialog, self).__init__(
+            "DXF",
+            "dxf.png",
+            "The part sketchs will including in the file.",
+            "There is only wire frame will be generated.",
+            *args
+        )
         #DXF version option.
         version_label = QLabel("DXF version:", self)
         self.version_option = QComboBox(self)
         self.version_option.addItems(sorted((
             "{} - {}".format(name, DXF_VERSIONS_MAP[name])
             for name in DXF_VERSIONS
-        ), key=lambda v: v.split(" ")[-1]))
+        ), key=lambda v: v.split()[-1]))
         self.version_option.setCurrentIndex(self.version_option.count() - 1)
         self.version_option.setSizePolicy(QSizePolicy(
             QSizePolicy.Expanding,
@@ -220,7 +241,7 @@ class DxfOutputDialog(_OutputDialog):
             self.exist_warning(file_name)
             return
         
-        version = self.version_option.currentText().split(" ")[0]
+        version = self.version_option.currentText().split()[0]
         
         if self.frame_radio.isChecked():
             #Frame

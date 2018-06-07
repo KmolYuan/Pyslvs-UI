@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\output_option.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/output_option.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,10 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(447, 663)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/Solvespace.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Dialog.setWindowIcon(icon)
+        Dialog.resize(540, 663)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.main_layout = QtWidgets.QVBoxLayout(Dialog)
@@ -28,9 +25,9 @@ class Ui_Dialog(object):
         self.path_edit.setObjectName("path_edit")
         self.horizontalLayout_2.addWidget(self.path_edit)
         self.choosedir_button = QtWidgets.QToolButton(Dialog)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/icons/loadfile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.choosedir_button.setIcon(icon1)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/loadfile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.choosedir_button.setIcon(icon)
         self.choosedir_button.setObjectName("choosedir_button")
         self.horizontalLayout_2.addWidget(self.choosedir_button)
         self.main_layout.addLayout(self.horizontalLayout_2)
@@ -133,10 +130,8 @@ class Ui_Dialog(object):
         self.filename_suffix_label.setText(_translate("Dialog", ".slvs"))
         self.output_group.setTitle(_translate("Dialog", "Output types"))
         self.assembly_radio.setText(_translate("Dialog", "Assembly"))
-        self.assembly_label.setText(_translate("Dialog", "The part sketchs file will be generated automatically with target directory."))
         self.link_radius_label.setText(_translate("Dialog", "Fillet radius:"))
         self.frame_radio.setText(_translate("Dialog", "Only wire frame"))
-        self.frame_label.setText(_translate("Dialog", "There is only sketch file of main mechanism will be generated."))
         self.groupBox.setTitle(_translate("Dialog", "Write mode"))
         self.overwrite_radio.setText(_translate("Dialog", "Always overwrite"))
         self.warn_radio.setText(_translate("Dialog", "Warning me then back to this dialog"))
