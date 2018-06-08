@@ -27,8 +27,8 @@ from typing import (
 from argparse import Namespace
 from networkx import Graph
 from core.QtModules import (
-    Qt,
     pyqtSlot,
+    Qt,
     QMainWindow,
     QUndoStack,
     QFileInfo,

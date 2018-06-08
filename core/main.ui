@@ -542,7 +542,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>453</width>
+                  <width>413</width>
                   <height>823</height>
                  </rect>
                 </property>
@@ -1193,21 +1193,9 @@
                   <property name="statusTip">
                    <string>Clear GUI console.</string>
                   </property>
-                  <property name="text">
-                   <string>Clear</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="closeConsoleButton">
-                  <property name="maximumSize">
-                   <size>
-                    <width>25</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>X</string>
+                  <property name="icon">
+                   <iconset resource="../icons.qrc">
+                    <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -1711,6 +1699,9 @@
    </property>
   </action>
   <action name="action_Show_console">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
@@ -1855,9 +1846,9 @@
   </connection>
   <connection>
    <sender>action_Show_console</sender>
-   <signal>triggered()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>ConsoleWidget</receiver>
-   <slot>show()</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1870,18 +1861,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>closeConsoleButton</sender>
+   <sender>clearConsole</sender>
    <signal>clicked()</signal>
-   <receiver>ConsoleWidget</receiver>
-   <slot>hide()</slot>
+   <receiver>consoleWidgetBrowser</receiver>
+   <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1000</x>
-     <y>173</y>
+     <x>959</x>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
-     <x>822</x>
-     <y>451</y>
+     <x>762</x>
+     <y>480</y>
     </hint>
    </hints>
   </connection>

@@ -122,6 +122,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         #Signals
         self.Result_list.clicked.connect(self.__hasResult)
         self.path_clear.clicked.connect(self.__clearPath)
+        
+        self.clear()
     
     def clear(self):
         """Clear all sub-widgets."""
@@ -747,7 +749,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             'IMax': tablePL(0), 'IMin': tablePL(1),
             'LMax': tablePL(2), 'LMin': tablePL(3),
             'FMax': tablePL(4), 'FMin': tablePL(5),
-            'AMax': tablePL(6), 'AMin': tablePL(7)
+            'AMax': tablePL(6), 'AMin': tablePL(7),
         }
         if dlg.maxGen_option.isChecked():
             self.Settings['maxGen'] = dlg.maxGen.value()

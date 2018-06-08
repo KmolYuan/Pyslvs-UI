@@ -330,7 +330,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
+                      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                     </property>
                    </widget>
                   </item>
