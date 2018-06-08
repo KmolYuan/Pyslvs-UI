@@ -6,162 +6,557 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
-    <height>722</height>
+    <width>564</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_9">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
-     <item>
-      <widget class="QPushButton" name="load_profile">
-       <property name="statusTip">
-        <string>Load profile from triangular iteration database.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="save_button">
-       <property name="statusTip">
-        <string>Save the structure profile back to the database.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="profile_name">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="clear_button">
-       <property name="statusTip">
-        <string>Clear the current profile and settings.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QSplitter" name="splitter_3">
+    <widget class="QSplitter" name="main_splitter">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QSplitter" name="up_splitter">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+     <widget class="QTabWidget" name="options_tab">
+      <widget class="QWidget" name="structure">
+       <attribute name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Structure</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_17">
-          <item>
-           <widget class="QLineEdit" name="Expression">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="Expression_copy">
-            <property name="icon">
-             <iconset resource="../../../icons.qrc">
-              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_18">
-          <item>
-           <widget class="QLineEdit" name="Link_Expression">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="Link_Expression_copy">
-            <property name="icon">
-             <iconset resource="../../../icons.qrc">
-              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="ground_joints">
-          <property name="statusTip">
-           <string>All the joints of grounded link will show here.</string>
+         <widget class="QSplitter" name="up_splitter">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-          <property name="verticalScrollMode">
-           <enum>QAbstractItemView::ScrollPerPixel</enum>
-          </property>
-          <property name="horizontalScrollMode">
-           <enum>QAbstractItemView::ScrollPerPixel</enum>
-          </property>
-          <column>
-           <property name="text">
-            <string>Name</string>
+          <widget class="QWidget" name="layoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QPushButton" name="load_profile">
+                <property name="statusTip">
+                 <string>Load profile from triangular iteration database.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="save_button">
+                <property name="statusTip">
+                 <string>Save the structure profile back to the database.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="profile_name">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="clear_button">
+                <property name="statusTip">
+                 <string>Clear the current profile and settings.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_17">
+              <item>
+               <widget class="QLineEdit" name="Expression">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Expression_copy">
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <widget class="QLineEdit" name="Link_Expression">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Link_Expression_copy">
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="ground_joints">
+              <property name="statusTip">
+               <string>All the joints of grounded link will show here.</string>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="verticalScrollMode">
+               <enum>QAbstractItemView::ScrollPerPixel</enum>
+              </property>
+              <property name="horizontalScrollMode">
+               <enum>QAbstractItemView::ScrollPerPixel</enum>
+              </property>
+              <column>
+               <property name="text">
+                <string>Name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Role</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>x</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>y</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Range</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QGroupBox" name="preview_box">
+           <property name="title">
+            <string>Preview</string>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Role</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>x</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>y</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Range</string>
-           </property>
-          </column>
+           <layout class="QVBoxLayout" name="preview_layout">
+            <item>
+             <widget class="QCheckBox" name="show_solutions">
+              <property name="text">
+               <string>Show solutions</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QGroupBox" name="preview_box">
-       <property name="title">
-        <string>Preview</string>
-       </property>
-       <layout class="QVBoxLayout" name="preview_layout">
+      <widget class="QWidget" name="target_path">
+       <attribute name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Target path</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QCheckBox" name="show_solutions">
+         <widget class="QSplitter" name="down_splitter">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QListWidget" name="target_points"/>
+          <widget class="QWidget" name="layoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QPushButton" name="path_clear">
+                <property name="statusTip">
+                 <string>Clear all points.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="path_copy">
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="path_paste">
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="pointNum">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QListWidget" name="path_list"/>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <item>
+                   <widget class="QPushButton" name="point_up">
+                    <property name="statusTip">
+                     <string>Move the point up.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="point_down">
+                    <property name="statusTip">
+                     <string>Move the point down.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_15">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="point_delete">
+                    <property name="statusTip">
+                     <string>Remove the point.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="close_path">
+                    <property name="statusTip">
+                     <string>Close the path.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QPushButton" name="pathAdjust">
+                  <property name="statusTip">
+                   <string>Adjust the target path.</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="importXLSX">
+                  <property name="toolTip">
+                   <string>Microsoft Excel</string>
+                  </property>
+                  <property name="statusTip">
+                   <string>Import path from Microsoft Excel format.</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="importCSV">
+                  <property name="toolTip">
+                   <string>CSV</string>
+                  </property>
+                  <property name="statusTip">
+                   <string>Import path from CSV format.</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Show solutions</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;※ Use &amp;quot;Alt + left button&amp;quot; or &amp;quot;context menu of canvas&amp;quot; to add the path points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="algorithm">
+       <attribute name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Algorithm</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QRadioButton" name="type0">
+          <property name="text">
+           <string>Real-coded Genetic Algorithm</string>
           </property>
           <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="type1">
+          <property name="text">
+           <string>Firefly Algorithm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="type2">
+          <property name="text">
+           <string>Differential Evolution</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="advanceButton">
+          <property name="statusTip">
+           <string>More algorithm settings.</string>
+          </property>
+          <property name="text">
+           <string>Advance ...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../icons.qrc">
+            <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Time spent:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="timeShow">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="generate_button">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="statusTip">
+           <string>Start dimesional synthesis.</string>
+          </property>
+          <property name="text">
+           <string>Synthesis</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../icons.qrc">
+            <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
+          </property>
+          <property name="autoDefault">
            <bool>true</bool>
           </property>
          </widget>
@@ -169,473 +564,106 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+     <widget class="QGroupBox" name="verticalGroupBox">
+      <property name="title">
+       <string>Results</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Target path</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <property name="leftMargin">
-           <number>6</number>
-          </property>
-          <property name="topMargin">
-           <number>6</number>
-          </property>
-          <property name="rightMargin">
-           <number>6</number>
-          </property>
-          <property name="bottomMargin">
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QSplitter" name="splitter">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <widget class="QListWidget" name="target_points"/>
-            <widget class="QWidget" name="layoutWidget">
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_2">
-                <item>
-                 <widget class="QPushButton" name="path_clear">
-                  <property name="statusTip">
-                   <string>Clear all points.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-                  </property>
-                  <property name="autoDefault">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="Line" name="line">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="path_copy">
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="path_paste">
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_7">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QLabel" name="pointNum">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <item>
-                   <widget class="QListWidget" name="path_list"/>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_8">
-                    <item>
-                     <widget class="QPushButton" name="point_up">
-                      <property name="statusTip">
-                       <string>Move the point up.</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="../../../icons.qrc">
-                        <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="point_down">
-                      <property name="statusTip">
-                       <string>Move the point down.</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="../../../icons.qrc">
-                        <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_15">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="point_delete">
-                      <property name="statusTip">
-                       <string>Remove the point.</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="../../../icons.qrc">
-                        <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="close_path">
-                      <property name="statusTip">
-                       <string>Close the path.</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="../../../icons.qrc">
-                        <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_3">
-                  <item>
-                   <widget class="QPushButton" name="pathAdjust">
-                    <property name="statusTip">
-                     <string>Adjust the target path.</string>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="importXLSX">
-                    <property name="toolTip">
-                     <string>Microsoft Excel</string>
-                    </property>
-                    <property name="statusTip">
-                     <string>Import path from Microsoft Excel format.</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>20</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="importCSV">
-                    <property name="toolTip">
-                     <string>CSV</string>
-                    </property>
-                    <property name="statusTip">
-                     <string>Import path from CSV format.</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>20</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="verticalSpacer_3">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </item>
-             </layout>
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
+          <widget class="QListWidget" name="Result_list">
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QPushButton" name="Result_load_settings">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="statusTip">
+              <string>Load the setting of this result.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+             </property>
             </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;※ Use &amp;quot;Alt + left button&amp;quot; or &amp;quot;context menu of canvas&amp;quot; to add the path points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QGroupBox" name="verticalGroupBox">
-           <property name="title">
-            <string>Results</string>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_13">
-              <item>
-               <widget class="QListWidget" name="Result_list">
-                <property name="verticalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="horizontalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAlwaysOff</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_10">
-                <item>
-                 <widget class="QPushButton" name="Result_load_settings">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="statusTip">
-                   <string>Load the setting of this result.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="Result_chart">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="statusTip">
-                   <string>Show the fitness - time chart</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="Result_clipboard">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="deleteButton">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="statusTip">
-                   <string>Delete this result.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="mergeButton">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="statusTip">
-                   <string>Merge this result to canvas.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="verticalGroupBox_2">
-           <property name="title">
-            <string>Options</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QRadioButton" name="type0">
-              <property name="text">
-               <string>Real-coded
-Genetic Algorithm</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="type1">
-              <property name="text">
-               <string>Firefly Algorithm</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="type2">
-              <property name="text">
-               <string>Differential Evolution</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="advanceButton">
-              <property name="statusTip">
-               <string>More algorithm settings.</string>
-              </property>
-              <property name="text">
-               <string>Advance ...</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Line" name="line_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Time spent:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="timeShow">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="generate_button">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>120</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="statusTip">
-            <string>Start dimesional synthesis.</string>
-           </property>
-           <property name="text">
-            <string>Synthesis</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
-           </property>
-           <property name="autoDefault">
-            <bool>true</bool>
-           </property>
-          </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Result_chart">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="statusTip">
+              <string>Show the fitness - time chart</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Result_clipboard">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="deleteButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="statusTip">
+              <string>Delete this result.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="mergeButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="statusTip">
+              <string>Merge this result to canvas.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>

@@ -15,7 +15,7 @@ from .options import (
     defaultSettings,
     DifferentialPrams,
     AlgorithmType,
-    Options_show
+    AlgorithmOptionDialog
 )
 from .path_adjust import PathAdjustDialog
 from .progress import ProgressDialog
@@ -28,7 +28,7 @@ __all__ = [
     'defaultSettings',
     'DifferentialPrams',
     'AlgorithmType',
-    'Options_show',
+    'AlgorithmOptionDialog',
     'PathAdjustDialog',
     'ProgressDialog',
     'PreviewDialog',
