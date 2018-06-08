@@ -69,7 +69,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Style:"))
         self.copy.setText(_translate("Dialog", "Copy"))
         self.save.setText(_translate("Dialog", "Save as..."))
-        self.label_3.setText(_translate("Dialog", "Syntax highlighting power by Pygments."))
+        self.label_3.setText(_translate("Dialog", "Syntax highlighting powered by Pygments."))
         self.buttonBox.setWhatsThis(_translate("Dialog", "Click to exit"))
 
 import icons_rc

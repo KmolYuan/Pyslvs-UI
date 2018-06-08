@@ -39,7 +39,7 @@ from core.info import (
 )
 from core.io import (
     ScriptDialog,
-    slvsProcessScript,
+    slvs_process_script,
     AddTable,
     EditPointTable,
     SlvsParser,
@@ -535,6 +535,7 @@ def on_action_See_Expression_triggered(self):
     context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
     dlg = ScriptDialog(
         "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
+        "#Project \"{}\"\n".format(self.FileWidget.file_name.baseName()) +
         ("M[\n{}\n]".format(context) if context else "M[]"),
         PMKSLexer(),
         "Pyslvs expression",
@@ -549,7 +550,11 @@ def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
         "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
-        slvsProcessScript(self.EntitiesPoint.data(), self.EntitiesLink.data()),
+        "#Project \"{}\"\n".format(self.FileWidget.file_name.baseName()) +
+        slvs_process_script(
+            tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
+            tuple(self.InputsWidget.inputPair())
+        ),
         Python3Lexer(),
         "Python script",
         ["Python3 Script (*.py)"],

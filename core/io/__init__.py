@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .script import ScriptDialog, slvsProcessScript
+from .script import ScriptDialog, slvs_process_script
 from .images import QTIMAGES
 from .slvs import SlvsParser
 from .loggingHandler import XStream
@@ -25,7 +25,7 @@ from .undo_redo import (
 
 __all__ = [
     'ScriptDialog',
-    'slvsProcessScript',
+    'slvs_process_script',
     'AddTable',
     'DeleteTable',
     'FixSequenceNumber',

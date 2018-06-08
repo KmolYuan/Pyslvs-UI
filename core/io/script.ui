@@ -82,7 +82,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Syntax highlighting power by Pygments.</string>
+        <string>Syntax highlighting powered by Pygments.</string>
        </property>
       </widget>
      </item>

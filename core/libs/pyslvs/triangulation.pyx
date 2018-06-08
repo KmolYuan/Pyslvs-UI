@@ -16,11 +16,6 @@ from tinycadlib cimport VPoint
 from cpython cimport bool
 
 
-ctypedef fused sequence:
-    list
-    tuple
-
-
 cdef inline bool isAllLock(dict status, dict same={}):
     """Test is all status done."""
     cdef int node
@@ -85,7 +80,7 @@ def _get_base_friend(
         yield friend
 
 
-cdef inline int get_input_base(int node, sequence inputs):
+cdef inline int get_input_base(int node, object inputs):
     """Get the base node for input pairs."""
     cdef int base, node_
     for base, node_ in inputs:
@@ -94,7 +89,7 @@ cdef inline int get_input_base(int node, sequence inputs):
     return -1
 
 
-cpdef int dof(sequence vpoints):
+cpdef int dof(object vpoints):
     """Degree of freedoms calculate from PMKS expressions."""
     cdef int R = 0
     cdef int P = 0
@@ -124,7 +119,7 @@ cpdef int dof(sequence vpoints):
     return 3*(len(vlinks) - 1) - 2*(R + P) - RP
 
 
-cpdef list vpoints_configure(sequence vpoints_, sequence inputs, dict status = {}):
+cpdef list vpoints_configure(object vpoints_, object inputs, dict status = {}):
     """Auto configuration algorithm.
     
     For VPoint list.
