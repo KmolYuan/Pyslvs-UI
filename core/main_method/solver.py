@@ -24,7 +24,7 @@ from core.libs import (
     VPoint,
     data_collecting,
     expr_solving,
-    dof,
+    vpoint_dof,
 )
 
 
@@ -55,7 +55,7 @@ def resolve(self):
         self.DOFview.setVisible(False)
     else:
         self.EntitiesPoint.updateCurrentPosition(result)
-        self.DOF = dof(vpoints)
+        self.DOF = vpoint_dof(vpoints)
         self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)

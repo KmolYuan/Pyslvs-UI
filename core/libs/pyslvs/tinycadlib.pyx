@@ -302,6 +302,7 @@ cdef inline str strbetween(str s, str front, str back):
     """Get the string that is inside of parenthesis."""
     return s[s.find(front)+1:s.find(back)]
 
+
 cdef inline str strbefore(str s, str front):
     """Get the string that is front of parenthesis."""
     return s[:s.find(front)]
@@ -424,6 +425,36 @@ cdef inline str expr_join(object exprs):
         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
         for expr in exprs
     ])
+
+
+cpdef int vpoint_dof(object vpoints):
+    """Degree of freedoms calculate from PMKS expressions."""
+    cdef int R = 0
+    cdef int P = 0
+    cdef int RP = 0
+    cdef set vlinks = {'ground'}
+    
+    cdef int link_count
+    cdef VPoint vpoint
+    for vpoint in vpoints:
+        link_count = len(vpoint.links)
+        if not link_count > 1:
+            """If a point doesn't have two more links,
+            it can not be call a 'joint'.
+            """
+            continue
+        vlinks.update(vpoint.links)
+        if vpoint.type == 0:
+            R += link_count - 1
+        elif vpoint.type == 1:
+            if link_count > 2:
+                R += link_count - 2
+            P += 1
+        elif vpoint.type == 2:
+            if link_count > 2:
+                R += link_count - 2
+            RP += 1
+    return 3*(len(vlinks) - 1) - 2*(R + P) - RP
 
 
 cdef inline int base_friend(int node, object vpoints):
@@ -605,8 +636,15 @@ cpdef list expr_path(
 ):
     """Auto preview function."""
     cdef dict data_dict
-    cdef int dof
-    data_dict, dof = data_collecting_c(exprs, mapping, vpoints)
+    cdef int dof_input
+    data_dict, dof_input = data_collecting_c(exprs, mapping, vpoints)
+    
+    #Check input number.
+    cdef int dof = vpoint_dof(vpoints)
+    if dof_input > dof:
+        raise Exception(
+            "wrong number of input parameters: {} / {}".format(dof_input, dof)
+        )
     
     #Angles.
     cdef double a = 0
@@ -625,7 +663,15 @@ cpdef list expr_solving(
 ):
     """Solving function."""
     cdef dict data_dict
-    data_dict, _ = data_collecting_c(exprs, mapping, vpoints)
+    cdef int dof_input
+    data_dict, dof_input = data_collecting_c(exprs, mapping, vpoints)
+    
+    #Check input number.
+    cdef int dof = vpoint_dof(vpoints)
+    if dof_input > dof:
+        raise Exception(
+            "wrong number of input parameters: {} / {}".format(dof_input, dof)
+        )
     
     #Angles.
     cdef double a

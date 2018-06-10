@@ -36,6 +36,7 @@ from .tinycadlib import (
     PLLP,
     PLPP,
     PXY,
+    vpoint_dof,
     expr_parser,
     expr_solving,
     expr_path,
@@ -49,7 +50,7 @@ from .firefly import Firefly
 from .de import DiffertialEvolution
 from .number import NumberSynthesis
 from .topologic import topo, Graph
-from .triangulation import vpoints_configure, dof
+from .triangulation import vpoints_configure
 from .parser import (
     colorNames,
     colorRGB,
@@ -83,7 +84,7 @@ __all__ = [
     'topo',
     'Graph',
     'vpoints_configure',
-    'dof',
+    'vpoint_dof',
     'colorNames',
     'colorRGB',
     'parse_params',
