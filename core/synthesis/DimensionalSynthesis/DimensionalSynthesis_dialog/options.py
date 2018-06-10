@@ -13,16 +13,15 @@ from typing import (
     Tuple,
     Dict,
     Any,
-    Union,
 )
 from core.QtModules import (
-    QDialog,
+    pyqtSlot,
     Qt,
+    QDialog,
     QTableWidgetItem,
     QDoubleSpinBox,
     QSpinBox,
-    pyqtSlot,
-    QDialogButtonBox,
+    QWidget,
 )
 from core.info import html
 from .Ui_options import Ui_Dialog
@@ -35,6 +34,7 @@ GeneticPrams = {
     'pWin': 0.95,
     'bDelta': 5.,
 }
+
 FireflyPrams = {
     'n': 80,
     'alpha': 0.01,
@@ -42,20 +42,15 @@ FireflyPrams = {
     'gamma': 1.,
     'beta0': 1.,
 }
+
 DifferentialPrams = {
     'strategy': 1,
     'NP': 400,
     'F': 0.6,
     'CR': 0.9,
 }
-defaultSettings = {
-    'maxGen': 1000, 'report': 10,
-    'IMin': 5., 'LMin': 5.,
-    'FMin': 5., 'AMin': 0.,
-    'IMax': 100., 'LMax': 100.,
-    'FMax': 100., 'AMax': 360.,
-    'algorithmPrams': DifferentialPrams,
-}
+
+defaultSettings = {'maxGen': 1000, 'report': 10}
 
 
 class AlgorithmType(Enum):
@@ -80,7 +75,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
     def __init__(self,
         algorithm: AlgorithmType,
         settings: Dict[str, Any],
-        parent
+        parent: QWidget
     ):
         """Load the settings to user interface."""
         super(AlgorithmOptionDialog, self).__init__(parent)
@@ -89,61 +84,12 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         self.setWindowTitle("{} Options".format(algorithm.value))
         
         self.algorithm = algorithm
-        self.__initPLTable()
-        self.__initAPTable()
-        for table in [self.APTable, self.PLTable]:
-            table.setColumnWidth(0, 200)
-            table.setColumnWidth(1, 90)
+        self.__init_alg_table()
+        self.alg_table.setColumnWidth(0, 200)
+        self.alg_table.setColumnWidth(1, 90)
         self.__setArgs(settings)
-        self.__isOk()
     
-    def __initPLTable(self):
-        """Initialize the linkage table widgets."""
-        
-        def writeTable(
-            length: List[Tuple[str, str, str]] = [],
-            degrees: List[Tuple[str, str, str]] = []
-        ):
-            """Use to write table data."""
-            i = 0
-            for Types, maxV, minV in zip(
-                (length, degrees),
-                (1000., 360.),
-                (0.1, 0)
-            ):
-                for name, vname, tooltip in Types:
-                    self.PLTable.insertRow(i)
-                    name_cell = QTableWidgetItem(name)
-                    name_cell.setToolTip(tooltip)
-                    self.PLTable.setItem(i, 0, name_cell)
-                    spinbox = QDoubleSpinBox()
-                    spinbox.setMaximum(maxV)
-                    spinbox.setMinimum(minV)
-                    spinbox.setToolTip(vname)
-                    self.PLTable.setCellWidget(i, 1, spinbox)
-                    i += 1
-        
-        title = "{} maximum".format
-        des = "This value holds with the {} random number of {}.".format
-        data = lambda t, p, m: (title(t), p, html(des(m, t.lower())))
-        
-        writeTable(
-            length=[
-                data("Input linkage", 'IMax', 'maximum'),
-                data("Input linkage", 'IMin', 'minimum'),
-                data("Connected linkage", 'LMax', 'maximum'),
-                data("Connected linkage", 'LMin', 'minimum'),
-                data("Follower linkage", 'FMax', 'maximum'),
-                data("Follower linkage", 'FMin', 'minimum')
-            ],
-            degrees=[
-                data("Input angle", 'AMax', 'maximum'),
-                data("Input angle", 'AMin', 'minimum')
-            ])
-        for i in range(self.PLTable.rowCount()):
-            self.PLTable.cellWidget(i, 1).valueChanged.connect(self.__isOk)
-    
-    def __initAPTable(self):
+    def __init_alg_table(self):
         """Initialize the algorithm table widgets."""
         
         def writeTable(
@@ -158,14 +104,14 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 (9, 10.)
             ):
                 for name, vname, tooltip in Types:
-                    self.APTable.insertRow(i)
+                    self.alg_table.insertRow(i)
                     name_cell = QTableWidgetItem(name)
                     name_cell.setToolTip(tooltip)
-                    self.APTable.setItem(i, 0, name_cell)
+                    self.alg_table.setItem(i, 0, name_cell)
                     spinbox = box()
                     spinbox.setMaximum(maxV)
                     spinbox.setToolTip(vname)
-                    self.APTable.setCellWidget(i, 1, spinbox)
+                    self.alg_table.setCellWidget(i, 1, spinbox)
                     i += 1
         
         if self.algorithm == AlgorithmType.RGA:
@@ -225,42 +171,18 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.maxTime_m.setValue((maxTime % 3600) // 60)
             self.maxTime_s.setValue(maxTime % 3600 % 60)
         self.report.setValue(PLnAP['report'])
-        for i, tag in enumerate([
-            'IMax',
-            'IMin',
-            'LMax',
-            'LMin',
-            'FMax',
-            'FMin',
-            'AMax',
-            'AMin'
-        ]):
-            self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
         if self.algorithm == AlgorithmType.RGA:
-            self.popSize.setValue(PLnAP['algorithmPrams']['nPop'])
+            self.popSize.setValue(PLnAP['nPop'])
             for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']):
-                self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
+                self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
         elif self.algorithm == AlgorithmType.Firefly:
-            self.popSize.setValue(PLnAP['algorithmPrams']['n'])
+            self.popSize.setValue(PLnAP['n'])
             for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']):
-                self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
+                self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
         elif self.algorithm == AlgorithmType.DE:
-            self.popSize.setValue(PLnAP['algorithmPrams']['NP'])
+            self.popSize.setValue(PLnAP['NP'])
             for i, tag in enumerate(['strategy', 'F', 'CR']):
-                self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
-    
-    @pyqtSlot(int)
-    @pyqtSlot(float)
-    def __isOk(self, r: Union[int, float, None] = None):
-        """Set buttons enable if values ok."""
-        n = True
-        pre = 0
-        for i in range(self.PLTable.rowCount()):
-            if i%2 == 0:
-                pre = self.PLTable.cellWidget(i, 1).value()
-            elif i%2 == 1:
-                n &= pre>=self.PLTable.cellWidget(i, 1).value()
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
+                self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
     
     @pyqtSlot()
     def on_setDefault_clicked(self):
@@ -268,7 +190,9 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         #Differential Evolution (Default)
         d = defaultSettings.copy()
         if self.algorithm == AlgorithmType.RGA:
-            d['algorithmPrams'] = GeneticPrams.copy()
+            d.update(GeneticPrams)
         elif self.algorithm == AlgorithmType.Firefly:
-            d['algorithmPrams'] = FireflyPrams.copy()
+            d.update(FireflyPrams)
+        elif self.algorithm == AlgorithmType.DE:
+            d.update(DifferentialPrams)
         self.__setArgs(d)

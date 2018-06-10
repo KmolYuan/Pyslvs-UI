@@ -23,7 +23,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QLabel" name="Expression_joint_text">
+        <widget class="QLabel" name="expr_joint_text">
          <property name="text">
           <string>Generalized expression:</string>
          </property>
@@ -32,14 +32,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QLineEdit" name="Expression_edges">
+          <widget class="QLineEdit" name="expr_edges">
            <property name="readOnly">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="Expression_copy">
+          <widget class="QPushButton" name="expr_copy">
            <property name="statusTip">
             <string>Copy expression.</string>
            </property>
@@ -50,7 +50,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="Expression_add_collection">
+          <widget class="QPushButton" name="expr_add_collection">
            <property name="statusTip">
             <string>Add to collection.</string>
            </property>
@@ -202,7 +202,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="Expression_number"/>
+        <widget class="QListWidget" name="expr_number"/>
        </item>
       </layout>
      </widget>

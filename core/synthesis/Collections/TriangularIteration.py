@@ -58,7 +58,7 @@ class _PreviewWindow(PreviewCanvas):
     
     set_joint_number = pyqtSignal(int)
     
-    def __init__(self, get_solutions: Callable[[], Tuple[str]], parent):
+    def __init__(self, get_solutions: Callable[[], Tuple[str]], parent: QWidget):
         """Add a function use to get current point from parent."""
         super(_PreviewWindow, self).__init__(get_solutions, parent)
         self.pressed = False
@@ -109,7 +109,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     def __init__(self,
         addToCollection: Callable[[Tuple[Tuple[int, int]]], None],
-        parent
+        parent: QWidget
     ):
         """We need some function from structure collections."""
         super(TriangularIterationWidget, self).__init__(parent)

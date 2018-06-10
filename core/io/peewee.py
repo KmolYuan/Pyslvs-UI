@@ -116,7 +116,7 @@ class LoadCommitButton(QPushButton):
     
     loaded = pyqtSignal(int)
     
-    def __init__(self, id, parent):
+    def __init__(self, id: int, parent: QWidget):
         super(LoadCommitButton, self).__init__(
             QIcon(QPixmap(":icons/dataupdate.png")),
             " #{}".format(id),
@@ -143,7 +143,7 @@ class FileWidget(QWidget, Ui_Form):
     
     load_id = pyqtSignal(int)
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Set attributes.
         
         + UI part
@@ -523,7 +523,7 @@ class FileWidget(QWidget, Ui_Form):
         self.isSavedFunc()
         print("The specified phase has been loaded.")
         #Show overview dialog.
-        dlg = WorkbookOverview(self, commit, _decompress)
+        dlg = WorkbookOverview(commit, _decompress, self)
         dlg.show()
         dlg.exec_()
     

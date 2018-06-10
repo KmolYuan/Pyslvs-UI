@@ -14,14 +14,15 @@ from typing import (
     Any,
 )
 from core.QtModules import (
+    pyqtSlot,
+    Qt,
     QTimer,
     QPen,
     QColor,
-    Qt,
     QPointF,
     QFont,
-    pyqtSlot,
     QDialog,
+    QWidget,
 )
 from core.graphics import (
     BaseCanvas,
@@ -38,7 +39,7 @@ class _DynamicCanvas(BaseCanvas):
     def __init__(self,
         mechanism: Dict[str, Any],
         path: Tuple[Tuple[Tuple[float, float]]],
-        parent
+        parent: QWidget
     ):
         """Input linkage and path data."""
         super(_DynamicCanvas, self).__init__(parent)
@@ -254,7 +255,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
     def __init__(self,
         mechanism: Dict[str, Any],
         path: Tuple[Tuple[Tuple[float, float]]],
-        parent
+        parent: QWidget
     ):
         """Show the informations of results, and setup the preview canvas."""
         super(PreviewDialog, self).__init__(parent)

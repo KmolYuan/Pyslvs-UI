@@ -255,14 +255,14 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QLineEdit" name="Expression_edges">
+               <widget class="QLineEdit" name="expr_edges">
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="Expression_copy">
+               <widget class="QPushButton" name="expr_copy">
                 <property name="statusTip">
                  <string>Copy expression.</string>
                 </property>

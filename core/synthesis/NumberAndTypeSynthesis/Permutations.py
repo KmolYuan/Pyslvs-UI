@@ -10,16 +10,16 @@ __email__ = "pyslvs@gmail.com"
 from typing import List, Optional
 from networkx import Graph
 from core.QtModules import (
+    pyqtSlot,
+    Qt,
     QWidget,
     QMenu,
     QAction,
     QIcon,
     QPixmap,
-    pyqtSlot,
     QListWidgetItem,
     QProgressDialog,
     QSize,
-    Qt,
     QCoreApplication,
     QMessageBox,
     QPoint,
@@ -48,7 +48,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
     Calculate the combinations of mechanism family and show the atlas.
     """
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Reference names:
         
         + IO functions from main window.
@@ -110,8 +110,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
     def clear(self):
         """Clear all sub-widgets."""
         self.answer.clear()
-        self.Expression_edges.clear()
-        self.Expression_number.clear()
+        self.expr_edges.clear()
+        self.expr_number.clear()
         self.Topologic_result.clear()
         self.time_label.setText("")
         self.NL_input.setValue(0)
@@ -126,9 +126,9 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         if jointData and linkData:
-            self.Expression_edges.setText(str(self.getGraph()))
+            self.expr_edges.setText(str(self.getGraph()))
         else:
-            self.Expression_edges.setText("")
+            self.expr_edges.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.NL_input.setValue(
@@ -196,12 +196,12 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Combine_number_clicked(self):
         """Show number of links with different number of joints."""
-        self.Expression_number.clear()
+        self.expr_number.clear()
         NS_result = NumberSynthesis(self.NL_input.value(), self.NJ_input.value())
         if type(NS_result) == str:
             item = QListWidgetItem(NS_result)
             item.links = None
-            self.Expression_number.addItem(item)
+            self.expr_number.addItem(item)
         else:
             for result in NS_result:
                 item = QListWidgetItem(", ".join(
@@ -209,8 +209,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
                     for i in range(len(result))
                 ))
                 item.links = result
-                self.Expression_number.addItem(item)
-        self.Expression_number.setCurrentRow(0)
+                self.expr_number.addItem(item)
+        self.expr_number.setCurrentRow(0)
     
     @pyqtSlot()
     def on_Combine_type_clicked(self):
@@ -219,11 +219,11 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         If there has no data of number synthesis,
         execute number synthesis first.
         """
-        row = self.Expression_number.currentRow()
+        row = self.expr_number.currentRow()
         if not row>-1:
             self.on_Combine_number_clicked()
-            row = self.Expression_number.currentRow()
-        if self.Expression_number.currentItem() is None:
+            row = self.expr_number.currentRow()
+        if self.expr_number.currentItem() is None:
             return
         answer = self.__typeCombine(row)
         if answer:
@@ -237,13 +237,13 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
-        if not self.Expression_number.currentRow()>-1:
+        if not self.expr_number.currentRow()>-1:
             self.on_Combine_number_clicked()
-        if self.Expression_number.currentItem().links is None:
+        if self.expr_number.currentItem().links is None:
             return
         answers = []
         break_point = False
-        for row in range(self.Expression_number.count()):
+        for row in range(self.expr_number.count()):
             answer = self.__typeCombine(row)
             if answer:
                 answers += answer
@@ -264,7 +264,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
     
     def __typeCombine(self, row: int) -> List[Graph]:
         """Combine and show progress dialog."""
-        item = self.Expression_number.item(row)
+        item = self.expr_number.item(row)
         progdlg = QProgressDialog(
             "Analysis of the topology...",
             "Cancel",
@@ -391,17 +391,17 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             clipboard.setPixmap(pixmap)
     
     @pyqtSlot()
-    def on_Expression_copy_clicked(self):
+    def on_expr_copy_clicked(self):
         """Copy expression button."""
-        string = self.Expression_edges.text()
+        string = self.expr_edges.text()
         if string:
             QApplication.clipboard().setText(string)
-            self.Expression_edges.selectAll()
+            self.expr_edges.selectAll()
     
     @pyqtSlot()
-    def on_Expression_add_collection_clicked(self):
+    def on_expr_add_collection_clicked(self):
         """Add this expression to collections widget."""
-        string = self.Expression_edges.text()
+        string = self.expr_edges.text()
         if string:
             self.addCollection(eval(string))
     

@@ -16,6 +16,7 @@ from core.QtModules import (
     QPixmap,
     QListWidgetItem,
     QColorDialog,
+    QWidget,
 )
 from core.graphics import (
     colorNames,
@@ -37,7 +38,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         vpoints: List[VPoint],
         vlinks: List[VLink],
         pos: bool,
-        parent
+        parent: QWidget,
     ):
         """Input data reference from main window.
         

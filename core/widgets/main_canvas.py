@@ -24,6 +24,7 @@ from core.QtModules import (
     QSizeF,
     QCursor,
     QToolTip,
+    QWidget,
 )
 from core.graphics import BaseCanvas
 from core.libs import VPoint, VLink
@@ -51,7 +52,7 @@ class DynamicCanvas(BaseCanvas):
     doubleclick_edit = pyqtSignal(int)
     zoom_changed = pyqtSignal(int)
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")

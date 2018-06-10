@@ -8,10 +8,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
-    QDialog,
     Qt,
+    QDialog,
     QPixmap,
     QDialogButtonBox,
+    QWidget,
 )
 from .Ui_solutions import Ui_Dialog
 
@@ -26,7 +27,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, mode: str, parent):
+    def __init__(self, mode: str, parent: QWidget):
         """Show the requirements and preview picture on interface."""
         super(SolutionsDialog, self).__init__(parent)
         self.setupUi(self)

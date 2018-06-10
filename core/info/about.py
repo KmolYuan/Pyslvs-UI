@@ -12,6 +12,7 @@ from core.QtModules import (
     QDialog,
     QSplashScreen,
     QPixmap,
+    QWidget,
 )
 from .info import __version__, INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
@@ -50,7 +51,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
     
     """Pyslvs about dialog."""
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """About descript strings."""
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)

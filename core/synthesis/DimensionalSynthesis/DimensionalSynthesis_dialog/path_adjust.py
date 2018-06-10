@@ -10,10 +10,11 @@ __email__ = "pyslvs@gmail.com"
 from typing import List
 import numpy as np
 from core.QtModules import (
-    QDialog,
-    Qt,
     pyqtSlot,
+    Qt,
+    QDialog,
     QMessageBox,
+    QWidget,
 )
 from .Ui_path_adjust import Ui_Dialog
 
@@ -25,7 +26,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)

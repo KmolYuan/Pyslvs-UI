@@ -10,9 +10,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
-    QDialog,
-    Qt,
     pyqtSlot,
+    Qt,
+    QDialog,
+    QWidget,
 )
 from .Ui_customs import Ui_Dialog
 
@@ -27,7 +28,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)

@@ -213,7 +213,7 @@ def on_action_Example_triggered(self):
     Return true if successed.
     """
     if self.FileWidget.loadExample():
-        self.on_action_See_Expression_triggered()
+        self.on_action_See_expr_triggered()
         self.MainCanvas.zoomToFit()
 
 
@@ -530,7 +530,7 @@ def on_action_Output_to_Picture_clipboard_triggered(self):
     )
 
 
-def on_action_See_Expression_triggered(self):
+def on_action_See_expr_triggered(self):
     """Output as expression."""
     context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
     dlg = ScriptDialog(

@@ -17,13 +17,14 @@ from typing import (
     Optional,
 )
 from core.QtModules import (
-    QDialog,
     Qt,
+    QDialog,
     QDialogButtonBox,
     pyqtSlot,
     QInputDialog,
     QMessageBox,
     QListWidgetItem,
+    QWidget,
 )
 from core.graphics import PreviewCanvas
 from .Ui_collections import Ui_Dialog
@@ -146,7 +147,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def __init__(self,
         collections: Dict[str, Any],
         getCollection: Callable[[], Dict[str, Any]],
-        parent
+        parent: QWidget
     ):
         """We put the 'collections' (from iteration widget) reference here."""
         super(CollectionsDialog, self).__init__(parent)

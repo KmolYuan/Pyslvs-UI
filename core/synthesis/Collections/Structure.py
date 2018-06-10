@@ -14,9 +14,9 @@ from typing import (
 )
 from networkx import Graph, is_isomorphic
 from core.QtModules import (
-    QWidget,
     pyqtSignal,
     pyqtSlot,
+    Qt,
     QMessageBox,
     QProgressDialog,
     QCoreApplication,
@@ -25,7 +25,7 @@ from core.QtModules import (
     QImage,
     QSize,
     QColor,
-    Qt,
+    QWidget,
     QPainter,
     QPointF,
     QPixmap,
@@ -55,7 +55,7 @@ class StructureWidget(QWidget, Ui_Form):
     
     layout_sender = pyqtSignal(Graph, dict)
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)
@@ -81,7 +81,7 @@ class StructureWidget(QWidget, Ui_Form):
         """Clear the selection preview data."""
         self.grounded_list.clear()
         self.selection_window.clear()
-        self.Expression_edges.clear()
+        self.expr_edges.clear()
         self.NL.setText('0')
         self.NJ.setText('0')
         self.DOF.setText('0')
@@ -124,7 +124,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections_layouts.clear()
         self.collection_list.clear()
         self.selection_window.clear()
-        self.Expression_edges.clear()
+        self.expr_edges.clear()
         self.NL.setText('0')
         self.NJ.setText('0')
         self.DOF.setText('0')
@@ -319,18 +319,18 @@ class StructureWidget(QWidget, Ui_Form):
             self.ground_engine
         ))
         self.selection_window.addItem(item_)
-        self.Expression_edges.setText(str(list(G.edges)))
+        self.expr_edges.setText(str(list(G.edges)))
         self.NL.setText(str(len(G.nodes)))
         self.NJ.setText(str(len(G.edges)))
         self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
     
     @pyqtSlot()
-    def on_Expression_copy_clicked(self):
+    def on_expr_copy_clicked(self):
         """Copy the expression."""
-        string = self.Expression_edges.text()
+        string = self.expr_edges.text()
         if string:
             QApplication.clipboard().setText(string)
-            self.Expression_edges.selectAll()
+            self.expr_edges.selectAll()
     
     @pyqtSlot()
     def on_delete_button_clicked(self):

@@ -12,6 +12,7 @@ from typing import (
     Callable,
     Any,
 )
+from peewee import Model
 from core.QtModules import (
     QWidget,
     QDialog,
@@ -27,7 +28,11 @@ class WorkbookOverview(QDialog, Ui_Dialog):
     User cannot change anything in this interface.
     """
     
-    def __init__(self, parent: QWidget, commit, decompress: Callable[[str], Any]):
+    def __init__(self,
+        commit: Model,
+        decompress: Callable[[str], Any],
+        parent: QWidget
+    ):
         """Data come from commit."""
         super(WorkbookOverview, self).__init__(parent)
         self.setupUi(self)

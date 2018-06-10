@@ -13,10 +13,11 @@ from typing import (
     Optional,
 )
 from core.QtModules import (
-    Qt,
     pyqtSlot,
+    Qt,
     QDialog,
     QListWidget,
+    QWidget,
 )
 from .Ui_targets import Ui_Dialog
 
@@ -40,7 +41,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Filter and show the target option (just like moveable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)

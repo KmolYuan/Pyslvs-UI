@@ -14,11 +14,12 @@ from typing import (
 )
 from networkx import Graph
 from core.QtModules import (
+    pyqtSlot,
     Qt,
     QDialog,
     QListWidget,
     QListWidgetItem,
-    pyqtSlot,
+    QWidget,
 )
 from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
@@ -92,7 +93,7 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Load constraints option from parent."""
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)

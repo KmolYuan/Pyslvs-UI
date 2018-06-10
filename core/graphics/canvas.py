@@ -168,7 +168,7 @@ class BaseCanvas(QWidget):
     
     """The subclass can draw a blank canvas more easier."""
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         """Set the parameters for drawing."""
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(
@@ -454,7 +454,10 @@ class PreviewCanvas(BaseCanvas):
     
     """A preview canvas use to show structure diagram."""
     
-    def __init__(self, get_solutions: Callable[[], Tuple[str]], parent):
+    def __init__(self,
+        get_solutions: Callable[[], Tuple[str]],
+        parent: QWidget
+    ):
         """Input parameters and attributes.
         
         + A function should return a tuple of function expression.

@@ -21,6 +21,7 @@ from core.QtModules import (
     QApplication,
     QDialog,
     QTextEdit,
+    QWidget,
 )
 from .Ui_script import Ui_Dialog
 
@@ -56,11 +57,12 @@ def slvs_process_script(
         for expr in script
     ), inputs)
 
+
 class _ScriptBrowser(QTextEdit):
     
     """Custom text browser to implement text zooming."""
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         super(_ScriptBrowser, self).__init__(parent)
         self.setReadOnly(True)
         self.zoomIn(3)
@@ -83,7 +85,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         lexer: RegexLexerMeta,
         filename: str,
         fileformat: List[str],
-        parent
+        parent: QWidget
     ):
         """Input parameters:
         

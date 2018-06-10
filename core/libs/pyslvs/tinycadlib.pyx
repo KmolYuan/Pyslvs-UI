@@ -684,7 +684,7 @@ cpdef list expr_solving(
     cdef list solved_points = []
     for i in range(len(vpoints)):
         if np.isnan(data_dict[mapping[i]][0]):
-            raise Exception("Result contains failure: Point{}".format(i))
+            raise Exception("result contains failure: Point{}".format(i))
         if vpoints[i].type == 0:
             solved_points.append(data_dict[mapping[i]])
         else:

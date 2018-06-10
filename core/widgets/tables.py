@@ -27,6 +27,7 @@ from core.QtModules import (
     QApplication,
     QTableWidgetSelectionRange,
     QLabel,
+    QWidget,
 )
 from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
@@ -42,7 +43,7 @@ class _BaseTableWidget(QTableWidget):
     def __init__(self,
         row: int,
         headers: Tuple[str],
-        parent
+        parent: QWidget
     ):
         super(_BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(
@@ -154,7 +155,7 @@ class PointTableWidget(_BaseTableWidget):
     
     selectionLabelUpdate = pyqtSignal(list, list)
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         super(PointTableWidget, self).__init__(0, (
             'Links',
             'Type',
@@ -289,7 +290,7 @@ class LinkTableWidget(_BaseTableWidget):
     
     """Custom table widget for link."""
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         super(LinkTableWidget, self).__init__(1, ('Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
@@ -361,7 +362,7 @@ class ExprTableWidget(_BaseTableWidget):
     reset = pyqtSignal(bool)
     freemove_request = pyqtSignal(bool)
     
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget):
         column_count = ('p0', 'p1', 'p2', 'p3', 'p4', 'target')
         super(ExprTableWidget, self).__init__(0, column_count, parent)
         for column in range(self.columnCount()):

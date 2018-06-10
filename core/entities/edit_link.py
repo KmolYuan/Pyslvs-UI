@@ -18,6 +18,7 @@ from core.QtModules import (
     QListWidgetItem,
     QDialogButtonBox,
     QColorDialog,
+    QWidget,
 )
 from core.graphics import (
     colorNames,
@@ -39,7 +40,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         vpoints: List[VPoint],
         vlinks: List[VLink],
         row: Union[int, bool],
-        parent
+        parent: QWidget
     ):
         """Input data reference from main window.
         

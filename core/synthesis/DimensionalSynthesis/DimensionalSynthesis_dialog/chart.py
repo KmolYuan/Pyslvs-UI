@@ -36,7 +36,7 @@ class ChartDialog(QDialog):
     + Fitness / Time Chart.
     """
     
-    def __init__(self, title, mechanism_data, parent):
+    def __init__(self, title, mechanism_data, parent: QWidget):
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")
