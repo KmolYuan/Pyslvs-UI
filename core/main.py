@@ -152,7 +152,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Dict[str, None], #Driver
         Dict[str, None], #Follower
         Dict[str, List[Tuple[float, float]]], #Target
-        str, #Link_Expression
+        str, #Link_expr
         str, #Expression
         Tuple[Tuple[int, int]], #Graph
         Dict[int, Tuple[float, float]], #pos
@@ -226,7 +226,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Result = self.DimensionalSynthesis.mechanism_data[row]
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
-        for exp in Result['Link_Expression'].split(';'):
+        for exp in Result['Link_expr'].split(';'):
             for name in strbetween(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
@@ -240,7 +240,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 Result[tag][1],
                 color=("Dark-Orange" if (tag in Result['Target']) else None)
             )
-        for i, exp in enumerate(Result['Link_Expression'].split(';')):
+        for i, exp in enumerate(Result['Link_expr'].split(';')):
             self.addNormalLink(
                 tmp_dict[name]
                 for name in strbetween(exp, '[', ']').split(',')

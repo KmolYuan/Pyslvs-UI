@@ -446,7 +446,7 @@ cpdef int vpoint_dof(object vpoints):
             j1 += link_count - 1
         elif vpoint.type == 1:
             if link_count > 2:
-                j0 += link_count - 2
+                j1 += link_count - 2
             j1 += 1
         elif vpoint.type == 2:
             if link_count > 2:

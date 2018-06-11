@@ -275,12 +275,15 @@ def _drawPath(self):
     if self.auto_path and self.rightInput():
         """Replace to auto preview path."""
         self.exprs = self.getTriangle(self.vpoints)
-        self.Path.path = expr_path(
-            self.exprs,
-            {n: 'P{}'.format(n) for n in range(len(self.vpoints))},
-            self.vpoints,
-            self.pathInterval()
-        )
+        try:
+            self.Path.path = expr_path(
+                self.exprs,
+                {n: 'P{}'.format(n) for n in range(len(self.vpoints))},
+                self.vpoints,
+                self.pathInterval()
+            )
+        except:
+            pass
     else:
         self.exprs = []
     if hasattr(self, 'path_record'):

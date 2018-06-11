@@ -1296,7 +1296,7 @@
     <addaction name="action_Display_Dimensions"/>
     <addaction name="action_Path_style"/>
     <addaction name="separator"/>
-    <addaction name="action_See_Expression"/>
+    <addaction name="action_See_expr"/>
     <addaction name="action_See_Python_Scripts"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
@@ -1755,7 +1755,7 @@
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="action_See_Expression">
+  <action name="action_See_expr">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>

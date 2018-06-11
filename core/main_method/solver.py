@@ -95,7 +95,7 @@ def getCollection(self) -> Dict[str, Union[
     Dict[str, None], #Driver
     Dict[str, None], #Follower
     Dict[str, List[Tuple[float, float]]], #Target
-    str, #Link_Expression
+    str, #Link_expr
     str, #Expression
     Tuple[Tuple[int, int]], #Graph
     Dict[int, Tuple[float, float]], #pos
@@ -107,7 +107,7 @@ def getCollection(self) -> Dict[str, Union[
     + Driver
     + Follower
     + Target
-    + Link_Expression
+    + Link_expr
     + Expression
     x constraint
     
@@ -192,7 +192,7 @@ def getCollection(self) -> Dict[str, Union[
         'Driver': {'P{}'.format(p): None for p in drivers},
         'Follower': {'P{}'.format(p): None for p in followers},
         'Target': {p: None for p in cus},
-        'Link_Expression': link_expression,
+        'Link_expr': link_expression,
         'Expression': expression,
         'Graph': graph,
         'constraint': [],

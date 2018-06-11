@@ -55,7 +55,7 @@ class _DynamicCanvas(BaseCanvas):
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = set()
         self.links = []
-        for exp in self.mechanism['Link_Expression'].split(';'):
+        for exp in self.mechanism['Link_expr'].split(';'):
             names = strbetween(exp, '[', ']').split(',')
             self.links.append(tuple(names))
             for name in names:

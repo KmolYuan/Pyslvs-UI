@@ -109,7 +109,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_18">
               <item>
-               <widget class="QLineEdit" name="Link_Expression">
+               <widget class="QLineEdit" name="Link_expr">
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>

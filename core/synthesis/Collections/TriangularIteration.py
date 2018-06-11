@@ -371,7 +371,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             'Target': {
                 s: None for s in list_texts(self.target_list)
             },
-            'Link_Expression': self.link_expr_show.text(),
+            'Link_expr': self.link_expr_show.text(),
             'Expression': self.expr_show.text(),
             'constraint': [
                 tuple(s.split(", "))

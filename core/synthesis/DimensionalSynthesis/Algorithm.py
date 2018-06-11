@@ -148,7 +148,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.parameter_list.setRowCount(0)
         self.target_points.clear()
         self.Expression.clear()
-        self.Link_Expression.clear()
+        self.Link_expr.clear()
         self.updateRange()
         self.__ableToGenerate()
     
@@ -599,7 +599,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.profile_name.setText(profile_name)
         self.mech_params = deepcopy(params)
         self.Expression.setText(self.mech_params['Expression'])
-        self.Link_Expression.setText(self.mech_params['Link_Expression'])
+        self.Link_expr.setText(self.mech_params['Link_expr'])
         for name in sorted(self.mech_params['Target']):
             self.target_points.addItem(name)
             path = self.mech_params['Target'][name]
@@ -830,6 +830,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Link_expr_copy_clicked(self):
         """Copy profile linkage expression."""
-        text = self.Link_Expression.text()
+        text = self.Link_expr.text()
         if text:
             QApplication.clipboard().setText(text)
