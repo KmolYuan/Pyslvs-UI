@@ -429,9 +429,9 @@ cdef inline str expr_join(object exprs):
 
 cpdef int vpoint_dof(object vpoints):
     """Degree of freedoms calculate from PMKS expressions."""
-    cdef int R = 0
-    cdef int P = 0
-    cdef int RP = 0
+    cdef int j0 = 0
+    cdef int j1 = 0
+    cdef int j2 = 0
     cdef set vlinks = {'ground'}
     
     cdef int link_count
@@ -439,22 +439,20 @@ cpdef int vpoint_dof(object vpoints):
     for vpoint in vpoints:
         link_count = len(vpoint.links)
         if not link_count > 1:
-            """If a point doesn't have two more links,
-            it can not be call a 'joint'.
-            """
+            #If a point doesn't have two more links, it can not be call a 'joint'.
             continue
         vlinks.update(vpoint.links)
         if vpoint.type == 0:
-            R += link_count - 1
+            j1 += link_count - 1
         elif vpoint.type == 1:
             if link_count > 2:
-                R += link_count - 2
-            P += 1
+                j0 += link_count - 2
+            j1 += 1
         elif vpoint.type == 2:
             if link_count > 2:
-                R += link_count - 2
-            RP += 1
-    return 3*(len(vlinks) - 1) - 2*(R + P) - RP
+                j1 += link_count - 2
+            j2 += 1
+    return 3*(len(vlinks) - 1) - (3 * j0) - (2 * j1) - j2
 
 
 cdef inline int base_friend(int node, object vpoints):

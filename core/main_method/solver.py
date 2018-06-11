@@ -32,8 +32,8 @@ def resolve(self):
     """Resolve: Use Solvespace lib."""
     inputs = list(self.InputsWidget.getInputsVariables())
     vpoints = self.EntitiesPoint.dataTuple()
+    solve_kernel = self.planarsolver_option.currentIndex()
     try:
-        solve_kernel = self.planarsolver_option.currentIndex()
         if solve_kernel == 0:
             result = expr_solving(
                 self.getTriangle(),
