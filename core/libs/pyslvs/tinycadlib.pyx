@@ -429,7 +429,6 @@ cdef inline str expr_join(object exprs):
 
 cpdef int vpoint_dof(object vpoints):
     """Degree of freedoms calculate from PMKS expressions."""
-    cdef int j0 = 0
     cdef int j1 = 0
     cdef int j2 = 0
     cdef set vlinks = {'ground'}
@@ -452,7 +451,7 @@ cpdef int vpoint_dof(object vpoints):
             if link_count > 2:
                 j1 += link_count - 2
             j2 += 1
-    return 3*(len(vlinks) - 1) - (3 * j0) - (2 * j1) - j2
+    return 3 * (len(vlinks) - 1) - (2 * j1) - j2
 
 
 cdef inline int base_friend(int node, object vpoints):

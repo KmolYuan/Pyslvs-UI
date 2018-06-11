@@ -272,6 +272,20 @@ cpdef list vpoints_configure(object vpoints_, object inputs, dict status = {}):
                 ))
                 status[node] = True
                 link_symbol += 2
+                #Solution for all friends.
+                for link in vpoints[node].links[1:]:
+                    for friend_b in vlinks[link]:
+                        if status[friend_b]:
+                            continue
+                        exprs.append((
+                            'PXY',
+                            'P{}'.format(node),
+                            'L{}'.format(link_symbol),
+                            'L{}'.format(link_symbol + 1),
+                            'P{}'.format(friend_b),
+                        ))
+                        status[friend_b] = True
+                        link_symbol += 2
                 skip_times = 0
         
         elif vpoints[node].type == 2:
