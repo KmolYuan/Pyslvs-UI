@@ -1270,6 +1270,7 @@
     <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="action_Full_Screen"/>
+    <addaction name="action_New_window"/>
     <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menu_Mechanism">
@@ -1405,7 +1406,7 @@
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
-    <string>Git&amp;hub repository</string>
+    <string>Git&amp;hub Repository</string>
    </property>
    <property name="statusTip">
     <string>Goto Github storage of Pyslvs.</string>
@@ -1435,7 +1436,7 @@
      <normaloff>:/icons/fullscreen.png</normaloff>:/icons/fullscreen.png</iconset>
    </property>
    <property name="text">
-    <string>Full screen</string>
+    <string>Full Screen</string>
    </property>
    <property name="statusTip">
     <string>Let the window truns to full screen.</string>
@@ -1486,7 +1487,7 @@
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
-    <string>Python &amp;script</string>
+    <string>Python &amp;Script</string>
    </property>
    <property name="statusTip">
     <string>Generate a Python scripts from the workbook.</string>
@@ -1494,7 +1495,7 @@
   </action>
   <action name="action_Delete_Point">
    <property name="text">
-    <string>Delet the Point</string>
+    <string>Delete the Point</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing point.</string>
@@ -1502,7 +1503,7 @@
   </action>
   <action name="action_Delete_Link">
    <property name="text">
-    <string>Delet the linkage</string>
+    <string>Delete the Linkage</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing linkage.</string>
@@ -1510,7 +1511,7 @@
   </action>
   <action name="action_Edit_Point">
    <property name="text">
-    <string>Edit the point</string>
+    <string>Edit the Point</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing point.</string>
@@ -1518,7 +1519,7 @@
   </action>
   <action name="action_Edit_Link">
    <property name="text">
-    <string>Edit the linkage</string>
+    <string>Edit the Linkage</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing linkage.</string>
@@ -1529,7 +1530,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Display &amp;dimensions</string>
+    <string>Display &amp;Dimensions</string>
    </property>
    <property name="statusTip">
     <string>Display dimensions in the canvas.</string>
@@ -1546,7 +1547,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Display point &amp;mark</string>
+    <string>Display Point &amp;Mark</string>
    </property>
    <property name="statusTip">
     <string>Display point mark in canvas.</string>
@@ -1561,7 +1562,7 @@
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>2D sketch</string>
+    <string>2D Sketch</string>
    </property>
    <property name="statusTip">
     <string>Output to Drawing Exchange sketch.</string>
@@ -1573,7 +1574,7 @@
      <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
    </property>
    <property name="text">
-    <string>Save &amp;as...</string>
+    <string>Save &amp;as ...</string>
    </property>
    <property name="statusTip">
     <string>Save to another workbook.</string>
@@ -1588,7 +1589,7 @@
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>&amp;2D sketch</string>
+    <string>&amp;2D Sketch</string>
    </property>
    <property name="statusTip">
     <string>Output to Solvespace 2D sketch.</string>
@@ -1624,7 +1625,7 @@
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
-    <string>From workbook</string>
+    <string>From Workbook</string>
    </property>
    <property name="statusTip">
     <string>Import from workbook.</string>
@@ -1663,7 +1664,7 @@
      <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom to fit</string>
+    <string>Zoom to Fit</string>
    </property>
    <property name="statusTip">
     <string>Zoom in as mechanism size.</string>
@@ -1680,7 +1681,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show in solid path style</string>
+    <string>Show in Solid Path Style</string>
    </property>
    <property name="statusTip">
     <string>Show path in solid line style, otherwise will be isolated dots.</string>
@@ -1707,7 +1708,7 @@
      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
    </property>
    <property name="text">
-    <string>Show GUI console</string>
+    <string>Show GUI Console</string>
    </property>
    <property name="statusTip">
     <string>Open a widget to show console output.</string>
@@ -1722,7 +1723,7 @@
      <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;PMKS</string>
+    <string>&amp;PMKS URL</string>
    </property>
    <property name="statusTip">
     <string>Pass your mechanism to PMKS server by generate a URL.</string>
@@ -1746,7 +1747,7 @@
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
-    <string>Example...</string>
+    <string>Example ...</string>
    </property>
    <property name="statusTip">
     <string>Load a example.</string>
@@ -1761,7 +1762,7 @@
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
-    <string>Get expression</string>
+    <string>Get Expression</string>
    </property>
    <property name="statusTip">
     <string>Get the Pyslvs expression.</string>
@@ -1773,7 +1774,7 @@
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
-    <string>Save to new branch</string>
+    <string>Save to New Branch</string>
    </property>
    <property name="statusTip">
     <string>Creat a new branch then save the commit to this branch.</string>
@@ -1797,7 +1798,7 @@
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
-    <string>From example</string>
+    <string>From Example</string>
    </property>
    <property name="statusTip">
     <string>Import from example</string>
@@ -1809,7 +1810,7 @@
      <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
    </property>
    <property name="text">
-    <string>Image to clipboard</string>
+    <string>Image with Clipboard</string>
    </property>
    <property name="statusTip">
     <string>Capture and output to clipboard.</string>
@@ -1817,10 +1818,22 @@
   </action>
   <action name="action_Check_update">
    <property name="text">
-    <string>Check for updates</string>
+    <string>Check for Updates</string>
    </property>
    <property name="statusTip">
     <string>Check the lastest version of Pyslvs from Github.</string>
+   </property>
+  </action>
+  <action name="action_New_window">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/new_window.png</normaloff>:/icons/new_window.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Window</string>
+   </property>
+   <property name="statusTip">
+    <string>Open a new Pyslvs window.</string>
    </property>
   </action>
  </widget>

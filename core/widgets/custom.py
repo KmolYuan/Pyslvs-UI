@@ -279,6 +279,14 @@ def _appearance(self):
     
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMechanismActions)
+    
+    #Start new window.
+    @pyqtSlot()
+    def newMainWindow():
+        run = self.__class__(self.args)
+        run.show()
+    
+    self.action_New_window.triggered.connect(newMainWindow)
 
 
 def _freemove(self):
