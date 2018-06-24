@@ -66,16 +66,20 @@ Previews in Windows 8.1 theme:
 Here's some command line options for Pyslvs.
 
 ```bash
+#Download or update submodule:
+git submodule init
+git submodule update
+
 #After following compile steps:
 make build-kernel
 
-# Open GUI by Python:
+#Open GUI by Python:
 python launch_pyslvs.py
 
-# Or see the help:
+#Or see the help:
 python launch_pyslvs.py --help
 
-# Run the unit test:
+#Run the unit test:
 python test_pyslvs.py
 ```
 
