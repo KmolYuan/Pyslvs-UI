@@ -1,0 +1,3 @@
+[submodule "core/libs/pyslvs"]
+	path = core/libs/pyslvs
+	url = https://github.com/KmolYuan/pyslvs.git

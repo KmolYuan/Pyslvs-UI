@@ -52,12 +52,11 @@ cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
 cp -r ../../core usr/bin
 rm -fr usr/bin/core/libs/pyslvs/build
+rm -fr usr/bin/core/libs/pyslvs/src
 rm -fr usr/bin/core/libs/python_solvespace/obj
 rm -fr usr/bin/core/libs/python_solvespace/iclude
 rm -fr usr/bin/core/libs/python_solvespace/src
 find . -type f -name '*.ui' -delete
-find usr/bin/core/libs/pyslvs/ -type f -name '*.pyx' -delete
-find usr/bin/core/libs/ -type f -name '*.c' -delete
 
 ########################################################################
 # Finalize the AppDir
