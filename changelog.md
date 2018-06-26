@@ -19,6 +19,7 @@ Development
 ---
 
 + Update module "dxfwrite" to "ezdxf".
++ Change "Pyslvs" kernel into submodule, including changelog.
 
 
 Version 18.05
