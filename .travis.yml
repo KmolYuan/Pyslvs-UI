@@ -19,7 +19,6 @@ before_install:
 script:
   - sudo apt -y install desktop-file-utils zenity
   - make
-  - python test_pyslvs.py
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
