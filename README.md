@@ -182,7 +182,7 @@ Generate a mechanism with path requirement by random variables.
 
 Contains three algorithms:
 
-+ Real Genetic Algorithm
++ Real-coded Genetic Algorithm
 + Firefly Algorithm
 + Differential Evolution
 
@@ -320,23 +320,7 @@ This project including two kernels should build, please following the steps if y
 
 ## Cython Kernel
 
-Cython libraries of Pyslvs, including:
-
-1. Solver:
-    + parser
-    + tinycadlib
-    + triangulation
-1. Dimensional synthesis:
-    + planarlinkage
-    + rga
-    + firefly
-    + de
-1. Number synthesis:
-    + number
-1. Topologic synthesis:
-    + topologic
-
-This module only require "[Lark-parser]" module (and [Pygments] provide highlighting optionaly), so it can works independently without to startup GUI.
+"[Pyslvs]", Cython libraries of Pyslvs.
 
 Make command:
 
