@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-06-02, 12:37:22 -->
+<!-- Saved: 2018-06-29, 19:31:25 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -52,18 +52,17 @@
     <Source>core/io/undo_redo.py</Source>
     <Source>core/libs/__init__.py</Source>
     <Source>core/libs/pyslvs/__init__.py</Source>
-    <Source>core/libs/pyslvs/de.pyx</Source>
-    <Source>core/libs/pyslvs/firefly.pyx</Source>
-    <Source>core/libs/pyslvs/number.pyx</Source>
-    <Source>core/libs/pyslvs/parser.py</Source>
-    <Source>core/libs/pyslvs/planarlinkage.pxd</Source>
-    <Source>core/libs/pyslvs/planarlinkage.pyx</Source>
-    <Source>core/libs/pyslvs/rga.pyx</Source>
+    <Source>core/libs/pyslvs/_parser.py</Source>
     <Source>core/libs/pyslvs/setup.py</Source>
-    <Source>core/libs/pyslvs/tinycadlib.pxd</Source>
-    <Source>core/libs/pyslvs/tinycadlib.pyx</Source>
-    <Source>core/libs/pyslvs/topologic.pyx</Source>
-    <Source>core/libs/pyslvs/triangulation.pyx</Source>
+    <Source>core/libs/pyslvs/src/bfgs.pxd</Source>
+    <Source>core/libs/pyslvs/src/bfgs.pyx</Source>
+    <Source>core/libs/pyslvs/src/number.pyx</Source>
+    <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
+    <Source>core/libs/pyslvs/src/tinycadlib.pxd</Source>
+    <Source>core/libs/pyslvs/src/tinycadlib.pyx</Source>
+    <Source>core/libs/pyslvs/src/topologic.pyx</Source>
+    <Source>core/libs/pyslvs/src/triangulation.pyx</Source>
+    <Source>core/libs/pyslvs/test_pyslvs.py</Source>
     <Source>core/libs/python_solvespace/__init__.py</Source>
     <Source>core/libs/python_solvespace/cad.py</Source>
     <Source>core/libs/python_solvespace/planarSolving.py</Source>
@@ -120,7 +119,6 @@
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>preview_rc.py</Source>
-    <Source>test_pyslvs.py</Source>
   </Sources>
   <Forms>
     <Form>core/entities/edit_link.ui</Form>
@@ -156,6 +154,7 @@
     <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
     <Other>changelog.md</Other>
+    <Other>core/libs/pyslvs/Adesign/Makefile</Other>
     <Other>core/libs/pyslvs/Makefile</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>
     <Other>requirements.txt</Other>

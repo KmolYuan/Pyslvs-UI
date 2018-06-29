@@ -66,9 +66,8 @@ Previews in Windows 8.1 theme:
 Here's some command line options for Pyslvs.
 
 ```bash
-#Download or update submodule:
-git submodule init
-git submodule update
+#Download / update submodule:
+git submodule update --init --recursive
 
 #After following compile steps:
 make build-kernel

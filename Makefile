@@ -26,7 +26,7 @@ help:
 
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
-	$(MAKE) -C core/libs/pyslvs
+	$(MAKE) -C core/libs/pyslvs build
 	@echo ---Done---
 
 build-solvespace:
