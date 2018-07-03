@@ -45,14 +45,18 @@ ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main.ico \
 --hidden-import=PyQt5 \
+--hidden-import=PyQt5.sip \
+--hidden-import=PyQt5.QtPrintSupport \
 --add-binary="core/libs/python_solvespace/libslvs.so;." \
+--add-binary="core/libs/pyslvs/bfgs.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/de.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/firefly.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/rga.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/tinycadlib.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/topologic.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/triangulation.$(CPPYTHON)-win_amd64.pyd;."
+--add-binary="core/libs/pyslvs/triangulation.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/verify.$(CPPYTHON)-win_amd64.pyd;."
 	$(eval PYSLVSVERSION = $(shell python -c "from core.info import __version__; print(\"{}.{}.{}\".format(*__version__))"))
 	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
 	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))

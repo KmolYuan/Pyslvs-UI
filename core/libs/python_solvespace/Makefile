@@ -23,7 +23,7 @@ HEADERS = src/solvespace.h src/platform/platform.h
 
 VPATH = src src/platform
 
-all: wrap
+all: libslvs.so _slvs
 	@echo Finish
 
 .PHONY: clean
@@ -58,7 +58,7 @@ $(OBJDIR)/%.o: %.cpp $(OBJDIR)
 libslvs.so: $(OBJS)
 	g++ -shared -o $@ $^
 
-src/slvs_wrap.cxx: src/slvs.i libslvs.so
+src/slvs_wrap.cxx: src/slvs.i
 	swig -c++ -python -py3 -outdir . -o $@ $<
 
 $(OBJDIR)/slvs_wrap.o: slvs_wrap.cxx
@@ -70,14 +70,14 @@ else
 -I$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_python_inc())")
 endif
 
-wrap: $(OBJS) $(OBJDIR)/slvs_wrap.o
+_slvs: $(OBJDIR)/slvs_wrap.o
 ifeq ($(OS),Windows_NT)
-	g++ -shared -o _slvs.pyd $^ -L. -Lsrc -l:libslvs.so \
+	g++ -shared -o $@.pyd $(OBJS) $< -L. -Lsrc -l:libslvs.so \
 -L$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('BINDIR'))")\libs \
 -lPython$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))") \
 -Wl,--output-def,src/libslvs.def,--out-implib,src/libslvs.lib
 else
-	g++ -shared -o _slvs.so $^ \
+	g++ -shared -o $@.so $(OBJS) $< \
 -L$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_config_var('srcdir'))") \
 -I$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_config_var('LDLIBRARY'))")
 endif
