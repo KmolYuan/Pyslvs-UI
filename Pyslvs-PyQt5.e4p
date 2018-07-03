@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-06-29, 19:31:25 -->
+<!-- Saved: 2018-07-03, 14:32:48 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -9,7 +9,7 @@
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
   <Description>Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.</Description>
-  <Version>0.9.0</Version>
+  <Version>18.07.0</Version>
   <Author>KmolYuan</Author>
   <Email>pyslvs@gmail.com</Email>
   <Eol index="0"/>
@@ -156,6 +156,7 @@
     <Other>changelog.md</Other>
     <Other>core/libs/pyslvs/Adesign/Makefile</Other>
     <Other>core/libs/pyslvs/Makefile</Other>
+    <Other>core/libs/pyslvs/README.md</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>
     <Other>requirements.txt</Other>
   </Others>

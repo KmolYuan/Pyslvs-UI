@@ -3,43 +3,45 @@ CFLAGS  = -I. -Iinclude -Isrc -Isrc/platform -D_DEBUG -D_CRT_SECURE_NO_WARNINGS 
 
 OBJDIR = obj
 
-OBJS = \
-  $(OBJDIR)/util.o \
-  $(OBJDIR)/entity.o \
-  $(OBJDIR)/expr.o \
-  $(OBJDIR)/constrainteq.o \
-  $(OBJDIR)/constraint.o \
-  $(OBJDIR)/system.o \
-  $(OBJDIR)/lib.o
+BASES = \
+  util \
+  entity \
+  expr \
+  constrainteq \
+  constraint \
+  system \
+  lib
 
 ifeq ($(OS), Windows_NT)
     CFLAGS += -DWIN32 -D_USE_MATH_DEFINES
-    OBJS += $(OBJDIR)/w32util.o $(OBJDIR)/platform.o
+    BASES += w32util platform
+    WRAPPER = _slvs.pyd
 else
-    OBJS += $(OBJDIR)/unixutil.o
+    BASES += unixutil
+    WRAPPER = _slvs.so
 endif
 
-HEADERS = src/solvespace.h src/platform/platform.h
+OBJS = $(addprefix $(OBJDIR)/,$(addsuffix .o,$(BASES)))
 
 VPATH = src src/platform
 
-all: libslvs.so _slvs
-	@echo Finish
+.PHONY: _slvs clean
 
-.PHONY: clean
+all: $(OBJDIR) libslvs.so $(WRAPPER)
+
 clean:
 ifeq ($(OS),Windows_NT)
 	-rd /S /Q $(OBJDIR)
 	-del *.so
 	-del src\*.def
 	-del src\*.lib
-	-del src\slvs_wrap.cxx
+	-del src\*_wrap.cxx
 	-del *.pyd
 	-del slvs.py
 else
 	-rm -fr $(OBJDIR)
 	-rm -f *.so
-	-rm -f src/slvs_wrap.cxx
+	-rm -f src/*_wrap.cxx
 	-rm -f slvs.py
 endif
 
@@ -52,7 +54,7 @@ else
 	mkdir -p $(OBJDIR)
 endif
 
-$(OBJDIR)/%.o: %.cpp $(OBJDIR)
+$(OBJDIR)/%.o: %.cpp
 	g++ -fPIC $(CFLAGS) $(DEFINES) -c -o $@ $<
 
 libslvs.so: $(OBJS)
@@ -70,14 +72,14 @@ else
 -I$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_python_inc())")
 endif
 
-_slvs: $(OBJDIR)/slvs_wrap.o
+$(WRAPPER): $(OBJDIR)/slvs_wrap.o
 ifeq ($(OS),Windows_NT)
-	g++ -shared -o $@.pyd $(OBJS) $< -L. -Lsrc -l:libslvs.so \
+	g++ -shared -o $@ $(OBJS) $< -L. -Lsrc -l:libslvs.so \
 -L$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('BINDIR'))")\libs \
 -lPython$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))") \
 -Wl,--output-def,src/libslvs.def,--out-implib,src/libslvs.lib
 else
-	g++ -shared -o $@.so $(OBJS) $< \
+	g++ -shared -o $@ $(OBJS) $< \
 -L$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_config_var('srcdir'))") \
 -I$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_config_var('LDLIBRARY'))")
 endif
