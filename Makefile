@@ -5,6 +5,7 @@
 #license: AGPL
 #email: pyslvs@gmail.com
 
+LAUNCHSCRIPT = launch_pyslvs
 
 all: test
 
@@ -13,16 +14,21 @@ help:
 	@echo make target:
 	@echo - help: show this help message.
 	@echo - all: build Pyslvs and test binary.
-	@echo - build: build Pyslvs.
+	@echo - build: build Pyslvs executable file.
 	@echo - build-kernel: build kernel only.
-	@echo - build-pyslvs: build cython kernel only.
-	@echo - clean: clean executable file and PyInstaller items,
-	@echo          will not delete kernel binary files.
+	@echo - build-pyslvs: build pyslvs kernel only.
+	@echo - build-solvespace: build solvespace kernel only.
+	@echo - clean: clean up executable file and PyInstaller items,
+	@echo          but not to delete kernel binary files.
 	@echo - clean-kernel: clean up kernel binary files.
+	@echo - clean-pyslvs: clean up kernel binary files of pyslvs.
+	@echo - clean-solvespace: clean up kernel binary files of solvespace.
 	@echo - clean-all: clean every binary files and executable file.
 	@echo --------------------------
 
-.PHONY: help build build-kernel clean clean-kernel clean-all
+.PHONY: help \
+    build build-kernel build-pyslvs build-solvespace \
+    clean clean-kernel clean-pyslvs clean-solvespace clean-all
 
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
@@ -36,7 +42,7 @@ build-solvespace:
 
 build-kernel: build-pyslvs build-solvespace
 
-build: launch_pyslvs.py build-kernel
+build: $(LAUNCHSCRIPT).py build-kernel
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
@@ -60,7 +66,7 @@ ifeq ($(OS),Windows_NT)
 	$(eval PYSLVSVERSION = $(shell python -c "from core.info import __version__; print(\"{}.{}.{}\".format(*__version__))"))
 	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
 	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))
-	rename .\dist\launch_pyslvs.exe pyslvs-$(PYSLVSVERSION).$(COMPILERVERSION)-$(SYSVERSION).exe
+	rename .\dist\$(LAUNCHSCRIPT).exe pyslvs-$(PYSLVSVERSION).$(COMPILERVERSION)-$(SYSVERSION).exe
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	@echo --Python Version $(PYTHON)--
