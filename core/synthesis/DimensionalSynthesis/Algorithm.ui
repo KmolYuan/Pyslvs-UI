@@ -151,12 +151,12 @@
               </column>
               <column>
                <property name="text">
-                <string>p1</string>
+                <string>p0</string>
                </property>
               </column>
               <column>
                <property name="text">
-                <string>p2</string>
+                <string>p1</string>
                </property>
               </column>
               <column>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-07-03, 15:41:57 -->
+<!-- Saved: 2018-07-10, 14:14:27 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -51,6 +51,12 @@
     <Source>core/io/slvs/write.py</Source>
     <Source>core/io/undo_redo.py</Source>
     <Source>core/libs/__init__.py</Source>
+    <Source>core/libs/pyslvs/Adesign/setup.py</Source>
+    <Source>core/libs/pyslvs/Adesign/src/de.pyx</Source>
+    <Source>core/libs/pyslvs/Adesign/src/firefly.pyx</Source>
+    <Source>core/libs/pyslvs/Adesign/src/rga.pyx</Source>
+    <Source>core/libs/pyslvs/Adesign/src/verify.pxd</Source>
+    <Source>core/libs/pyslvs/Adesign/src/verify.pyx</Source>
     <Source>core/libs/pyslvs/__init__.py</Source>
     <Source>core/libs/pyslvs/_parser.py</Source>
     <Source>core/libs/pyslvs/setup.py</Source>
@@ -155,6 +161,8 @@
     <Other>core/libs/pyslvs/Adesign/Makefile</Other>
     <Other>core/libs/pyslvs/Makefile</Other>
     <Other>core/libs/pyslvs/README.md</Other>
+    <Other>core/libs/pyslvs/changelog.md</Other>
+    <Other>core/libs/pyslvs/requirements.txt</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>
     <Other>requirements.txt</Other>
   </Others>

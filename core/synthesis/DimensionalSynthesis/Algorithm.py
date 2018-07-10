@@ -609,16 +609,35 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.path[name] = []
         if self.target_points.count():
             self.target_points.setCurrentRow(0)
+        
         gj = {}
         for key in ('Driver', 'Follower'):
             gj.update(self.mech_params[key])
-        self.parameter_list.setRowCount(0)
-        self.parameter_list.setRowCount(len(gj) + 4)
         
-        def spinbox(v: float, *, prefix: bool = False) -> QDoubleSpinBox:
+        link_list = set()
+        angle_list = set()
+        for expr in self.mech_params['Expression'].split(';'):
+            for e in strbetween(expr, '[', ']').split(','):
+                if e.startswith('L'):
+                    link_list.add(e)
+                if e.startswith('a'):
+                    angle_list.add(e)
+        link_count = len(link_list)
+        angle_count = len(angle_list)
+        
+        self.parameter_list.setRowCount(0)
+        self.parameter_list.setRowCount(len(gj) + link_count + angle_count)
+        
+        def spinbox(
+            v: float,
+            *,
+            minimum: float = 0,
+            maximum: float = 1000000.0,
+            prefix: bool = False
+        ) -> QDoubleSpinBox:
             s = QDoubleSpinBox()
-            s.setMinimum(-1000000.0)
-            s.setMaximum(1000000.0)
+            s.setMinimum(minimum)
+            s.setMaximum(maximum)
             s.setSingleStep(10.0)
             s.setValue(v)
             if prefix:
@@ -635,8 +654,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 role = 'Follower'
             self.parameter_list.setItem(row, 1, QTableWidgetItem(role))
             x, y = self.mech_params['pos'][int(name.replace('P', ''))]
-            s1 = spinbox(coord[0] if coord else x)
-            s2 = spinbox(coord[1] if coord else y)
+            s1 = spinbox(coord[0] if coord else x, minimum=-1000000.0)
+            s2 = spinbox(coord[1] if coord else y, minimum=-1000000.0)
             s3 = spinbox(coord[2] if coord else 50., prefix=True)
             self.parameter_list.setCellWidget(row, 2, s1)
             self.parameter_list.setCellWidget(row, 3, s2)
@@ -647,8 +666,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             row += 1
         
         def set_by_center(
-            upper_name: str,
-            lower_name: str,
+            i: int,
             get_range: Callable[[], float]
         ) -> Callable[[float], None]:
             """Return a slot function use to set limit value by center."""
@@ -656,14 +674,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             @pyqtSlot(float)
             def func(value: float):
                 half_range = get_range() / 2
-                self.mech_params[upper_name] = value + half_range
-                self.mech_params[lower_name] = value - half_range
+                self.mech_params['upper'][i] = value + half_range
+                self.mech_params['lower'][i] = value - half_range
             
             return func
         
         def set_by_range(
-            upper_name: str,
-            lower_name: str,
+            i: int,
             get_value: Callable[[], float]
         ) -> Callable[[float], None]:
             """Return a slot function use to set limit value by range."""
@@ -672,44 +689,44 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             def func(value: float):
                 center = get_value()
                 half_range = value / 2
-                self.mech_params[upper_name] = center + half_range
-                self.mech_params[lower_name] = center - half_range
+                self.mech_params['upper'][i] = center + half_range
+                self.mech_params['lower'][i] = center - half_range
             
             return func
         
-        for name, upper_name, lower_name in [
-            ('drivers', 'IMax', 'IMin'),
-            ('links', 'LMax', 'LMin'),
-            ('followers', 'FMax', 'FMin'),
-            ('angles', 'AMax', 'AMin')
-        ]:
+        for name in ('upper', 'lower'):
+            if name not in self.mech_params:
+                self.mech_params[name] = [0.] * (link_count + angle_count)
+        
+        for i, name in enumerate(sorted(link_list) + sorted(angle_list)):
             name_item = QTableWidgetItem(name)
             name_item.setToolTip(name)
             self.parameter_list.setItem(row, 0, name_item)
             self.parameter_list.setItem(row, 1, QTableWidgetItem('Limit'))
             #Set values (it will be same if not in the 'mech_params').
-            upper = self.mech_params.get(upper_name, 360. if name == 'angles' else 100.)
-            lower = self.mech_params.get(lower_name, 0. if name == 'angles' else 5.)
-            error_range = upper - lower
-            self.mech_params[upper_name] = upper
-            self.mech_params[lower_name] = lower
+            upper = self.mech_params['upper'][i]
+            if upper == 0:
+                upper = 100. if name in link_list else 360.
+            lower = self.mech_params['lower'][i]
+            if lower == 0 and name in link_list:
+                lower = 5.
+            self.mech_params['upper'][i] = upper
+            self.mech_params['lower'][i] = lower
             #Spin box.
-            s1 = spinbox(error_range / 2 + lower)
+            error_range = upper - lower
+            default_value = error_range / 2 + lower
+            if name in link_list:
+                s1 = spinbox(default_value)
+            else:
+                s1 = spinbox(default_value, maximum=360.)
             self.parameter_list.setCellWidget(row, 2, s1)
             s2 = spinbox(error_range, prefix=True)
             self.parameter_list.setCellWidget(row, 4, s2)
             #Signal connections.
-            s1.valueChanged.connect(set_by_center(
-                upper_name,
-                lower_name,
-                s2.value
-            ))
-            s2.valueChanged.connect(set_by_range(
-                upper_name,
-                lower_name,
-                s1.value
-            ))
+            s1.valueChanged.connect(set_by_center(i, s2.value))
+            s2.valueChanged.connect(set_by_range(i, s1.value))
             row += 1
+        
         self.PreviewCanvas.from_profile(self.mech_params)
         self.updateRange()
         self.__ableToGenerate()
