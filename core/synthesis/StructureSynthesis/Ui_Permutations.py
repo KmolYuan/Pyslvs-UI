@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/StructureSynthesis/Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.10
 #
@@ -140,15 +140,15 @@ class Ui_Form(object):
         self.verticalLayout_6.addLayout(self.horizontalLayout)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.Combine_type_all = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        self.Combine_type_all.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.Combine_type_all.setAutoDefault(True)
-        self.Combine_type_all.setObjectName("Combine_type_all")
-        self.horizontalLayout_5.addWidget(self.Combine_type_all)
-        self.Combine_type = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        self.Combine_type.setAutoDefault(True)
-        self.Combine_type.setObjectName("Combine_type")
-        self.horizontalLayout_5.addWidget(self.Combine_type)
+        self.Combine_structure_all = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        self.Combine_structure_all.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.Combine_structure_all.setAutoDefault(True)
+        self.Combine_structure_all.setObjectName("Combine_structure_all")
+        self.horizontalLayout_5.addWidget(self.Combine_structure_all)
+        self.Combine_structure = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        self.Combine_structure.setAutoDefault(True)
+        self.Combine_structure.setObjectName("Combine_structure")
+        self.horizontalLayout_5.addWidget(self.Combine_structure)
         self.verticalLayout_6.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_7.addLayout(self.verticalLayout_6)
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -232,10 +232,10 @@ class Ui_Form(object):
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
         self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX and Pydot (Graphviz)."))
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))
-        self.Combine_type_all.setStatusTip(_translate("Form", "Find the structure of mechanism from all numbers."))
-        self.Combine_type_all.setText(_translate("Form", "Find all"))
-        self.Combine_type.setStatusTip(_translate("Form", "Find the structure of mechanism from specified numbers."))
-        self.Combine_type.setText(_translate("Form", "Type Synthesis"))
+        self.Combine_structure_all.setStatusTip(_translate("Form", "Find the structure of mechanism from all numbers."))
+        self.Combine_structure_all.setText(_translate("Form", "Find All"))
+        self.Combine_structure.setStatusTip(_translate("Form", "Find the structure of mechanism from specified numbers."))
+        self.Combine_structure.setText(_translate("Form", "Find Current"))
         self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
         self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
         self.graph_degenerate.setStatusTip(_translate("Form", "Keep degenerate chains in the result."))

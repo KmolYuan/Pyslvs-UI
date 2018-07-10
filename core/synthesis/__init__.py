@@ -8,11 +8,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .Collections import Collections, CollectionsDialog
-from .NumberAndTypeSynthesis import NumberAndTypeSynthesis
+from .StructureSynthesis import StructureSynthesis
 from .DimensionalSynthesis import DimensionalSynthesis
 
 __all__ = [
-    'NumberAndTypeSynthesis',
+    'StructureSynthesis',
     'Collections',
     'CollectionsDialog',
     'DimensionalSynthesis'

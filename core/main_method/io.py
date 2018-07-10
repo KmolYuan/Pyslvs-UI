@@ -237,7 +237,7 @@ def clear(self):
     self.mechanism_storage_name_tag.clear()
     self.mechanism_storage.clear()
     self.CollectionTabPage.clear()
-    self.NumberAndTypeSynthesis.clear()
+    self.StructureSynthesis.clear()
     self.InputsWidget.clear()
     self.DimensionalSynthesis.clear()
     self.EntitiesPoint.clear()

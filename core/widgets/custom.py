@@ -27,7 +27,7 @@ from core.QtModules import (
 from core.info import __version__
 from core.io import FileWidget
 from core.synthesis import (
-    NumberAndTypeSynthesis,
+    StructureSynthesis,
     Collections,
     DimensionalSynthesis,
 )
@@ -207,10 +207,10 @@ def _appearance(self):
     self.MainCanvas.noselected.connect(self.InputsWidget.clearSelection)
     
     #Number and type synthesis.
-    self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
+    self.StructureSynthesis = StructureSynthesis(self)
     self.SynthesisTab.addTab(
-        self.NumberAndTypeSynthesis,
-        self.NumberAndTypeSynthesis.windowIcon(),
+        self.StructureSynthesis,
+        self.StructureSynthesis.windowIcon(),
         "Structural"
     )
     
@@ -221,7 +221,7 @@ def _appearance(self):
         self.CollectionTabPage.windowIcon(),
         "Collections"
     )
-    self.NumberAndTypeSynthesis.addCollection = (
+    self.StructureSynthesis.addCollection = (
         self.CollectionTabPage.StructureWidget.addCollection
     )
     self.FileWidget.CollectDataFunc = (

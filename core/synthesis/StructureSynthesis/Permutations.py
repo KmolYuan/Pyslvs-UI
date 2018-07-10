@@ -41,7 +41,7 @@ from core.graphics import (
 from .Ui_Permutations import Ui_Form
 
 
-class NumberAndTypeSynthesis(QWidget, Ui_Form):
+class StructureSynthesis(QWidget, Ui_Form):
     
     """Number and type synthesis widget.
     
@@ -55,7 +55,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         + Table data from PMKS expression.
         + Graph data function from main window.
         """
-        super(NumberAndTypeSynthesis, self).__init__(parent)
+        super(StructureSynthesis, self).__init__(parent)
         self.setupUi(self)
         self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
         
@@ -213,7 +213,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.expr_number.setCurrentRow(0)
     
     @pyqtSlot()
-    def on_Combine_type_clicked(self):
+    def on_Combine_structure_clicked(self):
         """Type synthesis.
         
         If there has no data of number synthesis,
@@ -231,7 +231,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             self.on_reload_atlas_clicked()
     
     @pyqtSlot()
-    def on_Combine_type_all_clicked(self):
+    def on_Combine_structure_all_clicked(self):
         """Type synthesis - find all.
         
         If the data of number synthesis has multiple results,
@@ -431,9 +431,9 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
                     QMessageBox.YesToAll
                 )
                 if reply == QMessageBox.Yes:
-                    self.on_Combine_type_clicked()
+                    self.on_Combine_structure_clicked()
                 elif reply == QMessageBox.YesToAll:
-                    self.on_Combine_type_all_clicked()
+                    self.on_Combine_structure_all_clicked()
         count = self.Topologic_result.count()
         if not count:
             return
@@ -489,9 +489,9 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
                 QMessageBox.YesToAll
             )
             if reply == QMessageBox.Yes:
-                self.on_Combine_type_clicked()
+                self.on_Combine_structure_clicked()
             elif reply == QMessageBox.YesToAll:
-                self.on_Combine_type_all_clicked()
+                self.on_Combine_structure_all_clicked()
         count = self.Topologic_result.count()
         if not count:
             return

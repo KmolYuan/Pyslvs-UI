@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-07-10, 14:14:27 -->
+<!-- Saved: 2018-07-10, 16:31:46 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -108,9 +108,9 @@
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/thread.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
-    <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
-    <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
-    <Source>core/synthesis/NumberAndTypeSynthesis/__init__.py</Source>
+    <Source>core/synthesis/StructureSynthesis/Permutations.py</Source>
+    <Source>core/synthesis/StructureSynthesis/Ui_Permutations.py</Source>
+    <Source>core/synthesis/StructureSynthesis/__init__.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/Ui_inputs.py</Source>
     <Source>core/widgets/__init__.py</Source>
@@ -145,7 +145,7 @@
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.ui</Form>
-    <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
+    <Form>core/synthesis/StructureSynthesis/Permutations.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
   </Forms>
   <Resources>

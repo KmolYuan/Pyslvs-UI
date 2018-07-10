@@ -263,7 +263,7 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="QPushButton" name="Combine_type_all">
+              <widget class="QPushButton" name="Combine_structure_all">
                <property name="maximumSize">
                 <size>
                  <width>100</width>
@@ -274,7 +274,7 @@
                 <string>Find the structure of mechanism from all numbers.</string>
                </property>
                <property name="text">
-                <string>Find all</string>
+                <string>Find All</string>
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
@@ -282,12 +282,12 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Combine_type">
+              <widget class="QPushButton" name="Combine_structure">
                <property name="statusTip">
                 <string>Find the structure of mechanism from specified numbers.</string>
                </property>
                <property name="text">
-                <string>Type Synthesis</string>
+                <string>Find Current</string>
                </property>
                <property name="autoDefault">
                 <bool>true</bool>

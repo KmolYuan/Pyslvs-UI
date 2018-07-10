@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""'NumberAndTypeSynthesis' module contains
+"""'StructureSynthesis' module contains
 number and type synthesis functional interfaces.
 """
 
@@ -9,6 +9,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .Permutations import NumberAndTypeSynthesis
+from .Permutations import StructureSynthesis
 
-__all__ = ['NumberAndTypeSynthesis']
+__all__ = ['StructureSynthesis']
