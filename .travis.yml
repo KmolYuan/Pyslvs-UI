@@ -17,7 +17,6 @@ before_install:
   - sudo apt -y install swig graphviz
 
 script:
-  - sudo apt -y install desktop-file-utils zenity
   - make
 
 before_cache:
