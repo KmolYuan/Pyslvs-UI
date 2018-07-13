@@ -127,7 +127,7 @@ def graph(
     node_mode: bool =False,
     except_node: int =None
 ) -> QIcon:
-    """Draw a linkage graph."""
+    """Draw a generalized chain graph."""
     try:
         pos = engine_picker(G, engine, node_mode)
     except EngineError as e:

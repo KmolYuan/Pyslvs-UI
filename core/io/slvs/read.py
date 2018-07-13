@@ -58,10 +58,10 @@ class SlvsParser:
     def parse(self, group: str) -> str:
         """Parse as PMKS expression for specified group.
         
-        + Requests: Get all linkages.
+        + Requests: Get all links.
             + Independence points will be ignored.
         + Constraint: Adjacency.
-            + Collecting linkages for each point.
+            + Collecting links for each point.
         + Entities: Get positions.
         """
         
@@ -69,7 +69,7 @@ class SlvsParser:
             """Generate 16 bit interger."""
             return int(num, 16)
         
-        #Requests: Get all linkages.
+        #Requests: Get all links.
         requests = []
         for request in self.requests:
             if request['Request.group.v'] == group:
@@ -80,7 +80,7 @@ class SlvsParser:
         vlinks[0] = set()
         
         #Constraint: Adjacency.
-        #Grounded. Other linkages at least will greater than 4.
+        #Grounded. Other links at least will greater than 4.
         for constraint in self.constraints:
             if constraint['Constraint.group.v'] != group:
                 continue

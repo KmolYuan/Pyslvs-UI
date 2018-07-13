@@ -356,7 +356,7 @@ class ExprTableWidget(_BaseTableWidget):
     
     """Expression table.
     
-    + Freemove request: linkage name, length
+    + Freemove request: link name, length
     """
     
     reset = pyqtSignal(bool)
@@ -371,7 +371,7 @@ class ExprTableWidget(_BaseTableWidget):
         
         @pyqtSlot(QTableWidgetItem)
         def adjustRequest(item: QTableWidgetItem):
-            """This function is use to change linkage length
+            """This function is use to change link length
             without to drag the points.
             """
             if item:
@@ -407,7 +407,7 @@ class ExprTableWidget(_BaseTableWidget):
         self.exprs = exprs
     
     def clear(self):
-        """Emit to close the linkage free move widget."""
+        """Emit to close the link free move widget."""
         super(ExprTableWidget, self).clear()
         self.reset.emit(False)
 

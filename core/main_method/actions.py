@@ -84,7 +84,7 @@ def _enableLinkContext(self):
     
     def mlFunc(i: int):
         """Generate a merge function."""
-        return lambda: _mergeLinkage(self, i, selection)
+        return lambda: _mergeLink(self, i, selection)
     
     for i, row in enumerate(selection):
         action = QAction("Base on \"{}\"".format(self.EntitiesLink.item(row, 0).text()), self)
@@ -130,8 +130,8 @@ def _toMultipleJoint(self, index: int, points: Tuple[int]):
     self.CommandStack.endMacro()
 
 
-def _mergeLinkage(self, index: int, links: Tuple[int]):
-    """Merge links to a base linkage.
+def _mergeLink(self, index: int, links: Tuple[int]):
+    """Merge links to a base link.
     
     @index: The index of main joint in the sequence.
     """

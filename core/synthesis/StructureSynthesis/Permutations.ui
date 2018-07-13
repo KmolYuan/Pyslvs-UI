@@ -306,7 +306,7 @@
               <string>Show the edges as nodes.</string>
              </property>
              <property name="text">
-              <string>Linkage as node</string>
+              <string>Link as node</string>
              </property>
             </widget>
            </item>

@@ -220,7 +220,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     @pyqtSlot(int)
     def on_grounded_list_currentRowChanged(self, row):
-        """Change current grounded linkage. Reset all settings."""
+        """Change current grounded link. Reset all settings."""
         has_choose = row > -1
         self.__setWarning(self.grounded_label, not has_choose)
         self.PreviewWindow.setGrounded(row)

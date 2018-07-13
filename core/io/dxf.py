@@ -75,7 +75,7 @@ def dxf_boundary(
         interval += radius * 2
         x_max = -interval
     
-    #Draw linkage boundaries.
+    #Draw link boundaries.
     for name in sorted(
         vlinks,
         key=lambda name: min(vpoints[p].cx for p in vlinks[name])

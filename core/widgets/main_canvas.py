@@ -72,7 +72,7 @@ class DynamicCanvas(BaseCanvas):
         self.select_mode = 0
         self.sr = 10
         self.selections = []
-        #Linkage transparency.
+        #Link transparency.
         self.transparency = 1.
         #Path solving range.
         self.ranges = {}
@@ -117,13 +117,13 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(int)
     def setLinkWidth(self, link_width: int):
-        """Update width of linkages."""
+        """Update width of links."""
         self.link_width = link_width
         self.update()
     
     @pyqtSlot(int)
     def setPathWidth(self, path_width: int):
-        """Update width of linkages."""
+        """Update width of links."""
         self.path_width = path_width
         self.update()
     
@@ -272,7 +272,7 @@ class DynamicCanvas(BaseCanvas):
         del self.path_record
         return path
     
-    def adjustLinkage(self,
+    def adjustLink(self,
         coords: Tuple[Union[Tuple[Tuple[float, float], Tuple[float, float]]]]
     ):
         """Change points coordinates."""

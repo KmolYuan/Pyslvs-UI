@@ -522,12 +522,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _entities.setFreemove(self, coords)
     
     @pyqtSlot(bool)
-    def setLinkageFreemove(self, enable: bool):
-        _entities.setLinkageFreemove(self, enable)
+    def setLinkFreemove(self, enable: bool):
+        _entities.setLinkFreemove(self, enable)
     
     @pyqtSlot(int)
-    def adjustLinkage(self, value: int):
-        _entities.adjustLinkage(self, value)
+    def adjustLink(self, value: int):
+        _entities.adjustLink(self, value)
     
     def setCoordsAsCurrent(self):
         _entities.setCoordsAsCurrent(self)

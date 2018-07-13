@@ -846,7 +846,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Link_expr_copy_clicked(self):
-        """Copy profile linkage expression."""
+        """Copy profile link expression."""
         text = self.Link_expr.text()
         if text:
             QApplication.clipboard().setText(text)

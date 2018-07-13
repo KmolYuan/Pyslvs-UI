@@ -237,7 +237,7 @@ class Ui_Form(object):
         self.Combine_structure.setStatusTip(_translate("Form", "Find the structure of mechanism from specified numbers."))
         self.Combine_structure.setText(_translate("Form", "Find Current"))
         self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
-        self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
+        self.graph_link_as_node.setText(_translate("Form", "Link as node"))
         self.graph_degenerate.setStatusTip(_translate("Form", "Keep degenerate chains in the result."))
         self.graph_degenerate.setText(_translate("Form", "Three edges loop"))
         self.time_title_label.setText(_translate("Form", "Find in:"))

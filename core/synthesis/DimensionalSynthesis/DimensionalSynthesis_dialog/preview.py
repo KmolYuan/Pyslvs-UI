@@ -41,7 +41,7 @@ class _DynamicCanvas(BaseCanvas):
         path: Tuple[Tuple[Tuple[float, float]]],
         parent: QWidget
     ):
-        """Input linkage and path data."""
+        """Input link and path data."""
         super(_DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = path
@@ -186,7 +186,7 @@ class _DynamicCanvas(BaseCanvas):
         name: str,
         points: Tuple[int]
     ):
-        """Draw linkage function.
+        """Draw link function.
         
         The link color will be the default color.
         """

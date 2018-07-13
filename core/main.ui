@@ -223,13 +223,13 @@
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QWidget" name="linkage_freemode_widget" native="true">
+                         <widget class="QWidget" name="link_freemode_widget" native="true">
                           <property name="enabled">
                            <bool>false</bool>
                           </property>
                           <layout class="QHBoxLayout" name="horizontalLayout_3">
                            <item>
-                            <widget class="QLineEdit" name="linkage_freemode_linkname">
+                            <widget class="QLineEdit" name="link_freemode_linkname">
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                                <horstretch>0</horstretch>
@@ -248,7 +248,7 @@
                             </widget>
                            </item>
                            <item>
-                            <widget class="QSlider" name="linkage_freemode_slider">
+                            <widget class="QSlider" name="link_freemode_slider">
                              <property name="maximum">
                               <number>10000</number>
                              </property>
@@ -258,7 +258,7 @@
                             </widget>
                            </item>
                            <item>
-                            <widget class="QDoubleSpinBox" name="linkage_freemode_spinbox">
+                            <widget class="QDoubleSpinBox" name="link_freemode_spinbox">
                              <property name="maximum">
                               <double>10000.000000000000000</double>
                              </property>
@@ -648,9 +648,9 @@
                      </widget>
                     </item>
                     <item row="6" column="0">
-                     <widget class="QLabel" name="linkagetransparency_label">
+                     <widget class="QLabel" name="linktransparency_label">
                       <property name="text">
-                       <string>Linkage transparency</string>
+                       <string>Link transparency</string>
                       </property>
                      </widget>
                     </item>
@@ -1503,10 +1503,10 @@
   </action>
   <action name="action_Delete_Link">
    <property name="text">
-    <string>Delete the Linkage</string>
+    <string>Delete the Link</string>
    </property>
    <property name="statusTip">
-    <string>Delete an existing linkage.</string>
+    <string>Delete an existing link.</string>
    </property>
   </action>
   <action name="action_Edit_Point">
@@ -1519,10 +1519,10 @@
   </action>
   <action name="action_Edit_Link">
    <property name="text">
-    <string>Edit the Linkage</string>
+    <string>Edit the Link</string>
    </property>
    <property name="statusTip">
-    <string>Edit an existing linkage.</string>
+    <string>Edit an existing link.</string>
    </property>
   </action>
   <action name="action_Display_Dimensions">
