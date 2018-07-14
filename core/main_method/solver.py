@@ -25,12 +25,12 @@ from core.libs import (
     data_collecting,
     expr_solving,
     vpoint_dof,
+    bfgs_vpoint_solving,
 )
 
 
 def resolve(self):
     """Resolve: Use Solvespace lib."""
-    inputs = list(self.InputsWidget.getInputsVariables())
     vpoints = self.EntitiesPoint.dataTuple()
     solve_kernel = self.planarsolver_option.currentIndex()
     try:
@@ -39,12 +39,18 @@ def resolve(self):
                 self.getTriangle(),
                 {n: 'P{}'.format(n) for n in range(len(vpoints))},
                 vpoints,
-                [v[-1] for v in inputs]
+                [v[-1] for v in self.InputsWidget.getInputsVariables()]
             )
         elif solve_kernel == 1:
             result, _ = slvsProcess(
                 vpoints,
-                inputs if not self.freemode_button.isChecked() else ()
+                tuple(self.InputsWidget.getInputsVariables())
+                if not self.freemode_button.isChecked() else ()
+            )
+        elif solve_kernel == 2:
+            result = bfgs_vpoint_solving(
+                vpoints,
+                tuple(self.InputsWidget.inputPair())
             )
     except Exception as e:
         if self.consoleerror_option.isChecked():
@@ -56,7 +62,10 @@ def resolve(self):
     else:
         self.EntitiesPoint.updateCurrentPosition(result)
         self.DOF = vpoint_dof(vpoints)
-        self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
+        self.DOFview.setText("{} ({})".format(
+            self.DOF,
+            self.InputsWidget.inputCount()
+        ))
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)
     self.reloadCanvas()
@@ -167,7 +176,7 @@ def getCollection(self) -> Dict[str, Union[
         count += 1
     del count, not_cus
     
-    drivers = {mapping[base] for base, drive in self.InputsWidget.inputPair()}
+    drivers = {mapping[b] for b, d, a in self.InputsWidget.inputPair()}
     followers = {
         mapping[i] for i, vpoint in enumerate(vpoints)
         if ('ground' in vpoint.links) and (i not in drivers)
@@ -213,7 +222,7 @@ def getTriangle(self,
         vpoints = self.EntitiesPoint.dataTuple()
     exprs = vpoints_configure(
         vpoints,
-        tuple(self.InputsWidget.inputPair())
+        tuple((b, d) for b, d, a in self.InputsWidget.inputPair())
     )
     data_dict, _ = data_collecting(
         exprs,

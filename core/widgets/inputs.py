@@ -267,7 +267,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Use to show input variable count."""
         return self.variable_list.count()
     
-    def inputPair(self) -> Iterator[Tuple[int, int]]:
+    def inputPair(self) -> Iterator[Tuple[int, int, float]]:
         """Back as point number code."""
         vlinks = {
             vlink.name: set(vlink.points)
@@ -276,7 +276,7 @@ class InputsWidget(QWidget, Ui_Form):
         for vars in self.getInputsVariables():
             points = vlinks[vars[2]].copy()
             points.remove(vars[0])
-            yield (vars[0], points.pop())
+            yield (vars[0], points.pop(), vars[3])
     
     def variableReload(self):
         """Auto check the points and type."""
