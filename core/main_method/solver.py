@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 
+import traceback
 from typing import (
     Tuple,
     List,
@@ -39,12 +40,12 @@ def resolve(self):
                 self.getTriangle(),
                 {n: 'P{}'.format(n) for n in range(len(vpoints))},
                 vpoints,
-                [v[-1] for v in self.InputsWidget.getInputsVariables()]
+                tuple(v[-1] for v in self.InputsWidget.inputPair())
             )
         elif solve_kernel == 1:
             result, _ = slvsProcess(
                 vpoints,
-                tuple(self.InputsWidget.getInputsVariables())
+                tuple(self.InputsWidget.inputPair())
                 if not self.freemode_button.isChecked() else ()
             )
         elif solve_kernel == 2:
@@ -54,7 +55,7 @@ def resolve(self):
             )
     except Exception as e:
         if self.consoleerror_option.isChecked():
-            print(e)
+            print(traceback.format_exc())
         self.ConflictGuide.setToolTip(str(e))
         self.ConflictGuide.setStatusTip("Error: {}".format(e))
         self.ConflictGuide.setVisible(True)

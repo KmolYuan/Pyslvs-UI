@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -258,7 +258,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 453, 823))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 450, 747))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -556,7 +556,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 30))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 21))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -848,7 +848,7 @@ class Ui_MainWindow(object):
         self.planarsolver_option.setItemText(2, _translate("MainWindow", "Sketch Solve"))
         self.settings_misc_groupBox.setTitle(_translate("MainWindow", "Misc"))
         self.titlefullpath_option.setText(_translate("MainWindow", "Show full file path on window title."))
-        self.consoleerror_option.setText(_translate("MainWindow", "Show the Solvespace error in the console."))
+        self.consoleerror_option.setText(_translate("MainWindow", "Show error messages in the console."))
         self.dontsave_option.setText(_translate("MainWindow", "Do not save Pyslvs option."))
         self.settings_reset.setText(_translate("MainWindow", "Restore Defaults"))
         self.Panel.setTabText(self.Panel.indexOf(self.settings_tab), _translate("MainWindow", "Settings"))

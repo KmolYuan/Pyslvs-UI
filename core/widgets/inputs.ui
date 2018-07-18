@@ -57,34 +57,6 @@
        </layout>
       </item>
       <item>
-       <widget class="QLabel" name="inputs_label_right1">
-        <property name="text">
-         <string>&gt;&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_15">
-        <item>
-         <widget class="QLabel" name="base_link_list_lable">
-          <property name="text">
-           <string>Base link</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QListWidget" name="base_link_list">
-          <property name="statusTip">
-           <string>Coordinate reference.</string>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
        <widget class="QLabel" name="inputs_label_right2">
         <property name="text">
          <string>&gt;&gt;</string>
@@ -94,14 +66,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_16">
         <item>
-         <widget class="QLabel" name="drive_link_list_lable">
+         <widget class="QLabel" name="driver_list_lable">
           <property name="text">
-           <string>Drive link</string>
+           <string>Driver Point</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="drive_link_list">
+         <widget class="QListWidget" name="driver_list">
           <property name="statusTip">
            <string>Coordinate movement reference.</string>
           </property>

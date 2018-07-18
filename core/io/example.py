@@ -20,7 +20,7 @@ example_list = {
         "J[R, color[Green], P[114.5, 35.625], L[link_6, link_7]], " +
         "J[R, color[Green], P[7.0, 131.125], L[link_3, link_6]], " +
         "J[R, color[Green], P[163.5, 47.875], L[link_7]]" +
-        "]", ((0, 'ground', 'link_1'), (0, 'ground', 'link_2'))),
+        "]", ((0, 1), (0, 2))),
     
     "Ball lifter (Double)": ("M[" +
         "J[R, color[Green], P[10.2, 10.4], L[ground, link_1]], " +
@@ -37,7 +37,7 @@ example_list = {
         "J[R, color[Green], P[23.8, 0.0], L[ground, link_9]], " +
         "J[R, color[Green], P[35.64, 40.55], L[link_8, link_9]], " +
         "J[R, color[Green], P[8.73, 80.39], L[link_8]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
     
     "Ball lifter (Triple)": ("M[" +
         "J[R, color[Green], P[10.2, 10.4], L[ground, link_1]], " +
@@ -60,7 +60,7 @@ example_list = {
         "J[R, color[Green], P[92.30, -1.63], L[link_13, ground]], " +
         "J[R, color[Green], P[111.74, 70.43], L[link_12, link_13]], " +
         "J[R, color[Green], P[7.50, 93.44], L[link_12]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
     
     "Crank rocker": ("M[" +
         "J[R, color[Green], P[0.0, 0.0], L[ground, link_1]], " +
@@ -68,7 +68,7 @@ example_list = {
         "J[R, color[Green], P[73.28, 67.97], L[link_2, link_3]], " +
         "J[R, color[Green], P[33.3, 66.95], L[link_2]], " +
         "J[R, color[Green], P[90.0, 0.0], L[ground, link_3]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
     
     "Crank slider (P joint)": ("M[" +
         "J[R, color[Green], P[-33.625, -19.625], L[ground, link_1]]," +
@@ -78,7 +78,7 @@ example_list = {
         "J[R, color[Green], P[50.35, 53.117], L[link_2, link_5]]," +
         "J[R, color[Green], P[143.455, 65.967], L[link_4, link_5]]," +
         "J[R, color[Green], P[99.244, 20.447], L[ground, link_4]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
     
     "Crank slider (RP joint)": ("M[" +
         "J[R, color[Green], P[-67.38, 36.13], L[ground, link_1]], " +
@@ -87,7 +87,7 @@ example_list = {
         "J[R, color[Green], P[50.775, 24.7908], L[link_3, link_4]], " +
         "J[R, color[Green], P[74.375, 7.625], L[ground, link_4]], " +
         "J[R, color[Green], P[95.19720966542752, 52.88050148698885], L[link_3]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
     
     "Jansen's linkage (Single)": ("M[" +
         "J[R, color[Green], P[0.0, 0.0], L[ground, link_1]], " +
@@ -98,7 +98,7 @@ example_list = {
         "J[R, color[Green], P[-20.1, -42.79], L[link_4, link_5, link_7]], " +
         "J[R, color[Green], P[-56.05, -35.42], L[link_6, link_7]], " +
         "J[R, color[Green], P[-22.22, -91.74], L[link_7]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
     
     "Jansen's linkage (Double)": ("M[" +
         "J[R, color[Green], P[0.0, 0.0], L[ground, link_1]], " +
@@ -115,5 +115,5 @@ example_list = {
         "J[R, color[Green], P[31.18, -46.5], L[link_10, link_11, link_13]], " +
         "J[R, color[Green], P[64.84, -61.13], L[link_12, link_13]], " +
         "J[R, color[Green], P[4.79, -87.79], L[link_13]]" +
-        "]", ((0, 'ground', 'link_1'),)),
+        "]", ((0, 1),)),
 }

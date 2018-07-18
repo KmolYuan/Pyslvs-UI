@@ -149,36 +149,24 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 grounded = vpoint.links[j] == 'ground'
             if vpoint.type == 1:
                 if j == 0:
-                    self.drawPoint(
-                        i, cx, cy,
-                        grounded,
-                        vpoint.color
-                    )
+                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
                 else:
                     pen = QPen(vpoint.color)
                     pen.setWidth(2)
                     self.painter.setPen(pen)
                     r = 5
                     self.painter.drawRect(QRectF(
-                        QPointF(cx*self.zoom + r, cy*-self.zoom + r),
-                        QPointF(cx*self.zoom - r, cy*-self.zoom - r)
+                        QPointF(cx * self.zoom + r, cy * -self.zoom + r),
+                        QPointF(cx * self.zoom - r, cy * -self.zoom - r)
                     ))
             elif vpoint.type == 2:
                 if j == 0:
-                    self.drawPoint(
-                        i, cx, cy,
-                        grounded,
-                        vpoint.color
-                    )
+                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
                 else:
                     #Turn off point mark.
                     show_point_mark = self.show_point_mark
                     self.show_point_mark = False
-                    self.drawPoint(
-                        i, cx, cy,
-                        grounded,
-                        vpoint.color
-                    )
+                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
                     self.show_point_mark = show_point_mark
         pen = QPen(vpoint.color.darker())
         pen.setWidth(2)
@@ -196,11 +184,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 QPointF(p_right[0] * self.zoom, p_right[1] * -self.zoom)
             )
     else:
-        self.drawPoint(
-            i, vpoint.cx, vpoint.cy,
-            vpoint.grounded(),
-            vpoint.color
-        )
+        self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
     #For selects function.
     if (self.select_mode == 0) and (i in self.selections):
         pen = QPen(QColor(161, 16, 239))

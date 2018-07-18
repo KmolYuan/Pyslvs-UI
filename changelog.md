@@ -1,6 +1,20 @@
 Change Log
 ===
 
+Version 18.07
+===
+
+Features
+---
+
++ Input variables has been changed.
++ New solving kernel "Sketch Solve".
+
+Development
+---
+
+
+
 Version 18.06
 ===
 
@@ -39,7 +53,7 @@ Features
     + Add color picker in setting interface.
 + Solvespace format:
     + Comments will be generate into a new layout in Solvespace format.
-    + Simple reading function for *.slvs format (only support P joint).
+    + Simple reading function for \*.slvs format (only support P joint).
     + New option to generate part files.
 + Path record:
     + Add "copy path" function in path context menu.

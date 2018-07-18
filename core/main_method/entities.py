@@ -348,7 +348,7 @@ def adjustLink(self, value: int):
             self.getTriangle(),
             mapping,
             vpoints,
-            [v[-1] for v in self.InputsWidget.getInputsVariables()]
+            tuple(v[-1] for v in self.InputsWidget.inputPair())
         )
     except Exception:
         pass

@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>453</width>
-                  <height>823</height>
+                  <width>450</width>
+                  <height>747</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -819,7 +819,7 @@
                     <item>
                      <widget class="QCheckBox" name="consoleerror_option">
                       <property name="text">
-                       <string>Show the Solvespace error in the console.</string>
+                       <string>Show error messages in the console.</string>
                       </property>
                      </widget>
                     </item>
@@ -1227,7 +1227,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

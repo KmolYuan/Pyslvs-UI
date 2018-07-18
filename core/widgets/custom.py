@@ -232,7 +232,7 @@ def _appearance(self):
     ) #Call to get triangle data.
     self.FileWidget.InputsDataFunc = (lambda: tuple(
         variable[:-1]
-        for variable in self.InputsWidget.getInputsVariables()
+        for variable in self.InputsWidget.inputPair()
     )) #Call to get inputs variables data.
     self.FileWidget.loadCollectFunc = (
         self.CollectionTabPage.StructureWidget.addCollections
