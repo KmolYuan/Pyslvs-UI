@@ -32,7 +32,7 @@ from core.QtModules import (
     QTableWidgetItem,
 )
 from .overview import WorkbookOverview
-from .example import example_list
+from .examples import example_list
 from .Ui_peewee import Ui_Form
 
 

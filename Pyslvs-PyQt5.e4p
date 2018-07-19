@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-07-10, 16:31:46 -->
+<!-- Saved: 2018-07-19, 14:00:57 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -37,7 +37,7 @@
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/__init__.py</Source>
     <Source>core/io/dxf.py</Source>
-    <Source>core/io/example.py</Source>
+    <Source>core/io/examples.py</Source>
     <Source>core/io/images.py</Source>
     <Source>core/io/loggingHandler.py</Source>
     <Source>core/io/output_option.py</Source>

@@ -7,13 +7,14 @@ Version 18.07
 Features
 ---
 
++ Dimensional synthesis data settings changed.
 + Input variables has been changed.
 + New solving kernel "Sketch Solve".
 
 Development
 ---
 
-
++ New format with dimensional synthesis function.
 
 Version 18.06
 ===
@@ -53,7 +54,7 @@ Features
     + Add color picker in setting interface.
 + Solvespace format:
     + Comments will be generate into a new layout in Solvespace format.
-    + Simple reading function for \*.slvs format (only support P joint).
+    + Simple reading function for \*.slvs format (only support R joint).
     + New option to generate part files.
 + Path record:
     + Add "copy path" function in path context menu.
