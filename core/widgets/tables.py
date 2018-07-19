@@ -391,8 +391,6 @@ class ExprTableWidget(_BaseTableWidget):
         """Set the table items for new coming expression."""
         if exprs != self.exprs:
             self.clear()
-            print(exprs)
-            print(unsolved)
             self.setRowCount(len(exprs) + len(unsolved))
         row = 0
         for expr in exprs:

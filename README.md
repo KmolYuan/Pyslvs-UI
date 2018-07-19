@@ -57,7 +57,7 @@ Previews in KDE Plasma desktop:
 
 ![main](images/main_plasma.png)
 
-Previews in Windows 8.1 theme:
+Previews in Windows 10 theme:
 
 ![main](images/main_win.png)
 
@@ -121,11 +121,17 @@ The grammar is defined with Extended Backus–Naur Form (EBNF), you can checkout
 
 ## Kinematics Simulation
 
-Pyslvs has a simple simulation function for revolute joints.
+Pyslvs has a simple simulation function driving with revolute joints.
 
 ![PMKS example](images/Kinemetic.png)
 
-Choose a base link and a drive link for the joint, then add the dependent into variables list.
+There is a planar constraint solving mechanism done with three CAD kernels:
+
++ Pyslvs and Sketch Solve.
++ Python-Solvespace.
++ Sketch Solve.
+
+Choose a base point and a driver point for the shaft, then add this dependent into variables list.
 
 Using QDial widget (it just like a turntable) to adjust the angle value of variable.
 
@@ -214,7 +220,7 @@ Pyslvs can support for following format.
 + Expression (just a string).
 + Solvespace format (*.slvs, only supports very few of constraints).
 
-The workbook mechanism will generate the sketch frame as *.slvs format like follow:
+The workbook mechanism will generate the sketch frame as \*.slvs format like follow:
 
 ![](images/IO_slvs_origin.png)
 
@@ -482,8 +488,8 @@ Pyslvs is under [GNU Affero General Public License v3].
 
 Kernel repository:
 
-* [Python-solvespace]
 * [Pyslvs]
+* [Python-solvespace]
 
 [Solvespace]: http://solvespace.com
 [PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
