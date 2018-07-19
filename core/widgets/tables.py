@@ -57,8 +57,8 @@ class _BaseTableWidget(QTableWidget):
         self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         
         self.setRowCount(row)
-        self.setColumnCount(len(headers)+1)
-        for i, e in enumerate(('Name',) + headers):
+        self.setColumnCount(len(headers))
+        for i, e in enumerate(headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
         
         self.itemSelectionChanged.connect(self.__emitSelectionChanged)
@@ -157,6 +157,7 @@ class PointTableWidget(_BaseTableWidget):
     
     def __init__(self, parent: QWidget):
         super(PointTableWidget, self).__init__(0, (
+            'Number',
             'Links',
             'Type',
             'Color',
@@ -291,7 +292,7 @@ class LinkTableWidget(_BaseTableWidget):
     """Custom table widget for link."""
     
     def __init__(self, parent: QWidget):
-        super(LinkTableWidget, self).__init__(1, ('Color', 'Points'), parent)
+        super(LinkTableWidget, self).__init__(1, ('Name', 'Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
         self.editArgs(0, 'ground', 'White', '')
@@ -363,7 +364,7 @@ class ExprTableWidget(_BaseTableWidget):
     freemove_request = pyqtSignal(bool)
     
     def __init__(self, parent: QWidget):
-        column_count = ('p0', 'p1', 'p2', 'p3', 'p4', 'target')
+        column_count = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
         super(ExprTableWidget, self).__init__(0, column_count, parent)
         for column in range(self.columnCount()):
             self.setColumnWidth(column, 80)
@@ -384,26 +385,42 @@ class ExprTableWidget(_BaseTableWidget):
     
     def setExpr(self,
         exprs: List[Tuple[str]],
-        data_dict: Dict[str, Union[Tuple[float, float], float]]
+        data_dict: Dict[str, Union[Tuple[float, float], float]],
+        unsolved: Tuple[int]
     ):
         """Set the table items for new coming expression."""
         if exprs != self.exprs:
             self.clear()
-            self.setRowCount(len(exprs))
-        for row, expr in enumerate(exprs):
+            print(exprs)
+            print(unsolved)
+            self.setRowCount(len(exprs) + len(unsolved))
+        row = 0
+        for expr in exprs:
+            #Target
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(expr[-1]))
+            #Parameters
             for column, e in enumerate(expr[:-1]):
                 if e in data_dict:
                     if type(data_dict[e]) == float:
+                        #Pure digit
                         t = "{}:{:.02f}"
                     else:
+                        #Coordinate
                         t = "{0}:({1[0]:.02f}, {1[1]:.02f})"
                     text = t.format(e, data_dict[e])
                 else:
+                    #Function name
                     text = e
                 item = QTableWidgetItem(text)
                 item.setToolTip(text)
                 self.setItem(row, column, item)
+            row += 1
+        for p in unsolved:
+            #Declaration
+            self.setItem(row, 0, QTableWidgetItem("Unsolved"))
+            #Target
+            self.setItem(row, self.columnCount() - 1, QTableWidgetItem("P{}".format(p)))
+            row += 1
         self.exprs = exprs
     
     def clear(self):
