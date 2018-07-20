@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-07-19, 14:00:57 -->
+<!-- Saved: 2018-07-20, 21:31:56 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -64,6 +64,9 @@
     <Source>core/libs/pyslvs/src/bfgs.pyx</Source>
     <Source>core/libs/pyslvs/src/number.pyx</Source>
     <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
+    <Source>core/libs/pyslvs/src/pmks.pxd</Source>
+    <Source>core/libs/pyslvs/src/pmks.pyx</Source>
+    <Source>core/libs/pyslvs/src/sketch_solve.pxd</Source>
     <Source>core/libs/pyslvs/src/tinycadlib.pxd</Source>
     <Source>core/libs/pyslvs/src/tinycadlib.pyx</Source>
     <Source>core/libs/pyslvs/src/topologic.pyx</Source>
