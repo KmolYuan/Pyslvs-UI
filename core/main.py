@@ -83,17 +83,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         
-        #Console widget.
-        self.consoleerror_option.setChecked(self.args.w)
-        if not self.args.debug_mode:
-            self.on_connectConsoleButton_clicked()
-        
         #Undo stack streem.
         self.CommandStack = QUndoStack(self)
         
         #Initialize custom UI.
         initCustomWidgets(self)
         self.restoreSettings()
+        
+        #Console widget.
+        self.consoleerror_option.setChecked(self.args.debug_mode)
+        if not self.args.debug_mode:
+            self.on_connectConsoleButton_clicked()
         self.resolve()
         
         #Load workbook from argument.

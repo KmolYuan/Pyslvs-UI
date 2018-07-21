@@ -81,11 +81,6 @@ _parser.add_argument(
     help = "start Pyslvs in the specified path"
 )
 _parser.add_argument(
-    '-w',
-    action = 'store_true',
-    help = "show rebuild warning of canvas"
-)
-_parser.add_argument(
     '-f',
     '--fusion',
     action = 'store_true',

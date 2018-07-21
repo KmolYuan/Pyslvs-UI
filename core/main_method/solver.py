@@ -217,9 +217,7 @@ def getCollection(self) -> Dict[str, Union[
     }
 
 
-def getTriangle(self,
-    vpoints: Optional[Tuple[VPoint]] = None
-) -> List[Tuple[str]]:
+def getTriangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
     """Update triangle expression here.
 
     Special function for VPoints.
