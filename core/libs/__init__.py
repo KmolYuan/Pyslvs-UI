@@ -195,8 +195,8 @@ def slvsProcess(
             p_base = solved_points[i][0]
             p_assist = Point2d(
                 wp1,
-                sys.add_param(vpoint.cx + 10.*cos(radians(vpoint.angle))),
-                sys.add_param(vpoint.cy + 10.*sin(radians(vpoint.angle)))
+                sys.add_param(vpoint.cx + 10 * cos(radians(vpoint.angle))),
+                sys.add_param(vpoint.cy + 10 * sin(radians(vpoint.angle)))
             )
             l_slot = LineSegment2d(wp1, p_base, p_assist)
             Constraint.distance(10., wp1, p_base, p_assist)
@@ -221,7 +221,7 @@ def slvsProcess(
                 else:
                     p_link_assist = solved_points[relate_n]
                 l_link = LineSegment2d(wp1, p_main, p_link_assist)
-                angle_base = vpoint.slope_angle(relate_vp)
+                angle_base = vpoint.slope_angle(relate_vp) - vpoint.angle
                 if (angle_base == 0.) or (angle_base == 180.):
                     Constraint.parallel(wp1, l_link, l_slot)
                 else:
@@ -285,8 +285,8 @@ def slvsProcess(
                     #Same point. Just connect to same point.
                     ConnectTo(*(connect_1 if connect_1[0]==0. else connect_2))
                 elif min(
-                    abs(2*connect_1[0] - connect_2[0]),
-                    abs(connect_1[0] - 2*connect_2[0]),
+                    abs(2 * connect_1[0] - connect_2[0]),
+                    abs(connect_1[0] - 2 * connect_2[0]),
                 ) < 0.001:
                     #Collinear.
                     Constraint.on(
@@ -319,7 +319,6 @@ def slvsProcess(
             relate_base = vlinks[base_link]
             newRelateOrder_base = relate_base.index(p0) - 1
             angle -= vpoints[p0].slope_angle(vpoints[newRelateOrder_base])
-            angle %= 360.
         
         x = sys.add_param(round(vpoints[p0].cx + 10 * cos(radians(angle)), 8))
         y = sys.add_param(round(vpoints[p0].cy + 10 * sin(radians(angle)), 8))
