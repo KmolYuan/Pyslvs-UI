@@ -32,7 +32,7 @@ from core.QtModules import (
     QFileInfo,
 )
 from core.io import QTIMAGES
-from core.libs import NumberSynthesis, topo
+from core.libs import number_synthesis, topo
 from core.graphics import (
     graph,
     engines,
@@ -132,7 +132,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.NL_input.setValue(
-            sum(len(vlink.points) > 1 for vlink in linkData)+
+            sum(len(vlink.points) > 1 for vlink in linkData) +
             sum(
                 len(vpoint.links) - 2 for vpoint in jointData
                 if (vpoint.type == 2) and (len(vpoint.links) > 1)
@@ -165,11 +165,11 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         if self.sender() == self.NJ_input:
             N2 = self.NJ_input.value()
-            NL_func = lambda: float(((self.DOF.value() + 2*N2) / 3) + 1)
+            NL_func = lambda: float(((self.DOF.value() + 2 * N2) / 3) + 1)
             is_above = N2 > self.NJ_input_old_value
         else:
             N2 = self.NL_input.value()
-            NL_func = lambda: float((3*(N2-1) - self.DOF.value()) / 2)
+            NL_func = lambda: float((3 * (N2 - 1) - self.DOF.value()) / 2)
             is_above = N2 > self.NL_input_old_value
         N1 = NL_func()
         while not N1.is_integer():
@@ -197,16 +197,16 @@ class StructureSynthesis(QWidget, Ui_Form):
     def on_Combine_number_clicked(self):
         """Show number of links with different number of joints."""
         self.expr_number.clear()
-        NS_result = NumberSynthesis(self.NL_input.value(), self.NJ_input.value())
-        if type(NS_result) == str:
-            item = QListWidgetItem(NS_result)
+        try:
+            results = number_synthesis(self.NL_input.value(), self.NJ_input.value())
+        except Exception as e:
+            item = QListWidgetItem(str(e))
             item.links = None
             self.expr_number.addItem(item)
         else:
-            for result in NS_result:
+            for result in results:
                 item = QListWidgetItem(", ".join(
-                    "NL{} = {}".format(i+2, result[i])
-                    for i in range(len(result))
+                    "NL{} = {}".format(i + 2, result[i]) for i in range(len(result))
                 ))
                 item.links = result
                 self.expr_number.addItem(item)
@@ -220,7 +220,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         execute number synthesis first.
         """
         row = self.expr_number.currentRow()
-        if not row>-1:
+        if not row > -1:
             self.on_Combine_number_clicked()
             row = self.expr_number.currentRow()
         if self.expr_number.currentItem() is None:
@@ -237,7 +237,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
-        if not self.expr_number.currentRow()>-1:
+        if not self.expr_number.currentRow() > -1:
             self.on_Combine_number_clicked()
         if self.expr_number.currentItem().links is None:
             return
@@ -262,7 +262,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.answer = answers
         self.on_reload_atlas_clicked()
     
-    def __typeCombine(self, row: int) -> List[Graph]:
+    def __typeCombine(self, row: int) -> Optional[List[Graph]]:
         """Combine and show progress dialog."""
         item = self.expr_number.item(row)
         progdlg = QProgressDialog(
