@@ -53,6 +53,7 @@ cp ../../preview_rc.py usr/bin
 cp -r ../../core usr/bin
 rm -fr usr/bin/core/libs/pyslvs/build
 rm -fr usr/bin/core/libs/pyslvs/src
+rm -fr usr/bin/core/libs/pyslvs/Adesign
 rm -fr usr/bin/core/libs/python_solvespace/obj
 rm -fr usr/bin/core/libs/python_solvespace/iclude
 rm -fr usr/bin/core/libs/python_solvespace/src
