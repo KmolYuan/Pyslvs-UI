@@ -14,6 +14,7 @@ Features
 Development
 ---
 
++ Merge "-w" flag to "-d" flag.
 + New format with dimensional synthesis function.
 
 Version 18.06
