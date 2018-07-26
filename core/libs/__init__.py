@@ -36,6 +36,7 @@ from .pyslvs import (
     parse_params,
     parse_vpoints,
     PMKSLexer,
+    example_list,
 )
 from .python_solvespace import (
     #Entities & Constraint
@@ -83,6 +84,7 @@ __all__ = [
     'parse_params',
     'parse_vpoints',
     'PMKSLexer',
+    'example_list',
     'create2DSystem',
     'slvsProcess',
 ]

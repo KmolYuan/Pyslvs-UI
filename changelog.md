@@ -16,6 +16,7 @@ Development
 
 + Merge "-w" flag to "-d" flag.
 + New format with dimensional synthesis function.
++ Example list has been move to "pyslvs" core kernel.
 
 Version 18.06
 ===
