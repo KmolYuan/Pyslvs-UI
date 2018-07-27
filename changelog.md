@@ -7,13 +7,17 @@ Version 18.07
 Features
 ---
 
-+ Dimensional synthesis data settings changed.
-+ Input variables has been changed.
-+ New solving kernel "Sketch Solve".
++ Dimensional synthesis data settings and UI has been changed.
++ Input variable settings and UI has been changed.
++ New solving kernel "Sketch Solve" in "pyslvs" core library.
++ Add new examples:
+    + "Stephenson II"
+    + "Stephenson III"
 
 Development
 ---
 
++ Add "Python-Solvespace" kernel as submodule.
 + Merge "-w" flag to "-d" flag.
 + New format with dimensional synthesis function.
 + Example list has been move to "pyslvs" core kernel.
