@@ -60,7 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     Exit with QApplication.
     
     The main window is so much method that was been split it
-    into wrapper function as 'widgets.custom_xxx' module.
+    to wrapper function in 'main_method' module.
     """
     
     def __init__(self, args: Namespace):
@@ -76,6 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.args = args
         self.env = ""
         self.DOF = 0
+        self.autopreview = ()
         
         self.setLocate(
             QFileInfo(self.args.i).canonicalFilePath()
@@ -168,9 +169,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def rightInput(self) -> bool:
         return _solver.rightInput(self)
-    
-    def pathInterval(self) -> float:
-        return _solver.pathInterval(self)
     
     def reloadCanvas(self):
         _solver.reloadCanvas(self)

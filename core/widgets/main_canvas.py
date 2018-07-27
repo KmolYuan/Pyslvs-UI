@@ -57,9 +57,7 @@ class DynamicCanvas(BaseCanvas):
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         #Functions from the main window.
-        self.getTriangle = parent.getTriangle
         self.rightInput = parent.rightInput
-        self.pathInterval = parent.pathInterval
         #The current mouse coordinates.
         self.selector = Selector()
         #Entities.
@@ -106,13 +104,17 @@ class DynamicCanvas(BaseCanvas):
     def updateFigure(self,
         vpoints: Tuple[VPoint],
         vlinks: Tuple[VLink],
-        path: List[Tuple[float, float]]
+        exprs: List[Tuple[str]],
+        path: List[Tuple[float, float]],
+        autopreview: List[Tuple[float, float]]
     ):
         """Update with Point and Links data."""
         self.vpoints = vpoints
         self.vlinks = vlinks
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
+        self.exprs = exprs
         self.Path.path = path
+        self.Path.autopreview = autopreview
         self.update()
     
     @pyqtSlot(int)
@@ -302,10 +304,10 @@ class DynamicCanvas(BaseCanvas):
             i = self.__selectionMode()
             QToolTip.showText(
                 event.globalPos(),
-                "<p style=\"background-color: #77abff\">{}</p>".format(''.join(
+                "<p style=\"background-color: #77abff\">" + ''.join(
                     "<img width=\"{}\" src=\":icons/{}.png\"/>".format(70 if (i == j) else 40, icon)
                     for j, icon in enumerate(('bearing', 'link', 'triangular-iteration'))
-                )),
+                ) + "</p>",
                 self
             )
         else:

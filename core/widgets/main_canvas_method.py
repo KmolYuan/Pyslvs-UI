@@ -33,11 +33,7 @@ from core.graphics import (
     colorQt,
     colorNum,
 )
-from core.libs import (
-    expr_path,
-    VPoint,
-    VLink,
-)
+from core.libs import VPoint, VLink
 
 
 class Selector:
@@ -256,34 +252,20 @@ def _drawLink(self, vlink: VLink):
 def _drawPath(self):
     """Draw paths. Recording first."""
     pen = QPen()
+    #Auto preview path
     if self.auto_path and self.rightInput():
-        """Replace to auto preview path."""
-        self.exprs = self.getTriangle(self.vpoints)
-        try:
-            self.Path.path = expr_path(
-                self.exprs,
-                {n: 'P{}'.format(n) for n in range(len(self.vpoints))},
-                self.vpoints,
-                self.pathInterval()
-            )
-        except:
-            pass
-    else:
-        self.exprs = []
+        self.Path.path = self.Path.autopreview
+    #Path record
     if hasattr(self, 'path_record'):
         paths = self.path_record
     else:
         paths = self.Path.path
     for i, path in enumerate(paths):
-        if (
-            (self.Path.show != i) and
-            (self.Path.show != -1) or
-            (len(path) <= 1)
-        ):
+        if (self.Path.show != i) and (self.Path.show != -1) or (len(path) <= 1):
             continue
-        try:
+        if self.vpoints[i].color:
             color = self.vpoints[i].color
-        except:
+        else:
             color = colorQt('Green')
         pen.setColor(color)
         pen.setWidth(self.path_width)
@@ -443,8 +425,6 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
                     y_top = y
     #Points
     for vpoint in self.vpoints:
-        if has_path and (not vpoint.grounded()):
-            continue
         if vpoint.cx < x_right:
             x_right = vpoint.cx
         if vpoint.cx > x_left:

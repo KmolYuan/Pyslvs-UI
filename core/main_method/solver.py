@@ -25,6 +25,7 @@ from core.libs import (
     VPoint,
     data_collecting,
     expr_solving,
+    expr_path,
     vpoint_dof,
     bfgs_vpoint_solving,
 )
@@ -74,6 +75,12 @@ def resolve(self):
         ))
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)
+    self.autopreview = expr_path(
+        self.getTriangle(vpoints),
+        {n: 'P{}'.format(n) for n in range(len(vpoints))},
+        vpoints,
+        self.InputsWidget.record_interval.value()
+    )
     self.reloadCanvas()
 
 
@@ -251,15 +258,12 @@ def rightInput(self) -> bool:
     return inputs
 
 
-def pathInterval(self) -> float:
-    """Wrapper use to get path interval."""
-    return self.InputsWidget.record_interval.value()
-
-
 def reloadCanvas(self):
     """Update main canvas data, without resolving."""
     self.MainCanvas.updateFigure(
         self.EntitiesPoint.dataTuple(),
         self.EntitiesLink.dataTuple(),
-        self.InputsWidget.currentPath()
+        self.getTriangle(),
+        self.InputsWidget.currentPath(),
+        self.autopreview
     )
