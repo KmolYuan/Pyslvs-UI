@@ -349,6 +349,8 @@ class BaseCanvas(QWidget):
     
     def drawCurve(self, path: Sequence[Tuple[float, float]]):
         """Draw path as curve."""
+        if len(set(path)) <= 2:
+            return
         pointPath = QPainterPath()
         error = False
         for i, (x, y) in enumerate(path):
@@ -372,6 +374,8 @@ class BaseCanvas(QWidget):
     
     def drawDot(self, path: Sequence[Tuple[float, float]]):
         """Draw path as dots."""
+        if len(set(path)) <= 2:
+            return
         for x, y in path:
             if isnan(x):
                 continue

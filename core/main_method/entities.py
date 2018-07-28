@@ -519,7 +519,8 @@ def on_action_Delete_Link_triggered(self):
 
 def setCoordsAsCurrent(self):
     """Update points position as current coordinate."""
+    vpoints = self.EntitiesPoint.dataTuple()
     self.setFreemove(tuple(
-        (row, self.EntitiesPoint.currentPosition(row)[0])
-        for row in range(self.EntitiesPoint.rowCount())
+        (row, (vpoint.cx, vpoint.cy, vpoint.angle))
+        for row, vpoint in enumerate(vpoints)
     ))
