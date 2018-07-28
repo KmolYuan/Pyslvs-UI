@@ -122,19 +122,10 @@ def graph2vpoints(
                 for j in same_r[i]:
                     e.update(set(ev[j]))
             link = ", ".join((str(l) if l else 'ground') for l in e)
-        tmp_list.append(VPoint(
-            link,
-            0,
-            0.,
-            'Green',
-            *pos[i]
-        ))
+        tmp_list.append(VPoint.from_R_joint(link, *pos[i]))
     for name in sorted(cus):
-        tmp_list.append(VPoint(
+        tmp_list.append(VPoint.from_R_joint(
             str(cus[name]) if cus[name] else 'ground',
-            0,
-            0.,
-            'Green',
             *pos[int(name.replace('P', ''))]
         ))
     return tmp_list

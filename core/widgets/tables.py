@@ -180,24 +180,22 @@ class PointTableWidget(_BaseTableWidget):
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
             y = float(self.item(row, 5).text())
-            """
-            Type = (type:str, angle:float)
-            """
-            Type = self.item(row, 2).text().split(':')
-            if Type[0] == 'R':
-                Type = 0
+            #p_type = (type: str, angle: float)
+            p_type = self.item(row, 2).text().split(':')
+            if p_type[0] == 'R':
+                type = 0
                 angle = 0.
-            elif (Type[0] == 'P') or (Type[0] == 'RP'):
-                angle = float(Type[1])
-                Type = {'P':1, 'RP':2}[Type[0]]
-            vpoint = VPoint(Links, Type, angle, color, x, y, colorQt)
+            elif (p_type[0] == 'P') or (p_type[0] == 'RP'):
+                angle = float(p_type[1])
+                type = 1 if p_type[0] == 'P' else 2
+            vpoint = VPoint(Links, type, angle, color, x, y, colorQt)
             vpoint.move(*self.currentPosition(row))
             yield vpoint
     
     def editArgs(self,
         row: int,
         Links: str,
-        Type: str,
+        type: str,
         Color: str,
         x: float,
         y: float
@@ -206,7 +204,7 @@ class PointTableWidget(_BaseTableWidget):
         for i, e in enumerate([
             'Point{}'.format(row),
             Links,
-            Type,
+            type,
             Color,
             x,
             y,
