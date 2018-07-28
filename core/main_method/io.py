@@ -243,7 +243,7 @@ def clear(self):
     self.EntitiesPoint.clear()
     self.EntitiesLink.clear()
     self.EntitiesExpr.clear()
-    self.resolve()
+    self.solve()
 
 
 def on_action_Import_PMKS_server_triggered(self):

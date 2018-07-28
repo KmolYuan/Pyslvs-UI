@@ -31,6 +31,12 @@ from core.libs import (
 )
 
 
+def solve(self):
+    """Resolve coordinates and preview path."""
+    self.resolve()
+    self.previewpath()
+
+
 def resolve(self):
     """Resolve: Using three libraries to solve the system.
     
@@ -60,6 +66,7 @@ def resolve(self):
                 tuple(self.InputsWidget.inputPair())
             )
     except Exception as e:
+        #Error: Show warning without update data.
         if self.consoleerror_option.isChecked():
             print(traceback.format_exc())
         self.ConflictGuide.setToolTip(str(e))
@@ -67,6 +74,7 @@ def resolve(self):
         self.ConflictGuide.setVisible(True)
         self.DOFview.setVisible(False)
     else:
+        #Done: Update coordinate data.
         self.EntitiesPoint.updateCurrentPosition(result)
         self.DOF = vpoint_dof(vpoints)
         self.DOFview.setText("{} ({})".format(
@@ -75,6 +83,36 @@ def resolve(self):
         ))
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)
+    self.reloadCanvas()
+
+
+def previewpath(self):
+    """Resolve auto preview path."""
+    vpoints = self.EntitiesPoint.dataTuple()
+    #TODO: Switch diffrent solver.
+    """
+    solve_kernel = self.planarsolver_option.currentIndex()
+    if solve_kernel == 0:
+        result = expr_solving(
+            self.getTriangle(),
+            {n: 'P{}'.format(n) for n in range(len(vpoints))},
+            vpoints,
+            tuple(v[-1] for v in self.InputsWidget.inputPair())
+        )
+    elif solve_kernel == 1:
+        result, _ = slvsProcess(
+            vpoints,
+            tuple(self.InputsWidget.inputPair())
+            if not self.freemode_button.isChecked() else ()
+        )
+    elif solve_kernel == 2:
+        result = bfgs_vpoint_solving(
+            vpoints,
+            tuple(self.InputsWidget.inputPair())
+        )
+    """
+    #path: [[each_joints]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
+    #TODO: Prepare to deprecated.
     self.autopreview = expr_path(
         self.getTriangle(vpoints),
         {n: 'P{}'.format(n) for n in range(len(vpoints))},
@@ -260,10 +298,10 @@ def rightInput(self) -> bool:
 
 def reloadCanvas(self):
     """Update main canvas data, without resolving."""
+    path = self.InputsWidget.currentPath()
     self.MainCanvas.updateFigure(
         self.EntitiesPoint.dataTuple(),
         self.EntitiesLink.dataTuple(),
         self.getTriangle(),
-        self.InputsWidget.currentPath(),
-        self.autopreview
+        path if path else self.autopreview
     )

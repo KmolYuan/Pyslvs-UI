@@ -144,7 +144,7 @@ class _Path:
     
     """Path option class."""
     
-    __slots__ = ('autopreview', 'path', 'show', 'curve')
+    __slots__ = ('path', 'show', 'curve')
     
     def __init__(self):
         """Attributes:
@@ -155,7 +155,6 @@ class _Path:
             + Show mode parameter.
             + The path will be the curve, otherwise using the points.
         """
-        self.autopreview = ()
         self.path = ()
         self.show = -1
         self.curve = True

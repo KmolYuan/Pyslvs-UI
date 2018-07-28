@@ -56,8 +56,6 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
-        #Functions from the main window.
-        self.rightInput = parent.rightInput
         #The current mouse coordinates.
         self.selector = Selector()
         #Entities.
@@ -78,8 +76,6 @@ class DynamicCanvas(BaseCanvas):
         self.show_dimension = False
         #Free move mode.
         self.freemove = FreeMode.NoFreeMove
-        #Auto preview function.
-        self.auto_path = True
         #Zooming center.
         """
         0: By cursor.
@@ -105,8 +101,7 @@ class DynamicCanvas(BaseCanvas):
         vpoints: Tuple[VPoint],
         vlinks: Tuple[VLink],
         exprs: List[Tuple[str]],
-        path: List[Tuple[float, float]],
-        autopreview: List[Tuple[float, float]]
+        path: List[Tuple[float, float]]
     ):
         """Update with Point and Links data."""
         self.vpoints = vpoints
@@ -114,7 +109,6 @@ class DynamicCanvas(BaseCanvas):
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
         self.Path.path = path
-        self.Path.autopreview = autopreview
         self.update()
     
     @pyqtSlot(int)
@@ -240,11 +234,6 @@ class DynamicCanvas(BaseCanvas):
         i: Show path i.
         """
         self.Path.show = p
-        self.update()
-    
-    def setAutoPath(self, auto_path: bool):
-        """Enable auto preview function."""
-        self.auto_path = auto_path
         self.update()
     
     def updateRanges(self, ranges: Dict[str, Tuple[float, float, float]]):

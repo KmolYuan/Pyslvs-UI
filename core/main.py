@@ -95,7 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.consoleerror_option.setChecked(self.args.debug_mode)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        self.resolve()
+        self.solve()
         
         #Load workbook from argument.
         _io.readFromArgs(self)
@@ -140,11 +140,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookSaved()
         self.EntitiesPoint.clearSelection()
         self.InputsWidget.variableReload()
-        self.resolve()
+        self.solve()
+
+    def solve(self):
+        _solver.solve(self)
     
     @pyqtSlot()
     def resolve(self):
         _solver.resolve(self)
+    
+    def previewpath(self):
+        _solver.previewpath(self)
     
     def getGraph(self) -> List[Tuple[int, int]]:
         return _solver.getGraph(self)

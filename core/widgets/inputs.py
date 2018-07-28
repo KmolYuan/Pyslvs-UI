@@ -47,7 +47,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.EntitiesPoint = parent.EntitiesPoint
         self.EntitiesLink = parent.EntitiesLink
         self.MainCanvas = parent.MainCanvas
-        self.resolve = parent.resolve
+        self.solve = parent.solve
         self.reloadCanvas = parent.reloadCanvas
         self.outputTo = parent.outputTo
         self.ConflictGuide = parent.ConflictGuide
@@ -208,7 +208,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.push(DeleteVariable(row, self.variable_list))
         self.CommandStack.endMacro()
         self.EntitiesPoint.getBackPosition()
-        self.resolve()
+        self.solve()
     
     def inputCount(self) -> int:
         """Use to show input variable count."""
@@ -272,7 +272,7 @@ class InputsWidget(QWidget, Ui_Form):
                 "{:.02f}".format(vpoints[p0].slope_angle(vpoints[p1]))
             ]))
         self.__dialOk()
-        self.resolve()
+        self.solve()
     
     @pyqtSlot(bool)
     def on_variable_play_toggled(self, toggled):
@@ -467,13 +467,8 @@ class InputsWidget(QWidget, Ui_Form):
         + Auto preview.
         """
         row = self.record_list.currentRow()
-        if row == -1:
-            self.MainCanvas.setAutoPath(False)
+        if row in (0, -1):
             return ()
-        elif row > 0:
-            self.MainCanvas.setAutoPath(False)
+        else:
             name = self.record_list.item(row).text()
             return self.pathData.get(name.split(':')[0], ())
-        elif row == 0:
-            self.MainCanvas.setAutoPath(True)
-            return ()

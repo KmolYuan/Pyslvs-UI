@@ -21,6 +21,7 @@ Development
 + Merge "-w" flag to "-d" flag.
 + New format with dimensional synthesis function.
 + Example list has been move to "pyslvs" core kernel.
++ Change behavior of auto path preview function.
 
 Version 18.06
 ===

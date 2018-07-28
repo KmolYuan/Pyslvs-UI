@@ -362,7 +362,8 @@ def _options(self):
     self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
     self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
-    self.planarsolver_option.currentIndexChanged.connect(self.resolve)
+    #Resolve after change current kernel.
+    self.planarsolver_option.currentIndexChanged.connect(self.solve)
     self.settings_reset.clicked.connect(self.resetOptions)
 
 

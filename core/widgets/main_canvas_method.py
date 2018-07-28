@@ -252,9 +252,6 @@ def _drawLink(self, vlink: VLink):
 def _drawPath(self):
     """Draw paths. Recording first."""
     pen = QPen()
-    #Auto preview path
-    if self.auto_path and self.rightInput():
-        self.Path.path = self.Path.autopreview
     #Path record
     if hasattr(self, 'path_record'):
         paths = self.path_record
