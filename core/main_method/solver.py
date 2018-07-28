@@ -125,7 +125,7 @@ def previewpath(self):
                         self.getTriangle(),
                         {n: 'P{}'.format(n) for n in range(vpoint_count)},
                         vpoints,
-                        tuple(angles)
+                        angles
                     )
                 elif solve_kernel == 1:
                     result, _ = slvsProcess(

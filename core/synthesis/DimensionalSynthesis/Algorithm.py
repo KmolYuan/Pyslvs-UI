@@ -42,7 +42,7 @@ from core.io import (
     strbetween,
     strbefore,
 )
-from core.libs import expr_path
+from core.libs import expr_solving
 from core.synthesis import CollectionsDialog
 from .DimensionalSynthesis_dialog import (
     GeneticPrams,
@@ -513,10 +513,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __getPath(self, row: int):
         """Using result data to generate paths of mechanism."""
         Result = self.mechanism_data[row]
-        point_index = sorted(
-            int(tag.replace('P', ''))
-            for tag in Result if tag.replace('P', '').isdigit()
-        )
         exprs = []
         for expr in Result['Expression'].split(';'):
             func = strbefore(expr, '[')
@@ -531,18 +527,58 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 pos[name] = Result['P{}'.format(name)]
             except KeyError:
                 pos[name] = Result['pos'][name]
+        
         vpoints = graph2vpoints(
             Graph(Result['Graph']),
             pos,
             Result['cus'],
             Result['same']
         )
-        return [path for i, path in enumerate(expr_path(
-            tuple(exprs),
-            {n: 'P{}'.format(n) for n in range(len(vpoints))},
-            vpoints,
-            3
-        )) if (i in point_index)]
+        vpoint_count = len(vpoints)
+        
+        path = []
+        for i in range(vpoint_count):
+            path.append([])
+        
+        #Cumulative angle
+        i_count = sum(1 for e in exprs if e[0] == 'PLAP')
+        angles_cum = [0.] * i_count
+        nan = float('nan')
+        for interval in (3, -3):
+            #Driver pointer
+            dp = 0
+            angles = [0.] * i_count
+            while dp < i_count:
+                try:
+                    result = expr_solving(
+                        exprs,
+                        {n: 'P{}'.format(n) for n in range(len(vpoints))},
+                        vpoints,
+                        angles
+                    )
+                except Exception:
+                    #Update with error sign.
+                    for i in range(vpoint_count):
+                        path[i].append((nan, nan))
+                    #Back to last feasible solution.
+                    angles[dp] -= interval
+                    dp += 1
+                else:
+                    #Update with result.
+                    for i in range(vpoint_count):
+                        if result[i][0] == tuple:
+                            path[i].append(result[i][1])
+                            vpoints[i].move(*result[i])
+                        else:
+                            path[i].append(result[i])
+                            vpoints[i].move(result[i])
+                    angles[dp] += interval
+                    angles[dp] %= 360
+                    angles_cum[dp] += abs(interval)
+                    if angles_cum[dp] > 360:
+                        angles[dp] -= interval
+                        dp += 1
+        return path
     
     @pyqtSlot()
     def on_result_chart_clicked(self):
