@@ -53,7 +53,7 @@ def slvs_process_script(
 ) -> str:
     """Return parser function script."""
     return _script.format(
-        '\n'.join(" " * 8 + '"{}"'.format(expr) for expr in script),
+        '\n'.join(" " * 8 + '"{}, "'.format(expr) for expr in script),
         inputs
     )
 
@@ -133,6 +133,6 @@ class ScriptDialog(QDialog, Ui_Dialog):
         file_name = self.outputTo(self.filename, self.fileformat)
         if not file_name:
             return
-        with open(file_name, 'w', newline="") as f:
+        with open(file_name, 'w', newline = "") as f:
             f.write(self.script_view.toPlainText())
         self.saveReplyBox(self.filename, file_name)
