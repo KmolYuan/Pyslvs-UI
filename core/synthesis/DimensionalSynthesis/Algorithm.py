@@ -90,7 +90,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         
         #Data and functions.
         self.mechanism_data = []
-        self.alg_options = defaultSettings.copy()
+        self.alg_options = {}
+        self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
         self.__setAlgorithmToDefault()
         
@@ -798,6 +799,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __setAlgorithmToDefault(self):
         """Set the algorithm settings to default."""
         self.alg_options.clear()
+        self.alg_options.update(defaultSettings)
         if self.type0.isChecked():
             self.alg_options.update(GeneticPrams)
         elif self.type1.isChecked():

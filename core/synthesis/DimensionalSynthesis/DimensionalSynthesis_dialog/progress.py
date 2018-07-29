@@ -44,9 +44,10 @@ class ProgressDialog(QDialog, Ui_Dialog):
         #Batch label.
         if 'maxGen' in setting:
             self.limit = setting['maxGen']
-            self.batch_label.setText(
-                "{} generation(s)".format(self.limit) if self.limit>0 else '∞'
-            )
+            if self.limit > 0:
+                self.batch_label.setText("{} generation(s)".format(self.limit))
+            else:
+                self.batch_label.setText('∞')
             self.limit_mode = 'maxGen'
         elif 'minFit' in setting:
             self.limit = setting['minFit']
