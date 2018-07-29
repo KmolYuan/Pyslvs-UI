@@ -13,6 +13,7 @@ Features
 + Add new examples:
     + "Stephenson II"
     + "Stephenson III"
++ Adjust ask saving message box in "FileWidget" class.
 
 Development
 ---

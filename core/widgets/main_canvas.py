@@ -79,6 +79,8 @@ class DynamicCanvas(BaseCanvas):
         #Path preview.
         self.pathpreview = []
         self.previewpath = parent.previewpath
+        #Path record.
+        self.path_record = []
         #Zooming center.
         """
         0: By cursor.
@@ -267,7 +269,7 @@ class DynamicCanvas(BaseCanvas):
             tuple(path) if (len(set(path)) > 1) else ()
             for path in self.path_record
         )
-        del self.path_record
+        self.path_record.clear()
         return path
     
     def adjustLink(self,

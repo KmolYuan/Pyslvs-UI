@@ -188,6 +188,7 @@ class FileWidget(QWidget, Ui_Form):
         + Call to load storages.
         + Call after loaded paths.
         """
+        self.checkFileChanged = parent.checkFileChanged
         self.isSavedFunc = parent.workbookSaved
         self.linkGroupFunc = parent.addEmptyLinkGroup
         self.parseFunc = parent.parseExpression
@@ -495,7 +496,7 @@ class FileWidget(QWidget, Ui_Form):
     
     def __loadCommit(self, commit: CommitModel, *, showdlg: bool = True):
         """Load the commit pointer."""
-        if not self.__checkSaved():
+        if self.checkFileChanged():
             return
         #Reset the main window status.
         self.clearFunc()
@@ -539,7 +540,7 @@ class FileWidget(QWidget, Ui_Form):
     
     def loadExample(self, isImport: bool = False) -> bool:
         """Load example to new workbook."""
-        if not self.__checkSaved():
+        if self.checkFileChanged():
             return False
         #load example by expression.
         example_name, ok = QInputDialog.getItem(self,
@@ -561,16 +562,6 @@ class FileWidget(QWidget, Ui_Form):
         self.isSavedFunc()
         print("Example \"{}\" has been loaded.".format(example_name))
         return True
-    
-    def __checkSaved(self) -> bool:
-        """Check and warn if user is not saved yet."""
-        if not self.changed:
-            return True
-        reply = QMessageBox.question(self,
-            "Message",
-            "Are you sure to load?\nAny changes won't be saved."
-        )
-        return reply == QMessageBox.Yes
     
     @pyqtSlot(str)
     def on_commit_search_text_textEdited(self, text: str):

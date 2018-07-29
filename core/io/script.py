@@ -26,7 +26,7 @@ from core.QtModules import (
 from .Ui_script import Ui_Dialog
 
 
-_script_title = """
+_script = """
 from pyslvs import (
     parse_vpoints,
     vpoints_configure,
@@ -35,7 +35,7 @@ from pyslvs import (
 )
 
 if __name__ == '__main__':
-    vpoints = parse_vpoints("M[\\n" +\n{0}
+    vpoints = parse_vpoints("M["\n{0}
         "]")
     exprs = vpoints_configure(vpoints, {1})
     mapping = {{n: 'P{{}}'.format(n) for n in range(len(vpoints))}}
@@ -52,10 +52,10 @@ def slvs_process_script(
     inputs: List[Tuple[int, int]]
 ) -> str:
     """Return parser function script."""
-    return _script_title.format('\n'.join(
-        " " * 8 + "\"{}\\n\" +".format(expr)
-        for expr in script
-    ), inputs)
+    return _script.format(
+        '\n'.join(" " * 8 + '"{}"'.format(expr) for expr in script),
+        inputs
+    )
 
 
 class _ScriptBrowser(QTextEdit):

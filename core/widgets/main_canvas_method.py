@@ -252,14 +252,7 @@ def _drawLink(self, vlink: VLink):
 def _drawPath(self):
     """Draw paths. Recording first."""
     pen = QPen()
-    #Path record
-    if hasattr(self, 'path_record'):
-        paths = self.path_record
-    elif self.Path.path:
-        paths = self.Path.path
-    else:
-        paths = self.pathpreview
-    for i, path in enumerate(paths):
+    for i, path in enumerate(self.path_record or self.Path.path or self.pathpreview):
         if (self.Path.show != i) and (self.Path.show != -1):
             continue
         if self.vpoints[i].color:
@@ -408,10 +401,9 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
     y_top = -inf
     y_bottom = inf
     #Paths
-    has_path = bool(self.Path.path and (self.Path.show != -2))
-    if has_path:
-        for i, path in enumerate(self.Path.path):
-            if self.Path.show != -1 and self.Path.show != i:
+    if self.Path.show != -2:
+        for i, path in enumerate(self.path_record or self.Path.path or self.pathpreview):
+            if (self.Path.show != -1) and (self.Path.show != i):
                 continue
             for x, y in path:
                 if x < x_right:

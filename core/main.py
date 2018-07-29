@@ -73,6 +73,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         
         self.args = args
         self.env = ""
@@ -128,7 +129,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.InputsWidget.inputs_playShaft.stop()
         self.saveSettings()
         XStream.back()
-        self.setAttribute(Qt.WA_DeleteOnClose)
         print("Exit.")
         event.accept()
     
