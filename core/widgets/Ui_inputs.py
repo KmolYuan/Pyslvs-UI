@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\widgets\inputs.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -220,7 +220,7 @@ class Ui_Form(object):
         self.variable_speed.setSuffix(_translate("Form", " rpm"))
         self.extremeRebound.setStatusTip(_translate("Form", "When solver calls error, auto driver will change the direction."))
         self.extremeRebound.setText(_translate("Form", "Extreme rebound"))
-        self.variable_play.setStatusTip(_translate("Form", "Start / Pause the auto driver of this variables."))
+        self.variable_play.setStatusTip(_translate("Form", "(F5) Start / Pause the auto driver of this variables."))
         self.variable_stop.setStatusTip(_translate("Form", "Stop the auto driver and return to original place."))
         self.update_pos_option.setStatusTip(_translate("Form", "Check to update coordinate every time."))
         self.update_pos.setStatusTip(_translate("Form", "Update current position as point coordinates."))

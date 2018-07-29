@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>450</width>
-                  <height>747</height>
+                  <width>276</width>
+                  <height>562</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1669,7 +1669,7 @@
     <string>Zoom in as mechanism size.</string>
    </property>
    <property name="shortcut">
-    <string>Space</string>
+    <string>Home</string>
    </property>
   </action>
   <action name="action_Path_style">

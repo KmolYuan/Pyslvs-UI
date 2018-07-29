@@ -149,8 +149,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def resolve(self):
         _solver.resolve(self)
     
-    def previewpath(self):
-        _solver.previewpath(self)
+    def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
+        _solver.previewpath(self, vpoints)
     
     def getGraph(self) -> List[Tuple[int, int]]:
         return _solver.getGraph(self)
@@ -168,9 +168,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     ]]:
         return _solver.getCollection(self)
     
-    def getTriangle(self,
-        vpoints: Optional[Tuple[VPoint]] = None
-    ) -> List[Tuple[str]]:
+    def getTriangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
         return _solver.getTriangle(self, vpoints)
     
     def rightInput(self) -> bool:

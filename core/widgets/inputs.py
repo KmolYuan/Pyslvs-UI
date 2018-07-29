@@ -20,6 +20,8 @@ from core.QtModules import (
     QListWidgetItem,
     QPoint,
     QApplication,
+    QShortcut,
+    QKeySequence,
 )
 from core.io import (
     AddVariable, DeleteVariable,
@@ -42,6 +44,7 @@ class InputsWidget(QWidget, Ui_Form):
     def __init__(self, parent: QWidget):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
+        
         #parent's function pointer.
         self.freemode_button = parent.freemode_button
         self.EntitiesPoint = parent.EntitiesPoint
@@ -56,7 +59,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack = parent.CommandStack
         self.setCoordsAsCurrent = parent.setCoordsAsCurrent
         
-        #self widgets.
+        #QDial: Angle panel.
         self.dial = QDial()
         self.dial.setStatusTip("Input widget of rotatable joint.")
         self.dial.setEnabled(False)
@@ -64,18 +67,26 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.valueChanged.connect(self.__setVar)
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
         
+        #QDial ok check.
+        self.variable_list.currentRowChanged.connect(self.__dialOk)
+        
+        #Play button
+        action = QShortcut(QKeySequence("F5"), self)
+        action.activated.connect(self.variable_play.click)
         self.variable_stop.clicked.connect(self.variableValueReset)
         
+        #Timer for play button.
         self.inputs_playShaft = QTimer(self)
         self.inputs_playShaft.setInterval(10)
         self.inputs_playShaft.timeout.connect(self.__changeIndex)
         
-        self.variable_list.currentRowChanged.connect(self.__dialOk)
+        #Change the point coordinates with current position.
         self.update_pos.clicked.connect(self.setCoordsAsCurrent)
         
         """Inputs record context menu
         
-        + Copy data from Point{}
+        + Copy data from Point0
+        + Copy data from Point1
         + ...
         """
         self.popMenu_record_list = QMenu(self)

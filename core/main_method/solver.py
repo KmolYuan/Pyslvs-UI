@@ -85,12 +85,13 @@ def resolve(self):
     self.reloadCanvas()
 
 
-def previewpath(self):
+def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
     """Resolve auto preview path."""
     if not self.rightInput():
         return
     
-    vpoints = self.EntitiesPoint.dataTuple()
+    if not vpoints:
+        vpoints = self.EntitiesPoint.dataTuple()
     vpoint_count = len(vpoints)
     
     solve_kernel = self.pathpreview_option.currentIndex()
@@ -122,7 +123,7 @@ def previewpath(self):
             try:
                 if solve_kernel == 0:
                     result = expr_solving(
-                        self.getTriangle(),
+                        self.getTriangle(vpoints),
                         {n: 'P{}'.format(n) for n in range(vpoint_count)},
                         vpoints,
                         angles
