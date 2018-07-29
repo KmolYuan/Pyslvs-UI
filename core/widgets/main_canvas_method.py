@@ -218,7 +218,7 @@ def _drawLink(self, vlink: VLink):
     points = _pointsPos(self, vlink)
     pen = QPen()
     #Rearrange: Put the nearest point to the next position.
-    qpoints = convex_hull(points, as_qpoint=True)
+    qpoints = convex_hull(points, as_qpoint = True)
     if (
         (self.select_mode == 1) and
         (self.vlinks.index(vlink) in self.selections)
@@ -243,7 +243,7 @@ def _drawLink(self, vlink: VLink):
     cen_x = sum(p[0] for p in points) / p_count
     cen_y = sum(p[1] for p in points) / p_count
     self.painter.drawText(
-        QRectF(cen_x-50, cen_y-50, 100, 100),
+        QRectF(cen_x - 50, cen_y - 50, 100, 100),
         Qt.AlignCenter,
         '[{}]'.format(vlink.name)
     )
@@ -258,7 +258,7 @@ def _drawPath(self):
     else:
         paths = self.Path.path
     for i, path in enumerate(paths):
-        if (self.Path.show != i) and (self.Path.show != -1) or (len(path) <= 1):
+        if (self.Path.show != i) and (self.Path.show != -1):
             continue
         if self.vpoints[i].color:
             color = self.vpoints[i].color
@@ -278,7 +278,7 @@ def _drawSlvsRanges(self):
     pen = QPen()
     pen.setWidth(5)
     for i, (tag, rect) in enumerate(self.ranges.items()):
-        range_color = QColor(colorNum(i+1))
+        range_color = QColor(colorNum(i + 1))
         range_color.setAlpha(30)
         self.painter.setBrush(range_color)
         range_color.setAlpha(255)

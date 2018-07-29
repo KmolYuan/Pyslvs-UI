@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -370,10 +370,13 @@ class Ui_MainWindow(object):
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.planarsolver_label)
         self.planarsolver_option = QtWidgets.QComboBox(self.settings_kernels_groupBox)
         self.planarsolver_option.setObjectName("planarsolver_option")
-        self.planarsolver_option.addItem("")
-        self.planarsolver_option.addItem("")
-        self.planarsolver_option.addItem("")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.planarsolver_option)
+        self.label = QtWidgets.QLabel(self.settings_kernels_groupBox)
+        self.label.setObjectName("label")
+        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label)
+        self.pathpreview_option = QtWidgets.QComboBox(self.settings_kernels_groupBox)
+        self.pathpreview_option.setObjectName("pathpreview_option")
+        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.pathpreview_option)
         self.verticalLayout_3.addWidget(self.settings_kernels_groupBox)
         self.settings_misc_groupBox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_misc_groupBox.setObjectName("settings_misc_groupBox")
@@ -843,9 +846,7 @@ class Ui_MainWindow(object):
         self.undolimit_option.setSuffix(_translate("MainWindow", " times"))
         self.settings_kernels_groupBox.setTitle(_translate("MainWindow", "Kernels"))
         self.planarsolver_label.setText(_translate("MainWindow", "Planar solving:"))
-        self.planarsolver_option.setItemText(0, _translate("MainWindow", "Pyslvs"))
-        self.planarsolver_option.setItemText(1, _translate("MainWindow", "Python-Solvespace"))
-        self.planarsolver_option.setItemText(2, _translate("MainWindow", "Sketch Solve"))
+        self.label.setText(_translate("MainWindow", "Path preview:"))
         self.settings_misc_groupBox.setTitle(_translate("MainWindow", "Misc"))
         self.titlefullpath_option.setText(_translate("MainWindow", "Show full file path on window title."))
         self.consoleerror_option.setText(_translate("MainWindow", "Show error messages in the console."))

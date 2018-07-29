@@ -125,6 +125,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.snap_option, 1.),
         (self.undolimit_option, 32),
         (self.planarsolver_option, 0),
+        (self.pathpreview_option, 0),
         (self.titlefullpath_option, False),
         (self.consoleerror_option, False),
         #Do not save settings.

@@ -363,7 +363,11 @@ def _options(self):
     self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
     #Resolve after change current kernel.
+    kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
+    self.planarsolver_option.addItems(kernel_list)
+    self.pathpreview_option.addItems(kernel_list)
     self.planarsolver_option.currentIndexChanged.connect(self.solve)
+    self.pathpreview_option.currentIndexChanged.connect(self.solve)
     self.settings_reset.clicked.connect(self.resetOptions)
 
 

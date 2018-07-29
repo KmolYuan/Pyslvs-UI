@@ -93,7 +93,7 @@ def previewpath(self):
     vpoints = self.EntitiesPoint.dataTuple()
     vpoint_count = len(vpoints)
     
-    solve_kernel = self.planarsolver_option.currentIndex()
+    solve_kernel = self.pathpreview_option.currentIndex()
     interval_o = self.InputsWidget.record_interval.value()
     nan = float('nan')
     
