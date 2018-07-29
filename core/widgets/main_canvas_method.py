@@ -255,8 +255,10 @@ def _drawPath(self):
     #Path record
     if hasattr(self, 'path_record'):
         paths = self.path_record
-    else:
+    elif self.Path.path:
         paths = self.Path.path
+    else:
+        paths = self.pathpreview
     for i, path in enumerate(paths):
         if (self.Path.show != i) and (self.Path.show != -1):
             continue
@@ -696,6 +698,8 @@ def mouseMoveEvent(self, event):
                         vpoint.move((vpoint.x * fx, vpoint.y * fy))
                         if (x > 0) != (y > 0):
                             vpoint.rotate(180 - self.vangles[num])
+            if self.freemove != FreeMode.NoFreeMove:
+                self.previewpath(self.pathpreview, self.vpoints)
         self.update()
     self.tracking.emit(x, y)
     event.accept()

@@ -14,6 +14,7 @@ from typing import (
     List,
     Set,
     Dict,
+    Any,
     Union,
     Optional,
 )
@@ -33,7 +34,7 @@ from core.libs import (
 def solve(self):
     """Resolve coordinates and preview path."""
     self.resolve()
-    self.previewpath()
+    self.MainCanvas.updatePreviewPath()
 
 
 def resolve(self):
@@ -85,13 +86,11 @@ def resolve(self):
     self.reloadCanvas()
 
 
-def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
+def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
     """Resolve auto preview path."""
     if not self.rightInput():
         return
-    
-    if not vpoints:
-        vpoints = self.EntitiesPoint.dataTuple()
+    vpoints = tuple(vpoint.copy() for vpoint in vpoints)
     vpoint_count = len(vpoints)
     
     solve_kernel = self.pathpreview_option.currentIndex()
@@ -99,9 +98,9 @@ def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
     nan = float('nan')
     
     #path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
-    self.autopreview.clear()
+    autopreview.clear()
     for i in range(vpoint_count):
-        self.autopreview.append([])
+        autopreview.append([])
     
     bases = []
     drivers = []
@@ -142,7 +141,7 @@ def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
             except Exception:
                 #Update with error sign.
                 for i in range(vpoint_count):
-                    self.autopreview[i].append((nan, nan))
+                    autopreview[i].append((nan, nan))
                 #Back to last feasible solution.
                 angles[dp] -= interval
                 dp += 1
@@ -150,10 +149,10 @@ def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
                 #Update with result.
                 for i in range(vpoint_count):
                     if result[i][0] == tuple:
-                        self.autopreview[i].append(result[i][1])
+                        autopreview[i].append(result[i][1])
                         vpoints[i].move(*result[i])
                     else:
-                        self.autopreview[i].append(result[i])
+                        autopreview[i].append(result[i])
                         vpoints[i].move(result[i])
                 angles[dp] += interval
                 angles[dp] %= 360
@@ -161,8 +160,6 @@ def previewpath(self, vpoints: Optional[Tuple[VPoint]] = None):
                 if angles_cum[dp] > 360:
                     angles[dp] -= interval
                     dp += 1
-    
-    self.reloadCanvas()
 
 
 def getGraph(self) -> List[Tuple[int, int]]:
@@ -341,10 +338,9 @@ def rightInput(self) -> bool:
 
 def reloadCanvas(self):
     """Update main canvas data, without resolving."""
-    path = self.InputsWidget.currentPath()
     self.MainCanvas.updateFigure(
         self.EntitiesPoint.dataTuple(),
         self.EntitiesLink.dataTuple(),
         self.getTriangle(),
-        path if path else self.autopreview
+        self.InputsWidget.currentPath()
     )
