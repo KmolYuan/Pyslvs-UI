@@ -71,7 +71,6 @@ class PyslvsAbout(QDialog, Ui_Dialog):
             "Startup arguments are as follows:") + _orderList(
             "The loaded file when startup: {}".format(ARGUMENTS.r),
             "Start Path: {}".format(ARGUMENTS.i),
-            "Enable solving warning: {}".format(ARGUMENTS.w),
             "Fusion style: {}".format(ARGUMENTS.fusion),
             "Debug mode: {}".format(ARGUMENTS.debug_mode)) + _content(
             "Using the \"-h\" argument to view the help."))
