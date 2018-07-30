@@ -1,8 +1,8 @@
 [![Version](https://img.shields.io/badge/version-18.06.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases/latest)
 [![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-[![PYTHON](https://img.shields.io/badge/python-3.5%20↑-blue.svg)](https://www.python.org/)
-[![PYQT](https://img.shields.io/badge/pyqt-5.10%20↑-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
-[![OS](https://img.shields.io/badge/os-Ubuntu%2C%20Windows%20(x64)-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
+[![Python](https://img.shields.io/badge/python-3.5%20↑-blue.svg)](https://www.python.org/)
+[![PyQt](https://img.shields.io/badge/pyqt-5.10%20↑-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
+[![os](https://img.shields.io/badge/os-Ubuntu%2C%20Windows%20(x64)-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
@@ -29,7 +29,7 @@ Pyslvs on [Sourceforge](https://sourceforge.net/projects/pyslvs/).
 
 1. [Kernels Requirement](#kernels-requirement)
 
-    + [Cython Kernel](#cython-kernel)
+    + [Pyslvs Kernel](#pyslvs-kernel)
     + [Python-Solvespace Kernel](#python-solvespace-kernel)
 
 1. [Stand-alone Executable File](#stand-alone-executable-file)
@@ -40,7 +40,10 @@ Pyslvs on [Sourceforge](https://sourceforge.net/projects/pyslvs/).
 
 A GUI-based tool use to solving 2D linkage subject.
 
-+ **Planar Linkages Simulation**: Kernel from [Solvespace] with Python bundle (SWIG).
++ **Planar Linkages Simulation**:
+
+    - [Python-Solvespace]: Kernel from [Solvespace] with Python bundle (SWIG).
+    - [Pyslvs]: Kernel from [Sketch Solve] with Cython.
 
 + **Mechanical Synthesis**:
 
@@ -317,9 +320,9 @@ make build-kernel
 
 This project including two kernels should build, please following the steps if you are first time to use.
 
-## Cython Kernel
+## Pyslvs Kernel
 
-"[Pyslvs]", Cython libraries of Pyslvs.
+[Pyslvs]\: Core libraries of this project.
 
 Make command:
 
@@ -346,6 +349,8 @@ There's two options to choose SDK:
 When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
 
 ## Python-Solvespace Kernel
+
+[Python-Solvespace]\: Python boundle of [Solvespace] library.
 
 Make command:
 
@@ -482,7 +487,7 @@ Pyslvs is under [GNU Affero General Public License v3].
 
 Kernel repository:
 
-* [Python-solvespace]
+* [Python-Solvespace]
 * [Pyslvs]
 
 [Solvespace]: http://solvespace.com
@@ -507,7 +512,8 @@ Kernel repository:
 [Pydot]: https://github.com/erocarrera/pydot
 [Pygments]: http://pygments.org/
 
-[Python-solvespace]: https://github.com/KmolYuan/python-solvespace
+[Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
+[Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
 
 [GNU Affero General Public License v3]: https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE
