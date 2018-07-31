@@ -148,7 +148,7 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
             else:
                 #Update with result.
                 for i in range(vpoint_count):
-                    if result[i][0] == tuple:
+                    if type(result[i][0]) == tuple:
                         autopreview[i].append(result[i][1])
                         vpoints[i].move(*result[i])
                     else:
