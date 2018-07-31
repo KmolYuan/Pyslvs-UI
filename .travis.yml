@@ -1,11 +1,17 @@
 #Travis-Ci
-dist: trusty
 sudo: required
 language: python
 
-python:
-- 3.5
-- 3.6
+matrix:
+  include:
+    - python: 3.5
+      dist: trusty
+    - python: 3.6
+      dist: trusty
+    - python: 3.6
+      dist: xenial
+    - python: 3.7
+      dist: xenial
 
 branches:
   only:
