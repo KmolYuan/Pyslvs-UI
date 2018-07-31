@@ -37,12 +37,12 @@ from .Ui_database import Ui_Form
 nan = float('nan')
 
 
-def _compress(obj):
+def _compress(obj: object) -> bytes:
     """Use to encode the Python script as bytes code."""
     return compress(bytes(repr(obj), encoding="utf8"), 5)
 
 
-def _decompress(obj):
+def _decompress(obj: bytes) -> object:
     """Use to decode the Python script."""
     return eval(decompress(obj).decode())
 
@@ -179,10 +179,7 @@ class FileWidget(QWidget, Ui_Form):
         """
         self.pointDataFunc = parent.EntitiesPoint.data
         self.linkDataFunc = parent.EntitiesLink.data
-        self.storageDataFunc = lambda: tuple((
-            parent.mechanism_storage.item(row).text(),
-            parent.mechanism_storage.item(row).expr
-        ) for row in range(parent.mechanism_storage.count()))
+        self.storageDataFunc = parent.getStorage
         """Functions to get and set data.
         
         + Call it to get main window be shown as saved.

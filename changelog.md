@@ -1,6 +1,19 @@
 Change Log
 ===
 
+Version 18.08
+===
+
+Features
+---
+
++ Important: File format was changed.
+
+Development
+---
+
++ Database module "peewee" rename to "database".
+
 Version 18.07
 ===
 

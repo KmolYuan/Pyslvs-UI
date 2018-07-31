@@ -493,11 +493,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return _entities.addPoint(self, x, y, fixed, color)
     
     def addPointsByGraph(self,
-        G: Graph,
+        graph: Graph,
         pos: Dict[int, Tuple[float, float]],
         ground_link: int
     ):
-        _entities.addPointsByGraph(self, G, pos, ground_link)
+        _entities.addPointsByGraph(self, graph, pos, ground_link)
     
     @pyqtSlot(list)
     def addNormalLink(self, points: List[int]):
@@ -582,6 +582,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
         _storage.on_mechanism_storage_restore_clicked(self, item)
+    
+    def getStorage(self) -> Tuple[Tuple[str, str]]:
+        return _storage.getStorage(self)
     
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         _storage.loadStorage(self, exprs)
