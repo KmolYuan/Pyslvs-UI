@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-07-31, 15:06:27 -->
+<!-- Saved: 2018-07-31, 16:44:49 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -167,11 +167,13 @@
     <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
     <Other>changelog.md</Other>
+    <Other>core/libs/pyslvs/.travis.yml</Other>
     <Other>core/libs/pyslvs/Adesign/Makefile</Other>
     <Other>core/libs/pyslvs/Makefile</Other>
     <Other>core/libs/pyslvs/README.md</Other>
     <Other>core/libs/pyslvs/changelog.md</Other>
     <Other>core/libs/pyslvs/requirements.txt</Other>
+    <Other>core/libs/python_solvespace/.travis.yml</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>
     <Other>core/libs/python_solvespace/README.md</Other>
     <Other>requirements.txt</Other>

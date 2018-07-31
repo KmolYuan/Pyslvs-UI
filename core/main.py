@@ -97,6 +97,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.consoleerror_option.setChecked(self.args.debug_mode)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
+        
+        #Start first solve function calling.
         self.solve()
         
         #Load workbook from argument.
