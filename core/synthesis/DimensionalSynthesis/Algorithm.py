@@ -13,6 +13,7 @@ from typing import (
     Tuple,
     Callable,
     Any,
+    Union,
     Optional,
 )
 import csv
@@ -832,31 +833,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 dlg.maxTime_m.value() * 60 +
                 dlg.maxTime_s.value()
             )
-        tableAP = lambda row: dlg.alg_table.cellWidget(row, 1).value()
-        popSize = dlg.popSize.value()
+        
+        def from_table(row: int) -> Union[int, float]:
+            """Get algorithm data from table."""
+            return dlg.alg_table.cellWidget(row, 1).value()
+        
+        pop_size = dlg.pop_size.value()
         if type_num == AlgorithmType.RGA:
-            self.alg_options.update({
-                'nPop': popSize,
-                'pCross': tableAP(0),
-                'pMute': tableAP(1),
-                'pWin': tableAP(2),
-                'bDelta': tableAP(3)
-            })
+            self.alg_options['nPop'] = pop_size
+            for i, tag in enumerate(('pCross', 'pMute', 'pWin', 'bDelta')):
+                self.alg_options[tag] = from_table(i)
         elif type_num == AlgorithmType.Firefly:
-            self.alg_options.update({
-                'n': popSize,
-                'alpha': tableAP(0),
-                'betaMin': tableAP(1),
-                'gamma': tableAP(2),
-                'beta0': tableAP(3)
-            })
+            self.alg_options['n'] = pop_size
+            for i, tag in enumerate(('alpha', 'betaMin', 'gamma', 'beta0')):
+                self.alg_options[tag] = from_table(i)
         elif type_num == AlgorithmType.DE:
-            self.alg_options.update({
-                'NP': popSize,
-                'strategy': tableAP(0),
-                'F': tableAP(1),
-                'CR': tableAP(2)
-            })
+            self.alg_options['NP'] = pop_size
+            for i, tag in enumerate(('strategy', 'F', 'CR')):
+                self.alg_options[tag] = from_table(i)
     
     @pyqtSlot(float)
     def updateRange(self, p0: Optional[float] = None):

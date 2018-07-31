@@ -171,7 +171,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QSpinBox" name="popSize">
+      <widget class="QSpinBox" name="pop_size">
        <property name="minimum">
         <number>10</number>
        </property>

@@ -58,7 +58,9 @@ def _enablePointContext(self):
     
     def mjFunc(i: int):
         """Generate a merge function."""
-        return lambda: _toMultipleJoint(self, i, selection)
+        def func():
+            _toMultipleJoint(self, i, selection)
+        return func
     
     for i, p in enumerate(selection):
         action = QAction("Base on Point{}".format(p), self)

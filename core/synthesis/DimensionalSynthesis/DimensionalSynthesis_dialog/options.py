@@ -172,15 +172,15 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.maxTime_s.setValue(maxTime % 3600 % 60)
         self.report.setValue(PLnAP['report'])
         if self.algorithm == AlgorithmType.RGA:
-            self.popSize.setValue(PLnAP['nPop'])
+            self.pop_size.setValue(PLnAP['nPop'])
             for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']):
                 self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
         elif self.algorithm == AlgorithmType.Firefly:
-            self.popSize.setValue(PLnAP['n'])
+            self.pop_size.setValue(PLnAP['n'])
             for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']):
                 self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
         elif self.algorithm == AlgorithmType.DE:
-            self.popSize.setValue(PLnAP['NP'])
+            self.pop_size.setValue(PLnAP['NP'])
             for i, tag in enumerate(['strategy', 'F', 'CR']):
                 self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
     
