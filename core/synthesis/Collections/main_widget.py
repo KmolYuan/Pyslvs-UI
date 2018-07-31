@@ -57,9 +57,9 @@ class Collections(QWidget):
         self.TriangularIterationWidget.clear()
     
     def CollectDataFunc(self):
-        """Return collections to peewee IO."""
+        """Return collections to database."""
         return [tuple(G.edges) for G in self.StructureWidget.collections]
     
     def TriangleDataFunc(self):
-        """Return profiles to peewee IO."""
+        """Return profiles to database."""
         return self.TriangularIterationWidget.collections

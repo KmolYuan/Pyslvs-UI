@@ -7,9 +7,9 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-import zlib
 import os
 import datetime
+from zlib import compress, decompress
 from peewee import (
     SqliteDatabase,
     Model,
@@ -33,15 +33,19 @@ from core.QtModules import (
 )
 from core.libs import example_list
 from .overview import WorkbookOverview
-from .Ui_peewee import Ui_Form
-
-
-"""Use to encode the Python script."""
-_compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
-_decompress = lambda obj: eval(zlib.decompress(obj).decode())
-
-"""We need a not-a-number symbol for eval function."""
+from .Ui_database import Ui_Form
 nan = float('nan')
+
+
+def _compress(obj):
+    """Use to encode the Python script as bytes code."""
+    return compress(bytes(repr(obj), encoding="utf8"), 5)
+
+
+def _decompress(obj):
+    """Use to decode the Python script."""
+    return eval(decompress(obj).decode())
+
 
 """Create a empty Sqlite database object."""
 _db = SqliteDatabase(None)
@@ -253,13 +257,12 @@ class FileWidget(QWidget, Ui_Form):
         
         + Append to new branch function.
         """
-        author_name = self.FileAuthor.text()
-        if not author_name:
-            author_name = self.FileAuthor.placeholderText()
+        author_name = self.FileAuthor.text() or self.FileAuthor.placeholderText()
         branch_name = '' if isBranch else self.branch_current.text()
         commit_text = self.FileDescription.text()
         while not author_name:
-            author_name, ok = QInputDialog.getText(self, "Author",
+            author_name, ok = QInputDialog.getText(self,
+                "Author",
                 "Please enter author's name:",
                 QLineEdit.Normal,
                 "Anonymous"
@@ -267,7 +270,8 @@ class FileWidget(QWidget, Ui_Form):
             if not ok:
                 return
         while not branch_name.isidentifier():
-            branch_name, ok = QInputDialog.getText(self, "Branch",
+            branch_name, ok = QInputDialog.getText(self,
+                "Branch",
                 "Please enter a branch name:",
                 QLineEdit.Normal,
                 "master"
@@ -275,7 +279,8 @@ class FileWidget(QWidget, Ui_Form):
             if not ok:
                 return
         while not commit_text:
-            commit_text, ok = QInputDialog.getText(self, "Commit",
+            commit_text, ok = QInputDialog.getText(self,
+                "Commit",
                 "Please add a comment:",
                 QLineEdit.Normal,
                 "Update mechanism."
@@ -304,15 +309,14 @@ class FileWidget(QWidget, Ui_Form):
                 branch_model = (
                     BranchModel
                     .select()
-                    .where(BranchModel.name==branch_name)
+                    .where(BranchModel.name == branch_name)
                     .get()
                 )
             else:
                 branch_model = BranchModel(name=branch_name)
             pointData = self.pointDataFunc()
             linkcolor = {
-                vlink.name: vlink.colorSTR
-                for vlink in self.linkDataFunc()
+                vlink.name: vlink.colorSTR for vlink in self.linkDataFunc()
             }
             args = {
                 'author':author_model,
@@ -348,11 +352,7 @@ class FileWidget(QWidget, Ui_Form):
                 _db.rollback()
                 isError = True
             else:
-                self.history_commit = (
-                    CommitModel
-                    .select()
-                    .order_by(CommitModel.id)
-                )
+                self.history_commit = CommitModel.select().order_by(CommitModel.id)
         if isError:
             os.remove(file_name)
             print("The file was removed.")
@@ -362,8 +362,7 @@ class FileWidget(QWidget, Ui_Form):
         size = QFileInfo(file_name).size()
         print("Size: {}".format(
             "{} MB".format(round(size/1024/1024, 2))
-            if size / 1024 // 1024
-            else "{} KB".format(round(size/1024, 2))
+            if size / 1024 // 1024 else "{} KB".format(round(size/1024, 2))
         ))
     
     def read(self, file_name: str, *, showdlg: bool = True):

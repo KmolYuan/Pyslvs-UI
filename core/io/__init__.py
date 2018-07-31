@@ -12,7 +12,7 @@ from .images import QTIMAGES
 from .slvs import SlvsParser
 from .loggingHandler import XStream
 from .output_option import SlvsOutputDialog, DxfOutputDialog
-from .peewee import FileWidget
+from .database import FileWidget
 from .undo_redo import (
     AddTable, DeleteTable,
     FixSequenceNumber,

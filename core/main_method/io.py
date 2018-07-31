@@ -394,9 +394,7 @@ def on_action_Output_to_Solvespace_triggered(self):
     )
     dlg.show()
     if dlg.exec_():
-        path = dlg.path_edit.text()
-        if not path:
-            path = dlg.path_edit.placeholderText()
+        path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
         self.setLocate(path)
         self.saveReplyBox("Solvespace sketch", path)
 
@@ -412,9 +410,7 @@ def on_action_Output_to_DXF_triggered(self):
     )
     dlg.show()
     if dlg.exec_():
-        path = dlg.path_edit.text()
-        if not path:
-            path = dlg.path_edit.placeholderText()
+        path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
         self.setLocate(path)
         self.saveReplyBox("Drawing Exchange Format", path)
 

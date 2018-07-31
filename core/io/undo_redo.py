@@ -439,9 +439,7 @@ class ClearStorageName(QUndoCommand):
     
     def __init__(self, widget: QLineEdit):
         QUndoCommand.__init__(self)
-        self.name = widget.text()
-        if not self.name:
-            self.name = widget.placeholderText()
+        self.name = widget.text() or widget.placeholderText()
         self.widget = widget
     
     def redo(self):

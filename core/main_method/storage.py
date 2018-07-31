@@ -53,16 +53,15 @@ def _addStorage(self, name, expr):
 
 
 def on_mechanism_storage_add_clicked(self):
-    name = self.mechanism_storage_name_tag.text()
-    if not name:
-        name = self.mechanism_storage_name_tag.placeholderText()
+    name = (
+        self.mechanism_storage_name_tag.text() or
+        self.mechanism_storage_name_tag.placeholderText()
+    )
     self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
     _addStorage(self, name, "M[{}]".format(", ".join(
         vpoint.expr for vpoint in self.EntitiesPoint.data()
     )))
-    self.CommandStack.push(ClearStorageName(
-        self.mechanism_storage_name_tag
-    ))
+    self.CommandStack.push(ClearStorageName(self.mechanism_storage_name_tag))
     self.CommandStack.endMacro()
 
 

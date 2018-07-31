@@ -44,15 +44,10 @@ from .Ui_output_option import Ui_Dialog
 def _getname(widget: QTextEdit, *, ispath: bool = False) -> str:
     """Return the file name of widget."""
     text = widget.text()
+    place_text = widget.placeholderText()
     if ispath:
-        if isdir(text):
-            return text
-        else:
-            return widget.placeholderText()
-    if text:
-        return "".join(x for x in text if x.isalnum() or (x in "._- "))
-    else:
-        return widget.placeholderText()
+        return text if isdir(text) else place_text
+    return ''.join(x for x in text if x.isalnum() or x in "._- ") or place_text
 
 
 class _OutputDialog(QDialog, Ui_Dialog):
@@ -85,9 +80,7 @@ class _OutputDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_choosedir_button_clicked(self):
-        """Choose path and it will be set as
-        environment variable if accepted.
-        """
+        """Choose path and it will be set as environment variable if accepted."""
         path = self.path_edit.text()
         if not isdir(path):
             path = self.path_edit.placeholderText()
@@ -102,7 +95,7 @@ class _OutputDialog(QDialog, Ui_Dialog):
         if self.newfolder_option.isChecked():
             new_folder = self.filename_edit.placeholderText()
             if (not dir.mkdir(new_folder)) and self.warn_radio.isChecked():
-                self.exist_warning(new_folder, folder=True)
+                self.exist_warning(new_folder, folder = True)
                 return
             dir.cd(new_folder)
             del new_folder
