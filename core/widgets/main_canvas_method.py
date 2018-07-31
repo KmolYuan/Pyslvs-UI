@@ -251,8 +251,11 @@ def _drawLink(self, vlink: VLink):
 
 def _drawPath(self):
     """Draw paths. Recording first."""
+    paths = self.path_record or self.Path.path or self.pathpreview
+    if len(self.vpoints) != len(paths):
+        return
     pen = QPen()
-    for i, path in enumerate(self.path_record or self.Path.path or self.pathpreview):
+    for i, path in enumerate(paths):
         if (self.Path.show != i) and (self.Path.show != -1):
             continue
         if self.vpoints[i].color:
