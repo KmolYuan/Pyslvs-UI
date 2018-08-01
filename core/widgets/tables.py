@@ -153,7 +153,7 @@ class PointTableWidget(_BaseTableWidget):
     
     """Custom table widget for points."""
     
-    selectionLabelUpdate = pyqtSignal(list, list)
+    selectionLabelUpdate = pyqtSignal(list)
     
     def __init__(self, parent: QWidget):
         super(PointTableWidget, self).__init__(0, (
@@ -258,15 +258,7 @@ class PointTableWidget(_BaseTableWidget):
     
     def setSelections(self, selections: Tuple[int], keyDetect: bool):
         super(PointTableWidget, self).setSelections(selections, keyDetect)
-        distance = []
-        selectedRows = self.selectedRows()
-        if len(selectedRows) > 1:
-            data = self.dataTuple()
-            for i, row in enumerate(selectedRows):
-                if i == len(selectedRows)-1:
-                    break
-                distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
-        self.selectionLabelUpdate.emit(selectedRows, distance)
+        self.selectionLabelUpdate.emit(self.selectedRows())
     
     def effectiveRange(self, hasName: bool):
         """Row range that can be delete."""
@@ -278,11 +270,10 @@ class PointTableWidget(_BaseTableWidget):
     @pyqtSlot()
     def clearSelection(self):
         """Overridden the 'clearSelection' slot,
-        so it will emit "selectionLabelUpdate"
-        signal to clean the selection.
+        so it will emit signal to clean the selection.
         """
         super(PointTableWidget, self).clearSelection()
-        self.selectionLabelUpdate.emit([], [])
+        self.selectionLabelUpdate.emit([])
 
 
 class LinkTableWidget(_BaseTableWidget):
@@ -429,30 +420,36 @@ class SelectionLabel(QLabel):
     
     """This QLabel can show distance in status bar."""
     
-    def __init__(self, *args):
-        super(SelectionLabel, self).__init__(*args)
+    def __init__(self, parent: QWidget):
+        super(SelectionLabel, self).__init__(parent)
         self.updateSelectPoint()
+        self.dataTuple = parent.EntitiesPoint.dataTuple
     
     @pyqtSlot()
-    @pyqtSlot(list, list)
-    def updateSelectPoint(self,
-        points: List[int] = [],
-        distance: List[float] = []
-    ):
+    @pyqtSlot(list)
+    def updateSelectPoint(self, points: List[int] = []):
         """Get points and distance from Point table widget."""
-        text = ""
-        if points:
-            text += "Selected: {}".format('-'.join('[{}]'.format(p) for p in points))
-        if distance:
-            text += " | {}".format(", ".join('({})'.format(d) for d in distance))
-        if text:
-            self.setText(text)
-        else:
+        p_count = len(points)
+        if not p_count:
             self.setText("No selection.")
+            return
+        text = ""
+        text += "Selected: "
+        text += " - ".join(str(p) for p in points)
+        vpoints = self.dataTuple()
+        if p_count > 1:
+            distances = []
+            angles = []
+            for i in range(p_count):
+                if i != 0:
+                    vpoint0 = vpoints[points[i - 1]]
+                    vpoint1 = vpoints[points[i]]
+                    distances.append("{:.04}".format(vpoint1.distance(vpoint0)))
+                    angles.append("{:.04}°".format(vpoint0.slope_angle(vpoint1)))
+            text += " | {} | {}".format(", ".join(distances), ", ".join(angles))
+        self.setText(text)
     
     @pyqtSlot(float, float)
-    def updateMousePosition(self, x, y):
-        """Get the mouse position from canvas
-        when press the middle button.
-        """
+    def updateMousePosition(self, x: float, y: float):
+        """Get the mouse position from canvas when press the middle button."""
         self.setText("Mouse at: ({}, {})".format(round(x, 4), round(y, 4)))
