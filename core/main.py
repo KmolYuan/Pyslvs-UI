@@ -96,7 +96,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Console widget.
         self.consoleerror_option.setChecked(self.args.debug_mode)
         if not self.args.debug_mode:
-            self.on_connectConsoleButton_clicked()
+            self.on_console_connect_button_clicked()
         
         #Start first solve function calling.
         self.solve()
@@ -263,6 +263,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_EntitiesTab_currentChanged(self, index: int):
         """Connect selection signal for main canvas."""
+        #Set selection from click table items.
         tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
         try:
             for table in tables:
@@ -270,31 +271,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except TypeError:
             pass
         tables[index].rowSelectionChanged.connect(self.MainCanvas.setSelection)
+        #Double click signal.
+        try:
+            self.MainCanvas.doubleclick_edit.disconnect()
+        except TypeError:
+            pass
+        if index == 0:
+            self.MainCanvas.doubleclick_edit.connect(self.on_action_Edit_Point_triggered)
+        elif index == 1:
+            self.MainCanvas.doubleclick_edit.connect(self.on_action_Edit_Link_triggered)
+        #Clear all selections.
         for table in tables:
             table.clearSelection()
         self.InputsWidget.clearSelection()
     
     @pyqtSlot()
-    def on_connectConsoleButton_clicked(self):
+    def on_console_connect_button_clicked(self):
         """Turn the OS command line (stdout) log to console."""
         print("Connect to GUI console.")
-        XStream.stdout().messageWritten.connect(self.__appendToConsole)
-        XStream.stderr().messageWritten.connect(self.__appendToConsole)
-        self.connectConsoleButton.setEnabled(False)
-        self.disconnectConsoleButton.setEnabled(True)
+        XStream.stdout().messageWritten.connect(self.__append_to_console)
+        XStream.stderr().messageWritten.connect(self.__append_to_console)
+        self.console_connect_button.setEnabled(False)
+        self.console_disconnect_button.setEnabled(True)
         print("Connect to GUI console.")
     
     @pyqtSlot()
-    def on_disconnectConsoleButton_clicked(self):
+    def on_console_disconnect_button_clicked(self):
         """Turn the console log to OS command line (stdout)."""
         print("Disconnect from GUI console.")
         XStream.back()
-        self.connectConsoleButton.setEnabled(True)
-        self.disconnectConsoleButton.setEnabled(False)
+        self.console_connect_button.setEnabled(True)
+        self.console_disconnect_button.setEnabled(False)
         print("Disconnect from GUI console.")
     
     @pyqtSlot(str)
-    def __appendToConsole(self, log):
+    def __append_to_console(self, log: str):
         """After inserted the text, move cursor to end."""
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
         self.consoleWidgetBrowser.insertPlainText(log)

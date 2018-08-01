@@ -1159,7 +1159,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="disconnectConsoleButton">
+                 <widget class="QPushButton" name="console_disconnect_button">
                   <property name="statusTip">
                    <string>Disconnect from GUI console.</string>
                   </property>
@@ -1170,7 +1170,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="connectConsoleButton">
+                 <widget class="QPushButton" name="console_connect_button">
                   <property name="statusTip">
                    <string>Connect to GUI console.</string>
                   </property>

@@ -12,6 +12,8 @@ Features
     + "Stephenson I"
     + "Watt I"
     + "Watt II"
++ Selection label function improvement.
++  UI and selection mode improvements.
 
 Development
 ---

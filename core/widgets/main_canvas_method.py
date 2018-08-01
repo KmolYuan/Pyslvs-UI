@@ -566,7 +566,8 @@ def mouseDoubleClickEvent(self, event):
         _select_func(self)
         if self.selector.selection_rect:
             self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
-            self.doubleclick_edit.emit(self.selector.selection_rect[0])
+            if self.freemove == FreeMode.NoFreeMove:
+                self.doubleclick_edit.emit(self.selector.selection_rect[0])
     event.accept()
 
 

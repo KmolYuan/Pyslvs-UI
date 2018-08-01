@@ -268,8 +268,8 @@ def _appearance(self):
     self.ConsoleWidget.hide()
     
     #Connect to GUI button switching.
-    self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
-    self.connectConsoleButton.setEnabled(self.args.debug_mode)
+    self.console_disconnect_button.setEnabled(not self.args.debug_mode)
+    self.console_connect_button.setEnabled(self.args.debug_mode)
     
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)
