@@ -12,6 +12,8 @@ Features
     + "Stephenson I"
     + "Watt I"
     + "Watt II"
+    + "Lift Tailgate"
+    + "Crank lifter"
 + Selection label function improvement.
 +  UI and selection mode improvements.
 
