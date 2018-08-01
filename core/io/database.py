@@ -439,10 +439,8 @@ class FileWidget(QWidget, Ui_Form):
         self.load_id.connect(button.isLoaded)
         self.CommitTable.setCellWidget(row, 0, button)
         
-        date = (
-            "{t.year:02d}-{t.month:02d}-{t.day:02d} " +
-            "{t.hour:02d}:{t.minute:02d}:{t.second:02d}"
-        ).format(t=commit.date)
+        date = "{t.year:02d}-{t.month:02d}-{t.day:02d} " \
+            "{t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
         
         self.CommitTable.setItem(row, 2, QTableWidgetItem(commit.description))
         
@@ -541,7 +539,7 @@ class FileWidget(QWidget, Ui_Form):
         #load example by expression.
         example_name, ok = QInputDialog.getItem(self,
             "Examples",
-            "Select a example to load:",
+            "Select an example to load:",
             sorted(example_list),
             0,
             False

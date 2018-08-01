@@ -8,6 +8,10 @@ Features
 ---
 
 + Important: File format was changed.
++ Add new examples:
+    + "Stephenson I"
+    + "Watt I"
+    + "Watt II"
 
 Development
 ---
