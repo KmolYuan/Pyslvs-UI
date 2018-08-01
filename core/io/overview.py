@@ -57,7 +57,7 @@ class WorkbookOverview(QDialog, Ui_Dialog):
         """Expression of inputs variable data."""
         inputsdata = decompress(commit.inputsdata)
         for expr in inputsdata:
-            self.variables_list.addItem("Point{}->{}->{}".format(*expr))
+            self.variables_list.addItem("Point{}->Point{}".format(*expr))
         """Path data."""
         pathdata = decompress(commit.pathdata)
         for name, paths in pathdata.items():
