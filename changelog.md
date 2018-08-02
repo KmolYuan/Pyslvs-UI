@@ -22,6 +22,7 @@ Development
 ---
 
 + Database module "peewee" rename to "database".
++ Database function improvements.
 
 Version 18.07
 ===

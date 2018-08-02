@@ -196,20 +196,30 @@ class FileWidget(QWidget, Ui_Form):
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
         self.loadStorageFunc = parent.loadStorage
-        """Define in "core.widgets.custom",
-            because "DimensionalSynthesis" created after "FileWidget".
         
-        self.CollectDataFunc #Call to get collections data.
-        self.TriangleDataFunc #Call to get triangle data.
-        self.InputsDataFunc #Call to get inputs variables data.
-        self.AlgorithmDataFunc #Call to get algorithm data.
-        self.pathDataFunc #Call to get path data.
-        self.loadCollectFunc #Call to load collections data.
-        self.loadTriangleFunc #Call to load triangle data.
-        self.loadInputsFunc #Call to load inputs variables data.
-        self.loadAlgorithmFunc #Call after loaded algorithm results.
-        self.loadPathFunc #Call after loaded paths.
-        """
+        #Call to get collections data.
+        self.CollectDataFunc = parent.CollectionTabPage.CollectDataFunc
+        #Call to get triangle data.
+        self.TriangleDataFunc = parent.CollectionTabPage.TriangleDataFunc
+        #Call to get inputs variables data.
+        self.InputsDataFunc = lambda: tuple(
+            variable[:-1] for variable in parent.InputsWidget.inputPair()
+        )
+        #Call to get algorithm data.
+        self.AlgorithmDataFunc = parent.DimensionalSynthesis.mechanismData
+        #Call to get path data.
+        self.pathDataFunc = parent.InputsWidget.pathData
+        #Call to load collections data.
+        self.loadCollectFunc = parent.CollectionTabPage.StructureWidget.addCollections
+        #Call to load triangle data.
+        self.loadTriangleFunc = parent.CollectionTabPage.TriangularIterationWidget.addCollections
+        #Call to load inputs variables data.
+        self.loadInputsFunc = parent.InputsWidget.addInputsVariables
+        #Call after loaded algorithm results.
+        self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults
+        #Call after loaded paths.
+        self.loadPathFunc = parent.InputsWidget.loadPaths
+        
         #Close database when destroyed.
         self.destroyed.connect(self.__closeDatabase)
         #Undo Stack

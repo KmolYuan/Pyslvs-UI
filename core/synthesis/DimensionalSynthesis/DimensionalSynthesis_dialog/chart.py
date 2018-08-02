@@ -45,8 +45,8 @@ class ChartDialog(QDialog):
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
         
-        self.title = title
-        self.mechanism_data = mechanism_data
+        self.__title = title
+        self.__mechanism_data = mechanism_data
         
         #Widgets
         main_layout = QVBoxLayout(self)
@@ -63,22 +63,22 @@ class ChartDialog(QDialog):
         posX / posY: [0], [1], [2]
         TimeAndFitness: List[List[Tuple[gen, fitness, time]]]
         """
-        if self.mechanism_data:
-            if type(self.mechanism_data[0]['TimeAndFitness'][0]) == float:
+        if self.__mechanism_data:
+            if type(self.__mechanism_data[0]['TimeAndFitness'][0]) == float:
                 plot = [[
                     (data['lastGen']*i/len(data['TimeAndFitness']), tnf, 0)
                     for i, tnf in enumerate(data['TimeAndFitness'])
-                ] for data in self.mechanism_data]
+                ] for data in self.__mechanism_data]
             else:
-                #Just copy from mechanism_data
-                plot = [[tnf for tnf in data['TimeAndFitness']] for data in self.mechanism_data]
+                #Just copy from __mechanism_data
+                plot = [[tnf for tnf in data['TimeAndFitness']] for data in self.__mechanism_data]
         axisX = QCategoryAxis()
         axisY = QValueAxis()
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
         axisX.setMin(0)
         axisY.setTickCount(11)
         #X maxima
-        if self.mechanism_data:
+        if self.__mechanism_data:
             maximaX = int(max([max([tnf[posX] for tnf in data]) for data in plot])*100)
             axisX.setMax(maximaX)
             i10 = int(maximaX / 10)
@@ -89,19 +89,19 @@ class ChartDialog(QDialog):
                 for i in range(0, 1000, 100):
                     axisX.append(str(i/100), i)
         #Y maxima
-        if self.mechanism_data:
+        if self.__mechanism_data:
             maximaY = max(max([tnf[posY] for tnf in data]) for data in plot) + 10
         else:
             maximaY = 100
         maximaY -= maximaY % 10
         axisY.setRange(0., maximaY)
-        chart = DataChart(self.title, axisX, axisY)
+        chart = DataChart(self.__title, axisX, axisY)
         #Append datasets
-        for data in self.mechanism_data:
+        for data in self.__mechanism_data:
             line = QLineSeries()
             scatter = QScatterSeries()
             gen = data['lastGen']
-            tnf = plot[self.mechanism_data.index(data)]
+            tnf = plot[self.__mechanism_data.index(data)]
             points = tnf[:-1] if (tnf[-1] == tnf[-2]) else tnf
             line.setName("{}({} gen): {}".format(
                 data['Algorithm'],

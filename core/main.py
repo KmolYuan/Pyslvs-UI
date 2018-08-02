@@ -228,10 +228,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, tuple)
     def mergeResult(self, row: int, path: Tuple[Tuple[float, float]]):
         """Merge result function of dimensional synthesis."""
-        Result = self.DimensionalSynthesis.mechanism_data[row]
+        result = self.DimensionalSynthesis.mechanismData(row)
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
-        for exp in Result['Link_expr'].split(';'):
+        for exp in result['Link_expr'].split(';'):
             for name in strbetween(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
@@ -241,11 +241,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tmp_dict = {}
         for tag in sorted(exp_symbol):
             tmp_dict[tag] = self.addPoint(
-                Result[tag][0],
-                Result[tag][1],
-                color=("Dark-Orange" if (tag in Result['Target']) else None)
+                result[tag][0],
+                result[tag][1],
+                color=("Dark-Orange" if (tag in result['Target']) else None)
             )
-        for i, exp in enumerate(Result['Link_expr'].split(';')):
+        for i, exp in enumerate(result['Link_expr'].split(';')):
             self.addNormalLink(
                 tmp_dict[name]
                 for name in strbetween(exp, '[', ']').split(',')
@@ -255,7 +255,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.endMacro()
         #Add the path.
         i = 0
-        while "Algorithm_{}".format(i) in self.InputsWidget.pathData:
+        while "Algorithm_{}".format(i) in self.InputsWidget.pathData():
             i += 1
         self.InputsWidget.addPath("Algorithm_{}".format(i), path)
         self.MainCanvas.zoomToFit()

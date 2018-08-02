@@ -181,15 +181,6 @@ def _appearance(self):
     self.canvasSplitter.insertWidget(0, self.MainCanvas)
     self.canvasSplitter.setSizes([600, 10, 30])
     
-    #File table settings.
-    self.FileWidget = FileWidget(self)
-    self.SCMLayout.addWidget(self.FileWidget)
-    self.FileWidget.commit_add.clicked.connect(self.on_action_Save_triggered)
-    self.FileWidget.branch_add.clicked.connect(
-        self.on_action_Save_branch_triggered
-    )
-    self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
-    
     #Inputs widget.
     self.InputsWidget = InputsWidget(self)
     self.inputs_tab_layout.addWidget(self.InputsWidget)
@@ -224,45 +215,23 @@ def _appearance(self):
     self.StructureSynthesis.addCollection = (
         self.CollectionTabPage.StructureWidget.addCollection
     )
-    self.FileWidget.CollectDataFunc = (
-        self.CollectionTabPage.CollectDataFunc
-    ) #Call to get collections data.
-    self.FileWidget.TriangleDataFunc = (
-        self.CollectionTabPage.TriangleDataFunc
-    ) #Call to get triangle data.
-    self.FileWidget.InputsDataFunc = (lambda: tuple(
-        variable[:-1]
-        for variable in self.InputsWidget.inputPair()
-    )) #Call to get inputs variables data.
-    self.FileWidget.loadCollectFunc = (
-        self.CollectionTabPage.StructureWidget.addCollections
-    ) #Call to load collections data.
-    self.FileWidget.loadTriangleFunc = (
-        self.CollectionTabPage.TriangularIterationWidget.addCollections
-    ) #Call to load triangle data.
-    self.FileWidget.loadInputsFunc = (
-        self.InputsWidget.addInputsVariables
-    ) #Call to load inputs variables data.
-    self.FileWidget.loadPathFunc = (
-        self.InputsWidget.loadPaths
-    ) #Call after loaded paths.
-    self.FileWidget.pathDataFunc = (
-        lambda: self.InputsWidget.pathData
-    ) #Call to get path data.
     
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
-    self.FileWidget.AlgorithmDataFunc = (
-        lambda: self.DimensionalSynthesis.mechanism_data
-    ) #Call to get algorithm data.
-    self.FileWidget.loadAlgorithmFunc = (
-        self.DimensionalSynthesis.loadResults
-    ) #Call after loaded algorithm results.
     self.SynthesisTab.addTab(
         self.DimensionalSynthesis,
         self.DimensionalSynthesis.windowIcon(),
         "Dimensional"
     )
+    
+    #File table settings.
+    self.FileWidget = FileWidget(self)
+    self.SCMLayout.addWidget(self.FileWidget)
+    self.FileWidget.commit_add.clicked.connect(self.on_action_Save_triggered)
+    self.FileWidget.branch_add.clicked.connect(
+        self.on_action_Save_branch_triggered
+    )
+    self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
     
     #Console dock will hide when startup.
     self.ConsoleWidget.hide()

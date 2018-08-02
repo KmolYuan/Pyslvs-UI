@@ -93,13 +93,17 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.customContextMenuRequested.connect(
             self.on_record_list_context_menu
         )
-        self.pathData = {}
+        self.__path_data = {}
     
     def clear(self):
-        self.pathData.clear()
+        self.__path_data.clear()
         for i in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
         self.variable_list.clear()
+    
+    def pathData(self):
+        """Return current path data."""
+        return self.__path_data
     
     @pyqtSlot(tuple)
     def setSelection(self, selections: Tuple[int]):
@@ -324,9 +328,9 @@ class InputsWidget(QWidget, Ui_Form):
             "Recording completed!",
             "Please input name tag:"
         )
-        if (not name) or (name in self.pathData):
+        if (not name) or (name in self.__path_data):
             i = 0
-            while "Record_{}".format(i) in self.pathData:
+            while "Record_{}".format(i) in self.__path_data:
                 i += 1
             QMessageBox.information(self,
                 "Record",
@@ -341,7 +345,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.push(AddPath(
             self.record_list,
             name,
-            self.pathData,
+            self.__path_data,
             path
         ))
         self.CommandStack.endMacro()
@@ -364,7 +368,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.push(DeletePath(
             row,
             self.record_list,
-            self.pathData
+            self.__path_data
         ))
         self.CommandStack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
@@ -375,7 +379,7 @@ class InputsWidget(QWidget, Ui_Form):
         """View path data."""
         name = item.text().split(":")[0]
         try:
-            data = self.pathData[name]
+            data = self.__path_data[name]
         except KeyError:
             return
         reply = QMessageBox.question(
@@ -418,7 +422,7 @@ class InputsWidget(QWidget, Ui_Form):
         copy_action = self.popMenu_record_list.addAction("Copy as new")
         name = self.record_list.item(row).text().split(":")[0]
         try:
-            data = self.pathData[name]
+            data = self.__path_data[name]
         except KeyError:
             #Auto preview path.
             data = self.MainCanvas.Path.path
@@ -439,7 +443,7 @@ class InputsWidget(QWidget, Ui_Form):
             if action_exec == copy_action:
                 """Copy path data."""
                 num = 0
-                while "Copied_{}".format(num) in self.pathData:
+                while "Copied_{}".format(num) in self.__path_data:
                     num += 1
                 self.addPath("Copied_{}".format(num), data)
             elif "Copy data from" in action_exec.text():
@@ -482,4 +486,4 @@ class InputsWidget(QWidget, Ui_Form):
             return ()
         else:
             name = self.record_list.item(row).text()
-            return self.pathData.get(name.split(':')[0], ())
+            return self.__path_data.get(name.split(':')[0], ())

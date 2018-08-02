@@ -90,7 +90,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.setSolvingPath = parent.MainCanvas.setSolvingPath
         
         #Data and functions.
-        self.mechanism_data = []
+        self.__mechanism_data = []
         self.alg_options = {}
         self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
@@ -131,7 +131,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     def clear(self):
         """Clear all sub-widgets."""
-        self.mechanism_data.clear()
+        self.__mechanism_data.clear()
         self.result_list.clear()
         self.__clearSettings()
         self.__hasResult()
@@ -154,6 +154,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.updateRange()
         self.__ableToGenerate()
     
+    def mechanismData(self,
+        index: Optional[int] = None
+    ) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
+        """Return the index of mechanism data."""
+        if index is not None:
+            return self.__mechanism_data[index]
+        return self.__mechanism_data
+    
     def on_clear_button_clicked(self):
         if self.profile_name.text() == "No setting":
             return
@@ -166,11 +174,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.__clearSettings()
     
     def loadResults(self,
-        mechanism_data: List[Dict[str, Any]]
+        __mechanism_data: List[Dict[str, Any]]
     ):
         """Append results of workbook database to memory."""
-        for e in mechanism_data:
-            self.mechanism_data.append(e)
+        for e in __mechanism_data:
+            self.__mechanism_data.append(e)
             self.__addResult(e)
     
     def __currentPathChanged(self):
@@ -422,7 +430,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not dlg.exec_():
             return
         for m in dlg.mechanisms:
-            self.mechanism_data.append(m)
+            self.__mechanism_data.append(m)
             self.__addResult(m)
         self.__setTime(dlg.time_spand)
         self.unsaveFunc()
@@ -472,7 +480,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         if reply != QMessageBox.Yes:
             return
-        del self.mechanism_data[row]
+        del self.__mechanism_data[row]
         self.result_list.takeItem(row)
         self.unsaveFunc()
         self.__hasResult()
@@ -495,7 +503,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row>-1:
             return
-        dlg = PreviewDialog(self.mechanism_data[row], self.__getPath(row), self)
+        dlg = PreviewDialog(self.__mechanism_data[row], self.__getPath(row), self)
         dlg.show()
         dlg.exec_()
     
@@ -514,7 +522,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     def __getPath(self, row: int):
         """Using result data to generate paths of mechanism."""
-        Result = self.mechanism_data[row]
+        Result = self.__mechanism_data[row]
         exprs = []
         for expr in Result['Expression'].split(';'):
             func = strbefore(expr, '[')
@@ -585,7 +593,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_result_chart_clicked(self):
         """Show up the chart dialog."""
-        dlg = ChartDialog("Convergence Value", self.mechanism_data, self)
+        dlg = ChartDialog("Convergence Value", self.__mechanism_data, self)
         dlg.show()
         dlg.exec_()
     
@@ -593,7 +601,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def on_result_clipboard_clicked(self):
         """Copy pretty print result as text."""
         QApplication.clipboard().setText(
-            pprint.pformat(self.mechanism_data[self.result_list.currentRow()])
+            pprint.pformat(self.__mechanism_data[self.result_list.currentRow()])
         )
     
     @pyqtSlot()
@@ -783,7 +791,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not row > -1:
             return
         self.__clearSettings()
-        Result = self.mechanism_data[row]
+        Result = self.__mechanism_data[row]
         if Result['Algorithm'] == str(AlgorithmType.RGA):
             self.type0.setChecked(True)
         elif Result['Algorithm'] == str(AlgorithmType.Firefly):
