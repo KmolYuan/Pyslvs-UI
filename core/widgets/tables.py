@@ -192,6 +192,10 @@ class PointTableWidget(_BaseTableWidget):
             vpoint.move(*self.currentPosition(row))
             yield vpoint
     
+    def expression(self) -> str:
+        """Return expression string."""
+        return "M[{}]".format(", ".join(vpoint.expr for vpoint in self.data()))
+    
     def editArgs(self,
         row: int,
         Links: str,
