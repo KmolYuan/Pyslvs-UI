@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -258,7 +258,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 276, 562))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 450, 747))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -348,6 +348,13 @@ class Ui_MainWindow(object):
         self.snap_option.setMaximum(50.0)
         self.snap_option.setObjectName("snap_option")
         self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.snap_option)
+        self.showfps_option = QtWidgets.QCheckBox(self.settings_ui_groupbox)
+        self.showfps_option.setChecked(True)
+        self.showfps_option.setObjectName("showfps_option")
+        self.formLayout.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.showfps_option)
+        self.show_fps_label = QtWidgets.QLabel(self.settings_ui_groupbox)
+        self.show_fps_label.setObjectName("show_fps_label")
+        self.formLayout.setWidget(11, QtWidgets.QFormLayout.LabelRole, self.show_fps_label)
         self.verticalLayout_3.addWidget(self.settings_ui_groupbox)
         self.settings_history_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_history_groupbox.setObjectName("settings_history_groupbox")
@@ -841,6 +848,7 @@ class Ui_MainWindow(object):
         self.zoomby_option.setItemText(0, _translate("MainWindow", "Cursor"))
         self.zoomby_option.setItemText(1, _translate("MainWindow", "Cavas center"))
         self.snap_label.setText(_translate("MainWindow", "Snap the mouse when dragging"))
+        self.show_fps_label.setText(_translate("MainWindow", "Show number of frame per second"))
         self.settings_history_groupbox.setTitle(_translate("MainWindow", "History"))
         self.UndoLimit_label.setText(_translate("MainWindow", "Undo limit"))
         self.undolimit_option.setSuffix(_translate("MainWindow", " times"))

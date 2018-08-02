@@ -82,10 +82,8 @@ class DynamicCanvas(BaseCanvas):
         #Path record.
         self.path_record = []
         #Zooming center.
-        """
-        0: By cursor.
-        1: By canvas center.
-        """
+        # 0: By cursor.
+        # 1: By canvas center.
         self.zoomby = 0
         #Mouse snapping value.
         self.snap = 5
@@ -215,6 +213,12 @@ class DynamicCanvas(BaseCanvas):
     def setSnap(self, snap: float):
         """Update mouse capture value."""
         self.snap = snap
+    
+    @pyqtSlot(bool)
+    def setShowFPS(self, show_fps: bool):
+        """Set FPS display option."""
+        self.show_fps = show_fps
+        self.update()
     
     @pyqtSlot(int)
     def setSelectionMode(self, select_mode: int):

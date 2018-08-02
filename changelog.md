@@ -15,7 +15,8 @@ Features
     + "Lift Tailgate"
     + "Crank lifter"
 + Selection label function improvement.
-+  UI and selection mode improvements.
++ UI and selection mode improvements.
++ Add FPS counter.
 
 Development
 ---

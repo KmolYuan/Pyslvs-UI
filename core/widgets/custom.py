@@ -362,6 +362,7 @@ def _options(self):
     self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
     self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
+    self.showfps_option.toggled.connect(self.MainCanvas.setShowFPS)
     #Resolve after change current kernel.
     kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
     self.planarsolver_option.addItems(kernel_list)

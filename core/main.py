@@ -419,8 +419,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def parseExpression(self, expr: str):
         _io.parseExpression(self, expr)
     
-    def addEmptyLinkGroup(self, linkcolor: Dict[str, str]):
-        _io.addEmptyLinkGroup(self, linkcolor)
+    def addEmptyLinks(self, linkcolor: Dict[str, str]):
+        _io.addEmptyLinks(self, linkcolor)
     
     @pyqtSlot()
     def on_action_Load_File_triggered(self):

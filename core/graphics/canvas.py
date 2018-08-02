@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from time import time
 from math import (
     radians,
     sin,
@@ -37,6 +38,7 @@ from core.QtModules import (
     QPen,
     QColor,
     QFont,
+    QTimer,
     QPainterPath,
 )
 from core import io
@@ -167,8 +169,8 @@ class BaseCanvas(QWidget):
             QSizePolicy.Expanding
         ))
         #Origin coordinate.
-        self.ox = self.width()/2
-        self.oy = self.height()/2
+        self.ox = self.width() / 2
+        self.oy = self.height() / 2
         #Canvas zoom rate.
         self.rate = 2
         self.zoom = 2 * self.rate
@@ -187,6 +189,12 @@ class BaseCanvas(QWidget):
         #Path solving.
         self.target_path = {}
         self.show_target_path = False
+        #Frame
+        self.show_fps = True
+        self.__t0 = time()
+        self.__frame_timer = QTimer(self)
+        self.__frame_timer.timeout.connect(self.update)
+        self.__frame_timer.start(1000)
     
     def paintEvent(self, event):
         """Using a QPainter under 'self',
@@ -195,16 +203,26 @@ class BaseCanvas(QWidget):
         self.painter = QPainter()
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
+        #Translation
         self.painter.translate(self.ox, self.oy)
-        self.painter.setFont(QFont("Arial", self.font_size))
-        #Draw origin lines.
-        pen = QPen(Qt.gray)
+        #Show frame.
+        pen = QPen(Qt.blue)
         pen.setWidth(1)
         self.painter.setPen(pen)
+        self.painter.setFont(QFont("Arial", self.font_size))
+        if self.show_fps:
+            self.painter.drawText(
+                QPointF(-self.ox, -self.oy + 20),
+                "FPS: {:6.02f}".format(1 / (time() - self.__t0))
+            )
+            self.__t0 = time()
+        #Draw origin lines.
+        pen.setColor(Qt.gray)
+        self.painter.setPen(pen)
         x_l = -self.ox
-        x_r = self.width()-self.ox
+        x_r = self.width() - self.ox
         self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
-        y_t = self.height()-self.oy
+        y_t = self.height() - self.oy
         y_b = -self.oy
         self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
         

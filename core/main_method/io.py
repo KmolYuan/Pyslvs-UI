@@ -123,6 +123,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.jointsize_option, 5),
         (self.zoomby_option, 0),
         (self.snap_option, 1.),
+        (self.showfps_option, True),
         (self.undolimit_option, 32),
         (self.planarsolver_option, 0),
         (self.pathpreview_option, 0),
@@ -322,7 +323,7 @@ def parseExpression(self, expr: str):
             self.CommandStack.endMacro()
 
 
-def addEmptyLinkGroup(self, linkcolor: Dict[str, str]):
+def addEmptyLinks(self, linkcolor: Dict[str, str]):
     """Use to add empty link when loading database."""
     for name, color in linkcolor.items():
         if name != 'ground':

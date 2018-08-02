@@ -192,7 +192,7 @@ class FileWidget(QWidget, Ui_Form):
         """
         self.checkFileChanged = parent.checkFileChanged
         self.isSavedFunc = parent.workbookSaved
-        self.linkGroupFunc = parent.addEmptyLinkGroup
+        self.addLinksFunc = parent.addEmptyLinks
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
         self.loadStorageFunc = parent.loadStorage
@@ -474,7 +474,7 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
         #Load the expression.
-        self.linkGroupFunc(_decompress(commit.linkcolor))
+        self.addLinksFunc(_decompress(commit.linkcolor))
         self.parseFunc(_decompress(commit.mechanism))
         #Load the storages.
         self.loadStorageFunc(_decompress(commit.storage))
