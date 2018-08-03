@@ -96,7 +96,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Console widget.
         self.consoleerror_option.setChecked(self.args.debug_mode)
         if not self.args.debug_mode:
-            self.on_console_connect_button_clicked()
+            self.__consoleConnect()
         
         #Start first solve function calling.
         self.solve()
@@ -180,8 +180,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def reloadCanvas(self):
         _solver.reloadCanvas(self)
     
-    @pyqtSlot(int)
-    def on_ZoomBar_valueChanged(self, value: int):
+    @pyqtSlot(int, name='on_ZoomBar_valueChanged')
+    def setZoom(self, value: int):
         """Reset the text when zoom bar changed."""
         self.zoom_button.setText('{}%'.format(value))
     
@@ -199,25 +199,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if ok:
             self.ZoomBar.setValue(value)
     
-    @pyqtSlot(bool)
-    def on_action_Display_Dimensions_toggled(self, toggled: bool):
+    @pyqtSlot(bool, name='on_action_Display_Dimensions_toggled')
+    def __setShowDimensions(self, toggled: bool):
         """If turn on dimension labels, turn on the point marks."""
         if toggled:
             self.action_Display_Point_Mark.setChecked(True)
     
-    @pyqtSlot(bool)
-    def on_action_Display_Point_Mark_toggled(self, toggled: bool):
+    @pyqtSlot(bool, name='on_action_Display_Point_Mark_toggled')
+    def __setShowPointMark(self, toggled: bool):
         """If no point marks, turn off the dimension labels."""
         if not toggled:
             self.action_Display_Dimensions.setChecked(False)
     
-    @pyqtSlot()
-    def on_action_Path_style_triggered(self):
+    @pyqtSlot(name='on_action_Path_style_triggered')
+    def __setCurveMode(self):
         """Set path style as curve (true) or dots (false)."""
         self.MainCanvas.setCurveMode(self.action_Path_style.isChecked())
     
-    @pyqtSlot(int)
-    def on_SynthesisTab_currentChanged(self, index: int):
+    @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
+    def __setShowTargetPath(self, index: int):
         """Dimensional synthesis information will show on the canvas."""
         self.MainCanvas.setShowTargetPath(index == 2)
     
@@ -260,8 +260,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.InputsWidget.addPath("Algorithm_{}".format(i), path)
         self.MainCanvas.zoomToFit()
     
-    @pyqtSlot(int)
-    def on_EntitiesTab_currentChanged(self, index: int):
+    @pyqtSlot(int, name='on_EntitiesTab_currentChanged')
+    def __setSelectionMode(self, index: int):
         """Connect selection signal for main canvas."""
         #Set selection from click table items.
         tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
@@ -277,16 +277,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except TypeError:
             pass
         if index == 0:
-            self.MainCanvas.doubleclick_edit.connect(self.on_action_Edit_Point_triggered)
+            self.MainCanvas.doubleclick_edit.connect(self.editPoint)
         elif index == 1:
-            self.MainCanvas.doubleclick_edit.connect(self.on_action_Edit_Link_triggered)
+            self.MainCanvas.doubleclick_edit.connect(self.editLink)
         #Clear all selections.
         for table in tables:
             table.clearSelection()
         self.InputsWidget.clearSelection()
     
-    @pyqtSlot()
-    def on_console_connect_button_clicked(self):
+    @pyqtSlot(name='on_console_connect_button_clicked')
+    def __consoleConnect(self):
         """Turn the OS command line (stdout) log to console."""
         print("Connect to GUI console.")
         XStream.stdout().messageWritten.connect(self.__append_to_console)
@@ -295,8 +295,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.console_disconnect_button.setEnabled(True)
         print("Connect to GUI console.")
     
-    @pyqtSlot()
-    def on_console_disconnect_button_clicked(self):
+    @pyqtSlot(name='on_console_disconnect_button_clicked')
+    def __consoleDisconnect(self):
         """Turn the console log to OS command line (stdout)."""
         print("Disconnect from GUI console.")
         XStream.back()
@@ -311,8 +311,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.consoleWidgetBrowser.insertPlainText(log)
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
     
-    @pyqtSlot(bool)
-    def on_action_Full_Screen_toggled(self, fullscreen):
+    @pyqtSlot(bool, name='on_action_Full_Screen_toggled')
+    def __fullScreen(self, fullscreen: bool):
         """Show fullscreen or not."""
         if fullscreen:
             self.showFullScreen()
@@ -324,16 +324,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _actions.setMousePos(self, x, y)
     
     @pyqtSlot(QPoint)
-    def on_point_context_menu(self, point: QPoint):
-        _actions.on_point_context_menu(self, point)
+    def point_context_menu(self, point: QPoint):
+        _actions.point_context_menu(self, point)
     
     @pyqtSlot(QPoint)
-    def on_link_context_menu(self, point: QPoint):
-        _actions.on_link_context_menu(self, point)
+    def link_context_menu(self, point: QPoint):
+        _actions.link_context_menu(self, point)
     
     @pyqtSlot(QPoint)
-    def on_canvas_context_menu(self, point: QPoint):
-        _actions.on_canvas_context_menu(self, point)
+    def canvas_context_menu(self, point: QPoint):
+        _actions.canvas_context_menu(self, point)
     
     @pyqtSlot()
     def enableMechanismActions(self):
@@ -368,53 +368,53 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def checkFileChanged(self) -> bool:
         return _io.checkFileChanged(self)
     
-    @pyqtSlot()
-    def on_windowTitle_fullpath_clicked(self):
-        _io.on_windowTitle_fullpath_clicked(self)
+    @pyqtSlot(name='on_windowTitle_fullpath_clicked')
+    def setWindowTitleFullpath(self):
+        _io.setWindowTitleFullpath(self)
     
-    @pyqtSlot()
-    def on_action_Get_Help_triggered(self):
-        _io.on_action_Get_Help_triggered(self)
+    @pyqtSlot(name='on_action_Get_Help_triggered')
+    def __showHelp(self):
+        _io.showHelp(self)
     
-    @pyqtSlot()
-    def on_action_Pyslvs_com_triggered(self):
-        _io.on_action_Pyslvs_com_triggered(self)
+    @pyqtSlot(name='on_action_Pyslvs_com_triggered')
+    def __showDotCOM(self):
+        _io.showDotCOM(self)
     
-    @pyqtSlot()
-    def on_action_github_repository_triggered(self):
-        _io.on_action_github_repository_triggered(self)
+    @pyqtSlot(name='on_action_github_repository_triggered')
+    def __showGithub(self):
+        _io.showGithub(self)
     
-    @pyqtSlot()
-    def on_action_About_Pyslvs_triggered(self):
-        _io.on_action_About_Pyslvs_triggered(self)
+    @pyqtSlot(name='on_action_About_Pyslvs_triggered')
+    def __about(self):
+        _io.about(self)
     
-    @pyqtSlot()
-    def on_action_About_Qt_triggered(self):
+    @pyqtSlot(name='on_action_About_Qt_triggered')
+    def aboutQt(self):
         """Open Qt about."""
         QMessageBox.aboutQt(self)
     
-    @pyqtSlot()
-    def on_action_Console_triggered(self):
-        _io.on_action_Console_triggered(self)
+    @pyqtSlot(name='on_action_Console_triggered')
+    def __showConsole(self):
+        _io.showConsole(self)
     
-    @pyqtSlot()
-    def on_action_Example_triggered(self):
-        _io.on_action_Example_triggered(self)
+    @pyqtSlot(name='on_action_Example_triggered')
+    def __loadExample(self):
+        _io.loadExample(self)
     
-    @pyqtSlot()
-    def on_action_Import_Example_triggered(self):
-        _io.on_action_Import_Example_triggered(self)
+    @pyqtSlot(name='on_action_Import_Example_triggered')
+    def __importExample(self):
+        _io.importExample(self)
     
-    @pyqtSlot()
-    def on_action_New_Workbook_triggered(self):
-        _io.on_action_New_Workbook_triggered(self)
+    @pyqtSlot(name='on_action_New_Workbook_triggered')
+    def __newWorkbook(self):
+        _io.newWorkbook(self)
     
     def clear(self):
         _io.clear(self)
     
-    @pyqtSlot()
-    def on_action_Import_PMKS_server_triggered(self):
-        _io.on_action_Import_PMKS_server_triggered(self)
+    @pyqtSlot(name='on_action_Import_PMKS_server_triggered')
+    def __importPmksURL(self):
+        _io.importPmksURL(self)
     
     def parseExpression(self, expr: str):
         _io.parseExpression(self, expr)
@@ -422,37 +422,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addEmptyLinks(self, linkcolor: Dict[str, str]):
         _io.addEmptyLinks(self, linkcolor)
     
-    @pyqtSlot()
-    def on_action_Load_File_triggered(self):
-        _io.on_action_Load_File_triggered(self)
+    @pyqtSlot(name='on_action_Load_File_triggered')
+    def loadFile(self):
+        _io.loadFile(self)
     
-    @pyqtSlot()
-    def on_action_Import_Workbook_triggered(self):
-        _io.on_action_Import_Workbook_triggered(self)
+    @pyqtSlot(name='on_action_Import_Workbook_triggered')
+    def importWorkbook(self):
+        _io.importWorkbook(self)
     
-    @pyqtSlot()
-    def on_action_Save_triggered(self, isBranch: bool = False):
-        _io.on_action_Save_triggered(self, isBranch)
+    @pyqtSlot(name='on_action_Save_triggered')
+    def save(self, isBranch: bool = False):
+        _io.save(self, isBranch)
     
-    @pyqtSlot()
-    def on_action_Save_as_triggered(self, isBranch: bool = False):
-        _io.on_action_Save_as_triggered(self, isBranch)
+    @pyqtSlot(name='on_action_Save_as_triggered')
+    def saveAs(self, isBranch: bool = False):
+        _io.saveAs(self, isBranch)
     
-    @pyqtSlot()
-    def on_action_Save_branch_triggered(self):
-        _io.on_action_Save_branch_triggered(self)
+    @pyqtSlot(name='on_action_Save_branch_triggered')
+    def saveBranch(self):
+        """Save as new branch action."""
+        self.save(True)
     
-    @pyqtSlot()
-    def on_action_Output_to_Solvespace_triggered(self):
-        _io.on_action_Output_to_Solvespace_triggered(self)
+    @pyqtSlot(name='on_action_Output_to_Solvespace_triggered')
+    def __saveSlvs(self):
+        _io.saveSlvs(self)
     
-    @pyqtSlot()
-    def on_action_Output_to_DXF_triggered(self):
-        _io.on_action_Output_to_DXF_triggered(self)
+    @pyqtSlot(name='on_action_Output_to_DXF_triggered')
+    def __saveDXF(self):
+        _io.saveDXF(self)
     
-    @pyqtSlot()
-    def on_action_Output_to_Picture_triggered(self):
-        _io.on_action_Output_to_Picture_triggered(self)
+    @pyqtSlot(name='on_action_Output_to_Picture_triggered')
+    def __savePicture(self):
+        _io.savePicture(self)
+    
+    @pyqtSlot(name='on_action_Output_to_Picture_clipboard_triggered')
+    def __savePictureClipboard(self):
+        _io.savePictureClipboard(self)
     
     def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
         return _io.outputTo(self, formatName, formatChoose)
@@ -467,25 +472,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     ) -> str:
         return _io.inputFrom(self, formatName, formatChoose, multiple)
     
-    @pyqtSlot()
-    def on_action_Output_to_PMKS_triggered(self):
-        _io.on_action_Output_to_PMKS_triggered(self)
+    @pyqtSlot(name='on_action_Output_to_PMKS_triggered')
+    def __savePMKS(self):
+        _io.savePMKS(self)
     
-    @pyqtSlot()
-    def on_action_Output_to_Picture_clipboard_triggered(self):
-        _io.on_action_Output_to_Picture_clipboard_triggered(self)
+    @pyqtSlot(name='on_action_See_expr_triggered')
+    def showExpr(self):
+        _io.showExpr(self)
     
-    @pyqtSlot()
-    def on_action_See_expr_triggered(self):
-        _io.on_action_See_expr_triggered(self)
+    @pyqtSlot(name='on_action_See_Python_Scripts_triggered')
+    def __showPyScript(self):
+        _io.showPyScript(self)
     
-    @pyqtSlot()
-    def on_action_See_Python_Scripts_triggered(self):
-        _io.on_action_See_Python_Scripts_triggered(self)
-    
-    @pyqtSlot()
-    def on_action_Check_update_triggered(self):
-        _io.on_action_Check_update_triggered(self)
+    @pyqtSlot(name='on_action_Check_update_triggered')
+    def __checkUpdate(self):
+        _io.checkUpdate(self)
     
     @pyqtSlot()
     def qAddNormalPoint(self):
@@ -519,13 +520,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addLink(self, name: str, color: str, points: Tuple[int] = ()):
         _entities.addLink(self, name, color, points)
     
-    @pyqtSlot()
-    def on_action_New_Point_triggered(self):
-        _entities.on_action_New_Point_triggered(self)
+    @pyqtSlot(name='on_action_New_Point_triggered')
+    def newPoint(self):
+        _entities.newPoint(self)
     
-    @pyqtSlot()
-    def on_action_Edit_Point_triggered(self):
-        _entities.on_action_Edit_Point_triggered(self)
+    @pyqtSlot(name='on_action_Edit_Point_triggered')
+    def editPoint(self):
+        _entities.editPoint(self)
     
     def lockPoints(self):
         _entities.lockPoints(self)
@@ -548,13 +549,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setCoordsAsCurrent(self):
         _entities.setCoordsAsCurrent(self)
     
-    @pyqtSlot()
-    def on_action_New_Link_triggered(self):
-        _entities.on_action_New_Link_triggered(self)
+    @pyqtSlot(name='on_action_New_Link_triggered')
+    def newLink(self):
+        _entities.newLink(self)
     
-    @pyqtSlot()
-    def on_action_Edit_Link_triggered(self):
-        _entities.on_action_Edit_Link_triggered(self)
+    @pyqtSlot(name='on_action_Edit_Link_triggered')
+    def editLink(self):
+        _entities.editLink(self)
     
     @pyqtSlot()
     def releaseGround(self):
@@ -564,37 +565,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
         _entities.constrainLink(self, row1, row2)
     
-    @pyqtSlot()
-    def on_action_Delete_Point_triggered(self):
-        _entities.on_action_Delete_Point_triggered(self)
+    @pyqtSlot(name='on_action_Delete_Point_triggered')
+    def deletePoint(self):
+        _entities.deletePoint(self)
     
-    @pyqtSlot()
-    def on_action_Delete_Link_triggered(self):
-        _entities.on_action_Delete_Link_triggered(self)
+    @pyqtSlot(name='on_action_Delete_Link_triggered')
+    def deleteLink(self):
+        _entities.deleteLink(self)
     
-    @pyqtSlot()
-    def on_mechanism_storage_add_clicked(self):
-        _storage.on_mechanism_storage_add_clicked(self)
+    @pyqtSlot(name='on_mechanism_storage_add_clicked')
+    def __addStorage(self):
+        _storage.addStorage(self)
     
-    @pyqtSlot()
-    def on_mechanism_storage_copy_clicked(self):
-        _storage.on_mechanism_storage_copy_clicked(self)
+    @pyqtSlot(name='on_mechanism_storage_copy_clicked')
+    def __copyStorage(self):
+        _storage.copyStorage(self)
     
-    @pyqtSlot()
-    def on_mechanism_storage_paste_clicked(self):
-        _storage.on_mechanism_storage_paste_clicked(self)
+    @pyqtSlot(name='on_mechanism_storage_paste_clicked')
+    def __pasteStorage(self):
+        _storage.pasteStorage(self)
     
-    @pyqtSlot()
-    def on_mechanism_storage_delete_clicked(self):
-        _storage.on_mechanism_storage_delete_clicked(self)
+    @pyqtSlot(name='on_mechanism_storage_delete_clicked')
+    def __deleteStorage(self):
+        _storage.deleteStorage(self)
     
-    @pyqtSlot(QListWidgetItem)
-    def on_mechanism_storage_itemDoubleClicked(self, item):
-        _storage.on_mechanism_storage_itemDoubleClicked(self, item)
+    @pyqtSlot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
+    def __doubleClickStorage(self, item):
+        """Restore the storage data as below."""
+        self.__restoreStorage(item)
     
-    @pyqtSlot()
-    def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
-        _storage.on_mechanism_storage_restore_clicked(self, item)
+    @pyqtSlot(name='on_mechanism_storage_restore_clicked')
+    def __restoreStorage(self, item: QListWidgetItem = None):
+        _storage.restoreStorage(self, item)
     
     def getStorage(self) -> Tuple[Tuple[str, str]]:
         return _storage.getStorage(self)

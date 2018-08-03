@@ -34,7 +34,7 @@ def _addStorage(self, name: str, expr: str):
     self.CommandStack.endMacro()
 
 
-def on_mechanism_storage_add_clicked(self):
+def addStorage(self):
     name = (
         self.mechanism_storage_name_tag.text() or
         self.mechanism_storage_name_tag.placeholderText()
@@ -47,14 +47,14 @@ def on_mechanism_storage_add_clicked(self):
     self.CommandStack.endMacro()
 
 
-def on_mechanism_storage_copy_clicked(self):
+def copyStorage(self):
     """Copy the expression from a storage data."""
     item = self.mechanism_storage.currentItem()
     if item:
         QApplication.clipboard().setText(item.expr)
 
 
-def on_mechanism_storage_paste_clicked(self):
+def pasteStorage(self):
     """Add the storage data from string."""
     expr, ok = QInputDialog.getMultiLineText(self,
         "Storage",
@@ -89,7 +89,7 @@ def on_mechanism_storage_paste_clicked(self):
     _addStorage(self, name, expr)
 
 
-def on_mechanism_storage_delete_clicked(self):
+def deleteStorage(self):
     """Delete the storage data."""
     row = self.mechanism_storage.currentRow()
     if not row>-1:
@@ -101,12 +101,7 @@ def on_mechanism_storage_delete_clicked(self):
     self.CommandStack.endMacro()
 
 
-def on_mechanism_storage_itemDoubleClicked(self, item: QListWidgetItem):
-    """Restore the storage data as below."""
-    self.on_mechanism_storage_restore_clicked(item)
-
-
-def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
+def restoreStorage(self, item: QListWidgetItem = None):
     """Restore the storage data."""
     if item is None:
         item = self.mechanism_storage.currentItem()

@@ -92,7 +92,7 @@ class InputsWidget(QWidget, Ui_Form):
         """
         self.popMenu_record_list = QMenu(self)
         self.record_list.customContextMenuRequested.connect(
-            self.on_record_list_context_menu
+            self.__record_list_context_menu
         )
         self.__path_data = {}
     
@@ -117,8 +117,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.driver_list.clear()
         self.joint_list.setCurrentRow(-1)
     
-    @pyqtSlot(int)
-    def on_joint_list_currentRowChanged(self, p0: int):
+    @pyqtSlot(int, name='on_joint_list_currentRowChanged')
+    def __updateRelatePoints(self, p0: int):
         """Change the point row from input widget."""
         self.driver_list.clear()
         if not p0 > -1:
@@ -128,8 +128,8 @@ class InputsWidget(QWidget, Ui_Form):
         for i, vpoint in enumerate(self.EntitiesPoint.data()):
             self.driver_list.addItem("[{}] Point{}".format(vpoint.typeSTR, i))
     
-    @pyqtSlot(int)
-    def on_driver_list_currentRowChanged(self, p1: int):
+    @pyqtSlot(int, name='on_driver_list_currentRowChanged')
+    def __setAddVarEnabled(self, p1: int):
         """Set enable of 'add variable' button."""
         if not p1 > -1:
             self.variable_list_add.setEnabled(False)
@@ -140,16 +140,16 @@ class InputsWidget(QWidget, Ui_Form):
             p1 != p0 and vpoints[p0].type == 0
         )
     
-    @pyqtSlot()
-    def on_variable_list_add_clicked(self):
-        """Add inputs variable from click button."""
-        self.__addInputsVariable(
-            self.joint_list.currentRow(),
-            self.driver_list.currentRow()
-        )
-    
-    def __addInputsVariable(self, p0: int, p1: int):
+    @pyqtSlot(name='on_variable_list_add_clicked')
+    def __addInputsVariable(self,
+        p0: Optional[int] = None,
+        p1: Optional[int] = None
+    ):
         """Add variable with '->' sign."""
+        if p0 is None:
+            p0 = self.joint_list.currentRow()
+        if p1 is None:
+            p1 = self.driver_list.currentRow()
         if self.DOF() <= 0:
             return
         vpoints = self.EntitiesPoint.dataTuple()
@@ -207,8 +207,8 @@ class InputsWidget(QWidget, Ui_Form):
             self.CommandStack.push(DeleteVariable(i, self.variable_list))
             self.CommandStack.endMacro()
     
-    @pyqtSlot()
-    def on_variable_remove_clicked(self):
+    @pyqtSlot(name='on_variable_remove_clicked')
+    def __removeVar(self):
         """Remove and reset angle."""
         row = self.variable_list.currentRow()
         if not row > -1:
@@ -293,8 +293,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.__dialOk()
         self.solve()
     
-    @pyqtSlot(bool)
-    def on_variable_play_toggled(self, toggled):
+    @pyqtSlot(bool, name='on_variable_play_toggled')
+    def __play(self, toggled: bool):
         """Triggered when play button was changed."""
         self.dial.setEnabled(not toggled)
         self.dial_spinbox.setEnabled(not toggled)
@@ -321,8 +321,8 @@ class InputsWidget(QWidget, Ui_Form):
         index %= self.dial.maximum()
         self.dial.setValue(index)
     
-    @pyqtSlot(bool)
-    def on_record_start_toggled(self, toggled):
+    @pyqtSlot(bool, name='on_record_start_toggled')
+    def __startRecord(self, toggled: bool):
         """Save to file path data."""
         if toggled:
             self.MainCanvas.recordStart(int(360 / self.record_interval.value()))
@@ -360,8 +360,8 @@ class InputsWidget(QWidget, Ui_Form):
         for name, path in paths.items():
             self.addPath(name, path)
     
-    @pyqtSlot()
-    def on_record_remove_clicked(self):
+    @pyqtSlot(name='on_record_remove_clicked')
+    def __removePath(self):
         """Remove path data."""
         row = self.record_list.currentRow()
         if not row > 0:
@@ -378,8 +378,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.setCurrentRow(self.record_list.count() - 1)
         self.reloadCanvas()
     
-    @pyqtSlot(QListWidgetItem)
-    def on_record_list_itemDoubleClicked(self, item):
+    @pyqtSlot(QListWidgetItem, name='on_record_list_itemDoubleClicked')
+    def __pathDlg(self, item: QListWidgetItem):
         """View path data."""
         name = item.text().split(":")[0]
         try:
@@ -412,7 +412,7 @@ class InputsWidget(QWidget, Ui_Form):
         print("Output path data: {}".format(file_name))
     
     @pyqtSlot(QPoint)
-    def on_record_list_context_menu(self, point):
+    def __record_list_context_menu(self, point):
         """Show the context menu.
         
         Show path [0], [1], ...
@@ -462,8 +462,8 @@ class InputsWidget(QWidget, Ui_Form):
                 self.MainCanvas.setPathShow(action_exec.index)
         self.popMenu_record_list.clear()
     
-    @pyqtSlot()
-    def on_record_show_clicked(self):
+    @pyqtSlot(name='on_record_show_clicked')
+    def __setPathShow(self):
         """Show all paths or hide."""
         if self.record_show.isChecked():
             show = -1
@@ -471,8 +471,8 @@ class InputsWidget(QWidget, Ui_Form):
             show = -2
         self.MainCanvas.setPathShow(show)
     
-    @pyqtSlot(int)
-    def on_record_list_currentRowChanged(self, row):
+    @pyqtSlot(int, name='on_record_list_currentRowChanged')
+    def __setPath(self, row: int):
         """Reload the canvas when switch the path."""
         if self.record_show.isChecked():
             self.MainCanvas.setPathShow(-1)

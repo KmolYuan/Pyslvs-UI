@@ -263,12 +263,12 @@ def addLink(self, name: str, color: str, points: Tuple[int]):
     self.CommandStack.endMacro()
 
 
-def on_action_New_Point_triggered(self):
+def newPoint(self):
     """Create a point with arguments."""
     _editPoint(self)
 
 
-def on_action_Edit_Point_triggered(self):
+def editPoint(self):
     """Edit a point with arguments."""
     row = self.EntitiesPoint.currentRow()
     _editPoint(self, row if (row > -1) else 0)
@@ -377,7 +377,7 @@ def setLinkFreemove(self, enable: bool):
     self.link_freemode_slider.valueChanged.connect(self.adjustLink)
 
 
-def on_action_New_Link_triggered(self):
+def newLink(self):
     """Create a link with arguments.
     
     + Last than one point:
@@ -424,7 +424,7 @@ def on_action_New_Link_triggered(self):
     self.CommandStack.endMacro()
 
 
-def on_action_Edit_Link_triggered(self):
+def editLink(self):
     """Edit a link with arguments."""
     _editLink(self, self.EntitiesLink.currentRow())
 
@@ -492,7 +492,7 @@ def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
     self.CommandStack.endMacro()
 
 
-def on_action_Delete_Point_triggered(self):
+def deletePoint(self):
     """Delete the selected points.
     Be sure that the points will has new position after deleted.
     """
@@ -505,7 +505,7 @@ def on_action_Delete_Point_triggered(self):
         _deletePoint(self, row)
 
 
-def on_action_Delete_Link_triggered(self):
+def deleteLink(self):
     """Delete the selected links.
     Be sure that the links will has new position after deleted.
     """

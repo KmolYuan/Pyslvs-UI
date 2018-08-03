@@ -169,10 +169,10 @@ def workbookNoSave(self):
 def workbookSaved(self):
     """Workbook saved signal."""
     self.FileWidget.changed = False
-    self.on_windowTitle_fullpath_clicked()
+    self.setWindowTitleFullpath()
 
 
-def on_windowTitle_fullpath_clicked(self):
+def setWindowTitleFullpath(self):
     """Set the option 'window title will show the fullpath'."""
     file_name = self.FileWidget.file_name
     self.setWindowTitle("Pyslvs - {}".format(
@@ -182,49 +182,49 @@ def on_windowTitle_fullpath_clicked(self):
     ) + (" (not yet saved)" if self.FileWidget.changed else ''))
 
 
-def on_action_Get_Help_triggered(self):
+def showHelp(self):
     """Open website: mde.tw"""
     _open_url("http://mde.tw")
 
 
-def on_action_Pyslvs_com_triggered(self):
+def showDotCOM(self):
     """Open website: pyslvs.com"""
     _open_url("http://www.pyslvs.com/blog/index.html")
 
 
-def on_action_github_repository_triggered(self):
+def showGithub(self):
     """Open website: Github repository."""
     _open_url("https://github.com/KmolYuan/Pyslvs-PyQt5")
 
 
-def on_action_About_Pyslvs_triggered(self):
+def about(self):
     """Open Pyslvs about."""
     dlg = PyslvsAbout(self)
     dlg.show()
     dlg.exec_()
 
 
-def on_action_Console_triggered(self):
+def showConsole(self):
     """Open GUI console."""
     self.OptionTab.setCurrentIndex(2)
     self.History_tab.setCurrentIndex(1)
 
 
-def on_action_Example_triggered(self):
+def loadExample(self):
     """Load examples from 'FileWidget'.
     Return true if successed.
     """
     if self.FileWidget.loadExample():
-        self.on_action_See_expr_triggered()
+        self.showExpr()
         self.MainCanvas.zoomToFit()
 
 
-def on_action_Import_Example_triggered(self):
+def importExample(self):
     """Import a example and merge it to canvas."""
     self.FileWidget.loadExample(isImport = True)
 
 
-def on_action_New_Workbook_triggered(self):
+def newWorkbook(self):
     """Create (Clean) a new workbook."""
     if self.checkFileChanged():
         return
@@ -248,7 +248,7 @@ def clear(self):
     self.solve()
 
 
-def on_action_Import_PMKS_server_triggered(self):
+def importPmksURL(self):
     """Load PMKS URL and turn it to expression."""
     URL, ok = QInputDialog.getText(self,
         "PMKS URL input",
@@ -330,7 +330,7 @@ def addEmptyLinks(self, linkcolor: Dict[str, str]):
             self.addLink(name, color)
 
 
-def on_action_Load_File_triggered(self):
+def loadFile(self):
     """Load workbook."""
     if self.checkFileChanged():
         return
@@ -349,7 +349,7 @@ def on_action_Load_File_triggered(self):
     self.MainCanvas.zoomToFit()
 
 
-def on_action_Import_Workbook_triggered(self):
+def importWorkbook(self):
     """Import from workbook."""
     if self.checkFileChanged():
         return
@@ -362,16 +362,16 @@ def on_action_Import_Workbook_triggered(self):
     self.FileWidget.importMechanism(file_name)
 
 
-def on_action_Save_triggered(self, isBranch: bool):
+def save(self, isBranch: bool):
     """Save action."""
     file_name = self.FileWidget.file_name.absoluteFilePath()
     if self.FileWidget.file_name.suffix() == 'pyslvs':
         self.FileWidget.save(file_name, isBranch)
     else:
-        self.on_action_Save_as_triggered(isBranch)
+        self.saveAs(isBranch)
 
 
-def on_action_Save_as_triggered(self, isBranch: bool):
+def saveAs(self, isBranch: bool):
     """Save as action."""
     file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
     if file_name:
@@ -379,12 +379,7 @@ def on_action_Save_as_triggered(self, isBranch: bool):
         self.saveReplyBox("Workbook", file_name)
 
 
-def on_action_Save_branch_triggered(self):
-    """Save as new branch action."""
-    self.on_action_Save_triggered(True)
-
-
-def on_action_Output_to_Solvespace_triggered(self):
+def saveSlvs(self):
     """Solvespace 2d save function."""
     dlg = SlvsOutputDialog(
         self.env,
@@ -400,7 +395,7 @@ def on_action_Output_to_Solvespace_triggered(self):
         self.saveReplyBox("Solvespace sketch", path)
 
 
-def on_action_Output_to_DXF_triggered(self):
+def saveDXF(self):
     """DXF 2d save function."""
     dlg = DxfOutputDialog(
         self.env,
@@ -416,7 +411,7 @@ def on_action_Output_to_DXF_triggered(self):
         self.saveReplyBox("Drawing Exchange Format", path)
 
 
-def on_action_Output_to_Picture_triggered(self):
+def savePicture(self):
     """Picture save function."""
     file_name = self.outputTo("picture", QTIMAGES)
     if not file_name:
@@ -483,7 +478,7 @@ def inputFrom(self,
     return file_name_s
 
 
-def on_action_Output_to_PMKS_triggered(self):
+def savePMKS(self):
     """Output to PMKS as URL."""
     url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
     urlTable = []
@@ -519,7 +514,7 @@ def on_action_Output_to_PMKS_triggered(self):
         QApplication.clipboard().setText(url)
 
 
-def on_action_Output_to_Picture_clipboard_triggered(self):
+def savePictureClipboard(self):
     """Capture the canvas image to clipboard."""
     QApplication.clipboard().setPixmap(self.MainCanvas.grab())
     QMessageBox.information(self,
@@ -528,7 +523,7 @@ def on_action_Output_to_Picture_clipboard_triggered(self):
     )
 
 
-def on_action_See_expr_triggered(self):
+def showExpr(self):
     """Output as expression."""
     context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
     dlg = ScriptDialog(
@@ -544,7 +539,7 @@ def on_action_See_expr_triggered(self):
     dlg.exec_()
 
 
-def on_action_See_Python_Scripts_triggered(self):
+def showPyScript(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
         "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
@@ -562,7 +557,7 @@ def on_action_See_Python_Scripts_triggered(self):
     dlg.exec_()
 
 
-def on_action_Check_update_triggered(self):
+def checkUpdate(self):
     """Check for update."""
     progdlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
     progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
@@ -603,7 +598,7 @@ def checkFileChanged(self) -> bool:
         QMessageBox.Save
     )
     if reply == QMessageBox.Save:
-        self.on_action_Save_triggered()
+        self.save()
         return self.FileWidget.changed
     elif reply == QMessageBox.Discard:
         return False

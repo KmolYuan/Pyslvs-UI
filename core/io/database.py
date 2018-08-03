@@ -505,8 +505,8 @@ class FileWidget(QWidget, Ui_Form):
         self.parseFunc(_decompress(commit.mechanism))
         print("The specified phase has been merged.")
     
-    @pyqtSlot()
-    def on_commit_stash_clicked(self):
+    @pyqtSlot(name='on_commit_stash_clicked')
+    def stash(self):
         """Reload the least commit ID."""
         self.__loadCommitID(self.commit_current_id.value())
     
@@ -537,8 +537,8 @@ class FileWidget(QWidget, Ui_Form):
         print("Example \"{}\" has been loaded.".format(example_name))
         return True
     
-    @pyqtSlot(str)
-    def on_commit_search_text_textEdited(self, text: str):
+    @pyqtSlot(str, name='on_commit_search_text_textEdited')
+    def __setSearchText(self, text: str):
         """Commit filter (by description and another)."""
         if not text:
             for row in range(self.CommitTable.rowCount()):
@@ -550,13 +550,13 @@ class FileWidget(QWidget, Ui_Form):
                 (text in self.CommitTable.item(row, 3).text())
             ))
     
-    @pyqtSlot(str)
-    def on_AuthorList_currentTextChanged(self, text: str):
+    @pyqtSlot(str, name='on_AuthorList_currentTextChanged')
+    def __setAuthor(self, text: str):
         """Change default author's name when select another author."""
         self.FileAuthor.setPlaceholderText(text)
     
-    @pyqtSlot()
-    def on_branch_checkout_clicked(self):
+    @pyqtSlot(name='on_branch_checkout_clicked')
+    def __checkoutBranch(self):
         """Switch to the last commit of branch."""
         if not self.BranchList.currentRow() > -1:
             return
@@ -570,8 +570,8 @@ class FileWidget(QWidget, Ui_Form):
             .get())
         self.__loadCommit(leastCommit)
     
-    @pyqtSlot()
-    def on_branch_delete_clicked(self):
+    @pyqtSlot(name='on_branch_delete_clicked')
+    def __deleteBranch(self):
         """Delete all commits in the branch."""
         if not self.BranchList.currentRow() > -1:
             return
