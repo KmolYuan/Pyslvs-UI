@@ -304,7 +304,7 @@
                        <item>
                         <widget class="QLineEdit" name="mechanism_storage_name_tag">
                          <property name="placeholderText">
-                          <string>Prototype_0</string>
+                          <string>Prototype</string>
                          </property>
                         </widget>
                        </item>
@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>450</width>
-                  <height>747</height>
+                  <width>291</width>
+                  <height>581</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">

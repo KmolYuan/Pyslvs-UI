@@ -42,9 +42,7 @@ from core.QtModules import (
 
 def _noNoneString(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
     """Filter to exclude empty string."""
-    for s in str_list:
-        if s:
-            yield s
+    return (s for s in str_list if s)
 
 
 class AddTable(QUndoCommand):
@@ -56,7 +54,7 @@ class AddTable(QUndoCommand):
         
         + Table reference
         """
-        QUndoCommand.__init__(self)
+        super(AddTable, self).__init__()
         self.table = table
     
     def redo(self):
@@ -80,18 +78,14 @@ class DeleteTable(QUndoCommand):
     When this class has been called, the items should be empty.
     """
     
-    def __init__(self,
-        row: int,
-        table: QTableWidget,
-        isRename: bool
-    ):
+    def __init__(self, row: int, table: QTableWidget, isRename: bool):
         """Attributes
         
         + Table reference
         + Row
         + Should rename
         """
-        QUndoCommand.__init__(self)
+        super(DeleteTable, self).__init__()
         self.table = table
         self.row = row
         self.isRename = isRename
@@ -122,7 +116,7 @@ class FixSequenceNumber(QUndoCommand):
         + Row
         + Benchmark
         """
-        QUndoCommand.__init__(self)
+        super(FixSequenceNumber, self).__init__()
         self.table = table
         self.row = row
         self.benchmark = benchmark
@@ -160,7 +154,7 @@ class EditPointTable(QUndoCommand):
         LinkTable: QTableWidgetItem,
         args: Sequence[Union[str, int, float]]
     ):
-        QUndoCommand.__init__(self)
+        super(EditPointTable, self).__init__()
         self.PointTable = PointTable
         self.row = row
         self.LinkTable = LinkTable
@@ -228,7 +222,7 @@ class EditLinkTable(QUndoCommand):
         PointTable: QTableWidgetItem,
         args: Sequence[str]
     ):
-        QUndoCommand.__init__(self)
+        super(EditLinkTable, self).__init__()
         self.LinkTable = LinkTable
         self.row = row
         self.PointTable = PointTable
@@ -312,7 +306,7 @@ class AddPath(QUndoCommand):
         data: Dict[str, Tuple[Tuple[float, float]]],
         path: Tuple[Tuple[float, float]]
     ):
-        QUndoCommand.__init__(self)
+        super(AddPath, self).__init__()
         self.widget = widget
         self.name = name
         self.data = data
@@ -341,7 +335,7 @@ class DeletePath(QUndoCommand):
         widget: QListWidget,
         data: Tuple[Tuple[float, float]]
     ):
-        QUndoCommand.__init__(self)
+        super(DeletePath, self).__init__()
         self.row = row
         self.widget = widget
         self.data = data
@@ -364,12 +358,8 @@ class AddStorage(QUndoCommand):
     
     """Append a new storage."""
     
-    def __init__(self,
-        name: str,
-        widget: QListWidget,
-        mechanism: str
-    ):
-        QUndoCommand.__init__(self)
+    def __init__(self, name: str, widget: QListWidget, mechanism: str):
+        super(AddStorage, self).__init__()
         self.name = name
         self.widget = widget
         self.mechanism = mechanism
@@ -390,11 +380,8 @@ class DeleteStorage(QUndoCommand):
     
     """Delete the specified row of storage."""
     
-    def __init__(self,
-        row: int,
-        widget: QListWidget
-    ):
-        QUndoCommand.__init__(self)
+    def __init__(self, row: int, widget: QListWidget):
+        super(DeleteStorage, self).__init__()
         self.row = row
         self.widget = widget
         self.name = widget.item(row).text()
@@ -405,7 +392,7 @@ class DeleteStorage(QUndoCommand):
         self.widget.takeItem(self.row)
     
     def undo(self):
-        """Recover expression."""
+        """Create a new item and recover expression."""
         item = QListWidgetItem(self.name)
         item.expr = self.mechanism
         item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
@@ -416,11 +403,8 @@ class AddStorageName(QUndoCommand):
     
     """Update name of storage name."""
     
-    def __init__(self,
-        name: str,
-        widget: QLineEdit
-    ):
-        QUndoCommand.__init__(self)
+    def __init__(self, name: str, widget: QLineEdit):
+        super(AddStorageName, self).__init__()
         self.name = name
         self.widget = widget
     
@@ -438,7 +422,7 @@ class ClearStorageName(QUndoCommand):
     """Clear the storage name"""
     
     def __init__(self, widget: QLineEdit):
-        QUndoCommand.__init__(self)
+        super(ClearStorageName, self).__init__()
         self.name = widget.text() or widget.placeholderText()
         self.widget = widget
     
@@ -456,7 +440,7 @@ class AddVariable(QUndoCommand):
     """Add a variable to list widget."""
     
     def __init__(self, text: str, widget: QListWidget):
-        QUndoCommand.__init__(self)
+        super(AddVariable, self).__init__()
         self.item = QListWidgetItem(text)
         self.item.setToolTip(text)
         self.widget = widget
@@ -475,7 +459,7 @@ class DeleteVariable(QUndoCommand):
     """Remove the variable item."""
     
     def __init__(self, row: int, widget: QListWidget):
-        QUndoCommand.__init__(self)
+        super(DeleteVariable, self).__init__()
         self.item = widget.item(row)
         self.widget = widget
     

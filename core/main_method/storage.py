@@ -32,15 +32,6 @@ def _addStorage(self, name: str, expr: str):
         expr
     ))
     self.CommandStack.endMacro()
-    i = 0
-    exprs = []
-    for i in range(self.mechanism_storage.count()):
-        exprs.append(self.mechanism_storage.item(i).text())
-    while "Prototype_{}".format(i) in exprs:
-        i += 1
-    self.mechanism_storage_name_tag.setPlaceholderText(
-        "Prototype_{}".format(i)
-    )
 
 
 def on_mechanism_storage_add_clicked(self):
