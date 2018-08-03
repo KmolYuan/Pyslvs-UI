@@ -452,10 +452,10 @@ def saveReplyBox(self, title: str, file_name: str):
         if size/1024//1024 else "{} KB".format(round(size/1024, 2))
     ))
     QMessageBox.information(self,
-        title,
-        "Successfully converted:\n{}".format(file_name)
+        "Initial Saved: " + title,
+        "Successfully saved:\n{}".format(file_name)
     )
-    print("Successful saved: [\"{}\"]".format(file_name))
+    print("Initial saved: [\"{}\"]".format(file_name))
 
 
 def inputFrom(self,

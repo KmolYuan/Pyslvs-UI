@@ -9,6 +9,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from abc import abstractmethod
 from typing import (
     Tuple,
     List,
@@ -77,6 +78,11 @@ class _BaseTableWidget(QTableWidget):
             else:
                 texts.append(item.text())
         return texts
+    
+    @abstractmethod
+    def data(self):
+        """Return table data in subclass."""
+        ...
     
     def dataTuple(self) -> Tuple[Union[VPoint, VLink]]:
         """Return data set as a container."""
@@ -304,6 +310,10 @@ class LinkTableWidget(_BaseTableWidget):
                     continue
                 points.append(int(p.replace('Point', '')))
             yield VLink(name, color, tuple(points), colorQt)
+    
+    def dataDict(self) -> Dict[str, str]:
+        """Return name and color as a dict."""
+        return {vlink.name: vlink.colorSTR for vlink in self.data()}
     
     def editArgs(self,
         row: int,

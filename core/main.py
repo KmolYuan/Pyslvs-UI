@@ -599,5 +599,5 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def getStorage(self) -> Tuple[Tuple[str, str]]:
         return _storage.getStorage(self)
     
-    def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
-        _storage.loadStorage(self, exprs)
+    def addStorages(self, exprs: Tuple[Tuple[str, str]]):
+        _storage.addStorages(self, exprs)

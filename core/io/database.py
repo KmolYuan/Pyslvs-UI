@@ -142,9 +142,7 @@ class LoadCommitButton(QPushButton):
 
 class FileWidget(QWidget, Ui_Form):
     
-    """The table that stored workbook data,
-    including IO functions.
-    """
+    """The table that stored workbook data and changes."""
     
     load_id = pyqtSignal(int)
     
@@ -179,7 +177,7 @@ class FileWidget(QWidget, Ui_Form):
         + Get current link data.
         """
         self.pointExprFunc = parent.EntitiesPoint.expression
-        self.linkDataFunc = parent.EntitiesLink.data
+        self.linkExprFunc = parent.EntitiesLink.dataDict
         self.storageDataFunc = parent.getStorage
         """Functions to get and set data.
         
@@ -195,16 +193,14 @@ class FileWidget(QWidget, Ui_Form):
         self.addLinksFunc = parent.addEmptyLinks
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
-        self.loadStorageFunc = parent.loadStorage
+        self.addStoragesFunc = parent.addStorages
         
         #Call to get collections data.
         self.CollectDataFunc = parent.CollectionTabPage.CollectDataFunc
         #Call to get triangle data.
         self.TriangleDataFunc = parent.CollectionTabPage.TriangleDataFunc
         #Call to get inputs variables data.
-        self.InputsDataFunc = lambda: tuple(
-            variable[:-1] for variable in parent.InputsWidget.inputPair()
-        )
+        self.InputsDataFunc = parent.InputsWidget.inputPair
         #Call to get algorithm data.
         self.AlgorithmDataFunc = parent.DimensionalSynthesis.mechanismData
         #Call to get path data.
@@ -316,16 +312,14 @@ class FileWidget(QWidget, Ui_Form):
                 'author': author_model,
                 'description': commit_text,
                 'mechanism': _compress(self.pointExprFunc()),
-                'linkcolor': _compress({
-                    vlink.name: vlink.colorSTR for vlink in self.linkDataFunc()
-                }),
+                'linkcolor': _compress(self.linkExprFunc()),
                 'storage': _compress(self.storageDataFunc()),
                 'pathdata': _compress(self.pathDataFunc()),
                 'collectiondata': _compress(self.CollectDataFunc()),
                 'triangledata': _compress(self.TriangleDataFunc()),
-                'inputsdata': _compress(self.InputsDataFunc()),
+                'inputsdata': _compress(tuple(self.InputsDataFunc(has_angles=False))),
                 'algorithmdata': _compress(self.AlgorithmDataFunc()),
-                'branch': branch_model
+                'branch': branch_model,
             }
             try:
                 args['previous'] = (CommitModel
@@ -487,7 +481,7 @@ class FileWidget(QWidget, Ui_Form):
         self.addLinksFunc(_decompress(commit.linkcolor))
         self.parseFunc(_decompress(commit.mechanism))
         #Load the storages.
-        self.loadStorageFunc(_decompress(commit.storage))
+        self.addStoragesFunc(_decompress(commit.storage))
         #Load pathdata.
         self.loadPathFunc(_decompress(commit.pathdata))
         #Load collectiondata.
@@ -593,10 +587,12 @@ class FileWidget(QWidget, Ui_Form):
         with _db.atomic():
             (CommitModel
                 .delete()
-                .where(CommitModel.branch.in_(BranchModel
-                    .select()
-                    .where(BranchModel.name == branch_name)
-                ))
+                .where(
+                    CommitModel.branch.in_(BranchModel
+                        .select()
+                        .where(BranchModel.name == branch_name)
+                    )
+                )
                 .execute())
             (BranchModel
                 .delete()

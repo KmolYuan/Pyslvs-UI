@@ -6,6 +6,7 @@ import csv
 from typing import (
     Tuple,
     Iterator,
+    Union,
     Optional,
 )
 from core.QtModules import (
@@ -229,15 +230,18 @@ class InputsWidget(QWidget, Ui_Form):
         """Use to show input variable count."""
         return self.variable_list.count()
     
-    def inputPair(self) -> Iterator[Tuple[int, int, float]]:
+    def inputPair(self, *,
+        has_angles: bool = True
+    ) -> Iterator[Union[Tuple[int, int, float], Tuple[int, int]]]:
         """Back as point number code."""
         for row in range(self.variable_list.count()):
             vars = self.variable_list.item(row).text().split('->')
-            yield (
-                int(vars[0].replace('Point', '')),
-                int(vars[1].replace('Point', '')),
-                float(vars[2]),
-            )
+            p0 = int(vars[0].replace('Point', ''))
+            p1 = int(vars[1].replace('Point', ''))
+            if has_angles:
+                yield (p0, p1, float(vars[2]))
+            else:
+                yield (p0, p1)
     
     def variableReload(self):
         """Auto check the points and type."""
