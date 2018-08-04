@@ -569,7 +569,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     for i in range(vpoint_count):
                         if result[i][0] == tuple:
                             path[i].append(result[i][1])
-                            vpoints[i].move(*result[i])
+                            vpoints[i].move(result[i][0], result[i][1])
                         else:
                             path[i].append(result[i])
                             vpoints[i].move(result[i])

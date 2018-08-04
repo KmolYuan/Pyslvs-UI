@@ -182,7 +182,7 @@ class PointTableWidget(_BaseTableWidget):
     def data(self) -> Iterator[VPoint]:
         """Yield the digitization of all table data."""
         for row in range(self.rowCount()):
-            Links = self.item(row, 1).text()
+            links = self.item(row, 1).text()
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
             y = float(self.item(row, 5).text())
@@ -194,7 +194,7 @@ class PointTableWidget(_BaseTableWidget):
             elif (p_type[0] == 'P') or (p_type[0] == 'RP'):
                 angle = float(p_type[1])
                 type = 1 if p_type[0] == 'P' else 2
-            vpoint = VPoint(Links, type, angle, color, x, y, colorQt)
+            vpoint = VPoint(links, type, angle, color, x, y, colorQt)
             vpoint.move(*self.currentPosition(row))
             yield vpoint
     
@@ -235,7 +235,7 @@ class PointTableWidget(_BaseTableWidget):
         """Get the current coordinate from a point."""
         type_str = self.item(row, 2).text().split(':')
         coords = eval("[{}]".format(self.item(row, 6).text().replace(';', ',')))
-        if (len(coords) < 2) and ((type_str[0] == 'P') or (type_str[0] == 'RP')):
+        if (type_str[0] in ('P', 'RP')) and (len(coords) == 1):
             self.item(row, 6).setText("({0}, {1}); ({0}, {1})".format(*coords[0]))
             coords.append(coords[0])
         return coords
