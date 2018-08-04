@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm.ui'
+# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -47,12 +47,12 @@ class Ui_Form(object):
         self.load_profile.setIcon(icon1)
         self.load_profile.setObjectName("load_profile")
         self.horizontalLayout_7.addWidget(self.load_profile)
-        self.save_button = QtWidgets.QPushButton(self.layoutWidget)
+        self.save_profile = QtWidgets.QPushButton(self.layoutWidget)
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icons/savefile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.save_button.setIcon(icon2)
-        self.save_button.setObjectName("save_button")
-        self.horizontalLayout_7.addWidget(self.save_button)
+        self.save_profile.setIcon(icon2)
+        self.save_profile.setObjectName("save_profile")
+        self.horizontalLayout_7.addWidget(self.save_profile)
         self.profile_name = QtWidgets.QLineEdit(self.layoutWidget)
         self.profile_name.setReadOnly(True)
         self.profile_name.setObjectName("profile_name")
@@ -83,10 +83,10 @@ class Ui_Form(object):
         self.Link_expr.setReadOnly(True)
         self.Link_expr.setObjectName("Link_expr")
         self.horizontalLayout_18.addWidget(self.Link_expr)
-        self.Link_expr_copy = QtWidgets.QPushButton(self.layoutWidget)
-        self.Link_expr_copy.setIcon(icon4)
-        self.Link_expr_copy.setObjectName("Link_expr_copy")
-        self.horizontalLayout_18.addWidget(self.Link_expr_copy)
+        self.link_expr_copy = QtWidgets.QPushButton(self.layoutWidget)
+        self.link_expr_copy.setIcon(icon4)
+        self.link_expr_copy.setObjectName("link_expr_copy")
+        self.horizontalLayout_18.addWidget(self.link_expr_copy)
         self.verticalLayout_6.addLayout(self.horizontalLayout_18)
         self.parameter_list = QtWidgets.QTableWidget(self.layoutWidget)
         self.parameter_list.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -340,7 +340,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         self.load_profile.setStatusTip(_translate("Form", "Load profile from triangular iteration database."))
-        self.save_button.setStatusTip(_translate("Form", "Save the structure profile back to the database."))
+        self.save_profile.setStatusTip(_translate("Form", "Save the structure profile back to the database."))
         self.clear_button.setStatusTip(_translate("Form", "Clear the current profile and settings."))
         self.parameter_list.setStatusTip(_translate("Form", "All the joints of grounded link will show here."))
         item = self.parameter_list.horizontalHeaderItem(0)

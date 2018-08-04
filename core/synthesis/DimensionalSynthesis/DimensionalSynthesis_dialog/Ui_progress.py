@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.ui'
+# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\DimensionalSynthesis_dialog\progress.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -70,13 +70,13 @@ class Ui_Dialog(object):
         self.horizontalLayout.addWidget(self.fitness_label)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
-        self.Start = QtWidgets.QPushButton(Dialog)
-        self.Start.setObjectName("Start")
-        self.horizontalLayout.addWidget(self.Start)
-        self.Interrupt = QtWidgets.QPushButton(Dialog)
-        self.Interrupt.setEnabled(False)
-        self.Interrupt.setObjectName("Interrupt")
-        self.horizontalLayout.addWidget(self.Interrupt)
+        self.start_button = QtWidgets.QPushButton(Dialog)
+        self.start_button.setObjectName("start_button")
+        self.horizontalLayout.addWidget(self.start_button)
+        self.interrupt_button = QtWidgets.QPushButton(Dialog)
+        self.interrupt_button.setEnabled(False)
+        self.interrupt_button.setObjectName("interrupt_button")
+        self.horizontalLayout.addWidget(self.interrupt_button)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -104,8 +104,8 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">※ The interrupt button will stop the process, but you can keep the result.</span></p></body></html>"))
         self.label_3.setText(_translate("Dialog", "Fitness: "))
         self.fitness_label.setText(_translate("Dialog", "N/A"))
-        self.Start.setText(_translate("Dialog", "Start"))
-        self.Interrupt.setText(_translate("Dialog", "Interrupt"))
+        self.start_button.setText(_translate("Dialog", "Start"))
+        self.interrupt_button.setText(_translate("Dialog", "Interrupt"))
 
 import icons_rc
 

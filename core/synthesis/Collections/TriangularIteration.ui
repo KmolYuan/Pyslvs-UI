@@ -21,7 +21,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="addToCollection_button">
+      <widget class="QPushButton" name="add_collection_button">
        <property name="statusTip">
         <string>Turn this structure diagram back to structure collections.</string>
        </property>

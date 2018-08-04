@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.ui'
+# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\DimensionalSynthesis_dialog\options.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -117,9 +117,9 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.splitter)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.setDefault = QtWidgets.QPushButton(Dialog)
-        self.setDefault.setObjectName("setDefault")
-        self.horizontalLayout.addWidget(self.setDefault)
+        self.reset_button = QtWidgets.QPushButton(Dialog)
+        self.reset_button.setObjectName("reset_button")
+        self.horizontalLayout.addWidget(self.reset_button)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
@@ -155,7 +155,7 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Parameter"))
         item = self.alg_table.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Value"))
-        self.setDefault.setText(_translate("Dialog", "Reset to Default"))
+        self.reset_button.setText(_translate("Dialog", "Reset to Default"))
 
 import icons_rc
 

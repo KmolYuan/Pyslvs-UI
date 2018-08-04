@@ -87,8 +87,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
                 return False
         return True
     
-    @pyqtSlot(int)
-    def on_name_box_currentIndexChanged(self, index):
+    @pyqtSlot(int, name='on_name_box_currentIndexChanged')
+    def __setName(self, index: int):
         """Load the parameters of the link."""
         if not self.name_box.isEnabled():
             return
@@ -118,15 +118,15 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         for widget in (self.name_edit, self.color_box, self.colorpick_button):
             widget.setEnabled(not_ground)
     
-    @pyqtSlot(int)
-    def on_color_box_currentIndexChanged(self, index):
+    @pyqtSlot(int, name='on_color_box_currentIndexChanged')
+    def __setColor(self, index: int):
         """Change the color icon of pick button."""
         self.colorpick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
     
-    @pyqtSlot()
-    def on_colorpick_button_clicked(self):
+    @pyqtSlot(name='on_colorpick_button_clicked')
+    def __setRGB(self):
         """Add a custom color from current color."""
         color = QColorDialog.getColor(
             colorQt(self.color_box.currentText()),
@@ -138,15 +138,15 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         self.color_box.addItem(colorIcon(rgb_str), rgb_str)
         self.color_box.setCurrentIndex(self.color_box.count() - 1)
     
-    @pyqtSlot(QListWidgetItem)
-    def on_noSelected_itemDoubleClicked(self, item):
+    @pyqtSlot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
+    def __addSelected(self, item: QListWidgetItem):
         """Add item to selected list."""
         self.selected.addItem(
             self.noSelected.takeItem(self.noSelected.row(item))
         )
     
-    @pyqtSlot(QListWidgetItem)
-    def on_selected_itemDoubleClicked(self, item):
+    @pyqtSlot(QListWidgetItem, name='on_selected_itemDoubleClicked')
+    def __addNoSelected(self, item: QListWidgetItem):
         """Add item to no selected list."""
         self.noSelected.addItem(
             self.selected.takeItem(self.selected.row(item))

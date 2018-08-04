@@ -70,16 +70,16 @@ class TargetsDialog(QDialog, Ui_Dialog):
             if text in target_list:
                 self.targets_list.addItem(self.other_list.takeItem(row))
     
-    @pyqtSlot()
-    def on_targets_add_clicked(self):
+    @pyqtSlot(name='on_targets_add_clicked')
+    def __add(self):
         """Add a new target joint."""
         row = self.other_list.currentRow()
         if not row > -1:
             return
         self.targets_list.addItem(self.other_list.takeItem(row))
     
-    @pyqtSlot()
-    def on_other_add_clicked(self):
+    @pyqtSlot(name='on_other_add_clicked')
+    def __remove(self):
         """Remove a target joint."""
         row = self.targets_list.currentRow()
         if not row>-1:

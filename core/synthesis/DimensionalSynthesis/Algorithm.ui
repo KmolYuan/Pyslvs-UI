@@ -57,7 +57,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="save_button">
+               <widget class="QPushButton" name="save_profile">
                 <property name="statusTip">
                  <string>Save the structure profile back to the database.</string>
                 </property>
@@ -116,7 +116,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="Link_expr_copy">
+               <widget class="QPushButton" name="link_expr_copy">
                 <property name="icon">
                  <iconset resource="../../../icons.qrc">
                   <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>

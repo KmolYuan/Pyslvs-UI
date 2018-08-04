@@ -68,7 +68,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="ReloadMechanism">
+      <widget class="QPushButton" name="from_mechanism_button">
        <property name="statusTip">
         <string>Analyze current mechanism from canvas.</string>
        </property>
@@ -185,7 +185,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="Combine_number">
+            <widget class="QPushButton" name="number_synthesis_button">
              <property name="statusTip">
               <string>Find the possible number of different joints.</string>
              </property>
@@ -263,7 +263,7 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="QPushButton" name="Combine_structure_all">
+              <widget class="QPushButton" name="structure_synthesis_all_button">
                <property name="maximumSize">
                 <size>
                  <width>100</width>
@@ -282,7 +282,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Combine_structure">
+              <widget class="QPushButton" name="structure_synthesis_button">
                <property name="statusTip">
                 <string>Find the structure of mechanism from specified numbers.</string>
                </property>
@@ -400,7 +400,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="Edges_to_altas">
+          <widget class="QPushButton" name="edges2altas_button">
            <property name="statusTip">
             <string>Load the edges data from text file, then save them to image files.</string>
            </property>

@@ -76,7 +76,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.work.done.connect(self.__finish)
     
     @pyqtSlot(int, str)
-    def __setProgress(self, progress, fitness):
+    def __setProgress(self, progress: int, fitness: str):
         """Progress bar will always full."""
         value = progress + self.limit * self.work.currentLoop
         if (self.limit_mode in ('minFit', 'maxTime')) or self.limit==0:
@@ -94,8 +94,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
             self.time % 3600 % 60
         ))
     
-    @pyqtSlot()
-    def on_Start_clicked(self):
+    @pyqtSlot(name='on_start_button_clicked')
+    def __start(self):
         """Start the proccess."""
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
@@ -105,9 +105,9 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.work.setLoop(loop)
         self.timer.start()
         self.work.start()
-        self.Start.setEnabled(False)
+        self.start_button.setEnabled(False)
         self.loopTime.setEnabled(False)
-        self.Interrupt.setEnabled(True)
+        self.interrupt_button.setEnabled(True)
     
     @pyqtSlot(dict, float)
     def __getResult(self,
@@ -124,8 +124,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.timer.stop()
         self.accept()
     
-    @pyqtSlot()
-    def on_Interrupt_clicked(self):
+    @pyqtSlot(name='on_interrupt_button_clicked')
+    def __interrupt(self):
         """Interrupt the proccess."""
         if self.work.isRunning():
             self.work.stop()

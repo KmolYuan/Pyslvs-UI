@@ -61,11 +61,11 @@ class CustomsDialog(QDialog, Ui_Dialog):
                 self.quote_choose.addItem('P{}'.format(i))
         self.quote_choose.setCurrentIndex(self.quote_choose.findText(s_old))
     
-    @pyqtSlot()
-    def on_add_button_clicked(self):
+    @pyqtSlot(name='on_add_button_clicked')
+    def __addCus(self):
         """Add a custom joint by dependents."""
         row = self.link_choose.currentIndex()
-        if not row>-1:
+        if not row > -1:
             return
         try:
             new_num = max(int(c.replace('P', '')) for c in self.cus)
@@ -82,8 +82,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
         ))
         self.joint_combobox.addItem(new_name)
     
-    @pyqtSlot()
-    def on_delete_button_clicked(self):
+    @pyqtSlot(name='on_delete_button_clicked')
+    def __deleteCus(self):
         """Remove a custom joint."""
         row = self.custom_list.currentRow()
         if not row > -1:
@@ -96,8 +96,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.custom_list.takeItem(row)
         self.joint_combobox.removeItem(num)
     
-    @pyqtSlot(str)
-    def on_quote_choose_currentIndexChanged(self, s):
+    @pyqtSlot(str, name='on_quote_choose_currentIndexChanged')
+    def __setQuote(self, s: str):
         """Update the joint symbols when switch quote."""
         self.quote_link_choose.clear()
         if not s:
@@ -107,8 +107,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
             if s in link_text.replace('(', '').replace(')', '').split(", "):
                 self.quote_link_choose.addItem(link_text)
     
-    @pyqtSlot(str)
-    def on_quote_link_choose_currentIndexChanged(self, s):
+    @pyqtSlot(str, name='on_quote_link_choose_currentIndexChanged')
+    def __setQuoteLink(self, s: str):
         """Update the joint symbols when switch quote link."""
         self.joint_choose.clear()
         if not s:
@@ -120,8 +120,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
                 continue
             self.joint_choose.addItem(joint)
     
-    @pyqtSlot()
-    def on_add_mj_button_clicked(self):
+    @pyqtSlot(name='on_add_mj_button_clicked')
+    def __addMultiJoint(self):
         """Add a multiple joint by dependents."""
         s = self.joint_choose.currentText()
         if not s:
@@ -133,8 +133,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.multiple_list.addItem("{} -> {}".format(s, qs))
         self.__reloadQuoteChoose()
     
-    @pyqtSlot()
-    def on_delete_mj_button_clicked(self):
+    @pyqtSlot(name='on_delete_mj_button_clicked')
+    def __deleteMultiJoint(self):
         """Remove a multiple joint."""
         row = self.multiple_list.currentRow()
         if not row > -1:

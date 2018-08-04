@@ -114,21 +114,21 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.style_option.addItems(styles)
         self.style_option.setCurrentIndex(0)
     
-    @pyqtSlot(str)
-    def on_style_option_currentIndexChanged(self, style_name: str):
+    @pyqtSlot(str, name='on_style_option_currentIndexChanged')
+    def __setStyle(self, style: str):
         """Redefind the CSS script of the html."""
         self.script_view.setHtml("<style>{}</style>".format(
-            HtmlFormatter(style = get_style_by_name(style_name))
+            HtmlFormatter(style=get_style_by_name(style))
             .get_style_defs()
         ) + self.code)
     
-    @pyqtSlot()
-    def on_copy_clicked(self):
+    @pyqtSlot(name='on_copy_clicked')
+    def __copy(self):
         """Copy to clipboard."""
         QApplication.clipboard().setText(self.script_view.toPlainText())
     
-    @pyqtSlot()
-    def on_save_clicked(self):
+    @pyqtSlot(name='on_save_clicked')
+    def __save(self):
         """Save to .py file."""
         file_name = self.outputTo(self.filename, self.fileformat)
         if not file_name:

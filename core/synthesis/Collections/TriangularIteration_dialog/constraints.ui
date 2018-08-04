@@ -46,7 +46,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="Loops_list"/>
+        <widget class="QListWidget" name="loops_list"/>
        </item>
       </layout>
      </item>

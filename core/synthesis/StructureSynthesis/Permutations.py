@@ -78,10 +78,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NJ_input.valueChanged.connect(self.__adjustStructureData)
         self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
-        self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
-        self.graph_engine.currentIndexChanged.connect(
-            self.on_reload_atlas_clicked
-        )
         self.Topologic_result.customContextMenuRequested.connect(
             self.__topologicResultContextMenu
         )
@@ -120,8 +116,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NJ_input_old_value = 0
         self.DOF.setValue(1)
     
-    @pyqtSlot()
-    def on_ReloadMechanism_clicked(self):
+    @pyqtSlot(name='on_from_mechanism_button_clicked')
+    def __fromMechanism(self):
         """Reload button: Auto-combine the mechanism from the workbook."""
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
@@ -193,8 +189,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.NJ_input_old_value = N2
             self.NL_input_old_value = N1
     
-    @pyqtSlot()
-    def on_Combine_number_clicked(self):
+    @pyqtSlot(name='on_number_synthesis_button_clicked')
+    def __numberSynthesis(self):
         """Show number of links with different number of joints."""
         self.expr_number.clear()
         try:
@@ -212,8 +208,8 @@ class StructureSynthesis(QWidget, Ui_Form):
                 self.expr_number.addItem(item)
         self.expr_number.setCurrentRow(0)
     
-    @pyqtSlot()
-    def on_Combine_structure_clicked(self):
+    @pyqtSlot(name='on_structure_synthesis_button_clicked')
+    def __structureSynthesis(self):
         """Type synthesis.
         
         If there has no data of number synthesis,
@@ -221,24 +217,24 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         row = self.expr_number.currentRow()
         if not row > -1:
-            self.on_Combine_number_clicked()
+            self.__numberSynthesis()
             row = self.expr_number.currentRow()
         if self.expr_number.currentItem() is None:
             return
         answer = self.__typeCombine(row)
         if answer:
             self.answer = answer
-            self.on_reload_atlas_clicked()
+            self.__reloadAtlas()
     
-    @pyqtSlot()
-    def on_Combine_structure_all_clicked(self):
-        """Type synthesis - find all.
+    @pyqtSlot(name='on_structure_synthesis_all_button_clicked')
+    def __structureSynthesisAll(self):
+        """Structure synthesis - find all.
         
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
         if not self.expr_number.currentRow() > -1:
-            self.on_Combine_number_clicked()
+            self.__numberSynthesis()
         if self.expr_number.currentItem().links is None:
             return
         answers = []
@@ -260,7 +256,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             if reply != QMessageBox.Yes:
                 return
         self.answer = answers
-        self.on_reload_atlas_clicked()
+        self.__reloadAtlas()
     
     def __typeCombine(self, row: int) -> Optional[List[Graph]]:
         """Combine and show progress dialog."""
@@ -304,9 +300,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         if answer:
             return [Graph(G.edges) for G in answer]
     
-    @pyqtSlot()
-    @pyqtSlot(str)
-    def on_reload_atlas_clicked(self, p0: Optional[str] = None):
+    @pyqtSlot(name='on_graph_link_as_node_clicked')
+    @pyqtSlot(name='on_reload_atlas_clicked')
+    @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
+    def __reloadAtlas(self, p0: Optional[int] = None):
         """Reload the atlas. Regardless there has any old data."""
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()
@@ -390,23 +387,23 @@ class StructureSynthesis(QWidget, Ui_Form):
             pixmap.convertFromImage(image2)
             clipboard.setPixmap(pixmap)
     
-    @pyqtSlot()
-    def on_expr_copy_clicked(self):
+    @pyqtSlot(name='on_expr_copy_clicked')
+    def __copyExpr(self):
         """Copy expression button."""
         string = self.expr_edges.text()
         if string:
             QApplication.clipboard().setText(string)
             self.expr_edges.selectAll()
     
-    @pyqtSlot()
-    def on_expr_add_collection_clicked(self):
+    @pyqtSlot(name='on_expr_add_collection_clicked')
+    def __addCollection(self):
         """Add this expression to collections widget."""
         string = self.expr_edges.text()
         if string:
             self.addCollection(eval(string))
     
-    @pyqtSlot()
-    def on_save_atlas_clicked(self):
+    @pyqtSlot(name='on_save_atlas_clicked')
+    def __saveAtlas(self):
         """Saving all the atlas to image file.
         
         We should turn transparent background to white first.
@@ -428,12 +425,12 @@ class StructureSynthesis(QWidget, Ui_Form):
                     "Type synthesis",
                     "Do you want to Re-synthesis?",
                     (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
-                    QMessageBox.YesToAll
+                    QMessageBox.Yes
                 )
                 if reply == QMessageBox.Yes:
-                    self.on_Combine_structure_clicked()
+                    self.__structureSynthesis()
                 elif reply == QMessageBox.YesToAll:
-                    self.on_Combine_structure_all_clicked()
+                    self.__structureSynthesisAll()
         count = self.Topologic_result.count()
         if not count:
             return
@@ -471,8 +468,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         pixmap.save(file_name, format=QFileInfo(file_name).suffix())
         self.saveReplyBox("Atlas", file_name)
     
-    @pyqtSlot()
-    def on_save_edges_clicked(self):
+    @pyqtSlot(name='on_save_edges_clicked')
+    def __saveEdges(self):
         """Saving all the atlas to text file."""
         file_name = ""
         if self.save_edges_auto.isChecked():
@@ -486,12 +483,12 @@ class StructureSynthesis(QWidget, Ui_Form):
                 "Type synthesis",
                 "Do you want to Re-synthesis?",
                 (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
-                QMessageBox.YesToAll
+                QMessageBox.Yes
             )
             if reply == QMessageBox.Yes:
-                self.on_Combine_structure_clicked()
+                self.__structureSynthesis()
             elif reply == QMessageBox.YesToAll:
-                self.on_Combine_structure_all_clicked()
+                self.__structureSynthesisAll()
         count = self.Topologic_result.count()
         if not count:
             return
@@ -506,8 +503,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             f.write('\n'.join(str(G.edges) for G in self.answer))
         self.saveReplyBox("edges expression", file_name)
     
-    @pyqtSlot()
-    def on_Edges_to_altas_clicked(self):
+    @pyqtSlot(name='on_edges2altas_button_clicked')
+    def __edges2altas(self):
         """Turn the text files into a atlas image.
         
         This opreation will load all edges to list widget first.
@@ -537,8 +534,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not answer:
             return
         self.answer = answer
-        self.on_reload_atlas_clicked()
-        check_status = self.save_edges_auto.isChecked()
+        self.__reloadAtlas()
         self.save_edges_auto.setChecked(False)
-        self.on_save_atlas_clicked()
-        self.save_edges_auto.setChecked(check_status)
+        self.__saveAtlas()
+        self.save_edges_auto.setChecked(self.save_edges_auto.isChecked())

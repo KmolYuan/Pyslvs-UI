@@ -155,14 +155,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="Start">
+      <widget class="QPushButton" name="start_button">
        <property name="text">
         <string>Start</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="Interrupt">
+      <widget class="QPushButton" name="interrupt_button">
        <property name="enabled">
         <bool>false</bool>
        </property>

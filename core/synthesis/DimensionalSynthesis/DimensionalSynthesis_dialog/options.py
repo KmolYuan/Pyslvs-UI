@@ -83,7 +83,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("{} Options".format(algorithm.value))
         
-        self.algorithm = algorithm
+        self.__algorithm = algorithm
         self.__init_alg_table()
         self.alg_table.setColumnWidth(0, 200)
         self.alg_table.setColumnWidth(1, 90)
@@ -114,7 +114,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                     self.alg_table.setCellWidget(i, 1, spinbox)
                     i += 1
         
-        if self.algorithm == AlgorithmType.RGA:
+        if self.__algorithm == AlgorithmType.RGA:
             writeTable(
                 floats=[
                     ("Crossover Rate", 'pCross',
@@ -127,7 +127,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("The power value when matching chromosome."))
                 ]
             )
-        elif self.algorithm == AlgorithmType.Firefly:
+        elif self.__algorithm == AlgorithmType.Firefly:
             writeTable(
                 floats=[
                     ("Alpha value", 'alpha',
@@ -141,7 +141,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("The attraction of two firefly in 0 distance."))
                 ]
             )
-        elif self.algorithm == AlgorithmType.DE:
+        elif self.__algorithm == AlgorithmType.DE:
             writeTable(
                 integers=[
                     ("Evolutionary strategy (0-9)", 'strategy',
@@ -156,43 +156,43 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 ]
             )
     
-    def __setArgs(self, PLnAP: Dict[str, Any]):
+    def __setArgs(self, settings: Dict[str, Any]):
         """Set arguments by settings dict."""
-        if 'maxGen' in PLnAP:
-            self.maxGen.setValue(PLnAP['maxGen'])
-        elif 'minFit' in PLnAP:
+        if 'maxGen' in settings:
+            self.maxGen.setValue(settings['maxGen'])
+        elif 'minFit' in settings:
             self.minFit_option.setChecked(True)
-            self.minFit.setValue(PLnAP['minFit'])
-        elif 'maxTime' in PLnAP:
+            self.minFit.setValue(settings['minFit'])
+        elif 'maxTime' in settings:
             self.maxTime_option.setChecked(True)
             #In second (int).
-            maxTime = PLnAP['maxTime']
+            maxTime = settings['maxTime']
             self.maxTime_h.setValue(maxTime // 3600)
             self.maxTime_m.setValue((maxTime % 3600) // 60)
             self.maxTime_s.setValue(maxTime % 3600 % 60)
-        self.report.setValue(PLnAP['report'])
-        if self.algorithm == AlgorithmType.RGA:
-            self.pop_size.setValue(PLnAP['nPop'])
+        self.report.setValue(settings['report'])
+        if self.__algorithm == AlgorithmType.RGA:
+            self.pop_size.setValue(settings['nPop'])
             for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']):
-                self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
-        elif self.algorithm == AlgorithmType.Firefly:
-            self.pop_size.setValue(PLnAP['n'])
+                self.alg_table.cellWidget(i, 1).setValue(settings[tag])
+        elif self.__algorithm == AlgorithmType.Firefly:
+            self.pop_size.setValue(settings['n'])
             for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']):
-                self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
-        elif self.algorithm == AlgorithmType.DE:
-            self.pop_size.setValue(PLnAP['NP'])
+                self.alg_table.cellWidget(i, 1).setValue(settings[tag])
+        elif self.__algorithm == AlgorithmType.DE:
+            self.pop_size.setValue(settings['NP'])
             for i, tag in enumerate(['strategy', 'F', 'CR']):
-                self.alg_table.cellWidget(i, 1).setValue(PLnAP[tag])
+                self.alg_table.cellWidget(i, 1).setValue(settings[tag])
     
-    @pyqtSlot()
-    def on_setDefault_clicked(self):
+    @pyqtSlot(name='on_reset_button_clicked')
+    def __reset(self):
         """Reset the settings to default."""
         #Differential Evolution (Default)
         d = defaultSettings.copy()
-        if self.algorithm == AlgorithmType.RGA:
+        if self.__algorithm == AlgorithmType.RGA:
             d.update(GeneticPrams)
-        elif self.algorithm == AlgorithmType.Firefly:
+        elif self.__algorithm == AlgorithmType.Firefly:
             d.update(FireflyPrams)
-        elif self.algorithm == AlgorithmType.DE:
+        elif self.__algorithm == AlgorithmType.DE:
             d.update(DifferentialPrams)
         self.__setArgs(d)

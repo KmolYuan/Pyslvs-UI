@@ -110,34 +110,33 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
                     n = parent.PreviewWindow.same[n]
                 chain[i] = 'P{}'.format(n)
             if set(chain) not in cl:
-                self.Loops_list.addItem(", ".join(chain))
+                self.loops_list.addItem(", ".join(chain))
         for item in list_items(parent.constraint_list):
             self.main_list.addItem(item.text())
     
-    @pyqtSlot(int)
-    def on_Loops_list_currentRowChanged(self, row):
+    @pyqtSlot(int, name='on_loops_list_currentRowChanged')
+    def __setLoops(self, row: int):
         """Update the joints of loop."""
         if not row > -1:
             return
         self.sorting_list.clear()
-        for point in _get_list(self.Loops_list.item(row)):
+        for point in _get_list(self.loops_list.item(row)):
             self.sorting_list.addItem(point)
     
-    @pyqtSlot()
-    def on_main_add_clicked(self):
+    @pyqtSlot(name='on_main_add_clicked')
+    def __addCons(self):
         """Add the constraint dependent."""
         if not self.sorting_list.count():
             return
         self.main_list.addItem(", ".join(
-            item.text()
-            for item in list_items(self.sorting_list)
+            item.text() for item in list_items(self.sorting_list)
         ))
         self.sorting_list.clear()
-        self.Loops_list.takeItem(self.Loops_list.currentRow())
+        self.loops_list.takeItem(self.loops_list.currentRow())
     
-    @pyqtSlot()
-    def on_sorting_add_clicked(self):
+    @pyqtSlot(name='on_sorting_add_clicked')
+    def __removeCons(self):
         """Remove back to sorting list."""
         row = self.main_list.currentRow()
         if row > -1:
-            self.Loops_list.addItem(self.main_list.takeItem(row))
+            self.loops_list.addItem(self.main_list.takeItem(row))

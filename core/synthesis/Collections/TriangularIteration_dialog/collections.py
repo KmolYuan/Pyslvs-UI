@@ -221,8 +221,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def params(self) -> Dict[str, Any]:
         return self.__mech_params
     
-    @pyqtSlot()
-    def on_rename_button_clicked(self):
+    @pyqtSlot(name='on_rename_button_clicked')
+    def __rename(self):
         """Show up a string input to change the data name."""
         row = self.collections_list.currentRow()
         if not row > -1:
@@ -243,8 +243,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections[name] = self.collections.pop(item.text())
         item.setText(name)
     
-    @pyqtSlot()
-    def on_copy_button_clicked(self):
+    @pyqtSlot(name='on_copy_button_clicked')
+    def __copy(self):
         """Ask a name to copy a data."""
         row = self.collections_list.currentRow()
         if not row > -1:
@@ -265,8 +265,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections[name] = self.collections[name_old].copy()
         self.collections_list.addItem(name)
     
-    @pyqtSlot()
-    def on_delete_button_clicked(self):
+    @pyqtSlot(name='on_delete_button_clicked')
+    def __delete(self):
         """Delete a data."""
         row = self.collections_list.currentRow()
         if not row > -1:
@@ -309,8 +309,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__mech_params = deepcopy(self.collections[self.__name_loaded])
         self.PreviewCanvas.from_profile(self.__mech_params)
     
-    @pyqtSlot()
-    def on_workbook_button_clicked(self):
+    @pyqtSlot(name='on_workbook_button_clicked')
+    def __fromCanvas(self):
         """Get a collection data from current mechanism."""
         try:
             collection = self.getCollection()

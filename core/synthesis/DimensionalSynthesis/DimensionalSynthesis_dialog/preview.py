@@ -24,10 +24,7 @@ from core.QtModules import (
     QDialog,
     QWidget,
 )
-from core.graphics import (
-    BaseCanvas,
-    colorQt
-)
+from core.graphics import BaseCanvas, colorQt
 from core.io import strbetween
 from .Ui_preview import Ui_Dialog
 
@@ -46,10 +43,10 @@ class _DynamicCanvas(BaseCanvas):
         self.mechanism = mechanism
         self.Path.path = path
         self.length = 0
+        path_count = len(path)
         for path in self.Path.path:
-            l = len(path)
-            if l > self.length:
-                self.length = l
+            if path_count > self.length:
+                self.length = path_count
         self.target_path = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
@@ -154,9 +151,9 @@ class _DynamicCanvas(BaseCanvas):
             if i == 0:
                 continue
             name = "link_{}".format(i)
-            self._drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
+            self.__drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
         #Draw path.
-        self._drawPath()
+        self.__drawPath()
         #Draw solving path.
         self.drawTargetPath()
         #Draw points.
@@ -182,10 +179,7 @@ class _DynamicCanvas(BaseCanvas):
         else:
             self.no_error = self.index
     
-    def _drawLink(self,
-        name: str,
-        points: Tuple[int]
-    ):
+    def __drawLink(self, name: str, points: Tuple[int]):
         """Draw link function.
         
         The link color will be the default color.
@@ -221,7 +215,7 @@ class _DynamicCanvas(BaseCanvas):
             cenY *= -self.zoom / len(points)
             self.painter.drawText(QPointF(cenX, cenY), text)
     
-    def _drawPath(self):
+    def __drawPath(self):
         """Draw a path.
         
         A simple function than main canvas.

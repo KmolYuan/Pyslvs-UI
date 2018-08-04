@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from abc import abstractmethod
 from typing import Tuple, Callable, Optional
 from os.path import isdir, isfile
 import shutil
@@ -78,8 +79,8 @@ class _OutputDialog(QDialog, Ui_Dialog):
         self.vpoints = vpoints
         self.v_to_slvs = v_to_slvs
     
-    @pyqtSlot()
-    def on_choosedir_button_clicked(self):
+    @pyqtSlot(name='on_choosedir_button_clicked')
+    def __setDir(self):
         """Choose path and it will be set as environment variable if accepted."""
         path = self.path_edit.text()
         if not isdir(path):
@@ -88,8 +89,8 @@ class _OutputDialog(QDialog, Ui_Dialog):
         if path:
             self.path_edit.setText(path)
     
-    @pyqtSlot()
-    def on_buttonBox_accepted(self):
+    @pyqtSlot(name='on_buttonBox_accepted')
+    def __accepted(self):
         """Use the file path to export the project."""
         dir = QDir(_getname(self.path_edit, ispath=True))
         if self.newfolder_option.isChecked():
@@ -107,9 +108,10 @@ class _OutputDialog(QDialog, Ui_Dialog):
             if ok:
                 self.accept()
     
+    @abstractmethod
     def do(self) -> Optional[bool]:
         """Do the saving work here, return True if done."""
-        raise NotImplementedError("virtual function")
+        ...
     
     def exist_warning(self, name: str, *, folder: bool = False):
         """Show the "file is exist" message box."""

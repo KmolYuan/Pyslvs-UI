@@ -23,6 +23,7 @@ Development
 
 + Database module "peewee" rename to "database".
 + Database function improvements.
++ All PyQt slots renaming to short names.
 
 Version 18.07
 ===
