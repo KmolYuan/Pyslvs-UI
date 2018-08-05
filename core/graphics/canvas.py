@@ -248,15 +248,15 @@ class BaseCanvas(QWidget):
             """Draw tick."""
             return int(v / self.zoom - v / self.zoom % 5)
         
-        for x in range(indexing(x_l), indexing(x_r)+1, 5):
+        for x in range(indexing(x_l), indexing(x_r) + 1, 5):
             self.painter.drawLine(
-                QPointF(x*self.zoom, 0),
-                QPointF(x*self.zoom, -10 if (x % 10 == 0) else -5)
+                QPointF(x * self.zoom, 0),
+                QPointF(x * self.zoom, -10 if (x % 10 == 0) else -5)
             )
         for y in range(indexing(y_b), indexing(y_t) + 1, 5):
             self.painter.drawLine(
-                QPointF(0, y*self.zoom),
-                QPointF(10 if (y % 10 == 0) else 5, y*self.zoom)
+                QPointF(0, y * self.zoom),
+                QPointF(10 if (y % 10 == 0) else 5, y * self.zoom)
             )
         #Please to call the "end" method when ending paint event.
         #self.painter.end()
@@ -313,10 +313,10 @@ class BaseCanvas(QWidget):
                     y *= -self.zoom
                     self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
                     if j == 0:
-                        self.painter.drawText(QPointF(x+6, y-6), name)
+                        self.painter.drawText(QPointF(x + 6, y - 6), name)
                         pointPath.moveTo(x, y)
                     else:
-                        x2, y2 = path[j-1]
+                        x2, y2 = path[j - 1]
                         self.drawArrow(x, y, x2 * self.zoom, y2 * -self.zoom)
                         pointPath.lineTo(QPointF(x, y))
                 self.painter.drawPath(pointPath)
@@ -324,12 +324,12 @@ class BaseCanvas(QWidget):
                     pen.setColor(Dot)
                     self.painter.setPen(pen)
                     self.painter.drawEllipse(
-                        QPointF(x, -y)*self.zoom, RADIUS, RADIUS
+                        QPointF(x, -y) * self.zoom, RADIUS, RADIUS
                     )
             elif len(path) == 1:
                 x = path[0][0] * self.zoom
                 y = path[0][1] * -self.zoom
-                self.painter.drawText(QPointF(x+6, y-6), name)
+                self.painter.drawText(QPointF(x + 6, y - 6), name)
                 pen.setColor(Dot)
                 self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
@@ -345,17 +345,17 @@ class BaseCanvas(QWidget):
     ):
         """Front point -> Back point"""
         a = atan2(y2 - y1, x2 - x1)
-        x1 = (x1 + x2) / 2 - 7.5*cos(a)
-        y1 = (y1 + y2) / 2 - 7.5*sin(a)
+        x1 = (x1 + x2) / 2 - 7.5 * cos(a)
+        y1 = (y1 + y2) / 2 - 7.5 * sin(a)
         first_point = QPointF(x1, y1)
-        self.painter.drawLine(
-            first_point,
-            QPointF(x1 + 15*cos(a + radians(20)), y1 + 15*sin(a + radians(20)))
-        )
-        self.painter.drawLine(
-            first_point,
-            QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
-        )
+        self.painter.drawLine(first_point, QPointF(
+            x1 + 15 * cos(a + radians(20)),
+            y1 + 15 * sin(a + radians(20))
+        ))
+        self.painter.drawLine(first_point, QPointF(
+            x1 + 15 * cos(a - radians(20)),
+            y1 + 15 * sin(a - radians(20))
+        ))
         if not text:
             return
         #Font

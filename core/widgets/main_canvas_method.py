@@ -695,7 +695,7 @@ def mouseMoveEvent(self, event):
                         if (x > 0) != (y > 0):
                             vpoint.rotate(180 - self.vangles[num])
             if self.freemove != FreeMode.NoFreeMove:
-                self.previewpath(self.pathpreview, self.vpoints)
+                self.updatePreviewPath()
         self.update()
     self.tracking.emit(x, y)
     event.accept()

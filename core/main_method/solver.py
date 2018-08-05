@@ -89,12 +89,13 @@ def resolve(self):
 def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
     """Resolve auto preview path."""
     if not self.rightInput():
+        autopreview.clear()
         return
     vpoints = tuple(vpoint.copy() for vpoint in vpoints)
     vpoint_count = len(vpoints)
     
     solve_kernel = self.pathpreview_option.currentIndex()
-    interval_o = self.InputsWidget.record_interval.value()
+    interval_o = self.InputsWidget.interval()
     nan = float('nan')
     
     #path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]

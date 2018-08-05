@@ -154,17 +154,16 @@ class InputsWidget(QWidget, Ui_Form):
             return
         vpoints = self.EntitiesPoint.dataTuple()
         name = 'Point{}'.format(p0)
-        vars = [
-            name,
-            'Point{}'.format(p1),
-            "{:.02f}".format(vpoints[p0].slope_angle(vpoints[p1]))
-        ]
         for p0_, p1_, a in self.inputPair():
             if {p0, p1} == {p0_, p1_}:
                 return
         self.CommandStack.beginMacro("Add variable of {}".format(name))
         self.CommandStack.push(AddVariable(
-            '->'.join(vars),
+            '->'.join((
+                name,
+                'Point{}'.format(p1),
+                "{:.02f}".format(vpoints[p0].slope_angle(vpoints[p1])),
+            )),
             self.variable_list
         ))
         self.CommandStack.endMacro()
@@ -225,6 +224,10 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.endMacro()
         self.EntitiesPoint.getBackPosition()
         self.solve()
+    
+    def interval(self) -> float:
+        """Return interval value."""
+        return self.record_interval.value()
     
     def inputCount(self) -> int:
         """Use to show input variable count."""
