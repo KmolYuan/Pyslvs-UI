@@ -185,10 +185,7 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(int)
     def setTransparency(self, transparency: int):
-        """Update transparency.
-        
-        0%: opaque.
-        """
+        """Update transparency. (0%: opaque)"""
         self.transparency = (100 - transparency) / 100
         self.update()
     
@@ -218,6 +215,24 @@ class DynamicCanvas(BaseCanvas):
     def setShowFPS(self, show_fps: bool):
         """Set FPS display option."""
         self.show_fps = show_fps
+        self.update()
+    
+    @pyqtSlot(str)
+    def setBackground(self, path: str):
+        """Set background from file path."""
+        if self.background.load(path):
+            self.update()
+    
+    @pyqtSlot(float)
+    def setBackgroundOffsetX(self, x: float):
+        """Set offset x value of background."""
+        self.background_offset.setX(x)
+        self.update()
+    
+    @pyqtSlot(float)
+    def setBackgroundOffsetY(self, y: float):
+        """Set offset y value of background."""
+        self.background_offset.setY(y)
         self.update()
     
     @pyqtSlot(int)

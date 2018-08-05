@@ -31,6 +31,7 @@ from core.QtModules import (
     QDoubleSpinBox,
     QComboBox,
     QCheckBox,
+    QLineEdit,
 )
 from core.info import (
     PyslvsAbout,
@@ -122,8 +123,11 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.marginfactor_option, 5),
         (self.jointsize_option, 5),
         (self.zoomby_option, 0),
-        (self.snap_option, 1.),
+        (self.snap_option, 1),
         (self.showfps_option, True),
+        (self.background_option, ""),
+        (self.background_offset_x_option, 0),
+        (self.background_offset_y_option, 0),
         (self.undolimit_option, 32),
         (self.planarsolver_option, 0),
         (self.pathpreview_option, 0),
@@ -607,21 +611,17 @@ def checkFileChanged(self) -> bool:
 
 def restoreSettings(self):
     """Restore Pyslvs settings."""
-    for option in _settings(self):
-        widget = option[0]
+    for widget, value in _settings(self):
         name = widget.objectName()
-        if type(widget) in (QSpinBox, QDoubleSpinBox):
-            widget.setValue(
-                self.settings.value(name, option[-1], type=type(option[-1]))
-            )
-        elif type(widget) == QComboBox:
-            widget.setCurrentIndex(
-                self.settings.value(name, option[-1], type=int)
-            )
-        elif type(widget) == QCheckBox:
-            widget.setChecked(
-                self.settings.value(name, option[-1], type=bool)
-            )
+        widget_type = type(widget)
+        if widget_type in (QSpinBox, QDoubleSpinBox):
+            widget.setValue(self.settings.value(name, value, type=type(value)))
+        elif widget_type == QComboBox:
+            widget.setCurrentIndex(self.settings.value(name, value, type=int))
+        elif widget_type == QCheckBox:
+            widget.setChecked(self.settings.value(name, value, type=bool))
+        elif widget_type == QLineEdit:
+            widget.setText(self.settings.value(name, value, type=str))
 
 
 def saveSettings(self):
@@ -629,27 +629,31 @@ def saveSettings(self):
     if self.dontsave_option.isChecked():
         self.settings.clear()
         return
-    for option in _settings(self):
-        widget = option[0]
+    for widget, value in _settings(self):
         name = widget.objectName()
-        if type(widget) in (QSpinBox, QDoubleSpinBox):
+        widget_type = type(widget)
+        if widget_type in (QSpinBox, QDoubleSpinBox):
             self.settings.setValue(name, widget.value())
-        elif type(widget) == QComboBox:
+        elif widget_type == QComboBox:
             self.settings.setValue(name, widget.currentIndex())
-        elif type(widget) == QCheckBox:
+        elif widget_type == QCheckBox:
             self.settings.setValue(name, widget.isChecked())
+        elif widget_type == QLineEdit:
+            self.settings.setValue(name, widget.text())
 
 
 def resetOptions(self):
     """Reset options with default value."""
-    for option in _settings(self):
-        widget = option[0]
-        if type(widget) in (QSpinBox, QDoubleSpinBox):
-            widget.setValue(option[-1])
-        elif type(widget) == QComboBox:
-            widget.setCurrentIndex(option[-1])
-        elif type(widget) == QCheckBox:
-            widget.setChecked(option[-1])
+    for widget, value in _settings(self):
+        widget_type = type(widget)
+        if widget_type in (QSpinBox, QDoubleSpinBox):
+            widget.setValue(value)
+        elif widget_type == QComboBox:
+            widget.setCurrentIndex(value)
+        elif widget_type == QCheckBox:
+            widget.setChecked(value)
+        elif widget_type == QLineEdit:
+            widget.setText(value)
 
 def readFromArgs(self):
     if not self.args.r:

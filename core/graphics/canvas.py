@@ -31,6 +31,8 @@ from core.QtModules import (
     pyqtSlot,
     Qt,
     QPointF,
+    QRectF,
+    QSizeF,
     QWidget,
     QSizePolicy,
     QPainter,
@@ -40,6 +42,7 @@ from core.QtModules import (
     QFont,
     QTimer,
     QPainterPath,
+    QImage,
 )
 from core import io
 from core.libs import VPoint
@@ -189,6 +192,9 @@ class BaseCanvas(QWidget):
         #Path solving.
         self.target_path = {}
         self.show_target_path = False
+        #Background
+        self.background = QImage()
+        self.background_offset = QPointF(0, 0)
         #Frame
         self.show_fps = True
         self.__t0 = time()
@@ -205,6 +211,17 @@ class BaseCanvas(QWidget):
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         #Translation
         self.painter.translate(self.ox, self.oy)
+        #Background
+        if not self.background.isNull():
+            rect = self.background.rect()
+            self.painter.drawImage(
+                QRectF(
+                    self.background_offset,
+                    QSizeF(rect.width() * self.zoom, rect.height() * self.zoom)
+                ),
+                self.background,
+                QRectF(rect)
+            )
         #Show frame.
         pen = QPen(Qt.blue)
         pen.setWidth(1)

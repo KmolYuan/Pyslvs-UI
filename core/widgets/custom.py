@@ -303,25 +303,18 @@ def _options(self):
     self.linewidth_option.valueChanged.connect(self.MainCanvas.setLinkWidth)
     self.pathwidth_option.valueChanged.connect(self.MainCanvas.setPathWidth)
     self.fontsize_option.valueChanged.connect(self.MainCanvas.setFontSize)
-    self.action_Display_Point_Mark.toggled.connect(
-        self.MainCanvas.setPointMark
-    )
-    self.action_Display_Dimensions.toggled.connect(
-        self.MainCanvas.setShowDimension
-    )
-    self.selectionradius_option.valueChanged.connect(
-        self.MainCanvas.setSelectionRadius
-    )
-    self.linktrans_option.valueChanged.connect(
-        self.MainCanvas.setTransparency
-    )
-    self.marginfactor_option.valueChanged.connect(
-        self.MainCanvas.setMarginFactor
-    )
+    self.action_Display_Point_Mark.toggled.connect(self.MainCanvas.setPointMark)
+    self.action_Display_Dimensions.toggled.connect(self.MainCanvas.setShowDimension)
+    self.selectionradius_option.valueChanged.connect(self.MainCanvas.setSelectionRadius)
+    self.linktrans_option.valueChanged.connect(self.MainCanvas.setTransparency)
+    self.marginfactor_option.valueChanged.connect(self.MainCanvas.setMarginFactor)
     self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
     self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
     self.showfps_option.toggled.connect(self.MainCanvas.setShowFPS)
+    self.background_option.textChanged.connect(self.MainCanvas.setBackground)
+    self.background_offset_x_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetX)
+    self.background_offset_y_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetY)
     #Resolve after change current kernel.
     kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
     self.planarsolver_option.addItems(kernel_list)

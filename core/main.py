@@ -40,7 +40,7 @@ from core.QtModules import (
     QTextCursor,
     QListWidgetItem,
 )
-from core.io import XStream, strbetween
+from core.io import XStream, strbetween, QTIMAGES
 from core.widgets import initCustomWidgets
 from core.main_method import (
     _solver,
@@ -284,6 +284,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for table in tables:
             table.clearSelection()
         self.InputsWidget.clearSelection()
+    
+    @pyqtSlot(name='on_background_choosedir_clicked')
+    def __setBackground(self):
+        """Show up dialog to set the background file path."""
+        file_name = self.inputFrom("Background", QTIMAGES)
+        if file_name:
+            self.background_option.setText(file_name)
     
     @pyqtSlot(name='on_console_connect_button_clicked')
     def __consoleConnect(self):
