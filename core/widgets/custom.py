@@ -313,6 +313,7 @@ def _options(self):
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
     self.showfps_option.toggled.connect(self.MainCanvas.setShowFPS)
     self.background_option.textChanged.connect(self.MainCanvas.setBackground)
+    self.background_scale_option.valueChanged.connect(self.MainCanvas.setBackgroundScale)
     self.background_offset_x_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetX)
     self.background_offset_y_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetY)
     #Resolve after change current kernel.

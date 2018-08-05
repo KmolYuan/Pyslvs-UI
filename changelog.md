@@ -17,6 +17,7 @@ Features
 + Selection label function improvement.
 + UI and selection mode improvements.
 + Add FPS counter.
++ Add background settings.
 
 Development
 ---

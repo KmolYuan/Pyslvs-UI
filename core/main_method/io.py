@@ -126,6 +126,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.snap_option, 1),
         (self.showfps_option, True),
         (self.background_option, ""),
+        (self.background_scale_option, 1),
         (self.background_offset_x_option, 0),
         (self.background_offset_y_option, 0),
         (self.undolimit_option, 32),

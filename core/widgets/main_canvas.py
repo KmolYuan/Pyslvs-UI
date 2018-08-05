@@ -224,6 +224,12 @@ class DynamicCanvas(BaseCanvas):
             self.update()
     
     @pyqtSlot(float)
+    def setBackgroundScale(self, scale: float):
+        """Set scale value of background."""
+        self.background_scale = scale
+        self.update()
+    
+    @pyqtSlot(float)
     def setBackgroundOffsetX(self, x: float):
         """Set offset x value of background."""
         self.background_offset.setX(x)
@@ -232,7 +238,7 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(float)
     def setBackgroundOffsetY(self, y: float):
         """Set offset y value of background."""
-        self.background_offset.setY(y)
+        self.background_offset.setY(-y)
         self.update()
     
     @pyqtSlot(int)

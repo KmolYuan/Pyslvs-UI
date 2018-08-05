@@ -194,6 +194,7 @@ class BaseCanvas(QWidget):
         self.show_target_path = False
         #Background
         self.background = QImage()
+        self.background_scale = 1
         self.background_offset = QPointF(0, 0)
         #Frame
         self.show_fps = True
@@ -215,10 +216,10 @@ class BaseCanvas(QWidget):
         if not self.background.isNull():
             rect = self.background.rect()
             self.painter.drawImage(
-                QRectF(
-                    self.background_offset,
-                    QSizeF(rect.width() * self.zoom, rect.height() * self.zoom)
-                ),
+                QRectF(self.background_offset, QSizeF(
+                    rect.width() * self.background_scale * self.zoom,
+                    rect.height() * self.background_scale * self.zoom
+                )),
                 self.background,
                 QRectF(rect)
             )
