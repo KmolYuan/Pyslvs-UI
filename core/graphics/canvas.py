@@ -171,6 +171,8 @@ class BaseCanvas(QWidget):
             QSizePolicy.Expanding,
             QSizePolicy.Expanding
         ))
+        self.setFocusPolicy(Qt.StrongFocus)
+        
         #Origin coordinate.
         self.ox = self.width() / 2
         self.oy = self.height() / 2
