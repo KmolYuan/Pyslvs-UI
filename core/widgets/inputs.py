@@ -151,16 +151,28 @@ class InputsWidget(QWidget, Ui_Form):
         if p1 is None:
             p1 = self.driver_list.currentRow()
         
-        if self.DOF() <= 0:
+        if self.DOF() <= self.inputCount():
+            QMessageBox.warning(self,
+                "Wrong DOF",
+                "The number of variable must no more than degrees of freedom."
+            )
             return
         
         vpoints = self.EntitiesPoint.dataTuple()
         
         if not vpoints[p0].same_link(vpoints[p1]):
+            QMessageBox.warning(self,
+                "Wrong pair",
+                "The base point and driver point should at the same link."
+            )
             return
         
         for p0_, p1_, a in self.inputPair():
             if {p0, p1} == {p0_, p1_}:
+                QMessageBox.warning(self,
+                    "Wrong pair",
+                    "There already have a same pair."
+                )
                 return
         
         name = 'Point{}'.format(p0)

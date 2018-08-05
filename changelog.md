@@ -18,6 +18,7 @@ Features
 + UI and selection mode improvements.
 + Add FPS counter.
 + Add background settings.
++ Add limitation of input mechanism in UI.
 
 Development
 ---

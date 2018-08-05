@@ -219,7 +219,7 @@ class FileWidget(QWidget, Ui_Form):
         #Close database when destroyed.
         self.destroyed.connect(self.__closeDatabase)
         #Undo Stack
-        self.CommandStack = parent.CommandStack
+        self.commandClear = parent.CommandStack.clear
         #Reset
         self.reset()
     
@@ -232,7 +232,7 @@ class FileWidget(QWidget, Ui_Form):
         self.lastTime = datetime.datetime.now()
         self.changed = False
         self.Stack = 0
-        self.CommandStack.clear()
+        self.commandClear()
         for row in range(self.CommitTable.rowCount()):
             self.CommitTable.removeRow(0)
         self.BranchList.clear()
