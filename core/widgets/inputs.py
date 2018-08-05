@@ -150,13 +150,20 @@ class InputsWidget(QWidget, Ui_Form):
             p0 = self.joint_list.currentRow()
         if p1 is None:
             p1 = self.driver_list.currentRow()
+        
         if self.DOF() <= 0:
             return
+        
         vpoints = self.EntitiesPoint.dataTuple()
-        name = 'Point{}'.format(p0)
+        
+        if not vpoints[p0].same_link(vpoints[p1]):
+            return
+        
         for p0_, p1_, a in self.inputPair():
             if {p0, p1} == {p0_, p1_}:
                 return
+        
+        name = 'Point{}'.format(p0)
         self.CommandStack.beginMacro("Add variable of {}".format(name))
         self.CommandStack.push(AddVariable(
             '->'.join((
