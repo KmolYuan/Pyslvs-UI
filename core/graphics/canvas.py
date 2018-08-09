@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from time import time
 from math import (
     radians,
     sin,
@@ -40,7 +39,6 @@ from core.QtModules import (
     QPen,
     QColor,
     QFont,
-    QTimer,
     QPainterPath,
     QImage,
 )
@@ -198,12 +196,6 @@ class BaseCanvas(QWidget):
         self.background = QImage()
         self.background_scale = 1
         self.background_offset = QPointF(0, 0)
-        #Frame
-        self.show_fps = True
-        self.__t0 = time()
-        self.__frame_timer = QTimer(self)
-        self.__frame_timer.timeout.connect(self.update)
-        self.__frame_timer.start(1000)
     
     def paintEvent(self, event):
         """Using a QPainter under 'self',
@@ -230,12 +222,6 @@ class BaseCanvas(QWidget):
         pen.setWidth(1)
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Arial", self.font_size))
-        if self.show_fps:
-            self.painter.drawText(
-                QPointF(-self.ox, -self.oy + 20),
-                "FPS: {:6.02f}".format(1 / (time() - self.__t0))
-            )
-            self.__t0 = time()
         #Draw origin lines.
         pen.setColor(Qt.gray)
         self.painter.setPen(pen)

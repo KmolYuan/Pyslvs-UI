@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from time import time
 from collections import deque
 from typing import (
     List,
@@ -25,6 +26,7 @@ from core.QtModules import (
     QCursor,
     QToolTip,
     QWidget,
+    QTimer,
 )
 from core.graphics import BaseCanvas
 from core.libs import VPoint, VLink
@@ -96,6 +98,12 @@ class DynamicCanvas(BaseCanvas):
         self.__selectionMode = parent.EntitiesTab.currentIndex
         #Default margin factor.
         self.margin_factor = 0.95
+        #Frame
+        self.show_fps = True
+        self.t0 = time() - 1
+        self.__frame_timer = QTimer(self)
+        self.__frame_timer.timeout.connect(self.update)
+        self.__frame_timer.start(1000)
         #Widget size.
         self.width_old = None
         self.height_old = None

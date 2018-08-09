@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from time import time
 from enum import Enum
 from math import (
     degrees,
@@ -525,6 +526,16 @@ def paintEvent(self, event):
         pen.setWidth(1)
         self.painter.setPen(pen)
         self.painter.drawRect(self.selector.toQRect())
+    #Show FPS
+    if self.show_fps:
+        pen = QPen(Qt.blue)
+        self.painter.setPen(pen)
+        self.painter.setFont(QFont("Mono", 12))
+        self.painter.drawText(
+            QPointF(-self.ox, -self.oy + 12),
+            "FPS: {:6.02f}".format(1 / (time() - self.t0))
+        )
+        self.t0 = time()
     self.painter.end()
     #Record the widget size.
     self.width_old = width
