@@ -42,13 +42,12 @@ class _DynamicCanvas(BaseCanvas):
         super(_DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = path
-        self.length = 0
-        path_count = len(path)
-        for path in self.Path.path:
-            if path_count > self.length:
-                self.length = path_count
         self.target_path = self.mechanism['Target']
-        self.index = 0
+        self.__index = 0
+        self.__interval = 1
+        self.__path_count = max(len(path) for path in self.Path.path) - 1
+        self.pos = []
+        
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = set()
         self.links = []
@@ -63,11 +62,11 @@ class _DynamicCanvas(BaseCanvas):
         )
         #Error
         self.ERROR = False
-        self.no_error = 0
+        self.__no_error = 0
         #Timer start.
-        timer = QTimer(self)
-        timer.timeout.connect(self.change_index)
-        timer.start(17)
+        self.__timer = QTimer(self)
+        self.__timer.timeout.connect(self.__change_index)
+        self.__timer.start(18)
     
     def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
@@ -89,7 +88,7 @@ class _DynamicCanvas(BaseCanvas):
                 y_top = y
         #Paths
         for i, path in enumerate(self.Path.path):
-            if self.Path.show!=-1 and self.Path.show!=i:
+            if self.Path.show != -1 and self.Path.show != i:
                 continue
             for x, y in path:
                 if x < x_right:
@@ -130,22 +129,26 @@ class _DynamicCanvas(BaseCanvas):
         self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
         self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         super(_DynamicCanvas, self).paintEvent(event)
-        #Points that in the current angle section.
-        """First check."""
+        
+        #First check.
         for path in self.Path.path:
             if not path:
                 continue
-            x, y = path[self.index]
+            x, y = path[self.__index]
             if isnan(x):
-                self.index, self.no_error = self.no_error, self.index
+                self.__index, self.__no_error = self.__no_error, self.__index
                 self.ERROR = True
-        self.Point = []
+                self.__interval = -self.__interval
+        
+        #Points that in the current angle section.
+        self.pos.clear()
         for i, name in enumerate(self.exp_symbol):
             if (name in self.mechanism['Driver']) or (name in self.mechanism['Follower']):
-                self.Point.append(self.mechanism[name])
+                self.pos.append(self.mechanism[name])
             else:
-                x, y = self.Path.path[i][self.index]
-                self.Point.append((x, y))
+                x, y = self.Path.path[i][self.__index]
+                self.pos.append((x, y))
+        
         #Draw links.
         for i, exp in enumerate(self.links):
             if i == 0:
@@ -158,9 +161,9 @@ class _DynamicCanvas(BaseCanvas):
         self.drawTargetPath()
         #Draw points.
         for i, name in enumerate(self.exp_symbol):
-            if not self.Point[i]:
+            if not self.pos[i]:
                 continue
-            x, y = self.Point[i]
+            x, y = self.pos[i]
             color = colorQt('Green')
             fixed = False
             if name in self.mechanism['Target']:
@@ -175,9 +178,9 @@ class _DynamicCanvas(BaseCanvas):
         self.painter.end()
         if self.ERROR:
             self.ERROR = False
-            self.index, self.no_error = self.no_error, self.index
+            self.__index, self.__no_error = self.__no_error, self.__index
         else:
-            self.no_error = self.index
+            self.__no_error = self.__index
     
     def __drawLink(self, name: str, points: Tuple[int]):
         """Draw link function.
@@ -192,8 +195,8 @@ class _DynamicCanvas(BaseCanvas):
         brush.setAlphaF(0.70)
         self.painter.setBrush(brush)
         qpoints = tuple(
-            QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
-            for i in points if self.Point[i] and not isnan(self.Point[i][0])
+            QPointF(self.pos[i][0] * self.zoom, self.pos[i][1] * -self.zoom)
+            for i in points if self.pos[i] and not isnan(self.pos[i][0])
         )
         if len(qpoints)==len(points):
             self.painter.drawPolygon(*qpoints)
@@ -204,12 +207,12 @@ class _DynamicCanvas(BaseCanvas):
             self.painter.setFont(QFont('Arial', self.font_size))
             text = "[{}]".format(name)
             cenX = sum(
-                self.Point[i][0]
-                for i in points if self.Point[i]
+                self.pos[i][0]
+                for i in points if self.pos[i]
             )
             cenY = sum(
-                self.Point[i][1]
-                for i in points if self.Point[i]
+                self.pos[i][1]
+                for i in points if self.pos[i]
             )
             cenX *= self.zoom / len(points)
             cenY *= -self.zoom / len(points)
@@ -232,10 +235,11 @@ class _DynamicCanvas(BaseCanvas):
             self.drawCurve(path)
     
     @pyqtSlot()
-    def change_index(self):
+    def __change_index(self):
         """A slot to change the path index."""
-        self.index += 1
-        self.index %= self.length
+        self.__index += self.__interval
+        if self.__index > self.__path_count:
+            self.__index = 0
         self.update()
 
 
