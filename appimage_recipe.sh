@@ -45,7 +45,7 @@ deactivate
 ########################################################################
 
 cp ../../launch_pyslvs.py usr/bin/$LOWERAPP
-sed -i "1i\#!/usr/bin/env python" usr/bin/$LOWERAPP
+sed -i "1i\#!/usr/bin/env python3" usr/bin/$LOWERAPP
 chmod a+x usr/bin/$LOWERAPP
 
 cp ../../icons_rc.py usr/bin
