@@ -153,7 +153,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return self.__mechanism_data[index]
         return self.__mechanism_data
     
-    def on_clear_button_clicked(self):
+    @pyqtSlot(name='on_clear_button_clicked')
+    def __userClear(self):
         if self.profile_name.text() == "No setting":
             return
         reply = QMessageBox.question(
@@ -248,7 +249,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             ]
         except:
             QMessageBox.warning(self, "File error",
-                "Wrong format.\nIt should be look like this:" +
+                "Wrong format.\n"
+                "It should be look like this:"
                 "\n0.0,0.0[\\n]" * 3
             )
         else:
@@ -279,7 +281,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             except:
                 QMessageBox.warning(self,
                     "File error",
-                    "Wrong format.\n" +
+                    "Wrong format.\n"
                     "The datasheet seems to including non-digital cell."
                 )
                 break
@@ -435,9 +437,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __setTime(self, time: float):
         """Set the time label."""
         self.timeShow.setText(
-            "<html><head/><body><p><span style=\"font-size:16pt\">" +
-            "{}[min] {:.02f}[s]".format(int(time // 60), time % 60) +
-            "</span></p></body></html>"
+            "<html><head/><body><p><span style=\"font-size:16pt\">"
+            "{}[min] {:.02f}[s]"
+            "</span></p></body></html>".format(int(time // 60), time % 60)
         )
     
     def __addResult(self, result: Dict[str, Any]):
@@ -476,17 +478,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.unsaveFunc()
         self.__hasResult()
     
-    @pyqtSlot(name='on_result_list_clicked')
-    def __hasResult(self):
+    @pyqtSlot(QModelIndex, name='on_result_list_clicked')
+    def __hasResult(self, index: Optional[QModelIndex] = None):
         """Set enable if there has any result."""
-        for button in [
+        enable = self.result_list.currentRow() > -1
+        for button in (
             self.merge_button,
             self.delete_button,
             self.result_load_settings,
             self.result_chart,
             self.result_clipboard
-        ]:
-            button.setEnabled(self.result_list.currentRow()>-1)
+        ):
+            button.setEnabled(enable)
     
     @pyqtSlot(QModelIndex, name='on_result_list_doubleClicked')
     def __showResult(self, index: QModelIndex):
@@ -607,7 +610,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not ok:
             return
         i = 0
-        while (name not in self.collections) and (not name):
+        while (not name) and (name not in self.collections):
             name = "Structure_{}".format(i)
         
         mech_params = deepcopy(self.mech_params)
@@ -770,7 +773,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not self.Expression.text():
             QMessageBox.warning(self,
                 "Profile cannot use",
-                "This profile has no any solutions, " +
+                "This profile has no any solutions, "
                 "you can set it in the \"Triangular iteration\" page."
             )
     

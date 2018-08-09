@@ -53,7 +53,7 @@ _POWEREDBY = (
 
 #--help arguments
 _parser = argparse.ArgumentParser(
-    description = ("Pyslvs - Open Source Planar Linkage Mechanism Simulation" +
+    description = ("Pyslvs - Open Source Planar Linkage Mechanism Simulation"
         "and Mechanical Synthesis System."),
     epilog = "Powered by {}.".format(", ".join(_POWEREDBY))
 )
@@ -116,7 +116,7 @@ def check_update(progdlg: QProgressDialog) -> Tuple[str, bool]:
             return
         next_ver = list(__version__[:m])
         next_ver[i] += 1
-        url = ("https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/" +
+        url = ("https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/"
             "v{}.{:02}.{}".format(*next_ver))
         request = requests.get(url)
         progdlg.setValue(i + 1)

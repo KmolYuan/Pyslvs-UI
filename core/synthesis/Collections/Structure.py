@@ -197,14 +197,14 @@ class StructureWidget(QWidget, Ui_Form):
             edgesSTR, ok = QInputDialog.getText(
                 self,
                 "Add by edges",
-                "Please enter a connection expression:\n" +
+                "Please enter a connection expression:\n"
                 "Example: [(0, 1), (1, 2), (2, 3), (3, 0)]"
             )
             if not ok:
                 return
         try:
             edges = eval(edgesSTR)
-            if any(len(edge)!=2 for edge in edges):
+            if any(len(edge) != 2 for edge in edges):
                 raise IOError("Wrong format")
         except Exception as e:
             QMessageBox.warning(self, str(e), "Error: {}".format(e))

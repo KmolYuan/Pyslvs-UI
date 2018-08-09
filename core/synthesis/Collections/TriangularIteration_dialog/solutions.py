@@ -36,7 +36,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
         
         if mode == 'PLAP':
             self.main_label.setText(
-                "Two known points A (Driver) and B, " +
+                "Two known points A (Driver) and B, "
                 "with angle β and length L0 to find out the coordinate of point C."
             )
             for row in range(parent.driver_list.count()):
@@ -44,7 +44,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
             self.point_B.setEnable(False)
         elif mode == 'PLLP':
             self.main_label.setText(
-                "Two known points A and B, " +
+                "Two known points A and B, "
                 "with length L0 and L1 to find out the coordinate of point C."
             )
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
@@ -54,7 +54,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
                 continue
             if node in parent.PreviewWindow.same:
                 continue
-            if mode=='PLLP':
+            if mode == 'PLLP':
                 self.point_A.addItem('P{}'.format(node))
                 self.point_B.addItem('P{}'.format(node))
         self.point_A.currentIndexChanged.connect(self.__isOk)

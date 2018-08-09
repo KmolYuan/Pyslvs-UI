@@ -131,7 +131,7 @@ class SlvsOutputDialog(_OutputDialog):
         super(SlvsOutputDialog, self).__init__(
             "Solvespace",
             "Solvespace.ico",
-            "The part sketchs file will be generated automatically " +
+            "The part sketchs file will be generated automatically "
             "with target directory.",
             "There is only sketch file of main mechanism will be generated.",
             *args

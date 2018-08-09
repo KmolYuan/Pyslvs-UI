@@ -96,7 +96,7 @@ def _readSlvs(self, file_name: str):
         return
     group, ok = QInputDialog.getItem(self,
         "Solvespace groups",
-        "Choose a group:\n" +
+        "Choose a group:\n"
         "(Please know that the group must contain a sketch only.)",
         ["@".join(g) for g in groups],
         0,
@@ -500,13 +500,13 @@ def savePMKS(self):
         pointData.append('tfff')
         urlTable.append(','.join(pointData))
     url += '|'.join(urlTable)+'|'
-    text = '\n'.join([
+    text = '\n'.join((
         "Copy and past this link to web browser:\n",
         url + '\n',
-        "If you have installed Microsoft Silverlight in " +
-        "Internet Explorer as default browser, " +
+        "If you have installed Microsoft Silverlight in "
+        "Internet Explorer as default browser, "
         "just click \"Open\" button to open it in PMKS website."
-    ])
+    ))
     reply = QMessageBox.information(self,
         "PMKS web server",
         text,

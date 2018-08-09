@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
+from typing import Tuple, Optional
 from core.QtModules import (
     QApplication,
     QListWidgetItem,
@@ -101,7 +101,7 @@ def deleteStorage(self):
     self.CommandStack.endMacro()
 
 
-def restoreStorage(self, item: QListWidgetItem = None):
+def restoreStorage(self, item: Optional[QListWidgetItem] = None):
     """Restore the storage data."""
     if item is None:
         item = self.mechanism_storage.currentItem()
@@ -109,8 +109,8 @@ def restoreStorage(self, item: QListWidgetItem = None):
         return
     reply = QMessageBox.question(self,
         "Storage",
-        "Restore mechanism will overwrite the canvas." +
-        "\nDo you want to continue?"
+        "Restore mechanism will overwrite the canvas.\n"
+        "Do you want to continue?"
     )
     if reply != QMessageBox.Yes:
         return

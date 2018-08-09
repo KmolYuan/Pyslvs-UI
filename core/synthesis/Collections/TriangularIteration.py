@@ -175,8 +175,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """Ask user before clear."""
         reply = QMessageBox.question(self,
             "New profile",
-            "Triangular iteration should be added structure diagrams " +
-            "from structure collections.\n" +
+            "Triangular iteration should be added structure diagrams "
+            "from structure collections.\n"
             "Do you want to create a new profile?"
         )
         if reply == QMessageBox.Yes:
@@ -373,7 +373,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             },
             'Link_expr': self.link_expr_show.text(),
             'Expression': self.expr_show.text(),
-            'constraint': [
+            'constraints': [
                 tuple(s.split(", "))
                 for s in list_texts(self.constraint_list)
             ],
@@ -421,7 +421,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.__setWarning(self.target_label, not self.target_list.count() > 0)
         #Constraints
         self.constraint_list.addItems([
-            ", ".join(c) for c in params['constraint']
+            ", ".join(c) for c in params['constraints']
         ])
         #Expression
         if params['Expression']:
@@ -568,14 +568,11 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Auto configure",
-            "This function can detect the structure " +
-            "to configure the solutions.\n" +
+            "This function can detect the structure "
+            "to configure the solutions.\n"
             "The current settings will be cleared."
         )
-        if (
-            (reply != QMessageBox.Yes) or
-            (not self.__clearExpr())
-        ):
+        if (reply != QMessageBox.Yes) or (not self.__clearExpr()):
             return
         exprs = vpoints_configure(
             graph2vpoints(

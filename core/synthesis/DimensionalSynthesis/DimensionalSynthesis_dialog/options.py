@@ -135,7 +135,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                     ("Minimum Beta value", 'betaMin',
                         html("The minimal attraction, must not less than this.")),
                     ("Gamma value", 'gamma',
-                        html("Beta will multiplied by exponential power value " +
+                        html("Beta will multiplied by exponential power value "
                             "with this weight factor.")),
                     ("Beta0 value", 'beta0',
                         html("The attraction of two firefly in 0 distance."))
@@ -149,7 +149,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 ],
                 floats=[
                     ("Weight factor", 'F',
-                        html("Weight factor is usually between 0.5 and 1" +
+                        html("Weight factor is usually between 0.5 and 1"
                             "(in rare cases > 1).")),
                     ("Recombination factor", 'CR',
                         html("The chance of crossover possible."))

@@ -296,7 +296,7 @@ def getCollection(self) -> Dict[str, Union[
         'Link_expr': link_expression,
         'Expression': expression,
         'Graph': graph,
-        'constraint': [],
+        'constraints': [],
         'pos': pos,
         'cus': cus,
         'same': same,
