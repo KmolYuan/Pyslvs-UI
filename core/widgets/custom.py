@@ -258,6 +258,7 @@ def _freemove(self):
         def func():
             self.freemode_button.setIcon(qicon)
             self.MainCanvas.setFreeMove(j)
+            self.EntitiesTab.setCurrentIndex(0)
             self.InputsWidget.variable_stop.click()
         
         return func
@@ -275,8 +276,8 @@ def _freemove(self):
         )
         action.triggered.connect(freeMoveMode_func(i, action.icon()))
         action.setShortcuts([
-            QKeySequence("Ctrl+{}".format(i+1)),
-            QKeySequence("Shift+{}".format(i+1)),
+            QKeySequence("Ctrl+{}".format(i + 1)),
+            QKeySequence("Shift+{}".format(i + 1)),
         ])
         action.setShortcutContext(Qt.WindowShortcut)
         free_move_mode_menu.addAction(action)
