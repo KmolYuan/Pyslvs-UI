@@ -210,7 +210,7 @@ class BaseCanvas(QWidget):
         if not self.background.isNull():
             rect = self.background.rect()
             self.painter.drawImage(
-                QRectF(self.background_offset, QSizeF(
+                QRectF(self.background_offset * self.zoom, QSizeF(
                     rect.width() * self.background_scale * self.zoom,
                     rect.height() * self.background_scale * self.zoom
                 )),
