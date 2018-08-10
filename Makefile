@@ -63,7 +63,7 @@ ifeq ($(OS),Windows_NT)
 --add-binary="core/libs/pyslvs/topologic.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/triangulation.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/verify.$(CPPYTHON)-win_amd64.pyd;."
-	$(eval PYSLVSVERSION = $(shell python -c "from core.info import __version__; print(\"{}.{}.{}\".format(*__version__))"))
+	$(eval PYSLVSVERSION = $(shell python -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))"))
 	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
 	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))
 	rename .\dist\$(LAUNCHSCRIPT).exe pyslvs-$(PYSLVSVERSION).$(COMPILERVERSION)-$(SYSVERSION).exe

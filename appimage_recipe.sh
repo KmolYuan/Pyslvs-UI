@@ -20,9 +20,6 @@ cd ENV/$APP.AppDir/
 mkdir -p usr
 virtualenv --always-copy --python=python3 ./usr
 
-#Copy other modules.
-cp /usr/lib/python3.5/ssl.py ./usr/lib/python3.5/ssl.py
-
 source usr/bin/activate
 
 # Source some helper functions
@@ -55,7 +52,7 @@ rm -fr usr/bin/core/libs/pyslvs/build
 rm -fr usr/bin/core/libs/pyslvs/src
 rm -fr usr/bin/core/libs/pyslvs/Adesign
 rm -fr usr/bin/core/libs/python_solvespace/obj
-rm -fr usr/bin/core/libs/python_solvespace/iclude
+rm -fr usr/bin/core/libs/python_solvespace/include
 rm -fr usr/bin/core/libs/python_solvespace/src
 find . -type f -name '*.ui' -delete
 
@@ -66,7 +63,7 @@ find . -type f -name '*.ui' -delete
 get_apprun
 
 cd ../..
-VERSION=$(python3 -c "from core.info.info import __version__; print(\"{}.{}.{}\".format(*__version__))")
+VERSION=$(python3 -c "from core.info.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
 cd ENV/$APP.AppDir/
 
 cat > $LOWERAPP.desktop <<EOF
@@ -74,7 +71,8 @@ cat > $LOWERAPP.desktop <<EOF
 Name=$APP
 Exec=$LOWERAPP
 Type=Application
-Icon=$LOWERAPP
+Icon=$LOWERAPP.png
+StartupNotify=true
 Comment=Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 EOF
 
