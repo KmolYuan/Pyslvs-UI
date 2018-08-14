@@ -670,13 +670,14 @@ def resetOptions(self):
         elif widget_type == QLineEdit:
             widget.setText(value)
 
+
 def readFromArgs(self):
-    if not self.args.r:
+    if not self.args.file:
         return
-    suffix = QFileInfo(self.args.r).suffix()
+    suffix = QFileInfo(self.args.file).suffix()
     if suffix == 'pyslvs':
-        self.FileWidget.read(self.args.r)
+        self.FileWidget.read(self.args.file)
     elif suffix == 'slvs':
-        _readSlvs(self, self.args.r)
+        _readSlvs(self, self.args.file)
     else:
         print("Unsupported format has been ignore when startup.")

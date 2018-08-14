@@ -44,7 +44,10 @@ class PyslvsSplash(QSplashScreen):
     
     def __init__(self):
         super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/Splash.png"))
-        self.showMessage("Version {}.{}.{}({})".format(*__version__), (Qt.AlignBottom|Qt.AlignRight))
+        self.showMessage(
+            "Version {}.{}.{}({})".format(*__version__),
+            Qt.AlignBottom | Qt.AlignRight
+        )
 
 
 class PyslvsAbout(QDialog, Ui_Dialog):
@@ -56,22 +59,20 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.Title.setText(html(
-            _title("Pyslvs") +
-            _content("Version {}.{}.{}({}) 2016-2018".format(*__version__))
-        ))
-        self.Content.setText(html(_content(
+        self.Title.setText(html(_title("Pyslvs") + _content(
+            "Version {}.{}.{}({}) 2016-2018".format(*__version__)
+        )))
+        self.description_text.setText(html(_content(
             "A GUI-based tool use to solving 2D linkage subject.",
             "Author: {}".format(__author__),
             "Email: {}".format(__email__),
-            "If you want to know more, go to see to our website or contact the email."))
-        )
-        self.Versions.setText(html(_orderList(*INFO)))
-        self.Arguments.setText(html(_content(
-            "Startup arguments are as follows:") + _orderList(
-            "The loaded file when startup: {}".format(ARGUMENTS.r),
+            "If you want to know more, see to our website or contact the email.",
+        )))
+        self.ver_text.setText(html(_orderList(*INFO)))
+        self.args_text.setText(html(_content("Startup arguments are as follows:") + _orderList(
+            "Open with: {}".format(ARGUMENTS.file),
             "Start Path: {}".format(ARGUMENTS.c),
             "Fusion style: {}".format(ARGUMENTS.fusion),
-            "Debug mode: {}".format(ARGUMENTS.debug_mode)) + _content(
-            "Using the \"-h\" argument to view the help."))
-        )
+            "Debug mode: {}".format(ARGUMENTS.debug_mode),
+            "Specified kernel: {}".format(ARGUMENTS.kernel),
+        ) + _content("Use \"-h\" or \"--help\" argument to view the help.")))

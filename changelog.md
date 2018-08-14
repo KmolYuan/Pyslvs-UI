@@ -20,6 +20,7 @@ Features
 + Add background settings.
 + Add limitation of input mechanism in UI.
 + Add command line option to choose specified solver when startup.
++ Adjust interface of about dialog.
 
 Development
 ---

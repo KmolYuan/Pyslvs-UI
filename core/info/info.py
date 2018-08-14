@@ -63,9 +63,9 @@ _parser.add_argument(
     version = INFO[0]
 )
 _parser.add_argument(
-    'r',
+    'file',
     metavar = "file path",
-    default = False,
+    default = None,
     nargs = '?',
     type = str,
     help = "read workbook from the file path"
@@ -73,7 +73,7 @@ _parser.add_argument(
 _parser.add_argument(
     '-c',
     metavar = "start path",
-    default = False,
+    default = None,
     nargs = '?',
     type = str,
     help = "change to specified path when startup Pyslvs"
@@ -102,7 +102,7 @@ _parser.add_argument(
 _parser.add_argument(
     '--kernel',
     metavar = "kernel name",
-    default = False,
+    default = None,
     nargs = '?',
     type = str,
     choices = ['pyslvs', 'python_solvespace', 'sketch_solve'],
