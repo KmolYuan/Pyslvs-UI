@@ -14,7 +14,7 @@ __email__ = "pyslvs@gmail.com"
 
 from sys import version_info
 import platform
-import argparse
+from argparse import ArgumentParser
 from typing import Tuple
 import requests
 from core.QtModules import (
@@ -51,8 +51,7 @@ _POWEREDBY = (
     "Pygments",
 )
 
-#--help arguments
-_parser = argparse.ArgumentParser(
+_parser = ArgumentParser(
     description = ("Pyslvs - Open Source Planar Linkage Mechanism Simulation"
         "and Mechanical Synthesis System."),
     epilog = "Powered by {}.".format(", ".join(_POWEREDBY))
@@ -61,7 +60,6 @@ _parser.add_argument(
     '-v',
     '--version',
     action = 'version',
-    help = "show version infomations and exit",
     version = INFO[0]
 )
 _parser.add_argument(
@@ -73,15 +71,14 @@ _parser.add_argument(
     help = "read workbook from the file path"
 )
 _parser.add_argument(
-    '-i',
+    '-c',
     metavar = "start path",
     default = False,
     nargs = '?',
     type = str,
-    help = "start Pyslvs in the specified path"
+    help = "change to specified path when startup Pyslvs"
 )
 _parser.add_argument(
-    '-f',
     '--fusion',
     action = 'store_true',
     help = "run Pyslvs in Fusion style"
@@ -98,11 +95,21 @@ _parser.add_argument(
     help = "do not connect to GUI console when opening"
 )
 _parser.add_argument(
-    '-t',
     '--test',
     action = 'store_true',
     help = "just test module states and exit"
 )
+_parser.add_argument(
+    '--kernel',
+    metavar = "kernel name",
+    default = False,
+    nargs = '?',
+    type = str,
+    choices = ['pyslvs', 'python_solvespace', 'sketch_solve'],
+    help = "startup Pyslvs with specified solver, "
+        "default is depending on local setting"
+)
+
 ARGUMENTS = _parser.parse_args()
 
 

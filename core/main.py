@@ -81,8 +81,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.autopreview = []
         
         self.setLocate(
-            QFileInfo(self.args.i).canonicalFilePath()
-            if self.args.i else
+            QFileInfo(self.args.c).canonicalFilePath()
+            if self.args.c else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         

@@ -49,7 +49,11 @@ from core.io import (
     QTIMAGES,
     strbetween,
 )
-from core.libs import parse_params, PMKSLexer
+from core.libs import (
+    kernel_list,
+    parse_params,
+    PMKSLexer,
+)
 
 
 def _open_url(url: str):
@@ -623,6 +627,16 @@ def restoreSettings(self):
             widget.setChecked(self.settings.value(name, value, type=bool))
         elif widget_type == QLineEdit:
             widget.setText(self.settings.value(name, value, type=str))
+    #Specified solver setting.
+    if self.args.kernel:
+        if self.args.kernel == "pyslvs":
+            kernel_name = kernel_list[0]
+        elif self.args.kernel == "python_solvespace":
+            kernel_name = kernel_list[1]
+        elif self.args.kernel == "sketch_solve":
+            kernel_name = kernel_list[2]
+        self.planarsolver_option.setCurrentText(kernel_name)
+        self.pathpreview_option.setCurrentText(kernel_name)
 
 
 def saveSettings(self):

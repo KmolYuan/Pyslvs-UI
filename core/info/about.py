@@ -70,7 +70,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.Arguments.setText(html(_content(
             "Startup arguments are as follows:") + _orderList(
             "The loaded file when startup: {}".format(ARGUMENTS.r),
-            "Start Path: {}".format(ARGUMENTS.i),
+            "Start Path: {}".format(ARGUMENTS.c),
             "Fusion style: {}".format(ARGUMENTS.fusion),
             "Debug mode: {}".format(ARGUMENTS.debug_mode)) + _content(
             "Using the \"-h\" argument to view the help."))

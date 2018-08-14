@@ -58,6 +58,7 @@ from .python_solvespace import (
 
 __all__ = [
     '__version__',
+    'kernel_list',
     'Genetic',
     'Firefly',
     'DiffertialEvolution',
@@ -86,6 +87,9 @@ __all__ = [
     'create2DSystem',
     'slvsProcess',
 ]
+
+
+kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
 
 
 def create2DSystem(num: int) -> Tuple[System, Workplane, LineSegment2d]:

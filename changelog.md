@@ -19,6 +19,7 @@ Features
 + Add FPS counter.
 + Add background settings.
 + Add limitation of input mechanism in UI.
++ Add command line option to choose specified solver when startup.
 
 Development
 ---

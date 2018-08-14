@@ -26,6 +26,7 @@ from core.QtModules import (
 )
 from core.info import __version__
 from core.io import FileWidget
+from core.libs import kernel_list
 from core.synthesis import (
     StructureSynthesis,
     Collections,
@@ -318,7 +319,6 @@ def _options(self):
     self.background_offset_x_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetX)
     self.background_offset_y_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetY)
     #Resolve after change current kernel.
-    kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
     self.planarsolver_option.addItems(kernel_list)
     self.pathpreview_option.addItems(kernel_list)
     self.planarsolver_option.currentIndexChanged.connect(self.solve)
