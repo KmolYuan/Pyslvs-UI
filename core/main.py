@@ -25,7 +25,6 @@ from typing import (
     Union,
     Optional,
 )
-from argparse import Namespace
 from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
@@ -40,6 +39,7 @@ from core.QtModules import (
     QTextCursor,
     QListWidgetItem,
 )
+from core.info import ARGUMENTS
 from core.io import XStream, strbetween, QTIMAGES
 from core.widgets import initCustomWidgets
 from core.main_method import (
@@ -64,7 +64,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     to wrapper function in 'main_method' module.
     """
     
-    def __init__(self, args: Namespace):
+    def __init__(self):
         """Notes:
         
         + Input command line arguments object from Python parser.
@@ -75,14 +75,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setAttribute(Qt.WA_DeleteOnClose)
         
-        self.args = args
         self.env = ""
         self.DOF = 0
         self.autopreview = []
         
         self.setLocate(
-            QFileInfo(self.args.c).canonicalFilePath()
-            if self.args.c else
+            QFileInfo(ARGUMENTS.c).canonicalFilePath()
+            if ARGUMENTS.c else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         
@@ -94,8 +93,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.restoreSettings()
         
         #Console widget.
-        self.consoleerror_option.setChecked(self.args.debug_mode)
-        if not self.args.debug_mode:
+        self.consoleerror_option.setChecked(ARGUMENTS.debug_mode)
+        if not ARGUMENTS.debug_mode:
             self.__consoleConnect()
         
         #Start first solve function calling.

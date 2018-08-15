@@ -32,7 +32,7 @@ def main():
         QApp.setStyle('fusion')
     splash = PyslvsSplash()
     splash.show()
-    run = MainWindow(ARGUMENTS)
+    run = MainWindow()
     run.show()
     splash.finish(run)
     exit(QApp.exec())

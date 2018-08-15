@@ -34,9 +34,10 @@ from core.QtModules import (
     QLineEdit,
 )
 from core.info import (
+    __version__,
+    ARGUMENTS,
     PyslvsAbout,
     check_update,
-    __version__,
 )
 from core.io import (
     ScriptDialog,
@@ -628,12 +629,12 @@ def restoreSettings(self):
         elif widget_type == QLineEdit:
             widget.setText(self.settings.value(name, value, type=str))
     #Specified solver setting.
-    if self.args.kernel:
-        if self.args.kernel == "pyslvs":
+    if ARGUMENTS.kernel:
+        if ARGUMENTS.kernel == "pyslvs":
             kernel_name = kernel_list[0]
-        elif self.args.kernel == "python_solvespace":
+        elif ARGUMENTS.kernel == "python_solvespace":
             kernel_name = kernel_list[1]
-        elif self.args.kernel == "sketch_solve":
+        elif ARGUMENTS.kernel == "sketch_solve":
             kernel_name = kernel_list[2]
         self.planarsolver_option.setCurrentText(kernel_name)
         self.pathpreview_option.setCurrentText(kernel_name)
@@ -672,12 +673,12 @@ def resetOptions(self):
 
 
 def readFromArgs(self):
-    if not self.args.file:
+    if not ARGUMENTS.file:
         return
-    suffix = QFileInfo(self.args.file).suffix()
+    suffix = QFileInfo(ARGUMENTS.file).suffix()
     if suffix == 'pyslvs':
-        self.FileWidget.read(self.args.file)
+        self.FileWidget.read(ARGUMENTS.file)
     elif suffix == 'slvs':
-        _readSlvs(self, self.args.file)
+        _readSlvs(self, ARGUMENTS.file)
     else:
         print("Unsupported format has been ignore when startup.")

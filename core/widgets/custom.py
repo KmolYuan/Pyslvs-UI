@@ -24,7 +24,7 @@ from core.QtModules import (
     QSettings,
     QUndoView,
 )
-from core.info import __version__
+from core.info import __version__, ARGUMENTS
 from core.io import FileWidget
 from core.libs import kernel_list
 from core.synthesis import (
@@ -229,8 +229,8 @@ def _appearance(self):
     self.ConsoleWidget.hide()
     
     #Connect to GUI button switching.
-    self.console_disconnect_button.setEnabled(not self.args.debug_mode)
-    self.console_connect_button.setEnabled(self.args.debug_mode)
+    self.console_disconnect_button.setEnabled(not ARGUMENTS.debug_mode)
+    self.console_connect_button.setEnabled(ARGUMENTS.debug_mode)
     
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)
@@ -244,7 +244,7 @@ def _appearance(self):
     #Start new window.
     @pyqtSlot()
     def newMainWindow():
-        run = self.__class__(self.args)
+        run = self.__class__()
         run.show()
     
     self.action_New_window.triggered.connect(newMainWindow)
