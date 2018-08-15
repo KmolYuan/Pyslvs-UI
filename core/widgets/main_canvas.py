@@ -122,9 +122,11 @@ class DynamicCanvas(BaseCanvas):
         self.Path.path = path
         self.update()
     
+    @pyqtSlot()
     def updatePreviewPath(self):
         """Update preview path."""
         self.previewpath(self.pathpreview, self.vpoints)
+        self.update()
     
     @pyqtSlot(int)
     def setLinkWidth(self, link_width: int):

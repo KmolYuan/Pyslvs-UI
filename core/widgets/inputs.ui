@@ -6,41 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>613</height>
+    <width>367</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <widget class="QGroupBox" name="joint_groupBox">
      <property name="title">
       <string>Inputs</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
          <widget class="QLabel" name="joint_list_lable">
           <property name="text">
-           <string>Points</string>
+           <string>Base points</string>
           </property>
          </widget>
         </item>
@@ -68,7 +53,7 @@
         <item>
          <widget class="QLabel" name="driver_list_lable">
           <property name="text">
-           <string>Driver Point</string>
+           <string>Driver points</string>
           </property>
          </widget>
         </item>
@@ -83,7 +68,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="variable_list_add">
+         <widget class="QPushButton" name="variable_add">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -110,6 +95,56 @@
       <item>
        <layout class="QHBoxLayout" name="inputs_dial_layout">
         <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QPushButton" name="variable_up">
+            <property name="toolTip">
+             <string>Upgrade priority of the variable.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../icons.qrc">
+              <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="variable_down">
+            <property name="toolTip">
+             <string>Downgrade priority of the variable.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../icons.qrc">
+              <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="variable_remove">
+            <property name="statusTip">
+             <string>Delete the specified variable.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../icons.qrc">
+              <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QListWidget" name="variable_list">
           <property name="statusTip">
            <string>All the variable of this mechanism.</string>
@@ -130,24 +165,6 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QPushButton" name="variable_remove">
-          <property name="statusTip">
-           <string>Delete the specified variable.</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../icons.qrc">
-            <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Line" name="line">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_18">
           <item>
@@ -309,9 +326,35 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
+         <widget class="QCheckBox" name="record_show">
+          <property name="statusTip">
+           <string>Show path data on the canvas.</string>
+          </property>
+          <property name="text">
+           <string>Show path data</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QLabel" name="record_interval_label">
           <property name="text">
-           <string>Interval: </string>
+           <string>Interval:</string>
           </property>
          </widget>
         </item>
@@ -331,32 +374,6 @@
           </property>
           <property name="value">
            <double>6.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="record_show">
-          <property name="statusTip">
-           <string>Show path data on the canvas.</string>
-          </property>
-          <property name="text">
-           <string>Show path data</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -384,6 +401,17 @@
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QPushButton" name="update_preview_button">
+            <property name="toolTip">
+             <string>Refresh preview path data.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../icons.qrc">
+              <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QPushButton" name="record_start">
             <property name="statusTip">

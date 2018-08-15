@@ -132,15 +132,15 @@ class InputsWidget(QWidget, Ui_Form):
     def __setAddVarEnabled(self, p1: int):
         """Set enable of 'add variable' button."""
         if not p1 > -1:
-            self.variable_list_add.setEnabled(False)
+            self.variable_add.setEnabled(False)
             return
         p0 = self.joint_list.currentRow()
         vpoints = self.EntitiesPoint.dataTuple()
-        self.variable_list_add.setEnabled(
+        self.variable_add.setEnabled(
             p1 != p0 and vpoints[p0].type == 0
         )
     
-    @pyqtSlot(name='on_variable_list_add_clicked')
+    @pyqtSlot(name='on_variable_add_clicked')
     def __addInputsVariable(self,
         p0: Optional[int] = None,
         p1: Optional[int] = None
@@ -513,3 +513,17 @@ class InputsWidget(QWidget, Ui_Form):
         else:
             name = self.record_list.item(row).text()
             return self.__path_data.get(name.split(':')[0], ())
+    
+    @pyqtSlot(name='on_variable_up_clicked')
+    @pyqtSlot(name='on_variable_down_clicked')
+    def __setVariablePriority(self):
+        row = self.variable_list.currentRow()
+        item = self.variable_list.currentItem()
+        if not row > -1:
+            return
+        if self.sender() == self.variable_up:
+            trow = row - 1
+        else:
+            trow = row + 1
+        self.variable_list.insertItem(trow, self.variable_list.takeItem(row))
+        self.variable_list.setCurrentItem(item)

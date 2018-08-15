@@ -189,6 +189,7 @@ def _appearance(self):
     
     self.MainCanvas.selected.connect(inputs_setSelection)
     self.MainCanvas.noselected.connect(self.InputsWidget.clearSelection)
+    self.InputsWidget.update_preview_button.clicked.connect(self.MainCanvas.updatePreviewPath)
     
     #Number and type synthesis.
     self.StructureSynthesis = StructureSynthesis(self)
