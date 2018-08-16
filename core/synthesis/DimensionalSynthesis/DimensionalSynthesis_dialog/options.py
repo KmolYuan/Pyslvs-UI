@@ -81,7 +81,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         super(AlgorithmOptionDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.setWindowTitle("{} Options".format(algorithm.value))
+        self.setWindowTitle(f"{algorithm.value} Options")
         
         self.__algorithm = algorithm
         self.__init_alg_table()

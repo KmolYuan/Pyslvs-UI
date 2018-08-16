@@ -99,16 +99,15 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         
-        cl = {
-            set(_get_list(item))
-            for item in list_items(parent.constraint_list)
-        }
+        cl = tuple(
+            set(_get_list(item)) for item in list_items(parent.constraint_list)
+        )
         for chain in _four_bar_loops(parent.PreviewWindow.G):
             chain = sorted(chain)
             for i, n in enumerate(chain):
                 if n in parent.PreviewWindow.same:
                     n = parent.PreviewWindow.same[n]
-                chain[i] = 'P{}'.format(n)
+                chain[i] = f'P{n}'
             if set(chain) not in cl:
                 self.loops_list.addItem(", ".join(chain))
         for item in list_items(parent.constraint_list):

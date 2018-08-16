@@ -50,9 +50,9 @@ _graphviz_engine = (
 
 engines = []
 for engine_name in _nx_engine:
-    engines.append("NetworkX - {}".format(engine_name))
+    engines.append(f"NetworkX - {engine_name}")
 for engine_name in _graphviz_engine:
-    engines.append("Graphviz - {}".format(engine_name))
+    engines.append(f"Graphviz - {engine_name}")
 
 
 class EngineError(Exception):

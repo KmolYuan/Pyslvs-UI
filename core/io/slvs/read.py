@@ -116,14 +116,13 @@ class SlvsParser:
             if i == 0:
                 vlinks['ground'] = vlinks.pop(name)
             else:
-                vlinks['link_{}'.format(i - 1)] = vlinks.pop(name)
+                vlinks[f'link_{i - 1}'] = vlinks.pop(name)
         
         exprs = []
         for num in points:
             x, y = pos[num]
             links = [name for name, link in vlinks.items() if (num in link)]
-            exprs.append("J[R, color[Green], P[{}, {}], L[{}]]".format(
-                x, y, ", ".join(links)
-            ))
+            exprs.append(f"J[R, color[Green], P[{x}, {y}], L[{', '.join(links)}]]")
         
-        return "M[{}]".format(", ".join(exprs))
+        exprs_text = ", ".join(exprs)
+        return f"M[{exprs_text}]"

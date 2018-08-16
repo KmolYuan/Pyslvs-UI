@@ -351,9 +351,10 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             QMessageBox.warning(self, "Mechanism not support.", str(e))
         else:
             num = 0
-            while "mechanism{}".format(num) in self.collections:
+            name = f"mechanism{num}"
+            while name in self.collections:
+                name = f"mechanism{num}"
                 num += 1
-            name = "mechanism{}".format(num)
             self.collections[name] = collection.copy()
             self.collections_list.addItem(name)
     

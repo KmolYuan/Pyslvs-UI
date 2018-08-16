@@ -43,14 +43,11 @@ class CustomsDialog(QDialog, Ui_Dialog):
         for row in range(parent.grounded_list.count()):
             self.link_choose.addItem(parent.grounded_list.item(row).text())
         for name, link in self.cus.items():
-            self.custom_list.addItem("{} -> {}".format(name, link))
+            self.custom_list.addItem(f"{name} -> {link}")
         self.__reloadQuoteChoose()
         self.quote_choose.setCurrentIndex(0)
         for s, qs in self.same.items():
-            self.multiple_list.addItem("{} -> {}".format(
-                'P{}'.format(s),
-                'P{}'.format(qs)
-            ))
+            self.multiple_list.addItem(f"P{s} -> P{qs}")
     
     def __reloadQuoteChoose(self):
         """Reload joints from 'pos' dict."""
@@ -58,7 +55,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.quote_choose.clear()
         for i in self.pos:
             if i not in self.same:
-                self.quote_choose.addItem('P{}'.format(i))
+                self.quote_choose.addItem(f'P{i}')
         self.quote_choose.setCurrentIndex(self.quote_choose.findText(s_old))
     
     @pyqtSlot(name='on_add_button_clicked')
@@ -72,14 +69,11 @@ class CustomsDialog(QDialog, Ui_Dialog):
         except ValueError:
             new_num = max(self.pos)
         new_num += 1
-        new_name = 'P{}'.format(new_num)
+        new_name = f'P{new_num}'
         self.cus[new_name] = row
         self.pos[new_num] = (0., 0.)
         self.status[new_num] = False
-        self.custom_list.addItem("{} -> {}".format(
-            new_name,
-            self.link_choose.itemText(row)
-        ))
+        self.custom_list.addItem(f"{new_name} -> {self.link_choose.itemText(row)}")
         self.joint_combobox.addItem(new_name)
     
     @pyqtSlot(name='on_delete_button_clicked')
@@ -130,7 +124,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         qs = self.quote_choose.currentText()
         quote = int(qs.replace('P', ''))
         self.same[joint] = quote
-        self.multiple_list.addItem("{} -> {}".format(s, qs))
+        self.multiple_list.addItem(f"P{s} -> P{qs}")
         self.__reloadQuoteChoose()
     
     @pyqtSlot(name='on_delete_mj_button_clicked')

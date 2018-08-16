@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from math import isnan
+from itertools import chain
 from typing import (
     Tuple,
     Dict,
@@ -153,7 +154,7 @@ class _DynamicCanvas(BaseCanvas):
         for i, exp in enumerate(self.links):
             if i == 0:
                 continue
-            name = "link_{}".format(i)
+            name = f"link_{i}"
             self.__drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
         #Draw path.
         self.__drawPath()
@@ -205,7 +206,7 @@ class _DynamicCanvas(BaseCanvas):
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.font_size))
-            text = "[{}]".format(name)
+            text = f"[{name}]"
             cenX = sum(
                 self.pos[i][0]
                 for i in points if self.pos[i]
@@ -258,9 +259,10 @@ class PreviewDialog(QDialog, Ui_Dialog):
         """Show the informations of results, and setup the preview canvas."""
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("Preview: {} (max {} generations)".format(
-            mechanism['Algorithm'], mechanism['lastGen']
-        ))
+        self.setWindowTitle(
+            f"Preview: {mechanism['Algorithm']} "
+            f"(max {mechanism['lastGen']} generations)"
+        )
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([800, 100])
         self.splitter.setSizes([100, 100, 100])
@@ -272,28 +274,31 @@ class PreviewDialog(QDialog, Ui_Dialog):
             for p in strbetween(expr, '[', ']').split(','):
                 if ('L' in p) and (p not in link_tags):
                     link_tags.append(p)
-        self.basic_label.setText("\n".join(
-            ["{}: {}".format(tag, mechanism[tag]) for tag in ['Algorithm', 'time']] +
-            ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['Driver']] +
-            ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['Follower']] +
-            ["{}: {}".format(tag, mechanism[tag]) for tag in sorted(link_tags)]
-        ))
+        self.basic_label.setText("\n".join([f"{tag}: {mechanism[tag]}" for tag in chain(
+            ('Algorithm', 'time'),
+            mechanism['Driver'],
+            mechanism['Follower'],
+            sorted(link_tags)
+        )]))
         #Algorithm information
-        interrupt = mechanism['interrupted']
         fitness = mechanism['TimeAndFitness'][-1]
-        self.algorithm_label.setText("<html><head/><body><p>" +
-            "<br/>".join(["Max generation: {}".format(mechanism['lastGen'])] +
-            ["Fitness: {}".format(
-                fitness if (type(fitness) == float) else fitness[1]
-            )] + ["<img src=\"{}\" width=\"15\"/>".format(
-                ":/icons/task-completed.png" if (interrupt == 'False') else
-                ":/icons/question-mark.png" if (interrupt == 'N/A') else
-                ":/icons/interrupted.png"
-            ) + "Interrupted at: {}".format(interrupt)] +
-            ["{}: {}".format(k, v) for k, v in mechanism['settings'].items()]) +
-            "</p></body></html>")
+        if mechanism['interrupted'] == 'False':
+            interrupt_icon = "task-completed.png"
+        elif mechanism['interrupted'] == 'N/A':
+            interrupt_icon = "question-mark.png"
+        else:
+            interrupt_icon = "interrupted.png"
+        text_list = [
+            f"Max generation: {mechanism['lastGen']}",
+            f"Fitness: {fitness if type(fitness) == float else fitness[1]}",
+            f"<img src=\":/icons/{interrupt_icon}\" width=\"15\"/>"
+            f"Interrupted at: {mechanism['interrupted']}"
+        ]
+        for k, v in mechanism['settings'].items():
+            text_list.append(f"{k}: {v}")
+        text = "<br/>".join(text_list)
+        self.algorithm_label.setText(f"<html><head/><body><p>{text}</p></body></html>")
         #Hardware information
         self.hardware_label.setText("\n".join([
-            "{}: {}".format(tag, mechanism['hardwareInfo'][tag])
-            for tag in ['os', 'memory', 'cpu']
+            f"{tag}: {mechanism['hardwareInfo'][tag]}" for tag in ('os', 'memory', 'cpu')
         ]))

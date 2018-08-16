@@ -32,7 +32,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
         super(SolutionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.setWindowTitle("{} solution".format(mode))
+        self.setWindowTitle(f"{mode} solution")
         
         if mode == 'PLAP':
             self.main_label.setText(
@@ -55,8 +55,8 @@ class SolutionsDialog(QDialog, Ui_Dialog):
             if node in parent.PreviewWindow.same:
                 continue
             if mode == 'PLLP':
-                self.point_A.addItem('P{}'.format(node))
-                self.point_B.addItem('P{}'.format(node))
+                self.point_A.addItem(f'P{node}')
+                self.point_B.addItem(f'P{node}')
         self.point_A.currentIndexChanged.connect(self.__isOk)
         self.point_B.currentIndexChanged.connect(self.__isOk)
         self.__isOk()

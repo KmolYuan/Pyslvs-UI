@@ -124,10 +124,10 @@ class LoadCommitButton(QPushButton):
     def __init__(self, id: int, parent: QWidget):
         super(LoadCommitButton, self).__init__(
             QIcon(QPixmap(":icons/dataupdate.png")),
-            " #{}".format(id),
+            f" #{id}",
             parent
         )
-        self.setToolTip("Reset to commit #{}.".format(id))
+        self.setToolTip(f"Reset to commit #{id}.")
         self.id = id
     
     def mouseReleaseEvent(self, event):
@@ -344,11 +344,12 @@ class FileWidget(QWidget, Ui_Form):
             print("The file was removed.")
             return
         self.read(file_name, showdlg = False)
-        print("Saving \"{}\" successful.".format(file_name))
+        print(f"Saving \"{file_name}\" successful.")
         size = QFileInfo(file_name).size()
-        print("Size: {}".format(
-            "{} MB".format(round(size / 1024 / 1024, 2))
-            if size / 1024 // 1024 else "{} KB".format(round(size / 1024, 2))
+        print("Size: " + (
+            f"{size / 1024 / 1024:.02f} MB"
+            if size / 1024 // 1024 else
+            f"{size / 1024:.02f} KB"
         ))
     
     def read(self, file_name: str, *, showdlg: bool = True):
@@ -367,7 +368,7 @@ class FileWidget(QWidget, Ui_Form):
         self.history_commit = history_commit
         for commit in self.history_commit:
             self.__addCommit(commit)
-        print("{} commit(s) was find in database.".format(commit_count))
+        print(f"{commit_count} commit(s) was find in database.")
         self.__loadCommit(
             self.history_commit.order_by(-CommitModel.id).get(),
             showdlg = showdlg
@@ -442,13 +443,13 @@ class FileWidget(QWidget, Ui_Form):
         else:
             self.BranchList.addItem(branch_name)
         self.branch_current.setText(branch_name)
-        
+        t = commit.date
         for i, text in enumerate((
-            "{t.year:02d}-{t.month:02d}-{t.day:02d} "
-            "{t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date),
+            f"{t.year:02d}-{t.month:02d}-{t.day:02d} "
+            f"{t.hour:02d}:{t.minute:02d}:{t.second:02d}",
             commit.description,
             author_name,
-            "#{}".format(commit.previous.id) if commit.previous else "None",
+            f"#{commit.previous.id}" if commit.previous else "None",
             branch_name
         )):
             item = QTableWidgetItem(text)
@@ -473,7 +474,7 @@ class FileWidget(QWidget, Ui_Form):
         #Reset the main window status.
         self.clearFunc()
         #Load the commit to widgets.
-        print("Loading commit #{}.".format(commit.id))
+        print(f"Loading commit #{commit.id}.")
         self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
@@ -534,7 +535,7 @@ class FileWidget(QWidget, Ui_Form):
             self.loadInputsFunc(inputs)
         self.file_name = QFileInfo(example_name)
         self.isSavedFunc()
-        print("Example \"{}\" has been loaded.".format(example_name))
+        print(f"Example \"{example_name}\" has been loaded.")
         return True
     
     @pyqtSlot(str, name='on_commit_search_text_textEdited')
@@ -599,6 +600,6 @@ class FileWidget(QWidget, Ui_Form):
                 .where(BranchModel.name == branch_name)
                 .execute())
         _db.close()
-        print("Branch {} was deleted.".format(branch_name))
+        print(f"Branch {branch_name} was deleted.")
         #Reload database.
         self.read(file_name)

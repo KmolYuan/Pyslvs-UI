@@ -50,7 +50,7 @@ def resolve(self):
         if solve_kernel == 0:
             result = expr_solving(
                 self.getTriangle(),
-                {n: 'P{}'.format(n) for n in range(len(vpoints))},
+                {n: f'P{n}' for n in range(len(vpoints))},
                 vpoints,
                 tuple(v[-1] for v in self.InputsWidget.inputPair())
             )
@@ -70,17 +70,14 @@ def resolve(self):
         if self.consoleerror_option.isChecked():
             print(traceback.format_exc())
         self.ConflictGuide.setToolTip(str(e))
-        self.ConflictGuide.setStatusTip("Error: {}".format(e))
+        self.ConflictGuide.setStatusTip(f"Error: {e}")
         self.ConflictGuide.setVisible(True)
         self.DOFview.setVisible(False)
     else:
         #Done: Update coordinate data.
         self.EntitiesPoint.updateCurrentPosition(result)
         self.DOF = vpoint_dof(vpoints)
-        self.DOFview.setText("{} ({})".format(
-            self.DOF,
-            self.InputsWidget.inputCount()
-        ))
+        self.DOFview.setText(f"{self.DOF} ({self.InputsWidget.inputCount()})")
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)
     self.reloadCanvas()
@@ -124,7 +121,7 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
                 if solve_kernel == 0:
                     result = expr_solving(
                         self.getTriangle(vpoints),
-                        {n: 'P{}'.format(n) for n in range(vpoint_count)},
+                        {n: f'P{n}' for n in range(vpoint_count)},
                         vpoints,
                         angles
                     )
@@ -264,7 +261,7 @@ def getCollection(self) -> Dict[str, Union[
             continue
         mapping[i] = count
         pos[count] = vpoint.c[0]
-        cus['P{}'.format(count)] = link_names.index(vpoint.links[0])
+        cus[f'P{count}'] = link_names.index(vpoint.links[0])
         count += 1
     del count, not_cus
     
@@ -278,23 +275,25 @@ def getCollection(self) -> Dict[str, Union[
         """Replace as mapped index."""
         if not s.replace('P', '').isdigit():
             return s
-        return 'P{}'.format(mapping[int(s.replace('P', ''))])
+        node = int(s.replace('P', ''))
+        return f"P{mapping[node]}"
     
-    expression = ';'.join('{}[{}]({})'.format(
-        exprs[0],
-        ','.join(mapstr(i) for i in exprs[1:-1]),
-        mapstr(exprs[-1])
-    ) for exprs in self.getTriangle())
-    link_expression = ';'.join('[{}]'.format(','.join(
-        'P{}'.format(mapping[p]) for p in vlink.points
-    )) for vlink in vlinks)
+    expr_list = []
+    for exprs in self.getTriangle():
+        params = ','.join(mapstr(i) for i in exprs[1:-1])
+        expr_list.append(f'{exprs[0]}[{params}]({mapstr(exprs[-1])})')
+    
+    link_expr_list = []
+    for vlink in vlinks:
+        points_text = ','.join(f'P{mapping[p]}' for p in vlink.points)
+        link_expr_list.append(f'[{points_text}]')
     
     return {
-        'Driver': {'P{}'.format(p): None for p in drivers},
-        'Follower': {'P{}'.format(p): None for p in followers},
+        'Driver': {f'P{p}': None for p in drivers},
+        'Follower': {f'P{p}': None for p in followers},
         'Target': {p: None for p in cus},
-        'Link_expr': link_expression,
-        'Expression': expression,
+        'Link_expr': ';'.join(link_expr_list),
+        'Expression': ';'.join(expr_list),
         'Graph': graph,
         'constraints': [],
         'pos': pos,
@@ -318,7 +317,7 @@ def getTriangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str
     )
     data_dict, _ = data_collecting(
         exprs,
-        {n: 'P{}'.format(n) for n in range(len(vpoints))},
+        {n: f'P{n}' for n in range(len(vpoints))},
         vpoints
     )
     self.EntitiesExpr.setExpr(

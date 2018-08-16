@@ -63,7 +63,7 @@ def _enablePointContext(self):
         return func
     
     for i, p in enumerate(selection):
-        action = QAction("Base on Point{}".format(p), self)
+        action = QAction(f"Base on Point{p}", self)
         action.triggered.connect(mjFunc(i))
         self.popMenu_point_merge.addAction(action)
 
@@ -89,7 +89,8 @@ def _enableLinkContext(self):
         return lambda: _mergeLink(self, i, selection)
     
     for i, row in enumerate(selection):
-        action = QAction("Base on \"{}\"".format(self.EntitiesLink.item(row, 0).text()), self)
+        name = self.EntitiesLink.item(row, 0).text()
+        action = QAction(f"Base on \"{name}\"", self)
         action.triggered.connect(mlFunc(i))
         self.popMenu_link_merge.addAction(action)
 
@@ -107,11 +108,9 @@ def _toMultipleJoint(self, index: int, points: Tuple[int]):
     @index: The index of main joint in the sequence.
     """
     row = points[index]
+    points_text = ", ".join(f'Point{p}' for p in points)
     self.CommandStack.beginMacro(
-        "Merge {{{}}} as multiple joint {{{}}}".format(
-            ", ".join('Point{}'.format(point) for point in points),
-            'Point{}'.format(row)
-        )
+        f"Merge {{{points_text}}} as multiple joint {{Point{row}}}"
     )
     vpoints = self.EntitiesPoint.dataTuple()
     links = list(vpoints[row].links)
@@ -138,12 +137,9 @@ def _mergeLink(self, index: int, links: Tuple[int]):
     @index: The index of main joint in the sequence.
     """
     row = links[index]
-    self.CommandStack.beginMacro(
-        "Merge {{{}}} to joint {{{}}}".format(
-            ", ".join(self.EntitiesLink.item(link, 0).text() for link in links),
-            self.EntitiesLink.item(row, 0).text()
-        )
-    )
+    links_text = ", ".join(self.EntitiesLink.item(link, 0).text() for link in links)
+    name = self.EntitiesLink.item(row, 0).text()
+    self.CommandStack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
     vlinks = self.EntitiesLink.dataTuple()
     points = list(vlinks[row].points)
     args = self.EntitiesLink.rowTexts(row, hasName=True)
@@ -154,7 +150,7 @@ def _mergeLink(self, index: int, links: Tuple[int]):
             if point not in points:
                 points.append(point)
         _deleteLink(self, link)
-    args[2] = ','.join('Point{}'.format(p) for p in points)
+    args[2] = ','.join(f'Point{p}' for p in points)
     self.CommandStack.push(EditLinkTable(
         [vlink.name for vlink in self.EntitiesLink.data()].index(args[0]),
         self.EntitiesLink,

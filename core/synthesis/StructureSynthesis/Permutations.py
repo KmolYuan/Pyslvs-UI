@@ -202,7 +202,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         else:
             for result in results:
                 item = QListWidgetItem(", ".join(
-                    "NL{} = {}".format(i + 2, result[i]) for i in range(len(result))
+                    f"NL{i + 2} = {result[i]}" for i in range(len(result))
                 ))
                 item.links = result
                 self.expr_number.addItem(item)
@@ -269,7 +269,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self
         )
         progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
-        progdlg.setWindowTitle("Type synthesis - ({})".format(item.text()))
+        progdlg.setWindowTitle(f"Type synthesis - ({item.text()})")
         progdlg.setMinimumSize(QSize(500, 120))
         progdlg.setModal(True)
         progdlg.show()
@@ -292,10 +292,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             setjobFunc,
             stopFunc
         )
-        self.time_label.setText("{}[min] {:.2f}[s]".format(
-            int(time // 60),
-            time % 60
-        ))
+        self.time_label.setText(f"{time // 60}[min] {time % 60:.2f}[s]")
         progdlg.setValue(progdlg.maximum())
         if answer:
             return [Graph(G.edges) for G in answer]
@@ -332,7 +329,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     
     def __drawAtlas(self, i: int, G: Graph) -> bool:
         """Draw atlas and return True if done."""
-        item = QListWidgetItem("No. {}".format(i + 1))
+        item = QListWidgetItem(f"No. {i + 1}")
         try:
             item.setIcon(graph(
                 G,

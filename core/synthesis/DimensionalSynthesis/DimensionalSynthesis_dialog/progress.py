@@ -45,21 +45,21 @@ class ProgressDialog(QDialog, Ui_Dialog):
         if 'maxGen' in setting:
             self.limit = setting['maxGen']
             if self.limit > 0:
-                self.batch_label.setText("{} generation(s)".format(self.limit))
+                self.batch_label.setText(f"{self.limit} generation(s)")
             else:
                 self.batch_label.setText('∞')
             self.limit_mode = 'maxGen'
         elif 'minFit' in setting:
             self.limit = setting['minFit']
-            self.batch_label.setText("fitness less then {}".format(self.limit))
+            self.batch_label.setText(f"fitness less then {self.limit}")
             self.limit_mode = 'minFit'
         elif 'maxTime' in setting:
             self.limit = setting['maxTime']
-            self.batch_label.setText("{:02d}:{:02d}:{:02d}".format(
-                self.limit // 3600,
-                (self.limit % 3600) // 60,
-                self.limit % 3600 % 60
-            ))
+            self.batch_label.setText(
+                f"{self.limit // 3600:02d}:"
+                f"{self.limit % 3600 // 60:02d}:"
+                f"{self.limit % 3600 % 60:02d}"
+            )
             self.limit_mode = 'maxTime'
         self.loopTime.setEnabled(self.limit > 0)
         
@@ -88,11 +88,11 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __setTime(self):
         """Set time label."""
         self.time += 1
-        self.time_label.setText("{:02d}:{:02d}:{:02d}".format(
-            self.time // 3600,
-            (self.time % 3600) // 60,
-            self.time % 3600 % 60
-        ))
+        self.time_label.setText(
+            f"{self.time // 3600:02d}:"
+            f"{self.time % 3600 // 60:02d}:"
+            f"{self.time % 3600 % 60:02d}"
+        )
     
     @pyqtSlot(name='on_start_button_clicked')
     def __start(self):
@@ -100,7 +100,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
         #Progress bar will show generations instead of percent.
-        if (self.limit_mode in ('minFit', 'maxTime')) or self.limit==0:
+        if (self.limit_mode in ('minFit', 'maxTime')) or (self.limit == 0):
             self.progressBar.setFormat("%v generations")
         self.work.setLoop(loop)
         self.timer.start()

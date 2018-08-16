@@ -103,11 +103,7 @@ class ChartDialog(QDialog):
             gen = data['lastGen']
             tnf = plot[self.__mechanism_data.index(data)]
             points = tnf[:-1] if (tnf[-1] == tnf[-2]) else tnf
-            line.setName("{}({} gen): {}".format(
-                data['Algorithm'],
-                gen,
-                data['Expression']
-            ))
+            line.setName(f"{data['Algorithm']}({gen} gen): {data['Expression']}")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):

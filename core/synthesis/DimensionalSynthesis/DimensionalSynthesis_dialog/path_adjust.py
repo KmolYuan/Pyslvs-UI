@@ -37,7 +37,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         
         self.r_path = []
         for x, y in self.path:
-            self.path_list.addItem("({}, {})".format(x, y))
+            self.path_list.addItem(f"({x}, {y})")
         self.points_num.setText(str(len(self.path)))
         self.match_num.setValue(len(self.path))
     
@@ -89,9 +89,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         y_func, y_accuracy = polyfit(index, [y for x, y in self.path], 4)
         QMessageBox.information(self,
             "Curve fitting",
-            "Accuracy:\nx: {:.02f}%\ny: {:.02f}%".format(x_accuracy, y_accuracy),
-            QMessageBox.Ok,
-            QMessageBox.Ok
+            f"Accuracy:\nx: {x_accuracy:.02f}%\ny: {y_accuracy:.02f}%"
         )
         m = self.match_num.value()
         self.r_path = [(x_func(i / m * l), y_func(i / m * l)) for i in range(m)]

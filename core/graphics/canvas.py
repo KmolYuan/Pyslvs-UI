@@ -279,9 +279,9 @@ class BaseCanvas(QWidget):
         pen.setColor(Qt.darkGray)
         pen.setWidth(2)
         self.painter.setPen(pen)
-        text = "[{}]".format(i) if (type(i) == str) else "[Point{}]".format(i)
+        text = f"[{i}]" if type(i) == str else f"[Point{i}]"
         if self.show_dimension:
-            text += ":({:.02f}, {:.02f})".format(cx, cy)
+            text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x + 6, y - 6), text)
     
     def drawTargetPath(self):
@@ -599,9 +599,9 @@ class PreviewCanvas(BaseCanvas):
             if node in self.same:
                 continue
             self.painter.drawText(QPointF(
-                x*self.zoom + 2*RADIUS,
-                y*-self.zoom
-            ), 'P{}'.format(node))
+                x * self.zoom + 2 * RADIUS,
+                y * -self.zoom
+            ), f'P{node}')
         self.painter.end()
     
     def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
@@ -674,10 +674,7 @@ class PreviewCanvas(BaseCanvas):
         Driver = set(params['Driver'])
         Follower = set(params['Follower'])
         for row, link in enumerate(G.nodes):
-            points = set(
-                'P{}'.format(n)
-                for n, edge in edges_view(G) if link in edge
-            )
+            points = set(f'P{n}' for n, edge in edges_view(G) if link in edge)
             if (Driver | Follower) <= points:
                 self.setGrounded(row)
                 break

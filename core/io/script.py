@@ -38,11 +38,11 @@ if __name__ == '__main__':
     vpoints = parse_vpoints("M["\n{0}
         "]")
     exprs = vpoints_configure(vpoints, {1})
-    mapping = {{n: 'P{{}}'.format(n) for n in range(len(vpoints))}}
+    mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
     data_dict, dof = data_collecting(exprs, mapping, vpoints)
     pos = expr_solving(exprs, mapping, vpoints, [0.])
     print(data_dict)
-    print("DOF:{{}}".format(dof))
+    print(f"DOF:{{dof}}")
     print(pos)
 """
 
@@ -53,7 +53,7 @@ def slvs_process_script(
 ) -> str:
     """Return parser function script."""
     return _script.format(
-        '\n'.join(" " * 8 + '"{}, "'.format(expr) for expr in script),
+        '\n'.join(" " * 8 + f'"{expr}, "' for expr in script),
         inputs
     )
 
@@ -117,10 +117,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @pyqtSlot(str, name='on_style_option_currentIndexChanged')
     def __setStyle(self, style: str):
         """Redefind the CSS script of the html."""
-        self.script_view.setHtml("<style>{}</style>".format(
-            HtmlFormatter(style=get_style_by_name(style))
-            .get_style_defs()
-        ) + self.code)
+        style_code = HtmlFormatter(style=get_style_by_name(style)).get_style_defs()
+        self.script_view.setHtml(f"<style>{style_code}</style>" + self.code)
     
     @pyqtSlot(name='on_copy_clicked')
     def __copy(self):

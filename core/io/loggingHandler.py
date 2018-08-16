@@ -22,9 +22,8 @@ class _QtHandler(logging.Handler):
     def emit(self, record: str):
         """Output to the other side."""
         record = self.format(record)
-        if not record:
-            return
-        XStream.stdout().write('{}\n'.format(record))
+        if record:
+            XStream.stdout().write(record + '\n')
 
 
 _logger = logging.getLogger(__name__)

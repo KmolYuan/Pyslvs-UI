@@ -58,7 +58,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             self.color_box.insertItem(i, colorIcon(e), e)
         for i in range(len(self.vpoints)):
             self.noSelected.addItem(
-                QListWidgetItem(self.PointIcon, 'Point{}'.format(i))
+                QListWidgetItem(self.PointIcon, f'Point{i}')
             )
         if row is False:
             self.name_box.addItem(icon, "New link")
@@ -104,15 +104,15 @@ class EditLinkDialog(QDialog, Ui_Dialog):
                 self.color_box.setCurrentIndex(self.color_box.count() - 1)
             self.noSelected.clear()
             self.selected.clear()
-            for point in vlink.points:
+            for p in vlink.points:
                 self.selected.addItem(
-                    QListWidgetItem(self.PointIcon, 'Point{}'.format(point))
+                    QListWidgetItem(self.PointIcon, f'Point{p}')
                 )
-            for point in range(len(self.vpoints)):
-                if point in vlink.points:
+            for p in range(len(self.vpoints)):
+                if p in vlink.points:
                     continue
                 self.noSelected.addItem(
-                    QListWidgetItem(self.PointIcon, 'Point{}'.format(point))
+                    QListWidgetItem(self.PointIcon, f'Point{p}')
                 )
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.colorpick_button):

@@ -39,6 +39,7 @@ from core.info import (
     PyslvsAbout,
     check_update,
 )
+_major, _minor, _build, _label = __version__
 from core.io import (
     ScriptDialog,
     slvs_process_script,
@@ -111,7 +112,7 @@ def _readSlvs(self, file_name: str):
         return
     self.clear()
     self.FileWidget.reset()
-    print("Read from group: {}".format(group))
+    print(f"Read from group: {group}")
     expr = parser.parse(group.split('@')[0])
     self.parseExpression(expr)
 
@@ -185,11 +186,12 @@ def workbookSaved(self):
 def setWindowTitleFullpath(self):
     """Set the option 'window title will show the fullpath'."""
     file_name = self.FileWidget.file_name
-    self.setWindowTitle("Pyslvs - {}".format(
-        file_name.absoluteFilePath()
-        if self.titlefullpath_option.isChecked()
-        else file_name.fileName()
-    ) + (" (not yet saved)" if self.FileWidget.changed else ''))
+    if self.titlefullpath_option.isChecked():
+        title = file_name.absoluteFilePath()
+    else:
+        title = file_name.fileName()
+    saved_text = " (not yet saved)" if self.FileWidget.changed else ''
+    self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
 
 
 def showHelp(self):
@@ -277,29 +279,27 @@ def importPmksURL(self):
             if 'mech=' in s:
                 expr = s.replace('mech=', '').split('|')
                 break
-        textList = [s for s in expr if s not in ('', " ", '\n')]
-        expression = []
-        while textList:
-            item = textList.pop(0).split(',')[:-1]
+        text_list = [s for s in expr if s not in ('', " ", '\n')]
+        expr.clear()
+        while text_list:
+            item = text_list.pop(0).split(',')[:-1]
             for i, e in enumerate(reversed(item)):
                 if e in ['R', 'P', 'RP']:
-                    t = -(i+1)
+                    t = -(i + 1)
                     break
             links = item[:t]
             item = item[t:]
-            expression.append("J[{}, P[{}], L[{}]]".format(
-                "{}:{}".format(item[0], item[-1]) if item[0]!='R' else 'R',
-                ", ".join((item[1], item[2])),
-                ", ".join(links)
-            ))
-        expression = "M[{}]".format(", ".join(expression))
+            type_text = f"{item[0]}:{item[-1]}" if item[0] != 'R' else 'R'
+            links_text = ", ".join(links)
+            expr.append(f"J[{type_text}, P[{item[1]}, {item[2]}], L[{links_text}]]")
+        expr = f'M[{", ".join(expr)}]'
     except:
         QMessageBox.warning(self,
             "Loading failed",
             "Your link is in an incorrect format."
         )
     else:
-        self.parseExpression(expression)
+        self.parseExpression(expr)
 
 
 def parseExpression(self, expr: str):
@@ -321,11 +321,11 @@ def parseExpression(self, expr: str):
                 #If link name not exist.
                 if linkName not in linkNames:
                     self.addLink(linkName, 'Blue')
-            rowCount = self.EntitiesPoint.rowCount()
-            self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
+            row_count = self.EntitiesPoint.rowCount()
+            self.CommandStack.beginMacro(f"Add {{Point{row_count}}}")
             self.CommandStack.push(AddTable(self.EntitiesPoint))
             self.CommandStack.push(EditPointTable(
-                rowCount,
+                row_count,
                 self.EntitiesPoint,
                 self.EntitiesLink,
                 args
@@ -431,18 +431,18 @@ def savePicture(self):
     self.saveReplyBox("Picture", file_name)
 
 
-def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
+def outputTo(self, format_name: str, format_choose: List[str]) -> str:
     """Simple to support mutiple format."""
-    suffix0 = strbetween(formatChoose[0], '(', ')').split('*')[-1]
+    suffix0 = strbetween(format_choose[0], '(', ')').split('*')[-1]
     file_name, suffix = QFileDialog.getSaveFileName(
         self,
-        "Save to {}...".format(formatName),
+        f"Save to {format_name}...",
         self.env + '/' + self.FileWidget.file_name.baseName() + suffix0,
-        ';;'.join(formatChoose)
+        ';;'.join(format_choose)
     )
     if file_name:
         suffix = strbetween(suffix, '(', ')').split('*')[-1]
-        print("Format: {}".format(suffix))
+        print(f"Format: {suffix}")
         if QFileInfo(file_name).suffix() != suffix[1:]:
             file_name += suffix
         self.setLocate(QFileInfo(file_name).absolutePath())
@@ -452,27 +452,28 @@ def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
 def saveReplyBox(self, title: str, file_name: str):
     """Show message when successfully saved."""
     size = QFileInfo(file_name).size()
-    print("Size: {}".format(
-        "{} MB".format(round(size/1024/1024, 2))
-        if size/1024//1024 else "{} KB".format(round(size/1024, 2))
+    print("Size: {}" + (
+        f"{size / 1024 / 1024:.02f} MB"
+        if size / 1024 // 1024 else
+        "{size / 1024:.02f} KB"
     ))
     QMessageBox.information(self,
-        "Initial Saved: " + title,
-        "Successfully saved:\n{}".format(file_name)
+        f"Initial Saved: {title}",
+        f"Successfully saved:\n{file_name}"
     )
-    print("Initial saved: [\"{}\"]".format(file_name))
+    print(f"Initial saved: [\"{file_name}\"]")
 
 
 def inputFrom(self,
-    formatName: str,
-    formatChoose: List[str],
+    format_name: str,
+    format_choose: List[str],
     multiple: bool = False
 ) -> str:
     """Get file name(s)."""
     args = (
-        "Open {} file{}...".format(formatName, 's' if multiple else ''),
+        f"Open {format_name} file{'s' if multiple else ''}...",
         self.env,
-        ';;'.join(formatChoose)
+        ';;'.join(format_choose)
     )
     if multiple:
         file_name_s, suffix = QFileDialog.getOpenFileNames(self, *args)
@@ -480,7 +481,7 @@ def inputFrom(self,
         file_name_s, suffix = QFileDialog.getOpenFileName(self, *args)
     if file_name_s:
         suffix = strbetween(suffix, '(', ')').split('*')[-1]
-        print("Format: {}".format(suffix))
+        print(f"Format: {suffix}")
         if type(file_name_s) == str:
             self.setLocate(QFileInfo(file_name_s).absolutePath())
         else:
@@ -537,9 +538,9 @@ def showExpr(self):
     """Output as expression."""
     context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
     dlg = ScriptDialog(
-        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
-        "#Project \"{}\"\n".format(self.FileWidget.file_name.baseName()) +
-        ("M[\n{}\n]".format(context) if context else "M[]"),
+        f"#Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
+        f"#Project \"{self.FileWidget.file_name.baseName()}\"\n" +
+        (f"M[\n{context}\n]" if context else "M[]"),
         PMKSLexer(),
         "Pyslvs expression",
         ["Text file (*.txt)"],
@@ -552,8 +553,8 @@ def showExpr(self):
 def showPyScript(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
-        "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*__version__) +
-        "#Project \"{}\"\n".format(self.FileWidget.file_name.baseName()) +
+        f"#Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
+        f"#Project \"{self.FileWidget.file_name.baseName()}\"\n" +
         slvs_process_script(
             tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
             tuple((b, d) for b, d, a in self.InputsWidget.inputPair())

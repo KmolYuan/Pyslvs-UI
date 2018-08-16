@@ -25,7 +25,7 @@ from core.libs import parse_params
 
 def _addStorage(self, name: str, expr: str):
     """Add storage data function."""
-    self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
+    self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
     self.CommandStack.push(AddStorage(
         name,
         self.mechanism_storage,
@@ -39,10 +39,9 @@ def addStorage(self):
         self.mechanism_storage_name_tag.text() or
         self.mechanism_storage_name_tag.placeholderText()
     )
-    self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
-    _addStorage(self, name, "M[{}]".format(", ".join(
-        vpoint.expr for vpoint in self.EntitiesPoint.data()
-    )))
+    self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
+    exprs = ", ".join(vpoint.expr for vpoint in self.EntitiesPoint.data())
+    _addStorage(self, name, f"M[{exprs}]")
     self.CommandStack.push(ClearStorageName(self.mechanism_storage_name_tag))
     self.CommandStack.endMacro()
 
@@ -77,26 +76,24 @@ def pasteStorage(self):
     )
     if not ok:
         return
-    if not name:
-        nameList = [
-            self.mechanism_storage.item(i).text()
-            for i in range(self.mechanism_storage.count())
-        ]
-        i = 0
-        while "Prototype_{}".format(i) in nameList:
-            i += 1
-        name = "Prototype_{}".format(i)
+    name_list = [
+        self.mechanism_storage.item(i).text()
+        for i in range(self.mechanism_storage.count())
+    ]
+    i = 0
+    while name in name_list:
+        name = f"Prototype_{i}"
+        i += 1
     _addStorage(self, name, expr)
 
 
 def deleteStorage(self):
     """Delete the storage data."""
     row = self.mechanism_storage.currentRow()
-    if not row>-1:
+    if not row > -1:
         return
-    self.CommandStack.beginMacro("Delete {{Mechanism: {}}}".format(
-        self.mechanism_storage.item(row).text()
-    ))
+    name = self.mechanism_storage.item(row).text()
+    self.CommandStack.beginMacro(f"Delete {{Mechanism: {name}}}")
     self.CommandStack.push(DeleteStorage(row, self.mechanism_storage))
     self.CommandStack.endMacro()
 
@@ -115,7 +112,7 @@ def restoreStorage(self, item: Optional[QListWidgetItem] = None):
     if reply != QMessageBox.Yes:
         return
     name = item.text()
-    self.CommandStack.beginMacro("Restore from {{Mechanism: {}}}".format(name))
+    self.CommandStack.beginMacro(f"Restore from {{Mechanism: {name}}}")
     
     #After saved storage, clean all the item of two table widgets.
     self.EntitiesPoint.clear()

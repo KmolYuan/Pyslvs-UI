@@ -113,7 +113,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if locate == self.env:
             return
         self.env = locate
-        print("~Set workplace to: [\"{}\"]".format(self.env))
+        print(f"~Set workplace to: [\"{self.env}\"]")
     
     def dragEnterEvent(self, event):
         _io.dragEnterEvent(self, event)
@@ -182,7 +182,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, name='on_ZoomBar_valueChanged')
     def setZoom(self, value: int):
         """Reset the text when zoom bar changed."""
-        self.zoom_button.setText('{}%'.format(value))
+        self.zoom_button.setText(f'{value}%')
     
     @pyqtSlot()
     def customizeZoom(self):
@@ -254,9 +254,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.endMacro()
         #Add the path.
         i = 0
-        while "Algorithm_{}".format(i) in self.InputsWidget.pathData():
+        while f"Algorithm_{i}" in self.InputsWidget.pathData():
             i += 1
-        self.InputsWidget.addPath("Algorithm_{}".format(i), path)
+        self.InputsWidget.addPath(f"Algorithm_{i}", path)
         self.MainCanvas.zoomToFit()
     
     @pyqtSlot(int, name='on_EntitiesTab_currentChanged')

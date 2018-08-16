@@ -58,12 +58,12 @@ class EditPointDialog(QDialog, Ui_Dialog):
         for vlink in vlinks:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
         if pos is False:
-            self.name_box.addItem(icon, 'Point{}'.format(vpoints_count))
+            self.name_box.addItem(icon, f'Point{vpoints_count}')
             self.name_box.setEnabled(False)
             self.color_box.setCurrentIndex(self.color_box.findText('Green'))
         else:
             for i in range(vpoints_count):
-                self.name_box.insertItem(i, icon, 'Point{}'.format(i))
+                self.name_box.insertItem(i, icon, f'Point{i}')
             self.name_box.setCurrentIndex(pos)
     
     @pyqtSlot(int, name='on_name_box_currentIndexChanged')

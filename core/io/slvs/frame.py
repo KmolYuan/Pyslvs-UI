@@ -71,7 +71,7 @@ def slvs_frame(
         writer.constraint_num += 1
     #Comment constraint.
     for i, vpoint in enumerate(vpoints):
-        writer.constraint_comment(writer.constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy)
+        writer.constraint_comment(writer.constraint_num, f"Point{i}", vpoint.cx, vpoint.cy)
         writer.constraint_num += 1
     
     #Write file.

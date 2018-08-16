@@ -193,7 +193,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Switch to the current target path."""
         self.path_list.clear()
         for x, y in self.currentPath():
-            self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
+            self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.__currentPathChanged()
     
     @pyqtSlot(name='on_path_clear_clicked')
@@ -214,8 +214,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __copyPath(self):
         """Copy the current path coordinates to clipboard."""
         QApplication.clipboard().setText('\n'.join(
-            "{},{}".format(x, y)
-            for x, y in self.currentPath()
+            f"{x},{y}" for x, y in self.currentPath()
         ))
     
     @pyqtSlot(name='on_path_paste_clicked')
@@ -310,7 +309,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         x = round(x, 4)
         y = round(y, 4)
         self.currentPath().append((x, y))
-        self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
+        self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.__currentPathChanged()
     
     @pyqtSlot(name='on_close_path_clicked')
@@ -330,7 +329,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         path.insert(row - 1, (path[row][0], path[row][1]))
         del path[row + 1]
         x, y = self.path_list.currentItem().text()[1:-1].split(", ")
-        self.path_list.insertItem(row - 1, "({}, {})".format(x, y))
+        self.path_list.insertItem(row - 1, f"({x}, {y})")
         self.path_list.takeItem(row + 1)
         self.path_list.setCurrentRow(row - 1)
         self.__currentPathChanged()
@@ -348,9 +347,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         path.insert(row + 2, (path[row][0], path[row][1]))
         del path[row]
         x, y = self.path_list.currentItem().text()[1:-1].split(", ")
-        self.path_list.insertItem(row+2, "({}, {})".format(x, y))
+        self.path_list.insertItem(row + 2, f"({x}, {y})")
         self.path_list.takeItem(row)
-        self.path_list.setCurrentRow(row+1)
+        self.path_list.setCurrentRow(row + 1)
         self.__currentPathChanged()
     
     @pyqtSlot(name='on_point_delete_clicked')
@@ -367,7 +366,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Set button enable if all the data are already."""
         self.pointNum.setText(
             "<p><span style=\"font-size:12pt;"
-            "color:#00aa00;\">{}</span></p>".format(self.path_list.count())
+            f"color:#00aa00;\">{self.path_list.count()}</span></p>"
         )
         n = (
             bool(self.mech_params) and
@@ -438,26 +437,28 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Set the time label."""
         self.timeShow.setText(
             "<html><head/><body><p><span style=\"font-size:16pt\">"
-            "{}[min] {:.02f}[s]"
-            "</span></p></body></html>".format(int(time // 60), time % 60)
+            f"{time // 60}[min] {time % 60:.02f}[s]"
+            "</span></p></body></html>"
         )
     
     def __addResult(self, result: Dict[str, Any]):
         """Add result items, except add to the list."""
         item = QListWidgetItem(result['Algorithm'])
         interrupt = result['interrupted']
-        if interrupt=='False':
-            item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
-        elif interrupt=='N/A':
-            item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
+        if interrupt == 'False':
+            interrupt_icon = "task-completed.png"
+        elif interrupt == 'N/A':
+            interrupt_icon = "question-mark.png"
         else:
-            item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
-        text = "{} ({})".format(
-            result['Algorithm'],
-            "No interrupt." if interrupt=='False' else "Interrupt at {}".format(interrupt)
-        )
+            interrupt_icon = "interrupted.png"
+        item.setIcon(QIcon(QPixmap(f":/icons/{interrupt_icon}")))
+        if interrupt == 'False':
+            interrupt_text = "No interrupt."
+        else:
+            interrupt_text = f"Interrupt at: {interrupt}"
+        text = f"{result['Algorithm']} ({interrupt_text})"
         if interrupt == 'N/A':
-            text += "\n※Completeness is not clear."
+            text += "\n※Completeness is unknown."
         item.setToolTip(text)
         self.result_list.addItem(item)
     
@@ -528,7 +529,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         pos = {}
         for name in Result['pos']:
             try:
-                pos[name] = Result['P{}'.format(name)]
+                pos[name] = Result[f'P{name}']
             except KeyError:
                 pos[name] = Result['pos'][name]
         
@@ -556,7 +557,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 try:
                     result = expr_solving(
                         exprs,
-                        {n: 'P{}'.format(n) for n in range(len(vpoints))},
+                        {n: f'P{n}' for n in range(len(vpoints))},
                         vpoints,
                         angles
                     )
@@ -611,7 +612,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         i = 0
         while (not name) and (name not in self.collections):
-            name = "Structure_{}".format(i)
+            name = f"Structure_{i}"
+            i += 1
         
         mech_params = deepcopy(self.mech_params)
         for key in ['Driver', 'Follower', 'Target']:

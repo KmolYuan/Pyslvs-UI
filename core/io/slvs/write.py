@@ -185,9 +185,9 @@ class SlvsWriter:
     def group_origin(self, num: int = 1, name: str = "#references"):
         """First group called "#references"."""
         self.script_group.append('\n'.join([
-            "Group.h.v={:08x}".format(num),
-            "Group.type={}".format(5000),
-            "Group.name={}".format(name),
+            f"Group.h.v={num:08x}",
+            f"Group.type={5000}",
+            f"Group.name={name}",
             "Group.color=ff000000",
             "Group.skipFirst=0",
             "Group.predef.swapUV=0",
@@ -205,16 +205,16 @@ class SlvsWriter:
     def group_normal(self, num: int, name: str):
         """A normal group."""
         self.script_group.append('\n'.join([
-            "Group.h.v={:08x}".format(num),
-            "Group.type={}".format(5001),
+            f"Group.h.v={num:08x}",
+            f"Group.type={5001}",
             "Group.order=1",
-            "Group.name={}".format(name),
-            "Group.activeWorkplane.v={:08x}".format(self.__workplane),
+            f"Group.name={name}",
+            f"Group.activeWorkplane.v={self.__workplane:08x}",
             "Group.color=ff000000",
             "Group.subtype=6000",
             "Group.skipFirst=0",
-            "Group.predef.q.w={:.020f}".format(1),
-            "Group.predef.origin.v={:08x}".format((1 << 16) + 1),
+            f"Group.predef.q.w={1:.020f}",
+            f"Group.predef.origin.v={(1 << 16) + 1:08x}",
             "Group.predef.swapUV=0",
             "Group.predef.negateU=0",
             "Group.predef.negateV=0",
@@ -229,26 +229,26 @@ class SlvsWriter:
     
     def param(self, num: int) -> str:
         """A no value parameter."""
-        self.script_param.append('\n'.join([
-            "Param.h.v.={:08x}".format(num),
+        self.script_param.append('\n'.join((
+            f"Param.h.v.={num:08x}",
             "AddParam",
-        ]))
+        )))
     
     def param_val(self, num: int, val: float):
         """A value parameter."""
         self.script_param.append('\n'.join([
-            "Param.h.v.={:08x}".format(num),
-            "Param.val={:.20f}".format(val),
+            f"Param.h.v.={num:08x}",
+            f"Param.val={val:.20f}",
             "AddParam",
         ]))
     
     def request(self, num: int, type: int):
         """A request for an entity."""
         self.script_request.append('\n'.join([
-            "Request.h.v={:08x}".format(num),
-            "Request.type={}".format(type),
-            "Request.workplane.v={:08x}".format(self.__workplane),
-            "Request.group.v={:08x}".format(self.__group),
+            f"Request.h.v={num:08x}",
+            f"Request.type={type}",
+            f"Request.workplane.v={self.__workplane:08x}",
+            f"Request.group.v={self.__group:08x}",
             "Request.construction=0",
             "AddRequest",
         ]))
@@ -256,9 +256,9 @@ class SlvsWriter:
     def request_workplane(self, num: int):
         """Workplane request."""
         self.script_request.append('\n'.join([
-            "Request.h.v={:08x}".format(num),
-            "Request.type={}".format(100),
-            "Request.group.v={:08x}".format(0x1),
+            f"Request.h.v={num:08x}",
+            f"Request.type={100}",
+            f"Request.group.v={1:08x}",
             "Request.construction=0",
             "AddRequest",
         ]))
@@ -278,11 +278,11 @@ class SlvsWriter:
     def entity_plane(self, num: int, origin: int, normal: int):
         """A workplane."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(10000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={10000}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(origin),
-            "Entity.normal.v={:08x}".format(normal),
+            f"Entity.point[0].v={origin:08x}",
+            f"Entity.normal.v={normal:08x}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -290,8 +290,8 @@ class SlvsWriter:
     def entity_point(self, num: int):
         """A independent point."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(2000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={2000}",
             "Entity.construction=0",
             "Entity.actVisible=1",
             "AddEntity",
@@ -300,11 +300,11 @@ class SlvsWriter:
     def entity_normal(self, num: int, p: int, type: int):
         """A 3D normal."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(type),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={type}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(p),
-            "Entity.actNormal.w={:.020f}".format(1),
+            f"Entity.point[0].v={p:08x}",
+            f"Entity.actNormal.w={1:.020f}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -315,16 +315,16 @@ class SlvsWriter:
     
     def entity_normal_3d_wxyz(self, num: int, p: int, *, reversed: bool = False):
         """A 3D normal from quaternion."""
-        unit = 0.5
+        unit = -0.5 if reversed else 0.5
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(3000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={3000}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(p),
-            "Entity.actNormal.w={:.020f}".format(unit),
-            "Entity.actNormal.vx={:.020f}".format(-unit if reversed else unit),
-            "Entity.actNormal.vy={:.020f}".format(-unit if reversed else unit),
-            "Entity.actNormal.vz={:.020f}".format(-unit if reversed else unit),
+            f"Entity.point[0].v={p:08x}",
+            f"Entity.actNormal.w={0.5:.020f}",
+            f"Entity.actNormal.vx={unit:.020f}",
+            f"Entity.actNormal.vy={unit:.020f}",
+            f"Entity.actNormal.vz={unit:.020f}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -333,12 +333,12 @@ class SlvsWriter:
         """A 2D normal."""
         unit = 1
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(3001),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={3001}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(p),
-            "Entity.workplane.v={:08x}".format(self.__workplane),
-            "Entity.actNormal.w={:.020f}".format(unit),
+            f"Entity.point[0].v={p:08x}",
+            f"Entity.workplane.v={self.__workplane:08x}",
+            f"Entity.actNormal.w={unit:.020f}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -350,12 +350,12 @@ class SlvsWriter:
     def entity_point_2d(self, num: int, x: float, y: float):
         """A point related with the entity."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(2001),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={2001}",
             "Entity.construction=0",
-            "Entity.workplane.v={:08x}".format(self.__workplane),
-            "Entity.actPoint.x={:.20f}".format(x),
-            "Entity.actPoint.y={:.20f}".format(y),
+            f"Entity.workplane.v={self.__workplane:08x}",
+            f"Entity.actPoint.x={x:.20f}",
+            f"Entity.actPoint.y={y:.20f}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -363,12 +363,12 @@ class SlvsWriter:
     def entity_line(self, num: int):
         """A line segment."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(11000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={11000}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(num + 1),
-            "Entity.point[1].v={:08x}".format(num + 2),
-            "Entity.workplane.v={:08x}".format(self.__workplane),
+            f"Entity.point[0].v={num + 1:08x}",
+            f"Entity.point[1].v={num + 2:08x}",
+            f"Entity.workplane.v={self.__workplane:08x}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -376,14 +376,14 @@ class SlvsWriter:
     def entity_arc(self, num: int):
         """An arc."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(14000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={14000}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(num + 1),
-            "Entity.point[1].v={:08x}".format(num + 2),
-            "Entity.point[2].v={:08x}".format(num + 3),
-            "Entity.normal.v={:08x}".format(num + 0x20),
-            "Entity.workplane.v={:08x}".format(self.__workplane),
+            f"Entity.point[0].v={num + 1:08x}",
+            f"Entity.point[1].v={num + 2:08x}",
+            f"Entity.point[2].v={num + 3:08x}",
+            f"Entity.normal.v={num + 0x20:08x}",
+            f"Entity.workplane.v={self.__workplane:08x}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -391,13 +391,13 @@ class SlvsWriter:
     def entity_circle(self, num: int):
         """A circle."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(13000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={13000}",
             "Entity.construction=0",
-            "Entity.point[0].v={:08x}".format(num + 1),
-            "Entity.normal.v={:08x}".format(num + 0x20),
-            "Entity.distance.v={:08x}".format(num + 0x40),
-            "Entity.workplane.v={:08x}".format(self.__workplane),
+            f"Entity.point[0].v={num + 1:08x}",
+            f"Entity.normal.v={num + 0x20:08x}",
+            "Entity.distance.v={num + 0x40:08x}",
+            f"Entity.workplane.v={self.__workplane:08x}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -405,11 +405,11 @@ class SlvsWriter:
     def entity_distance(self, num: int, val: float):
         """A distance entity."""
         self.script_entity.append('\n'.join([
-            "Entity.h.v={:08x}".format(num),
-            "Entity.type={}".format(4000),
+            f"Entity.h.v={num:08x}",
+            f"Entity.type={4000}",
             "Entity.construction=0",
-            "Entity.workplane.v={:08x}".format(self.__workplane),
-            "Entity.actDistance={:.20f}".format(val),
+            f"Entity.workplane.v={self.__workplane:08x}",
+            f"Entity.actDistance={val:.20f}",
             "Entity.actVisible=1",
             "AddEntity",
         ]))
@@ -417,12 +417,12 @@ class SlvsWriter:
     def constraint_point(self, num: int, p1: int, p2: int):
         """Constraint two points as same one."""
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(20),
-            "Constraint.group.v={:08x}".format(self.__group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
-            "Constraint.ptA.v={:08x}".format(p1),
-            "Constraint.ptB.v={:08x}".format(p2),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={20}",
+            f"Constraint.group.v={self.__group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
+            f"Constraint.ptA.v={p1:08x}",
+            f"Constraint.ptB.v={p2:08x}",
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
@@ -442,18 +442,18 @@ class SlvsWriter:
         def constraint_fix_hv(num: int, phv: int, val: float):
             """Constraint a distance from a point to a plane."""
             self.script_constraint.append('\n'.join([
-                "Constraint.h.v={:08x}".format(num),
-                "Constraint.type={}".format(31),
-                "Constraint.group.v={:08x}".format(self.__group),
-                "Constraint.workplane.v={:08x}".format(self.__workplane),
-                "Constraint.valA={:.20f}".format(val),
-                "Constraint.ptA.v={:08x}".format(p0),
-                "Constraint.entityA.v={:08x}".format(phv),
+                f"Constraint.h.v={num:08x}",
+                f"Constraint.type={31}",
+                f"Constraint.group.v={self.__group:08x}",
+                f"Constraint.workplane.v={self.__workplane:08x}",
+                f"Constraint.valA={val:.20f}",
+                f"Constraint.ptA.v={p0:08x}",
+                f"Constraint.entityA.v={phv:08x}",
                 "Constraint.other=0",
                 "Constraint.other2=0",
                 "Constraint.reference=0",
-                "Constraint.disp.offset.x={:.20f}".format(offset),
-                "Constraint.disp.offset.y={:.20f}".format(offset),
+                f"Constraint.disp.offset.x={offset:.20f}",
+                f"Constraint.disp.offset.y={offset:.20f}",
                 "AddConstraint",
             ]))
         
@@ -470,18 +470,18 @@ class SlvsWriter:
     ):
         """Constraint the distance of line segment."""
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(30),
-            "Constraint.group.v={:08x}".format(self.__group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
-            "Constraint.valA={:.20f}".format(leng),
-            "Constraint.ptA.v={:08x}".format(p1),
-            "Constraint.ptB.v={:08x}".format(p2),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={30}",
+            f"Constraint.group.v={self.__group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
+            f"Constraint.valA={leng:.20f}",
+            f"Constraint.ptA.v={p1:08x}",
+            f"Constraint.ptB.v={p2:08x}",
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
-            "Constraint.disp.offset.x={:.20f}".format(offset),
-            "Constraint.disp.offset.y={:.20f}".format(offset),
+            f"Constraint.disp.offset.x={offset:.20f}",
+            f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
     
@@ -496,17 +496,17 @@ class SlvsWriter:
         if offset is None:
             offset = val / 2
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(90),
-            "Constraint.group.v={:08x}".format(self.__group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
-            "Constraint.valA={:.20f}".format(val),
-            "Constraint.entityA.v={:08x}".format(e1),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={90}",
+            f"Constraint.group.v={self.__group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
+            f"Constraint.valA={val:.20f}",
+            f"Constraint.entityA.v={e1:08x}",
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
-            "Constraint.disp.offset.x={:.20f}".format(offset),
-            "Constraint.disp.offset.y={:.20f}".format(offset),
+            f"Constraint.disp.offset.x={offset:.20f}",
+            f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
     
@@ -520,18 +520,18 @@ class SlvsWriter:
     ):
         """Constraint the angle between two line segments."""
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(120),
-            "Constraint.group.v={:08x}".format(self.__group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
-            "Constraint.valA={:.20f}".format(angle),
-            "Constraint.ptA.v={:08x}".format(l1),
-            "Constraint.ptB.v={:08x}".format(l2),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={120}",
+            f"Constraint.group.v={self.__group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
+            f"Constraint.valA={angle:.20f}",
+            f"Constraint.ptA.v={l1:08x}",
+            f"Constraint.ptB.v={l2:08x}",
             "Constraint.other=1",
             "Constraint.other2=0",
             "Constraint.reference=0",
-            "Constraint.disp.offset.x={:.20f}".format(offset),
-            "Constraint.disp.offset.y={:.20f}".format(offset),
+            f"Constraint.disp.offset.x={offset:.20f}",
+            f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
     
@@ -544,13 +544,13 @@ class SlvsWriter:
     ):
         """Constraint an arc is tangent with a line."""
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(123),
-            "Constraint.group.v={:08x}".format(self.__group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
-            "Constraint.entityA.v={:08x}".format(e1),
-            "Constraint.entityB.v={:08x}".format(e2),
-            "Constraint.other={}".format(1 if reversed else 0),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={123}",
+            f"Constraint.group.v={self.__group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
+            f"Constraint.entityA.v={e1:08x}",
+            f"Constraint.entityB.v={e2:08x}",
+            f"Constraint.other={1 if reversed else 0}",
             "Constraint.other2=0",
             "Constraint.reference=0",
             "AddConstraint",
@@ -559,12 +559,12 @@ class SlvsWriter:
     def constraint_equal_radius(self, num: int, e1: int, e2: int):
         """Constraint two arcs or circles are be the same radius."""
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(130),
-            "Constraint.group.v={:08x}".format(self.__group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
-            "Constraint.entityA.v={:08x}".format(e1),
-            "Constraint.entityB.v={:08x}".format(e2),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={130}",
+            f"Constraint.group.v={self.__group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
+            f"Constraint.entityA.v={e1:08x}",
+            f"Constraint.entityB.v={e2:08x}",
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
@@ -581,16 +581,16 @@ class SlvsWriter:
     ):
         """Comment in group."""
         self.script_constraint.append('\n'.join([
-            "Constraint.h.v={:08x}".format(num),
-            "Constraint.type={}".format(1000),
-            "Constraint.group.v={:08x}".format(self.__comment_group),
-            "Constraint.workplane.v={:08x}".format(self.__workplane),
+            f"Constraint.h.v={num:08x}",
+            f"Constraint.type={1000}",
+            f"Constraint.group.v={self.__comment_group:08x}",
+            f"Constraint.workplane.v={self.__workplane:08x}",
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
-            "Constraint.comment={}".format(comment),
-            "Constraint.disp.offset.x={:.20f}".format(x + offset),
-            "Constraint.disp.offset.y={:.20f}".format(y + offset),
+            f"Constraint.comment={comment}",
+            f"Constraint.disp.offset.x={x + offset:.20f}",
+            f"Constraint.disp.offset.y={y + offset:.20f}",
             "AddConstraint",
         ]))
     

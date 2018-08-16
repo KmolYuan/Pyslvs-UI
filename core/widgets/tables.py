@@ -200,7 +200,8 @@ class PointTableWidget(_BaseTableWidget):
     
     def expression(self) -> str:
         """Return expression string."""
-        return "M[{}]".format(", ".join(vpoint.expr for vpoint in self.data()))
+        exprs = ", ".join(vpoint.expr for vpoint in self.data())
+        return f"M[{exprs}]"
     
     def editArgs(self,
         row: int,
@@ -212,13 +213,13 @@ class PointTableWidget(_BaseTableWidget):
     ):
         """Edite a point."""
         for i, e in enumerate([
-            'Point{}'.format(row),
+            f'Point{row}',
             Links,
             type,
             Color,
             x,
             y,
-            "({}, {})".format(x, y)
+            f"({x}, {y})"
         ]):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -229,14 +230,16 @@ class PointTableWidget(_BaseTableWidget):
     def rename(self, row: int):
         """When index changed, the points need to rename."""
         for j in range(row, self.rowCount()):
-            self.setItem(j, 0, QTableWidgetItem('Point{}'.format(j)))
+            self.setItem(j, 0, QTableWidgetItem(f'Point{j}'))
     
     def currentPosition(self, row: int) -> List[Tuple[float, float]]:
         """Get the current coordinate from a point."""
         type_str = self.item(row, 2).text().split(':')
-        coords = eval("[{}]".format(self.item(row, 6).text().replace(';', ',')))
+        coords_text = self.item(row, 6).text().replace(';', ',')
+        coords = eval(f"[{coords_text}]")
         if (type_str[0] in ('P', 'RP')) and (len(coords) == 1):
-            self.item(row, 6).setText("({0}, {1}); ({0}, {1})".format(*coords[0]))
+            x, y = coords[0]
+            self.item(row, 6).setText(f"({x}, {y}); ({x}, {y})")
             coords.append(coords[0])
         return coords
     
@@ -246,9 +249,9 @@ class PointTableWidget(_BaseTableWidget):
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
             if type(c[0]) == float:
-                text = "({}, {})".format(*c)
+                text = f"({c[0]}, {c[1]})"
             else:
-                text = "; ".join("({}, {})".format(x, y) for x, y in c)
+                text = "; ".join(f"({x}, {y})" for x, y in c)
             item = QTableWidgetItem(text)
             item.setToolTip(text)
             self.setItem(i, 6, item)
@@ -404,11 +407,10 @@ class ExprTableWidget(_BaseTableWidget):
                 if e in data_dict:
                     if type(data_dict[e]) == float:
                         #Pure digit
-                        t = "{}:{:.02f}"
+                        text = f"{e}:{data_dict[e]:.02f}"
                     else:
                         #Coordinate
-                        t = "{0}:({1[0]:.02f}, {1[1]:.02f})"
-                    text = t.format(e, data_dict[e])
+                        text = f"{e}:({data_dict[e][0]:.02f}, {data_dict[e][1]:.02f})"
                 else:
                     #Function name
                     text = e
@@ -420,7 +422,7 @@ class ExprTableWidget(_BaseTableWidget):
             #Declaration
             self.setItem(row, 0, QTableWidgetItem("Unsolved"))
             #Target
-            self.setItem(row, self.columnCount() - 1, QTableWidgetItem("P{}".format(p)))
+            self.setItem(row, self.columnCount() - 1, QTableWidgetItem(f"P{p}"))
             row += 1
         self.exprs = exprs
     
@@ -458,12 +460,14 @@ class SelectionLabel(QLabel):
                 if i != 0:
                     vpoint0 = vpoints[points[i - 1]]
                     vpoint1 = vpoints[points[i]]
-                    distances.append("{:.04}".format(vpoint1.distance(vpoint0)))
-                    angles.append("{:.04}°".format(vpoint0.slope_angle(vpoint1)))
-            text += " | {} | {}".format(", ".join(distances), ", ".join(angles))
+                    distances.append(f"{vpoint1.distance(vpoint0):.04}")
+                    angles.append(f"{vpoint0.slope_angle(vpoint1):.04}°")
+            ds_t = ", ".join(distances)
+            as_t = ", ".join(angles)
+            text += f" | {ds_t} | {as_t}"
         self.setText(text)
     
     @pyqtSlot(float, float)
     def updateMousePosition(self, x: float, y: float):
         """Get the mouse position from canvas when press the middle button."""
-        self.setText("Mouse at: ({}, {})".format(round(x, 4), round(y, 4)))
+        self.setText(f"Mouse at: ({x:.04f}, {y:.04f})")

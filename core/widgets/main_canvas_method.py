@@ -246,7 +246,7 @@ def _drawLink(self, vlink: VLink):
     self.painter.drawText(
         QRectF(cen_x - 50, cen_y - 50, 100, 100),
         Qt.AlignCenter,
-        '[{}]'.format(vlink.name)
+        f'[{vlink.name}]'
     )
 
 
@@ -533,7 +533,7 @@ def paintEvent(self, event):
         self.painter.setFont(QFont("Mono", 12))
         self.painter.drawText(
             QPointF(-self.ox, -self.oy + 12),
-            "FPS: {:6.02f}".format(1 / (time() - self.t0))
+            f"FPS: {1 / (time() - self.t0):6.02f}"
         )
         self.t0 = time()
     self.painter.end()
@@ -640,16 +640,12 @@ def mouseMoveEvent(self, event):
                 self.noselected.emit()
             QToolTip.showText(
                 event.globalPos(),
-                "({:.02f}, {:.02f})\n({:.02f}, {:.02f})\n{} {}(s)".format(
-                    self.selector.x / self.zoom,
-                    self.selector.y / self.zoom,
-                    self.selector.sx / self.zoom,
-                    self.selector.sy / -self.zoom,
-                    len(selection),
-                    'point' if self.select_mode == 0 else
-                    'link' if self.select_mode == 1 else
-                    'solution'
-                ),
+                f"({self.selector.x / self.zoom:.02f}, "
+                f"{self.selector.y / self.zoom:.02f})\n"
+                f"({self.selector.sx / self.zoom:.02f}, "
+                f"{self.selector.sy / -self.zoom:.02f})\n"
+                f"{len(selection)} "
+                f"{('point', 'link', 'solution')[self.select_mode]}(s)",
                 self
             )
         elif self.select_mode == 0:
@@ -665,7 +661,7 @@ def mouseMoveEvent(self, event):
                 )
                 QToolTip.showText(
                     event.globalPos(),
-                    "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
+                    f"{mouse_x:+.02f}, {mouse_y:+.02f}",
                     self
                 )
                 for num in self.selections:
@@ -678,7 +674,7 @@ def mouseMoveEvent(self, event):
                 )
                 QToolTip.showText(
                     event.globalPos(),
-                    "{:+.02f}°".format(degrees(alpha)),
+                    f"{degrees(alpha):+.02f}°",
                     self
                 )
                 for num in self.selections:
@@ -692,11 +688,7 @@ def mouseMoveEvent(self, event):
                 #Free move reflect function.
                 fx = 1 if (x > 0) else -1
                 fy = 1 if (y > 0) else -1
-                QToolTip.showText(
-                    event.globalPos(),
-                    "{:+d}, {:+d}".format(fx, fy),
-                    self
-                )
+                QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)
                 for num in self.selections:
                     vpoint = self.vpoints[num]
                     if vpoint.type == 0:

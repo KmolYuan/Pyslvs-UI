@@ -25,6 +25,7 @@ from core.QtModules import (
     QUndoView,
 )
 from core.info import __version__, ARGUMENTS
+_major, _minor, _build, _label = __version__
 from core.io import FileWidget
 from core.libs import kernel_list
 from core.synthesis import (
@@ -83,7 +84,7 @@ def _undo_redo(self):
 def _appearance(self):
     """Start up and initialize custom widgets."""
     #Version label
-    self.version_label.setText("v{}.{}.{} ({})".format(*__version__))
+    self.version_label.setText(f"v{_major}.{_minor}.{_build} ({_label})")
     
     #Entities tables.
     self.EntitiesTab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
@@ -271,15 +272,11 @@ def _freemove(self):
         ("Rotate mode", "rotate"),
         ("Reflect mode", "reflect"),
     )):
-        action = QAction(
-            QIcon(QPixmap(":/icons/{}.png".format(icon))),
-            text,
-            self
-        )
+        action = QAction(QIcon(QPixmap(f":/icons/{icon}.png")), text, self)
         action.triggered.connect(freeMoveMode_func(i, action.icon()))
         action.setShortcuts([
-            QKeySequence("Ctrl+{}".format(i + 1)),
-            QKeySequence("Shift+{}".format(i + 1)),
+            QKeySequence(f"Ctrl+{i + 1}"),
+            QKeySequence(f"Shift+{i + 1}"),
         ])
         action.setShortcutContext(Qt.WindowShortcut)
         free_move_mode_menu.addAction(action)
@@ -341,14 +338,20 @@ def _zoom(self):
     zoom_menu = QMenu(self)
     
     def zoom_level(level):
-        return pyqtSlot()(lambda: self.ZoomBar.setValue(level))
+        """Return a function that set the specified zoom value."""
+        
+        @pyqtSlot()
+        def func():
+            return self.ZoomBar.setValue(level)
+        
+        return func
     
     for level in range(
-        self.ZoomBar.minimum() - self.ZoomBar.minimum()%100 + 100,
+        self.ZoomBar.minimum() - self.ZoomBar.minimum() % 100 + 100,
         500 + 1,
         100
     ):
-        action = QAction('{}%'.format(level), self)
+        action = QAction(f'{level}%', self)
         action.triggered.connect(zoom_level(level))
         zoom_menu.addAction(action)
     action = QAction("customize", self)

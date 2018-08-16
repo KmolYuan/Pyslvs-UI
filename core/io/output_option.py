@@ -70,8 +70,8 @@ class _OutputDialog(QDialog, Ui_Dialog):
         super(_OutputDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.setWindowTitle("Export {} module project".format(format_name))
-        self.setWindowIcon(QIcon(QPixmap(":/icons/{}".format(format_icon))))
+        self.setWindowTitle(f"Export {format_name} module project")
+        self.setWindowIcon(QIcon(QPixmap(f":/icons/{format_icon}")))
         self.assembly_label.setText(assembly_description)
         self.frame_label.setText(frame_description)
         self.path_edit.setPlaceholderText(env)
@@ -116,9 +116,10 @@ class _OutputDialog(QDialog, Ui_Dialog):
     def exist_warning(self, name: str, *, folder: bool = False):
         """Show the "file is exist" message box."""
         QMessageBox.warning(self,
-            "{} exist".format("Folder" if folder else "File"),
-            "The folder named {} is exist.".format(name) if folder else
-            "The file {} is exist.".format(name)
+            f"{'Folder' if folder else 'File'} exist",
+            f"The folder named {name} is exist."
+            if folder else
+            f"The file {name} is exist."
         )
 
 
@@ -199,9 +200,8 @@ class DxfOutputDialog(_OutputDialog):
         version_label = QLabel("DXF version:", self)
         self.version_option = QComboBox(self)
         self.version_option.addItems(sorted((
-            "{} - {}".format(name, DXF_VERSIONS_MAP[name])
-            for name in DXF_VERSIONS
-        ), key=lambda v: v.split()[-1]))
+            f"{name} - {DXF_VERSIONS_MAP[name]}" for name in DXF_VERSIONS
+        ), key = lambda v: v.split()[-1]))
         self.version_option.setCurrentIndex(self.version_option.count() - 1)
         self.version_option.setSizePolicy(QSizePolicy(
             QSizePolicy.Expanding,

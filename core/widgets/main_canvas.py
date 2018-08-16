@@ -333,18 +333,15 @@ class DynamicCanvas(BaseCanvas):
         """
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            self.__setSelectionMode(self.__selectionMode() + (-1 if (value > 0) else 1))
+            self.__setSelectionMode(self.__selectionMode() + (-1 if value > 0 else 1))
             i = self.__selectionMode()
-            QToolTip.showText(
-                event.globalPos(),
-                "<p style=\"background-color: #77abff\">" + ''.join(
-                    "<img width=\"{}\" src=\":icons/{}.png\"/>".format(70 if (i == j) else 40, icon)
-                    for j, icon in enumerate(('bearing', 'link', 'triangular-iteration'))
-                ) + "</p>",
-                self
+            icons = ''.join(
+                f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"
+                for j, icon in enumerate(('bearing', 'link', 'triangular-iteration'))
             )
+            QToolTip.showText(event.globalPos(), f"<p style=\"background-color: #77abff\">{icons}</p>", self)
         else:
-            self.__setZoom(self.__zoom() + self.__zoom_factor() * (1 if (value > 0) else -1))
+            self.__setZoom(self.__zoom() + self.__zoom_factor() * (1 if value > 0 else -1))
         event.accept()
     
     def mousePressEvent(self, event):

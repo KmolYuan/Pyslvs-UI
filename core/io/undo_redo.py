@@ -135,8 +135,7 @@ class FixSequenceNumber(QUndoCommand):
             points = [p - 1 if p > self.benchmark else p for p in points]
         else:
             points = [p + 1 if p >= self.benchmark else p for p in points]
-        points = ['Point{}'.format(p) for p in points]
-        item.setText(','.join(points))
+        item.setText(','.join([f'Point{p}' for p in points]))
 
 
 class EditPointTable(QUndoCommand):
@@ -191,7 +190,7 @@ class EditPointTable(QUndoCommand):
         + Append the point that relate with these links.
         + Remove the point that irrelevant with these links.
         """
-        point_name = 'Point{}'.format(self.row)
+        point_name = f'Point{self.row}'
         for row in items1:
             newPoints = self.link_table.item(row, 2).text().split(',')
             newPoints.append(point_name)
@@ -313,10 +312,9 @@ class AddPath(QUndoCommand):
     def redo(self):
         """Add new path data."""
         self.data[self.name] = self.path
-        self.widget.addItem("{}: {}".format(self.name, ", ".join(
-            "[{}]".format(i)
-            for i, d in enumerate(self.path) if d
-        )))
+        self.widget.addItem(f"{self.name}: " + ", ".join(
+            f"[{i}]" for i, d in enumerate(self.path) if d
+        ))
     
     def undo(self):
         """Remove the last item."""

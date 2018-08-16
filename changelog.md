@@ -28,6 +28,7 @@ Development
 + Database module "peewee" rename to "database".
 + Database function improvements.
 + All PyQt slots renaming to short names.
++ Python version should upgrade to 3.6 or above to support formatted string.
 
 Version 18.07
 ===
