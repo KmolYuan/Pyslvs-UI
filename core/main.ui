@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>989</width>
-    <height>863</height>
+    <width>1104</width>
+    <height>950</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>466</width>
-                  <height>747</height>
+                  <width>561</width>
+                  <height>1033</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -749,7 +749,7 @@
                     <item row="11" column="0">
                      <widget class="QLabel" name="show_fps_label">
                       <property name="text">
-                       <string>Show number of frame per second</string>
+                       <string>Show frames per second</string>
                       </property>
                      </widget>
                     </item>
@@ -1306,8 +1306,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>989</width>
-     <height>21</height>
+     <width>1104</width>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

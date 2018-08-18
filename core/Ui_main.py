@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(989, 863)
+        MainWindow.resize(1104, 950)
         MainWindow.setMouseTracking(True)
         MainWindow.setAcceptDrops(True)
         icon = QtGui.QIcon()
@@ -258,7 +258,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 466, 747))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 561, 1033))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -603,7 +603,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1104, 31))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -885,7 +885,7 @@ class Ui_MainWindow(object):
         self.zoomby_option.setItemText(0, _translate("MainWindow", "Cursor"))
         self.zoomby_option.setItemText(1, _translate("MainWindow", "Cavas center"))
         self.snap_label.setText(_translate("MainWindow", "Snap the mouse when dragging"))
-        self.show_fps_label.setText(_translate("MainWindow", "Show number of frame per second"))
+        self.show_fps_label.setText(_translate("MainWindow", "Show frames per second"))
         self.background_label.setText(_translate("MainWindow", "Background"))
         self.background_choosedir.setText(_translate("MainWindow", "..."))
         self.background_offset_label.setText(_translate("MainWindow", "Background offset"))

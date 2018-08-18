@@ -26,6 +26,7 @@ from core.QtModules import (
     QPointF,
     QLineF,
     QFont,
+    QFontMetrics,
     QPen,
     QColor,
     QToolTip,
@@ -513,9 +514,11 @@ def paintEvent(self, event):
     if self.show_fps:
         pen = QPen(Qt.blue)
         self.painter.setPen(pen)
-        self.painter.setFont(QFont("Mono", 12))
+        font = QFont("Mono", 12)
+        font_metrics = QFontMetrics(font)
+        self.painter.setFont(font)
         self.painter.drawText(
-            -QPointF(self.ox, self.oy) + QPointF(0, 12),
+            -QPointF(self.ox, self.oy) + QPointF(0, font_metrics.height()),
             f"FPS: {1 / (time() - self.t0):6.02f}"
         )
         self.t0 = time()
@@ -622,6 +625,7 @@ def mouseMoveEvent(self, event):
                 self.selected.emit(selection, False)
             else:
                 self.noselected.emit()
+            unit_text = ('point', 'link', 'solution')[self.select_mode]
             QToolTip.showText(
                 event.globalPos(),
                 f"({self.selector.x / self.zoom:.02f}, "
@@ -629,7 +633,7 @@ def mouseMoveEvent(self, event):
                 f"({self.selector.sx / self.zoom:.02f}, "
                 f"{self.selector.sy / -self.zoom:.02f})\n"
                 f"{len(selection)} "
-                f"{('point', 'link', 'solution')[self.select_mode]}(s)",
+                f"{unit_text}(s)",
                 self
             )
         elif self.select_mode == 0:
