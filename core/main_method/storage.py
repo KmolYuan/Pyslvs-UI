@@ -81,6 +81,7 @@ def pasteStorage(self):
         for i in range(self.mechanism_storage.count())
     ]
     i = 0
+    name = name or f"Prototype_{i}"
     while name in name_list:
         name = f"Prototype_{i}"
         i += 1

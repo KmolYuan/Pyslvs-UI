@@ -98,7 +98,7 @@
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
            <widget class="QPushButton" name="variable_up">
-            <property name="toolTip">
+            <property name="statusTip">
              <string>Upgrade priority of the variable.</string>
             </property>
             <property name="icon">
@@ -122,7 +122,7 @@
           </item>
           <item>
            <widget class="QPushButton" name="variable_down">
-            <property name="toolTip">
+            <property name="statusTip">
              <string>Downgrade priority of the variable.</string>
             </property>
             <property name="icon">
@@ -271,6 +271,9 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="statusTip">
+             <string>Current position of the variable.</string>
+            </property>
             <property name="minimum">
              <double>-360.000000000000000</double>
             </property>
@@ -403,7 +406,7 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QPushButton" name="update_preview_button">
-            <property name="toolTip">
+            <property name="statusTip">
              <string>Refresh preview path data.</string>
             </property>
             <property name="icon">

@@ -353,6 +353,7 @@ class InputsWidget(QWidget, Ui_Form):
             "Please input name tag:"
         )
         i = 0
+        name = name or f"Record_{i}"
         while name in self.__path_data:
             name = f"Record_{i}"
             i += 1
@@ -462,39 +463,35 @@ class InputsWidget(QWidget, Ui_Form):
         )
         if action_exec:
             if action_exec == copy_action:
-                """Copy path data."""
+                #Copy path data.
                 num = 0
-                name = f"Copied_{num}"
-                while name in self.__path_data:
-                    name = f"Copied_{num}"
+                name_copy = f"{name}_{num}"
+                while name_copy in self.__path_data:
+                    name_copy = f"{name}_{num}"
                     num += 1
-                self.addPath(name, data)
+                self.addPath(name_copy, data)
             elif "Copy data from" in action_exec.text():
-                """Copy data to clipboard."""
+                #Copy data to clipboard.
                 QApplication.clipboard().setText('\n'.join(
                     f"{x},{y}" for x, y in data[action_exec.index]
                 ))
             elif "Show" in action_exec.text():
-                """Switch points enabled status."""
+                #Switch points enabled status.
                 if action_exec.index == -1:
                     self.record_show.setChecked(True)
                 self.MainCanvas.setPathShow(action_exec.index)
         self.popMenu_record_list.clear()
     
-    @pyqtSlot(name='on_record_show_clicked')
-    def __setPathShow(self):
+    @pyqtSlot(bool, name='on_record_show_toggled')
+    def __setPathShow(self, toggled: bool):
         """Show all paths or hide."""
-        if self.record_show.isChecked():
-            show = -1
-        else:
-            show = -2
-        self.MainCanvas.setPathShow(show)
+        self.MainCanvas.setPathShow(-1 if toggled else -2)
     
     @pyqtSlot(int, name='on_record_list_currentRowChanged')
     def __setPath(self, row: int):
         """Reload the canvas when switch the path."""
-        if self.record_show.isChecked():
-            self.MainCanvas.setPathShow(-1)
+        if not self.record_show.isChecked():
+            self.record_show.setChecked(True)
         self.reloadCanvas()
     
     def currentPath(self):
@@ -505,22 +502,20 @@ class InputsWidget(QWidget, Ui_Form):
         + Auto preview.
         """
         row = self.record_list.currentRow()
-        if row in (0, -1):
+        if row in {0, -1}:
             return ()
-        else:
-            name = self.record_list.item(row).text()
-            return self.__path_data.get(name.split(':')[0], ())
+        path_name = self.record_list.item(row).text().split(':')[0]
+        return self.__path_data.get(path_name, ())
     
     @pyqtSlot(name='on_variable_up_clicked')
     @pyqtSlot(name='on_variable_down_clicked')
     def __setVariablePriority(self):
         row = self.variable_list.currentRow()
-        item = self.variable_list.currentItem()
         if not row > -1:
             return
-        if self.sender() == self.variable_up:
-            trow = row - 1
-        else:
-            trow = row + 1
-        self.variable_list.insertItem(trow, self.variable_list.takeItem(row))
+        item = self.variable_list.currentItem()
+        self.variable_list.insertItem(
+            row + (-1 if self.sender() == self.variable_up else 1),
+            self.variable_list.takeItem(row)
+        )
         self.variable_list.setCurrentItem(item)
