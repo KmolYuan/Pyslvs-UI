@@ -31,6 +31,7 @@ from core.QtModules import (
     Qt,
     QPointF,
     QRectF,
+    QPolygonF,
     QSizeF,
     QWidget,
     QSizePolicy,
@@ -238,13 +239,13 @@ class BaseCanvas(QWidget):
         
         for x in range(indexing(x_l), indexing(x_r) + 1, 5):
             self.painter.drawLine(
-                QPointF(x * self.zoom, 0),
-                QPointF(x * self.zoom, -10 if (x % 10 == 0) else -5)
+                QPointF(x, 0) * self.zoom,
+                QPointF(x * self.zoom, -10 if x % 10 == 0 else -5)
             )
         for y in range(indexing(y_b), indexing(y_t) + 1, 5):
             self.painter.drawLine(
-                QPointF(0, y * self.zoom),
-                QPointF(10 if (y % 10 == 0) else 5, y * self.zoom)
+                QPointF(0, y) * self.zoom,
+                QPointF(10 if y % 10 == 0 else 5, y * self.zoom)
             )
         #Please to call the "end" method when ending paint event.
         #self.painter.end()
@@ -282,7 +283,7 @@ class BaseCanvas(QWidget):
         text = f"[{i}]" if type(i) == str else f"[Point{i}]"
         if self.show_dimension:
             text += f":({cx:.02f}, {cy:.02f})"
-        self.painter.drawText(QPointF(x + 6, y - 6), text)
+        self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
     
     def drawTargetPath(self):
         """Draw solving path."""
@@ -297,16 +298,15 @@ class BaseCanvas(QWidget):
             if len(path) > 1:
                 pointPath = QPainterPath()
                 for j, (x, y) in enumerate(path):
-                    x *= self.zoom
-                    y *= -self.zoom
-                    self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
+                    p = QPointF(x, -y) * self.zoom
+                    self.painter.drawEllipse(p, RADIUS, RADIUS)
                     if j == 0:
-                        self.painter.drawText(QPointF(x + 6, y - 6), name)
+                        self.painter.drawText(p + QPointF(6, -6), name)
                         pointPath.moveTo(x, y)
                     else:
                         x2, y2 = path[j - 1]
                         self.drawArrow(x, y, x2 * self.zoom, y2 * -self.zoom)
-                        pointPath.lineTo(QPointF(x, y))
+                        pointPath.lineTo(p)
                 self.painter.drawPath(pointPath)
                 for x, y in path:
                     pen.setColor(Dot)
@@ -315,12 +315,12 @@ class BaseCanvas(QWidget):
                         QPointF(x, -y) * self.zoom, RADIUS, RADIUS
                     )
             elif len(path) == 1:
-                x = path[0][0] * self.zoom
-                y = path[0][1] * -self.zoom
-                self.painter.drawText(QPointF(x + 6, y - 6), name)
+                x, y = path[0]
+                p = QPointF(x, -y) * self.zoom
+                self.painter.drawText(p + QPointF(6, -6), name)
                 pen.setColor(Dot)
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
+                self.painter.drawEllipse(p, RADIUS, RADIUS)
         self.painter.setBrush(Qt.NoBrush)
     
     def drawArrow(self,
@@ -423,7 +423,8 @@ class BaseCanvas(QWidget):
             except ValueError:
                 continue
             else:
-                tmp_list.append(pos[index])
+                x, y = pos[index]
+                tmp_list.append(QPointF(x, -y) * self.zoom)
         return tmp_list, color
     
     def drawSolution(self,
@@ -433,39 +434,29 @@ class BaseCanvas(QWidget):
         pos: Union[Tuple[VPoint], Dict[int, Tuple[float, float]]]
     ):
         """Draw the solution triangle."""
-        params, color = self.solutionPolygon(func, args, target, pos)
+        points, color = self.solutionPolygon(func, args, target, pos)
         
         color.setAlpha(150)
         pen = QPen(color)
         pen.setWidth(RADIUS)
         self.painter.setPen(pen)
         
-        def tryDrawArrow(index: int, text: str) -> bool:
-            """Draw arrow and return True if done."""
-            try:
-                x, y = params[-1]
-                x2, y2 = params[index]
-            except ValueError:
-                return False
-            else:
-                self.drawArrow(
-                    x * self.zoom, y * -self.zoom,
-                    x2 * self.zoom, y2 * -self.zoom,
-                    text = text
-                )
-                return True
+        def draw_arrow(index: int, text: str):
+            """Draw arrow."""
+            self.drawArrow(
+                points[-1].x(),
+                points[-1].y(),
+                points[index].x(),
+                points[index].y(),
+                text = text
+            )
         
-        if not tryDrawArrow(0, args[1]):
-            return
+        draw_arrow(0, args[1])
         if func == 'PLLP':
-            if not tryDrawArrow(1, args[2]):
-                return
+            draw_arrow(1, args[2])
         color.setAlpha(30)
         self.painter.setBrush(QBrush(color))
-        qpoints = []
-        for x, y in params:
-            qpoints.append(QPointF(x, -y) * self.zoom)
-        self.painter.drawPolygon(*qpoints)
+        self.painter.drawPolygon(QPolygonF(points))
         self.painter.setBrush(Qt.NoBrush)
 
 
@@ -480,7 +471,7 @@ class PreviewCanvas(BaseCanvas):
         """Input parameters and attributes.
         
         + A function should return a tuple of function expression.
-            Like: ("PLAP[P1,a0,L0,P2](P3)", "PLLP[P1,a0,L0,P2](P3)", ...)
+            format: ("PLAP[P1,a0,L0,P2](P3)", "PLLP[P1,a0,L0,P2](P3)", ...)
         + Origin graph
         + Customize points: Dict[str, int]
         + Multiple joints: Dict[int, int]
@@ -499,10 +490,7 @@ class PreviewCanvas(BaseCanvas):
         self.clear()
     
     def clear(self):
-        """Clear the attributes.
-        
-        + Special marks
-        """
+        """Clear the attributes."""
         self.G = Graph()
         self.cus.clear()
         self.same.clear()

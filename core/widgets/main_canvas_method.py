@@ -22,6 +22,7 @@ from core.QtModules import (
     QApplication,
     QPolygonF,
     QRectF,
+    QSizeF,
     QPointF,
     QFont,
     QPen,
@@ -116,22 +117,14 @@ class FreeMode(Enum):
 
 def _drawFrame(self):
     """Draw a outer frame."""
-    positive_x = self.width() - self.ox
-    positive_y = -self.oy
-    negative_x = -self.ox
-    negative_y = self.height() - self.oy
-    self.painter.drawLine(
-        QPointF(negative_x, positive_y), QPointF(positive_x, positive_y)
-    )
-    self.painter.drawLine(
-        QPointF(negative_x, negative_y), QPointF(positive_x, negative_y)
-    )
-    self.painter.drawLine(
-        QPointF(negative_x, positive_y), QPointF(negative_x, negative_y)
-    )
-    self.painter.drawLine(
-        QPointF(positive_x, positive_y), QPointF(positive_x, negative_y)
-    )
+    pos_x = self.width() - self.ox
+    pos_y = -self.oy
+    neg_x = -self.ox
+    neg_y = self.height() - self.oy
+    self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(pos_x, pos_y))
+    self.painter.drawLine(QPointF(neg_x, neg_y), QPointF(pos_x, neg_y))
+    self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(neg_x, neg_y))
+    self.painter.drawLine(QPointF(pos_x, pos_y), QPointF(pos_x, neg_y))
 
 
 def _drawPoint(self, i: int, vpoint: VPoint):
@@ -153,8 +146,8 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                     self.painter.setPen(pen)
                     r = 5
                     self.painter.drawRect(QRectF(
-                        QPointF(cx * self.zoom + r, cy * -self.zoom + r),
-                        QPointF(cx * self.zoom - r, cy * -self.zoom - r)
+                        QPointF(cx, cy) * self.zoom + QPointF(r, r),
+                        QPointF(cx, cy) * self.zoom - QPointF(r, r)
                     ))
             elif vpoint.type == 2:
                 if j == 0:
@@ -177,8 +170,8 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 p_left = silder_points[y_all.index(min(y_all))]
                 p_right = silder_points[y_all.index(max(y_all))]
             self.painter.drawLine(
-                QPointF(p_left[0] * self.zoom, p_left[1] * -self.zoom),
-                QPointF(p_right[0] * self.zoom, p_right[1] * -self.zoom)
+                QPointF(p_left[0], -p_left[1]) * self.zoom,
+                QPointF(p_right[0], -p_right[1]) * self.zoom
             )
     else:
         self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
@@ -287,17 +280,15 @@ def _drawSlvsRanges(self):
         cy = rect.y() * -self.zoom
         if rect.width():
             self.painter.drawRect(QRectF(
-                cx,
-                cy,
-                rect.width() * self.zoom,
-                rect.height() * self.zoom
+                QPointF(cx, cy),
+                QSizeF(rect.width(), rect.height()) * self.zoom
             ))
         else:
             self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
         range_color.setAlpha(255)
         pen.setColor(range_color)
         self.painter.setPen(pen)
-        self.painter.drawText(QPointF(cx + 6, cy - 6), tag)
+        self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
         self.painter.setBrush(Qt.NoBrush)
 
 
@@ -369,7 +360,7 @@ def _select_func(self, *, rect: bool = False):
                 expr[-1],
                 self.vpoints
             )
-            polygon = QPolygonF([QPointF(x, -y) * self.zoom for x, y in points])
+            polygon = QPolygonF(points)
             if rect:
                 return polygon.intersects(QPolygonF(self.selector.toQRect()))
             else:
@@ -466,10 +457,11 @@ def paintEvent(self, event):
     """Drawing functions."""
     width = self.width()
     height = self.height()
-    if ((self.width_old is not None) and (
-        (self.width_old != width) or
-        (self.height_old != height)
-    )):
+    if self.width_old is None:
+        self.width_old = width
+    if self.height_old is None:
+        self.height_old = height
+    if (self.width_old != width) or (self.height_old != height):
         self.ox += (width - self.width_old) / 2
         self.oy += (height - self.height_old) / 2
     #'self' is the instance of 'DynamicCanvas'.
@@ -492,22 +484,17 @@ def paintEvent(self, event):
     #Draw solutions.
     if self.select_mode == 2:
         for i, expr in enumerate(self.exprs):
-            args = [
-                expr[0],
-                expr[1:-1],
-                expr[-1],
-                self.vpoints
-            ]
-            self.drawSolution(*args)
+            func = expr[0]
+            params = expr[1:-1]
+            target = expr[-1]
+            self.drawSolution(func, params, target, self.vpoints)
             if i in self.selections:
-                pos, _ = self.solutionPolygon(*args)
+                pos, _ = self.solutionPolygon(func, params, target, self.vpoints)
                 pen = QPen()
                 pen.setWidth(self.link_width + 3)
                 pen.setColor(QColor(161, 16, 239))
                 self.painter.setPen(pen)
-                self.painter.drawPolygon(*[
-                    QPointF(x, -y) * self.zoom for x, y in pos
-                ])
+                self.painter.drawPolygon(QPolygonF(pos))
     #Draw a colored frame for free move mode.
     if self.freemove != FreeMode.NoFreeMove:
         pen = QPen()
