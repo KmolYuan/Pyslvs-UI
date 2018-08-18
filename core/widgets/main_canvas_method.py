@@ -129,7 +129,7 @@ def _drawFrame(self):
 
 def _drawPoint(self, i: int, vpoint: VPoint):
     """Draw a point."""
-    if vpoint.type in (1, 2):
+    if vpoint.type in {1, 2}:
         #Draw slider
         silder_points = vpoint.c
         for j, (cx, cy) in enumerate(silder_points):
@@ -137,42 +137,37 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 grounded = False
             else:
                 grounded = vpoint.links[j] == 'ground'
-            if vpoint.type == 1:
-                if j == 0:
-                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
-                else:
-                    pen = QPen(vpoint.color)
-                    pen.setWidth(2)
+            if (j == 0) or (vpoint.type == 1):
+                #Slot point.
+                pen = QPen(vpoint.color)
+                pen.setWidth(2)
+                self.painter.setPen(pen)
+                cp = QPointF(cx, -cy) * self.zoom
+                rp = QPointF(self.RADIUS, -self.RADIUS) * (4 if j == 0 else 2)
+                self.painter.drawRect(QRectF(cp + rp, cp - rp))
+                if self.show_point_mark and (j == 0):
+                    pen.setColor(Qt.darkGray)
                     self.painter.setPen(pen)
-                    r = 5
-                    self.painter.drawRect(QRectF(
-                        QPointF(cx, cy) * self.zoom + QPointF(r, r),
-                        QPointF(cx, cy) * self.zoom - QPointF(r, r)
-                    ))
-            elif vpoint.type == 2:
-                if j == 0:
-                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
-                else:
-                    #Turn off point mark.
-                    show_point_mark = self.show_point_mark
-                    self.show_point_mark = False
-                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
-                    self.show_point_mark = show_point_mark
+                    text = f"[{i}]" if type(i) == str else f"[Point{i}]"
+                    if self.show_dimension:
+                        text += f":({cx:.02f}, {cy:.02f})"
+                    self.painter.drawText(cp + QPointF(6, -6), text)
+            else:
+                self.drawPoint(i, cx, cy, grounded, vpoint.color)
         pen = QPen(vpoint.color.darker())
         pen.setWidth(2)
         self.painter.setPen(pen)
-        x_all = tuple(cx for cx, cy in silder_points)
-        if x_all:
-            p_left = silder_points[x_all.index(min(x_all))]
-            p_right = silder_points[x_all.index(max(x_all))]
-            if p_left == p_right:
-                y_all = tuple(cy for cx, cy in silder_points)
-                p_left = silder_points[y_all.index(min(y_all))]
-                p_right = silder_points[y_all.index(max(y_all))]
-            self.painter.drawLine(
-                QPointF(p_left[0], -p_left[1]) * self.zoom,
-                QPointF(p_right[0], -p_right[1]) * self.zoom
-            )
+        
+        #Slider line
+        p_left = min(silder_points, key=lambda c: c[0])
+        p_right = max(silder_points, key=lambda c: c[0])
+        if p_left == p_right:
+            p_left = min(silder_points, key=lambda c: c[1])
+            p_right = max(silder_points, key=lambda c: c[1])
+        self.painter.drawLine(
+            QPointF(p_left[0], -p_left[1]) * self.zoom,
+            QPointF(p_right[0], -p_right[1]) * self.zoom
+        )
     else:
         self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
     #For selects function.
@@ -699,7 +694,7 @@ def zoomToFit(self):
     height = height if height else 1
     x_right, x_left, y_top, y_bottom = _zoomToFitLimit(self)
     inf = float('inf')
-    if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
+    if (inf in {x_right, y_bottom}) or (-inf in {x_left, y_top}):
         self.zoom_changed.emit(200)
         self.ox = width / 2
         self.oy = height / 2

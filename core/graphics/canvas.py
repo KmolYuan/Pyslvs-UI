@@ -155,13 +155,12 @@ class _Path:
         self.curve = True
 
 
-#Radius of canvas dot.
-RADIUS = 3
-
-
 class BaseCanvas(QWidget):
     
     """The subclass can draw a blank canvas more easier."""
+    
+    #Radius of canvas dot.
+    RADIUS = 3
     
     def __init__(self, parent: QWidget):
         """Set the parameters for drawing."""
@@ -275,6 +274,7 @@ class BaseCanvas(QWidget):
             self.painter.drawEllipse(QPointF(x, y), width, width)
         else:
             self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
+        
         if not self.show_point_mark:
             return
         pen.setColor(Qt.darkGray)
@@ -299,7 +299,7 @@ class BaseCanvas(QWidget):
                 pointPath = QPainterPath()
                 for j, (x, y) in enumerate(path):
                     p = QPointF(x, -y) * self.zoom
-                    self.painter.drawEllipse(p, RADIUS, RADIUS)
+                    self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
                     if j == 0:
                         self.painter.drawText(p + QPointF(6, -6), name)
                         pointPath.moveTo(x, y)
@@ -312,7 +312,7 @@ class BaseCanvas(QWidget):
                     pen.setColor(Dot)
                     self.painter.setPen(pen)
                     self.painter.drawEllipse(
-                        QPointF(x, -y) * self.zoom, RADIUS, RADIUS
+                        QPointF(x, -y) * self.zoom, self.RADIUS, self.RADIUS
                     )
             elif len(path) == 1:
                 x, y = path[0]
@@ -320,7 +320,7 @@ class BaseCanvas(QWidget):
                 self.painter.drawText(p + QPointF(6, -6), name)
                 pen.setColor(Dot)
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(p, RADIUS, RADIUS)
+                self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
         self.painter.setBrush(Qt.NoBrush)
     
     def drawArrow(self,
@@ -378,7 +378,7 @@ class BaseCanvas(QWidget):
                 y *= -self.zoom
                 if i == 0:
                     pointPath.moveTo(x, y)
-                    self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
+                    self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
                     continue
                 if error:
                     pointPath.moveTo(x, y)
@@ -438,7 +438,7 @@ class BaseCanvas(QWidget):
         
         color.setAlpha(150)
         pen = QPen(color)
-        pen.setWidth(RADIUS)
+        pen.setWidth(self.RADIUS)
         self.painter.setPen(pen)
         
         def draw_arrow(index: int, text: str):
@@ -525,7 +525,7 @@ class PreviewCanvas(BaseCanvas):
             self.oy = height / 2
         super(PreviewCanvas, self).paintEvent(event)
         pen = QPen()
-        pen.setWidth(RADIUS)
+        pen.setWidth(self.RADIUS)
         self.painter.setPen(pen)
         self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         #Links
@@ -558,7 +558,7 @@ class PreviewCanvas(BaseCanvas):
                 elif node == self.Target:
                     pen.setColor(colorQt('Yellow'))
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
+                self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
             if self.getStatus(node):
                 color = colorQt('Dark-Magenta')
             else:
@@ -566,7 +566,7 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
-            self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
+            self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
         #Solutions
@@ -587,7 +587,7 @@ class PreviewCanvas(BaseCanvas):
             if node in self.same:
                 continue
             self.painter.drawText(QPointF(
-                x * self.zoom + 2 * RADIUS,
+                x * self.zoom + 2 * self.RADIUS,
                 y * -self.zoom
             ), f'P{node}')
         self.painter.end()

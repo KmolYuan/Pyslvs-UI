@@ -84,6 +84,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QDoubleSpinBox" name="x_box">
+         <property name="decimals">
+          <number>4</number>
+         </property>
          <property name="minimum">
           <double>-999999.000000000000000</double>
          </property>
@@ -94,6 +97,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QDoubleSpinBox" name="y_box">
+         <property name="decimals">
+          <number>4</number>
+         </property>
          <property name="minimum">
           <double>-999999.000000000000000</double>
          </property>

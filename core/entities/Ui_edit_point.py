@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/entities/edit_point.ui'
+# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\entities\edit_point.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -55,11 +55,13 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 1, 1, 1)
         self.x_box = QtWidgets.QDoubleSpinBox(Dialog)
+        self.x_box.setDecimals(4)
         self.x_box.setMinimum(-999999.0)
         self.x_box.setMaximum(999999.0)
         self.x_box.setObjectName("x_box")
         self.gridLayout.addWidget(self.x_box, 1, 0, 1, 1)
         self.y_box = QtWidgets.QDoubleSpinBox(Dialog)
+        self.y_box.setDecimals(4)
         self.y_box.setMinimum(-999999.0)
         self.y_box.setMaximum(999999.0)
         self.y_box.setObjectName("y_box")
