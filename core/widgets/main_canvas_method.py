@@ -24,6 +24,7 @@ from core.QtModules import (
     QRectF,
     QSizeF,
     QPointF,
+    QLineF,
     QFont,
     QPen,
     QColor,
@@ -94,7 +95,7 @@ class Selector:
             min(self.y, self.sy) <= y <= max(self.y, self.sy)
         )
     
-    def toQRect(self) -> QRectF:
+    def toQRectF(self) -> QRectF:
         """Return limit as QRectF type."""
         return QRectF(QPointF(self.x, self.y), QPointF(self.sx, self.sy))
     
@@ -130,6 +131,9 @@ def _drawFrame(self):
 def _drawPoint(self, i: int, vpoint: VPoint):
     """Draw a point."""
     if vpoint.type in {1, 2}:
+        pen = QPen(vpoint.color)
+        pen.setWidth(2)
+        
         #Draw slider
         silder_points = vpoint.c
         for j, (cx, cy) in enumerate(silder_points):
@@ -139,13 +143,12 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                 grounded = vpoint.links[j] == 'ground'
             if (j == 0) or (vpoint.type == 1):
                 #Slot point.
-                pen = QPen(vpoint.color)
-                pen.setWidth(2)
+                pen.setColor(vpoint.color)
                 self.painter.setPen(pen)
                 cp = QPointF(cx, -cy) * self.zoom
                 rp = QPointF(self.RADIUS, -self.RADIUS) * (4 if j == 0 else 2)
                 self.painter.drawRect(QRectF(cp + rp, cp - rp))
-                if self.show_point_mark and (j == 0):
+                if self.show_point_mark:
                     pen.setColor(Qt.darkGray)
                     self.painter.setPen(pen)
                     text = f"[{i}]" if type(i) == str else f"[Point{i}]"
@@ -154,22 +157,20 @@ def _drawPoint(self, i: int, vpoint: VPoint):
                     self.painter.drawText(cp + QPointF(6, -6), text)
             else:
                 self.drawPoint(i, cx, cy, grounded, vpoint.color)
-        pen = QPen(vpoint.color.darker())
-        pen.setWidth(2)
-        self.painter.setPen(pen)
         
         #Slider line
-        p_left = min(silder_points, key=lambda c: c[0])
-        p_right = max(silder_points, key=lambda c: c[0])
-        if p_left == p_right:
-            p_left = min(silder_points, key=lambda c: c[1])
-            p_right = max(silder_points, key=lambda c: c[1])
-        self.painter.drawLine(
-            QPointF(p_left[0], -p_left[1]) * self.zoom,
-            QPointF(p_right[0], -p_right[1]) * self.zoom
+        pen.setColor(vpoint.color.darker())
+        self.painter.setPen(pen)
+        p = max(silder_points, key=lambda c: abs(c[0] - silder_points[0][0]))
+        qline = QLineF(
+            QPointF(p[0], -p[1]) * self.zoom,
+            QPointF(silder_points[0][0], -silder_points[0][1]) * self.zoom
         )
+        qline.setLength(qline.length() * 2)
+        self.painter.drawLine(qline)
     else:
         self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
+    
     #For selects function.
     if (self.select_mode == 0) and (i in self.selections):
         pen = QPen(QColor(161, 16, 239))
@@ -331,7 +332,7 @@ def _select_func(self, *, rect: bool = False):
                     as_qpoint=True
                 ))
             if rect:
-                return polygon.intersects(QPolygonF(self.selector.toQRect()))
+                return polygon.intersects(QPolygonF(self.selector.toQRectF()))
             else:
                 return polygon.containsPoint(
                     QPointF(self.selector.x, self.selector.y),
@@ -357,7 +358,7 @@ def _select_func(self, *, rect: bool = False):
             )
             polygon = QPolygonF(points)
             if rect:
-                return polygon.intersects(QPolygonF(self.selector.toQRect()))
+                return polygon.intersects(QPolygonF(self.selector.toQRectF()))
             else:
                 return polygon.containsPoint(
                     QPointF(self.selector.x, self.selector.y),
@@ -507,14 +508,14 @@ def paintEvent(self, event):
         pen = QPen(Qt.gray)
         pen.setWidth(1)
         self.painter.setPen(pen)
-        self.painter.drawRect(self.selector.toQRect())
+        self.painter.drawRect(self.selector.toQRectF())
     #Show FPS
     if self.show_fps:
         pen = QPen(Qt.blue)
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Mono", 12))
         self.painter.drawText(
-            QPointF(-self.ox, -self.oy + 12),
+            -QPointF(self.ox, self.oy) + QPointF(0, 12),
             f"FPS: {1 / (time() - self.t0):6.02f}"
         )
         self.t0 = time()
@@ -532,12 +533,13 @@ def mousePressEvent(self, event):
     """
     self.selector.x = _snap(self, event.x() - self.ox)
     self.selector.y = _snap(self, event.y() - self.oy)
-    if event.buttons() == Qt.MiddleButton:
+    button = event.button()
+    if button == Qt.MiddleButton:
         self.selector.middle_dragged = True
         x = self.selector.x / self.zoom
         y = self.selector.y / -self.zoom
         self.browse_tracking.emit(x, y)
-    if event.buttons() == Qt.LeftButton:
+    elif button == Qt.LeftButton:
         self.selector.left_dragged = True
         _select_func(self)
         if self.selector.selection_rect:
@@ -553,7 +555,7 @@ def mouseDoubleClickEvent(self, event):
     button = event.button()
     if button == Qt.MidButton:
         self.zoomToFit()
-    if button == Qt.LeftButton:
+    elif button == Qt.LeftButton:
         self.selector.x = _snap(self, event.x() - self.ox)
         self.selector.y = _snap(self, event.y() - self.oy)
         _select_func(self)
