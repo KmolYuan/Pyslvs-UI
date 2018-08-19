@@ -140,7 +140,7 @@ def _deleteLink(self, row: int):
     self.CommandStack.push(DeleteTable(
         row,
         self.EntitiesLink,
-        isRename=False
+        is_rename=False
     ))
     self.CommandStack.endMacro()
 
@@ -165,7 +165,7 @@ def _deletePoint(self, row: int):
     self.CommandStack.push(DeleteTable(
         row,
         self.EntitiesPoint,
-        isRename=True
+        is_rename=True
     ))
     self.InputsWidget.variableExcluding(row)
     self.CommandStack.endMacro()
@@ -479,7 +479,7 @@ def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
     self.CommandStack.push(DeleteTable(
         row1,
         self.EntitiesLink,
-        isRename=False
+        is_rename=False
     ))
     self.CommandStack.endMacro()
 
