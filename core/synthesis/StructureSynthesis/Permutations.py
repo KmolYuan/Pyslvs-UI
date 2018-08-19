@@ -59,7 +59,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.setupUi(self)
         self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
         
-        #Function references
+        # Function references
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
         self.inputFrom = parent.inputFrom
@@ -67,13 +67,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.linkDataFunc = parent.EntitiesLink.dataTuple
         self.getGraph = parent.getGraph
         
-        #Splitters
+        # Splitters
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
         
         self.answer = []
         
-        #Signals
+        # Signals
         self.NL_input.valueChanged.connect(self.__adjustStructureData)
         self.NJ_input.valueChanged.connect(self.__adjustStructureData)
         self.graph_engine.addItems(engines)
@@ -373,7 +373,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         elif action==self.copy_edges:
             clipboard.setText(str(self.answer[index].edges))
         elif action==self.copy_image:
-            #Turn the transparent background to white.
+            # Turn the transparent background to white.
             image1 = self.__atlasImage()
             image2 = QImage(image1.size(), image1.format())
             image2.fill(QColor(Qt.white).rgb())

@@ -132,6 +132,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.snap_option, 1),
         (self.showfps_option, True),
         (self.background_option, ""),
+        (self.background_opacity_option, 1),
         (self.background_scale_option, 1),
         (self.background_offset_x_option, 0),
         (self.background_offset_y_option, 0),
@@ -140,7 +141,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.pathpreview_option, 0),
         (self.titlefullpath_option, False),
         (self.consoleerror_option, False),
-        #Do not save settings.
+        # "Do not save the settings" by default.
         (self.dontsave_option, True),
     )
 
@@ -318,7 +319,7 @@ def parseExpression(self, expr: str):
             )
             links = args[0].split(',')
             for linkName in links:
-                #If link name not exist.
+                # If link name not exist.
                 if linkName not in linkNames:
                     self.addLink(linkName, 'Blue')
             row_count = self.EntitiesPoint.rowCount()
@@ -538,8 +539,8 @@ def showExpr(self):
     """Output as expression."""
     context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
     dlg = ScriptDialog(
-        f"#Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
-        f"#Project \"{self.FileWidget.file_name.baseName()}\"\n" +
+        f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
+        f"# Project \"{self.FileWidget.file_name.baseName()}\"\n" +
         (f"M[\n{context}\n]" if context else "M[]"),
         PMKSLexer(),
         "Pyslvs expression",
@@ -553,8 +554,8 @@ def showExpr(self):
 def showPyScript(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
-        f"#Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
-        f"#Project \"{self.FileWidget.file_name.baseName()}\"\n" +
+        f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
+        f"# Project \"{self.FileWidget.file_name.baseName()}\"\n" +
         slvs_process_script(
             tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
             tuple((b, d) for b, d, a in self.InputsWidget.inputPair())
@@ -621,15 +622,17 @@ def restoreSettings(self):
     for widget, value in _settings(self):
         name = widget.objectName()
         widget_type = type(widget)
-        if widget_type in (QSpinBox, QDoubleSpinBox):
-            widget.setValue(self.settings.value(name, value, type=type(value)))
+        if widget_type == QSpinBox:
+            widget.setValue(self.settings.value(name, value, type=int))
+        elif widget_type == QDoubleSpinBox:
+            widget.setValue(self.settings.value(name, value, type=float))
         elif widget_type == QComboBox:
             widget.setCurrentIndex(self.settings.value(name, value, type=int))
         elif widget_type == QCheckBox:
             widget.setChecked(self.settings.value(name, value, type=bool))
         elif widget_type == QLineEdit:
             widget.setText(self.settings.value(name, value, type=str))
-    #Specified solver setting.
+    # Specified solver setting.
     if ARGUMENTS.kernel:
         if ARGUMENTS.kernel == "pyslvs":
             kernel_name = kernel_list[0]

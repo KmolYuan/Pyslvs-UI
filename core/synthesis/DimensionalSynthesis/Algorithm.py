@@ -80,7 +80,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mech_params = {}
         self.path = {}
         
-        #Some reference of 'collections'.
+        # Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
         self.getCollection = parent.getCollection
         self.inputFrom = parent.inputFrom
@@ -89,7 +89,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.updateRanges = parent.MainCanvas.updateRanges
         self.setSolvingPath = parent.MainCanvas.setSolvingPath
         
-        #Data and functions.
+        # Data and functions.
         self.__mechanism_data = []
         self.alg_options = {}
         self.alg_options.update(defaultSettings)
@@ -107,11 +107,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.preview_layout.addWidget(self.PreviewCanvas)
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
         
-        #Splitter
+        # Splitter
         self.up_splitter.setSizes([80, 100])
         self.down_splitter.setSizes([20, 80])
         
-        #Table widget column width.
+        # Table widget column width.
         self.parameter_list.setColumnWidth(0, 75)
         self.parameter_list.setColumnWidth(1, 75)
         self.parameter_list.setColumnWidth(2, 70)
@@ -268,7 +268,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         wb = openpyxl.load_workbook(file_name)
         ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
         data = []
-        #Keep finding until there is no value.
+        # Keep finding until there is no value.
         i = 1
         while True:
             x = ws.cell(row=i, column=1).value
@@ -379,7 +379,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_synthesis_button_clicked')
     def __synthesis(self):
         """Start synthesis."""
-        #Check if the number of target points are same.
+        # Check if the number of target points are same.
         leng = -1
         for path in self.path.values():
             if leng<0:
@@ -390,14 +390,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     "The length of target paths should be the same."
                 )
                 return
-        #Get the algorithm type.
+        # Get the algorithm type.
         if self.type0.isChecked():
             type_num = AlgorithmType.RGA
         elif self.type1.isChecked():
             type_num = AlgorithmType.Firefly
         elif self.type2.isChecked():
             type_num = AlgorithmType.DE
-        #Deep copy it so the pointer will not the same.
+        # Deep copy it so the pointer will not the same.
         mech_params = deepcopy(self.mech_params)
         mech_params['Target'] = deepcopy(self.path)
         
@@ -416,7 +416,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     self.parameter_list.cellWidget(row, 4).value(),
                 )
         
-        #Start progress dialog.
+        # Start progress dialog.
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
         dlg.show()
         if not dlg.exec_():
@@ -545,12 +545,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for i in range(vpoint_count):
             path.append([])
         
-        #Cumulative angle
+        # Cumulative angle
         i_count = sum(1 for e in exprs if e[0] == 'PLAP')
         angles_cum = [0.] * i_count
         nan = float('nan')
         for interval in (3, -3):
-            #Driver pointer
+            # Driver pointer
             dp = 0
             angles = [0.] * i_count
             while dp < i_count:
@@ -562,14 +562,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                         angles
                     )
                 except Exception:
-                    #Update with error sign.
+                    # Update with error sign.
                     for i in range(vpoint_count):
                         path[i].append((nan, nan))
-                    #Back to last feasible solution.
+                    # Back to last feasible solution.
                     angles[dp] -= interval
                     dp += 1
                 else:
-                    #Update with result.
+                    # Update with result.
                     for i in range(vpoint_count):
                         if result[i][0] == tuple:
                             path[i].append(result[i][1])
@@ -702,7 +702,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setCellWidget(row, 2, s1)
             self.parameter_list.setCellWidget(row, 3, s2)
             self.parameter_list.setCellWidget(row, 4, s3)
-            #Signal connections.
+            # Signal connections.
             for s in (s1, s2, s3):
                 s.valueChanged.connect(self.updateRange)
             row += 1
@@ -745,7 +745,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             name_item.setToolTip(name)
             self.parameter_list.setItem(row, 0, name_item)
             self.parameter_list.setItem(row, 1, QTableWidgetItem('Limit'))
-            #Set values (it will be same if not in the 'mech_params').
+            # Set values (it will be same if not in the 'mech_params').
             upper = self.mech_params['upper'][i]
             if upper == 0:
                 upper = 100. if name in link_list else 360.
@@ -754,7 +754,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 lower = 5.
             self.mech_params['upper'][i] = upper
             self.mech_params['lower'][i] = lower
-            #Spin box.
+            # Spin box.
             error_range = upper - lower
             default_value = error_range / 2 + lower
             if name in link_list:
@@ -764,7 +764,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setCellWidget(row, 2, s1)
             s2 = spinbox(error_range, prefix=True)
             self.parameter_list.setCellWidget(row, 4, s2)
-            #Signal connections.
+            # Signal connections.
             s1.valueChanged.connect(set_by_center(i, s2.value))
             s2.valueChanged.connect(set_by_range(i, s1.value))
             row += 1
@@ -794,10 +794,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.type1.setChecked(True)
         elif Result['Algorithm'] == str(AlgorithmType.DE):
             self.type2.setChecked(True)
-        #Copy to mechanism params.
+        # Copy to mechanism params.
         self.__setProfile("External setting", Result)
         self.__setTime(Result['time'])
-        #Load settings.
+        # Load settings.
         self.alg_options.clear()
         self.alg_options.update(Result['settings'])
     
@@ -834,7 +834,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         elif dlg.minFit_option.isChecked():
             self.alg_options['minFit'] = dlg.minFit.value()
         elif dlg.maxTime_option.isChecked():
-            #Three spinbox value translate to second.
+            # Three spinbox value translate to second.
             self.alg_options['maxTime'] = (
                 dlg.maxTime_h.value() * 3600 +
                 dlg.maxTime_m.value() * 60 +

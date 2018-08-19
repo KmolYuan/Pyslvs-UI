@@ -165,7 +165,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.minFit.setValue(settings['minFit'])
         elif 'maxTime' in settings:
             self.maxTime_option.setChecked(True)
-            #In second (int).
+            # In second (int).
             maxTime = settings['maxTime']
             self.maxTime_h.setValue(maxTime // 3600)
             self.maxTime_m.setValue((maxTime % 3600) // 60)
@@ -187,7 +187,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
     @pyqtSlot(name='on_reset_button_clicked')
     def __reset(self):
         """Reset the settings to default."""
-        #Differential Evolution (Default)
+        # Differential Evolution (Default)
         d = defaultSettings.copy()
         if self.__algorithm == AlgorithmType.RGA:
             d.update(GeneticPrams)

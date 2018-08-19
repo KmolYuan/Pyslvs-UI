@@ -186,7 +186,7 @@ class PointTableWidget(_BaseTableWidget):
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
             y = float(self.item(row, 5).text())
-            #p_type = (type: str, angle: float)
+            # p_type = (type: str, angle: float)
             p_type = self.item(row, 2).text().split(':')
             if p_type[0] == 'R':
                 type = 0
@@ -386,7 +386,7 @@ class ExprTableWidget(_BaseTableWidget):
             else:
                 self.freemove_request.emit(False)
         
-        #Double click behavior.
+        # Double click behavior.
         self.currentItemChanged.connect(adjustRequest)
     
     def setExpr(self,
@@ -400,28 +400,28 @@ class ExprTableWidget(_BaseTableWidget):
             self.setRowCount(len(exprs) + len(unsolved))
         row = 0
         for expr in exprs:
-            #Target
+            # Target
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(expr[-1]))
-            #Parameters
+            # Parameters
             for column, e in enumerate(expr[:-1]):
                 if e in data_dict:
                     if type(data_dict[e]) == float:
-                        #Pure digit
+                        # Pure digit
                         text = f"{e}:{data_dict[e]:.02f}"
                     else:
-                        #Coordinate
+                        # Coordinate
                         text = f"{e}:({data_dict[e][0]:.02f}, {data_dict[e][1]:.02f})"
                 else:
-                    #Function name
+                    # Function name
                     text = e
                 item = QTableWidgetItem(text)
                 item.setToolTip(text)
                 self.setItem(row, column, item)
             row += 1
         for p in unsolved:
-            #Declaration
+            # Declaration
             self.setItem(row, 0, QTableWidgetItem("Unsolved"))
-            #Target
+            # Target
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(f"P{p}"))
             row += 1
         self.exprs = exprs

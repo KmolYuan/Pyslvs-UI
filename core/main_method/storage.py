@@ -62,7 +62,7 @@ def pasteStorage(self):
     if not ok:
         return
     try:
-        #Put the expression into parser to see if it is legal.
+        # Put the expression into parser to see if it is legal.
         parse_params(expr)
     except:
         QMessageBox.warning(self,
@@ -115,7 +115,7 @@ def restoreStorage(self, item: Optional[QListWidgetItem] = None):
     name = item.text()
     self.CommandStack.beginMacro(f"Restore from {{Mechanism: {name}}}")
     
-    #After saved storage, clean all the item of two table widgets.
+    # After saved storage, clean all the item of two table widgets.
     self.EntitiesPoint.clear()
     self.EntitiesLink.clear()
     self.InputsWidget.variableExcluding()

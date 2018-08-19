@@ -135,7 +135,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
         pen = QPen(vpoint.color)
         pen.setWidth(2)
         
-        #Draw slider
+        # Draw slider
         silder_points = vpoint.c
         for j, (cx, cy) in enumerate(silder_points):
             if not vpoint.links:
@@ -143,7 +143,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
             else:
                 grounded = vpoint.links[j] == 'ground'
             if (j == 0) or (vpoint.type == 1):
-                #Slot point.
+                # Slot point.
                 pen.setColor(vpoint.color)
                 self.painter.setPen(pen)
                 cp = QPointF(cx, -cy) * self.zoom
@@ -159,7 +159,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
             else:
                 self.drawPoint(i, cx, cy, grounded, vpoint.color)
         
-        #Slider line
+        # Slider line
         pen.setColor(vpoint.color.darker())
         self.painter.setPen(pen)
         p = max(silder_points, key=lambda c: abs(c[0] - silder_points[0][0]))
@@ -172,7 +172,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
     else:
         self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
     
-    #For selects function.
+    # For selects function.
     if (self.select_mode == 0) and (i in self.selections):
         pen = QPen(QColor(161, 16, 239))
         pen.setWidth(3)
@@ -208,7 +208,7 @@ def _drawLink(self, vlink: VLink):
         return
     points = _pointsPos(self, vlink)
     pen = QPen()
-    #Rearrange: Put the nearest point to the next position.
+    # Rearrange: Put the nearest point to the next position.
     qpoints = convex_hull(points, as_qpoint = True)
     if (
         (self.select_mode == 1) and
@@ -392,7 +392,7 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
     x_left = -inf
     y_top = -inf
     y_bottom = inf
-    #Paths
+    # Paths
     if self.Path.show != -2:
         for i, path in enumerate(self.path_record or self.Path.path or self.pathpreview):
             if (self.Path.show != -1) and (self.Path.show != i):
@@ -406,7 +406,7 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
                     y_bottom = y
                 if y > y_top:
                     y_top = y
-    #Points
+    # Points
     for vpoint in self.vpoints:
         if vpoint.cx < x_right:
             x_right = vpoint.cx
@@ -416,7 +416,7 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
             y_bottom = vpoint.cy
         if vpoint.cy > y_top:
             y_top = vpoint.cy
-    #Solving paths
+    # Solving paths
     if self.show_target_path:
         for path in self.target_path.values():
             for x, y in path:
@@ -428,7 +428,7 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
                     y_bottom = y
                 if y > y_top:
                     y_top = y
-    #Ranges
+    # Ranges
     for rect in self.ranges.values():
         x_r = rect.x()
         x_l = rect.x() + rect.width()
@@ -461,24 +461,24 @@ def paintEvent(self, event):
     if (self.width_old != width) or (self.height_old != height):
         self.ox += (width - self.width_old) / 2
         self.oy += (height - self.height_old) / 2
-    #'self' is the instance of 'DynamicCanvas'.
+    # 'self' is the instance of 'DynamicCanvas'.
     BaseCanvas.paintEvent(self, event)
-    #Draw links except ground.
+    # Draw links except ground.
     for vlink in self.vlinks[1:]:
         _drawLink(self, vlink)
-    #Draw path.
+    # Draw path.
     if self.Path.show != -2:
         _drawPath(self)
-    #Draw solving path.
+    # Draw solving path.
     if self.show_target_path:
         self.painter.setFont(QFont("Arial", self.font_size + 5))
         _drawSlvsRanges(self)
         self.drawTargetPath()
         self.painter.setFont(QFont("Arial", self.font_size))
-    #Draw points.
+    # Draw points.
     for i, vpoint in enumerate(self.vpoints):
         _drawPoint(self, i, vpoint)
-    #Draw solutions.
+    # Draw solutions.
     if self.select_mode == 2:
         for i, expr in enumerate(self.exprs):
             func = expr[0]
@@ -492,7 +492,7 @@ def paintEvent(self, event):
                 pen.setColor(QColor(161, 16, 239))
                 self.painter.setPen(pen)
                 self.painter.drawPolygon(QPolygonF(pos))
-    #Draw a colored frame for free move mode.
+    # Draw a colored frame for free move mode.
     if self.freemove != FreeMode.NoFreeMove:
         pen = QPen()
         if self.freemove == FreeMode.Translate:
@@ -504,13 +504,13 @@ def paintEvent(self, event):
         pen.setWidth(8)
         self.painter.setPen(pen)
         _drawFrame(self)
-    #Rectangular selection
+    # Rectangular selection
     if self.selector.picking:
         pen = QPen(Qt.gray)
         pen.setWidth(1)
         self.painter.setPen(pen)
         self.painter.drawRect(self.selector.toQRectF())
-    #Show FPS
+    # Show FPS
     if self.show_fps:
         pen = QPen(Qt.blue)
         self.painter.setPen(pen)
@@ -523,7 +523,7 @@ def paintEvent(self, event):
         )
         self.t0 = time()
     self.painter.end()
-    #Record the widget size.
+    # Record the widget size.
     self.width_old = width
     self.height_old = height
 
@@ -579,10 +579,10 @@ def mouseReleaseEvent(self, event):
     if self.selector.left_dragged:
         self.selector.selection_old = list(self.selections)
         km = self.selector.km()
-        #Add Point
+        # Add Point
         if km == Qt.AltModifier:
             self.alt_add.emit()
-        #Only one clicked.
+        # Only one clicked.
         elif (
             (abs(event.x() - self.ox - self.selector.x) < self.sr/2) and
             (abs(event.y() - self.oy - self.selector.y) < self.sr/2)
@@ -593,7 +593,7 @@ def mouseReleaseEvent(self, event):
                 km != Qt.ShiftModifier
             ):
                 self.noselected.emit()
-        #Edit point coordinates.
+        # Edit point coordinates.
         elif (self.select_mode == 0) and (self.freemove != FreeMode.NoFreeMove):
             _emit_freemove(self, self.selections)
     self.selector.release()
@@ -615,7 +615,7 @@ def mouseMoveEvent(self, event):
         self.update()
     elif self.selector.left_dragged:
         if self.freemove == FreeMode.NoFreeMove:
-            #Rectangular selection.
+            # Rectangular selection.
             self.selector.picking = True
             self.selector.sx = _snap(self, event.x() - self.ox)
             self.selector.sy = _snap(self, event.y() - self.oy)
@@ -638,7 +638,7 @@ def mouseMoveEvent(self, event):
             )
         elif self.select_mode == 0:
             if self.freemove == FreeMode.Translate:
-                #Free move translate function.
+                # Free move translate function.
                 mouse_x = _snap(self,
                     x - self.selector.x / self.zoom,
                     is_zoom=False
@@ -656,7 +656,7 @@ def mouseMoveEvent(self, event):
                     vpoint = self.vpoints[num]
                     vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             elif self.freemove == FreeMode.Rotate:
-                #Free move rotate function.
+                # Free move rotate function.
                 alpha = atan2(y, x) - atan2(
                     -self.selector.y, self.selector.x
                 )
@@ -673,7 +673,7 @@ def mouseMoveEvent(self, event):
                     if vpoint.type != 0:
                         vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
             elif self.freemove == FreeMode.Reflect:
-                #Free move reflect function.
+                # Free move reflect function.
                 fx = 1 if (x > 0) else -1
                 fy = 1 if (y > 0) else -1
                 QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)

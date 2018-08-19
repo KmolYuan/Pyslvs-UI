@@ -194,7 +194,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections = collections
         self.getCollection = getCollection
         
-        #Current profile name.
+        # Current profile name.
         self.__name_loaded = ""
         
         def get_solutions_func() -> Tuple[str]:
@@ -217,11 +217,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         for name in self.collections:
             self.collections_list.addItem(name)
         
-        #Splitter
+        # Splitter
         self.main_splitter.setSizes([200, 200])
         self.sub_splitter.setSizes([100, 200])
         
-        #Signals
+        # Signals
         self.common_list.currentTextChanged.connect(self.__chooseCommon)
         self.common_list.itemDoubleClicked.connect(self.__loadCommon)
         self.common_load.clicked.connect(self.__loadCommon)

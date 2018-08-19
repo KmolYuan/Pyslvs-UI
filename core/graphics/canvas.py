@@ -118,7 +118,7 @@ def graph2vpoints(
     ev = dict(edges_view(G))
     for i, e in ev.items():
         if i in same:
-            #Do not connect to anyone!
+            # Do not connect to anyone!
             link = ''
         else:
             e = set(e)
@@ -159,7 +159,7 @@ class BaseCanvas(QWidget):
     
     """The subclass can draw a blank canvas more easier."""
     
-    #Radius of canvas dot.
+    # Radius of canvas dot.
     RADIUS = 3
     
     def __init__(self, parent: QWidget):
@@ -171,29 +171,30 @@ class BaseCanvas(QWidget):
         ))
         self.setFocusPolicy(Qt.StrongFocus)
         
-        #Origin coordinate.
+        # Origin coordinate.
         self.ox = self.width() / 2
         self.oy = self.height() / 2
-        #Canvas zoom rate.
+        # Canvas zoom rate.
         self.rate = 2
         self.zoom = 2 * self.rate
-        #Joint size.
+        # Joint size.
         self.joint_size = 5
-        #Canvas line width.
+        # Canvas line width.
         self.link_width = 3
         self.path_width = 3
-        #Font size.
+        # Font size.
         self.font_size = 15
-        #Show point mark or dimension.
+        # Show point mark or dimension.
         self.show_point_mark = True
         self.show_dimension = True
-        #Path track.
+        # Path track.
         self.Path = _Path()
-        #Path solving.
+        # Path solving.
         self.target_path = {}
         self.show_target_path = False
-        #Background
+        # Background
         self.background = QImage()
+        self.background_opacity = 1.
         self.background_scale = 1
         self.background_offset = QPointF(0, 0)
     
@@ -204,11 +205,12 @@ class BaseCanvas(QWidget):
         self.painter = QPainter()
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
-        #Translation
+        # Translation
         self.painter.translate(self.ox, self.oy)
-        #Background
+        # Background
         if not self.background.isNull():
             rect = self.background.rect()
+            self.painter.setOpacity(self.background_opacity)
             self.painter.drawImage(
                 QRectF(self.background_offset * self.zoom, QSizeF(
                     rect.width() * self.background_scale * self.zoom,
@@ -217,12 +219,13 @@ class BaseCanvas(QWidget):
                 self.background,
                 QRectF(rect)
             )
-        #Show frame.
+            self.painter.setOpacity(1)
+        # Show frame.
         pen = QPen(Qt.blue)
         pen.setWidth(1)
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Arial", self.font_size))
-        #Draw origin lines.
+        # Draw origin lines.
         pen.setColor(Qt.gray)
         self.painter.setPen(pen)
         x_l = -self.ox
@@ -246,8 +249,8 @@ class BaseCanvas(QWidget):
                 QPointF(0, y) * self.zoom,
                 QPointF(10 if y % 10 == 0 else 5, y * self.zoom)
             )
-        #Please to call the "end" method when ending paint event.
-        #self.painter.end()
+        # Please to call the "end" method when ending paint event.
+        # self.painter.end()
     
     def drawPoint(self,
         i: int,
@@ -265,7 +268,7 @@ class BaseCanvas(QWidget):
         if fix:
             bottom = y + 20
             width = 10
-            #Draw a triangle below.
+            # Draw a triangle below.
             self.painter.drawPolygon(
                 QPointF(x, y),
                 QPointF(x - width, bottom),
@@ -346,13 +349,13 @@ class BaseCanvas(QWidget):
         ))
         if not text:
             return
-        #Font
+        # Font
         font = self.painter.font()
         font_copy = QFont(font)
         font.setBold(True)
         font.setPointSize(font.pointSize() + 8)
         self.painter.setFont(font)
-        #Color
+        # Color
         pen = self.painter.pen()
         color = pen.color()
         pen.setColor(color.darker())
@@ -528,25 +531,25 @@ class PreviewCanvas(BaseCanvas):
         pen.setWidth(self.RADIUS)
         self.painter.setPen(pen)
         self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
-        #Links
+        # Links
         for link in self.G.nodes:
             if link == self.grounded:
                 continue
             points = []
-            #Points that is belong with the link.
+            # Points that is belong with the link.
             for num, edge in edges_view(self.G):
                 if link in edge:
                     if num in self.same:
                         num = self.same[num]
                     x, y = self.pos[num]
                     points.append((x * self.zoom, y * -self.zoom))
-            #Customize points.
+            # Customize points.
             for name, link_ in self.cus.items():
                 if link == link_:
                     x, y = self.pos[int(name.replace('P', ''))]
                     points.append((x * self.zoom, y * -self.zoom))
             self.painter.drawPolygon(*convex_hull(points, as_qpoint=True))
-        #Nodes
+        # Nodes
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
@@ -569,7 +572,7 @@ class PreviewCanvas(BaseCanvas):
             self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
-        #Solutions
+        # Solutions
         if self.showSolutions:
             solutions = self.get_solutions()
             if solutions:
@@ -580,7 +583,7 @@ class PreviewCanvas(BaseCanvas):
                         io.strbetween(expr, '(', ')'),
                         self.pos
                     )
-        #Text of node.
+        # Text of node.
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
         for node, (x, y) in self.pos.items():
@@ -653,12 +656,12 @@ class PreviewCanvas(BaseCanvas):
     
     def from_profile(self, params: Dict[str, Any]):
         """Simple load by dict object."""
-        #Add customize joints.
+        # Add customize joints.
         G = Graph(params['Graph'])
         self.setGraph(G, params['pos'])
         self.cus = params['cus']
         self.same = params['same']
-        #Grounded setting.
+        # Grounded setting.
         Driver = set(params['Driver'])
         Follower = set(params['Follower'])
         for row, link in enumerate(G.nodes):
@@ -666,7 +669,7 @@ class PreviewCanvas(BaseCanvas):
             if (Driver | Follower) <= points:
                 self.setGrounded(row)
                 break
-        #Expression
+        # Expression
         if params['Expression']:
             for expr in params['Expression'].split(';'):
                 self.setStatus(io.strbetween(expr, '(', ')'), True)

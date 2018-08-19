@@ -77,7 +77,7 @@ class WorkerThread(QThread):
         for self.currentLoop in range(self.loop):
             print(f"Algorithm [{self.currentLoop + 1}]: {self.type_num}")
             if self.stoped:
-                #Cancel the remaining tasks.
+                # Cancel the remaining tasks.
                 print("Canceled.")
                 continue
             mechanism, time_spand = self.__algorithm()

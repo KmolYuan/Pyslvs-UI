@@ -85,22 +85,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         
-        #Undo stack streem.
+        # Undo stack streem.
         self.CommandStack = QUndoStack(self)
         
-        #Initialize custom UI.
+        # Initialize custom UI.
         initCustomWidgets(self)
         self.restoreSettings()
         
-        #Console widget.
+        # Console widget.
         self.consoleerror_option.setChecked(ARGUMENTS.debug_mode)
         if not ARGUMENTS.debug_mode:
             self.__consoleConnect()
         
-        #Start first solve function calling.
+        # Start first solve function calling.
         self.solve()
         
-        #Load workbook from argument.
+        # Load workbook from argument.
         _io.readFromArgs(self)
     
     def show(self):
@@ -158,15 +158,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return _solver.getGraph(self)
     
     def getCollection(self) -> Dict[str, Union[
-        Dict[str, None], #Driver
-        Dict[str, None], #Follower
-        Dict[str, List[Tuple[float, float]]], #Target
-        str, #Link_expr
-        str, #Expression
-        Tuple[Tuple[int, int]], #Graph
-        Dict[int, Tuple[float, float]], #pos
-        Dict[str, int], #cus
-        Dict[int, int] #same
+        Dict[str, None], # Driver
+        Dict[str, None], # Follower
+        Dict[str, List[Tuple[float, float]]], # Target
+        str, # Link_expr
+        str, # Expression
+        Tuple[Tuple[int, int]], # Graph
+        Dict[int, Tuple[float, float]], # pos
+        Dict[str, int], # cus
+        Dict[int, int] # same
     ]]:
         return _solver.getCollection(self)
     
@@ -228,7 +228,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def mergeResult(self, row: int, path: Tuple[Tuple[float, float]]):
         """Merge result function of dimensional synthesis."""
         result = self.DimensionalSynthesis.mechanismData(row)
-        #exp_symbol = ['A', 'B', 'C', 'D', 'E']
+        # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in result['Link_expr'].split(';'):
             for name in strbetween(exp, '[', ']').split(','):
@@ -252,7 +252,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if i == 0:
                 self.constrainLink(self.EntitiesLink.rowCount()-1)
         self.CommandStack.endMacro()
-        #Add the path.
+        # Add the path.
         i = 0
         while f"Algorithm_{i}" in self.InputsWidget.pathData():
             i += 1
@@ -262,7 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, name='on_EntitiesTab_currentChanged')
     def __setSelectionMode(self, index: int):
         """Connect selection signal for main canvas."""
-        #Set selection from click table items.
+        # Set selection from click table items.
         tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
         try:
             for table in tables:
@@ -270,7 +270,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except TypeError:
             pass
         tables[index].rowSelectionChanged.connect(self.MainCanvas.setSelection)
-        #Double click signal.
+        # Double click signal.
         try:
             self.MainCanvas.doubleclick_edit.disconnect()
         except TypeError:
@@ -279,7 +279,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.MainCanvas.doubleclick_edit.connect(self.editPoint)
         elif index == 1:
             self.MainCanvas.doubleclick_edit.connect(self.editLink)
-        #Clear all selections.
+        # Clear all selections.
         for table in tables:
             table.clearSelection()
         self.InputsWidget.clearSelection()

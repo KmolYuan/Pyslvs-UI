@@ -149,10 +149,10 @@ class SlvsOutputDialog(_OutputDialog):
             self.exist_warning(file_name)
             return
         
-        #Wire frame
+        # Wire frame
         slvs_frame(self.vpoints, self.v_to_slvs, file_name)
         
-        #Open Solvespace by commend line if available.
+        # Open Solvespace by commend line if available.
         cmd = shutil.which("solvespace")
         if cmd:
             Popen([cmd , file_name], stdout=DEVNULL, stderr=DEVNULL)
@@ -161,7 +161,7 @@ class SlvsOutputDialog(_OutputDialog):
             self.accept()
             return
         
-        #Assembly
+        # Assembly
         vlinks = {}
         for i, vpoint in enumerate(self.vpoints):
             for link in vpoint.links:
@@ -196,7 +196,7 @@ class DxfOutputDialog(_OutputDialog):
             "There is only wire frame will be generated.",
             *args
         )
-        #DXF version option.
+        # DXF version option.
         version_label = QLabel("DXF version:", self)
         self.version_option = QComboBox(self)
         self.version_option.addItems(sorted((
@@ -211,7 +211,7 @@ class DxfOutputDialog(_OutputDialog):
         dxf_version_layout.addWidget(version_label)
         dxf_version_layout.addWidget(self.version_option)
         self.main_layout.insertLayout(3, dxf_version_layout)
-        #Parts interval.
+        # Parts interval.
         self.interval_enable = QCheckBox("Parts interval:", self)
         self.interval_enable.setCheckState(Qt.Checked)
         self.interval_option = QDoubleSpinBox(self)
@@ -239,7 +239,7 @@ class DxfOutputDialog(_OutputDialog):
         version = self.version_option.currentText().split()[0]
         
         if self.frame_radio.isChecked():
-            #Frame
+            # Frame
             dxf_frame(
                 self.vpoints,
                 self.v_to_slvs,
@@ -247,7 +247,7 @@ class DxfOutputDialog(_OutputDialog):
                 file_name
             )
         elif self.assembly_radio.isChecked():
-            #Boundary
+            # Boundary
             dxf_boundary(
                 self.vpoints,
                 self.link_radius.value(),

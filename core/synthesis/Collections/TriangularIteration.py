@@ -118,10 +118,10 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.getCollection = parent.getCollection
         self.addCollection = addCollection
         
-        #Iteration data.
+        # Iteration data.
         self.collections = {}
         
-        #Customized preview canvas.
+        # Customized preview canvas.
         self.PreviewWindow = _PreviewWindow(
             lambda: ';'.join(
                 self.expression_list.item(row).text()
@@ -135,7 +135,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
         
-        #Signals
+        # Signals
         self.joint_name.currentIndexChanged.connect(self.__hasSolution)
         self.clear()
     
@@ -213,7 +213,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         for link in links:
             points_text = ", ".join(f'P{node}' for node in link)
             self.grounded_list.addItem(f"({points_text})")
-        #Point name as (P1, P2, P3, ...).
+        # Point name as (P1, P2, P3, ...).
         for node in pos:
             self.joint_name.addItem(f'P{node}')
     
@@ -347,13 +347,13 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """Get the current mechanism parameters."""
         self.__setParmBind()
         return {
-            #To keep the origin graph.
+            # To keep the origin graph.
             'Graph': tuple(self.PreviewWindow.G.edges),
-            #To keep the position of points.
+            # To keep the position of points.
             'pos': self.PreviewWindow.pos.copy(),
             'cus': self.PreviewWindow.cus.copy(),
             'same': self.PreviewWindow.same.copy(),
-            #Mechanism params.
+            # Mechanism params.
             'Driver': {
                 s.split(',')[0][1:]: None for s in list_texts(self.driver_list)
                 if not self.PreviewWindow.isMultiple(s.split(',')[0][1:])
@@ -386,12 +386,12 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             return
         self.profile_name = dlg.name()
         params = dlg.params()
-        #Add customize joints.
+        # Add customize joints.
         G = Graph(params['Graph'])
         self.setGraph(G, params['pos'])
         self.PreviewWindow.cus = params['cus']
         self.PreviewWindow.same = params['same']
-        #Grounded setting.
+        # Grounded setting.
         drivers = set(params['Driver'])
         followers = set(params['Follower'])
         for row, link in enumerate(G.nodes):
@@ -399,7 +399,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             if (drivers | followers) <= points:
                 self.__setGround(row)
                 break
-        #Driver, Follower, Target
+        # Driver, Follower, Target
         for expr in params['Expression'].split(';'):
             if strbefore(expr, '[') != 'PLAP':
                 continue
@@ -410,11 +410,11 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.__setWarning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
         self.__setWarning(self.target_label, not self.target_list.count() > 0)
-        #Constraints
+        # Constraints
         self.constraint_list.addItems([
             ", ".join(c) for c in params['constraints']
         ])
-        #Expression
+        # Expression
         if params['Expression']:
             for expr in params['Expression'].split(';'):
                 func = strbefore(expr, '[')
@@ -524,7 +524,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         for row, gs in list_texts(self.grounded_list, True):
             try:
                 link_expr = []
-                #Links from grounded list.
+                # Links from grounded list.
                 for name in gs.replace('(', '').replace(')', '').split(", "):
                     if self.PreviewWindow.isMultiple(name):
                         i = self.PreviewWindow.same[int(name.replace('P', ''))]
@@ -533,7 +533,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             except KeyError:
                 continue
             else:
-                #Customize joints.
+                # Customize joints.
                 for joint, link in self.PreviewWindow.cus.items():
                     if row == link:
                         link_expr.append(joint)

@@ -41,7 +41,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         
         self.mechanisms = []
         
-        #Batch label.
+        # Batch label.
         if 'maxGen' in setting:
             self.limit = setting['maxGen']
             if self.limit > 0:
@@ -63,13 +63,13 @@ class ProgressDialog(QDialog, Ui_Dialog):
             self.limit_mode = 'maxTime'
         self.loopTime.setEnabled(self.limit > 0)
         
-        #Timer.
+        # Timer.
         self.time = 0
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__setTime)
         
-        #Worker thread.
+        # Worker thread.
         self.work = WorkerThread(type_num, mech_params, setting)
         self.work.progress_update.connect(self.__setProgress)
         self.work.result.connect(self.__getResult)
@@ -99,7 +99,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         """Start the proccess."""
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
-        #Progress bar will show generations instead of percent.
+        # Progress bar will show generations instead of percent.
         if (self.limit_mode in ('minFit', 'maxTime')) or (self.limit == 0):
             self.progressBar.setFormat("%v generations")
         self.work.setLoop(loop)

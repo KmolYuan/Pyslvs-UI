@@ -83,10 +83,10 @@ def _undo_redo(self):
 
 def _appearance(self):
     """Start up and initialize custom widgets."""
-    #Version label
+    # Version label
     self.version_label.setText(f"v{_major}.{_minor}.{_build} ({_label})")
     
-    #Entities tables.
+    # Entities tables.
     self.EntitiesTab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
     self.EntitiesPoint = PointTableWidget(self.EntitiesPoint_widget)
     self.EntitiesPoint.cellDoubleClicked.connect(self.editPoint)
@@ -101,7 +101,7 @@ def _appearance(self):
     self.EntitiesExpr.freemove_request.connect(self.setLinkFreemove)
     self.EntitiesExpr_layout.insertWidget(0, self.EntitiesExpr)
     
-    #Link free mode slide bar.
+    # Link free mode slide bar.
     self.link_freemode_slider.valueChanged.connect(
         self.link_freemode_spinbox.setValue
     )
@@ -112,7 +112,7 @@ def _appearance(self):
         self.link_freemode_spinbox.setRange
     )
     
-    #Select all button on the Point and Link tab as corner widget.
+    # Select all button on the Point and Link tab as corner widget.
     select_all_button = QPushButton()
     select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
     select_all_button.setToolTip("Select all")
@@ -132,14 +132,14 @@ def _appearance(self):
     select_all_action.setShortcutContext(Qt.WindowShortcut)
     self.addAction(select_all_action)
     
-    #Selection label on status bar right side.
+    # Selection label on status bar right side.
     selectionLabel = SelectionLabel(self)
     self.EntitiesPoint.selectionLabelUpdate.connect(
         selectionLabel.updateSelectPoint
     )
     self.statusBar.addPermanentWidget(selectionLabel)
     
-    #QPainter canvas window
+    # QPainter canvas window
     self.MainCanvas = DynamicCanvas(self)
     self.EntitiesTab.currentChanged.connect(self.MainCanvas.setSelectionMode)
     
@@ -175,7 +175,7 @@ def _appearance(self):
     self.canvasSplitter.insertWidget(0, self.MainCanvas)
     self.canvasSplitter.setSizes([600, 10, 30])
     
-    #Inputs widget.
+    # Inputs widget.
     self.InputsWidget = InputsWidget(self)
     self.inputs_tab_layout.addWidget(self.InputsWidget)
     self.freemode_button.toggled.connect(self.InputsWidget.variableValueReset)
@@ -192,7 +192,7 @@ def _appearance(self):
     self.MainCanvas.noselected.connect(self.InputsWidget.clearSelection)
     self.InputsWidget.update_preview_button.clicked.connect(self.MainCanvas.updatePreviewPath)
     
-    #Number and type synthesis.
+    # Number and type synthesis.
     self.StructureSynthesis = StructureSynthesis(self)
     self.SynthesisTab.addTab(
         self.StructureSynthesis,
@@ -200,7 +200,7 @@ def _appearance(self):
         "Structural"
     )
     
-    #Synthesis collections
+    # Synthesis collections
     self.CollectionTabPage = Collections(self)
     self.SynthesisTab.addTab(
         self.CollectionTabPage,
@@ -211,7 +211,7 @@ def _appearance(self):
         self.CollectionTabPage.StructureWidget.addCollection
     )
     
-    #Dimensional synthesis
+    # Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.SynthesisTab.addTab(
         self.DimensionalSynthesis,
@@ -219,30 +219,30 @@ def _appearance(self):
         "Dimensional"
     )
     
-    #File table settings.
+    # File table settings.
     self.FileWidget = FileWidget(self)
     self.SCMLayout.addWidget(self.FileWidget)
     self.FileWidget.commit_add.clicked.connect(self.save)
     self.FileWidget.branch_add.clicked.connect(self.saveBranch)
     self.action_Stash.triggered.connect(self.FileWidget.stash)
     
-    #Console dock will hide when startup.
+    # Console dock will hide when startup.
     self.ConsoleWidget.hide()
     
-    #Connect to GUI button switching.
+    # Connect to GUI button switching.
     self.console_disconnect_button.setEnabled(not ARGUMENTS.debug_mode)
     self.console_connect_button.setEnabled(ARGUMENTS.debug_mode)
     
-    #Splitter stretch factor.
+    # Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)
     self.MainSplitter.setStretchFactor(1, 15)
     self.MechanismPanelSplitter.setSizes([500, 200])
     self.synthesis_splitter.setSizes([100, 500])
     
-    #Enable mechanism menu actions when shows.
+    # Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMechanismActions)
     
-    #Start new window.
+    # Start new window.
     @pyqtSlot()
     def newMainWindow():
         run = self.__class__()
@@ -284,7 +284,7 @@ def _freemove(self):
             self.freemode_disable = action
     self.freemode_button.setMenu(free_move_mode_menu)
     
-    #Link free move by expression table.
+    # Link free move by expression table.
     self.link_freemode_slider.sliderReleased.connect(
         self.MainCanvas.emit_freemove_all
     )
@@ -297,7 +297,7 @@ def _options(self):
     + Combo boxes
     + Check boxes
     """
-    #While value change, update the canvas widget.
+    # While value change, update the canvas widget.
     self.settings = QSettings('Kmol', 'Pyslvs')
     self.ZoomBar.valueChanged.connect(self.MainCanvas.setZoom)
     self.linewidth_option.valueChanged.connect(self.MainCanvas.setLinkWidth)
@@ -313,10 +313,11 @@ def _options(self):
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
     self.showfps_option.toggled.connect(self.MainCanvas.setShowFPS)
     self.background_option.textChanged.connect(self.MainCanvas.setBackground)
+    self.background_opacity_option.valueChanged.connect(self.MainCanvas.setBackgroundOpacity)
     self.background_scale_option.valueChanged.connect(self.MainCanvas.setBackgroundScale)
     self.background_offset_x_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetX)
     self.background_offset_y_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetY)
-    #Resolve after change current kernel.
+    # Resolve after change current kernel.
     self.planarsolver_option.addItems(kernel_list)
     self.pathpreview_option.addItems(kernel_list)
     self.planarsolver_option.currentIndexChanged.connect(self.solve)
@@ -392,7 +393,7 @@ def _point_context_menu(self):
     self.action_point_context_add = QAction("&Add", self)
     self.action_point_context_add.triggered.connect(self.newPoint)
     self.popMenu_point.addAction(self.action_point_context_add)
-    #New Link
+    # New Link
     self.popMenu_point.addAction(self.action_New_Link)
     self.action_point_context_edit = QAction("&Edit", self)
     self.action_point_context_edit.triggered.connect(self.editPoint)
@@ -496,7 +497,7 @@ def _canvas_context_menu(self):
     self.action_canvas_context_add = QAction("&Add", self)
     self.action_canvas_context_add.triggered.connect(self.addNormalPoint)
     self.popMenu_canvas_p.addAction(self.action_canvas_context_add)
-    #New Link
+    # New Link
     self.popMenu_canvas_p.addAction(self.action_New_Link)
     self.action_canvas_context_grounded_add = QAction("Add [grounded]", self)
     self.action_canvas_context_grounded_add.triggered.connect(
@@ -508,7 +509,7 @@ def _canvas_context_menu(self):
         self.addTargetPoint
     )
     self.popMenu_canvas_p.addAction(self.action_canvas_context_path)
-    #The following actions will be shown when points selected.
+    # The following actions will be shown when points selected.
     self.popMenu_canvas_p.addAction(self.action_point_context_edit)
     self.popMenu_canvas_p.addAction(self.action_point_context_lock)
     self.popMenu_canvas_p.addMenu(self.popMenu_point_merge)

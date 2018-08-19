@@ -124,10 +124,10 @@ class LoadCommitButton(QPushButton):
     def __init__(self, id: int, parent: QWidget):
         super(LoadCommitButton, self).__init__(
             QIcon(QPixmap(":icons/dataupdate.png")),
-            f" #{id}",
+            f" # {id}",
             parent
         )
-        self.setToolTip(f"Reset to commit #{id}.")
+        self.setToolTip(f"Reset to commit # {id}.")
         self.id = id
     
     def mouseReleaseEvent(self, event):
@@ -195,37 +195,37 @@ class FileWidget(QWidget, Ui_Form):
         self.clearFunc = parent.clear
         self.addStoragesFunc = parent.addStorages
         
-        #Call to get collections data.
+        # Call to get collections data.
         self.CollectDataFunc = parent.CollectionTabPage.CollectDataFunc
-        #Call to get triangle data.
+        # Call to get triangle data.
         self.TriangleDataFunc = parent.CollectionTabPage.TriangleDataFunc
-        #Call to get inputs variables data.
+        # Call to get inputs variables data.
         self.InputsDataFunc = parent.InputsWidget.inputPair
-        #Call to get algorithm data.
+        # Call to get algorithm data.
         self.AlgorithmDataFunc = parent.DimensionalSynthesis.mechanismData
-        #Call to get path data.
+        # Call to get path data.
         self.pathDataFunc = parent.InputsWidget.pathData
-        #Call to load collections data.
+        # Call to load collections data.
         self.loadCollectFunc = parent.CollectionTabPage.StructureWidget.addCollections
-        #Call to load triangle data.
+        # Call to load triangle data.
         self.loadTriangleFunc = parent.CollectionTabPage.TriangularIterationWidget.addCollections
-        #Call to load inputs variables data.
+        # Call to load inputs variables data.
         self.loadInputsFunc = parent.InputsWidget.addInputsVariables
-        #Call after loaded algorithm results.
+        # Call after loaded algorithm results.
         self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults
-        #Call after loaded paths.
+        # Call after loaded paths.
         self.loadPathFunc = parent.InputsWidget.loadPaths
         
-        #Close database when destroyed.
+        # Close database when destroyed.
         self.destroyed.connect(self.__closeDatabase)
-        #Undo Stack
+        # Undo Stack
         self.commandClear = parent.CommandStack.clear
-        #Reset
+        # Reset
         self.reset()
     
     def reset(self):
         """Clear all the things that dependent on database."""
-        #peewee Quary(CommitModel) type
+        # peewee Quary(CommitModel) type
         self.history_commit = None
         self.Script = ""
         self.file_name = QFileInfo("Untitled")
@@ -471,32 +471,32 @@ class FileWidget(QWidget, Ui_Form):
         """Load the commit pointer."""
         if self.checkFileChanged():
             return
-        #Reset the main window status.
+        # Reset the main window status.
         self.clearFunc()
-        #Load the commit to widgets.
-        print(f"Loading commit #{commit.id}.")
+        # Load the commit to widgets.
+        print(f"Loading commit # {commit.id}.")
         self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
-        #Load the expression.
+        # Load the expression.
         self.addLinksFunc(_decompress(commit.linkcolor))
         self.parseFunc(_decompress(commit.mechanism))
-        #Load the storages.
+        # Load the storages.
         self.addStoragesFunc(_decompress(commit.storage))
-        #Load pathdata.
+        # Load pathdata.
         self.loadPathFunc(_decompress(commit.pathdata))
-        #Load collectiondata.
+        # Load collectiondata.
         self.loadCollectFunc(_decompress(commit.collectiondata))
-        #Load triangledata.
+        # Load triangledata.
         self.loadTriangleFunc(_decompress(commit.triangledata))
-        #Load inputsdata.
+        # Load inputsdata.
         self.loadInputsFunc(_decompress(commit.inputsdata))
-        #Load algorithmdata.
+        # Load algorithmdata.
         self.loadAlgorithmFunc(_decompress(commit.algorithmdata))
-        #Workbook loaded.
+        # Workbook loaded.
         self.isSavedFunc()
         print("The specified phase has been loaded.")
-        #Show overview dialog.
+        # Show overview dialog.
         dlg = WorkbookOverview(commit, _decompress, self)
         dlg.show()
         dlg.exec_()
@@ -515,7 +515,7 @@ class FileWidget(QWidget, Ui_Form):
         """Load example to new workbook."""
         if self.checkFileChanged():
             return False
-        #load example by expression.
+        # load example by expression.
         example_name, ok = QInputDialog.getItem(self,
             "Examples",
             "Select an example to load:",
@@ -531,7 +531,7 @@ class FileWidget(QWidget, Ui_Form):
             self.clearFunc()
         self.parseFunc(expr)
         if not isImport:
-            #Import without input data.
+            # Import without input data.
             self.loadInputsFunc(inputs)
         self.file_name = QFileInfo(example_name)
         self.isSavedFunc()
@@ -584,7 +584,7 @@ class FileWidget(QWidget, Ui_Form):
             )
             return
         file_name = self.file_name.absoluteFilePath()
-        #Connect on database to remove all the commit in this branch.
+        # Connect on database to remove all the commit in this branch.
         with _db.atomic():
             (CommitModel
                 .delete()
@@ -601,5 +601,5 @@ class FileWidget(QWidget, Ui_Form):
                 .execute())
         _db.close()
         print(f"Branch {branch_name} was deleted.")
-        #Reload database.
+        # Reload database.
         self.read(file_name)

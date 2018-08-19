@@ -33,7 +33,7 @@ class RotatableView(QGraphicsView):
         item.setNotchesVisible(True)
         graphics_item = scene.addWidget(item)
         graphics_item.setRotation(-90)
-        #make the QGraphicsView invisible.
+        # make the QGraphicsView invisible.
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setFixedHeight(item.height())

@@ -157,7 +157,7 @@ class EditPointTable(QUndoCommand):
         self.link_table = link_table
         self.args = tuple(args)
         self.old_args = self.point_table.rowTexts(row)
-        #Tuple[str] -> Set[str]
+        # Tuple[str] -> Set[str]
         new_links = set(self.args[0].split(','))
         old_links = set(self.old_args[0].split(','))
         self.new_link_items = []
@@ -225,7 +225,7 @@ class EditLinkTable(QUndoCommand):
         self.point_table = point_table
         self.args = tuple(args)
         self.old_args = self.link_table.rowTexts(row, hasName=True)
-        #Points: Tuple[int]
+        # Points: Tuple[int]
         newPoints = self.args[2].split(',')
         oldPoints = self.old_args[2].split(',')
         newPoints = set(

@@ -32,7 +32,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         
-        #Get the current path from parent widget.
+        # Get the current path from parent widget.
         self.path = parent.currentPath()
         
         self.r_path = []
@@ -73,7 +73,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         def polyfit(x: List[float], y: List[float], d: int):
             """Return a 2D fitting equation."""
             coeffs = np.polyfit(x, y, d)
-            #Fit values and mean.
+            # Fit values and mean.
             yhat = np.poly1d(coeffs)(x)
             ybar = np.sum(y) / len(y)
             

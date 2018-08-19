@@ -66,7 +66,7 @@ def resolve(self):
                 tuple(self.InputsWidget.inputPair())
             )
     except Exception as e:
-        #Error: Show warning without update data.
+        # Error: Show warning without update data.
         if self.consoleerror_option.isChecked():
             print(traceback.format_exc())
         self.ConflictGuide.setToolTip(str(e))
@@ -74,7 +74,7 @@ def resolve(self):
         self.ConflictGuide.setVisible(True)
         self.DOFview.setVisible(False)
     else:
-        #Done: Update coordinate data.
+        # Done: Update coordinate data.
         self.EntitiesPoint.updateCurrentPosition(result)
         self.DOF = vpoint_dof(vpoints)
         self.DOFview.setText(f"{self.DOF} ({self.InputsWidget.inputCount()})")
@@ -95,7 +95,7 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
     interval_o = self.InputsWidget.interval()
     nan = float('nan')
     
-    #path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
+    # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
     autopreview.clear()
     for i in range(vpoint_count):
         autopreview.append([])
@@ -109,11 +109,11 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
         angles_o.append(v[2])
     
     i_count = self.InputsWidget.inputCount()
-    #Cumulative angle
+    # Cumulative angle
     angles_cum = [0.] * i_count
     
     for interval in (interval_o, -interval_o):
-        #Driver pointer
+        # Driver pointer
         dp = 0
         angles = angles_o.copy()
         while dp < i_count:
@@ -137,14 +137,14 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
                         tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
                     )
             except Exception:
-                #Update with error sign.
+                # Update with error sign.
                 for i in range(vpoint_count):
                     autopreview[i].append((nan, nan))
-                #Back to last feasible solution.
+                # Back to last feasible solution.
                 angles[dp] -= interval
                 dp += 1
             else:
-                #Update with result.
+                # Update with result.
                 for i in range(vpoint_count):
                     if type(result[i][0]) == tuple:
                         autopreview[i].append(result[i][1])
@@ -168,10 +168,10 @@ def getGraph(self) -> List[Tuple[int, int]]:
     vpoints = self.EntitiesPoint.dataTuple()
     vlinks = self.EntitiesLink.dataTuple()
     G = Graph()
-    # links name for RP joint.
+    #  links name for RP joint.
     k = len(vlinks)
     used_point = set()
-    #Link names will change to index number.
+    # Link names will change to index number.
     for i, vlink in enumerate(vlinks):
         for p in vlink.points:
             if p in used_point:
@@ -190,15 +190,15 @@ def getGraph(self) -> List[Tuple[int, int]]:
 
 
 def getCollection(self) -> Dict[str, Union[
-    Dict[str, None], #Driver
-    Dict[str, None], #Follower
-    Dict[str, List[Tuple[float, float]]], #Target
-    str, #Link_expr
-    str, #Expression
-    Tuple[Tuple[int, int]], #Graph
-    Dict[int, Tuple[float, float]], #pos
-    Dict[str, int], #cus
-    Dict[int, int] #same
+    Dict[str, None], # Driver
+    Dict[str, None], # Follower
+    Dict[str, List[Tuple[float, float]]], # Target
+    str, # Link_expr
+    str, # Expression
+    Tuple[Tuple[int, int]], # Graph
+    Dict[int, Tuple[float, float]], # pos
+    Dict[str, int], # cus
+    Dict[int, int] # same
 ]]:
     """Return collection data.
     
@@ -245,7 +245,7 @@ def getCollection(self) -> Dict[str, Union[
         if len(vpoint.links) < 2:
             continue
         j = find({link_names.index(link) for link in vpoint.links})
-        #Set position.
+        # Set position.
         pos[j] = vpoint.c[0]
         ok, index = haslink(j)
         if ok:

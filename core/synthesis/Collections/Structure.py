@@ -340,7 +340,7 @@ class StructureWidget(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Delete",
-            f"Sure to remove #{row} from your collections?"
+            f"Sure to remove # {row} from your collections?"
         )
         if reply != QMessageBox.Yes:
             return

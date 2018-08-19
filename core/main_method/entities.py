@@ -430,14 +430,14 @@ def releaseGround(self):
     name = _getLinkSerialNumber(self)
     args = [name, 'Blue', self.EntitiesLink.item(0, 2).text()]
     self.CommandStack.beginMacro(f"Release ground to {{Link: {name}}}")
-    #Free all points.
+    # Free all points.
     self.CommandStack.push(EditLinkTable(
         0,
         self.EntitiesLink,
         self.EntitiesPoint,
         ['ground', 'White', '']
     ))
-    #Create new link.
+    # Create new link.
     self.CommandStack.push(AddTable(self.EntitiesLink))
     self.CommandStack.push(EditLinkTable(
         self.EntitiesLink.rowCount() - 1,
@@ -462,14 +462,14 @@ def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
     baseArgs = self.EntitiesLink.rowTexts(row2, hasName=True)
     baseArgs[2] = ','.join(e for e in newPoints if e)
     self.CommandStack.beginMacro(f"Constrain {{Link: {name}}} to ground")
-    #Turn to ground.
+    # Turn to ground.
     self.CommandStack.push(EditLinkTable(
         row2,
         self.EntitiesLink,
         self.EntitiesPoint,
         baseArgs
     ))
-    #Free all points and delete the link.
+    # Free all points and delete the link.
     self.CommandStack.push(EditLinkTable(
         row1,
         self.EntitiesLink,

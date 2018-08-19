@@ -48,7 +48,7 @@ class SlvsParser:
         """Read and return group names."""
         groups = []
         for group in self.groups:
-            #Number code and group name.
+            # Number code and group name.
             groups.append((
                 group['Group.h.v'],
                 "".join(x for x in group['Group.name'] if x.isalnum() or (x in "._- "))
@@ -69,18 +69,18 @@ class SlvsParser:
             """Generate 16 bit interger."""
             return int(num, 16)
         
-        #Requests: Get all links.
+        # Requests: Get all links.
         requests = []
         for request in self.requests:
             if request['Request.group.v'] == group:
-                #0x4 << 16 == 0x40000
+                # 0x4 << 16 == 0x40000
                 requests.append(int16(request['Request.h.v']) << 16)
         
         vlinks = {link: {link + 1, link + 2} for link in requests}
         vlinks[0] = set()
         
-        #Constraint: Adjacency.
-        #Grounded. Other links at least will greater than 4.
+        # Constraint: Adjacency.
+        # Grounded. Other links at least will greater than 4.
         for constraint in self.constraints:
             if constraint['Constraint.group.v'] != group:
                 continue
@@ -101,7 +101,7 @@ class SlvsParser:
                     pos[point] = None
         points = sorted(pos)
         
-        #Entities: Get positions.
+        # Entities: Get positions.
         for entity in self.entities:
             if entity['Entity.type'] == '2001':
                 num = int16(entity['Entity.h.v'])
@@ -111,7 +111,7 @@ class SlvsParser:
                         entity['Entity.actPoint.y'],
                     )
         
-        #Rename link names.
+        # Rename link names.
         for i, name in enumerate(sorted(vlinks)):
             if i == 0:
                 vlinks['ground'] = vlinks.pop(name)

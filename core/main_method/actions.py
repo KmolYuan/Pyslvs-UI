@@ -29,13 +29,13 @@ def _enablePointContext(self):
     """
     selection = self.EntitiesPoint.selectedRows()
     count = len(selection)
-    #If connecting with the ground.
+    # If connecting with the ground.
     if count:
         self.action_point_context_lock.setChecked(all(
             'ground' in self.EntitiesPoint.item(row, 1).text()
             for row in self.EntitiesPoint.selectedRows()
         ))
-    #If no any points selected.
+    # If no any points selected.
     for action in (
         self.action_point_context_add,
         self.action_canvas_context_add,
@@ -44,7 +44,7 @@ def _enablePointContext(self):
         action.setVisible(count == 0)
     self.action_point_context_lock.setVisible(count > 0)
     self.action_point_context_delete.setVisible(count > 0)
-    #If a point selected.
+    # If a point selected.
     for action in (
         self.action_point_context_edit,
         self.action_point_context_copyPoint,
@@ -52,7 +52,7 @@ def _enablePointContext(self):
         self.action_point_context_copyCoord,
     ):
         action.setVisible(count == 1)
-    #If two or more points selected.
+    # If two or more points selected.
     self.action_New_Link.setVisible(count > 1)
     self.popMenu_point_merge.menuAction().setVisible(count > 1)
     
@@ -208,10 +208,10 @@ def enableMechanismActions(self):
         (0 not in linkSelection) and
         (not ONE_LINK)
     )
-    #Edit
+    # Edit
     self.action_Edit_Point.setEnabled(ONE_POINT)
     self.action_Edit_Link.setEnabled(ONE_LINK)
-    #Delete
+    # Delete
     self.action_Delete_Point.setEnabled(POINT_SELECTED)
     self.action_Delete_Link.setEnabled(LINK_SELECTED)
 

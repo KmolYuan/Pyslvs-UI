@@ -58,53 +58,53 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
-        #The current mouse coordinates.
+        # The current mouse coordinates.
         self.selector = Selector()
-        #Entities.
+        # Entities.
         self.vpoints = ()
         self.vlinks = ()
         self.vangles = ()
-        #Solution.
+        # Solution.
         self.exprs = []
-        #Select function.
+        # Select function.
         self.select_mode = 0
         self.sr = 10
         self.selections = []
-        #Link transparency.
+        # Link transparency.
         self.transparency = 1.
-        #Path solving range.
+        # Path solving range.
         self.ranges = {}
-        #Set show_dimension to False.
+        # Set show_dimension to False.
         self.show_dimension = False
-        #Free move mode.
+        # Free move mode.
         self.freemove = FreeMode.NoFreeMove
-        #Path preview.
+        # Path preview.
         self.pathpreview = []
         self.previewpath = parent.previewpath
-        #Path record.
+        # Path record.
         self.path_record = []
-        #Zooming center.
-        # 0: By cursor.
-        # 1: By canvas center.
+        # Zooming center.
+        #  0: By cursor.
+        #  1: By canvas center.
         self.zoomby = 0
-        #Mouse snapping value.
+        # Mouse snapping value.
         self.snap = 5
-        #Dependent functions to set zoom bar.
+        # Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
         self.__zoom_factor = parent.scalefactor_option.value
-        #Dependent functions to set selection mode.
+        # Dependent functions to set selection mode.
         self.__setSelectionMode = parent.EntitiesTab.setCurrentIndex
         self.__selectionMode = parent.EntitiesTab.currentIndex
-        #Default margin factor.
+        # Default margin factor.
         self.margin_factor = 0.95
-        #Frame
+        # Frame
         self.show_fps = True
         self.t0 = time() - 1
         self.__frame_timer = QTimer(self)
         self.__frame_timer.timeout.connect(self.update)
         self.__frame_timer.start(1000)
-        #Widget size.
+        # Widget size.
         self.width_old = None
         self.height_old = None
     
@@ -234,6 +234,12 @@ class DynamicCanvas(BaseCanvas):
             self.update()
     
     @pyqtSlot(float)
+    def setBackgroundOpacity(self, opacity: float):
+        """Set opacity of background."""
+        self.background_opacity = opacity
+        self.update()
+    
+    @pyqtSlot(float)
     def setBackgroundScale(self, scale: float):
         """Set scale value of background."""
         self.background_scale = scale
@@ -339,7 +345,7 @@ class DynamicCanvas(BaseCanvas):
                 f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"
                 for j, icon in enumerate(('bearing', 'link', 'triangular-iteration'))
             )
-            QToolTip.showText(event.globalPos(), f"<p style=\"background-color: #77abff\">{icons}</p>", self)
+            QToolTip.showText(event.globalPos(), f"<p style=\"background-color: # 77abff\">{icons}</p>", self)
         else:
             self.__setZoom(self.__zoom() + self.__zoom_factor() * (1 if value > 0 else -1))
         event.accept()

@@ -49,7 +49,7 @@ class _DynamicCanvas(BaseCanvas):
         self.__path_count = max(len(path) for path in self.Path.path) - 1
         self.pos = []
         
-        #exp_symbol = ('A', 'B', 'C', 'D', 'E')
+        # exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = set()
         self.links = []
         for exp in self.mechanism['Link_expr'].split(';'):
@@ -61,10 +61,10 @@ class _DynamicCanvas(BaseCanvas):
             self.exp_symbol,
             key = lambda e: int(e.replace('P', ''))
         )
-        #Error
+        # Error
         self.ERROR = False
         self.__no_error = 0
-        #Timer start.
+        # Timer start.
         self.__timer = QTimer(self)
         self.__timer.timeout.connect(self.__change_index)
         self.__timer.start(18)
@@ -76,7 +76,7 @@ class _DynamicCanvas(BaseCanvas):
         x_left = -inf
         y_top = -inf
         y_bottom = inf
-        #Points
+        # Points
         for name in self.exp_symbol:
             x, y = self.mechanism[name]
             if x < x_right:
@@ -87,7 +87,7 @@ class _DynamicCanvas(BaseCanvas):
                 y_bottom = y
             if y > y_top:
                 y_top = y
-        #Paths
+        # Paths
         for i, path in enumerate(self.Path.path):
             if self.Path.show != -1 and self.Path.show != i:
                 continue
@@ -100,7 +100,7 @@ class _DynamicCanvas(BaseCanvas):
                     y_bottom = y
                 if y > y_top:
                     y_top = y
-        #Solving paths
+        # Solving paths
         for path in self.target_path.values():
             for x, y in path:
                 if x < x_right:
@@ -131,7 +131,7 @@ class _DynamicCanvas(BaseCanvas):
         self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         super(_DynamicCanvas, self).paintEvent(event)
         
-        #First check.
+        # First check.
         for path in self.Path.path:
             if not path:
                 continue
@@ -141,7 +141,7 @@ class _DynamicCanvas(BaseCanvas):
                 self.ERROR = True
                 self.__interval = -self.__interval
         
-        #Points that in the current angle section.
+        # Points that in the current angle section.
         self.pos.clear()
         for i, name in enumerate(self.exp_symbol):
             if (name in self.mechanism['Driver']) or (name in self.mechanism['Follower']):
@@ -150,17 +150,17 @@ class _DynamicCanvas(BaseCanvas):
                 x, y = self.Path.path[i][self.__index]
                 self.pos.append((x, y))
         
-        #Draw links.
+        # Draw links.
         for i, exp in enumerate(self.links):
             if i == 0:
                 continue
             name = f"link_{i}"
             self.__drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
-        #Draw path.
+        # Draw path.
         self.__drawPath()
-        #Draw solving path.
+        # Draw solving path.
         self.drawTargetPath()
-        #Draw points.
+        # Draw points.
         for i, name in enumerate(self.exp_symbol):
             if not self.pos[i]:
                 continue
@@ -268,7 +268,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.splitter.setSizes([100, 100, 100])
         previewWidget = _DynamicCanvas(mechanism, path, self)
         self.left_layout.insertWidget(0, previewWidget)
-        #Basic information
+        # Basic information
         link_tags = []
         for expr in mechanism['Expression'].split(';'):
             for p in strbetween(expr, '[', ']').split(','):
@@ -280,7 +280,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
             mechanism['Follower'],
             sorted(link_tags)
         )]))
-        #Algorithm information
+        # Algorithm information
         fitness = mechanism['TimeAndFitness'][-1]
         if mechanism['interrupted'] == 'False':
             interrupt_icon = "task-completed.png"
@@ -298,7 +298,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
             text_list.append(f"{k}: {v}")
         text = "<br/>".join(text_list)
         self.algorithm_label.setText(f"<html><head/><body><p>{text}</p></body></html>")
-        #Hardware information
+        # Hardware information
         self.hardware_label.setText("\n".join([
             f"{tag}: {mechanism['hardwareInfo'][tag]}" for tag in ('os', 'memory', 'cpu')
         ]))

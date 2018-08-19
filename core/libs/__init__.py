@@ -38,19 +38,19 @@ from .pyslvs import (
     example_list,
 )
 from .python_solvespace import (
-    #Entities & Constraint
+    # Entities & Constraint
     Point3d,
     Workplane,
     Normal3d,
     Point2d,
     LineSegment2d,
     Constraint,
-    #Result flags
+    # Result flags
     SLVS_RESULT_OKAY,
     SLVS_RESULT_INCONSISTENT,
     SLVS_RESULT_DIDNT_CONVERGE,
     SLVS_RESULT_TOO_MANY_UNKNOWNS,
-    #System base
+    # System base
     System,
     groupNum,
     Slvs_MakeQuaternion,
@@ -126,7 +126,7 @@ def create2DSystem(num: int) -> Tuple[System, Workplane, LineSegment2d]:
         sys.add_param(0.)
     )
     Constraint.dragged(wp1, vp)
-    #Name 'ground' is a horizontal line through (0, 0) and (10, 0).
+    # Name 'ground' is a horizontal line through (0, 0) and (10, 0).
     h_line = LineSegment2d(wp1, origin2d, hp)
     sys.default_group = groupNum(2)
     return sys, wp1, h_line
@@ -140,7 +140,7 @@ def slvsProcess(
     if not vpoints:
         return [], 0
     
-    #Define VLinks here.
+    # Define VLinks here.
     vlinks = {}
     for i, vpoint in enumerate(vpoints):
         for linkName in vpoint.links:
@@ -150,7 +150,7 @@ def slvsProcess(
             else:
                 vlinks[linkName] = [i]
     
-    #Limitation of Solvespacce kernel sys.
+    # Limitation of Solvespacce kernel sys.
     point_count = 0
     slider_count = 0
     for vpoint in vpoints:
@@ -168,14 +168,14 @@ def slvsProcess(
         This is the point recorded in the table.
         """
         if vpoint.type == 0:
-            #Has only one coordinate.
+            # Has only one coordinate.
             solved_points.append(Point2d(
                 wp1,
                 sys.add_param(vpoint.cx),
                 sys.add_param(vpoint.cy)
             ))
         elif (vpoint.type == 1) or (vpoint.type == 2):
-            #Has two coordinates.
+            # Has two coordinates.
             solved_points.append((
                 Point2d(
                     wp1,
@@ -231,11 +231,11 @@ def slvsProcess(
                 else:
                     Constraint.angle(wp1, angle_base, l_link, l_slot)
             
-            #The slot has an angle with base link.
+            # The slot has an angle with base link.
             relateWith(vpoint.links[0])
-            #All point should on the slot.
+            # All point should on the slot.
             Constraint.on(wp1, solved_points[i][1], l_slot)
-            #P Joint: The point do not have freedom of rotation.
+            # P Joint: The point do not have freedom of rotation.
             if vpoint.type == 1:
                 for linkName in vpoint.links[1:]:
                     relateWith(linkName)
@@ -250,14 +250,14 @@ def slvsProcess(
             else:
                 p_base = solved_points[i]
             
-            #If this link is on the ground.
+            # If this link is on the ground.
             if linkName == 'ground':
                 Constraint.dragged(wp1, p_base)
                 continue
             relate = vlinks[linkName]
             relate_n = relate.index(i)
             
-            #Pass if this is the first point.
+            # Pass if this is the first point.
             if relate_n == 0:
                 continue
             
@@ -280,19 +280,19 @@ def slvsProcess(
                 else:
                     Constraint.on(wp1, p_base, p_contact)
             
-            #Connection of the first point in this link.
+            # Connection of the first point in this link.
             connect_1 = getConnection(0)
             if relate_n > 1:
-                #Conection of the previous point.
+                # Conection of the previous point.
                 connect_2 = getConnection(relate_n-1)
                 if bool(connect_1[0])!=bool(connect_2[0]):
-                    #Same point. Just connect to same point.
+                    # Same point. Just connect to same point.
                     ConnectTo(*(connect_1 if connect_1[0]==0. else connect_2))
                 elif min(
                     abs(2 * connect_1[0] - connect_2[0]),
                     abs(connect_1[0] - 2 * connect_2[0]),
                 ) < 0.001:
-                    #Collinear.
+                    # Collinear.
                     Constraint.on(
                         wp1,
                         p_base,
@@ -300,7 +300,7 @@ def slvsProcess(
                     )
                     ConnectTo(*connect_1)
                 else:
-                    #Normal status.
+                    # Normal status.
                     ConnectTo(*connect_1)
                     ConnectTo(*connect_2)
             else:
@@ -317,7 +317,7 @@ def slvsProcess(
         else:
             p_base = solved_points[p0]
         
-        #Base link slope angle.
+        # Base link slope angle.
         base_link = vpoints[p0].links[0]
         if base_link != 'ground':
             relate_base = vlinks[base_link]
@@ -328,9 +328,9 @@ def slvsProcess(
         y = sys.add_param(round(vpoints[p0].cy + 10 * sin(radians(angle)), 8))
         p_hand = Point2d(wp1, x, y)
         Constraint.dragged(wp1, p_hand)
-        #The virtual link that dragged by "hand".
+        # The virtual link that dragged by "hand".
         leader = LineSegment2d(wp1, p_base, p_hand)
-        #Make another virtual link that should follow "hand".
+        # Make another virtual link that should follow "hand".
         if vpoints[p1].type != 0:
             p_drive = solved_points[p1][0]
         else:
@@ -338,7 +338,7 @@ def slvsProcess(
         link = LineSegment2d(wp1, p_base, p_drive)
         Constraint.angle(wp1, .5, link, leader)
     
-    #Solve
+    # Solve
     result_flag = sys.solve()
     if result_flag == SLVS_RESULT_OKAY:
         resultList = []
