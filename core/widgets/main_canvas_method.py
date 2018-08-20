@@ -91,14 +91,18 @@ class Selector:
     
     def inRect(self, x: float, y: float) -> bool:
         """Return True if input coordinate is in the rectangle."""
-        return (
-            min(self.x, self.sx) <= x <= max(self.x, self.sx) and
-            min(self.y, self.sy) <= y <= max(self.y, self.sy)
-        )
+        x_right = max(self.x, self.sx)
+        x_left = min(self.x, self.sx)
+        y_top = max(self.y, self.sy)
+        y_button = min(self.y, self.sy)
+        return (x_left <= x <= x_right) and (y_button <= y <= y_top)
     
-    def toQRectF(self) -> QRectF:
+    def toQRectF(self, zoom: float) -> QRectF:
         """Return limit as QRectF type."""
-        return QRectF(QPointF(self.x, self.y), QPointF(self.sx, self.sy))
+        return QRectF(
+            QPointF(self.x * zoom, self.y * -zoom),
+            QPointF(self.sx * zoom, self.sy * -zoom)
+        )
     
     def currentSelection(self) -> Tuple[int]:
         if self.km() in (Qt.ControlModifier, Qt.ShiftModifier):
@@ -308,10 +312,10 @@ def _select_func(self, *, rect: bool = False):
             if rect:
                 return self.selector.inRect(x, y)
             else:
-                return self.selector.isClose(x, y, self.sr)
+                return self.selector.isClose(x, y, self.sr / self.zoom)
         
         for i, vpoint in enumerate(self.vpoints):
-            if catch(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
+            if catch(vpoint.cx, vpoint.cy):
                 if i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
         
@@ -333,7 +337,7 @@ def _select_func(self, *, rect: bool = False):
                     as_qpoint=True
                 ))
             if rect:
-                return polygon.intersects(QPolygonF(self.selector.toQRectF()))
+                return polygon.intersects(QPolygonF(self.selector.toQRectF(self.zoom)))
             else:
                 return polygon.containsPoint(
                     QPointF(self.selector.x, self.selector.y),
@@ -359,7 +363,7 @@ def _select_func(self, *, rect: bool = False):
             )
             polygon = QPolygonF(points)
             if rect:
-                return polygon.intersects(QPolygonF(self.selector.toQRectF()))
+                return polygon.intersects(QPolygonF(self.selector.toQRectF(self.zoom)))
             else:
                 return polygon.containsPoint(
                     QPointF(self.selector.x, self.selector.y),
@@ -509,7 +513,7 @@ def paintEvent(self, event):
         pen = QPen(Qt.gray)
         pen.setWidth(1)
         self.painter.setPen(pen)
-        self.painter.drawRect(self.selector.toQRectF())
+        self.painter.drawRect(self.selector.toQRectF(self.zoom))
     # Show FPS
     if self.show_fps:
         pen = QPen(Qt.blue)
@@ -534,15 +538,12 @@ def mousePressEvent(self, event):
     Middle button: Move canvas of view.
     Left button: Select the point (only first point will be catch).
     """
-    self.selector.x = event.x() - self.ox
-    self.selector.y = event.y() - self.oy
+    self.selector.x = (event.x() - self.ox) / self.zoom
+    self.selector.y = (event.y() - self.oy) / -self.zoom
     button = event.buttons()
     if button == Qt.MiddleButton:
         self.selector.middle_dragged = True
-        self.browse_tracking.emit(
-            self.selector.x / self.zoom,
-            self.selector.y / -self.zoom
-        )
+        self.browse_tracking.emit(self.selector.x, self.selector.y)
     elif button == Qt.LeftButton:
         self.selector.left_dragged = True
         _select_func(self)
@@ -560,8 +561,8 @@ def mouseDoubleClickEvent(self, event):
     if button == Qt.MidButton:
         self.zoomToFit()
     elif button == Qt.LeftButton:
-        self.selector.x = event.x() - self.ox
-        self.selector.y = event.y() - self.oy
+        self.selector.x = (event.x() - self.ox) / self.zoom
+        self.selector.y = (event.y() - self.oy) / -self.zoom
         _select_func(self)
         if self.selector.selection_rect:
             self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
@@ -583,8 +584,8 @@ def mouseReleaseEvent(self, event):
         if km == Qt.AltModifier:
             # Add Point
             self.alt_add.emit(
-                _snap(self, self.selector.x / self.zoom, is_zoom=False),
-                _snap(self, self.selector.y / -self.zoom, is_zoom=False)
+                _snap(self, self.selector.x, is_zoom=False),
+                _snap(self, self.selector.y, is_zoom=False)
             )
         elif (
             (not self.selector.selection_rect) and
@@ -609,15 +610,15 @@ def mouseMoveEvent(self, event):
     x = (event.x() - self.ox) / self.zoom
     y = (event.y() - self.oy) / -self.zoom
     if self.selector.middle_dragged:
-        self.ox = event.x() - self.selector.x
-        self.oy = event.y() - self.selector.y
+        self.ox = event.x() - self.selector.x * self.zoom
+        self.oy = event.y() - self.selector.y * self.zoom
         self.update()
     elif self.selector.left_dragged:
         if self.freemove == FreeMode.NoFreeMove:
             # Rectangular selection.
             self.selector.picking = True
-            self.selector.sx = _snap(self, event.x() - self.ox)
-            self.selector.sy = _snap(self, event.y() - self.oy)
+            self.selector.sx = _snap(self, x, is_zoom=False)
+            self.selector.sy = _snap(self, y, is_zoom=False)
             _select_func(self, rect=True)
             selection = self.selector.currentSelection()
             if selection:
@@ -627,10 +628,10 @@ def mouseMoveEvent(self, event):
             unit_text = ('point', 'link', 'solution')[self.select_mode]
             QToolTip.showText(
                 event.globalPos(),
-                f"({self.selector.x / self.zoom:.02f}, "
-                f"{self.selector.y / -self.zoom:.02f})\n"
-                f"({self.selector.sx / self.zoom:.02f}, "
-                f"{self.selector.sy / -self.zoom:.02f})\n"
+                f"({self.selector.x:.02f}, "
+                f"{self.selector.y:.02f})\n"
+                f"({self.selector.sx:.02f}, "
+                f"{self.selector.sy:.02f})\n"
                 f"{len(selection)} "
                 f"{unit_text}(s)",
                 self
@@ -638,14 +639,8 @@ def mouseMoveEvent(self, event):
         elif self.select_mode == 0:
             if self.freemove == FreeMode.Translate:
                 # Free move translate function.
-                mouse_x = _snap(self,
-                    x - self.selector.x / self.zoom,
-                    is_zoom=False
-                )
-                mouse_y = _snap(self,
-                    y - self.selector.y / -self.zoom,
-                    is_zoom=False
-                )
+                mouse_x = _snap(self, x - self.selector.x, is_zoom=False)
+                mouse_y = _snap(self, y - self.selector.y, is_zoom=False)
                 QToolTip.showText(
                     event.globalPos(),
                     f"{mouse_x:+.02f}, {mouse_y:+.02f}",
@@ -656,9 +651,7 @@ def mouseMoveEvent(self, event):
                     vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             elif self.freemove == FreeMode.Rotate:
                 # Free move rotate function.
-                alpha = atan2(y, x) - atan2(
-                    -self.selector.y, self.selector.x
-                )
+                alpha = atan2(y, x) - atan2(-self.selector.y, self.selector.x)
                 QToolTip.showText(
                     event.globalPos(),
                     f"{degrees(alpha):+.02f}°",
