@@ -534,14 +534,15 @@ def mousePressEvent(self, event):
     Middle button: Move canvas of view.
     Left button: Select the point (only first point will be catch).
     """
-    self.selector.x = _snap(self, event.x() - self.ox)
-    self.selector.y = _snap(self, event.y() - self.oy)
-    button = event.button()
+    self.selector.x = event.x() - self.ox
+    self.selector.y = event.y() - self.oy
+    button = event.buttons()
     if button == Qt.MiddleButton:
         self.selector.middle_dragged = True
-        x = self.selector.x / self.zoom
-        y = self.selector.y / -self.zoom
-        self.browse_tracking.emit(x, y)
+        self.browse_tracking.emit(
+            self.selector.x / self.zoom,
+            self.selector.y / -self.zoom
+        )
     elif button == Qt.LeftButton:
         self.selector.left_dragged = True
         _select_func(self)
@@ -555,12 +556,12 @@ def mouseDoubleClickEvent(self, event):
     + Middle button: Zoom to fit.
     + Left button: Edit point function.
     """
-    button = event.button()
+    button = event.buttons()
     if button == Qt.MidButton:
         self.zoomToFit()
     elif button == Qt.LeftButton:
-        self.selector.x = _snap(self, event.x() - self.ox)
-        self.selector.y = _snap(self, event.y() - self.oy)
+        self.selector.x = event.x() - self.ox
+        self.selector.y = event.y() - self.oy
         _select_func(self)
         if self.selector.selection_rect:
             self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
@@ -579,22 +580,20 @@ def mouseReleaseEvent(self, event):
     if self.selector.left_dragged:
         self.selector.selection_old = list(self.selections)
         km = self.selector.km()
-        # Add Point
         if km == Qt.AltModifier:
-            self.alt_add.emit()
-        # Only one clicked.
+            # Add Point
+            self.alt_add.emit(
+                _snap(self, self.selector.x / self.zoom, is_zoom=False),
+                _snap(self, self.selector.y / -self.zoom, is_zoom=False)
+            )
         elif (
-            (abs(event.x() - self.ox - self.selector.x) < self.sr/2) and
-            (abs(event.y() - self.oy - self.selector.y) < self.sr/2)
+            (not self.selector.selection_rect) and
+            km != Qt.ControlModifier and
+            km != Qt.ShiftModifier
         ):
-            if (
-                (not self.selector.selection_rect) and
-                km != Qt.ControlModifier and
-                km != Qt.ShiftModifier
-            ):
-                self.noselected.emit()
-        # Edit point coordinates.
+            self.noselected.emit()
         elif (self.select_mode == 0) and (self.freemove != FreeMode.NoFreeMove):
+            # Edit point coordinates.
             _emit_freemove(self, self.selections)
     self.selector.release()
     self.update()
@@ -629,7 +628,7 @@ def mouseMoveEvent(self, event):
             QToolTip.showText(
                 event.globalPos(),
                 f"({self.selector.x / self.zoom:.02f}, "
-                f"{self.selector.y / self.zoom:.02f})\n"
+                f"{self.selector.y / -self.zoom:.02f})\n"
                 f"({self.selector.sx / self.zoom:.02f}, "
                 f"{self.selector.sy / -self.zoom:.02f})\n"
                 f"{len(selection)} "

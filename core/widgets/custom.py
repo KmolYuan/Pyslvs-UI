@@ -133,11 +133,11 @@ def _appearance(self):
     self.addAction(select_all_action)
     
     # Selection label on status bar right side.
-    selectionLabel = SelectionLabel(self)
+    selection_label = SelectionLabel(self)
     self.EntitiesPoint.selectionLabelUpdate.connect(
-        selectionLabel.updateSelectPoint
+        selection_label.updateSelectPoint
     )
-    self.statusBar.addPermanentWidget(selectionLabel)
+    self.statusBar.addPermanentWidget(selection_label)
     
     # QPainter canvas window
     self.MainCanvas = DynamicCanvas(self)
@@ -171,7 +171,7 @@ def _appearance(self):
     self.MainCanvas.doubleclick_edit.connect(self.editPoint)
     self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
     self.MainCanvas.tracking.connect(self.setMousePos)
-    self.MainCanvas.browse_tracking.connect(selectionLabel.updateMousePosition)
+    self.MainCanvas.browse_tracking.connect(selection_label.updateMousePosition)
     self.canvasSplitter.insertWidget(0, self.MainCanvas)
     self.canvasSplitter.setSizes([600, 10, 30])
     

@@ -171,12 +171,12 @@ def _deletePoint(self, row: int):
     self.CommandStack.endMacro()
 
 
-def qAddNormalPoint(self):
+def qAddNormalPoint(self, x: float, y: float):
     """Add point group using alt key."""
     if self.SynthesisTab.currentIndex() == 2:
         self.addTargetPoint()
     else:
-        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
+        self.addPoint(x, y, False)
 
 
 def addNormalPoint(self):

@@ -494,9 +494,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __checkUpdate(self):
         _io.checkUpdate(self)
     
-    @pyqtSlot()
-    def qAddNormalPoint(self):
-        _entities.qAddNormalPoint(self)
+    @pyqtSlot(float, float)
+    def qAddNormalPoint(self, x: float, y: float):
+        _entities.qAddNormalPoint(self, x, y)
     
     def addNormalPoint(self):
         _entities.addNormalPoint(self)

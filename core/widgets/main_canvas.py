@@ -50,7 +50,7 @@ class DynamicCanvas(BaseCanvas):
     selected = pyqtSignal(tuple, bool)
     freemoved = pyqtSignal(tuple)
     noselected = pyqtSignal()
-    alt_add = pyqtSignal()
+    alt_add = pyqtSignal(float, float)
     doubleclick_edit = pyqtSignal(int)
     zoom_changed = pyqtSignal(int)
     

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1104</width>
-    <height>950</height>
+    <width>882</width>
+    <height>849</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>517</width>
-                  <height>834</height>
+                  <width>358</width>
+                  <height>689</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1326,7 +1326,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1104</width>
+     <width>882</width>
      <height>21</height>
     </rect>
    </property>
