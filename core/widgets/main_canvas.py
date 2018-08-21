@@ -84,8 +84,8 @@ class DynamicCanvas(BaseCanvas):
         # Path record.
         self.path_record = []
         # Zooming center.
-        #  0: By cursor.
-        #  1: By canvas center.
+        # 0: By cursor.
+        # 1: By canvas center.
         self.zoomby = 0
         # Mouse snapping value.
         self.snap = 5

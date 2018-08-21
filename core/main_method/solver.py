@@ -168,7 +168,7 @@ def getGraph(self) -> List[Tuple[int, int]]:
     vpoints = self.EntitiesPoint.dataTuple()
     vlinks = self.EntitiesLink.dataTuple()
     G = Graph()
-    #  links name for RP joint.
+    # links name for RP joint.
     k = len(vlinks)
     used_point = set()
     # Link names will change to index number.
