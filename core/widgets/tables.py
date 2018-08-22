@@ -10,6 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
+from time import time
 from typing import (
     Tuple,
     List,
@@ -20,6 +21,7 @@ from typing import (
 from core.QtModules import (
     pyqtSignal,
     Qt,
+    QTimer,
     QTableWidget,
     QSizePolicy,
     QAbstractItemView,
@@ -471,3 +473,26 @@ class SelectionLabel(QLabel):
     def updateMousePosition(self, x: float, y: float):
         """Get the mouse position from canvas when press the middle button."""
         self.setText(f"Mouse at: ({x:.04f}, {y:.04f})")
+
+
+class FPSLabel(QLabel):
+    
+    """This QLabel can show FPS of main canvas in status bar."""
+    
+    def __init__(self, parent: QWidget):
+        super(FPSLabel, self).__init__(parent)
+        self.__t0 = time() - 1
+        self.__frame_timer = QTimer(self)
+        self.__frame_timer.timeout.connect(self.__updateText)
+        self.__frame_timer.start(500)
+    
+    @pyqtSlot()
+    def __updateText(self):
+        """Update FPS with timer."""
+        self.setText(f"FPS: {1 / (time() - self.__t0):6.02f}")
+    
+    @pyqtSlot()
+    def update(self):
+        """Update FPS with timer."""
+        self.__updateText()
+        self.__t0 = time()

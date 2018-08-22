@@ -39,6 +39,7 @@ from .tables import (
     LinkTableWidget,
     ExprTableWidget,
     SelectionLabel,
+    FPSLabel,
 )
 from .inputs import InputsWidget
 
@@ -132,13 +133,6 @@ def _appearance(self):
     select_all_action.setShortcutContext(Qt.WindowShortcut)
     self.addAction(select_all_action)
     
-    # Selection label on status bar right side.
-    selection_label = SelectionLabel(self)
-    self.EntitiesPoint.selectionLabelUpdate.connect(
-        selection_label.updateSelectPoint
-    )
-    self.statusBar.addPermanentWidget(selection_label)
-    
     # QPainter canvas window
     self.MainCanvas = DynamicCanvas(self)
     self.EntitiesTab.currentChanged.connect(self.MainCanvas.setSelectionMode)
@@ -171,9 +165,21 @@ def _appearance(self):
     self.MainCanvas.doubleclick_edit.connect(self.editPoint)
     self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
     self.MainCanvas.tracking.connect(self.setMousePos)
-    self.MainCanvas.browse_tracking.connect(selection_label.updateMousePosition)
     self.canvasSplitter.insertWidget(0, self.MainCanvas)
     self.canvasSplitter.setSizes([600, 10, 30])
+    
+    # Selection label on status bar right side.
+    selection_label = SelectionLabel(self)
+    self.EntitiesPoint.selectionLabelUpdate.connect(
+        selection_label.updateSelectPoint
+    )
+    self.MainCanvas.browse_tracking.connect(selection_label.updateMousePosition)
+    self.status_bar.addPermanentWidget(selection_label)
+    
+    # FPS label on status bar right side.
+    fps_label = FPSLabel(self)
+    self.MainCanvas.fps_updated.connect(fps_label.update)
+    self.status_bar.addPermanentWidget(fps_label)
     
     # Inputs widget.
     self.InputsWidget = InputsWidget(self)
@@ -311,7 +317,6 @@ def _options(self):
     self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
     self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
     self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
-    self.showfps_option.toggled.connect(self.MainCanvas.setShowFPS)
     self.background_option.textChanged.connect(self.MainCanvas.setBackground)
     self.background_opacity_option.valueChanged.connect(self.MainCanvas.setBackgroundOpacity)
     self.background_scale_option.valueChanged.connect(self.MainCanvas.setBackgroundScale)

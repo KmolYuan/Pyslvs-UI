@@ -130,7 +130,6 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.jointsize_option, 5),
         (self.zoomby_option, 0),
         (self.snap_option, 1),
-        (self.showfps_option, True),
         (self.background_option, ""),
         (self.background_opacity_option, 1),
         (self.background_scale_option, 1),

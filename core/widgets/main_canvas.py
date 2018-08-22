@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from time import time
 from collections import deque
 from typing import (
     List,
@@ -26,7 +25,6 @@ from core.QtModules import (
     QCursor,
     QToolTip,
     QWidget,
-    QTimer,
 )
 from core.graphics import BaseCanvas
 from core.libs import VPoint, VLink
@@ -53,6 +51,7 @@ class DynamicCanvas(BaseCanvas):
     alt_add = pyqtSignal(float, float)
     doubleclick_edit = pyqtSignal(int)
     zoom_changed = pyqtSignal(int)
+    fps_updated = pyqtSignal()
     
     def __init__(self, parent: QWidget):
         super(DynamicCanvas, self).__init__(parent)
@@ -98,12 +97,6 @@ class DynamicCanvas(BaseCanvas):
         self.__selectionMode = parent.EntitiesTab.currentIndex
         # Default margin factor.
         self.margin_factor = 0.95
-        # Frame
-        self.show_fps = True
-        self.t0 = time() - 1
-        self.__frame_timer = QTimer(self)
-        self.__frame_timer.timeout.connect(self.update)
-        self.__frame_timer.start(1000)
         # Widget size.
         self.width_old = None
         self.height_old = None
@@ -220,12 +213,6 @@ class DynamicCanvas(BaseCanvas):
     def setSnap(self, snap: float):
         """Update mouse capture value."""
         self.snap = snap
-    
-    @pyqtSlot(bool)
-    def setShowFPS(self, show_fps: bool):
-        """Set FPS display option."""
-        self.show_fps = show_fps
-        self.update()
     
     @pyqtSlot(str)
     def setBackground(self, path: str):
