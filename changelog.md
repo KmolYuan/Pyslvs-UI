@@ -14,6 +14,8 @@ Features
     + "Watt II"
     + "Lift Tailgate"
     + "Crank lifter"
+    + "Inverted slider"
+    + "Ten Fold's levers"
 + Selection label function improvement.
 + UI and selection mode improvements.
 + Add FPS counter.
