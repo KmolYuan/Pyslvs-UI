@@ -45,7 +45,7 @@ from core.QtModules import (
 )
 from core import io
 from core.libs import VPoint
-from . import colorQt, colorPath
+from . import colorQt, traget_path_style
 
 
 def convex_hull(
@@ -294,47 +294,54 @@ class BaseCanvas(QWidget):
         pen.setWidth(self.path_width)
         for i, name in enumerate(sorted(self.target_path)):
             path = self.target_path[name]
-            Pen, Dot, Brush = colorPath(i)
-            pen.setColor(Pen)
+            road, dot, brush = traget_path_style(i)
+            pen.setColor(road)
             self.painter.setPen(pen)
-            self.painter.setBrush(Brush)
-            if len(path) > 1:
-                pointPath = QPainterPath()
+            self.painter.setBrush(brush)
+            if len(path) == 1:
+                x, y = path[0]
+                p = QPointF(x, -y) * self.zoom
+                self.painter.drawText(p + QPointF(6, -6), name)
+                pen.setColor(dot)
+                self.painter.setPen(pen)
+                self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
+            else:
+                painter_path = QPainterPath()
                 for j, (x, y) in enumerate(path):
                     p = QPointF(x, -y) * self.zoom
                     self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
                     if j == 0:
                         self.painter.drawText(p + QPointF(6, -6), name)
-                        pointPath.moveTo(x, y)
+                        painter_path.moveTo(p)
                     else:
                         x2, y2 = path[j - 1]
-                        self.drawArrow(x, y, x2 * self.zoom, y2 * -self.zoom)
-                        pointPath.lineTo(p)
-                self.painter.drawPath(pointPath)
-                for x, y in path:
-                    pen.setColor(Dot)
-                    self.painter.setPen(pen)
-                    self.painter.drawEllipse(
-                        QPointF(x, -y) * self.zoom, self.RADIUS, self.RADIUS
-                    )
-            elif len(path) == 1:
-                x, y = path[0]
-                p = QPointF(x, -y) * self.zoom
-                self.painter.drawText(p + QPointF(6, -6), name)
-                pen.setColor(Dot)
+                        self.__drawArrow(x, -y, x2, -y2, zoom=True)
+                        painter_path.lineTo(p)
+                pen.setColor(road)
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
+                self.painter.drawPath(painter_path)
+                for x, y in path:
+                    pen.setColor(dot)
+                    self.painter.setPen(pen)
+                    p = QPointF(x, -y) * self.zoom
+                    self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
         self.painter.setBrush(Qt.NoBrush)
     
-    def drawArrow(self,
+    def __drawArrow(self,
         x1: float,
         y1: float,
         x2: float,
         y2: float,
         *,
+        zoom: bool = False,
         text: str = ''
     ):
         """Front point -> Back point"""
+        if zoom:
+            x1 *= self.zoom
+            y1 *= self.zoom
+            x2 *= self.zoom
+            y2 *= self.zoom
         a = atan2(y2 - y1, x2 - x1)
         x1 = (x1 + x2) / 2 - 7.5 * cos(a)
         y1 = (y1 + y2) / 2 - 7.5 * sin(a)
@@ -369,26 +376,26 @@ class BaseCanvas(QWidget):
         """Draw path as curve."""
         if len(set(path)) <= 2:
             return
-        pointPath = QPainterPath()
+        painter_path = QPainterPath()
         error = False
         for i, (x, y) in enumerate(path):
             if isnan(x):
                 error = True
-                self.painter.drawPath(pointPath)
-                pointPath = QPainterPath()
+                self.painter.drawPath(painter_path)
+                painter_path = QPainterPath()
             else:
                 x *= self.zoom
                 y *= -self.zoom
                 if i == 0:
-                    pointPath.moveTo(x, y)
+                    painter_path.moveTo(x, y)
                     self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
                     continue
                 if error:
-                    pointPath.moveTo(x, y)
+                    painter_path.moveTo(x, y)
                     error = False
                 else:
-                    pointPath.lineTo(x, y)
-        self.painter.drawPath(pointPath)
+                    painter_path.lineTo(x, y)
+        self.painter.drawPath(painter_path)
     
     def drawDot(self, path: Sequence[Tuple[float, float]]):
         """Draw path as dots."""
@@ -446,7 +453,7 @@ class BaseCanvas(QWidget):
         
         def draw_arrow(index: int, text: str):
             """Draw arrow."""
-            self.drawArrow(
+            self.__drawArrow(
                 points[-1].x(),
                 points[-1].y(),
                 points[index].x(),

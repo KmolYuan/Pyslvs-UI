@@ -12,7 +12,7 @@ from .color import (
     colorNames,
     colorIcon,
     colorQt,
-    colorPath
+    traget_path_style
 )
 from .chart import DataChart
 from .canvas import (
@@ -34,7 +34,7 @@ __all__ = [
     'colorNames',
     'colorIcon',
     'colorQt',
-    'colorPath',
+    'traget_path_style',
     'DataChart',
     'BaseCanvas',
     'PreviewCanvas',
