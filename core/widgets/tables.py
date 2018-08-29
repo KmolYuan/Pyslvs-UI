@@ -489,7 +489,9 @@ class FPSLabel(QLabel):
     @pyqtSlot()
     def __updateText(self):
         """Update FPS with timer."""
-        self.setText(f"FPS: {1 / (time() - self.__t0):6.02f}")
+        t1 = time() - self.__t0
+        fps = 1 / t1 if t1 else 1
+        self.setText(f"FPS: {fps:6.02f}")
     
     @pyqtSlot()
     def update(self):

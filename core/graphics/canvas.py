@@ -170,6 +170,7 @@ class BaseCanvas(QWidget):
             QSizePolicy.Expanding
         ))
         self.setFocusPolicy(Qt.StrongFocus)
+        self.painter = QPainter()
         
         # Origin coordinate.
         self.ox = self.width() / 2
@@ -202,7 +203,6 @@ class BaseCanvas(QWidget):
         """Using a QPainter under 'self',
         so just change QPen or QBrush before painting.
         """
-        self.painter = QPainter()
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         # Translation
