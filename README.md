@@ -1,8 +1,6 @@
 [![Version](https://img.shields.io/badge/version-18.08.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases/latest)
 [![Build Status](https://img.shields.io/travis/KmolYuan/Pyslvs-PyQt5.svg?logo=travis)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-[![Python](https://img.shields.io/badge/python-3.6%20↑-blue.svg)](https://www.python.org/)
 [![PyQt](https://img.shields.io/badge/pyqt-5.10%20↑-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
-[![os](https://img.shields.io/badge/os-Ubuntu%2C%20Windows%20(x64)-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
@@ -50,9 +48,12 @@ A GUI-based tool use to solving 2D linkage subject.
     - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
     - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
-Compatible with Python 3.5, PyQt 5.10 (same as PyQtChart) and above.
+Actual testing platforms:
 
-Cross-platform Development: Ubuntu and Windows (64-bit).
++ ![w3.6](https://img.shields.io/badge/Windows%20x64-Python%203.6-blue.svg)
++ ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg) (currently not support PyInstaller)
++ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.6-orange.svg)
++ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
 
 **Please note that the other platforms may be available but I have not tested before.**
 
