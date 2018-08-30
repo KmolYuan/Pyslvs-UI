@@ -70,20 +70,23 @@ Previews in Windows 10 theme:
 Here's some command line options for Pyslvs.
 
 ```bash
-#Download / update submodule:
+# Download / update submodule:
 git submodule update --init --recursive
 
-#After following compile steps:
+# After following compile steps:
 make build-kernel
 
-#Open GUI by Python:
+# Open GUI by Python:
 python launch_pyslvs.py
 
-#Or see the help:
+# Or see the help:
 python launch_pyslvs.py --help
 
-#Run the unit test:
+# Run the unit test:
 python test_pyslvs.py
+
+# Pack into stand-alone executable file:
+make
 ```
 
 ## Symbolic
@@ -109,7 +112,7 @@ The "ground" label is a default name, this link will be the absolute coordinate 
 Pyslvs was translate the PMKS expression as a string, likes below:
 
 ```python
-#Single line annotation.
+# Single line annotation.
 M[
     J[R, color[Green], P[0.0, 0.0], L[ground, link_0]],
     J[R, color[Green], P[12.92, 32.53], L[link_0, link_1]],
@@ -390,53 +393,6 @@ Then using this command:
 ```bash
 gendef python3x.dll
 dlltool --dllname python3x.dll --def python3x.def --output-lib libpython3x.a
-```
-
-You need to modify a few of Python files to avoid these conflicts before compile the library. But you can be assured that the changes won't cause any negative impact.
-
-Find this code in `where_your_python\Lib\distutils\cygwinccompiler.py`:
-
-```python
-# no additional libraries needed
-self.dll_libraries=[]
-
-# Include the appropriate MSVC runtime library if Python was built
-# with MSVC 7.0 or later.
-self.dll_libraries = get_msvcr()
-```
-
-Note out `self.dll_libraries = get_msvcr()`.
-
-And then adjust source code about Virtual Studio. Find this code in `where_your_python\include\pyconfig.h`.
-
-```c
-#ifdef _WIN64
-#define MS_WIN64
-#endif
-```
-
-Cut them and paste **Above** this:
-
-```c
-#ifdef _MSC_VER
-```
-
-You also will get warning with `_hypot` in `pyconfig.h`, and you should do this step.
-
-In `where_your_python\include\pyconfig.h`, find this:
-
-```c
-#define COMPILER "[gcc]"
-#define hypot _hypot
-```
-
-Edit it to this:
-
-```c
-#define COMPILER "[gcc]"
-#ifndef _MATH_H_
-#define hypot _hypot
-#endif
 ```
 
 # Stand-alone Executable File
