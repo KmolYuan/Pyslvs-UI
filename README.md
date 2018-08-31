@@ -281,40 +281,17 @@ If you are not willing to install Graphviz, you can just using built-in layout f
 
 ## PyQt Stuff (Development)
 
-PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can use them.
+PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can install them directly.
 
-When the installation is complete by pip, some stuff need to remind you.
-
-Qt tools can use to design the user interface, they are not the requirement if you just want to run Pyslvs.
+Qt tools can use to design the *.ui files, they are not the requirement if you just want to run Pyslvs.
 
 **Ubuntu**:
 
-Download [Qt5] and install it, then we will get the tools.
-
-If your desktop is made by earlier Qt version, you should install in another place.
-
-Download and install / upgrade [SIP].
-
-```python
->>> import sip
->>> print(sip, sip.SIP_VERSION_STR)
-```
-
-Then remove SIP from the location:
-
-```bash
-$ sudo rm -fr /usr/local/libs/python3.5/dist-packages/sip*
-```
-
-Or maybe directly:
-
-```bash
-$ sudo pip3 install sip -U
-```
+Download and install [Qt5] to get the tools.
 
 **Windows**:
 
-Windows user can get Qt tools by pip, and don't need to install Qt package.
+Windows user can get Qt tools by pip (maybe not newest version), without to install Qt package.
 
 ```bash
 > pip install pyqt5-tools
@@ -328,7 +305,7 @@ Make command:
 make build-kernel
 ```
 
-This project including two kernels should build, please following the steps if you are first time to use.
+This project including two kernels should build.
 
 ## Pyslvs Kernel
 
@@ -365,14 +342,12 @@ When using MinGW, you can refer the steps of this article: <https://stackoverflo
 Make command:
 
 ```bash
-make -C core/libs/python_solvespace
+make build-solvespace
 ```
 
 **Ubuntu**:
 
-First, install SWIG. This tool kit can make a Python bundle with C/C++ library.
-
-If your not, install python development kit.
+Install SWIG and Python development kit. This tool kit can make a Python bundle with C/C++ library.
 
 ```bash
 sudo apt install swig python3-dev
@@ -381,19 +356,6 @@ sudo apt install swig python3-dev
 **Windows**:
 
 Download and install [SWIG](http://www.swig.org/download.html).
-
-If your Python doesn't have development library, like `libpython35.a`, using `gendef` to generate it.
-
-**In Python 3.6 and above versions, you do not have to get lib file.**
-
-First copy `python3x.dll` to `where_your_python\libs` folder.
-
-Then using this command:
-
-```bash
-gendef python3x.dll
-dlltool --dllname python3x.dll --def python3x.def --output-lib libpython3x.a
-```
 
 # Stand-alone Executable File
 
