@@ -21,7 +21,7 @@ from typing import (
 from networkx import Graph
 from core.graphics import edges_view
 from core.libs import (
-    slvsProcess,
+    slvs_solve,
     vpoints_configure,
     VPoint,
     data_collecting,
@@ -55,7 +55,7 @@ def resolve(self):
                 tuple(v[-1] for v in self.InputsWidget.inputPair())
             )
         elif solve_kernel == 1:
-            result, _ = slvsProcess(
+            result, _ = slvs_solve(
                 vpoints,
                 tuple(self.InputsWidget.inputPair())
                 if not self.freemode_button.isChecked() else ()
@@ -126,7 +126,7 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
                         angles
                     )
                 elif solve_kernel == 1:
-                    result, _ = slvsProcess(
+                    result, _ = slvs_solve(
                         vpoints,
                         tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
                         if not self.freemode_button.isChecked() else ()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-08-29, 14:21:14 -->
+<!-- Saved: 2018-08-31, 14:18:52 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -79,6 +79,7 @@
     <Source>core/libs/python_solvespace/example/example_involute_draw_matplotlib.py</Source>
     <Source>core/libs/python_solvespace/example/example_multi_link_draw_matplotlib.py</Source>
     <Source>core/libs/python_solvespace/example/example_nutcracker.py</Source>
+    <Source>core/libs/solvespace_translate.py</Source>
     <Source>core/main.py</Source>
     <Source>core/main_method/__init__.py</Source>
     <Source>core/main_method/actions.py</Source>
