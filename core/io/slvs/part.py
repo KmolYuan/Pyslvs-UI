@@ -181,7 +181,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
             writer.constraint_num += 1
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = frame[i]
-        writer.constraint_distence(writer.constraint_num, n1, n2, p1.distance(p2))
+        writer.constraint_distance(writer.constraint_num, n1, n2, p1.distance(p2))
         writer.constraint_num += 1
     # Add "Constraint" of position.
     for i in range(2):

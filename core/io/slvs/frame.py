@@ -67,7 +67,7 @@ def slvs_frame(
     # Distance constraint.
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = edges[i]
-        writer.constraint_distence(writer.constraint_num, n1, n2, vpoints[p1].distance(vpoints[p2]))
+        writer.constraint_distance(writer.constraint_num, n1, n2, vpoints[p1].distance(vpoints[p2]))
         writer.constraint_num += 1
     # Comment constraint.
     for i, vpoint in enumerate(vpoints):

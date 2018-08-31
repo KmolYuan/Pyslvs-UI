@@ -460,7 +460,7 @@ class SlvsWriter:
         constraint_fix_hv(num, 0x30000, y)
         constraint_fix_hv(num + 1, 0x20000, x)
     
-    def constraint_distence(self,
+    def constraint_distance(self,
         num: int,
         p1: int,
         p2: int,
