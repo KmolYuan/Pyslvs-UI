@@ -599,7 +599,7 @@ def mouseMoveEvent(self, event):
     y = (event.y() - self.oy) / -self.zoom
     if self.selector.middle_dragged:
         self.ox = event.x() - self.selector.x * self.zoom
-        self.oy = event.y() - self.selector.y * self.zoom
+        self.oy = event.y() + self.selector.y * self.zoom
         self.update()
     elif self.selector.left_dragged:
         if self.freemove == FreeMode.NoFreeMove:
@@ -639,7 +639,7 @@ def mouseMoveEvent(self, event):
                     vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             elif self.freemove == FreeMode.Rotate:
                 # Free move rotate function.
-                alpha = atan2(y, x) - atan2(-self.selector.y, self.selector.x)
+                alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
                 QToolTip.showText(
                     event.globalPos(),
                     f"{degrees(alpha):+.02f}°",
