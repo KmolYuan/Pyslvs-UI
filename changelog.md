@@ -1,6 +1,21 @@
 Change Log
 ===
 
+Version 18.09
+===
+
+Features
+---
+
++ Appearance adjustments of main canvas.
++ Add new examples:
+    + "Crank slider (Three bar)"
+
+Development
+---
+
++ Redefine solver function of Python-Solvespace.
+
 Version 18.08
 ===
 

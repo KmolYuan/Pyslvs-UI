@@ -137,40 +137,49 @@ def _drawPoint(self, i: int, vpoint: VPoint):
         pen = QPen(vpoint.color)
         pen.setWidth(2)
         
-        # Draw slider
-        silder_points = vpoint.c
-        for j, (cx, cy) in enumerate(silder_points):
+        # Draw slot point and pin point.
+        for j, (cx, cy) in enumerate(vpoint.c):
             if not vpoint.links:
                 grounded = False
             else:
                 grounded = vpoint.links[j] == 'ground'
+            # Slot point.
             if (j == 0) or (vpoint.type == 1):
-                # Slot point.
                 pen.setColor(vpoint.color)
                 self.painter.setPen(pen)
                 cp = QPointF(cx, -cy) * self.zoom
-                rp = QPointF(self.RADIUS, -self.RADIUS) * (4 if j == 0 else 2)
+                jr = self.joint_size * (2 if j == 0 else 1)
+                rp = QPointF(jr, -jr)
                 self.painter.drawRect(QRectF(cp + rp, cp - rp))
                 if self.show_point_mark:
                     pen.setColor(Qt.darkGray)
                     self.painter.setPen(pen)
-                    text = f"[{i}]" if type(i) == str else f"[Point{i}]"
+                    text = f"[Point{i}]"
                     if self.show_dimension:
                         text += f":({cx:.02f}, {cy:.02f})"
-                    self.painter.drawText(cp + QPointF(6, -6), text)
+                    self.painter.drawText(cp + rp, text)
             else:
                 self.drawPoint(i, cx, cy, grounded, vpoint.color)
         
         # Slider line
         pen.setColor(vpoint.color.darker())
         self.painter.setPen(pen)
-        p = max(silder_points, key=lambda c: abs(c[0] - silder_points[0][0]))
-        qline = QLineF(
-            QPointF(p[0], -p[1]) * self.zoom,
-            QPointF(silder_points[0][0], -silder_points[0][1]) * self.zoom
+        qline_m = QLineF(
+            QPointF(vpoint.c[1][0], -vpoint.c[1][1]) * self.zoom,
+            QPointF(vpoint.c[0][0], -vpoint.c[0][1]) * self.zoom
         )
-        qline.setLength(qline.length() * 2)
-        self.painter.drawLine(qline)
+        nv = qline_m.normalVector()
+        nv.setLength(self.joint_size)
+        nv.setPoints(nv.p2(), nv.p1())
+        qline_1 = nv.normalVector()
+        qline_1.setLength(qline_m.length())
+        self.painter.drawLine(qline_1)
+        nv.setLength(nv.length() * 2)
+        nv.setPoints(nv.p2(), nv.p1())
+        qline_2 = nv.normalVector()
+        qline_2.setLength(qline_m.length())
+        qline_2.setAngle(qline_2.angle() + 180)
+        self.painter.drawLine(qline_2)
     else:
         self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
     

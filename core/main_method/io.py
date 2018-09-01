@@ -127,7 +127,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
         (self.selectionradius_option, 10),
         (self.linktrans_option, 0),
         (self.marginfactor_option, 5),
-        (self.jointsize_option, 5),
+        (self.jointsize_option, 3),
         (self.zoomby_option, 0),
         (self.snap_option, 1),
         (self.background_option, ""),

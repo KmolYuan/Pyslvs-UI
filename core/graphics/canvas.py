@@ -159,9 +159,6 @@ class BaseCanvas(QWidget):
     
     """The subclass can draw a blank canvas more easier."""
     
-    # Radius of canvas dot.
-    RADIUS = 3
-    
     def __init__(self, parent: QWidget):
         """Set the parameters for drawing."""
         super(BaseCanvas, self).__init__(parent)
@@ -179,7 +176,7 @@ class BaseCanvas(QWidget):
         self.rate = 2
         self.zoom = 2 * self.rate
         # Joint size.
-        self.joint_size = 5
+        self.joint_size = 3
         # Canvas line width.
         self.link_width = 3
         self.path_width = 3
@@ -274,9 +271,10 @@ class BaseCanvas(QWidget):
                 QPointF(x - width, bottom),
                 QPointF(x + width, bottom)
             )
-            self.painter.drawEllipse(QPointF(x, y), width, width)
+            r = self.joint_size * 2
         else:
-            self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
+            r = self.joint_size
+        self.painter.drawEllipse(QPointF(x, y), r, r)
         
         if not self.show_point_mark:
             return
@@ -304,12 +302,12 @@ class BaseCanvas(QWidget):
                 self.painter.drawText(p + QPointF(6, -6), name)
                 pen.setColor(dot)
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
+                self.painter.drawEllipse(p, self.joint_size, self.joint_size)
             else:
                 painter_path = QPainterPath()
                 for j, (x, y) in enumerate(path):
                     p = QPointF(x, -y) * self.zoom
-                    self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
+                    self.painter.drawEllipse(p, self.joint_size, self.joint_size)
                     if j == 0:
                         self.painter.drawText(p + QPointF(6, -6), name)
                         painter_path.moveTo(p)
@@ -324,7 +322,7 @@ class BaseCanvas(QWidget):
                     pen.setColor(dot)
                     self.painter.setPen(pen)
                     p = QPointF(x, -y) * self.zoom
-                    self.painter.drawEllipse(p, self.RADIUS, self.RADIUS)
+                    self.painter.drawEllipse(p, self.joint_size, self.joint_size)
         self.painter.setBrush(Qt.NoBrush)
     
     def __drawArrow(self,
@@ -388,7 +386,7 @@ class BaseCanvas(QWidget):
                 y *= -self.zoom
                 if i == 0:
                     painter_path.moveTo(x, y)
-                    self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
+                    self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
                     continue
                 if error:
                     painter_path.moveTo(x, y)
@@ -448,7 +446,7 @@ class BaseCanvas(QWidget):
         
         color.setAlpha(150)
         pen = QPen(color)
-        pen.setWidth(self.RADIUS)
+        pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
         
         def draw_arrow(index: int, text: str):
@@ -535,7 +533,7 @@ class PreviewCanvas(BaseCanvas):
             self.oy = height / 2
         super(PreviewCanvas, self).paintEvent(event)
         pen = QPen()
-        pen.setWidth(self.RADIUS)
+        pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
         self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         # Links
@@ -568,7 +566,7 @@ class PreviewCanvas(BaseCanvas):
                 elif node == self.Target:
                     pen.setColor(colorQt('Yellow'))
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
+                self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
             if self.getStatus(node):
                 color = colorQt('Dark-Magenta')
             else:
@@ -576,7 +574,7 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
-            self.painter.drawEllipse(QPointF(x, y), self.RADIUS, self.RADIUS)
+            self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
         # Solutions
@@ -596,10 +594,11 @@ class PreviewCanvas(BaseCanvas):
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
-            self.painter.drawText(QPointF(
-                x * self.zoom + 2 * self.RADIUS,
-                y * -self.zoom
-            ), f'P{node}')
+            x *= self.zoom
+            x += 2 * self.joint_size
+            y *= -self.zoom
+            y -= 2 * self.joint_size
+            self.painter.drawText(x, y, f'P{node}')
         self.painter.end()
     
     def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
