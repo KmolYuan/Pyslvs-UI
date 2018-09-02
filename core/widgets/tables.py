@@ -49,10 +49,7 @@ class _BaseTableWidget(QTableWidget):
         parent: QWidget
     ):
         super(_BaseTableWidget, self).__init__(parent)
-        self.setSizePolicy(QSizePolicy(
-            QSizePolicy.Expanding,
-            QSizePolicy.Expanding
-        ))
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setStatusTip("This table will show about the entities items in current view mode.")
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)

@@ -14,7 +14,6 @@ from typing import (
     List,
     Set,
     Dict,
-    Any,
     Union,
     Optional,
 )
@@ -83,11 +82,17 @@ def resolve(self):
     self.reloadCanvas()
 
 
-def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
+def previewpath(self,
+    auto_preview: List[List[Tuple[float, float]]],
+    slider_auto_preview: Dict[int, List[Tuple[float, float]]],
+    vpoints: Tuple[VPoint]
+):
     """Resolve auto preview path."""
     if not self.rightInput():
-        autopreview.clear()
+        auto_preview.clear()
+        slider_auto_preview.clear()
         return
+    
     vpoints = tuple(vpoint.copy() for vpoint in vpoints)
     vpoint_count = len(vpoints)
     
@@ -96,9 +101,12 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
     nan = float('nan')
     
     # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
-    autopreview.clear()
+    auto_preview.clear()
+    slider_auto_preview.clear()
     for i in range(vpoint_count):
-        autopreview.append([])
+        auto_preview.append([])
+        if vpoints[i].type in {1, 2}:
+            slider_auto_preview[i] = []
     
     bases = []
     drivers = []
@@ -139,19 +147,22 @@ def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
             except Exception:
                 # Update with error sign.
                 for i in range(vpoint_count):
-                    autopreview[i].append((nan, nan))
+                    auto_preview[i].append((nan, nan))
                 # Back to last feasible solution.
                 angles[dp] -= interval
                 dp += 1
             else:
                 # Update with result.
                 for i in range(vpoint_count):
-                    if type(result[i][0]) == tuple:
-                        autopreview[i].append(result[i][1])
-                        vpoints[i].move(result[i][0], result[i][1])
-                    else:
-                        autopreview[i].append(result[i])
+                    if vpoints[i].type == 0:
+                        auto_preview[i].append(result[i])
                         vpoints[i].move(result[i])
+                    elif vpoints[i].type in {1, 2}:
+                        # Pin path
+                        auto_preview[i].append(result[i][1])
+                        # Slot path
+                        slider_auto_preview[i].append(result[i][0])
+                        vpoints[i].move(result[i][0], result[i][1])
                 angles[dp] += interval
                 angles[dp] %= 360
                 angles_cum[dp] += abs(interval)

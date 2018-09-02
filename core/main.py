@@ -21,7 +21,6 @@ from typing import (
     Tuple,
     List,
     Dict,
-    Any,
     Union,
     Optional,
 )
@@ -151,8 +150,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def resolve(self):
         _solver.resolve(self)
     
-    def previewpath(self, autopreview: List[Any], vpoints: Tuple[VPoint]):
-        _solver.previewpath(self, autopreview, vpoints)
+    def previewpath(self,
+        auto_preview: List[List[Tuple[float, float]]],
+        slider_auto_preview: Dict[int, List[Tuple[float, float]]],
+        vpoints: Tuple[VPoint]
+    ):
+        _solver.previewpath(self, auto_preview, slider_auto_preview, vpoints)
     
     def getGraph(self) -> List[Tuple[int, int]]:
         return _solver.getGraph(self)

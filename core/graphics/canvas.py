@@ -162,10 +162,7 @@ class BaseCanvas(QWidget):
     def __init__(self, parent: QWidget):
         """Set the parameters for drawing."""
         super(BaseCanvas, self).__init__(parent)
-        self.setSizePolicy(QSizePolicy(
-            QSizePolicy.Expanding,
-            QSizePolicy.Expanding
-        ))
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setFocusPolicy(Qt.StrongFocus)
         self.painter = QPainter()
         

@@ -79,6 +79,7 @@ class DynamicCanvas(BaseCanvas):
         self.freemove = FreeMode.NoFreeMove
         # Path preview.
         self.pathpreview = []
+        self.sliderpathpreview = {}
         self.previewpath = parent.previewpath
         # Path record.
         self.path_record = []
@@ -118,7 +119,7 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot()
     def updatePreviewPath(self):
         """Update preview path."""
-        self.previewpath(self.pathpreview, self.vpoints)
+        self.previewpath(self.pathpreview, self.sliderpathpreview, self.vpoints)
         self.update()
     
     @pyqtSlot(int)

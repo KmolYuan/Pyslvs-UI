@@ -15,6 +15,7 @@ from math import (
     atan2,
     hypot,
 )
+from itertools import chain
 from typing import Tuple, List
 from core.QtModules import (
     Qt,
@@ -256,8 +257,12 @@ def _drawPath(self):
     paths = self.path_record or self.Path.path or self.pathpreview
     if len(self.vpoints) != len(paths):
         return
+    if paths == self.pathpreview:
+        o_path = chain(enumerate(self.pathpreview), self.sliderpathpreview.items())
+    else:
+        o_path = enumerate(paths)
     pen = QPen()
-    for i, path in enumerate(paths):
+    for i, path in o_path:
         if (self.Path.show != i) and (self.Path.show != -1):
             continue
         if self.vpoints[i].color:
@@ -405,7 +410,12 @@ def _zoomToFitLimit(self) -> Tuple[float, float, float, float]:
     y_bottom = inf
     # Paths
     if self.Path.show != -2:
-        for i, path in enumerate(self.path_record or self.Path.path or self.pathpreview):
+        paths = self.path_record or self.Path.path or self.pathpreview
+        if paths == self.pathpreview:
+            o_path = chain(enumerate(self.pathpreview), self.sliderpathpreview.items())
+        else:
+            o_path = enumerate(paths)
+        for i, path in o_path:
             if (self.Path.show != -1) and (self.Path.show != i):
                 continue
             for x, y in path:
