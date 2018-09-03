@@ -262,7 +262,8 @@ class FileWidget(QWidget, Ui_Form):
         branch_name = '' if isBranch else self.branch_current.text()
         commit_text = self.FileDescription.text()
         while not author_name:
-            author_name, ok = QInputDialog.getText(self,
+            author_name, ok = QInputDialog.getText(
+                self,
                 "Author",
                 "Please enter author's name:",
                 QLineEdit.Normal,
@@ -271,7 +272,8 @@ class FileWidget(QWidget, Ui_Form):
             if not ok:
                 return
         while not branch_name.isidentifier():
-            branch_name, ok = QInputDialog.getText(self,
+            branch_name, ok = QInputDialog.getText(
+                self,
                 "Branch",
                 "Please enter a branch name:",
                 QLineEdit.Normal,
@@ -280,7 +282,8 @@ class FileWidget(QWidget, Ui_Form):
             if not ok:
                 return
         while not commit_text:
-            commit_text, ok = QInputDialog.getText(self,
+            commit_text, ok = QInputDialog.getText(
+                self,
                 "Commit",
                 "Please add a comment:",
                 QLineEdit.Normal,
@@ -358,7 +361,8 @@ class FileWidget(QWidget, Ui_Form):
         history_commit = CommitModel.select().order_by(CommitModel.id)
         commit_count = len(history_commit)
         if not commit_count:
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Warning",
                 "This file is a non-committed database."
             )
@@ -385,7 +389,8 @@ class FileWidget(QWidget, Ui_Form):
             self.__connectDatabase(self.file_name.absoluteFilePath())
         else:
             self.__closeDatabase()
-        branch_name, ok = QInputDialog.getItem(self,
+        branch_name, ok = QInputDialog.getItem(
+            self,
             "Branch",
             "Select the latest commit in the branch to load.",
             [branch.name for branch in branch_all],
@@ -400,7 +405,8 @@ class FileWidget(QWidget, Ui_Form):
                 .order_by(CommitModel.date)
                 .get())
         except CommitModel.DoesNotExist:
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Warning",
                 "This file is a non-committed database."
             )
@@ -516,7 +522,8 @@ class FileWidget(QWidget, Ui_Form):
         if self.checkFileChanged():
             return False
         # load example by expression.
-        example_name, ok = QInputDialog.getItem(self,
+        example_name, ok = QInputDialog.getItem(
+            self,
             "Examples",
             "Select an example to load:",
             sorted(example_list),
@@ -578,7 +585,8 @@ class FileWidget(QWidget, Ui_Form):
             return
         branch_name = self.BranchList.currentItem().text()
         if branch_name == self.branch_current.text():
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Warning",
                 "Cannot delete current branch."
             )

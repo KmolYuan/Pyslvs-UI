@@ -87,7 +87,8 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         
         x_func, x_accuracy = polyfit(index, [x for x, y in self.path], 4)
         y_func, y_accuracy = polyfit(index, [y for x, y in self.path], 4)
-        QMessageBox.information(self,
+        QMessageBox.information(
+            self,
             "Curve fitting",
             f"Accuracy:\nx: {x_accuracy:.02f}%\ny: {y_accuracy:.02f}%"
         )

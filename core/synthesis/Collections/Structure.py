@@ -98,7 +98,8 @@ class StructureWidget(QWidget, Ui_Form):
         """Ask user before clear."""
         if not self.collections:
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Delete",
             "Sure to remove all your collections?"
         )
@@ -107,10 +108,11 @@ class StructureWidget(QWidget, Ui_Form):
         self.clear()
         self.unsaveFunc()
     
-    def __engineErrorMsg(self, e: EngineError):
+    def __engineErrorMsg(self, error: EngineError):
         """Show up error message."""
-        QMessageBox.warning(self,
-            str(e),
+        QMessageBox.warning(
+            self,
+            f"{error}",
             "Please install and make sure Graphviz is working."
         )
     
@@ -230,7 +232,8 @@ class StructureWidget(QWidget, Ui_Form):
             try:
                 collections.append(Graph(eval(edges)))
             except:
-                QMessageBox.warning(self,
+                QMessageBox.warning(
+                    self,
                     "Wrong format",
                     "Please check the edges text format."
                 )
@@ -246,7 +249,8 @@ class StructureWidget(QWidget, Ui_Form):
         count = self.collection_list.count()
         if not count:
             return
-        lateral, ok = QInputDialog.getInt(self,
+        lateral, ok = QInputDialog.getInt(
+            self,
             "Atlas",
             "The number of lateral:",
             5, 1, 10
@@ -338,7 +342,8 @@ class StructureWidget(QWidget, Ui_Form):
         row = self.collection_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Delete",
             f"Sure to remove # {row} from your collections?"
         )
@@ -413,7 +418,8 @@ class StructureWidget(QWidget, Ui_Form):
             ground_link = None
         else:
             ground_link = int(text.split("_")[1])
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Message",
             f"Merge \"{text}\" chain to your canvas?"
         )

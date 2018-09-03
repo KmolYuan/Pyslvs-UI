@@ -28,7 +28,8 @@ class WorkbookOverview(QDialog, Ui_Dialog):
     User cannot change anything in this interface.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         commit: Model,
         decompress: Callable[[str], Any],
         parent: QWidget

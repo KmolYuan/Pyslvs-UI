@@ -16,6 +16,7 @@ from typing import (
     List,
     Dict,
     Iterator,
+    Sequence,
     Union,
 )
 from core.QtModules import (
@@ -43,9 +44,10 @@ class _BaseTableWidget(QTableWidget):
     rowSelectionChanged = pyqtSignal(list)
     deleteRequest = pyqtSignal()
     
-    def __init__(self,
+    def __init__(
+        self,
         row: int,
-        headers: Tuple[str],
+        headers: Sequence[str],
         parent: QWidget
     ):
         super(_BaseTableWidget, self).__init__(parent)
@@ -96,38 +98,40 @@ class _BaseTableWidget(QTableWidget):
         self.setFocus()
         keyboardModifiers = QApplication.keyboardModifiers()
         if keyDetect:
-            continue_select, unselect = {
+            continue_select, not_select = {
                 Qt.ShiftModifier: (True, False),
                 Qt.ControlModifier: (True, True),
             }.get(keyboardModifiers, (False, False))
             self.__setSelectedRanges(
                 selections,
                 continue_select=continue_select,
-                unSelect=unselect
+                un_select=not_select
             )
         else:
             self.__setSelectedRanges(
                 selections,
                 continue_select=(keyboardModifiers == Qt.ShiftModifier),
-                unSelect=False
+                un_select=False
             )
     
-    def __setSelectedRanges(self,
+    def __setSelectedRanges(
+        self,
         selections: Tuple[int],
         *,
         continue_select: bool,
-        unSelect: bool
+        un_select: bool
     ):
         """Different mode of select function."""
-        selectedRows = self.selectedRows()
+        selected_rows = self.selectedRows()
         if not continue_select:
             self.clearSelection()
         self.setCurrentCell(selections[-1], 0)
         for row in selections:
-            isSelected = not row in selectedRows
+            is_selected = (row not in selected_rows) if un_select else True
             self.setRangeSelected(
                 QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
-                isSelected if unSelect else True)
+                is_selected
+            )
             self.scrollToItem(self.item(row, 0))
     
     def keyPressEvent(self, event):
@@ -168,7 +172,7 @@ class PointTableWidget(_BaseTableWidget):
             'Color',
             'X',
             'Y',
-            'Current'
+            'Current',
         ), parent)
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 130)
@@ -190,7 +194,7 @@ class PointTableWidget(_BaseTableWidget):
             if p_type[0] == 'R':
                 type = 0
                 angle = 0.
-            elif (p_type[0] == 'P') or (p_type[0] == 'RP'):
+            else:
                 angle = float(p_type[1])
                 type = 1 if p_type[0] == 'P' else 2
             vpoint = VPoint(links, type, angle, color, x, y, colorQt)
@@ -202,24 +206,17 @@ class PointTableWidget(_BaseTableWidget):
         exprs = ", ".join(vpoint.expr for vpoint in self.data())
         return f"M[{exprs}]"
     
-    def editArgs(self,
+    def editArgs(
+        self,
         row: int,
-        Links: str,
+        links: str,
         type: str,
-        Color: str,
+        color: str,
         x: float,
         y: float
     ):
-        """Edite a point."""
-        for i, e in enumerate([
-            f'Point{row}',
-            Links,
-            type,
-            Color,
-            x,
-            y,
-            f"({x}, {y})"
-        ]):
+        """Edit a point."""
+        for i, e in enumerate([f'Point{row}', links, type, color, x, y, f"({x}, {y})"]):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 3:
@@ -242,7 +239,8 @@ class PointTableWidget(_BaseTableWidget):
             coords.append(coords[0])
         return coords
     
-    def updateCurrentPosition(self,
+    def updateCurrentPosition(
+        self,
         coords: Tuple[Union[Tuple[Tuple[float, float], Tuple[float, float]]]]
     ):
         """Update the current coordinate for a point."""
@@ -317,7 +315,8 @@ class LinkTableWidget(_BaseTableWidget):
         """Return name and color as a dict."""
         return {vlink.name: vlink.colorSTR for vlink in self.data()}
     
-    def editArgs(self,
+    def editArgs(
+        self,
         row: int,
         name: str,
         color: str,
@@ -388,7 +387,8 @@ class ExprTableWidget(_BaseTableWidget):
         # Double click behavior.
         self.currentItemChanged.connect(adjustRequest)
     
-    def setExpr(self,
+    def setExpr(
+        self,
         exprs: List[Tuple[str]],
         data_dict: Dict[str, Union[Tuple[float, float], float]],
         unsolved: Tuple[int]

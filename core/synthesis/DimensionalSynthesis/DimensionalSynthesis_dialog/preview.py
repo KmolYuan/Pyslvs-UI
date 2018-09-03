@@ -11,6 +11,7 @@ from math import isnan
 from itertools import chain
 from typing import (
     Tuple,
+    List,
     Dict,
     Any,
 )
@@ -34,7 +35,8 @@ class _DynamicCanvas(BaseCanvas):
     
     """Custom canvas for preview algorithm result."""
     
-    def __init__(self,
+    def __init__(
+        self,
         mechanism: Dict[str, Any],
         path: Tuple[Tuple[Tuple[float, float]]],
         parent: QWidget
@@ -49,20 +51,17 @@ class _DynamicCanvas(BaseCanvas):
         self.__path_count = max(len(path) for path in self.Path.path) - 1
         self.pos = []
         
-        # exp_symbol = ('A', 'B', 'C', 'D', 'E')
-        self.exp_symbol = set()
+        # exp_symbol = {'P1', 'P2', 'P3', ...}
+        exp_symbol = set()
         self.links = []
         for exp in self.mechanism['Link_expr'].split(';'):
             names = strbetween(exp, '[', ']').split(',')
             self.links.append(tuple(names))
             for name in names:
-                self.exp_symbol.add(name)
-        self.exp_symbol = sorted(
-            self.exp_symbol,
-            key = lambda e: int(e.replace('P', ''))
-        )
+                exp_symbol.add(name)
+        self.exp_symbol = sorted(exp_symbol, key=lambda e: int(e.replace('P', '')))
         # Error
-        self.ERROR = False
+        self.error = False
         self.__no_error = 0
         # Timer start.
         self.__timer = QTimer(self)
@@ -138,7 +137,7 @@ class _DynamicCanvas(BaseCanvas):
             x, y = path[self.__index]
             if isnan(x):
                 self.__index, self.__no_error = self.__no_error, self.__index
-                self.ERROR = True
+                self.error = True
                 self.__interval = -self.__interval
         
         # Points that in the current angle section.
@@ -155,7 +154,7 @@ class _DynamicCanvas(BaseCanvas):
             if i == 0:
                 continue
             name = f"link_{i}"
-            self.__drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
+            self.__drawLink(name, [self.exp_symbol.index(tag) for tag in exp])
         # Draw path.
         self.__drawPath()
         # Draw solving path.
@@ -177,13 +176,13 @@ class _DynamicCanvas(BaseCanvas):
                 fixed = True
             self.drawPoint(i, x, y, fixed, color)
         self.painter.end()
-        if self.ERROR:
-            self.ERROR = False
+        if self.error:
+            self.error = False
             self.__index, self.__no_error = self.__no_error, self.__index
         else:
             self.__no_error = self.__index
     
-    def __drawLink(self, name: str, points: Tuple[int]):
+    def __drawLink(self, name: str, points: List[int]):
         """Draw link function.
         
         The link color will be the default color.
@@ -196,28 +195,20 @@ class _DynamicCanvas(BaseCanvas):
         brush.setAlphaF(0.70)
         self.painter.setBrush(brush)
         qpoints = tuple(
-            QPointF(self.pos[i][0] * self.zoom, self.pos[i][1] * -self.zoom)
-            for i in points if self.pos[i] and not isnan(self.pos[i][0])
+            QPointF(self.pos[i][0], -self.pos[i][1]) * self.zoom
+            for i in points if self.pos[i] and (not isnan(self.pos[i][0]))
         )
-        if len(qpoints)==len(points):
+        if len(qpoints) == len(points):
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.show_point_mark and name!='ground' and qpoints:
+        if self.show_point_mark and (name != 'ground') and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.font_size))
             text = f"[{name}]"
-            cenX = sum(
-                self.pos[i][0]
-                for i in points if self.pos[i]
-            )
-            cenY = sum(
-                self.pos[i][1]
-                for i in points if self.pos[i]
-            )
-            cenX *= self.zoom / len(points)
-            cenY *= -self.zoom / len(points)
-            self.painter.drawText(QPointF(cenX, cenY), text)
+            cen_x = sum(self.pos[i][0] for i in points if self.pos[i])
+            cen_y = sum(self.pos[i][1] for i in points if self.pos[i])
+            self.painter.drawText(QPointF(cen_x, -cen_y) * self.zoom / len(points), text)
     
     def __drawPath(self):
         """Draw a path.
@@ -225,11 +216,12 @@ class _DynamicCanvas(BaseCanvas):
         A simple function than main canvas.
         """
         pen = QPen()
-        Path = self.Path.path
-        for i, path in enumerate(Path):
+        for i, path in enumerate(self.Path.path):
             color = colorQt('Green')
-            if self.exp_symbol[i] in self.mechanism['Target']:
+            """
+            if symbol in self.mechanism['Target']:
                 color = colorQt('Dark-Orange')
+            """
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
@@ -251,23 +243,24 @@ class PreviewDialog(QDialog, Ui_Dialog):
     We will not be able to change result settings here.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         mechanism: Dict[str, Any],
         path: Tuple[Tuple[Tuple[float, float]]],
         parent: QWidget
     ):
-        """Show the informations of results, and setup the preview canvas."""
+        """Show the information of results, and setup the preview canvas."""
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(
             f"Preview: {mechanism['Algorithm']} "
-            f"(max {mechanism['lastGen']} generations)"
+            f"(max {mechanism['last_gen']} generations)"
         )
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([800, 100])
         self.splitter.setSizes([100, 100, 100])
-        previewWidget = _DynamicCanvas(mechanism, path, self)
-        self.left_layout.insertWidget(0, previewWidget)
+        preview_widget = _DynamicCanvas(mechanism, path, self)
+        self.left_layout.insertWidget(0, preview_widget)
         # Basic information
         link_tags = []
         for expr in mechanism['Expression'].split(';'):
@@ -281,7 +274,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
             sorted(link_tags)
         )]))
         # Algorithm information
-        fitness = mechanism['TimeAndFitness'][-1]
+        fitness = mechanism['time_fitness'][-1]
         if mechanism['interrupted'] == 'False':
             interrupt_icon = "task-completed.png"
         elif mechanism['interrupted'] == 'N/A':
@@ -289,7 +282,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         else:
             interrupt_icon = "interrupted.png"
         text_list = [
-            f"Max generation: {mechanism['lastGen']}",
+            f"Max generation: {mechanism['last_gen']}",
             f"Fitness: {fitness if type(fitness) == float else fitness[1]}",
             f"<img src=\":/icons/{interrupt_icon}\" width=\"15\"/>"
             f"Interrupted at: {mechanism['interrupted']}"
@@ -300,5 +293,5 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.algorithm_label.setText(f"<html><head/><body><p>{text}</p></body></html>")
         # Hardware information
         self.hardware_label.setText("\n".join([
-            f"{tag}: {mechanism['hardwareInfo'][tag]}" for tag in ('os', 'memory', 'cpu')
+            f"{tag}: {mechanism['hardware_info'][tag]}" for tag in ('os', 'memory', 'cpu')
         ]))

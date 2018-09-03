@@ -429,7 +429,8 @@ class SlvsWriter:
             "AddConstraint",
         ]))
 
-    def constraint_fix(self,
+    def constraint_fix(
+        self,
         num: int,
         p0: int,
         x: float,
@@ -460,7 +461,8 @@ class SlvsWriter:
         constraint_fix_hv(num, 0x30000, y)
         constraint_fix_hv(num + 1, 0x20000, x)
     
-    def constraint_distance(self,
+    def constraint_distance(
+        self,
         num: int,
         p1: int,
         p2: int,
@@ -485,7 +487,8 @@ class SlvsWriter:
             "AddConstraint",
         ]))
     
-    def constraint_diameter(self,
+    def constraint_diameter(
+        self,
         num: int,
         e1: int,
         val: float,
@@ -510,7 +513,8 @@ class SlvsWriter:
             "AddConstraint",
         ]))
     
-    def constraint_angle(self,
+    def constraint_angle(
+        self,
         num: int,
         l1: int,
         l2: int,
@@ -535,7 +539,8 @@ class SlvsWriter:
             "AddConstraint",
         ]))
     
-    def constraint_arc_line_tangent(self,
+    def constraint_arc_line_tangent(
+        self,
         num: int,
         e1: int,
         e2: int,
@@ -571,7 +576,8 @@ class SlvsWriter:
             "AddConstraint",
         ]))
     
-    def constraint_comment(self,
+    def constraint_comment(
+        self,
         num: int,
         comment: str,
         x: float,

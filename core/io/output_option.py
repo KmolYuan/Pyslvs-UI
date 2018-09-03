@@ -55,7 +55,8 @@ class _OutputDialog(QDialog, Ui_Dialog):
     
     """Output dialog template."""
     
-    def __init__(self,
+    def __init__(
+        self,
         format_name: str,
         format_icon: str,
         assembly_description: str,
@@ -115,7 +116,8 @@ class _OutputDialog(QDialog, Ui_Dialog):
     
     def exist_warning(self, name: str, *, folder: bool = False):
         """Show the "file is exist" message box."""
-        QMessageBox.warning(self,
+        QMessageBox.warning(
+            self,
             f"{'Folder' if folder else 'File'} exist",
             f"The folder named {name} is exist."
             if folder else

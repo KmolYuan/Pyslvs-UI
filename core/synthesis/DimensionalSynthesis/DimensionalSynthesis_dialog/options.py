@@ -72,7 +72,8 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         algorithm: AlgorithmType,
         settings: Dict[str, Any],
         parent: QWidget

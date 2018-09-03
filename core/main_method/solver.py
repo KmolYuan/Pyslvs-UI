@@ -82,7 +82,8 @@ def resolve(self):
     self.reloadCanvas()
 
 
-def previewpath(self,
+def previewpath(
+    self,
     auto_preview: List[List[Tuple[float, float]]],
     slider_auto_preview: Dict[int, List[Tuple[float, float]]],
     vpoints: Tuple[VPoint]

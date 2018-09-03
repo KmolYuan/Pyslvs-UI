@@ -27,7 +27,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
     + Interrupt function.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         type_num: AlgorithmType,
         mech_params: Dict[str, Any],
         setting: Dict[str, Any],
@@ -110,13 +111,14 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.interrupt_button.setEnabled(True)
     
     @pyqtSlot(dict, float)
-    def __getResult(self,
+    def __getResult(
+        self,
         mechanism: Dict[str, Any],
-        time_spand: float
+        time_spend: float
     ):
         """Get the result."""
         self.mechanisms.append(mechanism)
-        self.time_spand = time_spand
+        self.time_spend = time_spend
     
     @pyqtSlot()
     def __finish(self):

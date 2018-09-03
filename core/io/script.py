@@ -80,7 +80,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
     
     """Dialog of script preview."""
     
-    def __init__(self,
+    def __init__(
+        self,
         script: str,
         lexer: RegexLexerMeta,
         filename: str,

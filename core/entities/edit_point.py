@@ -34,7 +34,8 @@ class EditPointDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         vpoints: List[VPoint],
         vlinks: List[VLink],
         pos: bool,

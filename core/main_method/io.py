@@ -88,19 +88,22 @@ def _readSlvs(self, file_name: str):
     """
     parser = SlvsParser(file_name)
     if not parser.isValid():
-        QMessageBox.warning(self,
+        QMessageBox.warning(
+            self,
             "Format error",
             "The format is not support."
         )
         return
     groups = parser.getGroups()
     if not groups:
-        QMessageBox.warning(self,
+        QMessageBox.warning(
+            self,
             "Format error",
             "The model file is empty."
         )
         return
-    group, ok = QInputDialog.getItem(self,
+    group, ok = QInputDialog.getItem(
+        self,
         "Solvespace groups",
         "Choose a group:\n"
         "(Please know that the group must contain a sketch only.)",
@@ -262,14 +265,16 @@ def clear(self):
 
 def importPmksURL(self):
     """Load PMKS URL and turn it to expression."""
-    URL, ok = QInputDialog.getText(self,
+    URL, ok = QInputDialog.getText(
+        self,
         "PMKS URL input",
         "Please input link string:"
     )
     if not ok:
         return
     if not URL:
-        QMessageBox.warning(self,
+        QMessageBox.warning(
+            self,
             "Loading failed",
             "Your link is in an incorrect format."
         )
@@ -294,7 +299,8 @@ def importPmksURL(self):
             expr.append(f"J[{type_text}, P[{item[1]}, {item[2]}], L[{links_text}]]")
         expr = f'M[{", ".join(expr)}]'
     except:
-        QMessageBox.warning(self,
+        QMessageBox.warning(
+            self,
             "Loading failed",
             "Your link is in an incorrect format."
         )
@@ -306,10 +312,11 @@ def parseExpression(self, expr: str):
     """Parse expression."""
     try:
         args_list = parse_params(expr)
-    except Exception as e:
-        QMessageBox.warning(self,
+    except Exception as error:
+        QMessageBox.warning(
+            self,
             "Loading failed",
-            "Your expression is in an incorrect format.\n" + str(e)
+            f"Your expression is in an incorrect format.\n{error}"
         )
     else:
         for args in args_list:
@@ -432,7 +439,7 @@ def savePicture(self):
 
 
 def outputTo(self, format_name: str, format_choose: List[str]) -> str:
-    """Simple to support mutiple format."""
+    """Simple to support multiple format."""
     suffix0 = strbetween(format_choose[0], '(', ')').split('*')[-1]
     file_name, suffix = QFileDialog.getSaveFileName(
         self,
@@ -457,14 +464,16 @@ def saveReplyBox(self, title: str, file_name: str):
         if size / 1024 // 1024 else
         "{size / 1024:.02f} KB"
     ))
-    QMessageBox.information(self,
+    QMessageBox.information(
+        self,
         f"Initial Saved: {title}",
         f"Successfully saved:\n{file_name}"
     )
     print(f"Initial saved: [\"{file_name}\"]")
 
 
-def inputFrom(self,
+def inputFrom(
+    self,
     format_name: str,
     format_choose: List[str],
     multiple: bool = False
@@ -513,7 +522,8 @@ def savePMKS(self):
         "Internet Explorer as default browser, "
         "just click \"Open\" button to open it in PMKS website."
     ))
-    reply = QMessageBox.information(self,
+    reply = QMessageBox.information(
+        self,
         "PMKS web server",
         text,
         (QMessageBox.Save | QMessageBox.Open | QMessageBox.Close),
@@ -528,7 +538,8 @@ def savePMKS(self):
 def savePictureClipboard(self):
     """Capture the canvas image to clipboard."""
     QApplication.clipboard().setPixmap(self.MainCanvas.grab())
-    QMessageBox.information(self,
+    QMessageBox.information(
+        self,
         "Captured!",
         "Canvas widget picture is copy to clipboard."
     )
@@ -578,7 +589,8 @@ def checkUpdate(self):
     progdlg.show()
     url = check_update(progdlg)
     if not url:
-        QMessageBox.information(self,
+        QMessageBox.information(
+            self,
             "Pyslvs is up to date",
             "You are using the latest version of Pyslvs."
         )

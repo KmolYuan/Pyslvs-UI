@@ -84,7 +84,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         
-        # Undo stack streem.
+        # Undo stack stream.
         self.CommandStack = QUndoStack(self)
         
         # Initialize custom UI.
@@ -150,7 +150,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def resolve(self):
         _solver.resolve(self)
     
-    def previewpath(self,
+    def previewpath(
+        self,
         auto_preview: List[List[Tuple[float, float]]],
         slider_auto_preview: Dict[int, List[Tuple[float, float]]],
         vpoints: Tuple[VPoint]
@@ -190,7 +191,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def customizeZoom(self):
         """Customize zoom value."""
-        value, ok = QInputDialog.getInt(self,
+        value, ok = QInputDialog.getInt(
+            self,
             "Zoom",
             "Enter a zoom value:",
             self.ZoomBar.minimum(),
@@ -249,8 +251,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         for i, exp in enumerate(result['Link_expr'].split(';')):
             self.addNormalLink(
-                tmp_dict[name]
-                for name in strbetween(exp, '[', ']').split(',')
+                tmp_dict[name] for name in strbetween(exp, '[', ']').split(',')
             )
             if i == 0:
                 self.constrainLink(self.EntitiesLink.rowCount()-1)
@@ -474,12 +475,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def saveReplyBox(self, title: str, file_name: str):
         _io.saveReplyBox(self, title, file_name)
     
-    def inputFrom(self,
-        formatName: str,
-        formatChoose: List[str],
+    def inputFrom(
+        self,
+        format_name: str,
+        format_choose: List[str],
         multiple: bool = False
     ) -> str:
-        return _io.inputFrom(self, formatName, formatChoose, multiple)
+        return _io.inputFrom(self, format_name, format_choose, multiple)
     
     @pyqtSlot(name='on_action_Output_to_PMKS_triggered')
     def __savePMKS(self):
@@ -507,15 +509,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addFixedPoint(self):
         _entities.addFixedPoint(self)
     
-    def addPoint(self,
+    def addPoint(
+        self,
         x: float,
         y: float,
         fixed: bool = False,
-        color: str = None
+        color: Optional[str] = None
     ) -> int:
         return _entities.addPoint(self, x, y, fixed, color)
     
-    def addPointsByGraph(self,
+    def addPointsByGraph(
+        self,
         graph: Graph,
         pos: Dict[int, Tuple[float, float]],
         ground_link: int

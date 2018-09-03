@@ -177,7 +177,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Any add, rename, delete opreations will be apply immediately
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         collections: Dict[str, Any],
         getCollection: Callable[[], Dict[str, Any]],
         parent: QWidget
@@ -260,14 +261,16 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.collections_list.currentRow()
         if not row > -1:
             return
-        name, ok = QInputDialog.getText(self,
+        name, ok = QInputDialog.getText(
+            self,
             "Profile name",
             "Please enter the profile name:"
         )
         if not ok:
             return
         if not name:
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Profile name",
                 "Can not use blank string to rename."
             )
@@ -282,14 +285,16 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.collections_list.currentRow()
         if not row > -1:
             return
-        name, ok = QInputDialog.getText(self,
+        name, ok = QInputDialog.getText(
+            self,
             "Profile name",
             "Please enter a new profile name:"
         )
         if not ok:
             return
         if not name:
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Profile name",
                 "Can not use blank string to rename."
             )
@@ -304,7 +309,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.collections_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Delete",
             "Do you want to delete this structure?"
         )

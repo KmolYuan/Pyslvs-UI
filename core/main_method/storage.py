@@ -55,7 +55,8 @@ def copyStorage(self):
 
 def pasteStorage(self):
     """Add the storage data from string."""
-    expr, ok = QInputDialog.getMultiLineText(self,
+    expr, ok = QInputDialog.getMultiLineText(
+        self,
         "Storage",
         "Please input expression:"
     )
@@ -65,12 +66,14 @@ def pasteStorage(self):
         # Put the expression into parser to see if it is legal.
         parse_params(expr)
     except:
-        QMessageBox.warning(self,
+        QMessageBox.warning(
+            self,
             "Loading failed",
             "Your expression is in an incorrect format."
         )
         return
-    name, ok = QInputDialog.getText(self,
+    name, ok = QInputDialog.getText(
+        self,
         "Storage",
         "Please input name tag:"
     )
@@ -105,7 +108,8 @@ def restoreStorage(self, item: Optional[QListWidgetItem] = None):
         item = self.mechanism_storage.currentItem()
     if not item:
         return
-    reply = QMessageBox.question(self,
+    reply = QMessageBox.question(
+        self,
         "Storage",
         "Restore mechanism will overwrite the canvas.\n"
         "Do you want to continue?"

@@ -145,7 +145,8 @@ class EditPointTable(QUndoCommand):
     Copy old data and put it back when called undo.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         row: int,
         point_table: QTableWidgetItem,
         link_table: QTableWidgetItem,
@@ -181,7 +182,8 @@ class EditPointTable(QUndoCommand):
         self.__writeRows(self.old_link_items, self.new_link_items)
         self.point_table.editArgs(self.row, *self.old_args)
     
-    def __writeRows(self,
+    def __writeRows(
+        self,
         items1: Sequence[int],
         items2: Sequence[int]
     ):
@@ -213,7 +215,8 @@ class EditLinkTable(QUndoCommand):
     Copy old data and put it back when called undo.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         row: int,
         link_table: QTableWidgetItem,
         point_table: QTableWidgetItem,
@@ -267,7 +270,8 @@ class EditLinkTable(QUndoCommand):
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.point_table.setItem(row, 1, item)
     
-    def __writeRows(self,
+    def __writeRows(
+        self,
         name: str,
         items1: Sequence[int],
         items2: Sequence[int]
@@ -297,7 +301,8 @@ class AddPath(QUndoCommand):
     
     """Append a new path."""
     
-    def __init__(self,
+    def __init__(
+        self,
         widget: QListWidget,
         name: str,
         data: Dict[str, Tuple[Tuple[float, float]]],
@@ -326,7 +331,8 @@ class DeletePath(QUndoCommand):
     
     """"Delete the specified row of path."""
     
-    def __init__(self,
+    def __init__(
+        self,
         row: int,
         widget: QListWidget,
         data: Tuple[Tuple[float, float]]

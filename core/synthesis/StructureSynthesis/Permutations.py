@@ -249,7 +249,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not answers:
             return
         if break_point:
-            reply = QMessageBox.question(self,
+            reply = QMessageBox.question(
+                self,
                 "Type synthesis - abort",
                 "Do you want to keep the results?"
             )
@@ -337,9 +338,10 @@ class StructureSynthesis(QWidget, Ui_Form):
                 self.engine,
                 self.graph_link_as_node.isChecked()
             ))
-        except EngineError as e:
-            QMessageBox.warning(self,
-                str(e),
+        except EngineError as error:
+            QMessageBox.warning(
+                self,
+                f"{error}",
                 "Please install and make sure Graphviz is working."
             )
             return False
@@ -409,7 +411,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         file_name = ""
         lateral = 0
         if self.save_edges_auto.isChecked():
-            lateral, ok = QInputDialog.getInt(self,
+            lateral, ok = QInputDialog.getInt(
+                self,
                 "Atlas",
                 "The number of lateral:",
                 5, 1, 10
@@ -418,7 +421,8 @@ class StructureSynthesis(QWidget, Ui_Form):
                 return
             file_name = self.outputTo("Atlas image", QTIMAGES)
             if file_name:
-                reply = QMessageBox.question(self,
+                reply = QMessageBox.question(
+                    self,
                     "Type synthesis",
                     "Do you want to Re-synthesis?",
                     (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
@@ -432,7 +436,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not count:
             return
         if not lateral:
-            lateral, ok = QInputDialog.getInt(self,
+            lateral, ok = QInputDialog.getInt(
+                self,
                 "Atlas",
                 "The number of lateral:",
                 5, 1, 10
@@ -476,7 +481,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
             if not file_name:
                 return
-            reply = QMessageBox.question(self,
+            reply = QMessageBox.question(
+                self,
                 "Type synthesis",
                 "Do you want to Re-synthesis?",
                 (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
@@ -523,7 +529,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             try:
                 answer.append(Graph(eval(edges)))
             except:
-                QMessageBox.warning(self,
+                QMessageBox.warning(
+                    self,
                     "Wrong format",
                     "Please check the edges text format."
                 )

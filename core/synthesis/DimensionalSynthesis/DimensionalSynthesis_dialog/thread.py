@@ -36,7 +36,8 @@ class WorkerThread(QThread):
     result = pyqtSignal(dict, float)
     done = pyqtSignal()
     
-    def __init__(self,
+    def __init__(
+        self,
         type_num: AlgorithmType,
         mech_params: Dict[str, Any],
         settings: Dict[str, Any]
@@ -89,26 +90,26 @@ class WorkerThread(QThread):
         """Get the algorithm result."""
         t0 = time()
         params, tf = self.__generateProcess()
-        time_spand = time() - t0
+        time_spend = time() - t0
         cpu = numpy.distutils.cpuinfo.cpu.info[0]
-        lastGen = tf[-1][0]
+        last_gen = tf[-1][0]
         mechanism = {
-            'time': time_spand,
-            'lastGen': lastGen,
-            'interrupted': str(lastGen) if self.stoped else 'False',
+            'Algorithm': self.type_num.value,
+            'time': time_spend,
+            'last_gen': last_gen,
+            'interrupted': str(last_gen) if self.stoped else 'False',
             'settings': self.settings,
-            'hardwareInfo': {
+            'hardware_info': {
                 'os': f"{platform.system()} {platform.release()} {platform.machine()}",
                 'memory': f"{virtual_memory().total / (1 << 30):.04f} GB",
-                'cpu': cpu.get("model name", cpu.get('ProcessorNameString', ''))
+                'cpu': cpu.get("model name", cpu.get('ProcessorNameString', '')),
             },
-            'TimeAndFitness': tf
+            'time_fitness': tf,
         }
-        mechanism['Algorithm'] = self.type_num.value
         mechanism.update(self.mech_params)
         mechanism.update(params)
-        print(f"cost time: {time_spand:.02f} [s]")
-        return mechanism, time_spand
+        print(f"cost time: {time_spend:.02f} [s]")
+        return mechanism, time_spend
     
     def __generateProcess(self) -> Tuple[
         Dict[str, Any],

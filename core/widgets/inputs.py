@@ -140,7 +140,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_add.setEnabled((p1 != p0) and (vpoints[p0].type == VPoint.R))
     
     @pyqtSlot(name='on_variable_add_clicked')
-    def __addInputsVariable(self,
+    def __addInputsVariable(
+        self,
         p0: Optional[int] = None,
         p1: Optional[int] = None
     ):
@@ -151,7 +152,8 @@ class InputsWidget(QWidget, Ui_Form):
             p1 = self.driver_list.currentRow()
         
         if self.DOF() <= self.inputCount():
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Wrong DOF",
                 "The number of variable must no more than degrees of freedom."
             )
@@ -160,7 +162,8 @@ class InputsWidget(QWidget, Ui_Form):
         vpoints = self.EntitiesPoint.dataTuple()
         
         if not vpoints[p0].same_link(vpoints[p1]):
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Wrong pair",
                 "The base point and driver point should at the same link."
             )
@@ -168,7 +171,8 @@ class InputsWidget(QWidget, Ui_Form):
         
         for p0_, p1_, a in self.inputPair():
             if {p0, p1} == {p0_, p1_}:
-                QMessageBox.warning(self,
+                QMessageBox.warning(
+                    self,
                     "Wrong pair",
                     "There already have a same pair."
                 )
@@ -230,7 +234,8 @@ class InputsWidget(QWidget, Ui_Form):
         row = self.variable_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Remove variable",
             "Do you want to remove this variable?"
         )
@@ -347,7 +352,8 @@ class InputsWidget(QWidget, Ui_Form):
             self.MainCanvas.recordStart(int(360 / self.record_interval.value()))
             return
         path = self.MainCanvas.getRecordPath()
-        name, ok = QInputDialog.getText(self,
+        name, ok = QInputDialog.getText(
+            self,
             "Recording completed!",
             "Please input name tag:"
         )
@@ -356,7 +362,8 @@ class InputsWidget(QWidget, Ui_Form):
         while name in self.__path_data:
             name = f"Record_{i}"
             i += 1
-        QMessageBox.information(self,
+        QMessageBox.information(
+            self,
             "Record",
             "The name tag is being used or empty."
         )

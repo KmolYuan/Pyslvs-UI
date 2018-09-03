@@ -107,7 +107,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     This interface use to modify structure profile.
     """
     
-    def __init__(self,
+    def __init__(
+        self,
         addCollection: Callable[[Tuple[Tuple[int, int]]], None],
         parent: QWidget
     ):
@@ -173,7 +174,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     @pyqtSlot(name='on_clear_button_clicked')
     def __userClear(self):
         """Ask user before clear."""
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "New profile",
             "Triangular iteration should be added structure diagrams "
             "from structure collections.\n"
@@ -195,7 +197,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.addCollection(tuple(self.PreviewWindow.G.edges))
     
     @pyqtSlot(Graph, dict)
-    def setGraph(self,
+    def setGraph(
+        self,
         G: Graph,
         pos: Dict[int, Tuple[float, float]]
     ):
@@ -551,12 +554,14 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     def __autoConfigure(self):
         """Auto configure the solutions."""
         if not self.driver_list.count():
-            QMessageBox.information(self,
+            QMessageBox.information(
+                self,
                 "Auto configure",
                 "Please setting the driver joint(s)."
             )
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Auto configure",
             "This function can detect the structure "
             "to configure the solutions.\n"
@@ -603,7 +608,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """Clear the solutions. Return true if success."""
         if not self.expression_list.count():
             return True
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Clear the solutions",
             "Are you sure to clear the solutions?"
         )
@@ -622,7 +628,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             name = self.profile_name
             ok = True
         else:
-            name, ok = QInputDialog.getText(self,
+            name, ok = QInputDialog.getText(
+                self,
                 "Profile name",
                 "Please enter the profile name:"
             )

@@ -102,7 +102,8 @@ class DynamicCanvas(BaseCanvas):
         self.width_old = None
         self.height_old = None
     
-    def updateFigure(self,
+    def updateFigure(
+        self,
         vpoints: Tuple[VPoint],
         vlinks: Tuple[VLink],
         exprs: List[Tuple[str]],
@@ -257,7 +258,8 @@ class DynamicCanvas(BaseCanvas):
         self.selections = selections
         self.update()
     
-    def setSolvingPath(self,
+    def setSolvingPath(
+        self,
         target_path: Dict[str, Tuple[Tuple[float, float]]]
     ):
         """Update target path."""
@@ -301,7 +303,8 @@ class DynamicCanvas(BaseCanvas):
         self.path_record.clear()
         return path
     
-    def adjustLink(self,
+    def adjustLink(
+        self,
         coords: Tuple[Union[Tuple[Tuple[float, float], Tuple[float, float]]]]
     ):
         """Change points coordinates."""

@@ -246,7 +246,8 @@ class BaseCanvas(QWidget):
         # Please to call the "end" method when ending paint event.
         # self.painter.end()
     
-    def drawPoint(self,
+    def drawPoint(
+        self,
         i: int,
         cx,
         cy,
@@ -322,7 +323,8 @@ class BaseCanvas(QWidget):
                     self.painter.drawEllipse(p, self.joint_size, self.joint_size)
         self.painter.setBrush(Qt.NoBrush)
     
-    def __drawArrow(self,
+    def __drawArrow(
+        self,
         x1: float,
         y1: float,
         x2: float,
@@ -401,7 +403,8 @@ class BaseCanvas(QWidget):
                 continue
             self.painter.drawPoint(QPointF(x, -y) * self.zoom)
     
-    def solutionPolygon(self,
+    def solutionPolygon(
+        self,
         func: str,
         args: Tuple[str],
         target: str,
@@ -432,7 +435,8 @@ class BaseCanvas(QWidget):
                 tmp_list.append(QPointF(x, -y) * self.zoom)
         return tmp_list, color
     
-    def drawSolution(self,
+    def drawSolution(
+        self,
         func: str,
         args: Tuple[str],
         target: str,
@@ -469,7 +473,8 @@ class PreviewCanvas(BaseCanvas):
     
     """A preview canvas use to show structure diagram."""
     
-    def __init__(self,
+    def __init__(
+        self,
         get_solutions: Callable[[], Tuple[str]],
         parent: QWidget
     ):

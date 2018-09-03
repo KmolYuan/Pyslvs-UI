@@ -43,7 +43,7 @@ from core.io import (
     strbetween,
     strbefore,
 )
-from core.libs import expr_solving
+from core.libs import expr_solving, VPoint
 from core.synthesis import CollectionsDialog
 from .DimensionalSynthesis_dialog import (
     GeneticPrams,
@@ -145,7 +145,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.updateRange()
         self.__ableToGenerate()
     
-    def mechanismData(self,
+    def mechanismData(
+        self,
         index: Optional[int] = None
     ) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
         """Return the index of mechanism data."""
@@ -165,7 +166,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if reply == QMessageBox.Yes:
             self.__clearSettings()
     
-    def loadResults(self,
+    def loadResults(
+        self,
         __mechanism_data: List[Dict[str, Any]]
     ):
         """Append results of workbook database to memory."""
@@ -200,7 +202,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __clearPath(self, *, ask: bool = True):
         """Clear the current target path."""
         if ask:
-            reply = QMessageBox.question(self,
+            reply = QMessageBox.question(
+                self,
                 "Clear path",
                 "Are you sure to clear the current path?"
             )
@@ -278,7 +281,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             try:
                 data.append((round(float(x), 4), round(float(y), 4)))
             except:
-                QMessageBox.warning(self,
+                QMessageBox.warning(
+                    self,
                     "File error",
                     "Wrong format.\n"
                     "The datasheet seems to including non-digital cell."
@@ -385,7 +389,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if leng<0:
                 leng = len(path)
             if len(path)!=leng:
-                QMessageBox.warning(self,
+                QMessageBox.warning(
+                    self,
                     "Target Error",
                     "The length of target paths should be the same."
                 )
@@ -424,12 +429,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for m in dlg.mechanisms:
             self.__mechanism_data.append(m)
             self.__addResult(m)
-        self.__setTime(dlg.time_spand)
+        self.__setTime(dlg.time_spend)
         self.unsaveFunc()
-        QMessageBox.information(self,
+        QMessageBox.information(
+            self,
             "Dimensional Synthesis",
-            "Your tasks is all completed.",
-            QMessageBox.Ok
+            "Your tasks is all completed."
         )
         print("Finished.")
     
@@ -468,7 +473,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Delete",
             "Delete this result from list?"
         )
@@ -508,14 +514,15 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(self,
+        reply = QMessageBox.question(
+            self,
             "Merge",
             "Merge this result to your canvas?"
         )
         if reply == QMessageBox.Yes:
             self.mergeResult(row, self.__getPath(row))
     
-    def __getPath(self, row: int):
+    def __getPath(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
         Result = self.__mechanism_data[row]
         exprs = []
@@ -571,7 +578,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 else:
                     # Update with result.
                     for i in range(vpoint_count):
-                        if result[i][0] == tuple:
+                        if vpoints[i].type in {VPoint.P, VPoint.RP}:
                             path[i].append(result[i][1])
                             vpoints[i].move(result[i][0], result[i][1])
                         else:
@@ -604,7 +611,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Save as new profile to collection widget."""
         if not self.mech_params:
             return
-        name, ok = QInputDialog.getText(self,
+        name, ok = QInputDialog.getText(
+            self,
             "Profile name",
             "Please enter the profile name:"
         )
@@ -773,7 +781,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.updateRange()
         self.__ableToGenerate()
         if not self.Expression.text():
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 "Profile cannot use",
                 "This profile has no any solutions, "
                 "you can set it in the \"Triangular iteration\" page."

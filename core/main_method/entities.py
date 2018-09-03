@@ -189,11 +189,12 @@ def addFixedPoint(self):
     self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
 
 
-def addPoint(self,
+def addPoint(
+    self,
     x: float,
     y: float,
     fixed: bool,
-    color: str
+    color: Optional[str]
 ) -> int:
     """Add an ordinary point.
     Return the row count of new point.
@@ -219,7 +220,8 @@ def addPoint(self,
     return row_count
 
 
-def addPointsByGraph(self,
+def addPointsByGraph(
+    self,
     G: Graph,
     pos: Dict[int, Tuple[float, float]],
     ground_link: int
@@ -313,7 +315,8 @@ def clonePoint(self):
     self.CommandStack.endMacro()
 
 
-def setFreemove(self,
+def setFreemove(
+    self,
     coords: Tuple[Tuple[int, Tuple[float, float, float]]]
 ):
     """Free move function."""

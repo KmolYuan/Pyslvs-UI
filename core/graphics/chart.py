@@ -23,7 +23,8 @@ class DataChart(QChart):
     
     """A axis setted Qt chart widget."""
     
-    def __init__(self,
+    def __init__(
+        self,
         title: str,
         axis_x: QValueAxis,
         axis_y: QValueAxis
