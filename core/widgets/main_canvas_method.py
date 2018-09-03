@@ -134,7 +134,7 @@ def _drawFrame(self):
 
 def _drawPoint(self, i: int, vpoint: VPoint):
     """Draw a point."""
-    if vpoint.type in {1, 2}:
+    if vpoint.type in {VPoint.P, VPoint.RP}:
         pen = QPen(vpoint.color)
         pen.setWidth(2)
         
@@ -145,7 +145,7 @@ def _drawPoint(self, i: int, vpoint: VPoint):
             else:
                 grounded = vpoint.links[j] == 'ground'
             # Slot point.
-            if (j == 0) or (vpoint.type == 1):
+            if (j == 0) or (vpoint.type == VPoint.P):
                 pen.setColor(vpoint.color)
                 self.painter.setPen(pen)
                 cp = QPointF(cx, -cy) * self.zoom
@@ -201,7 +201,7 @@ def _pointsPos(self, vlink: VLink) -> List[Tuple[float, float]]:
     points = []
     for i in vlink.points:
         vpoint = self.vpoints[i]
-        if vpoint.type == 0:
+        if vpoint.type == VPoint.R:
             x = vpoint.cx * self.zoom
             y = vpoint.cy * -self.zoom
         else:
@@ -669,7 +669,7 @@ def mouseMoveEvent(self, event):
                     r = hypot(vpoint.x, vpoint.y)
                     beta = atan2(vpoint.y, vpoint.x)
                     vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
-                    if vpoint.type != 0:
+                    if vpoint.type != VPoint.R:
                         vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
             elif self.freemove == FreeMode.Reflect:
                 # Free move reflect function.
@@ -678,7 +678,7 @@ def mouseMoveEvent(self, event):
                 QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)
                 for num in self.selections:
                     vpoint = self.vpoints[num]
-                    if vpoint.type == 0:
+                    if vpoint.type == VPoint.R:
                         vpoint.move((vpoint.x * fx, vpoint.y * fy))
                     else:
                         vpoint.move((vpoint.x * fx, vpoint.y * fy))

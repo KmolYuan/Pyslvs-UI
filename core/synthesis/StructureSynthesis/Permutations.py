@@ -32,7 +32,7 @@ from core.QtModules import (
     QFileInfo,
 )
 from core.io import QTIMAGES
-from core.libs import number_synthesis, topo
+from core.libs import number_synthesis, topo, VPoint
 from core.graphics import (
     graph,
     engines,
@@ -131,11 +131,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             sum(len(vlink.points) > 1 for vlink in linkData) +
             sum(
                 len(vpoint.links) - 2 for vpoint in jointData
-                if (vpoint.type == 2) and (len(vpoint.links) > 1)
+                if (vpoint.type == VPoint.RP) and (len(vpoint.links) > 1)
             )
         )
         self.NJ_input.setValue(sum(
-            (len(vpoint.links) - 1 + int(vpoint.type == 2))
+            (len(vpoint.links) - 1 + int(vpoint.type == VPoint.RP))
             for vpoint in jointData if (len(vpoint.links) > 1)
         ))
         self.keep_dof.setChecked(keep_dof_checked)

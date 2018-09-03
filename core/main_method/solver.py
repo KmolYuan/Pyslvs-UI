@@ -105,7 +105,7 @@ def previewpath(self,
     slider_auto_preview.clear()
     for i in range(vpoint_count):
         auto_preview.append([])
-        if vpoints[i].type in {1, 2}:
+        if vpoints[i].type in {VPoint.P, VPoint.RP}:
             slider_auto_preview[i] = []
     
     bases = []
@@ -154,10 +154,10 @@ def previewpath(self,
             else:
                 # Update with result.
                 for i in range(vpoint_count):
-                    if vpoints[i].type == 0:
+                    if vpoints[i].type == VPoint.R:
                         auto_preview[i].append(result[i])
                         vpoints[i].move(result[i])
-                    elif vpoints[i].type in {1, 2}:
+                    elif vpoints[i].type in {VPoint.P, VPoint.RP}:
                         # Pin path
                         auto_preview[i].append(result[i][1])
                         # Slot path
@@ -190,7 +190,7 @@ def getGraph(self) -> List[Tuple[int, int]]:
             for m, vlink_ in enumerate(vlinks):
                 if not ((i != m) and (p in vlink_.points)):
                     continue
-                if vpoints[p].type != 2:
+                if vpoints[p].type != VPoint.RP:
                     G.add_edge(i, m)
                     continue
                 G.add_edge(i, k)
@@ -227,7 +227,7 @@ def getCollection(self) -> Dict[str, Union[
     """
     vpoints = self.EntitiesPoint.dataTuple()
     for vpoint in vpoints:
-        if vpoint.type != 0:
+        if vpoint.type in {VPoint.P, VPoint.RP}:
             raise ValueError("Not support for prismatic joint yet.")
     vlinks = self.EntitiesLink.dataTuple()
     link_names = [vlink.name for vlink in vlinks]

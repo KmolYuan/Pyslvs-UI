@@ -28,6 +28,7 @@ from core.io import (
     AddVariable, DeleteVariable,
     AddPath, DeletePath,
 )
+from core.libs import VPoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 
@@ -136,9 +137,7 @@ class InputsWidget(QWidget, Ui_Form):
             return
         p0 = self.joint_list.currentRow()
         vpoints = self.EntitiesPoint.dataTuple()
-        self.variable_add.setEnabled(
-            p1 != p0 and vpoints[p0].type == 0
-        )
+        self.variable_add.setEnabled((p1 != p0) and (vpoints[p0].type == VPoint.R))
     
     @pyqtSlot(name='on_variable_add_clicked')
     def __addInputsVariable(self,
