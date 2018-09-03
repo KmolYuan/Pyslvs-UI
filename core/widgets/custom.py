@@ -324,7 +324,7 @@ def _options(self):
     self.background_offset_y_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetY)
     # Resolve after change current kernel.
     self.planarsolver_option.addItems(kernel_list)
-    self.pathpreview_option.addItems(kernel_list)
+    self.pathpreview_option.addItems(kernel_list + ("Same as solver kernel",))
     self.planarsolver_option.currentIndexChanged.connect(self.solve)
     self.pathpreview_option.currentIndexChanged.connect(self.solve)
     self.settings_reset.clicked.connect(self.resetOptions)

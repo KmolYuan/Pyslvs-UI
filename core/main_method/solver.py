@@ -97,8 +97,9 @@ def previewpath(self,
     vpoint_count = len(vpoints)
     
     solve_kernel = self.pathpreview_option.currentIndex()
+    if solve_kernel == self.pathpreview_option.count() - 1:
+        solve_kernel = self.planarsolver_option.currentIndex()
     interval_o = self.InputsWidget.interval()
-    nan = float('nan')
     
     # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
     auto_preview.clear()
@@ -120,6 +121,7 @@ def previewpath(self,
     # Cumulative angle
     angles_cum = [0.] * i_count
     
+    nan = float('nan')
     for interval in (interval_o, -interval_o):
         # Driver pointer
         dp = 0
