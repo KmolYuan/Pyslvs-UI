@@ -587,22 +587,23 @@ def mouseReleaseEvent(self, event):
     """
     if self.selector.left_dragged:
         self.selector.selection_old = list(self.selections)
-        km = self.selector.km()
-        if km == Qt.AltModifier:
-            # Add Point
-            self.alt_add.emit(
-                _snap(self, self.selector.x, is_zoom=False),
-                _snap(self, self.selector.y, is_zoom=False)
-            )
-        elif (
-            (not self.selector.selection_rect) and
-            km != Qt.ControlModifier and
-            km != Qt.ShiftModifier
-        ):
-            self.noselected.emit()
-        elif (self.select_mode == 0) and (self.freemove != FreeMode.NoFreeMove):
+        if (self.select_mode == 0) and (self.freemove != FreeMode.NoFreeMove):
             # Edit point coordinates.
             _emit_freemove(self, self.selections)
+        else:
+            km = self.selector.km()
+            if km == Qt.AltModifier:
+                # Add Point
+                self.alt_add.emit(
+                    _snap(self, self.selector.x, is_zoom=False),
+                    _snap(self, self.selector.y, is_zoom=False)
+                )
+            elif (
+                (not self.selector.selection_rect) and
+                km != Qt.ControlModifier and
+                km != Qt.ShiftModifier
+            ):
+                self.noselected.emit()
     self.selector.release()
     self.update()
     event.accept()
