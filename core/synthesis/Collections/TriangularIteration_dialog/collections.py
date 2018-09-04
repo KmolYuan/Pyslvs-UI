@@ -198,7 +198,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         # Current profile name.
         self.__name_loaded = ""
         
-        def get_solutions_func() -> Tuple[str]:
+        def get_solutions_func() -> Tuple[str, ...]:
             """Return solutions to preview canvas."""
             try:
                 return self.collections[self.__name_loaded]['Expression']

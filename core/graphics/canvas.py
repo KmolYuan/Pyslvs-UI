@@ -102,12 +102,12 @@ def edges_view(G: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
 
 
 def graph2vpoints(
-    G: Graph,
+    graph: Graph,
     pos: Dict[int, Tuple[float, float]],
     cus: Dict[str, int],
     same: Dict[int, int]
-) -> Tuple[VPoint]:
-    """Change Networkx graph into VPoints."""
+) -> Tuple[VPoint, ...]:
+    """Change NetworkX graph into VPoints."""
     same_r = {}
     for k, v in same.items():
         if v in same_r:
@@ -115,7 +115,7 @@ def graph2vpoints(
         else:
             same_r[v] = [k]
     tmp_list = []
-    ev = dict(edges_view(G))
+    ev = dict(edges_view(graph))
     for i, e in ev.items():
         if i in same:
             # Do not connect to anyone!

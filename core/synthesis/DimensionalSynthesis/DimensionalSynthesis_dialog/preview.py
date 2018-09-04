@@ -13,6 +13,7 @@ from typing import (
     Tuple,
     List,
     Dict,
+    Sequence,
     Any,
 )
 from core.QtModules import (
@@ -218,6 +219,7 @@ class _DynamicCanvas(BaseCanvas):
         pen = QPen()
         for i, path in enumerate(self.Path.path):
             color = colorQt('Green')
+            # FIXME: There has a bug of appearance.
             """
             if symbol in self.mechanism['Target']:
                 color = colorQt('Dark-Orange')
@@ -246,7 +248,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
     def __init__(
         self,
         mechanism: Dict[str, Any],
-        path: Tuple[Tuple[Tuple[float, float]]],
+        path: Sequence[Sequence[Tuple[float, float]]],
         parent: QWidget
     ):
         """Show the information of results, and setup the preview canvas."""

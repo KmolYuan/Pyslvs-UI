@@ -96,11 +96,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.update(DifferentialPrams)
         self.__setAlgorithmToDefault()
         
-        def get_solutions_func() -> Tuple[str]:
+        def get_solutions_func() -> Tuple[str, ...]:
             """For preview canvas."""
-            try:
+            if 'Expression' in self.mech_params:
                 return self.mech_params['Expression']
-            except KeyError:
+            else:
                 return ()
         
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
@@ -230,34 +230,33 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Paste path data from a text file."""
         file_name = self.inputFrom(
             "Path data",
-            ["Text file (*.txt)",
-            "Comma-Separated Values (*.csv)"]
+            ["Text file (*.txt)", "Comma-Separated Values (*.csv)"]
         )
         if not file_name:
             return
         data = []
         with open(file_name, newline='') as stream:
-            reader = csv.reader(stream, delimiter=' ', quotechar='|')
-            for row in reader:
-                data += ' '.join(row).split(',')
+            for row in csv.reader(stream, delimiter=' ', quotechar='|'):
+                data += " ".join(row).split(',')
         self.__readPathFromCSV(data)
     
-    def __readPathFromCSV(self, data: List[str]):
-        """Trun STR to FLOAT then add them to current target path."""
+    def __readPathFromCSV(self, raw_data: List[str]):
+        """Turn string to float then add them to current target path."""
         try:
             data = [
-                (round(float(data[i]), 4), round(float(data[i + 1]), 4))
-                for i in range(0, len(data), 2)
+                (round(float(raw_data[i]), 4), round(float(raw_data[i + 1]), 4))
+                for i in range(0, len(raw_data), 2)
             ]
-        except:
-            QMessageBox.warning(self, "File error",
-                "Wrong format.\n"
-                "It should be look like this:"
+        except (IndexError, ValueError):
+            QMessageBox.warning(
+                self,
+                "File error",
+                "Wrong format.\nIt should be look like this:"
                 "\n0.0,0.0[\\n]" * 3
             )
         else:
-            for e in data:
-                self.addPoint(e[0], e[1])
+            for x, y in data:
+                self.addPoint(x, y)
     
     @pyqtSlot(name='on_import_xlsx_button_clicked')
     def __importXLSX(self):
@@ -276,7 +275,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         while True:
             x = ws.cell(row=i, column=1).value
             y = ws.cell(row=i, column=2).value
-            if x == None or y == None:
+            if None in {x, y}:
                 break
             try:
                 data.append((round(float(x), 4), round(float(y), 4)))
@@ -285,7 +284,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     self,
                     "File error",
                     "Wrong format.\n"
-                    "The datasheet seems to including non-digital cell."
+                    "The data sheet seems to including non-digital cell."
                 )
                 break
             i += 1
@@ -384,11 +383,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __synthesis(self):
         """Start synthesis."""
         # Check if the number of target points are same.
-        leng = -1
+        length = -1
         for path in self.path.values():
-            if leng<0:
-                leng = len(path)
-            if len(path)!=leng:
+            if length < 0:
+                length = len(path)
+            if len(path) != length:
                 QMessageBox.warning(
                     self,
                     "Target Error",
@@ -400,7 +399,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.RGA
         elif self.type1.isChecked():
             type_num = AlgorithmType.Firefly
-        elif self.type2.isChecked():
+        else:
             type_num = AlgorithmType.DE
         # Deep copy it so the pointer will not the same.
         mech_params = deepcopy(self.mech_params)
@@ -524,9 +523,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     def __getPath(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
-        Result = self.__mechanism_data[row]
+        result = self.__mechanism_data[row]
         exprs = []
-        for expr in Result['Expression'].split(';'):
+        for expr in result['Expression'].split(';'):
             func = strbefore(expr, '[')
             params = strbetween(expr, '[', ']').split(',')
             target = strbetween(expr, '(', ')')
@@ -534,23 +533,21 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             params.append(target)
             exprs.append(tuple(params))
         pos = {}
-        for name in Result['pos']:
+        for name in result['pos']:
             try:
-                pos[name] = Result[f'P{name}']
+                pos[name] = result[f'P{name}']
             except KeyError:
-                pos[name] = Result['pos'][name]
+                pos[name] = result['pos'][name]
         
         vpoints = graph2vpoints(
-            Graph(Result['Graph']),
+            Graph(result['Graph']),
             pos,
-            Result['cus'],
-            Result['same']
+            result['cus'],
+            result['same']
         )
         vpoint_count = len(vpoints)
         
-        path = []
-        for i in range(vpoint_count):
-            path.append([])
+        path = [[] for i in range(vpoint_count)]
         
         # Cumulative angle
         i_count = sum(1 for e in exprs if e[0] == 'PLAP')
@@ -562,7 +559,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             angles = [0.] * i_count
             while dp < i_count:
                 try:
-                    result = expr_solving(
+                    solved_result = expr_solving(
                         exprs,
                         {n: f'P{n}' for n in range(len(vpoints))},
                         vpoints,
@@ -579,11 +576,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     # Update with result.
                     for i in range(vpoint_count):
                         if vpoints[i].type in {VPoint.P, VPoint.RP}:
-                            path[i].append(result[i][1])
-                            vpoints[i].move(result[i][0], result[i][1])
+                            path[i].append(solved_result[i][1])
+                            vpoints[i].move(solved_result[i][0], solved_result[i][1])
                         else:
-                            path[i].append(result[i])
-                            vpoints[i].move(result[i])
+                            path[i].append(solved_result[i])
+                            vpoints[i].move(solved_result[i])
                     angles[dp] += interval
                     angles[dp] %= 360
                     angles_cum[dp] += abs(interval)
@@ -831,7 +828,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.RGA
         elif self.type1.isChecked():
             type_num = AlgorithmType.Firefly
-        elif self.type2.isChecked():
+        else:
             type_num = AlgorithmType.DE
         dlg = AlgorithmOptionDialog(type_num, self.alg_options, self)
         dlg.show()
@@ -882,7 +879,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.updateRanges({
             t(row, 0): (t(row, 2), t(row, 3), t(row, 4))
             for row in range(self.parameter_list.rowCount())
-            if t(row, 1) in ('Follower', 'Driver')
+            if t(row, 1) in {'Follower', 'Driver'}
         })
     
     @pyqtSlot(name='on_expr_copy_clicked')
