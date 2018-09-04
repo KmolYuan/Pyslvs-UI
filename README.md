@@ -12,7 +12,8 @@ Pyslvs on [Sourceforge](https://sourceforge.net/projects/pyslvs/).
 
 1. [Introduction](#introduction)
 
-    + [How to startup](#how-to-startup)
+    + [Design Method](#design-method)
+    + [How to Startup](#how-to-startup)
     + [Symbolic](#symbolic)
     + [Kinematics Simulation](#kinematics-simulation)
     + [Number and Type Synthesis](#number-and-type-synthesis)
@@ -36,7 +37,7 @@ Pyslvs on [Sourceforge](https://sourceforge.net/projects/pyslvs/).
 
 # Introduction
 
-A GUI-based tool use to solving 2D linkage subject.
+A GUI-based tool use to design 2D linkage mechanism.
 
 + **Planar Linkages Simulation**:
 
@@ -48,15 +49,6 @@ A GUI-based tool use to solving 2D linkage subject.
     - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
     - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
-Actual testing platforms:
-
-+ ![w3.6](https://img.shields.io/badge/Windows%20x64-Python%203.6-blue.svg)
-+ ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg) (currently not support PyInstaller)
-+ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.6-orange.svg)
-+ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
-
-**Please note that the other platforms may be available but I have not tested before.**
-
 Previews in KDE Plasma desktop:
 
 ![main](images/main_plasma.png)
@@ -65,7 +57,21 @@ Previews in Windows 10 theme:
 
 ![main](images/main_win.png)
 
-## How to startup
+## Design Method
+
+![computer_aid_design_method]
+
+Three-steps design flow:
+
++ Structure Synthesis
++ Dimensional Synthesis
++ Kinematic Simulation
+
+Including sequential processes and inverse analysis.
+
+[computer_aid_design_method]: images/computer_aid_design_method_watermark.png
+
+## How to Startup
 
 Here's some command line options for Pyslvs.
 
@@ -243,9 +249,14 @@ For the IO method of Solvespace format, you can also refer to two Python scripts
 
 # Modules Requirement
 
-You should install some python module and SDK first.
+Actual testing platforms:
 
-The Makefile is included at compile steps, so some environment setting also should be set.
++ ![w3.6](https://img.shields.io/badge/Windows%20x64-Python%203.6-blue.svg)
++ ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg) (currently not support PyInstaller)
++ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.6-orange.svg)
++ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
+
+**Please note that the other platforms may be available but I have not tested before.**
 
 **Ubuntu**:
 
@@ -298,6 +309,8 @@ Windows user can get Qt tools by pip (maybe not newest version), without to inst
 ```
 
 # Kernels Requirement
+
+About the development tools, please see [Modules Requirement](#modules-requirement).
 
 Make command:
 
