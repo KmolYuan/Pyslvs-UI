@@ -39,7 +39,7 @@ class _DynamicCanvas(BaseCanvas):
     def __init__(
         self,
         mechanism: Dict[str, Any],
-        path: Tuple[Tuple[Tuple[float, float]]],
+        path: Sequence[Sequence[Tuple[float, float]]],
         parent: QWidget
     ):
         """Input link and path data."""
@@ -50,7 +50,7 @@ class _DynamicCanvas(BaseCanvas):
         self.__index = 0
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.Path.path) - 1
-        self.pos = []
+        self.pos: List[Tuple[float, float]] = []
         
         # exp_symbol = {'P1', 'P2', 'P3', ...}
         exp_symbol = set()
@@ -154,34 +154,42 @@ class _DynamicCanvas(BaseCanvas):
         for i, exp in enumerate(self.links):
             if i == 0:
                 continue
-            name = f"link_{i}"
-            self.__drawLink(name, [self.exp_symbol.index(tag) for tag in exp])
+            self.__drawLink(f"link_{i}", [self.exp_symbol.index(tag) for tag in exp])
+        
         # Draw path.
         self.__drawPath()
+        
         # Draw solving path.
         self.drawTargetPath()
+        
         # Draw points.
         for i, name in enumerate(self.exp_symbol):
             if not self.pos[i]:
                 continue
-            x, y = self.pos[i]
-            color = colorQt('Green')
-            fixed = False
-            if name in self.mechanism['Target']:
-                color = colorQt('Dark-Orange')
-            elif name in self.mechanism['Driver']:
-                color = colorQt('Red')
-                fixed = True
-            elif name in self.mechanism['Follower']:
-                color = colorQt('Blue')
-                fixed = True
-            self.drawPoint(i, x, y, fixed, color)
+            self.__drawPoint(i, name)
+        
         self.painter.end()
+        
         if self.error:
             self.error = False
             self.__index, self.__no_error = self.__no_error, self.__index
         else:
             self.__no_error = self.__index
+    
+    def __drawPoint(self, i: int, name: str):
+        """Draw point function."""
+        x, y = self.pos[i]
+        color = colorQt('Green')
+        fixed = False
+        if name in self.mechanism['Target']:
+            color = colorQt('Dark-Orange')
+        elif name in self.mechanism['Driver']:
+            color = colorQt('Red')
+            fixed = True
+        elif name in self.mechanism['Follower']:
+            color = colorQt('Blue')
+            fixed = True
+        self.drawPoint(i, x, y, fixed, color)
     
     def __drawLink(self, name: str, points: List[int]):
         """Draw link function.
@@ -219,11 +227,8 @@ class _DynamicCanvas(BaseCanvas):
         pen = QPen()
         for i, path in enumerate(self.Path.path):
             color = colorQt('Green')
-            # FIXME: There has a bug of appearance.
-            """
-            if symbol in self.mechanism['Target']:
+            if self.exp_symbol[i] in self.mechanism['Target']:
                 color = colorQt('Dark-Orange')
-            """
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
@@ -240,7 +245,7 @@ class _DynamicCanvas(BaseCanvas):
 
 class PreviewDialog(QDialog, Ui_Dialog):
     
-    """Preview dialog has some informations.
+    """Preview dialog has some information.
     
     We will not be able to change result settings here.
     """

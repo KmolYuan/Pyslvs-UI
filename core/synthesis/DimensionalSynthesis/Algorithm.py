@@ -524,6 +524,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __getPath(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
         result = self.__mechanism_data[row]
+        
         exprs = []
         for expr in result['Expression'].split(';'):
             func = strbefore(expr, '[')
@@ -532,12 +533,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             params.insert(0, func)
             params.append(target)
             exprs.append(tuple(params))
+        
         pos = {}
-        for name in result['pos']:
+        mapping = {}
+        p_count = 0
+        for n in result['pos']:
             try:
-                pos[name] = result[f'P{name}']
+                pos[n] = result[f'P{n}']
             except KeyError:
-                pos[name] = result['pos'][name]
+                pos[n] = result['pos'][n]
+            if n not in result['same']:
+                mapping[p_count] = f'P{n}'
+                p_count += 1
         
         vpoints = graph2vpoints(
             Graph(result['Graph']),
@@ -559,13 +566,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             angles = [0.] * i_count
             while dp < i_count:
                 try:
-                    solved_result = expr_solving(
-                        exprs,
-                        {n: f'P{n}' for n in range(len(vpoints))},
-                        vpoints,
-                        angles
-                    )
-                except Exception:
+                    solved_result = expr_solving(exprs, mapping, vpoints, angles)
+                except RuntimeError:
                     # Update with error sign.
                     for i in range(vpoint_count):
                         path[i].append((nan, nan))

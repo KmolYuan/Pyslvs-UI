@@ -64,12 +64,15 @@ def resolve(self):
                 vpoints,
                 tuple(self.InputsWidget.inputPair())
             )
-    except Exception as e:
+        else:
+            raise RuntimeError("Incorrect kernel.")
+    except RuntimeError as error:
         # Error: Show warning without update data.
         if self.consoleerror_option.isChecked():
             print(traceback.format_exc())
-        self.ConflictGuide.setToolTip(str(e))
-        self.ConflictGuide.setStatusTip(f"Error: {e}")
+        error_text = f"Error: {error}"
+        self.ConflictGuide.setToolTip(error_text)
+        self.ConflictGuide.setStatusTip(error_text)
         self.ConflictGuide.setVisible(True)
         self.DOFview.setVisible(False)
     else:
@@ -113,10 +116,10 @@ def previewpath(
     bases = []
     drivers = []
     angles_o = []
-    for v in self.InputsWidget.inputPair():
-        bases.append(v[0])
-        drivers.append(v[1])
-        angles_o.append(v[2])
+    for b, d, a in self.InputsWidget.inputPair():
+        bases.append(b)
+        drivers.append(d)
+        angles_o.append(a)
     
     i_count = self.InputsWidget.inputCount()
     # Cumulative angle
@@ -137,17 +140,19 @@ def previewpath(
                         angles
                     )
                 elif solve_kernel == 1:
-                    result, _ = slvs_solve(
-                        vpoints,
-                        tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
-                        if not self.freemode_button.isChecked() else ()
-                    )
+                    if self.freemode_button.isChecked():
+                        inputs = ()
+                    else:
+                        inputs = tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
+                    result, _ = slvs_solve(vpoints, inputs)
                 elif solve_kernel == 2:
                     result = bfgs_vpoint_solving(
                         vpoints,
                         tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
                     )
-            except Exception:
+                else:
+                    raise RuntimeError("Incorrect kernel.")
+            except RuntimeError:
                 # Update with error sign.
                 for i in range(vpoint_count):
                     auto_preview[i].append((nan, nan))
@@ -204,15 +209,15 @@ def getGraph(self) -> List[Tuple[int, int]]:
 
 
 def getCollection(self) -> Dict[str, Union[
-    Dict[str, None], # Driver
-    Dict[str, None], # Follower
-    Dict[str, List[Tuple[float, float]]], # Target
-    str, # Link_expr
-    str, # Expression
-    Tuple[Tuple[int, int]], # Graph
-    Dict[int, Tuple[float, float]], # pos
-    Dict[str, int], # cus
-    Dict[int, int] # same
+    Dict[str, None],  # Driver
+    Dict[str, None],  # Follower
+    Dict[str, List[Tuple[float, float]]],  # Target
+    str,  # Link_expr
+    str,  # Expression
+    Tuple[Tuple[int, int]],  # Graph
+    Dict[int, Tuple[float, float]],  # pos
+    Dict[str, int],  # cus
+    Dict[int, int]  # same
 ]]:
     """Return collection data.
     
@@ -249,7 +254,7 @@ def getCollection(self) -> Dict[str, Union[
     mapping = {}
     not_cus = set()
     
-    def haslink(index: int) -> Tuple[bool, Optional[int]]:
+    def has_link(index: int) -> Tuple[bool, Optional[int]]:
         for key, value in mapping.items():
             if index == value:
                 return True, key
@@ -261,7 +266,7 @@ def getCollection(self) -> Dict[str, Union[
         j = find({link_names.index(link) for link in vpoint.links})
         # Set position.
         pos[j] = vpoint.c[0]
-        ok, index = haslink(j)
+        ok, index = has_link(j)
         if ok:
             same[i] = index
         else:
@@ -285,7 +290,7 @@ def getCollection(self) -> Dict[str, Union[
         if ('ground' in vpoint.links) and (i not in drivers)
     }
     
-    def mapstr(s: str) -> str:
+    def map_str(s: str) -> str:
         """Replace as mapped index."""
         if not s.replace('P', '').isdigit():
             return s
@@ -294,8 +299,8 @@ def getCollection(self) -> Dict[str, Union[
     
     expr_list = []
     for exprs in self.getTriangle():
-        params = ','.join(mapstr(i) for i in exprs[1:-1])
-        expr_list.append(f'{exprs[0]}[{params}]({mapstr(exprs[-1])})')
+        params = ','.join(map_str(i) for i in exprs[1:-1])
+        expr_list.append(f'{exprs[0]}[{params}]({map_str(exprs[-1])})')
     
     link_expr_list = []
     for vlink in vlinks:

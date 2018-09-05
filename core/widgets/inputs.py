@@ -5,8 +5,8 @@
 import csv
 from typing import (
     Tuple,
+    List,
     Iterator,
-    Union,
     Optional,
 )
 from core.QtModules import (
@@ -220,9 +220,9 @@ class InputsWidget(QWidget, Ui_Form):
         Default: all.
         """
         one_row = row is not None
-        for i, variable in enumerate(self.inputPair()):
+        for i, (b, d, a) in enumerate(self.inputPair()):
             # If this is not origin point any more.
-            if one_row and (row != variable[0]):
+            if one_row and (row != b):
                 continue
             self.CommandStack.beginMacro(f"Remove variable of Point{row}")
             self.CommandStack.push(DeleteVariable(i, self.variable_list))
@@ -256,18 +256,13 @@ class InputsWidget(QWidget, Ui_Form):
         """Use to show input variable count."""
         return self.variable_list.count()
     
-    def inputPair(self, *,
-        has_angles: bool = True
-    ) -> Iterator[Union[Tuple[int, int, float], Tuple[int, int]]]:
+    def inputPair(self) -> Iterator[Tuple[int, int, float]]:
         """Back as point number code."""
         for row in range(self.variable_list.count()):
-            vars = self.variable_list.item(row).text().split('->')
-            p0 = int(vars[0].replace('Point', ''))
-            p1 = int(vars[1].replace('Point', ''))
-            if has_angles:
-                yield (p0, p1, float(vars[2]))
-            else:
-                yield (p0, p1)
+            var = self.variable_list.item(row).text().split('->')
+            p0 = int(var[0].replace('Point', ''))
+            p1 = int(var[1].replace('Point', ''))
+            yield (p0, p1, float(var[2]))
     
     def variableReload(self):
         """Auto check the points and type."""

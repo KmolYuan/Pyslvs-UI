@@ -95,9 +95,9 @@ def convex_hull(
     return result
 
 
-def edges_view(G: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
+def edges_view(graph: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
     """This generator can keep the numbering be consistent."""
-    for n, edge in enumerate(sorted(sorted(e) for e in G.edges)):
+    for n, edge in enumerate(sorted(sorted(e) for e in graph.edges)):
         yield (n, tuple(edge))
 
 
@@ -106,7 +106,7 @@ def graph2vpoints(
     pos: Dict[int, Tuple[float, float]],
     cus: Dict[str, int],
     same: Dict[int, int]
-) -> Tuple[VPoint, ...]:
+) -> List[VPoint]:
     """Change NetworkX graph into VPoints."""
     same_r = {}
     for k, v in same.items():
@@ -119,19 +119,18 @@ def graph2vpoints(
     for i, e in ev.items():
         if i in same:
             # Do not connect to anyone!
-            link = ''
-        else:
-            e = set(e)
-            if i in same_r:
-                for j in same_r[i]:
-                    e.update(set(ev[j]))
-            link = ", ".join((str(l) if l else 'ground') for l in e)
-        tmp_list.append(VPoint.from_R_joint(link, *pos[i]))
+            continue
+        e = set(e)
+        if i in same_r:
+            for j in same_r[i]:
+                e.update(set(ev[j]))
+        link = ", ".join((str(l) if l else 'ground') for l in e)
+        x, y = pos[i]
+        tmp_list.append(VPoint.from_R_joint(link, x, y))
     for name in sorted(cus):
-        tmp_list.append(VPoint.from_R_joint(
-            str(cus[name]) if cus[name] else 'ground',
-            *pos[int(name.replace('P', ''))]
-        ))
+        link = str(cus[name]) if cus[name] else 'ground'
+        x, y = pos[int(name.replace('P', ''))]
+        tmp_list.append(VPoint.from_R_joint(link, x, y))
     return tmp_list
 
 
@@ -150,9 +149,9 @@ class _Path:
             + Show mode parameter.
             + The path will be the curve, otherwise using the points.
         """
-        self.path = ()
-        self.show = -1
-        self.curve = True
+        self.path: Tuple[Tuple[Tuple[float, float], ...], ...] = ()
+        self.show: int = -1
+        self.curve: bool = True
 
 
 class BaseCanvas(QWidget):

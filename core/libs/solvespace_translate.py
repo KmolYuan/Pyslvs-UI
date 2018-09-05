@@ -22,7 +22,6 @@ from .python_solvespace import (
     SLVS_RESULT_OKAY,
     SLVS_RESULT_INCONSISTENT,
     SLVS_RESULT_DIDNT_CONVERGE,
-    SLVS_RESULT_TOO_MANY_UNKNOWNS,
     # System base
     System,
     groupNum,
@@ -61,7 +60,7 @@ def _pos(p: Point2d) -> Tuple[float, float]:
 
 def slvs_solve(
     vpoints: Tuple[VPoint],
-    inputs: Tuple[Tuple[int, int, float]]
+    inputs: Tuple[Tuple[int, int, float], ...]
 ) -> Tuple[List[Tuple[float, float]], int]:
     """Use element module to convert into solvespace expression."""
     if not vpoints:
@@ -236,18 +235,18 @@ def slvs_solve(
     # Solve
     result_flag = sys.solve()
     if result_flag == SLVS_RESULT_OKAY:
-        resultList = []
+        result_list = []
         for i, vpoint in enumerate(vpoints):
             p = solved_points[i]
             if vpoint.type == VPoint.R:
-                resultList.append(_pos(p))
+                result_list.append(_pos(p))
             else:
-                resultList.append((_pos(slider_points[i]), _pos(p)))
-        return resultList, sys.dof
+                result_list.append((_pos(slider_points[i]), _pos(p)))
+        return result_list, sys.dof
     elif result_flag == SLVS_RESULT_INCONSISTENT:
         error = "Inconsistent."
     elif result_flag == SLVS_RESULT_DIDNT_CONVERGE:
         error = "Did not converge."
-    elif result_flag == SLVS_RESULT_TOO_MANY_UNKNOWNS:
+    else:
         error = "Too many unknowns."
-    raise Exception(error)
+    raise RuntimeError(error)
