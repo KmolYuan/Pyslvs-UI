@@ -39,7 +39,6 @@ from core.info import (
     PyslvsAbout,
     check_update,
 )
-_major, _minor, _build, _label = __version__
 from core.io import (
     ScriptDialog,
     slvs_process_script,
@@ -56,6 +55,7 @@ from core.libs import (
     parse_params,
     PMKSLexer,
 )
+_major, _minor, _build, _label = __version__
 
 
 def _open_url(url: str):

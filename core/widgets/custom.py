@@ -25,7 +25,6 @@ from core.QtModules import (
     QUndoView,
 )
 from core.info import __version__, ARGUMENTS
-_major, _minor, _build, _label = __version__
 from core.io import FileWidget
 from core.libs import kernel_list
 from core.synthesis import (
@@ -42,6 +41,7 @@ from .tables import (
     FPSLabel,
 )
 from .inputs import InputsWidget
+_major, _minor, _build, _label = __version__
 
 
 def initCustomWidgets(self):
