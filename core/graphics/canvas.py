@@ -405,10 +405,10 @@ class BaseCanvas(QWidget):
     def solutionPolygon(
         self,
         func: str,
-        args: Tuple[str],
+        args: Sequence[str],
         target: str,
-        pos: Union[Tuple[VPoint], Dict[int, Tuple[float, float]]]
-    ) -> Tuple[List[Tuple[float, float]], QColor]:
+        pos: Union[Tuple[VPoint, ...], Dict[int, Tuple[float, float]]]
+    ) -> Tuple[List[QPointF], QColor]:
         """Get solution polygon."""
         if func == 'PLLP':
             color = QColor(121, 171, 252)
@@ -416,10 +416,11 @@ class BaseCanvas(QWidget):
         elif func == 'PLAP':
             color = QColor(249, 84, 216)
             params = [args[0]]
-        elif func in ('PLPP', 'PXY'):
+        else:
             if func == 'PLPP':
                 color = QColor(94, 255, 185)
             else:
+                # PXY
                 color = QColor(249, 175, 27)
             params = [args[0]]
         params.append(target)
@@ -437,9 +438,9 @@ class BaseCanvas(QWidget):
     def drawSolution(
         self,
         func: str,
-        args: Tuple[str],
+        args: Sequence[str],
         target: str,
-        pos: Union[Tuple[VPoint], Dict[int, Tuple[float, float]]]
+        pos: Union[Tuple[VPoint, ...], Dict[int, Tuple[float, float]]]
     ):
         """Draw the solution triangle."""
         points, color = self.solutionPolygon(func, args, target, pos)
@@ -474,7 +475,7 @@ class PreviewCanvas(BaseCanvas):
     
     def __init__(
         self,
-        get_solutions: Callable[[], Tuple[str]],
+        get_solutions: Callable[[], str],
         parent: QWidget
     ):
         """Input parameters and attributes.

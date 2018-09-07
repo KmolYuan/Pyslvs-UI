@@ -15,7 +15,6 @@ from typing import (
     Union,
 )
 from core.QtModules import (
-    pyqtSignal,
     pyqtSlot,
     Qt,
     QApplication,
@@ -26,13 +25,11 @@ from core.QtModules import (
     QToolTip,
     QWidget,
 )
-from core.graphics import BaseCanvas
 from core.libs import VPoint, VLink
-from . import main_canvas_method as _method
-from .main_canvas_method import Selector, FreeMode
+from .main_canvas_method import DynamicCanvasInterface, FreeMode
 
 
-class DynamicCanvas(BaseCanvas):
+class DynamicCanvas(DynamicCanvasInterface):
     
     """The canvas in main window.
     
@@ -43,52 +40,8 @@ class DynamicCanvas(BaseCanvas):
     + Zoom to fit function.
     """
     
-    tracking = pyqtSignal(float, float)
-    browse_tracking = pyqtSignal(float, float)
-    selected = pyqtSignal(tuple, bool)
-    freemoved = pyqtSignal(tuple)
-    noselected = pyqtSignal()
-    alt_add = pyqtSignal(float, float)
-    doubleclick_edit = pyqtSignal(int)
-    zoom_changed = pyqtSignal(int)
-    fps_updated = pyqtSignal()
-    
     def __init__(self, parent: QWidget):
         super(DynamicCanvas, self).__init__(parent)
-        self.setMouseTracking(True)
-        self.setStatusTip("Use mouse wheel or middle button to look around.")
-        # The current mouse coordinates.
-        self.selector = Selector()
-        # Entities.
-        self.vpoints = ()
-        self.vlinks = ()
-        self.vangles = ()
-        # Solution.
-        self.exprs = []
-        # Select function.
-        self.select_mode = 0
-        self.sr = 10
-        self.selections = []
-        # Link transparency.
-        self.transparency = 1.
-        # Path solving range.
-        self.ranges = {}
-        # Set show_dimension to False.
-        self.show_dimension = False
-        # Free move mode.
-        self.freemove = FreeMode.NoFreeMove
-        # Path preview.
-        self.pathpreview = []
-        self.sliderpathpreview = {}
-        self.previewpath = parent.previewpath
-        # Path record.
-        self.path_record = []
-        # Zooming center.
-        # 0: By cursor.
-        # 1: By canvas center.
-        self.zoomby = 0
-        # Mouse snapping value.
-        self.snap = 5
         # Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
@@ -96,11 +49,6 @@ class DynamicCanvas(BaseCanvas):
         # Dependent functions to set selection mode.
         self.__setSelectionMode = parent.EntitiesTab.setCurrentIndex
         self.__selectionMode = parent.EntitiesTab.currentIndex
-        # Default margin factor.
-        self.margin_factor = 0.95
-        # Widget size.
-        self.width_old = None
-        self.height_old = None
     
     def updateFigure(
         self,
@@ -167,7 +115,7 @@ class DynamicCanvas(BaseCanvas):
         dz = zoom_old - self.zoom
         if self.zoomby == 0:
             pos = self.mapFromGlobal(QCursor.pos())
-        elif self.zoomby == 1:
+        else:
             pos = QPointF(self.width() / 2, self.height() / 2)
         self.ox += (pos.x() - self.ox) / self.zoom * dz
         self.oy += (pos.y() - self.oy) / self.zoom * dz
@@ -294,7 +242,7 @@ class DynamicCanvas(BaseCanvas):
         for i, vpoint in enumerate(self.vpoints):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
     
-    def getRecordPath(self) -> Tuple[Tuple[Tuple[float, float]]]:
+    def getRecordPath(self) -> Tuple[Tuple[Tuple[float, float], ...], ...]:
         """Return paths."""
         path = tuple(
             tuple(path) if (len(set(path)) > 1) else ()
@@ -316,12 +264,6 @@ class DynamicCanvas(BaseCanvas):
                 vpoint.move(*c)
         self.update()
     
-    def emit_freemove_all(self):
-        _method.emit_freemove_all(self)
-    
-    def paintEvent(self, event):
-        _method.paintEvent(self, event)
-    
     def wheelEvent(self, event):
         """Switch function by mouse wheel.
         
@@ -340,18 +282,3 @@ class DynamicCanvas(BaseCanvas):
         else:
             self.__setZoom(self.__zoom() + self.__zoom_factor() * (1 if value > 0 else -1))
         event.accept()
-    
-    def mousePressEvent(self, event):
-        _method.mousePressEvent(self, event)
-    
-    def mouseDoubleClickEvent(self, event):
-        _method.mouseDoubleClickEvent(self, event)
-    
-    def mouseReleaseEvent(self, event):
-        _method.mouseReleaseEvent(self, event)
-    
-    def mouseMoveEvent(self, event):
-        _method.mouseMoveEvent(self, event)
-    
-    def zoomToFit(self):
-        _method.zoomToFit(self)
