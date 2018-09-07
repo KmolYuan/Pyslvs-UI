@@ -157,17 +157,17 @@ class EditPointTable(QUndoCommand):
         self.row = row
         self.link_table = link_table
         self.args = tuple(args)
-        self.old_args = self.point_table.rowTexts(row)
+        self.old_args: str = self.point_table.rowTexts(row)
         # Tuple[str] -> Set[str]
         new_links = set(self.args[0].split(','))
         old_links = set(self.old_args[0].split(','))
         self.new_link_items = []
         self.old_link_items = []
         for row in range(self.link_table.rowCount()):
-            linkName = self.link_table.item(row, 0).text()
-            if linkName in new_links - old_links:
+            link_name = self.link_table.item(row, 0).text()
+            if link_name in (new_links - old_links):
                 self.new_link_items.append(row)
-            if linkName in old_links - new_links:
+            if link_name in (old_links - new_links):
                 self.old_link_items.append(row)
         self.new_link_items = tuple(self.new_link_items)
         self.old_link_items = tuple(self.old_link_items)
@@ -194,13 +194,13 @@ class EditPointTable(QUndoCommand):
         """
         point_name = f'Point{self.row}'
         for row in items1:
-            newPoints = self.link_table.item(row, 2).text().split(',')
-            newPoints.append(point_name)
-            self.__setCell(row, newPoints)
+            new_points = self.link_table.item(row, 2).text().split(',')
+            new_points.append(point_name)
+            self.__setCell(row, new_points)
         for row in items2:
-            newPoints = self.link_table.item(row, 2).text().split(',')
-            newPoints.remove(point_name)
-            self.__setCell(row, newPoints)
+            new_points = self.link_table.item(row, 2).text().split(',')
+            new_points.remove(point_name)
+            self.__setCell(row, new_points)
     
     def __setCell(self, row: int, points: List[str]):
         item = QTableWidgetItem(','.join(_noNoneString(points)))
@@ -227,44 +227,44 @@ class EditLinkTable(QUndoCommand):
         self.row = row
         self.point_table = point_table
         self.args = tuple(args)
-        self.old_args = self.link_table.rowTexts(row, hasName=True)
+        self.old_args = self.link_table.rowTexts(row, has_name=True)
         # Points: Tuple[int]
-        newPoints = self.args[2].split(',')
-        oldPoints = self.old_args[2].split(',')
-        newPoints = set(
+        new_points = self.args[2].split(',')
+        old_points = self.old_args[2].split(',')
+        new_points = set(
             int(index.replace('Point', ''))
-            for index in _noNoneString(newPoints)
+            for index in _noNoneString(new_points)
         )
-        oldPoints = set(
+        old_points = set(
             int(index.replace('Point', ''))
-            for index in _noNoneString(oldPoints)
+            for index in _noNoneString(old_points)
         )
-        self.NewPointItems = tuple(newPoints - oldPoints)
-        self.OldPointItems = tuple(oldPoints - newPoints)
+        self.new_point_items = tuple(new_points - old_points)
+        self.old_point_items = tuple(old_points - new_points)
     
     def redo(self):
         """Write arguments then rewrite the dependents."""
         self.link_table.editArgs(self.row, *self.args)
         self.__rename(self.args, self.old_args)
-        self.__writeRows(self.args[0], self.NewPointItems, self.OldPointItems)
+        self.__writeRows(self.args[0], self.new_point_items, self.old_point_items)
     
     def undo(self):
         """Rewrite the dependents then write arguments."""
-        self.__writeRows(self.old_args[0], self.OldPointItems, self.NewPointItems)
+        self.__writeRows(self.old_args[0], self.old_point_items, self.new_point_items)
         self.__rename(self.old_args, self.args)
         self.link_table.editArgs(self.row, *self.old_args)
     
-    def __rename(self, Args1: Tuple[str], Args2: Tuple[str]):
+    def __rename(self, arg1: Tuple[str, ...], arg2: Tuple[str, ...]):
         """Adjust link name in all dependents,
         if link name are changed.
         """
-        if Args2[0] == Args1[0]:
+        if arg2[0] == arg1[0]:
             return
-        for index in _noNoneString(Args2[2].split(',')):
+        for index in _noNoneString(arg2[2].split(',')):
             row = int(index.replace('Point', ''))
             new_links = self.point_table.item(row, 1).text().split(',')
             item = QTableWidgetItem(','.join(_noNoneString(
-                w.replace(Args2[0], Args1[0])
+                w.replace(arg2[0], arg1[0])
                 for w in new_links
             )))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -331,29 +331,25 @@ class DeletePath(QUndoCommand):
     
     """"Delete the specified row of path."""
     
-    def __init__(
-        self,
-        row: int,
-        widget: QListWidget,
-        data: Tuple[Tuple[float, float]]
-    ):
+    def __init__(self, row: int, widget: QListWidget, data: List[Tuple[float, float]]):
         super(DeletePath, self).__init__()
         self.row = row
         self.widget = widget
         self.data = data
-    
+        self.old_item = self.widget.item(self.row)
+        self.name = self.old_item.text().split(':')[0]
+        self.old_path = self.data[self.name]
+
     def redo(self):
         """Delete the path."""
-        self.oldItem = self.widget.takeItem(self.row)
-        name = self.oldItem.text().split(':')[0]
-        self.oldPath = self.data[name]
-        del self.data[name]
+        self.widget.takeItem(self.row)
+        del self.data[self.name]
     
     def undo(self):
         """Append back the path."""
-        self.data[self.oldItem.text().split(':')[0]] = self.oldPath
-        self.widget.addItem(self.oldItem)
-        self.widget.setCurrentRow(self.widget.row(self.oldItem))
+        self.data[self.old_item.text().split(':')[0]] = self.old_path
+        self.widget.addItem(self.old_item)
+        self.widget.setCurrentRow(self.widget.row(self.old_item))
 
 
 class AddStorage(QUndoCommand):

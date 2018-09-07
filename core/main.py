@@ -40,7 +40,7 @@ from core.QtModules import (
 )
 from core.info import ARGUMENTS
 from core.io import XStream, strbetween, QTIMAGES
-from core.widgets import initCustomWidgets
+from core.widgets import MainWindowUiInterface
 from core.main_method import (
     _solver,
     _actions,
@@ -49,10 +49,9 @@ from core.main_method import (
     _storage,
 )
 from core.libs import VPoint
-from .Ui_main import Ui_MainWindow
 
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+class MainWindow(MainWindowUiInterface):
     
     """The main window of Pyslvs.
     
@@ -71,24 +70,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         + Start main window with no parent.
         """
         super(MainWindow, self).__init__()
-        self.setupUi(self)
-        self.setAttribute(Qt.WA_DeleteOnClose)
         
-        self.env = ""
         self.DOF = 0
         self.autopreview = []
-        
-        self.setLocate(
-            QFileInfo(ARGUMENTS.c).canonicalFilePath()
-            if ARGUMENTS.c else
-            QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-        )
-        
-        # Undo stack stream.
-        self.CommandStack = QUndoStack(self)
-        
-        # Initialize custom UI.
-        initCustomWidgets(self)
         self.restoreSettings()
         
         # Console widget.
@@ -101,18 +85,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         # Load workbook from argument.
         _io.readFromArgs(self)
-    
-    def show(self):
-        """Overridden function to zoom the canvas's size after startup."""
-        super(MainWindow, self).show()
-        self.MainCanvas.zoomToFit()
-    
-    def setLocate(self, locate: str):
-        """Set environment variables."""
-        if locate == self.env:
-            return
-        self.env = locate
-        print(f"~Set workplace to: [\"{self.env}\"]")
     
     def dragEnterEvent(self, event):
         _io.dragEnterEvent(self, event)
@@ -162,15 +134,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return _solver.getGraph(self)
     
     def getCollection(self) -> Dict[str, Union[
-        Dict[str, None], # Driver
-        Dict[str, None], # Follower
-        Dict[str, List[Tuple[float, float]]], # Target
-        str, # Link_expr
-        str, # Expression
-        Tuple[Tuple[int, int]], # Graph
-        Dict[int, Tuple[float, float]], # pos
-        Dict[str, int], # cus
-        Dict[int, int] # same
+        Dict[str, None],  # Driver
+        Dict[str, None],  # Follower
+        Dict[str, List[Tuple[float, float]]],  # Target
+        str,  # Link_expr
+        str,  # Expression
+        Tuple[Tuple[int, int]],  # Graph
+        Dict[int, Tuple[float, float]],  # pos
+        Dict[str, int],  # cus
+        Dict[int, int]  # same
     ]]:
         return _solver.getCollection(self)
     

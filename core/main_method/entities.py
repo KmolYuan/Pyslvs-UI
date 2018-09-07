@@ -127,7 +127,7 @@ def _deleteLink(self, row: int):
     """
     if not row > 0:
         return
-    args = self.EntitiesLink.rowTexts(row, hasName=True)
+    args = self.EntitiesLink.rowTexts(row, has_name=True)
     args[2] = ''
     name = self.EntitiesLink.item(row, 0).text()
     self.CommandStack.beginMacro(f"Delete {{Link: {name}}}")
@@ -410,7 +410,7 @@ def newLink(self):
     name = max(set(links_all), key=links_all.count)
     row = self.EntitiesLink.findName(name)
     self.CommandStack.beginMacro(f"Edit {{Link: {name}}}")
-    args = self.EntitiesLink.rowTexts(row, hasName=True)
+    args = self.EntitiesLink.rowTexts(row, has_name=True)
     points = set(self.EntitiesLink.getPoints(row))
     points.update(rows)
     args[2] = ','.join(f'Point{p}' for p in points)
@@ -456,13 +456,13 @@ def constrainLink(self, row1: Optional[int] = None, row2: int = 0):
     if row1 is None:
         row1 = self.EntitiesLink.currentRow()
     name = self.EntitiesLink.item(row1, 0).text()
-    link_args = self.EntitiesLink.rowTexts(row1, hasName=True)
+    link_args = self.EntitiesLink.rowTexts(row1, has_name=True)
     link_args[2] = ''
     newPoints = sorted(
         set(self.EntitiesLink.item(0, 2).text().split(',')) |
         set(self.EntitiesLink.item(row1, 2).text().split(','))
     )
-    baseArgs = self.EntitiesLink.rowTexts(row2, hasName=True)
+    baseArgs = self.EntitiesLink.rowTexts(row2, has_name=True)
     baseArgs[2] = ','.join(e for e in newPoints if e)
     self.CommandStack.beginMacro(f"Constrain {{Link: {name}}} to ground")
     # Turn to ground.

@@ -142,7 +142,7 @@ def _mergeLink(self, index: int, links: Tuple[int]):
     self.CommandStack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
     vlinks = self.EntitiesLink.dataTuple()
     points = list(vlinks[row].points)
-    args = self.EntitiesLink.rowTexts(row, hasName=True)
+    args = self.EntitiesLink.rowTexts(row, has_name=True)
     for link in sorted(links, reverse=True):
         if vlinks[link].name == vlinks[row].name:
             continue

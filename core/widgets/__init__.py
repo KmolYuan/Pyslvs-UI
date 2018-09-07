@@ -9,6 +9,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .custom import initCustomWidgets
+from .custom import MainWindowUiInterface
 
-__all__ = ['initCustomWidgets']
+__all__ = ['MainWindowUiInterface']
