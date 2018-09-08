@@ -7,10 +7,10 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List
+from typing import Tuple, List, Sequence
 from pygments import highlight
-from pygments.lexer import RegexLexerMeta
-from pygments.formatters import HtmlFormatter
+from pygments.lexer import RegexLexer
+from pygments.formatters.html import HtmlFormatter
 from pygments.styles import (
     get_style_by_name,
     get_all_styles,
@@ -48,8 +48,8 @@ if __name__ == '__main__':
 
 
 def slvs_process_script(
-    script: Tuple[str],
-    inputs: List[Tuple[int, int]]
+    script: Sequence[str],
+    inputs: Sequence[Tuple[int, int]]
 ) -> str:
     """Return parser function script."""
     return _script.format(
@@ -83,9 +83,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
     def __init__(
         self,
         script: str,
-        lexer: RegexLexerMeta,
+        lexer: RegexLexer,
         filename: str,
-        fileformat: List[str],
+        file_format: List[str],
         parent: QWidget
     ):
         """Input parameters:
@@ -106,7 +106,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.main_layout.insertWidget(1, self.script_view)
         self.code = highlight(script, lexer, HtmlFormatter())
         self.filename = filename
-        self.fileformat = fileformat
+        self.file_format = file_format
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
         self.setWindowTitle(self.filename)
@@ -129,9 +129,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @pyqtSlot(name='on_save_clicked')
     def __save(self):
         """Save to .py file."""
-        file_name = self.outputTo(self.filename, self.fileformat)
+        file_name = self.outputTo(self.filename, self.file_format)
         if not file_name:
             return
-        with open(file_name, 'w', newline = "") as f:
+        with open(file_name, 'w', newline='') as f:
             f.write(self.script_view.toPlainText())
         self.saveReplyBox(self.filename, file_name)

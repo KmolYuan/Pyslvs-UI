@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 
-"""'widgets' module contains the custom widgets
-that design without Qt designer.
+"""'main_method' module contains the methods of main window.
+
+Interface classes (ordered):
++ MainWindowUiInterface (imported from core.widget.custom)
++ EntitiesMethodInterface (entities)
++ SolverMethodInterface (solver)
++ StorageMethodInterface (storage)
++ ActionMethodInterface (actions)
++ IOMethodInterface (io)
 """
 
 __author__ = "Yuan Chang"
@@ -9,16 +16,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from . import solver as _solver
-from . import actions as _actions
-from . import io as _io
-from . import entities as _entities
-from . import storage as _storage
+from .io import IOMethodInterface
 
-__all__ = [
-    '_solver',
-    '_actions',
-    '_io',
-    '_entities',
-    '_storage',
-]
+__all__ = ['IOMethodInterface']

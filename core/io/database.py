@@ -193,7 +193,7 @@ class FileWidget(QWidget, Ui_Form):
         self.addLinksFunc = parent.addEmptyLinks
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
-        self.addStoragesFunc = parent.addStorages
+        self.addStorageFunc = parent.addMultipleStorage
         
         # Call to get collections data.
         self.CollectDataFunc = parent.CollectionTabPage.CollectDataFunc
@@ -488,7 +488,7 @@ class FileWidget(QWidget, Ui_Form):
         self.addLinksFunc(_decompress(commit.linkcolor))
         self.parseFunc(_decompress(commit.mechanism))
         # Load the storages.
-        self.addStoragesFunc(_decompress(commit.storage))
+        self.addStorageFunc(_decompress(commit.storage))
         # Load pathdata.
         self.loadPathFunc(_decompress(commit.pathdata))
         # Load collectiondata.

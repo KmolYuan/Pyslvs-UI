@@ -27,6 +27,7 @@ from core.QtModules import (
     QSettings,
     QUndoStack,
     QUndoView,
+    QAbcMeta,
 )
 from core.info import __version__, ARGUMENTS
 from core.io import FileWidget
@@ -49,7 +50,7 @@ from .inputs import InputsWidget
 _major, _minor, _build, _label = __version__
 
 
-class MainWindowUiInterface(QMainWindow, Ui_MainWindow):
+class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
     
     """External UI settings."""
     

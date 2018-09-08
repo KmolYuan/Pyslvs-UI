@@ -34,12 +34,13 @@ from core.QtModules import (
     QTableWidgetSelectionRange,
     QLabel,
     QWidget,
+    QAbcMeta,
 )
 from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
 
 
-class _BaseTableWidget(QTableWidget):
+class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
     
     """Two tables has some shared function."""
     
@@ -342,6 +343,7 @@ class LinkTableWidget(_BaseTableWidget):
     
     def effectiveRange(self, has_name: bool):
         """Row range that can be delete."""
+        del has_name
         return range(self.columnCount())
     
     def clear(self):
@@ -418,6 +420,10 @@ class ExprTableWidget(_BaseTableWidget):
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(f"P{p}"))
             row += 1
         self.exprs = exprs
+    
+    def data(self) -> None:
+        """Not used generator."""
+        return
     
     def clear(self):
         """Emit to close the link free move widget."""

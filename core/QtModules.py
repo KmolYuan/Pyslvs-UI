@@ -10,6 +10,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from abc import ABCMeta
+from PyQt5.sip import wrappertype
 from PyQt5.QtCore import (
     pyqtSignal,
     pyqtSlot,
@@ -187,4 +189,19 @@ __all__ = [
     'QVBoxLayout',
     'QWidget',
     'Qt',
+    'QAbcMeta',
 ]
+
+
+class QAbcMeta(wrappertype, ABCMeta):
+    """Qt ABCMeta class.
+    
+    Usage:
+    
+    class MyQObject(QObject, metaclass=QAbcMeta):
+        @abstractmethod
+        def my_abstract_method(self):
+            ...
+    
+    """
+    pass
