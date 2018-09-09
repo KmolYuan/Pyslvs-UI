@@ -66,14 +66,14 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             self.name_box.setEnabled(False)
             self.color_box.setCurrentIndex(self.color_box.findText('Blue'))
         else:
-            for vlink in self.vlinks:
+            for i, vlink in enumerate(self.vlinks):
                 self.name_box.insertItem(i, icon, vlink.name)
             self.name_box.setCurrentIndex(row)
         self.name_edit.textChanged.connect(self.__isOk)
         self.__isOk()
     
-    @pyqtSlot(str)
-    def __isOk(self, p0: Optional[str] = None):
+    @pyqtSlot()
+    def __isOk(self):
         """Set button box enable if options are ok."""
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
             self.__legalName(self.name_edit.text())
@@ -96,12 +96,12 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         if len(self.vlinks) > index:
             vlink = self.vlinks[index]
             self.name_edit.setText(vlink.name)
-            colorText = vlink.colorSTR
-            colorIndex = self.color_box.findText(colorText)
-            if colorIndex > -1:
-                self.color_box.setCurrentIndex(colorIndex)
+            color_text = vlink.colorSTR
+            color_index = self.color_box.findText(color_text)
+            if color_index > -1:
+                self.color_box.setCurrentIndex(color_index)
             else:
-                self.color_box.addItem(colorIcon(colorText), colorText)
+                self.color_box.addItem(colorIcon(color_text), color_text)
                 self.color_box.setCurrentIndex(self.color_box.count() - 1)
             self.noSelected.clear()
             self.selected.clear()
@@ -122,6 +122,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @pyqtSlot(int, name='on_color_box_currentIndexChanged')
     def __setColor(self, index: int):
         """Change the color icon of pick button."""
+        del index
         self.colorpick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))

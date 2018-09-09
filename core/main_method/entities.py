@@ -278,7 +278,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     def editPoint(self):
         """Edit a point with arguments."""
         row = self.EntitiesPoint.currentRow()
-        self.__editPoint(self, row if (row > -1) else 0)
+        self.__editPoint(row if (row > -1) else 0)
     
     def lockPoints(self):
         """Turn a group of points to fixed on ground or not."""
