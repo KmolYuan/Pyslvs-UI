@@ -101,8 +101,8 @@ class _Selector:
     def to_rect(self, zoom: float) -> QRectF:
         """Return limit as QRectF type."""
         return QRectF(
-            QPointF(self.x * zoom, self.y * -zoom),
-            QPointF(self.sx * zoom, self.sy * -zoom)
+            QPointF(self.x * zoom, -self.y * zoom),
+            QPointF(self.sx * zoom, -self.sy * zoom)
         )
     
     def current_selection(self) -> Tuple[int, ...]:
@@ -169,7 +169,7 @@ class DynamicCanvasInterface(BaseCanvas):
         # 1: By canvas center.
         self.zoomby = 0
         # Mouse snapping value.
-        self.snap = 5
+        self.snap = 5.
         # Default margin factor.
         self.margin_factor = 0.95
         # Widget size.
@@ -401,7 +401,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     return polygon.intersects(QPolygonF(self.selector.to_rect(self.zoom)))
                 else:
                     return polygon.containsPoint(
-                        QPointF(self.selector.x, self.selector.y),
+                        QPointF(self.selector.x, -self.selector.y) * self.zoom,
                         Qt.WindingFill
                     )
             

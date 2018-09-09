@@ -56,25 +56,15 @@ def convex_hull(
     """Returns points on convex hull in counterclockwise order
     according to Graham's scan algorithm.
     """
+    coordinate: type = Tuple[float, float]
     
     def cmp(a: float, b: float) -> int:
         return (a > b) - (a < b)
     
-    def turn(
-        p: Tuple[float, float],
-        q: Tuple[float, float],
-        r: Tuple[float, float]
-    ) -> int:
-        return cmp(
-            (q[0] - p[0])*(r[1] - p[1]) -
-            (r[0] - p[0])*(q[1] - p[1]),
-            0
-        )
+    def turn(p: coordinate, q: coordinate, r: coordinate) -> int:
+        return cmp((q[0] - p[0])*(r[1] - p[1]) - (r[0] - p[0])*(q[1] - p[1]), 0)
     
-    def keep_left(
-        hull: List[Tuple[float, float]],
-        r: Tuple[float, float]
-    ) -> List[Tuple[float, float]]:
+    def keep_left(hull: List[coordinate], r: coordinate) -> List[coordinate]:
         while (len(hull) > 1) and (turn(hull[-2], hull[-1], r) != 1):
             hull.pop()
         if not len(hull) or hull[-1] != r:
@@ -82,12 +72,12 @@ def convex_hull(
         return hull
     
     points.sort()
-    l = reduce(keep_left, points, [])
-    u = reduce(keep_left, reversed(points), [])
-    l.extend(u[i] for i in range(1, len(u) - 1))
+    lower = reduce(keep_left, points, [])
+    upper = reduce(keep_left, reversed(points), [])
+    lower.extend(upper[i] for i in range(1, len(upper) - 1))
     
     result = []
-    for x, y in l:
+    for x, y in lower:
         if as_qpoint:
             result.append(QPointF(x, y))
         else:
@@ -169,8 +159,8 @@ class BaseCanvas(QWidget):
         self.ox = self.width() / 2
         self.oy = self.height() / 2
         # Canvas zoom rate.
-        self.rate = 2
-        self.zoom = 2 * self.rate
+        self.rate = 2.
+        self.zoom = 2. * self.rate
         # Joint size.
         self.joint_size = 3
         # Canvas line width.
@@ -457,7 +447,7 @@ class BaseCanvas(QWidget):
                 points[-1].y(),
                 points[index].x(),
                 points[index].y(),
-                text = text
+                text=text
             )
         
         draw_arrow(0, args[1])
@@ -497,6 +487,12 @@ class PreviewCanvas(BaseCanvas):
         self.same = {}
         self.pos = {}
         self.status = {}
+        
+        # Additional attributes.
+        self.grounded = -1
+        self.Driver = -1
+        self.Target = -1
+        
         self.clear()
     
     def clear(self):
@@ -621,9 +617,9 @@ class PreviewCanvas(BaseCanvas):
                 y_top = y
         return x_right, x_left, y_top, y_bottom
     
-    def setGraph(self, G: Graph, pos: Dict[int, Tuple[float, float]]):
+    def setGraph(self, graph: Graph, pos: Dict[int, Tuple[float, float]]):
         """Set the graph from NetworkX graph type."""
-        self.G = G
+        self.G = graph
         self.pos = pos
         self.status = {k: False for k in pos}
         self.update()
@@ -665,16 +661,16 @@ class PreviewCanvas(BaseCanvas):
     def from_profile(self, params: Dict[str, Any]):
         """Simple load by dict object."""
         # Add customize joints.
-        G = Graph(params['Graph'])
-        self.setGraph(G, params['pos'])
+        graph = Graph(params['Graph'])
+        self.setGraph(graph, params['pos'])
         self.cus = params['cus']
         self.same = params['same']
         # Grounded setting.
-        Driver = set(params['Driver'])
-        Follower = set(params['Follower'])
-        for row, link in enumerate(G.nodes):
-            points = set(f'P{n}' for n, edge in edges_view(G) if link in edge)
-            if (Driver | Follower) <= points:
+        driver = set(params['Driver'])
+        follower = set(params['Follower'])
+        for row, link in enumerate(graph.nodes):
+            points = set(f'P{n}' for n, edge in edges_view(graph) if link in edge)
+            if (driver | follower) <= points:
                 self.setGrounded(row)
                 break
         # Expression

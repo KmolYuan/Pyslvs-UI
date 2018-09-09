@@ -75,12 +75,12 @@ class EditPointDialog(QDialog, Ui_Dialog):
         vpoint = self.vpoints[index]
         self.x_box.setValue(vpoint.x)
         self.y_box.setValue(vpoint.y)
-        colorText = vpoint.colorSTR
-        colorIndex = self.color_box.findText(colorText)
-        if colorIndex > -1:
-            self.color_box.setCurrentIndex(colorIndex)
+        color_text = vpoint.colorSTR
+        color_index = self.color_box.findText(color_text)
+        if color_index > -1:
+            self.color_box.setCurrentIndex(color_index)
         else:
-            self.color_box.addItem(colorIcon(colorText), colorText)
+            self.color_box.addItem(colorIcon(color_text), color_text)
             self.color_box.setCurrentIndex(self.color_box.count() - 1)
         self.type_box.setCurrentIndex(vpoint.type)
         self.angle_box.setValue(vpoint.angle)
@@ -93,8 +93,8 @@ class EditPointDialog(QDialog, Ui_Dialog):
                 continue
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
     
-    @pyqtSlot(int, name='on_color_box_currentIndexChanged')
-    def __setColor(self, index: int):
+    @pyqtSlot(name='on_color_box_currentIndexChanged')
+    def __setColor(self):
         """Change the color icon of pick button."""
         self.colorpick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()

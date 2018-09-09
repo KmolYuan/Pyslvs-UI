@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from re import match
-from typing import List, Union, Optional
+from typing import List, Union
 from core.QtModules import (
     pyqtSlot,
     Qt,
@@ -119,10 +119,9 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         for widget in (self.name_edit, self.color_box, self.colorpick_button):
             widget.setEnabled(not_ground)
     
-    @pyqtSlot(int, name='on_color_box_currentIndexChanged')
-    def __setColor(self, index: int):
+    @pyqtSlot(name='on_color_box_currentIndexChanged')
+    def __setColor(self):
         """Change the color icon of pick button."""
-        del index
         self.colorpick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
