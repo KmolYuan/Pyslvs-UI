@@ -14,6 +14,7 @@ Features
 Development
 ---
 
++ Using abstract class to implement partial methods.
 + Redefine solver function of Python-Solvespace.
 
 Version 18.08

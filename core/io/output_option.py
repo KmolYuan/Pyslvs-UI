@@ -8,7 +8,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from typing import Tuple, Callable, Optional
+from typing import (
+    Tuple,
+    Callable,
+    Sequence,
+    Optional,
+)
 from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
@@ -30,6 +35,7 @@ from core.QtModules import (
     QSpacerItem,
     QIcon,
     QPixmap,
+    QAbcMeta,
 )
 from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
@@ -42,7 +48,7 @@ from .dxf import (
 from .Ui_output_option import Ui_Dialog
 
 
-def _getname(widget: QTextEdit, *, ispath: bool = False) -> str:
+def _get_name(widget: QTextEdit, *, ispath: bool = False) -> str:
     """Return the file name of widget."""
     text = widget.text()
     place_text = widget.placeholderText()
@@ -51,7 +57,7 @@ def _getname(widget: QTextEdit, *, ispath: bool = False) -> str:
     return ''.join(x for x in text if x.isalnum() or x in "._- ") or place_text
 
 
-class _OutputDialog(QDialog, Ui_Dialog):
+class _OutputDialog(QDialog, Ui_Dialog, metaclass=QAbcMeta):
     
     """Output dialog template."""
     
@@ -64,7 +70,7 @@ class _OutputDialog(QDialog, Ui_Dialog):
         env: str,
         file_name: str,
         vpoints: Tuple[VPoint],
-        v_to_slvs: Callable[[], Tuple[int, int]],
+        v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
         parent: QWidget
     ):
         """Comes in environment variable and workbook name."""
@@ -93,16 +99,16 @@ class _OutputDialog(QDialog, Ui_Dialog):
     @pyqtSlot(name='on_buttonBox_accepted')
     def __accepted(self):
         """Use the file path to export the project."""
-        dir = QDir(_getname(self.path_edit, ispath=True))
+        qdir = QDir(_get_name(self.path_edit, ispath=True))
         if self.newfolder_option.isChecked():
             new_folder = self.filename_edit.placeholderText()
-            if (not dir.mkdir(new_folder)) and self.warn_radio.isChecked():
-                self.exist_warning(new_folder, folder = True)
+            if (not qdir.mkdir(new_folder)) and self.warn_radio.isChecked():
+                self.exist_warning(new_folder, folder=True)
                 return
-            dir.cd(new_folder)
+            qdir.cd(new_folder)
             del new_folder
         try:
-            ok = self.do(dir)
+            ok = self.do(qdir)
         except PermissionError as e:
             QMessageBox.warning(self, "Permission error", str(e))
         else:
@@ -110,7 +116,7 @@ class _OutputDialog(QDialog, Ui_Dialog):
                 self.accept()
     
     @abstractmethod
-    def do(self) -> Optional[bool]:
+    def do(self, dir_str: QDir) -> Optional[bool]:
         """Do the saving work here, return True if done."""
         ...
     
@@ -140,13 +146,13 @@ class SlvsOutputDialog(_OutputDialog):
             *args
         )
     
-    def do(self, dir: QDir) -> Optional[bool]:
+    def do(self, dir_str: QDir) -> Optional[bool]:
         """Output types:
         
         + Assembly
         + Only wire frame
         """
-        file_name = dir.filePath(_getname(self.filename_edit) + '.slvs')
+        file_name = dir_str.filePath(_get_name(self.filename_edit) + '.slvs')
         if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
             return
@@ -157,7 +163,7 @@ class SlvsOutputDialog(_OutputDialog):
         # Open Solvespace by commend line if available.
         cmd = shutil.which("solvespace")
         if cmd:
-            Popen([cmd , file_name], stdout=DEVNULL, stderr=DEVNULL)
+            Popen([cmd, file_name], stdout=DEVNULL, stderr=DEVNULL)
         
         if self.frame_radio.isChecked():
             self.accept()
@@ -174,7 +180,7 @@ class SlvsOutputDialog(_OutputDialog):
         for name, points in vlinks.items():
             if name == 'ground':
                 continue
-            file_name = dir.filePath(name + '.slvs')
+            file_name = dir_str.filePath(name + '.slvs')
             if isfile(file_name) and self.warn_radio.isChecked():
                 self.exist_warning(file_name)
                 return
@@ -203,7 +209,7 @@ class DxfOutputDialog(_OutputDialog):
         self.version_option = QComboBox(self)
         self.version_option.addItems(sorted((
             f"{name} - {DXF_VERSIONS_MAP[name]}" for name in DXF_VERSIONS
-        ), key = lambda v: v.split()[-1]))
+        ), key=lambda v: v.split()[-1]))
         self.version_option.setCurrentIndex(self.version_option.count() - 1)
         self.version_option.setSizePolicy(QSizePolicy(
             QSizePolicy.Expanding,
@@ -227,13 +233,13 @@ class DxfOutputDialog(_OutputDialog):
         dxf_interval_layout.addWidget(self.interval_option)
         self.assembly_layout.insertLayout(2, dxf_interval_layout)
     
-    def do(self, dir: QDir) -> Optional[bool]:
+    def do(self, dir_str: QDir) -> Optional[bool]:
         """Output types:
         
         + Boundary
         + Frame
         """
-        file_name = dir.filePath(_getname(self.filename_edit) + '.dxf')
+        file_name = dir_str.filePath(_get_name(self.filename_edit) + '.dxf')
         if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
             return

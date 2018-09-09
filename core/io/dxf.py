@@ -35,7 +35,7 @@ DXF_VERSIONS_MAP = acad_release
 
 def dxf_frame(
     vpoints: Sequence[VPoint],
-    v_to_slvs: Callable[[], Tuple[int, int]],
+    v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
     version: str,
     file_name: str
 ):
@@ -54,7 +54,7 @@ def dxf_frame(
 def dxf_boundary(
     vpoints: Sequence[VPoint],
     radius: float,
-    interval: Optional[float],
+    interval: float,
     version: str,
     file_name: str
 ):
@@ -71,9 +71,8 @@ def dxf_boundary(
     msp = dwg.modelspace()
     
     # Interval: Offset with x axis.
-    if interval is not None:
-        interval += radius * 2
-        x_max = -interval
+    interval += radius * 2
+    x_max = -interval
     
     # Draw link boundaries.
     for name in sorted(
@@ -83,8 +82,7 @@ def dxf_boundary(
         if name == 'ground':
             continue
         # Draw joint holes.
-        if interval is not None:
-            x_min = min(vpoints[p].cx for p in vlinks[name])
+        x_min = min(vpoints[p].cx for p in vlinks[name])
         
         centers = [(
             vpoints[p].cx
@@ -112,7 +110,7 @@ def dxf_boundary(
         for c1, c2 in boundary:
             msp.add_line((c1.x, c1.y), (c2.x, c2.y))
         
-        # Draw filets.
+        # Draw fillets.
         for i in range(len(boundary)):
             x, y = centers[i]
             c1 = boundary[i - 1][1]

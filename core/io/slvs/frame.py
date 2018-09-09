@@ -7,14 +7,14 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Callable
+from typing import Tuple, Sequence, Callable
 from core.libs import VPoint
 from .write import SlvsWriter
 
 
 def slvs_frame(
-    vpoints: List[VPoint],
-    v_to_slvs: Callable[[], Tuple[int, int]],
+    vpoints: Sequence[VPoint],
+    v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
     file_name: str
 ):
     """Generate frame sketch, ignore all points that was no any connection."""
