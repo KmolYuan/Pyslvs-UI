@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-08-31, 14:18:52 -->
+<!-- Saved: 2018-09-10, 16:01:38 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -15,7 +15,6 @@
   <Eol index="0"/>
   <Sources>
     <Source>core/QtModules.py</Source>
-    <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
     <Source>core/entities/Ui_edit_link.py</Source>
     <Source>core/entities/Ui_edit_point.py</Source>
@@ -123,6 +122,7 @@
     <Source>core/synthesis/StructureSynthesis/__init__.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/Ui_inputs.py</Source>
+    <Source>core/widgets/Ui_main.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
     <Source>core/widgets/inputs.py</Source>
@@ -142,7 +142,6 @@
     <Form>core/io/output_option.ui</Form>
     <Form>core/io/overview.ui</Form>
     <Form>core/io/script.ui</Form>
-    <Form>core/main.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/collections.ui</Form>
@@ -157,6 +156,7 @@
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.ui</Form>
     <Form>core/synthesis/StructureSynthesis/Permutations.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
+    <Form>core/widgets/main.ui</Form>
   </Forms>
   <Resources>
     <Resource>icons.qrc</Resource>

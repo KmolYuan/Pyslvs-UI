@@ -27,12 +27,12 @@ def main():
     if ARGUMENTS.test:
         print("All module loaded successfully.")
         exit(0)
-    QApp = QApplication([])
+    app = QApplication([])
     if ARGUMENTS.fusion:
-        QApp.setStyle('fusion')
+        app.setStyle('fusion')
     splash = PyslvsSplash()
     splash.show()
     run = MainWindow()
     run.show()
     splash.finish(run)
-    exit(QApp.exec())
+    exit(app.exec())
