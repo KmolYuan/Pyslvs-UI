@@ -35,7 +35,8 @@ from pyslvs import (
 )
 
 if __name__ == '__main__':
-    vpoints = parse_vpoints("M["\n{0}
+    vpoints = parse_vpoints(
+        "M["\n{0}
         "]")
     exprs = vpoints_configure(vpoints, {1})
     mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
