@@ -50,8 +50,6 @@ class MainWindow(IOMethodInterface):
         + Start main window with no parent.
         """
         super(MainWindow, self).__init__()
-        
-        self.autopreview = []
         self.restoreSettings()
         
         # Console widget.
