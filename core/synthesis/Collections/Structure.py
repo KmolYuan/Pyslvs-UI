@@ -16,6 +16,7 @@ from networkx import Graph, is_isomorphic
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
+    qt_image_format,
     Qt,
     QMessageBox,
     QProgressDialog,
@@ -32,7 +33,6 @@ from core.QtModules import (
     QFileInfo,
     QApplication,
 )
-from core.io import QTIMAGES
 from core.graphics import (
     graph,
     engine_picker,
@@ -257,7 +257,7 @@ class StructureWidget(QWidget, Ui_Form):
         )
         if not ok:
             return
-        file_name = self.outputTo("Atlas image", QTIMAGES)
+        file_name = self.outputTo("Atlas image", qt_image_format)
         if not file_name:
             return
         icon_size = self.collection_list.iconSize()

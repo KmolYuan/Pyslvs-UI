@@ -19,6 +19,7 @@ from pygments.lexers.python import Python3Lexer
 from lark.exceptions import ParseError, GrammarError
 from core.QtModules import (
     pyqtSlot,
+    qt_image_format,
     Qt,
     QApplication,
     QWidget,
@@ -50,7 +51,6 @@ from core.io import (
     SlvsParser,
     SlvsOutputDialog,
     DxfOutputDialog,
-    QTIMAGES,
     strbetween,
 )
 from core.libs import (
@@ -437,7 +437,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_Output_to_Picture_triggered')
     def savePicture(self):
         """Picture save function."""
-        file_name = self.outputTo("picture", QTIMAGES)
+        file_name = self.outputTo("picture", qt_image_format)
         if not file_name:
             return
         pixmap = self.MainCanvas.grab()

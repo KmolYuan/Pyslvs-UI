@@ -20,13 +20,14 @@ __email__ = "pyslvs@gmail.com"
 from typing import Tuple
 from core.QtModules import (
     pyqtSlot,
+    qt_image_format,
     QMessageBox,
     QInputDialog,
     QTextCursor,
     QListWidgetItem,
 )
 from core.info import ARGUMENTS
-from core.io import XStream, strbetween, QTIMAGES
+from core.io import XStream, strbetween
 from core.main_method import IOMethodInterface
 
 
@@ -195,7 +196,7 @@ class MainWindow(IOMethodInterface):
     @pyqtSlot(name='on_background_choosedir_clicked')
     def __setBackground(self):
         """Show up dialog to set the background file path."""
-        file_name = self.inputFrom("Background", QTIMAGES)
+        file_name = self.inputFrom("Background", qt_image_format)
         if file_name:
             self.background_option.setText(file_name)
     

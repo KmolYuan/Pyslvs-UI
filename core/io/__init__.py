@@ -8,7 +8,6 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .script import ScriptDialog, slvs_process_script
-from .images import QTIMAGES
 from .slvs import SlvsParser
 from .loggingHandler import XStream
 from .output_option import SlvsOutputDialog, DxfOutputDialog
@@ -39,7 +38,7 @@ __all__ = [
     'ClearStorageName',
     'AddVariable',
     'DeleteVariable',
-    'QTIMAGES',
+    'qt_image_format',
     'SlvsParser',
     'SlvsOutputDialog',
     'DxfOutputDialog',

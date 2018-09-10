@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-QTIMAGES = (
+qt_image_format = (
     "Portable Network Graphics (*.png)",
     "Joint Photographic Experts Group (*.jpg)",
     "Bitmap Image file (*.bmp)",

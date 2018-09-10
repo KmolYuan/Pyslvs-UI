@@ -11,6 +11,7 @@ from typing import List, Optional
 from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
+    qt_image_format,
     Qt,
     QWidget,
     QMenu,
@@ -31,7 +32,6 @@ from core.QtModules import (
     QInputDialog,
     QFileInfo,
 )
-from core.io import QTIMAGES
 from core.libs import number_synthesis, topo, VPoint
 from core.graphics import (
     graph,
@@ -419,7 +419,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
             if not ok:
                 return
-            file_name = self.outputTo("Atlas image", QTIMAGES)
+            file_name = self.outputTo("Atlas image", qt_image_format)
             if file_name:
                 reply = QMessageBox.question(
                     self,
@@ -445,7 +445,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not ok:
             return
         if not file_name:
-            file_name = self.outputTo("Atlas image", QTIMAGES)
+            file_name = self.outputTo("Atlas image", qt_image_format)
         if not file_name:
             return
         width = self.Topologic_result.iconSize().width()

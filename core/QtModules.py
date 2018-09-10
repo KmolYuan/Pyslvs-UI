@@ -107,6 +107,7 @@ from PyQt5.QtCore import qVersion, PYQT_VERSION_STR
 __all__ = [
     'pyqtSignal',
     'pyqtSlot',
+    'qt_image_format',
     'qVersion',
     'PYQT_VERSION_STR',
     'QAbstractItemView',
@@ -191,6 +192,19 @@ __all__ = [
     'Qt',
     'QAbcMeta',
 ]
+
+
+qt_image_format = (
+    "Portable Network Graphics (*.png)",
+    "Joint Photographic Experts Group (*.jpg)",
+    "Bitmap Image file (*.bmp)",
+    "Business Process Model (*.bpm)",
+    "Tagged Image File Format (*.tiff)",
+    "Windows Icon (*.ico)",
+    "Wireless Application Protocol Bitmap (*.wbmp)",
+    "X Bitmap (*.xbm)",
+    "X Pixmap (*.xpm)",
+)
 
 
 class QAbcMeta(wrappertype, ABCMeta):
