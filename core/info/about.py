@@ -15,8 +15,8 @@ from core.QtModules import (
     QWidget,
 )
 from .info import __version__, INFO, ARGUMENTS
-_major, _minor, _build, _label = __version__
 from .Ui_about import Ui_Dialog
+_major, _minor, _build, _label = __version__
 
 
 def html(s: str) -> str:
@@ -24,16 +24,18 @@ def html(s: str) -> str:
     s = s.replace('\n', '<br/>')
     return f"<html><head/><body>{s}</body></html>"
 
-def _title(name: str, *s: str) -> str:
+
+def _title(name: str) -> str:
     """Wrap title."""
-    s = f'<h3>{"</h3><h3>".join(s)}</h3>' if s else ''
-    return f'<h2>{name}</h2>{s}'
+    return f'<h2>{name}</h2>'
+
 
 def _content(*s: str) -> str:
     """Wrap as paragraph."""
     return f'<p>{"</p><p>".join(s)}</p>'
 
-def _orderList(*s: str) -> str:
+
+def _order_list(*s: str) -> str:
     """Wrap as list."""
     return f'<ul><li>{"</li><li>".join(s)}</li></ul>'
 
@@ -44,10 +46,7 @@ class PyslvsSplash(QSplashScreen):
     
     def __init__(self):
         super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/Splash.png"))
-        self.showMessage(
-            f"Version {_major}.{_minor}.{_build}({_label})",
-            Qt.AlignBottom | Qt.AlignRight
-        )
+        self.showMessage(f"Version {_major}.{_minor}.{_build}({_label})", Qt.AlignBottom | Qt.AlignRight)
 
 
 class PyslvsAbout(QDialog, Ui_Dialog):
@@ -55,7 +54,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
     """Pyslvs about dialog."""
     
     def __init__(self, parent: QWidget):
-        """About descript strings."""
+        """About description strings."""
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
@@ -68,8 +67,8 @@ class PyslvsAbout(QDialog, Ui_Dialog):
             f"Email: {__email__}",
             "If you want to know more, see to our website or contact the email.",
         )))
-        self.ver_text.setText(html(_orderList(*INFO)))
-        self.args_text.setText(html(_content("Startup arguments are as follows:") + _orderList(
+        self.ver_text.setText(html(_order_list(*INFO)))
+        self.args_text.setText(html(_content("Startup arguments are as follows:") + _order_list(
             f"Open with: {ARGUMENTS.file}",
             f"Start Path: {ARGUMENTS.c}",
             f"Fusion style: {ARGUMENTS.fusion}",
