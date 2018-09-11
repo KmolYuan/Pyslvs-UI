@@ -253,15 +253,21 @@ Actual testing platforms:
 
 + ![w3.6](https://img.shields.io/badge/Windows%20x64-Python%203.6-blue.svg)
 + ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg) (currently not support PyInstaller)
++ ![mac3.6](https://img.shields.io/badge/macOS%20Sierra-Python%203.6-ff69b4.svg) (currently not support AppImage)
++ ![mac3.7](https://img.shields.io/badge/macOS%20Sierra-Python%203.7-ff69b4.svg) (currently not support AppImage)
 + ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.6-orange.svg)
-+ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
++ ![u3.7](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
 
 **Please note that the other platforms may be available but I have not tested before.**
 
-**Ubuntu**:
+**MacOS and Ubuntu**:
 
 ```bash
-$ sudo pip3 install -r requirements.txt
+# Local Python
+pip3 install -r requirements.txt
+
+# Global Python
+sudo pip3 install -r requirements.txt
 ```
 
 **Windows**:
@@ -271,7 +277,7 @@ Python 3: [Official Python] for Windows 64 bit.
 Makefile tool: [MinGW] or [Msys 2][msys].
 
 ```bash
-> pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Graphviz (Optional)
@@ -281,7 +287,11 @@ Graphviz tools provide some graph engine that can make the position of dots in a
 Download it from [here](https://www.graphviz.org/) or:
 
 ```bash
-$ sudo apt install graphviz
+# Using Homebrew
+brew install graphviz
+
+# Using APT
+sudo apt install graphviz
 ```
 
 Windows user please make sure to add Graphviz `bin` folder path to environment variables.
@@ -296,7 +306,7 @@ PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can i
 
 Qt tools can use to design the *.ui files, they are not the requirement if you just want to run Pyslvs.
 
-**Ubuntu**:
+**MacOS and Ubuntu**:
 
 Download and install [Qt5] to get the tools.
 
@@ -330,9 +340,9 @@ Make command:
 make build-pyslvs
 ```
 
-**Ubuntu**:
+**MacOS and Ubuntu**:
 
-Ubuntu user can compile the kernel by Cython directly.
+User can compile the kernel by Cython directly.
 
 **Windows**:
 
@@ -350,7 +360,7 @@ When using MinGW, you can refer the steps of this article: <https://stackoverflo
 
 ## Python-Solvespace Kernel
 
-[Python-Solvespace]\: Python boundle of [Solvespace] library.
+[Python-Solvespace]\: Python bundle of [Solvespace] library.
 
 Make command:
 
@@ -358,11 +368,15 @@ Make command:
 make build-solvespace
 ```
 
-**Ubuntu**:
+**MacOS and Ubuntu**:
 
 Install SWIG and Python development kit. This tool kit can make a Python bundle with C/C++ library.
 
 ```bash
+# Using Homebrew
+brew install swig
+
+# Using APT
 sudo apt install swig python3-dev
 ```
 
@@ -374,17 +388,21 @@ Download and install [SWIG](http://www.swig.org/download.html).
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
+**MacOS**:
+
+The [AppImage] recipe script is currently not supported.
+
 **Ubuntu**:
 
-Use shell command to build as [AppImage](https://github.com/AppImage/AppImages).
+Use shell command to build as [AppImage].
 
 After following operation, the executable file is in `out` folder.
 
 Make command:
 
 ```bash
-$ sudo pip3 install virtualenv
-$ make
+sudo pip3 install virtualenv
+make
 ```
 
 **Windows**:
@@ -396,8 +414,8 @@ After following operation, the executable file is in `dist` folder.
 Make command:
 
 ```bash
-> pip install pyinstaller
-> make
+pip install pyinstaller
+make
 ```
 
 # Powered By
@@ -436,6 +454,8 @@ Kernel repository:
 
 [Official Python]: https://www.python.org/
 [MinGW]: https://sourceforge.net/projects/mingw-w64/files/
+
+[AppImage]: https://github.com/AppImage/AppImages
 
 [Eric 6]: http://eric-ide.python-projects.org/
 

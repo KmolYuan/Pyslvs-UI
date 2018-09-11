@@ -7,6 +7,7 @@ Version 18.09
 Features
 ---
 
++ Add Mac OS platform support.
 + Appearance adjustments of main canvas.
 + Add new examples:
     + "Crank slider (Three bar)"
