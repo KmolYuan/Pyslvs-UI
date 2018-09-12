@@ -7,6 +7,18 @@
 
 LAUNCHSCRIPT = launch_pyslvs
 
+ifeq ($(OS),Windows_NT)
+    PYVER = $(shell python -c "import sys; t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])); print(t)")
+    PYSLVSVER = $(shell python -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
+    COMPILERVER = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())")
+    SYSVER = $(shell python -c "import platform; print(platform.machine().lower())")
+else
+    PYVER = $(shell python3 -c "import sys; t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])); print(t)")
+    PYSLVSVER = $(shell python3 -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
+    COMPILERVER = $(shell python3 -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())")
+    SYSVER = $(shell python3 -c "import platform; print(platform.machine().lower())")
+endif
+
 all: test
 
 help:
@@ -46,30 +58,28 @@ build: $(LAUNCHSCRIPT).py build-kernel
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
-	$(eval PYTHON = py$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)")w)
-	$(eval CPPYTHON = cp$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
-	@echo --Python Version $(PYTHON)--
+	@echo --Python Version $(PYVER)--
 	pyinstaller -F $< -i ./icons/main.ico \
 --hidden-import=PyQt5 \
 --hidden-import=PyQt5.sip \
 --hidden-import=PyQt5.QtPrintSupport \
 --add-binary="core/libs/python_solvespace/libslvs.so;." \
---add-binary="core/libs/pyslvs/bfgs.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/de.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/firefly.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/rga.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/tinycadlib.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/topologic.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/triangulation.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/verify.$(CPPYTHON)-win_amd64.pyd;."
-	$(eval PYSLVSVERSION = $(shell python -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))"))
-	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
-	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))
-	rename .\dist\$(LAUNCHSCRIPT).exe pyslvs-$(PYSLVSVERSION).$(COMPILERVERSION)-$(SYSVERSION).exe
+--add-binary="core/libs/pyslvs/bfgs.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/de.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/firefly.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/planarlinkage.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/rga.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/tinycadlib.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/topologic.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/triangulation.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/verify.cp$(PYVER)-win_amd64.pyd;."
+	rename .\dist\$(LAUNCHSCRIPT).exe pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).exe
+else ifeq ($(shell uname),Darwin)
+	@echo --Python Version $(PYVER)--
+	pyinstaller -w -F $< -i ./icons/main.ico
+	mv dist/$(LAUNCHSCRIPT).app dist/pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).app
 else
-	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
-	@echo --Python Version $(PYTHON)--
+	@echo --Python Version $(PYVER)--
 	bash ./appimage_recipe.sh
 endif
 	@echo ---Done---
@@ -78,6 +88,8 @@ test: build
 ifeq ($(OS),Windows_NT)
 	$(eval EXE = $(shell dir dist /b))
 	./dist/$(EXE) --test
+else ifeq ($(shell uname),Darwin)
+	./dist/$(LAUNCHSCRIPT) --test
 else
 	$(eval APPIMAGE = $(shell ls -1 out))
 	./out/$(APPIMAGE) --test
@@ -88,6 +100,10 @@ ifeq ($(OS),Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
 	-del launch_pyslvs.spec
+else ifeq ($(shell uname),Darwin)
+	-rm -f -r build
+	-rm -f -r dist
+	-rm -f launch_pyslvs.spec
 else
 	-rm -f -r ENV
 	-rm -f -r out
