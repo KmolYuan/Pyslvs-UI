@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from sys import exit
+import platform
 from .QtModules import QApplication
 from .main import MainWindow
 from .info import (
@@ -28,6 +29,8 @@ def main():
         print("All module loaded successfully.")
         exit(0)
     app = QApplication([])
+    if platform.system() == 'Darwin':
+        ARGUMENTS.fusion = True
     if ARGUMENTS.fusion:
         app.setStyle('fusion')
     splash = PyslvsSplash()

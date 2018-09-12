@@ -1,9 +1,9 @@
-#Pyslvs Makefile
+# Pyslvs Makefile
 
-#author: Yuan Chang
-#copyright: Copyright (C) 2016-2018
-#license: AGPL
-#email: pyslvs@gmail.com
+# author: Yuan Chang
+# copyright: Copyright (C) 2016-2018
+# license: AGPL
+# email: pyslvs@gmail.com
 
 LAUNCHSCRIPT = launch_pyslvs
 
@@ -59,7 +59,7 @@ build: $(LAUNCHSCRIPT).py build-kernel
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYVER)--
-	pyinstaller -F $< -i ./icons/main.ico \
+	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs \
 --hidden-import=PyQt5 \
 --hidden-import=PyQt5.sip \
 --hidden-import=PyQt5.QtPrintSupport \
@@ -73,11 +73,11 @@ ifeq ($(OS),Windows_NT)
 --add-binary="core/libs/pyslvs/topologic.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/triangulation.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/verify.cp$(PYVER)-win_amd64.pyd;."
-	rename .\dist\$(LAUNCHSCRIPT).exe pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).exe
+	rename .\dist\Pyslvs.exe pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).exe
 else ifeq ($(shell uname),Darwin)
 	@echo --Python Version $(PYVER)--
-	pyinstaller -w -F $< -i ./icons/main.ico
-	mv dist/$(LAUNCHSCRIPT).app dist/pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).app
+	pyinstaller -w -F $< -i ./icons/main.ico -n Pyslvs
+	mv dist/Pyslvs.app dist/pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).app
 else
 	@echo --Python Version $(PYVER)--
 	bash ./appimage_recipe.sh
@@ -89,7 +89,7 @@ ifeq ($(OS),Windows_NT)
 	$(eval EXE = $(shell dir dist /b))
 	./dist/$(EXE) --test
 else ifeq ($(shell uname),Darwin)
-	./dist/$(LAUNCHSCRIPT) --test
+	./dist/Pyslvs --test
 else
 	$(eval APPIMAGE = $(shell ls -1 out))
 	./out/$(APPIMAGE) --test
@@ -99,11 +99,11 @@ clean:
 ifeq ($(OS),Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
-	-del launch_pyslvs.spec
+	-del *.spec
 else ifeq ($(shell uname),Darwin)
 	-rm -f -r build
 	-rm -f -r dist
-	-rm -f launch_pyslvs.spec
+	-rm -f *.spec
 else
 	-rm -f -r ENV
 	-rm -f -r out
