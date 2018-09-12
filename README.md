@@ -260,7 +260,7 @@ Actual testing platforms:
 
 **Please note that the other platforms may be available but I have not tested before.**
 
-**MacOS and Ubuntu**:
+**Mac OS and Ubuntu**:
 
 ```bash
 # Local Python
@@ -306,7 +306,7 @@ PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can i
 
 Qt tools can use to design the *.ui files, they are not the requirement if you just want to run Pyslvs.
 
-**MacOS and Ubuntu**:
+**Mac OS and Ubuntu**:
 
 Download and install [Qt5] to get the tools.
 
@@ -315,7 +315,7 @@ Download and install [Qt5] to get the tools.
 Windows user can get Qt tools by pip (maybe not newest version), without to install Qt package.
 
 ```bash
-> pip install pyqt5-tools
+pip install pyqt5-tools
 ```
 
 # Kernels Requirement
@@ -340,7 +340,7 @@ Make command:
 make build-pyslvs
 ```
 
-**MacOS and Ubuntu**:
+**Mac OS and Ubuntu**:
 
 User can compile the kernel by Cython directly.
 
@@ -368,7 +368,7 @@ Make command:
 make build-solvespace
 ```
 
-**MacOS and Ubuntu**:
+**Mac OS and Ubuntu**:
 
 Install SWIG and Python development kit. This tool kit can make a Python bundle with C/C++ library.
 
@@ -388,10 +388,6 @@ Download and install [SWIG](http://www.swig.org/download.html).
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
-**MacOS**:
-
-The [AppImage] recipe script is currently not supported.
-
 **Ubuntu**:
 
 Use shell command to build as [AppImage].
@@ -405,7 +401,7 @@ sudo pip3 install virtualenv
 make
 ```
 
-**Windows**:
+**Mac OS and Windows**:
 
 Use PyInstaller to build.
 
@@ -416,6 +412,18 @@ Make command:
 ```bash
 pip install pyinstaller
 make
+```
+
+On Mac OS, PyInstaller will generate two executable files.
+
+```bash
+# Run Unix-like executable file.
+# Can not run it directly in Finder.
+./executable --use-arguments-here
+
+# Run Mac app file. (Can not use any arguments)
+# Same as double click it in Finder.
+open ./executable.app
 ```
 
 # Powered By
