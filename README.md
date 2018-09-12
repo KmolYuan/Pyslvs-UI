@@ -49,13 +49,17 @@ A GUI-based tool use to design 2D linkage mechanism.
     - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
     - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
-Previews in KDE Plasma desktop:
+Previews in Ubuntu with KDE Plasma desktop:
 
 ![main](images/main_plasma.png)
 
 Previews in Windows 10 theme:
 
 ![main](images/main_win.png)
+
+Previews in macOS Sierra with fusion theme:
+
+![main](images/main_mac.png)
 
 ## Design Method
 
