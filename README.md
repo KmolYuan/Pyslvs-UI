@@ -85,11 +85,11 @@ make build-kernel
 # Open GUI by Python:
 python launch_pyslvs.py
 
+# Open GUI with Fusion style:
+python launch_pyslvs.py --fusion
+
 # Or see the help:
 python launch_pyslvs.py --help
-
-# Run the unit test:
-python test_pyslvs.py
 
 # Pack into stand-alone executable file:
 make
