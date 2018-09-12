@@ -76,7 +76,7 @@ ifeq ($(OS),Windows_NT)
 	rename .\dist\Pyslvs.exe pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).exe
 else ifeq ($(shell uname),Darwin)
 	@echo --Python Version $(PYVER)--
-	pyinstaller -w -F $< -i ./icons/main.ico -n Pyslvs
+	pyinstaller -w -F $< -i ./icons/main.icns -n Pyslvs
 	mv dist/Pyslvs.app dist/pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).app
 else
 	@echo --Python Version $(PYVER)--
