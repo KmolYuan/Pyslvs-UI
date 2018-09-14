@@ -711,12 +711,12 @@ class DynamicCanvasInterface(BaseCanvas):
                         r = hypot(vpoint.x, vpoint.y)
                         beta = atan2(vpoint.y, vpoint.x)
                         vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
-                        if vpoint.type != VPoint.R:
+                        if vpoint.type in {VPoint.P, VPoint.RP}:
                             vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
                 elif self.freemove == FreeMode.Reflect:
                     # Free move reflect function.
-                    fx = 1 if (x > 0) else -1
-                    fy = 1 if (y > 0) else -1
+                    fx = 1 if x > 0 else -1
+                    fy = 1 if y > 0 else -1
                     QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)
                     for num in self.selections:
                         vpoint = self.vpoints[num]

@@ -31,7 +31,7 @@ from .python_solvespace import (
 
 def _2d_system(num: int) -> Tuple[System, Workplane, LineSegment2d]:
     """Create 2D CAD system."""
-    sys = System(num + 13)
+    sys = System(num + 11)
     sys.default_group = groupNum(1)
     origin = Point3d(sys.add_param(0.), sys.add_param(0.), sys.add_param(0.))
     qw, qx, qy, qz = Slvs_MakeQuaternion(1, 0, 0, 0, 1, 0)
@@ -45,8 +45,6 @@ def _2d_system(num: int) -> Tuple[System, Workplane, LineSegment2d]:
     Constraint.dragged(wp1, origin2d)
     hp = Point2d(wp1, sys.add_param(10.), sys.add_param(0.))
     Constraint.dragged(wp1, hp)
-    vp = Point2d(wp1, sys.add_param(10.), sys.add_param(0.))
-    Constraint.dragged(wp1, vp)
     # Name 'ground' is a horizontal line through (0, 0) and (10, 0).
     h_line = LineSegment2d(wp1, origin2d, hp)
     sys.default_group = groupNum(2)
@@ -55,7 +53,7 @@ def _2d_system(num: int) -> Tuple[System, Workplane, LineSegment2d]:
 
 def _pos(p: Point2d) -> Tuple[float, float]:
     """Get position of a Point2d instance."""
-    return (p.u().value, p.v().value)
+    return p.u().value, p.v().value
 
 
 def slvs_solve(
