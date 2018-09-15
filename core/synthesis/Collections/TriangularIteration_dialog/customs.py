@@ -10,7 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import pyqtSlot, Qt, QDialog
-import core.synthesis.Collections.TriangularIteration as TrIt
+from core.synthesis.Collections import TriangularIteration as TrIt
 from .Ui_customs import Ui_Dialog
 
 

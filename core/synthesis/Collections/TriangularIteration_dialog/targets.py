@@ -18,7 +18,7 @@ from core.QtModules import (
     QDialog,
     QListWidget,
 )
-import core.synthesis.Collections.TriangularIteration as TrIt
+from core.synthesis.Collections import TriangularIteration as TrIt
 from .Ui_targets import Ui_Dialog
 
 

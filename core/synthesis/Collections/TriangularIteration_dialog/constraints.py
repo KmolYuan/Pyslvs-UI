@@ -20,7 +20,7 @@ from core.QtModules import (
     QListWidget,
     QListWidgetItem,
 )
-import core.synthesis.Collections.TriangularIteration as TrIt
+from core.synthesis.Collections import TriangularIteration as TrIt
 from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
 

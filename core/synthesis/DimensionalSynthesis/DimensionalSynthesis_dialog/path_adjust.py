@@ -15,7 +15,7 @@ from core.QtModules import (
     QDialog,
     QMessageBox,
 )
-import core.synthesis.DimensionalSynthesis as DiSy
+from core.synthesis import DimensionalSynthesis as DiSy
 from .Ui_path_adjust import Ui_Dialog
 
 
