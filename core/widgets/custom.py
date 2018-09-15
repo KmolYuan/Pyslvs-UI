@@ -251,7 +251,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.SynthesisTab.addTab(
             self.CollectionTabPage,
             self.CollectionTabPage.windowIcon(),
-            "Collections"
+            "collections"
         )
         self.StructureSynthesis.addCollection = (
             self.CollectionTabPage.StructureWidget.addCollection

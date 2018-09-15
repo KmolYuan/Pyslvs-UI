@@ -96,7 +96,7 @@ class Ui_Dialog(object):
         self.results_list.setObjectName("results_list")
         self.verticalLayout_7.addWidget(self.results_list)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page3, icon3, "")
         self.verticalLayout.addWidget(self.toolBox)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -122,7 +122,7 @@ class Ui_Dialog(object):
         self.toolBox.setItemText(self.toolBox.indexOf(self.page1), _translate("Dialog", "Inputs"))
         self.structures_label.setText(_translate("Dialog", "Structures:"))
         self.triangular_iteration_label.setText(_translate("Dialog", "Triangular iteration:"))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page2), _translate("Dialog", "Collections"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page2), _translate("Dialog", "collections"))
         self.results_label.setText(_translate("Dialog", "Results:"))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page3), _translate("Dialog", "Dimensional Synthesis"))
 

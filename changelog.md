@@ -17,6 +17,7 @@ Development
 
 + Using abstract class to implement partial methods.
 + Redefine solver function of Python-Solvespace.
++ Modules are renamed to lower case.
 
 Version 18.08
 ===

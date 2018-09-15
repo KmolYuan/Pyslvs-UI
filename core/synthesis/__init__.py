@@ -7,9 +7,9 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .Collections import Collections, CollectionsDialog
-from .StructureSynthesis import StructureSynthesis
-from .DimensionalSynthesis import DimensionalSynthesis
+from .collections import Collections, CollectionsDialog
+from .structure_synthesis import StructureSynthesis
+from .dimensional_synthesis import DimensionalSynthesis
 
 __all__ = [
     'StructureSynthesis',
