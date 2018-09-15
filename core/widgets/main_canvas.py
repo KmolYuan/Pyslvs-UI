@@ -24,7 +24,7 @@ from core.QtModules import (
     QCursor,
     QToolTip,
 )
-import core.main_window
+from core import main_window as mw
 from core.libs import VPoint, VLink
 from .main_canvas_method import DynamicCanvasInterface, FreeMode
 
@@ -40,7 +40,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     + Zoom to fit function.
     """
     
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue

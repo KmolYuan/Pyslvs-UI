@@ -7,7 +7,6 @@ from typing import (
     Tuple,
     Dict,
     Sequence,
-    Callable,
     Iterator,
     Optional,
 )
@@ -30,7 +29,7 @@ from core.io import (
     AddVariable, DeleteVariable,
     AddPath, DeletePath,
 )
-import core.main_window
+from core import main_window as mw
 from core.libs import VPoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
@@ -46,7 +45,7 @@ class InputsWidget(QWidget, Ui_Form):
     
     aboutToResolve = pyqtSignal()
     
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
         

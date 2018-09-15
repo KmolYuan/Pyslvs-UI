@@ -23,7 +23,7 @@ from core.QtModules import (
     QTextEdit,
     QWidget,
 )
-import core.main_window
+from core import main_window as mw
 from .Ui_script import Ui_Dialog
 
 
@@ -88,7 +88,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         lexer: RegexLexer,
         filename: str,
         file_format: List[str],
-        parent: 'core.main_window.MainWindow'
+        parent: 'mw.MainWindow'
     ):
         """Input parameters:
         

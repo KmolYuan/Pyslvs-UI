@@ -37,7 +37,7 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-import core.main_window
+from core import main_window as mw
 from core.libs import example_list
 from .overview import WorkbookOverview
 from .Ui_database import Ui_Form
@@ -152,7 +152,7 @@ class FileWidget(QWidget, Ui_Form):
     
     load_id = pyqtSignal(int)
     
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         """Set attributes.
         
         + UI part

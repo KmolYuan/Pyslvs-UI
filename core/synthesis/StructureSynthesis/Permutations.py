@@ -33,7 +33,7 @@ from core.QtModules import (
     QInputDialog,
     QFileInfo,
 )
-import core.main_window
+from core import main_window as mw
 from core.libs import number_synthesis, topo, VPoint
 from core.graphics import (
     to_graph,
@@ -49,7 +49,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     Calculate the combinations of mechanism family and show the atlas.
     """
 
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         """Reference names:
         
         + IO functions from main window.

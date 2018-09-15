@@ -36,7 +36,7 @@ from core.QtModules import (
     QWidget,
     QAbcMeta,
 )
-import core.main_window
+from core import main_window as mw
 from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
 
@@ -444,7 +444,7 @@ class SelectionLabel(QLabel):
     
     """This QLabel can show distance in status bar."""
     
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         super(SelectionLabel, self).__init__(parent)
         self.updateSelectPoint()
         self.dataTuple = parent.EntitiesPoint.dataTuple

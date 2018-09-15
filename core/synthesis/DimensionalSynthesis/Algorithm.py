@@ -19,7 +19,7 @@ from typing import (
 import csv
 import pprint
 from copy import deepcopy
-from re import split as charSplit
+from re import split as char_split
 import openpyxl
 from networkx import Graph
 from core.QtModules import (
@@ -30,7 +30,6 @@ from core.QtModules import (
     QListWidgetItem,
     QIcon,
     QPixmap,
-    QModelIndex,
     QInputDialog,
     QDoubleSpinBox,
     QTableWidgetItem,
@@ -57,7 +56,7 @@ from .DimensionalSynthesis_dialog import (
     PreviewDialog,
     ChartDialog,
 )
-import core.main_window
+from core import main_window as mw
 from .Ui_Algorithm import Ui_Form
 
 
@@ -68,7 +67,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     User can run the dimensional synthesis here.
     """
     
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         """Reference names:
         
         + Iteration collections.
@@ -224,7 +223,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_path_paste_clicked')
     def __pastePath(self):
         """Paste path data from clipboard."""
-        self.__readPathFromCSV(charSplit(";|,|\n", QApplication.clipboard().text()))
+        self.__readPathFromCSV(char_split(";|,|\n", QApplication.clipboard().text()))
     
     @pyqtSlot(name='on_import_csv_button_clicked')
     def __importCSV(self):

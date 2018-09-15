@@ -30,7 +30,7 @@ from core.QtModules import (
     QFileInfo,
     QApplication,
 )
-import core.main_window
+from core import main_window as mw
 from core.graphics import (
     to_graph,
     engine_picker,
@@ -54,7 +54,7 @@ class StructureWidget(QWidget, Ui_Form):
     
     layout_sender = pyqtSignal(Graph, dict)
     
-    def __init__(self, parent: 'core.main_window.MainWindow'):
+    def __init__(self, parent: 'mw.MainWindow'):
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)

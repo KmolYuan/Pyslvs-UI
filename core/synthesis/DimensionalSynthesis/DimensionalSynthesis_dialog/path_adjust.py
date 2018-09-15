@@ -15,7 +15,7 @@ from core.QtModules import (
     QDialog,
     QMessageBox,
 )
-from core.synthesis import DimensionalSynthesis as DiSy
+from core.synthesis import DimensionalSynthesis
 from .Ui_path_adjust import Ui_Dialog
 
 
@@ -26,7 +26,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
     
-    def __init__(self, parent: 'DiSy.DimensionalSynthesis'):
+    def __init__(self, parent: 'DimensionalSynthesis'):
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)
