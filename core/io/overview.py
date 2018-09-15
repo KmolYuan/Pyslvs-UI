@@ -7,11 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    List,
-    Callable,
-    Any,
-)
+from typing import Callable, Any
 from peewee import Model
 from core.QtModules import (
     QWidget,
@@ -53,36 +49,36 @@ class WorkbookOverview(QDialog, Ui_Dialog):
             self.storage_list.addItem(item)
         self.__setItemText(0, int(len(expr) > 3) + len(storage))
         # Expression of inputs variable data.
-        inputsdata = decompress(commit.inputsdata)
-        for a, b in inputsdata:
+        inputs_data = decompress(commit.inputsdata)
+        for a, b in inputs_data:
             self.variables_list.addItem(f"Point{a}->Point{b}")
         # Path data.
-        pathdata = decompress(commit.pathdata)
-        for name, paths in pathdata.items():
+        path_data = decompress(commit.pathdata)
+        for name, paths in path_data.items():
             item = QListWidgetItem(name)
             item.setToolTip(", ".join(
                 f'[{i}]' for i, path in enumerate(paths) if path
             ))
             self.records_list.addItem(item)
-        self.__setItemText(1, len(inputsdata), len(pathdata))
+        self.__setItemText(1, len(inputs_data), len(path_data))
         # Structure collections.
-        collectiondata = decompress(commit.collectiondata)
-        for edges in collectiondata:
+        collection_data = decompress(commit.collectiondata)
+        for edges in collection_data:
             self.structures_list.addItem(str(edges))
         # Triangle collections.
-        triangledata = decompress(commit.triangledata)
-        for name, data in triangledata.items():
+        triangle_data = decompress(commit.triangledata)
+        for name, data in triangle_data.items():
             item = QListWidgetItem(name)
             item.setToolTip(data['Expression'])
             self.triangular_iteration_list.addItem(item)
-        self.__setItemText(2, len(collectiondata), len(triangledata))
+        self.__setItemText(2, len(collection_data), len(triangle_data))
         # Dimensional synthesis.
-        algorithmdata = decompress(commit.algorithmdata)
-        for data in algorithmdata:
+        algorithm_data = decompress(commit.algorithmdata)
+        for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
-        self.__setItemText(3, len(algorithmdata))
+        self.__setItemText(3, len(algorithm_data))
     
-    def __setItemText(self, i: int, *count: List[int]):
+    def __setItemText(self, i: int, *count: int):
         """Set the title for a specified tab."""
         text = " / ".join(str(c) for c in count)
         self.toolBox.setItemText(i, f"{self.toolBox.itemText(i)} - ({text})")

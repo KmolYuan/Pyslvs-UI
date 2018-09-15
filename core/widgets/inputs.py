@@ -7,6 +7,7 @@ from typing import (
     Tuple,
     Dict,
     Sequence,
+    Callable,
     Iterator,
     Optional,
 )
@@ -29,6 +30,7 @@ from core.io import (
     AddVariable, DeleteVariable,
     AddPath, DeletePath,
 )
+import core.main_window
 from core.libs import VPoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
@@ -44,7 +46,7 @@ class InputsWidget(QWidget, Ui_Form):
     
     aboutToResolve = pyqtSignal()
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
         
@@ -365,7 +367,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.addPath(name, path)
     
-    def addPath(self, name: str, path: Tuple[Tuple[float, float]]):
+    def addPath(self, name: str, path: Sequence[Tuple[float, float]]):
         """Add path function."""
         self.CommandStack.beginMacro(f"Add {{Path: {name}}}")
         self.CommandStack.push(AddPath(
@@ -377,7 +379,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
     
-    def loadPaths(self, paths: Tuple[Tuple[Tuple[float, float]]]):
+    def loadPaths(self, paths: Dict[str, Sequence[Tuple[float, float]]]):
         """Add multiple path."""
         for name, path in paths.items():
             self.addPath(name, path)

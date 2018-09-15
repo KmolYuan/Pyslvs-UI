@@ -12,6 +12,7 @@ from typing import (
     List,
     Tuple,
     Dict,
+    Optional,
     Any,
 )
 from core.QtModules import (
@@ -94,24 +95,27 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         """Initialize the algorithm table widgets."""
         
         def writeTable(
-            integers: List[Tuple[str, str, str]] = [],
-            floats: List[Tuple[str, str, str]] = []
+            integers: Optional[List[Tuple[str, str, str]]] = None,
+            floats: Optional[List[Tuple[str, str, str]]] = None
         ):
             """Use to write table data."""
+            if integers is None:
+                integers = []
+            if floats is None:
+                floats = []
             i = 0
-            for Types, box, maxV in zip(
-                (integers, floats),
-                (QSpinBox, QDoubleSpinBox),
-                (9, 10.)
+            for options, box, max_value in (
+                (integers, QSpinBox, 9),
+                (floats, QDoubleSpinBox, 10.)
             ):
-                for name, vname, tooltip in Types:
+                for name, tooltip, tooltip in options:
                     self.alg_table.insertRow(i)
                     name_cell = QTableWidgetItem(name)
                     name_cell.setToolTip(tooltip)
                     self.alg_table.setItem(i, 0, name_cell)
                     spinbox = box()
-                    spinbox.setMaximum(maxV)
-                    spinbox.setToolTip(vname)
+                    spinbox.setMaximum(max_value)
+                    spinbox.setToolTip(tooltip)
                     self.alg_table.setCellWidget(i, 1, spinbox)
                     i += 1
         
@@ -131,15 +135,15 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         elif self.__algorithm == AlgorithmType.Firefly:
             writeTable(
                 floats=[
-                    ("Alpha value", 'alpha',
-                        html("Alpha value is the step size of the firefly.")),
-                    ("Minimum Beta value", 'betaMin',
-                        html("The minimal attraction, must not less than this.")),
-                    ("Gamma value", 'gamma',
-                        html("Beta will multiplied by exponential power value "
-                            "with this weight factor.")),
-                    ("Beta0 value", 'beta0',
-                        html("The attraction of two firefly in 0 distance."))
+                    ("Alpha value", 'alpha', html(
+                        "Alpha value is the step size of the firefly.")),
+                    ("Minimum Beta value", 'betaMin', html(
+                        "The minimal attraction, must not less than this.")),
+                    ("Gamma value", 'gamma', html(
+                        "Beta will multiplied by exponential power value "
+                        "with this weight factor.")),
+                    ("Beta0 value", 'beta0', html(
+                        "The attraction of two firefly in 0 distance."))
                 ]
             )
         elif self.__algorithm == AlgorithmType.DE:
@@ -149,9 +153,9 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("There are 10 way to evolution."))
                 ],
                 floats=[
-                    ("Weight factor", 'F',
-                        html("Weight factor is usually between 0.5 and 1"
-                            "(in rare cases > 1).")),
+                    ("Weight factor", 'F', html(
+                        "Weight factor is usually between 0.5 and 1"
+                        "(in rare cases > 1).")),
                     ("Recombination factor", 'CR',
                         html("The chance of crossover possible."))
                 ]
@@ -167,10 +171,10 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         elif 'maxTime' in settings:
             self.maxTime_option.setChecked(True)
             # In second (int).
-            maxTime = settings['maxTime']
-            self.maxTime_h.setValue(maxTime // 3600)
-            self.maxTime_m.setValue((maxTime % 3600) // 60)
-            self.maxTime_s.setValue(maxTime % 3600 % 60)
+            max_time = settings['maxTime']
+            self.maxTime_h.setValue(max_time // 3600)
+            self.maxTime_m.setValue((max_time % 3600) // 60)
+            self.maxTime_s.setValue(max_time % 3600 % 60)
         self.report.setValue(settings['report'])
         if self.__algorithm == AlgorithmType.RGA:
             self.pop_size.setValue(settings['nPop'])

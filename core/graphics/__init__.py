@@ -23,7 +23,7 @@ from .canvas import (
     graph2vpoints,
 )
 from .nx_pydot import (
-    graph,
+    to_graph,
     engine_picker,
     engines,
     EngineError,
@@ -41,7 +41,7 @@ __all__ = [
     'convex_hull',
     'edges_view',
     'graph2vpoints',
-    'graph',
+    'to_graph',
     'engine_picker',
     'engines',
     'EngineError',

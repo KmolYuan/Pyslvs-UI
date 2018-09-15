@@ -9,12 +9,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import (
-    pyqtSlot,
-    Qt,
-    QDialog,
-    QWidget,
-)
+from core.QtModules import pyqtSlot, Qt, QDialog
+import core.synthesis.Collections.TriangularIteration as TrIt
 from .Ui_customs import Ui_Dialog
 
 
@@ -28,7 +24,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'TrIt.TriangularIterationWidget'):
         """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
@@ -108,7 +104,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         if not s:
             return
         for joint in s.replace('(', '').replace(')', '').split(", "):
-            if joint==self.quote_choose.currentText():
+            if joint == self.quote_choose.currentText():
                 continue
             if int(joint.replace('P', '')) in self.same:
                 continue

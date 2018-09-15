@@ -10,25 +10,25 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     Iterator,
-    Optional,
+    Union,
 )
 from core.QtModules import (
     pyqtSlot,
     Qt,
     QDialog,
     QListWidget,
-    QWidget,
 )
+import core.synthesis.Collections.TriangularIteration as TrIt
 from .Ui_targets import Ui_Dialog
 
 
 def list_texts(
     widget: QListWidget,
-    returnRow: bool = False
-) -> Iterator[Tuple[Optional[int], str]]:
+    return_row: bool = False
+) -> Iterator[Union[Tuple[int, str], str]]:
     """Generator to get the text from list widget."""
     for row in range(widget.count()):
-        if returnRow:
+        if return_row:
             yield row, widget.item(row).text()
         else:
             yield widget.item(row).text()
@@ -41,24 +41,24 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, parent: QWidget):
-        """Filter and show the target option (just like moveable points)."""
+    def __init__(self, parent: 'TrIt.TriangularIterationWidget'):
+        """Filter and show the target option (just like movable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         
-        currentItem = parent.grounded_list.currentItem()
+        current_item = parent.grounded_list.currentItem()
         
-        if currentItem:
+        if current_item:
             
             def combo_texts(widget) -> Iterator[str]:
                 """Generator to get the text from combobox widget."""
-                for row in range(widget.count()):
-                    yield widget.itemText(row)
+                for index in range(widget.count()):
+                    yield widget.itemText(index)
             
             for text in combo_texts(parent.joint_name):
                 if not parent.PreviewWindow.isMultiple(text) and (text not in (
-                    currentItem.text()
+                    current_item.text()
                     .replace('(', '')
                     .replace(')', '')
                     .split(", ")
@@ -82,6 +82,6 @@ class TargetsDialog(QDialog, Ui_Dialog):
     def __remove(self):
         """Remove a target joint."""
         row = self.targets_list.currentRow()
-        if not row>-1:
+        if not row > -1:
             return
         self.other_list.addItem(self.targets_list.takeItem(row))

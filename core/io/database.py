@@ -37,6 +37,7 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
+import core.main_window
 from core.libs import example_list
 from .overview import WorkbookOverview
 from .Ui_database import Ui_Form
@@ -151,7 +152,7 @@ class FileWidget(QWidget, Ui_Form):
     
     load_id = pyqtSignal(int)
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         """Set attributes.
         
         + UI part
@@ -190,7 +191,7 @@ class FileWidget(QWidget, Ui_Form):
         + Add empty link with color.
         + Main window will load the entered expression.
         + Reset the main window.
-        + Call to load storages.
+        + Call to load storage.
         + Call after loaded paths.
         """
         self.checkFileChanged = parent.checkFileChanged

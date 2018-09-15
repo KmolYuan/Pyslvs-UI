@@ -12,8 +12,8 @@ from core.QtModules import (
     QDialog,
     QPixmap,
     QDialogButtonBox,
-    QWidget,
 )
+import core.synthesis.Collections.TriangularIteration as TrIt
 from .Ui_solutions import Ui_Dialog
 
 
@@ -27,7 +27,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, mode: str, parent: QWidget):
+    def __init__(self, mode: str, parent: 'TrIt.TriangularIterationWidget'):
         """Show the requirements and preview picture on interface."""
         super(SolutionsDialog, self).__init__(parent)
         self.setupUi(self)

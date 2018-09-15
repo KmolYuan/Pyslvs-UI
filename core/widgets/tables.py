@@ -36,6 +36,7 @@ from core.QtModules import (
     QWidget,
     QAbcMeta,
 )
+import core.main_window
 from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
 
@@ -88,7 +89,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
         """Return table data in subclass."""
         ...
     
-    def dataTuple(self) -> Tuple[Union[VPoint, VLink]]:
+    def dataTuple(self) -> Tuple[Union[VPoint, VLink], ...]:
         """Return data set as a container."""
         return tuple(self.data())
     
@@ -443,7 +444,7 @@ class SelectionLabel(QLabel):
     
     """This QLabel can show distance in status bar."""
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         super(SelectionLabel, self).__init__(parent)
         self.updateSelectPoint()
         self.dataTuple = parent.EntitiesPoint.dataTuple

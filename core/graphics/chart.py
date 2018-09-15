@@ -21,7 +21,7 @@ from core.QtModules import (
 
 class DataChart(QChart):
     
-    """A axis setted Qt chart widget."""
+    """Two axises Qt chart widget."""
     
     def __init__(
         self,

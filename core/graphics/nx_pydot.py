@@ -17,6 +17,7 @@ from networkx import (
     spectral_layout,
     random_layout
 )
+from networkx.exception import NetworkXError
 from core.QtModules import (
     QImage,
     QSize,
@@ -33,74 +34,71 @@ from .color import colorQt, colorNum
 from .canvas import convex_hull, edges_view
 
 
-_nx_engine = (
+_nx_engine = tuple(f"NetworkX - {_ne}" for _ne in (
     "circular",
     "shell",
     "spring",
     "spectral",
     "random",
-)
-_graphviz_engine = (
+))
+_graphviz_engine = tuple(f"Graphviz - {_ge}" for _ge in (
     "dot",
     "neato",
     "fdp",
     "twopi",
     "circo",
-)
-
-engines = []
-for engine_name in _nx_engine:
-    engines.append(f"NetworkX - {engine_name}")
-for engine_name in _graphviz_engine:
-    engines.append(f"Graphviz - {engine_name}")
+))
+engines = _nx_engine + _graphviz_engine
 
 
 class EngineError(Exception):
     pass
 
 
-def _reversed_graph(G: Graph) -> Graph:
+def _reversed_graph(graph: Graph) -> Graph:
     """Edges will become nodes."""
-    G_ = Graph()
-    nodes = dict(edges_view(G))
+    graph_ = Graph()
+    nodes = dict(edges_view(graph))
     for i, (l1, l2) in nodes.items():
         for j, edge in nodes.items():
             if i == j:
                 continue
             if (l1 in edge) or (l2 in edge):
-                G_.add_edge(i, j)
-    return G_
+                graph_.add_edge(i, j)
+    return graph_
 
 
-def engine_picker(G: Graph, engine: str, node_mode: bool =False):
+def engine_picker(graph: Graph, engine: str, node_mode: bool =False):
     """Generate a position dict."""
     if not node_mode:
-        H = _reversed_graph(G)
+        graph_ = _reversed_graph(graph)
     else:
-        H = G
+        graph_ = graph
     if type(engine) != str:
         return engine
+    
     if engine == "random":
-        E = {k: (x*200, y*200) for k, (x, y) in random_layout(H).items()}
+        layout = {k: (x*200, y*200) for k, (x, y) in random_layout(graph_).items()}
     elif engine == "shell":
-        E = shell_layout(H, scale=100)
+        layout = shell_layout(graph_, scale=100)
     elif engine == "circular":
-        E = circular_layout(H, scale=100)
+        layout = circular_layout(graph_, scale=100)
     elif engine == "spring":
-        E = spring_layout(H, scale=100)
+        layout = spring_layout(graph_, scale=100)
     elif engine == "spectral":
-        E = spectral_layout(H, scale=100)
+        layout = spectral_layout(graph_, scale=100)
     else:
         try:
-            E = nx_pydot.graphviz_layout(H, prog=engine)
-        except:
+            layout = nx_pydot.graphviz_layout(graph_, prog=engine)
+        except NetworkXError:
             raise EngineError("No Graphviz")
+    
     inf = float('inf')
     x_max = -inf
     x_min = inf
     y_max = -inf
     y_min = inf
-    for x, y in E.values():
+    for x, y in layout.values():
         x = round(float(x), 4)
         y = round(float(y), 4)
         if x > x_max:
@@ -116,20 +114,20 @@ def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     pos = {node: (
         round(float(x), 4) - x_cen,
         round(float(y), 4) - y_cen
-    ) for node, (x, y) in E.items()}
+    ) for node, (x, y) in layout.items()}
     return pos
 
 
-def graph(
-    G: Graph,
+def to_graph(
+    graph: Graph,
     width: int,
     engine: [str, Dict[int, Tuple[float, float]]],
-    node_mode: bool =False,
-    except_node: int =None
+    node_mode: bool = False,
+    except_node: int = None
 ) -> QIcon:
     """Draw a generalized chain graph."""
     try:
-        pos = engine_picker(G, engine, node_mode)
+        pos = engine_picker(graph, engine, node_mode)
     except EngineError as e:
         raise e
     width_ = -float('inf')
@@ -148,26 +146,26 @@ def graph(
     pen.setWidth(r)
     painter.setPen(pen)
     if node_mode:
-        for l1, l2 in G.edges:
+        for l1, l2 in graph.edges:
             painter.drawLine(
                 QPointF(pos[l1][0], -pos[l1][1]),
                 QPointF(pos[l2][0], -pos[l2][1])
             )
     else:
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
-        for link in G.nodes:
-            if link==except_node:
+        for link in graph.nodes:
+            if link == except_node:
                 continue
             # Distance sorted function from canvas
             painter.drawPolygon(*convex_hull([
                 (pos[n][0], -pos[n][1])
-                for n, edge in edges_view(G) if link in edge
+                for n, edge in edges_view(graph) if link in edge
             ], as_qpoint=True))
     for k, (x, y) in pos.items():
         if node_mode:
-            color = colorNum(len(list(G.neighbors(k)))-1)
+            color = colorNum(len(list(graph.neighbors(k))) - 1)
         else:
-            if except_node in dict(edges_view(G))[k]:
+            if except_node in dict(edges_view(graph))[k]:
                 color = colorQt('Green')
             else:
                 color = colorQt('Blue')

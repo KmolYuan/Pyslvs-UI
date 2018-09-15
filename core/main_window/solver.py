@@ -98,7 +98,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         self,
         auto_preview: List[List[Tuple[float, float]]],
         slider_auto_preview: Dict[int, List[Tuple[float, float]]],
-        vpoints: Tuple[VPoint]
+        vpoints: Tuple[VPoint, ...]
     ):
         """Resolve auto preview path."""
         if not self.rightInput():
@@ -216,15 +216,12 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         return [edge for n, edge in edges_view(graph)]
     
     def getCollection(self) -> Dict[str, Union[
-        Dict[str, None],  # Driver
-        Dict[str, None],  # Follower
-        Dict[str, List[Tuple[float, float]]],  # Target
-        str,  # Link_expr
-        str,  # Expression
-        Tuple[Tuple[int, int]],  # Graph
-        Dict[int, Tuple[float, float]],  # pos
-        Dict[str, int],  # cus
-        Dict[int, int]  # same
+        Dict[str, None],
+        Dict[str, List[Tuple[float, float]]],
+        str,
+        Tuple[Tuple[int, int], ...],
+        Dict[int, Tuple[float, float]],
+        Dict[str, int]
     ]]:
         """Return collection data.
         

@@ -233,9 +233,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     @pyqtSlot(name='on_action_Example_triggered')
     def loadExample(self):
-        """Load examples from 'FileWidget'.
-        Return true if successed.
-        """
+        """Load examples from 'FileWidget'. Return true if succeeded."""
         if self.FileWidget.loadExample():
             self.showExpr()
             self.MainCanvas.zoomToFit()
@@ -464,7 +462,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     def saveReplyBox(self, title: str, file_name: str):
         """Show message when successfully saved."""
         size = QFileInfo(file_name).size()
-        print("Size: {}" + (
+        print("Size: " + (
             f"{size / 1024 / 1024:.02f} MB"
             if size / 1024 // 1024 else
             "{size / 1024:.02f} KB"

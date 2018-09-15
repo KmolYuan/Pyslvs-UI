@@ -17,7 +17,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
+from typing import Tuple, Sequence
 from core.QtModules import (
     pyqtSlot,
     qt_image_format,
@@ -28,7 +28,7 @@ from core.QtModules import (
 )
 from core.info import ARGUMENTS
 from core.io import XStream, strbetween
-from core.main_method import IOMethodInterface
+from .io import IOMethodInterface
 
 
 class MainWindow(IOMethodInterface):
@@ -39,7 +39,7 @@ class MainWindow(IOMethodInterface):
     Exit with QApplication.
     
     The main window is so much method that was been split it
-    to wrapper function in 'main_method' module.
+    to wrapper function in 'main_window' module.
     """
     
     def __init__(self):
@@ -133,7 +133,7 @@ class MainWindow(IOMethodInterface):
         self.DimensionalSynthesis.addPoint(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple)
-    def mergeResult(self, row: int, path: Tuple[Tuple[float, float]]):
+    def mergeResult(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
         """Merge result function of dimensional synthesis."""
         result = self.DimensionalSynthesis.mechanismData(row)
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']

@@ -9,6 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import List, Optional
 from networkx import Graph
+from networkx.exception import NetworkXError
 from core.QtModules import (
     pyqtSlot,
     qt_image_format,
@@ -32,9 +33,10 @@ from core.QtModules import (
     QInputDialog,
     QFileInfo,
 )
+import core.main_window
 from core.libs import number_synthesis, topo, VPoint
 from core.graphics import (
-    graph,
+    to_graph,
     engines,
     EngineError,
 )
@@ -42,13 +44,12 @@ from .Ui_Permutations import Ui_Form
 
 
 class StructureSynthesis(QWidget, Ui_Form):
-    
     """Number and type synthesis widget.
     
     Calculate the combinations of mechanism family and show the atlas.
     """
-    
-    def __init__(self, parent: QWidget):
+
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         """Reference names:
         
         + IO functions from main window.
@@ -58,7 +59,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         super(StructureSynthesis, self).__init__(parent)
         self.setupUi(self)
         self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
-        
+
         # Function references
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
@@ -66,13 +67,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.jointDataFunc = parent.EntitiesPoint.dataTuple
         self.linkDataFunc = parent.EntitiesLink.dataTuple
         self.getGraph = parent.getGraph
-        
+
         # Splitters
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
-        
+
         self.answer = []
-        
+
         # Signals
         self.NL_input.valueChanged.connect(self.__adjustStructureData)
         self.NJ_input.valueChanged.connect(self.__adjustStructureData)
@@ -81,7 +82,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.Topologic_result.customContextMenuRequested.connect(
             self.__topologicResultContextMenu
         )
-        
+
         """Context menu
         
         + Add to collections
@@ -101,8 +102,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.copy_edges,
             self.copy_image
         ])
+
+        self.NL_input_old_value = 0
+        self.NJ_input_old_value = 0
         self.clear()
-    
+
     def clear(self):
         """Clear all sub-widgets."""
         self.answer.clear()
@@ -115,31 +119,31 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NL_input_old_value = 0
         self.NJ_input_old_value = 0
         self.DOF.setValue(1)
-    
+
     @pyqtSlot(name='on_from_mechanism_button_clicked')
     def __fromMechanism(self):
         """Reload button: Auto-combine the mechanism from the workbook."""
-        jointData = self.jointDataFunc()
-        linkData = self.linkDataFunc()
-        if jointData and linkData:
+        joint_data = self.jointDataFunc()
+        link_data = self.linkDataFunc()
+        if joint_data and link_data:
             self.expr_edges.setText(str(self.getGraph()))
         else:
             self.expr_edges.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.NL_input.setValue(
-            sum(len(vlink.points) > 1 for vlink in linkData) +
+            sum(len(vlink.points) > 1 for vlink in link_data) +
             sum(
-                len(vpoint.links) - 2 for vpoint in jointData
+                len(vpoint.links) - 2 for vpoint in joint_data
                 if (vpoint.type == VPoint.RP) and (len(vpoint.links) > 1)
             )
         )
         self.NJ_input.setValue(sum(
             (len(vpoint.links) - 1 + int(vpoint.type == VPoint.RP))
-            for vpoint in jointData if (len(vpoint.links) > 1)
+            for vpoint in joint_data if (len(vpoint.links) > 1)
         ))
         self.keep_dof.setChecked(keep_dof_checked)
-    
+
     def __adjustStructureData(self):
         """Update NJ and NL values.
         
@@ -160,18 +164,24 @@ class StructureSynthesis(QWidget, Ui_Form):
         + is_above: Is value increase or decrease?
         """
         if self.sender() == self.NJ_input:
-            N2 = self.NJ_input.value()
-            NL_func = lambda: float(((self.DOF.value() + 2 * N2) / 3) + 1)
-            is_above = N2 > self.NJ_input_old_value
+            n2 = self.NJ_input.value()
+            
+            def nl_func() -> float:
+                return ((self.DOF.value() + 2 * n2) / 3) + 1
+            
+            is_above = n2 > self.NJ_input_old_value
         else:
-            N2 = self.NL_input.value()
-            NL_func = lambda: float((3 * (N2 - 1) - self.DOF.value()) / 2)
-            is_above = N2 > self.NL_input_old_value
-        N1 = NL_func()
-        while not N1.is_integer():
-            N2 += 1 if is_above else -1
-            N1 = NL_func()
-            if (N1 == 0) or (N2 == 0):
+            n2 = self.NL_input.value()
+            
+            def nl_func() -> float:
+                return (3 * (n2 - 1) - self.DOF.value()) / 2
+            
+            is_above = n2 > self.NL_input_old_value
+        n1 = nl_func()
+        while not n1.is_integer():
+            n2 += 1 if is_above else -1
+            n1 = nl_func()
+            if (n1 == 0) or (n2 == 0):
                 break
         """Return the result values.
         
@@ -179,16 +189,16 @@ class StructureSynthesis(QWidget, Ui_Form):
         + Setting old value record.
         """
         if self.sender() == self.NL_input:
-            self.NJ_input.setValue(N1)
-            self.NL_input.setValue(N2)
-            self.NJ_input_old_value = N1
-            self.NL_input_old_value = N2
+            self.NJ_input.setValue(n1)
+            self.NL_input.setValue(n2)
+            self.NJ_input_old_value = n1
+            self.NL_input_old_value = n2
         else:
-            self.NJ_input.setValue(N2)
-            self.NL_input.setValue(N1)
-            self.NJ_input_old_value = N2
-            self.NL_input_old_value = N1
-    
+            self.NJ_input.setValue(n2)
+            self.NL_input.setValue(n1)
+            self.NJ_input_old_value = n2
+            self.NL_input_old_value = n1
+
     @pyqtSlot(name='on_number_synthesis_button_clicked')
     def __numberSynthesis(self):
         """Show number of links with different number of joints."""
@@ -207,7 +217,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 item.links = result
                 self.expr_number.addItem(item)
         self.expr_number.setCurrentRow(0)
-    
+
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structureSynthesis(self):
         """Type synthesis.
@@ -225,7 +235,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if answer:
             self.answer = answer
             self.__reloadAtlas()
-    
+
     @pyqtSlot(name='on_structure_synthesis_all_button_clicked')
     def __structureSynthesisAll(self):
         """Structure synthesis - find all.
@@ -258,7 +268,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 return
         self.answer = answers
         self.__reloadAtlas()
-    
+
     def __typeCombine(self, row: int) -> Optional[List[Graph]]:
         """Combine and show progress dialog."""
         item = self.expr_number.item(row)
@@ -274,19 +284,19 @@ class StructureSynthesis(QWidget, Ui_Form):
         progdlg.setMinimumSize(QSize(500, 120))
         progdlg.setModal(True)
         progdlg.show()
-        
+
         def stopFunc():
             """If stop by GUI."""
             QCoreApplication.processEvents()
             progdlg.setValue(progdlg.value() + 1)
             return progdlg.wasCanceled()
-        
+
         def setjobFunc(job: str, maximum: float):
             """New job."""
             progdlg.setLabelText(job)
             progdlg.setValue(0)
-            progdlg.setMaximum(maximum+1)
-        
+            progdlg.setMaximum(maximum + 1)
+
         answer, time = topo(
             item.links,
             not self.graph_degenerate.isChecked(),
@@ -297,11 +307,11 @@ class StructureSynthesis(QWidget, Ui_Form):
         progdlg.setValue(progdlg.maximum())
         if answer:
             return [Graph(G.edges) for G in answer]
-    
+
     @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
-    @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
-    def __reloadAtlas(self, p0: Optional[int] = None):
+    @pyqtSlot(name='on_graph_engine_currentIndexChanged')
+    def __reloadAtlas(self):
         """Reload the atlas. Regardless there has any old data."""
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()
@@ -323,17 +333,17 @@ class StructureSynthesis(QWidget, Ui_Form):
                 if progdlg.wasCanceled():
                     return
                 if self.__drawAtlas(i, G):
-                    progdlg.setValue(i+1)
+                    progdlg.setValue(i + 1)
                 else:
                     break
             progdlg.setValue(progdlg.maximum())
-    
-    def __drawAtlas(self, i: int, G: Graph) -> bool:
+
+    def __drawAtlas(self, i: int, graph: Graph) -> bool:
         """Draw atlas and return True if done."""
         item = QListWidgetItem(f"No. {i + 1}")
         try:
-            item.setIcon(graph(
-                G,
+            item.setIcon(to_graph(
+                graph,
                 self.Topologic_result.iconSize().width(),
                 self.engine,
                 self.graph_link_as_node.isChecked()
@@ -346,11 +356,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
             return False
         else:
-            item.setToolTip(str(G.edges))
+            item.setToolTip(str(graph.edges))
             self.Topologic_result.addItem(item)
             return True
-    
-    def __atlasImage(self, row: int =None) -> QImage:
+
+    def __atlasImage(self, row: int = None) -> QImage:
         """Capture a result item icon to image."""
         w = self.Topologic_result
         if row is None:
@@ -358,23 +368,23 @@ class StructureSynthesis(QWidget, Ui_Form):
         else:
             item = w.item(row)
         return item.icon().pixmap(w.iconSize()).toImage()
-    
+
     @pyqtSlot(QPoint)
     def __topologicResultContextMenu(self, point):
         """Context menu for the type synthesis results."""
         index = self.Topologic_result.currentIndex().row()
-        self.add_collection.setEnabled(index>-1)
-        self.copy_edges.setEnabled(index>-1)
-        self.copy_image.setEnabled(index>-1)
+        self.add_collection.setEnabled(index > -1)
+        self.copy_edges.setEnabled(index > -1)
+        self.copy_image.setEnabled(index > -1)
         action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
         if not action:
             return
         clipboard = QApplication.clipboard()
-        if action==self.add_collection:
+        if action == self.add_collection:
             self.addCollection(self.answer[index].edges)
-        elif action==self.copy_edges:
+        elif action == self.copy_edges:
             clipboard.setText(str(self.answer[index].edges))
-        elif action==self.copy_image:
+        elif action == self.copy_image:
             # Turn the transparent background to white.
             image1 = self.__atlasImage()
             image2 = QImage(image1.size(), image1.format())
@@ -385,7 +395,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             pixmap = QPixmap()
             pixmap.convertFromImage(image2)
             clipboard.setPixmap(pixmap)
-    
+
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copyExpr(self):
         """Copy expression button."""
@@ -393,14 +403,14 @@ class StructureSynthesis(QWidget, Ui_Form):
         if string:
             QApplication.clipboard().setText(string)
             self.expr_edges.selectAll()
-    
+
     @pyqtSlot(name='on_expr_add_collection_clicked')
     def __addCollection(self):
         """Add this expression to collections widget."""
         string = self.expr_edges.text()
         if string:
             self.addCollection(eval(string))
-    
+
     @pyqtSlot(name='on_save_atlas_clicked')
     def __saveAtlas(self):
         """Saving all the atlas to image file.
@@ -442,8 +452,8 @@ class StructureSynthesis(QWidget, Ui_Form):
                 "The number of lateral:",
                 5, 1, 10
             )
-        if not ok:
-            return
+            if not ok:
+                return
         if not file_name:
             file_name = self.outputTo("Atlas image", qt_image_format)
         if not file_name:
@@ -451,7 +461,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         width = self.Topologic_result.iconSize().width()
         image_main = QImage(
             QSize(
-                lateral * width if count>lateral else count * width,
+                lateral * width if count > lateral else count * width,
                 ((count // lateral) + bool(count % lateral)) * width
             ),
             self.__atlasImage(0).format()
@@ -469,7 +479,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         pixmap.convertFromImage(image_main)
         pixmap.save(file_name, format=QFileInfo(file_name).suffix())
         self.saveReplyBox("Atlas", file_name)
-    
+
     @pyqtSlot(name='on_save_edges_clicked')
     def __saveEdges(self):
         """Saving all the atlas to text file."""
@@ -505,12 +515,12 @@ class StructureSynthesis(QWidget, Ui_Form):
         with open(file_name, 'w') as f:
             f.write('\n'.join(str(G.edges) for G in self.answer))
         self.saveReplyBox("edges expression", file_name)
-    
-    @pyqtSlot(name='on_edges2altas_button_clicked')
-    def __edges2altas(self):
+
+    @pyqtSlot(name='on_edges2atlas_button_clicked')
+    def __edges2atlas(self):
         """Turn the text files into a atlas image.
         
-        This opreation will load all edges to list widget first.
+        This operation will load all edges to list widget first.
         """
         file_names = self.inputFrom(
             "Edges data",
@@ -528,7 +538,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         for edges in read_data:
             try:
                 answer.append(Graph(eval(edges)))
-            except:
+            except NetworkXError:
                 QMessageBox.warning(
                     self,
                     "Wrong format",

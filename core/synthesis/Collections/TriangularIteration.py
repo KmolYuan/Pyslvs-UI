@@ -11,6 +11,7 @@ from typing import (
     Dict,
     List,
     Tuple,
+    Sequence,
     Set,
     Callable,
     Any,
@@ -58,7 +59,7 @@ class _PreviewWindow(PreviewCanvas):
     
     set_joint_number = pyqtSignal(int)
     
-    def __init__(self, get_solutions: Callable[[], Tuple[str]], parent: QWidget):
+    def __init__(self, get_solutions: Callable[[], str], parent: QWidget):
         """Add a function use to get current point from parent."""
         super(_PreviewWindow, self).__init__(get_solutions, parent)
         self.pressed = False
@@ -100,6 +101,14 @@ class _PreviewWindow(PreviewCanvas):
         self.update()
 
 
+def _set_warning(label: QLabel, warning: bool):
+    """Show a warning sign front of label."""
+    warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
+    label.setText(label.text().replace(warning_icon, ''))
+    if warning:
+        label.setText(warning_icon + label.text())
+
+
 class TriangularIterationWidget(QWidget, Ui_Form):
     
     """Triangular iteration widget.
@@ -109,7 +118,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     def __init__(
         self,
-        addCollection: Callable[[Tuple[Tuple[int, int]]], None],
+        add_collection: Callable[[Sequence[Tuple[int, int]]], None],
         parent: QWidget
     ):
         """We need some function from structure collections."""
@@ -117,7 +126,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
         self.getCollection = parent.getCollection
-        self.addCollection = addCollection
+        self.addCollection = add_collection
         
         # Iteration data.
         self.collections = {}
@@ -169,7 +178,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             self.follower_label,
             self.target_label
         ]:
-            self.__setWarning(label, True)
+            _set_warning(label, True)
     
     @pyqtSlot(name='on_clear_button_clicked')
     def __userClear(self):
@@ -183,13 +192,6 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         )
         if reply == QMessageBox.Yes:
             self.__clearPanel()
-    
-    def __setWarning(self, label: QLabel, warning: bool):
-        """Show a warning sign front of label."""
-        warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
-        label.setText(label.text().replace(warning_icon, ''))
-        if warning:
-            label.setText(warning_icon + label.text())
     
     @pyqtSlot(name='on_add_collection_button_clicked')
     def __addCollection(self):
@@ -224,7 +226,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     def __setGround(self, row: int):
         """Change current grounded link. Reset all settings."""
         has_choose = row > -1
-        self.__setWarning(self.grounded_label, not has_choose)
+        _set_warning(self.grounded_label, not has_choose)
         self.PreviewWindow.setGrounded(row)
         self.__hasSolution()
         self.expression_list.clear()
@@ -242,9 +244,9 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             )
             self.follower_list.addItems(items)
             self.driver_base.addItems(items)
-        self.__setWarning(self.follower_label, not has_choose)
-        self.__setWarning(self.driver_label, True)
-        self.__setWarning(self.expression_list_label, True)
+        _set_warning(self.follower_label, not has_choose)
+        _set_warning(self.driver_label, True)
+        _set_warning(self.expression_list_label, True)
         if row != self.grounded_list.currentRow():
             self.grounded_list.blockSignals(True)
             self.grounded_list.setCurrentRow(row)
@@ -286,7 +288,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.PreviewWindow.setDriver([
             eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
         ])
-        self.__setWarning(self.driver_label, False)
+        _set_warning(self.driver_label, False)
     
     @pyqtSlot(name='on_follower_add_clicked')
     def __addFollower(self):
@@ -300,7 +302,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         d1, d2 = eval(d1_d2.replace('P', ''))
         self.__find_follower_to_add(f'P{d1}')
         self.driver_list.takeItem(row)
-        self.__setWarning(self.driver_label, not self.driver_list.count())
+        _set_warning(self.driver_label, not self.driver_list.count())
     
     def __find_follower_to_remove(self, name: str):
         """Remove node if it is in the list."""
@@ -410,9 +412,9 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             self.__find_follower_to_remove(base)
             rotator = strbetween(expr, '(', ')')
             self.driver_list.addItem(f"({base}, {rotator})")
-        self.__setWarning(self.driver_label, not self.driver_list.count())
+        _set_warning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
-        self.__setWarning(self.target_label, not self.target_list.count() > 0)
+        _set_warning(self.target_label, not self.target_list.count() > 0)
         # Constraints
         self.constraint_list.addItems([
             ", ".join(c) for c in params['constraints']
@@ -427,10 +429,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 params.append(target)
                 self.__addSolution(*params)
                 self.PreviewWindow.setStatus(target, True)
-        self.__setWarning(
-            self.expression_list_label,
-            not self.PreviewWindow.isAllLock()
-        )
+        _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
     
     @pyqtSlot(name='on_constraints_button_clicked')
     def __setConstraints(self):
@@ -453,9 +452,9 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.target_list.clear()
         for target in list_texts(dlg.targets_list):
             self.target_list.addItem(target)
-        self.__setWarning(self.target_label, not self.target_list.count()>0)
+        _set_warning(self.target_label, not self.target_list.count() > 0)
     
-    def __symbols(self) -> Set[List[str]]:
+    def __symbols(self) -> Set[str]:
         """Return all symbols."""
         expr_list = set()
         for expr in self.expr_show.text().split(';'):
@@ -514,10 +513,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.PreviewWindow.setStatus(expr[-1], True)
         self.__setParmBind()
         self.__hasSolution()
-        self.__setWarning(
-            self.expression_list_label,
-            not self.PreviewWindow.isAllLock()
-        )
+        _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
     
     @pyqtSlot(QListWidgetItem)
     def __setParmBind(self, item: Optional[QListWidgetItem] = None):
@@ -605,7 +601,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     
     @pyqtSlot(name='on_expression_clear_clicked')
     def __clearExpr(self) -> bool:
-        """Clear the solutions. Return true if success."""
+        """Clear the solutions. Return true if succeeded."""
         if not self.expression_list.count():
             return True
         reply = QMessageBox.question(

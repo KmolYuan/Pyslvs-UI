@@ -57,6 +57,7 @@ from .DimensionalSynthesis_dialog import (
     PreviewDialog,
     ChartDialog,
 )
+import core.main_window
 from .Ui_Algorithm import Ui_Form
 
 
@@ -67,7 +68,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     User can run the dimensional synthesis here.
     """
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         """Reference names:
         
         + Iteration collections.
@@ -96,12 +97,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.update(DifferentialPrams)
         self.__setAlgorithmToDefault()
         
-        def get_solutions_func() -> Tuple[str, ...]:
+        def get_solutions_func() -> str:
             """For preview canvas."""
             if 'Expression' in self.mech_params:
                 return self.mech_params['Expression']
             else:
-                return ()
+                return ""
         
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
@@ -190,8 +191,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         else:
             return []
     
-    @pyqtSlot(str, name='on_target_points_currentTextChanged')
-    def __setTarget(self, text: Optional[str] = None):
+    @pyqtSlot(name='on_target_points_currentTextChanged')
+    def __setTarget(self):
         """Switch to the current target path."""
         self.path_list.clear()
         for x, y in self.currentPath():
@@ -279,7 +280,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 break
             try:
                 data.append((round(float(x), 4), round(float(y), 4)))
-            except:
+            except (IndexError, AttributeError):
                 QMessageBox.warning(
                     self,
                     "File error",
@@ -318,9 +319,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_close_path_clicked')
     def __closePath(self):
         """Add a the last point same as first point."""
-        currentPath = self.currentPath()
-        if (self.path_list.count() > 1) and (currentPath[0] != currentPath[-1]):
-            self.addPoint(*currentPath[0])
+        current_path = self.currentPath()
+        if (self.path_list.count() > 1) and (current_path[0] != current_path[-1]):
+            self.addPoint(*current_path[0])
     
     @pyqtSlot(name='on_point_up_clicked')
     def __moveUpPoint(self):
@@ -405,11 +406,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         mech_params = deepcopy(self.mech_params)
         mech_params['Target'] = deepcopy(self.path)
         
-        def name_in_table(name: str) -> int:
-            """Find a name and return the row from the table."""
-            for row in range(self.parameter_list.rowCount()):
-                if self.parameter_list.item(row, 0).text() == name:
-                    return row
+        def name_in_table(target_name: str) -> int:
+            """Find a target_name and return the row from the table."""
+            for r in range(self.parameter_list.rowCount()):
+                if self.parameter_list.item(r, 0).text() == target_name:
+                    return r
+            return -1
         
         for key in ('Driver', 'Follower'):
             for name in mech_params[key]:
@@ -484,8 +486,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.unsaveFunc()
         self.__hasResult()
     
-    @pyqtSlot(QModelIndex, name='on_result_list_clicked')
-    def __hasResult(self, index: Optional[QModelIndex] = None):
+    @pyqtSlot(name='on_result_list_clicked')
+    def __hasResult(self):
         """Set enable if there has any result."""
         enable = self.result_list.currentRow() > -1
         for button in (
@@ -497,8 +499,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         ):
             button.setEnabled(enable)
     
-    @pyqtSlot(QModelIndex, name='on_result_list_doubleClicked')
-    def __showResult(self, index: QModelIndex):
+    @pyqtSlot(name='on_result_list_doubleClicked')
+    def __showResult(self):
         """Double click result item can show up preview dialog."""
         row = self.result_list.currentRow()
         if not row > -1:
@@ -553,8 +555,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             result['same']
         )
         vpoint_count = len(vpoints)
-        
-        path = [[] for i in range(vpoint_count)]
+
+        path = []
+        for i in range(vpoint_count):
+            path.append([])
         
         # Cumulative angle
         i_count = sum(1 for e in exprs if e[0] == 'PLAP')
@@ -684,14 +688,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             maximum: float = 1000000.0,
             prefix: bool = False
         ) -> QDoubleSpinBox:
-            s = QDoubleSpinBox()
-            s.setMinimum(minimum)
-            s.setMaximum(maximum)
-            s.setSingleStep(10.0)
-            s.setValue(v)
+            double_spinbox = QDoubleSpinBox()
+            double_spinbox.setMinimum(minimum)
+            double_spinbox.setMaximum(maximum)
+            double_spinbox.setSingleStep(10.0)
+            double_spinbox.setValue(v)
             if prefix:
-                s.setPrefix("±")
-            return s
+                double_spinbox.setPrefix("±")
+            return double_spinbox
         
         row = 0
         for name in sorted(gj):
@@ -715,7 +719,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             row += 1
         
         def set_by_center(
-            i: int,
+            index: int,
             get_range: Callable[[], float]
         ) -> Callable[[float], None]:
             """Return a slot function use to set limit value by center."""
@@ -723,13 +727,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             @pyqtSlot(float)
             def func(value: float):
                 half_range = get_range() / 2
-                self.mech_params['upper'][i] = value + half_range
-                self.mech_params['lower'][i] = value - half_range
+                self.mech_params['upper'][index] = value + half_range
+                self.mech_params['lower'][index] = value - half_range
             
             return func
         
         def set_by_range(
-            i: int,
+            index: int,
             get_value: Callable[[], float]
         ) -> Callable[[float], None]:
             """Return a slot function use to set limit value by range."""
@@ -738,8 +742,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             def func(value: float):
                 center = get_value()
                 half_range = value / 2
-                self.mech_params['upper'][i] = center + half_range
-                self.mech_params['lower'][i] = center - half_range
+                self.mech_params['upper'][index] = center + half_range
+                self.mech_params['lower'][index] = center - half_range
             
             return func
         
@@ -795,19 +799,19 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not row > -1:
             return
         self.__clearSettings()
-        Result = self.__mechanism_data[row]
-        if Result['Algorithm'] == str(AlgorithmType.RGA):
+        result = self.__mechanism_data[row]
+        if result['Algorithm'] == str(AlgorithmType.RGA):
             self.type0.setChecked(True)
-        elif Result['Algorithm'] == str(AlgorithmType.Firefly):
+        elif result['Algorithm'] == str(AlgorithmType.Firefly):
             self.type1.setChecked(True)
-        elif Result['Algorithm'] == str(AlgorithmType.DE):
+        elif result['Algorithm'] == str(AlgorithmType.DE):
             self.type2.setChecked(True)
         # Copy to mechanism params.
-        self.__setProfile("External setting", Result)
-        self.__setTime(Result['time'])
+        self.__setProfile("External setting", result)
+        self.__setTime(result['time'])
         # Load settings.
         self.alg_options.clear()
-        self.alg_options.update(Result['settings'])
+        self.alg_options.update(result['settings'])
     
     @pyqtSlot(name='on_type0_clicked')
     @pyqtSlot(name='on_type1_clicked')
@@ -867,8 +871,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             for i, tag in enumerate(('strategy', 'F', 'CR')):
                 self.alg_options[tag] = from_table(i)
     
-    @pyqtSlot(float)
-    def updateRange(self, p0: Optional[float] = None):
+    @pyqtSlot()
+    def updateRange(self):
         """Update range values to main canvas."""
         
         def t(x: int, y: int):

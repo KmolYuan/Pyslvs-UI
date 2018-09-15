@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     Iterator,
-    Optional,
+    Union,
 )
 from networkx import Graph
 from core.QtModules import (
@@ -19,19 +19,19 @@ from core.QtModules import (
     QDialog,
     QListWidget,
     QListWidgetItem,
-    QWidget,
 )
+import core.synthesis.Collections.TriangularIteration as TrIt
 from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
 
 
 def list_items(
     widget: QListWidget,
-    returnRow: bool =False
-) -> Iterator[Tuple[Optional[int], QListWidgetItem]]:
+    return_row: bool = False
+) -> Iterator[Union[Tuple[int, QListWidgetItem], QListWidgetItem]]:
     """A generator to get items from list widget."""
     for row in range(widget.count()):
-        if returnRow:
+        if return_row:
             yield row, widget.item(row)
         else:
             yield widget.item(row)
@@ -45,42 +45,39 @@ def _get_list(item: QListWidget) -> Iterator[str]:
         yield e
 
 
-def _four_bar_loops(G: Graph) -> Iterator[Tuple[int, int, int, int]]:
+def _four_bar_loops(graph: Graph) -> Iterator[Tuple[int, int, int, int]]:
     """A generator to find out the four bar loops."""
     result = set()
-    vertexes = {v: k for k, v in edges_view(G)}
+    vertexes = {v: k for k, v in edges_view(graph)}
     
-    def loop_set(
-        node: int,
-        nb1: int,
-        nb2: int,
-        nb3: int
-    ) -> Tuple[int, int, int, int]:
+    def loop_set(n: int, n1: int, n2: int, n3: int) -> Tuple[int, int, int, int]:
         """Return a loop set."""
-        tmp_list = []
-        for e in [(node, nb1), (nb1, nb2), (nb2, nb3), (node, nb3)]:
-            tmp_list.append(vertexes[tuple(sorted(e))])
-        return tuple(tmp_list)
+        return (
+            vertexes[tuple(sorted((n, n1)))],
+            vertexes[tuple(sorted((n1, n2)))],
+            vertexes[tuple(sorted((n2, n3)))],
+            vertexes[tuple(sorted((n, n3)))],
+        )
     
-    for node in G.nodes:
+    for node in graph.nodes:
         if node in result:
             continue
-        nb1s = G.neighbors(node)
+        nb1s = graph.neighbors(node)
         # node not in nb1s
         for nb1 in nb1s:
             if nb1 in result:
                 continue
-            nb2s = G.neighbors(nb1)
+            nb2s = graph.neighbors(nb1)
             # node can not in nb2s
             for nb2 in nb2s:
                 if (nb2 == node) or (nb2 in result):
                     continue
-                nb3s = G.neighbors(nb2)
+                nb3s = graph.neighbors(nb2)
                 # node can not in nb3s
                 for nb3 in nb3s:
                     if (nb3 in (node, nb1)) or (nb3 in result):
                         continue
-                    if node in G.neighbors(nb3):
+                    if node in graph.neighbors(nb3):
                         loop = [node, nb1, nb2, nb3]
                         result.update(loop)
                         yield loop_set(*loop)
@@ -93,7 +90,7 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'TrIt.TriangularIterationWidget'):
         """Load constraints option from parent."""
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
@@ -104,12 +101,13 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
         )
         for chain in _four_bar_loops(parent.PreviewWindow.G):
             chain = sorted(chain)
-            for i, n in enumerate(chain):
+            chain_ = []
+            for n in chain:
                 if n in parent.PreviewWindow.same:
                     n = parent.PreviewWindow.same[n]
-                chain[i] = f'P{n}'
-            if set(chain) not in cl:
-                self.loops_list.addItem(", ".join(chain))
+                chain_.append(f'P{n}')
+            if set(chain_) not in cl:
+                self.loops_list.addItem(", ".join(chain_))
         for item in list_items(parent.constraint_list):
             self.main_list.addItem(item.text())
     

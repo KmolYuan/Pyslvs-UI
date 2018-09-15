@@ -34,8 +34,8 @@ from core.QtModules import (
     QPen,
     QColor,
     QToolTip,
-    QWidget,
 )
+import core.main_window
 from core.graphics import (
     convex_hull,
     BaseCanvas,
@@ -134,7 +134,7 @@ class DynamicCanvasInterface(BaseCanvas):
     zoom_changed = pyqtSignal(int)
     fps_updated = pyqtSignal()
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")

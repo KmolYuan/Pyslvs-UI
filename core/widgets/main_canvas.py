@@ -23,8 +23,8 @@ from core.QtModules import (
     QSizeF,
     QCursor,
     QToolTip,
-    QWidget,
 )
+import core.main_window
 from core.libs import VPoint, VLink
 from .main_canvas_method import DynamicCanvasInterface, FreeMode
 
@@ -40,7 +40,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     + Zoom to fit function.
     """
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'core.main_window.MainWindow'):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue
@@ -235,7 +235,9 @@ class DynamicCanvas(DynamicCanvasInterface):
     
     def recordStart(self, limit: int):
         """Start a limit from main window."""
-        self.path_record = [deque([], limit) for i in range(len(self.vpoints))]
+        self.path_record = []
+        for i in range(len(self.vpoints)):
+            self.path_record.append(deque([], limit))
     
     def recordPath(self):
         """Recording path."""

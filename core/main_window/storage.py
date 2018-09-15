@@ -150,7 +150,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
             self.mechanism_storage.item(row).expr
         ) for row in range(self.mechanism_storage.count()))
     
-    def addMultipleStorage(self, exprs: Tuple[Tuple[str, str]]):
+    def addMultipleStorage(self, exprs: Tuple[Tuple[str, str], ...]):
         """Add storage data from database."""
         for name, expr in exprs:
             self.__addStorage(name, expr)

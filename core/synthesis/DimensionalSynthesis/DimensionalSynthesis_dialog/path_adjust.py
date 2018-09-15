@@ -14,8 +14,8 @@ from core.QtModules import (
     Qt,
     QDialog,
     QMessageBox,
-    QWidget,
 )
+import core.synthesis.DimensionalSynthesis as DiSy
 from .Ui_path_adjust import Ui_Dialog
 
 
@@ -26,7 +26,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
     
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'DiSy.DimensionalSynthesis'):
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)
@@ -65,33 +65,33 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     @pyqtSlot(name='on_match_button_clicked')
     def __match(self):
         """Fitting function."""
-        l = len(self.path)
-        if l == 0:
+        length = len(self.path)
+        if length == 0:
             return
-        index = list(range(l))
+        index = list(range(length))
         
-        def polyfit(x: List[float], y: List[float], d: int):
+        def poly_fit(x: List[float], y: List[float], d: int):
             """Return a 2D fitting equation."""
-            coeffs = np.polyfit(x, y, d)
+            coefficient = np.polyfit(x, y, d)
             # Fit values and mean.
-            yhat = np.poly1d(coeffs)(x)
-            ybar = np.sum(y) / len(y)
+            y_hat = np.poly1d(coefficient)(x)
+            y_bar = np.sum(y) / len(y)
             
             def func(t: float) -> float:
                 """Return y(x) function."""
-                return sum(c * t**pow for pow, c in enumerate(reversed(coeffs)))
+                return sum(c * t**p for p, c in enumerate(reversed(coefficient)))
             
-            yh_yb = yhat - ybar
-            y_yb = y - ybar
+            yh_yb = y_hat - y_bar
+            y_yb = y - y_bar
             return func, np.sum(yh_yb * yh_yb) / np.sum(y_yb * y_yb)
         
-        x_func, x_accuracy = polyfit(index, [x for x, y in self.path], 4)
-        y_func, y_accuracy = polyfit(index, [y for x, y in self.path], 4)
+        x_func, x_accuracy = poly_fit(index, [x for x, y in self.path], 4)
+        y_func, y_accuracy = poly_fit(index, [y for x, y in self.path], 4)
         QMessageBox.information(
             self,
             "Curve fitting",
             f"Accuracy:\nx: {x_accuracy:.02f}%\ny: {y_accuracy:.02f}%"
         )
         m = self.match_num.value()
-        self.r_path = [(x_func(i / m * l), y_func(i / m * l)) for i in range(m)]
+        self.r_path = [(x_func(i / m * length), y_func(i / m * length)) for i in range(m)]
         self.accept()
