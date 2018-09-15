@@ -84,14 +84,10 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
                 writer.param_num += 2
             writer.param_shift16()
     
-    def arc_coords(
-        i: int,
-        cx: float,
-        cy: float
-    ) -> Iterator[Tuple[float, float]]:
+    def arc_coords(i: int, cx: float, cy: float) -> Iterator[Tuple[float, float]]:
         for x, y in (
             (cx, cy),
-            (boundary[i-1][1].x, boundary[i-1][1].y),
+            (boundary[i - 1][1].x, boundary[i - 1][1].y),
             (boundary[i][0].x, boundary[i][0].y),
         ):
             yield x, y
@@ -159,13 +155,13 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
             p_count = edges_is_frame()
         else:
             p_count = edges_is_boundary()
-        del edges_is_boundary, edges_is_frame
+        
         for i, edge in enumerate(edges):
             writer.entity_line(writer.entity_num)
-            for j, c in enumerate(edge):
+            for j, coord in enumerate(edge):
                 writer.entity_num += 1
                 point_num[next(p_count)].append(writer.entity_num)
-                writer.entity_point_2d(writer.entity_num, c.x, c.y)
+                writer.entity_point_2d(writer.entity_num, coord.x, coord.y)
                 line_num[i].append(writer.entity_num)
             writer.entity_shift16()
     

@@ -5,7 +5,8 @@
 import csv
 from typing import (
     Tuple,
-    List,
+    Dict,
+    Sequence,
     Iterator,
     Optional,
 )
@@ -95,7 +96,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.customContextMenuRequested.connect(
             self.__record_list_context_menu
         )
-        self.__path_data = {}
+        self.__path_data: Dict[str, Sequence[Tuple[float, float]]] = {}
     
     def clear(self):
         self.__path_data.clear()
@@ -195,8 +196,8 @@ class InputsWidget(QWidget, Ui_Form):
         for p0, p1 in variables:
             self.__addInputsVariable(p0, p1)
     
-    @pyqtSlot(int)
-    def __dialOk(self, p0: Optional[int] = None):
+    @pyqtSlot()
+    def __dialOk(self):
         """Set the angle of base link and drive link."""
         row = self.variable_list.currentRow()
         enabled = row > -1
@@ -214,12 +215,12 @@ class InputsWidget(QWidget, Ui_Form):
             self.variable_list.currentItem().text().split('->')[-1]
         ) * 100 if enabled else 0)
     
-    def variableExcluding(self, row: int = None):
+    def variableExcluding(self, row: Optional[int] = None):
         """Remove variable if the point was been deleted.
         
         Default: all.
         """
-        one_row = row is not None
+        one_row: bool = row is not None
         for i, (b, d, a) in enumerate(self.inputPair()):
             # If this is not origin point any more.
             if one_row and (row != b):
@@ -285,9 +286,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.setValue(value)
         self.dial_spinbox.blockSignals(False)
         if item:
-            itemText = item.text().split('->')
-            itemText[-1] = f"{value:.02f}"
-            item.setText('->'.join(itemText))
+            item_text = item.text().split('->')
+            item_text[-1] = f"{value:.02f}"
+            item.setText('->'.join(item_text))
             self.aboutToResolve.emit()
         if (
             self.record_start.isChecked() and
@@ -329,14 +330,14 @@ class InputsWidget(QWidget, Ui_Form):
         """QTimer change index."""
         index = self.dial.value()
         speed = self.variable_speed.value()
-        extremeRebound = (
+        extreme_rebound = (
             self.ConflictGuide.isVisible() and
             self.extremeRebound.isChecked()
         )
-        if extremeRebound:
-            speed *= -1
+        if extreme_rebound:
+            speed = -speed
             self.variable_speed.setValue(speed)
-        index += int(speed * 6 * (3 if extremeRebound else 1))
+        index += int(speed * 6 * (3 if extreme_rebound else 1))
         index %= self.dial.maximum()
         self.dial.setValue(index)
     
@@ -488,8 +489,8 @@ class InputsWidget(QWidget, Ui_Form):
         """Show all paths or hide."""
         self.MainCanvas.setPathShow(-1 if toggled else -2)
     
-    @pyqtSlot(int, name='on_record_list_currentRowChanged')
-    def __setPath(self, row: int):
+    @pyqtSlot(name='on_record_list_currentRowChanged')
+    def __setPath(self):
         """Reload the canvas when switch the path."""
         if not self.record_show.isChecked():
             self.record_show.setChecked(True)

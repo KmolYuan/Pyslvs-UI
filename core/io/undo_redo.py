@@ -305,8 +305,8 @@ class AddPath(QUndoCommand):
         self,
         widget: QListWidget,
         name: str,
-        data: Dict[str, Tuple[Tuple[float, float]]],
-        path: Tuple[Tuple[float, float]]
+        data: Dict[str, Sequence[Tuple[float, float]]],
+        path: Sequence[Tuple[float, float]]
     ):
         super(AddPath, self).__init__()
         self.widget = widget
@@ -331,7 +331,12 @@ class DeletePath(QUndoCommand):
     
     """"Delete the specified row of path."""
     
-    def __init__(self, row: int, widget: QListWidget, data: List[Tuple[float, float]]):
+    def __init__(
+        self,
+        row: int,
+        widget: QListWidget,
+        data: Dict[str, Sequence[Tuple[float, float]]]
+    ):
         super(DeletePath, self).__init__()
         self.row = row
         self.widget = widget

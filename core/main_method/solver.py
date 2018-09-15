@@ -289,7 +289,6 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             pos[count] = vpoint.c[0]
             cus[f'P{count}'] = link_names.index(vpoint.links[0])
             count += 1
-        del count, not_cus
         
         drivers = {mapping[b] for b, d, a in self.InputsWidget.inputPair()}
         followers = {

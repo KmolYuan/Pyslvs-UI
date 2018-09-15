@@ -243,7 +243,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_Import_Example_triggered')
     def importExample(self):
         """Import a example and merge it to canvas."""
-        self.FileWidget.loadExample(isImport=True)
+        self.FileWidget.loadExample(is_import=True)
 
     @pyqtSlot(name='on_action_New_Workbook_triggered')
     def newWorkbook(self):
@@ -386,7 +386,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         self.FileWidget.importMechanism(file_name)
     
     @pyqtSlot(name='on_action_Save_triggered')
-    def save(self, is_branch: bool):
+    def save(self, is_branch: bool = False):
         """Save action."""
         file_name = self.FileWidget.file_name.absoluteFilePath()
         if self.FileWidget.file_name.suffix() == 'pyslvs':

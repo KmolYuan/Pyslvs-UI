@@ -31,7 +31,7 @@ class WorkbookOverview(QDialog, Ui_Dialog):
     def __init__(
         self,
         commit: Model,
-        decompress: Callable[[str], Any],
+        decompress: Callable[[bytes], Any],
         parent: QWidget
     ):
         """Data come from commit."""

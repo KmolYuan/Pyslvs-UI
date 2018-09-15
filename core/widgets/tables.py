@@ -77,6 +77,11 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
             else:
                 texts.append(item.text())
         return texts
+
+    @abstractmethod
+    def effectiveRange(self, has_name: bool) -> Iterator[int]:
+        """Return valid column range for row text."""
+        ...
     
     @abstractmethod
     def data(self) -> Iterator[Any]:
@@ -265,7 +270,7 @@ class PointTableWidget(_BaseTableWidget):
         super(PointTableWidget, self).setSelections(selections, key_detect)
         self.selectionLabelUpdate.emit(self.selectedRows())
     
-    def effectiveRange(self, has_name: bool):
+    def effectiveRange(self, has_name: bool) -> Iterator[int]:
         """Row range that can be delete."""
         if has_name:
             return range(self.columnCount())
@@ -341,9 +346,8 @@ class LinkTableWidget(_BaseTableWidget):
             return []
         return [int(s.replace('Point', '')) for s in item.text().split(',') if s]
     
-    def effectiveRange(self, has_name: bool):
+    def effectiveRange(self, has_name: bool) -> Iterator[int]:
         """Row range that can be delete."""
-        del has_name
         return range(self.columnCount())
     
     def clear(self):
@@ -424,6 +428,10 @@ class ExprTableWidget(_BaseTableWidget):
     def data(self) -> None:
         """Not used generator."""
         return
+    
+    def effectiveRange(self, has_name: bool) -> Iterator[int]:
+        """Return column count."""
+        return range(self.columnCount())
     
     def clear(self):
         """Emit to close the link free move widget."""
