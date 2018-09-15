@@ -64,19 +64,21 @@ ifeq ($(OS),Windows_NT)
 --hidden-import=PyQt5.sip \
 --hidden-import=PyQt5.QtPrintSupport \
 --add-binary="core/libs/python_solvespace/libslvs.so;." \
+--add-binary="core/libs/pyslvs/atlas.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/bfgs.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/de.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/firefly.cp$(PYVER)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/number.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/planarlinkage.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/rga.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/tinycadlib.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/topologic.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/triangulation.cp$(PYVER)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs/verify.cp$(PYVER)-win_amd64.pyd;."
 	rename .\dist\Pyslvs.exe pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).exe
 else ifeq ($(shell uname),Darwin)
 	@echo --Python Version $(PYVER)--
 	pyinstaller -w -F $< -i ./icons/main.icns -n Pyslvs
+	mv dist/Pyslvs dist/pyslvs
 	mv dist/Pyslvs.app dist/pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).app
 else
 	@echo --Python Version $(PYVER)--
