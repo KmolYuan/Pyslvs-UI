@@ -135,7 +135,6 @@ class InputsWidget(QWidget, Ui_Form):
         if item is None:
             return
         p0 = _variable_int(item.text())
-        self.EntitiesPoint.setSelection(p0)
         
         vpoints = self.EntitiesPoint.dataTuple()
         type_int = vpoints[p0].type
@@ -163,16 +162,11 @@ class InputsWidget(QWidget, Ui_Form):
             return
         p0 = _variable_int(item.text())
         
-        self.EntitiesPoint.setSelections((p0, p1))
         vpoints = self.EntitiesPoint.dataTuple()
         self.variable_add.setEnabled((p1 != p0) and (vpoints[p0].type == VPoint.R))
     
     @pyqtSlot(name='on_variable_add_clicked')
-    def __addInputsVariable(
-        self,
-        p0: Optional[int] = None,
-        p1: Optional[int] = None
-    ):
+    def __addInputsVariable(self, p0: Optional[int] = None, p1: Optional[int] = None):
         """Add variable with '->' sign."""
         if p0 is None:
             item: Optional[QListWidgetItem] = self.joint_list.currentItem()
@@ -214,14 +208,12 @@ class InputsWidget(QWidget, Ui_Form):
         
         name = f'Point{p0}'
         self.CommandStack.beginMacro(f"Add variable of {name}")
-        self.CommandStack.push(AddVariable(
-            '->'.join((
-                name,
-                f'Point{p1}',
-                f"{vpoints[p0].slope_angle(vpoints[p1]):.02f}",
-            )),
-            self.variable_list
-        ))
+        angle = vpoints[p0].slope_angle(vpoints[p1])
+        self.CommandStack.push(AddVariable('->'.join((
+            name,
+            f'Point{p1}',
+            f"{angle:.02f}",
+        )), self.variable_list))
         self.CommandStack.endMacro()
     
     def addInputsVariables(self, variables: Tuple[Tuple[int, int]]):
@@ -244,15 +236,14 @@ class InputsWidget(QWidget, Ui_Form):
         self.oldVar = self.dial.value() / 100.
         self.variable_play.setEnabled(rotatable)
         self.variable_speed.setEnabled(rotatable)
-        self.dial.setValue(float(
-            self.variable_list.currentItem().text().split('->')[-1]
-        ) * 100 if enabled else 0)
+        item: Optional[QListWidgetItem] = self.variable_list.currentItem()
+        if item is None:
+            return
+        value = float(item.text().split('->')[-1])
+        self.dial.setValue(value * 100 if enabled else 0)
     
     def variableExcluding(self, row: Optional[int] = None):
-        """Remove variable if the point was been deleted.
-        
-        Default: all.
-        """
+        """Remove variable if the point was been deleted. Default: all."""
         one_row: bool = row is not None
         for i, (b, d, a) in enumerate(self.inputPair()):
             # If this is not origin point any more.
@@ -296,7 +287,8 @@ class InputsWidget(QWidget, Ui_Form):
             var = self.variable_list.item(row).text().split('->')
             p0 = int(var[0].replace('Point', ''))
             p1 = int(var[1].replace('Point', ''))
-            yield (p0, p1, float(var[2]))
+            angle = float(var[2])
+            yield (p0, p1, angle)
     
     def variableReload(self):
         """Auto check the points and type."""
