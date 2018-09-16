@@ -119,8 +119,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         for widget in (self.name_edit, self.color_box, self.colorpick_button):
             widget.setEnabled(not_ground)
     
-    @pyqtSlot(name='on_color_box_currentIndexChanged')
-    def __setColor(self):
+    @pyqtSlot(int, name='on_color_box_currentIndexChanged')
+    def __setColor(self, _: int):
         """Change the color icon of pick button."""
         self.colorpick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()

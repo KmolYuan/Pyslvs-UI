@@ -310,8 +310,8 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
-    @pyqtSlot(name='on_graph_engine_currentIndexChanged')
-    def __reloadAtlas(self):
+    @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
+    def __reloadAtlas(self, *_: int):
         """Reload the atlas. Regardless there has any old data."""
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()

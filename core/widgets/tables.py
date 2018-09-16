@@ -97,7 +97,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
         """Get what row is been selected."""
         return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
     
-    def setSelections(self, selections: Sequence[int], key_detect: bool):
+    def setSelections(self, selections: Sequence[int], key_detect: bool = False):
         """Auto select function, get the signal from canvas."""
         self.setFocus()
         keyboard_modifiers = QApplication.keyboardModifiers()
@@ -117,6 +117,10 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
                 continue_select=(keyboard_modifiers == Qt.ShiftModifier),
                 un_select=False
             )
+    
+    def setSelection(self, index: int):
+        """Set index to selection directly."""
+        self.setSelections((index,), False)
     
     def __setSelectedRanges(
         self,
@@ -267,7 +271,8 @@ class PointTableWidget(_BaseTableWidget):
             return []
         return [s for s in item.text().split(',') if s]
     
-    def setSelections(self, selections: Sequence[int], key_detect: bool):
+    def setSelections(self, selections: Sequence[int], key_detect: bool = False):
+        """Need to update selection label on status bar."""
         super(PointTableWidget, self).setSelections(selections, key_detect)
         self.selectionLabelUpdate.emit(self.selectedRows())
     

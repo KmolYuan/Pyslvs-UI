@@ -35,6 +35,11 @@ from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 
 
+def _variable_int(text: str) -> int:
+    """Change variable text to index."""
+    return int(text.split()[-1].replace("Point", ""))
+
+
 class InputsWidget(QWidget, Ui_Form):
     
     """There has following functions:
@@ -100,6 +105,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.__path_data: Dict[str, Sequence[Tuple[float, float]]] = {}
     
     def clear(self):
+        """Clear function to reset widget status."""
         self.__path_data.clear()
         for i in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
@@ -121,23 +127,40 @@ class InputsWidget(QWidget, Ui_Form):
         self.joint_list.setCurrentRow(-1)
     
     @pyqtSlot(int, name='on_joint_list_currentRowChanged')
-    def __updateRelatePoints(self, p0: int):
+    def __updateRelatePoints(self, _: int):
         """Change the point row from input widget."""
         self.driver_list.clear()
-        if not p0 > -1:
+        
+        item: Optional[QListWidgetItem] = self.joint_list.currentItem()
+        if item is None:
             return
-        if p0 not in self.EntitiesPoint.selectedRows():
-            self.EntitiesPoint.setSelections((p0,), False)
-        for i, vpoint in enumerate(self.EntitiesPoint.data()):
-            self.driver_list.addItem(f"[{vpoint.typeSTR}] Point{i}")
+        p0 = _variable_int(item.text())
+        self.EntitiesPoint.setSelection(p0)
+        
+        vpoints = self.EntitiesPoint.dataTuple()
+        type_int = vpoints[p0].type
+        if type_int == VPoint.R:
+            for i, vpoint in enumerate(vpoints):
+                if i == p0:
+                    continue
+                self.driver_list.addItem(f"[{vpoint.typeSTR}] Point{i}")
+        elif type_int in {VPoint.P, VPoint.RP}:
+            self.driver_list.addItem(f"[{vpoints[p0].typeSTR}] Point{p0}")
     
     @pyqtSlot(int, name='on_driver_list_currentRowChanged')
-    def __setAddVarEnabled(self, p1: int):
+    def __setAddVarEnabled(self, _: int):
         """Set enable of 'add variable' button."""
-        if not p1 > -1:
+        item: Optional[QListWidgetItem] = self.driver_list.currentItem()
+        if item is None:
             self.variable_add.setEnabled(False)
             return
-        p0 = self.joint_list.currentRow()
+        p1 = _variable_int(item.text())
+        item: Optional[QListWidgetItem] = self.joint_list.currentItem()
+        if item is None:
+            return
+        p0 = _variable_int(item.text())
+        
+        self.EntitiesPoint.setSelections((p0, p1))
         vpoints = self.EntitiesPoint.dataTuple()
         self.variable_add.setEnabled((p1 != p0) and (vpoints[p0].type == VPoint.R))
     
@@ -149,9 +172,15 @@ class InputsWidget(QWidget, Ui_Form):
     ):
         """Add variable with '->' sign."""
         if p0 is None:
-            p0 = self.joint_list.currentRow()
+            item: Optional[QListWidgetItem] = self.joint_list.currentItem()
+            if item is None:
+                return
+            p0 = _variable_int(item.text())
         if p1 is None:
-            p1 = self.driver_list.currentRow()
+            item: Optional[QListWidgetItem] = self.driver_list.currentItem()
+            if item is None:
+                return
+            p1 = _variable_int(item.text())
         
         if self.DOF() <= self.inputCount():
             QMessageBox.warning(
@@ -490,8 +519,8 @@ class InputsWidget(QWidget, Ui_Form):
         """Show all paths or hide."""
         self.MainCanvas.setPathShow(-1 if toggled else -2)
     
-    @pyqtSlot(name='on_record_list_currentRowChanged')
-    def __setPath(self):
+    @pyqtSlot(int, name='on_record_list_currentRowChanged')
+    def __setPath(self, _: int):
         """Reload the canvas when switch the path."""
         if not self.record_show.isChecked():
             self.record_show.setChecked(True)

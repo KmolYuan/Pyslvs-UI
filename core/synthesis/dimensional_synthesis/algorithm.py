@@ -190,8 +190,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         else:
             return []
     
-    @pyqtSlot(name='on_target_points_currentTextChanged')
-    def __setTarget(self):
+    @pyqtSlot(str, name='on_target_points_currentTextChanged')
+    def __setTarget(self, _: str):
         """Switch to the current target path."""
         self.path_list.clear()
         for x, y in self.currentPath():
