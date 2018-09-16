@@ -143,7 +143,10 @@ class InputsWidget(QWidget, Ui_Form):
             for i, vpoint in enumerate(vpoints):
                 if i == p0:
                     continue
-                self.driver_list.addItem(f"[{vpoint.typeSTR}] Point{i}")
+                if vpoints[p0].same_link(vpoint):
+                    if vpoints[p0].grounded() and vpoint.grounded():
+                        continue
+                    self.driver_list.addItem(f"[{vpoint.typeSTR}] Point{i}")
         elif type_int in {VPoint.P, VPoint.RP}:
             self.driver_list.addItem(f"[{vpoints[p0].typeSTR}] Point{p0}")
     
