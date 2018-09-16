@@ -206,7 +206,7 @@ class FileWidget(QWidget, Ui_Form):
         # Call to get triangle data.
         self.TriangleDataFunc = parent.CollectionTabPage.TriangleDataFunc
         # Call to get inputs variables data.
-        self.InputsDataFunc = parent.InputsWidget.inputPair
+        self.InputsDataFunc = parent.InputsWidget.inputPairs
         # Call to get algorithm data.
         self.AlgorithmDataFunc = parent.DimensionalSynthesis.mechanismData
         # Call to get path data.

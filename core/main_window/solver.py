@@ -55,24 +55,29 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         """
         vpoints = self.EntitiesPoint.dataTuple()
         solve_kernel = self.planarsolver_option.currentIndex()
+
+        for b, d, a in self.InputsWidget.inputPairs():
+            if b == d:
+                vpoints[b].set_offset(a)
+        
         try:
             if solve_kernel == 0:
                 result = expr_solving(
                     self.getTriangle(),
                     {n: f'P{n}' for n in range(len(vpoints))},
                     vpoints,
-                    tuple(v[-1] for v in self.InputsWidget.inputPair())
+                    tuple(a for b, d, a in self.InputsWidget.inputPairs() if b != d)
                 )
             elif solve_kernel == 1:
                 result, _ = slvs_solve(
                     vpoints,
-                    tuple(self.InputsWidget.inputPair())
+                    tuple(self.InputsWidget.inputPairs())
                     if not self.freemode_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
                 result = bfgs_vpoint_solving(
                     vpoints,
-                    tuple(self.InputsWidget.inputPair())
+                    tuple(self.InputsWidget.inputPairs())
                 )
             else:
                 raise RuntimeError("Incorrect kernel.")
@@ -125,7 +130,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         bases = []
         drivers = []
         angles_o = []
-        for b, d, a in self.InputsWidget.inputPair():
+        for b, d, a in self.InputsWidget.inputPairs():
             bases.append(b)
             drivers.append(d)
             angles_o.append(a)
@@ -287,7 +292,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             cus[f'P{count}'] = link_names.index(vpoint.links[0])
             count += 1
         
-        drivers = {mapping[b] for b, d, a in self.InputsWidget.inputPair()}
+        drivers = {mapping[b] for b, d, a in self.InputsWidget.inputPairs()}
         followers = {
             mapping[i] for i, vpoint in enumerate(vpoints)
             if ('ground' in vpoint.links) and (i not in drivers)
@@ -333,7 +338,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         status = {}
         exprs = vpoints_configure(
             vpoints,
-            tuple((b, d) for b, d, a in self.InputsWidget.inputPair()),
+            tuple((b, d) for b, d, a in self.InputsWidget.inputPairs()),
             status
         )
         data_dict, _ = data_collecting(

@@ -152,18 +152,8 @@ class InputsWidget(QWidget, Ui_Form):
     @pyqtSlot(int, name='on_driver_list_currentRowChanged')
     def __setAddVarEnabled(self, _: int):
         """Set enable of 'add variable' button."""
-        item: Optional[QListWidgetItem] = self.driver_list.currentItem()
-        if item is None:
-            self.variable_add.setEnabled(False)
-            return
-        p1 = _variable_int(item.text())
-        item: Optional[QListWidgetItem] = self.joint_list.currentItem()
-        if item is None:
-            return
-        p0 = _variable_int(item.text())
-        
-        vpoints = self.EntitiesPoint.dataTuple()
-        self.variable_add.setEnabled((p1 != p0) and (vpoints[p0].type == VPoint.R))
+        driver = self.driver_list.currentIndex()
+        self.variable_add.setEnabled(driver != -1)
     
     @pyqtSlot(name='on_variable_add_clicked')
     def __addInputsVariable(self, p0: Optional[int] = None, p1: Optional[int] = None):
@@ -179,6 +169,7 @@ class InputsWidget(QWidget, Ui_Form):
                 return
             p1 = _variable_int(item.text())
         
+        # Check DOF.
         if self.DOF() <= self.inputCount():
             QMessageBox.warning(
                 self,
@@ -187,8 +178,8 @@ class InputsWidget(QWidget, Ui_Form):
             )
             return
         
+        # Check same link.
         vpoints = self.EntitiesPoint.dataTuple()
-        
         if not vpoints[p0].same_link(vpoints[p1]):
             QMessageBox.warning(
                 self,
@@ -197,8 +188,9 @@ class InputsWidget(QWidget, Ui_Form):
             )
             return
         
-        for p0_, p1_, a in self.inputPair():
-            if {p0, p1} == {p0_, p1_}:
+        # Check repeated pairs.
+        for p0_, p1_, a in self.inputPairs():
+            if {p0, p1} == {p0_, p1_} and vpoints[p0].type == VPoint.R:
                 QMessageBox.warning(
                     self,
                     "Wrong pair",
@@ -208,11 +200,16 @@ class InputsWidget(QWidget, Ui_Form):
         
         name = f'Point{p0}'
         self.CommandStack.beginMacro(f"Add variable of {name}")
-        angle = vpoints[p0].slope_angle(vpoints[p1])
+        if p0 == p1:
+            # One joint by offset.
+            value = vpoints[p0].true_offset()
+        else:
+            # Two joints by angle.
+            value = vpoints[p0].slope_angle(vpoints[p1])
         self.CommandStack.push(AddVariable('->'.join((
             name,
             f'Point{p1}',
-            f"{angle:.02f}",
+            f"{value:.02f}",
         )), self.variable_list))
         self.CommandStack.endMacro()
     
@@ -245,7 +242,7 @@ class InputsWidget(QWidget, Ui_Form):
     def variableExcluding(self, row: Optional[int] = None):
         """Remove variable if the point was been deleted. Default: all."""
         one_row: bool = row is not None
-        for i, (b, d, a) in enumerate(self.inputPair()):
+        for i, (b, d, a) in enumerate(self.inputPairs()):
             # If this is not origin point any more.
             if one_row and (row != b):
                 continue
@@ -281,7 +278,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Use to show input variable count."""
         return self.variable_list.count()
     
-    def inputPair(self) -> Iterator[Tuple[int, int, float]]:
+    def inputPairs(self) -> Iterator[Tuple[int, int, float]]:
         """Back as point number code."""
         for row in range(self.variable_list.count()):
             var = self.variable_list.item(row).text().split('->')
@@ -329,7 +326,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.inputs_playShaft.stop()
         self.EntitiesPoint.getBackPosition()
         vpoints = self.EntitiesPoint.dataTuple()
-        for i, (p0, p1, a) in enumerate(self.inputPair()):
+        for i, (p0, p1, a) in enumerate(self.inputPairs()):
             self.variable_list.item(i).setText('->'.join([
                 f'Point{p0}',
                 f'Point{p1}',

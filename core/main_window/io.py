@@ -570,7 +570,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             f"# Project \"{self.FileWidget.file_name.baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
-                tuple((b, d) for b, d, a in self.InputsWidget.inputPair())
+                tuple((b, d) for b, d, a in self.InputsWidget.inputPairs())
             ),
             Python3Lexer(),
             "Python script",

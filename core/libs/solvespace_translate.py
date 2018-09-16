@@ -76,7 +76,7 @@ def slvs_solve(
             else:
                 vlinks[vlink] = [i]
     
-    # Limitation of Solvespacce kernel sys.
+    # Limitation of Solvespace kernel sys.
     point_count = 0
     for vpoint in vpoints:
         if vpoint.type == VPoint.R:
@@ -210,6 +210,9 @@ def slvs_solve(
         Simulate the input variables to the mechanism.
         The 'base points' are shaft center.
         """
+        if p0 == p1:
+            continue
+        
         if vpoints[p0].type == VPoint.R:
             p_base = solved_points[p0]
         else:

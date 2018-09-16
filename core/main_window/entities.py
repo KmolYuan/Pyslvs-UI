@@ -351,7 +351,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
                 self.getTriangle(),
                 mapping,
                 vpoints,
-                tuple(v[-1] for v in self.InputsWidget.inputPair())
+                tuple(v[-1] for v in self.InputsWidget.inputPairs())
             )
         except RuntimeError:
             pass

@@ -131,7 +131,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.EntitiesTab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
         self.EntitiesPoint = PointTableWidget(self.EntitiesPoint_widget)
         self.EntitiesPoint.cellDoubleClicked.connect(self.editPoint)
-        self.EntitiesPoint.deleteRequest.connect(self.deletePoint)
+        self.EntitiesPoint.deleteRequest.connect(self.deletePoints)
         self.EntitiesPoint_layout.addWidget(self.EntitiesPoint)
         self.EntitiesLink = LinkTableWidget(self.EntitiesLink_widget)
         self.EntitiesLink.cellDoubleClicked.connect(self.editLink)
@@ -453,7 +453,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.popMenu_point.addAction(self.action_point_context_copyPoint)
         self.popMenu_point.addSeparator()
         self.action_point_context_delete = QAction("&Delete", self)
-        self.action_point_context_delete.triggered.connect(self.deletePoint)
+        self.action_point_context_delete.triggered.connect(self.deletePoints)
         self.popMenu_point.addAction(self.action_point_context_delete)
     
     def __link_context_menu(self):
