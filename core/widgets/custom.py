@@ -135,7 +135,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.EntitiesPoint_layout.addWidget(self.EntitiesPoint)
         self.EntitiesLink = LinkTableWidget(self.EntitiesLink_widget)
         self.EntitiesLink.cellDoubleClicked.connect(self.editLink)
-        self.EntitiesLink.deleteRequest.connect(self.deleteLink)
+        self.EntitiesLink.deleteRequest.connect(self.deleteLinks)
         self.EntitiesLink_layout.addWidget(self.EntitiesLink)
         self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
         self.EntitiesExpr.reset.connect(self.link_freemode_widget.setEnabled)
@@ -495,7 +495,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.popMenu_link.addAction(self.action_link_context_constrain)
         self.popMenu_link.addSeparator()
         self.action_link_context_delete = QAction("&Delete", self)
-        self.action_link_context_delete.triggered.connect(self.deleteLink)
+        self.action_link_context_delete.triggered.connect(self.deleteLinks)
         self.popMenu_link.addAction(self.action_link_context_delete)
     
     def __canvas_context_menu(self):

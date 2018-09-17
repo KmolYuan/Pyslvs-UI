@@ -118,10 +118,6 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
                 un_select=False
             )
     
-    def setSelection(self, index: int):
-        """Set index to selection directly."""
-        self.setSelections((index,), False)
-    
     def __setSelectedRanges(
         self,
         selections: Sequence[int],
