@@ -108,8 +108,14 @@ def slvs_solve(
             sy = sys.add_param(vpoint.c[0][1] + sin(angle))
             slot_points[i] = Point2d(wp1, sx, sy)
             # Pin coordinate.
-            x = sys.add_param(vpoint.c[1][0])
-            y = sys.add_param(vpoint.c[1][1])
+            px = vpoint.c[1][0]
+            py = vpoint.c[1][1]
+            if vpoint.has_offset() and vpoint.true_offset() == 0:
+                value = 0.1 if vpoint.true_offset() > 0 else -0.1
+                px += value
+                py += value
+            x = sys.add_param(px)
+            y = sys.add_param(py)
             solved_points.append(Point2d(wp1, x, y))
             if vpoint.grounded():
                 Constraint.dragged(wp1, slider_points[i])
@@ -163,7 +169,11 @@ def slvs_solve(
                 Constraint.angle(wp1, vpoint.angle, h_line, slider_slot)
             Constraint.on(wp1, solved_points[i], slider_slot)
             if vpoint.has_offset():
-                Constraint.distance(vpoint.offset(), wp1, slider_points[i], solved_points[i])
+                offset = vpoint.offset()
+                if vpoint.offset() > 0:
+                    Constraint.distance(offset, wp1, slider_points[i], solved_points[i])
+                else:
+                    Constraint.distance(offset, wp1, solved_points[i], slider_points[i])
         else:
             # Slider between links.
             for vlink in vpoint.links[:1]:
@@ -184,7 +194,11 @@ def slvs_solve(
                     Constraint.angle(wp1, angle, slider_slot, helper)
                 Constraint.on(wp1, solved_points[i], slider_slot)
                 if vpoint.has_offset():
-                    Constraint.distance(vpoint.offset(), wp1, slider_points[i], solved_points[i])
+                    offset = vpoint.offset()
+                    if vpoint.offset() > 0:
+                        Constraint.distance(offset, wp1, slider_points[i], solved_points[i])
+                    else:
+                        Constraint.distance(offset, wp1, solved_points[i], slider_points[i])
         
         if vpoint.type == VPoint.P:
             for vlink in vpoint.links[1:]:
