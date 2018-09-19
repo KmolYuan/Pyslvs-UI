@@ -57,13 +57,20 @@ class ChartDialog(QDialog):
         self.__setChart("Fitness / Time Chart", 2, 1)
         main_layout.addWidget(self.tabWidget)
     
-    def __setChart(self, tabName: str, posX: int, posY: int):
+    def __setChart(self, tab_name: str, pos_x: int, pos_y: int):
         """Setting charts by data index.
         
-        posX / posY: [0], [1], [2]
+        pos_x / pos_y: [0], [1], [2]
         time_fitness: List[List[Tuple[gen, fitness, time]]]
         """
+        axis_x = QCategoryAxis()
+        axis_y = QValueAxis()
+        axis_x.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
+        axis_x.setMin(0)
+        axis_y.setTickCount(11)
+        
         if self.__mechanism_data:
+            
             if type(self.__mechanism_data[0]['time_fitness'][0]) == float:
                 plot = [[
                     (data['last_gen']*i/len(data['time_fitness']), tnf, 0)
@@ -72,31 +79,30 @@ class ChartDialog(QDialog):
             else:
                 # Just copy from __mechanism_data
                 plot = [[tnf for tnf in data['time_fitness']] for data in self.__mechanism_data]
-        axisX = QCategoryAxis()
-        axisY = QValueAxis()
-        axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
-        axisX.setMin(0)
-        axisY.setTickCount(11)
-        # X maxima
-        if self.__mechanism_data:
-            maximaX = int(max([max([tnf[posX] for tnf in data]) for data in plot])*100)
-            axisX.setMax(maximaX)
-            i10 = int(maximaX / 10)
+
+            # X max.
+            max_x = int(max([max([tnf[pos_x] for tnf in data]) for data in plot]) * 100)
+            axis_x.setMax(max_x)
+            i10 = int(max_x / 10)
             if i10:
-                for i in range(0, maximaX + 1, i10):
-                    axisX.append(str(i/100), i)
+                for i in range(0, max_x + 1, i10):
+                    axis_x.append(str(i / 100), i)
             else:
                 for i in range(0, 1000, 100):
-                    axisX.append(str(i/100), i)
-        # Y maxima
-        if self.__mechanism_data:
-            maximaY = max(max([tnf[posY] for tnf in data]) for data in plot) + 10
+                    axis_x.append(str(i / 100), i)
+            
+            # Y max.
+            max_y = max(max([tnf[pos_y] for tnf in data]) for data in plot) + 10
         else:
-            maximaY = 100
-        maximaY -= maximaY % 10
-        axisY.setRange(0., maximaY)
-        chart = DataChart(self.__title, axisX, axisY)
-        # Append datasets
+            plot = None
+            # Y max.
+            max_y = 100
+        
+        max_y -= max_y % 10
+        axis_y.setRange(0., max_y)
+        chart = DataChart(self.__title, axis_x, axis_y)
+        
+        # Append data set.
         for data in self.__mechanism_data:
             line = QLineSeries()
             scatter = QScatterSeries()
@@ -107,20 +113,20 @@ class ChartDialog(QDialog):
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):
-                y = e[posY]
-                x = e[posX]*100
+                y = e[pos_y]
+                x = e[pos_x] * 100
                 line.append(QPointF(x, y))
                 scatter.append(QPointF(x, y))
             for series in (line, scatter):
                 chart.addSeries(series)
-                series.attachAxis(axisX)
-                series.attachAxis(axisY)
+                series.attachAxis(axis_x)
+                series.attachAxis(axis_y)
             chart.legend().markers(scatter)[0].setVisible(False)
         # Add chart into tab widget
         widget = QWidget()
-        self.tabWidget.addTab(widget, QIcon(), tabName)
+        self.tabWidget.addTab(widget, QIcon(), tab_name)
         layout = QVBoxLayout(widget)
         layout.setContentsMargins(2, 2, 2, 2)
-        chartView = QChartView(chart)
-        chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        layout.addWidget(chartView)
+        chart_view = QChartView(chart)
+        chart_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        layout.addWidget(chart_view)

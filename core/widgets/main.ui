@@ -20,7 +20,7 @@
    <string>Pyslvs - Untitled</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -67,7 +67,7 @@
            </property>
            <widget class="QWidget" name="mechanism_tab">
             <attribute name="icon">
-             <iconset resource="../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
             </attribute>
             <attribute name="title">
@@ -109,7 +109,7 @@
                   <widget class="QTabWidget" name="EntitiesTab">
                    <widget class="QWidget" name="PointsTab">
                     <attribute name="icon">
-                     <iconset resource="../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
                     </attribute>
                     <attribute name="title">
@@ -153,7 +153,7 @@
                    </widget>
                    <widget class="QWidget" name="LinksTab">
                     <attribute name="icon">
-                     <iconset resource="../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
                     </attribute>
                     <attribute name="title">
@@ -197,7 +197,7 @@
                    </widget>
                    <widget class="QWidget" name="tab">
                     <attribute name="icon">
-                     <iconset resource="../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
                     </attribute>
                     <attribute name="title">
@@ -330,7 +330,7 @@
                         <string>Add</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../icons.qrc">
+                        <iconset resource="../../icons.qrc">
                          <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
                        </property>
                       </widget>
@@ -344,7 +344,7 @@
                         <string>Restore</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../icons.qrc">
+                        <iconset resource="../../icons.qrc">
                          <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
                        </property>
                       </widget>
@@ -365,7 +365,7 @@
                         <string>Copy</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../icons.qrc">
+                        <iconset resource="../../icons.qrc">
                          <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
                        </property>
                       </widget>
@@ -379,7 +379,7 @@
                         <string>Paste</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../icons.qrc">
+                        <iconset resource="../../icons.qrc">
                          <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
                        </property>
                       </widget>
@@ -406,7 +406,7 @@
                         <string>Delete</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../icons.qrc">
+                        <iconset resource="../../icons.qrc">
                          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                        </property>
                       </widget>
@@ -423,7 +423,7 @@
            </widget>
            <widget class="QWidget" name="inputs_tab">
             <attribute name="icon">
-             <iconset resource="../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
             </attribute>
             <attribute name="title">
@@ -433,7 +433,7 @@
            </widget>
            <widget class="QWidget" name="synthesis_tab">
             <attribute name="icon">
-             <iconset resource="../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
             </attribute>
             <attribute name="title">
@@ -468,7 +468,7 @@
            </widget>
            <widget class="QWidget" name="history_tab">
             <attribute name="icon">
-             <iconset resource="../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/history.png</normaloff>:/icons/history.png</iconset>
             </attribute>
             <attribute name="title">
@@ -499,7 +499,7 @@
            </widget>
            <widget class="QWidget" name="version_control_tab">
             <attribute name="icon">
-             <iconset resource="../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
             </attribute>
             <attribute name="title">
@@ -525,7 +525,7 @@
            </widget>
            <widget class="QWidget" name="settings_tab">
             <attribute name="icon">
-             <iconset resource="../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
             </attribute>
             <attribute name="title">
@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>358</width>
-                  <height>670</height>
+                  <width>401</width>
+                  <height>733</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1115,7 +1115,7 @@
                 <string>Zoom to fit.</string>
                </property>
                <property name="icon">
-                <iconset resource="../icons.qrc">
+                <iconset resource="../../icons.qrc">
                  <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
                </property>
                <property name="iconSize">
@@ -1132,7 +1132,7 @@
                 <string>This mode allows all point coordinates to be edited by drag and drop.</string>
                </property>
                <property name="icon">
-                <iconset resource="../icons.qrc">
+                <iconset resource="../../icons.qrc">
                  <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
                </property>
                <property name="iconSize">
@@ -1256,7 +1256,7 @@
                    <string>Disconnect from GUI console.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../icons.qrc">
+                   <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
                   </property>
                  </widget>
@@ -1267,7 +1267,7 @@
                    <string>Connect to GUI console.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../icons.qrc">
+                   <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/connect.png</normaloff>:/icons/connect.png</iconset>
                   </property>
                  </widget>
@@ -1285,7 +1285,7 @@
                    <string>Clear GUI console.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../icons.qrc">
+                   <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
                   </property>
                  </widget>
@@ -1376,6 +1376,8 @@
     <addaction name="separator"/>
     <addaction name="action_Delete_Point"/>
     <addaction name="action_Delete_Link"/>
+    <addaction name="separator"/>
+    <addaction name="action_Scale_Mechanism"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
@@ -1418,7 +1420,7 @@
   <widget class="QStatusBar" name="status_bar"/>
   <action name="action_New_Workbook">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/newfile.png</normaloff>:/icons/newfile.png</iconset>
    </property>
    <property name="text">
@@ -1436,7 +1438,7 @@
   </action>
   <action name="action_New_Point">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
    </property>
    <property name="text">
@@ -1451,7 +1453,7 @@
   </action>
   <action name="action_New_Link">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
    </property>
    <property name="text">
@@ -1469,7 +1471,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
@@ -1481,7 +1483,7 @@
   </action>
   <action name="action_Get_Help">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/kmol.png</normaloff>:/icons/kmol.png</iconset>
    </property>
    <property name="text">
@@ -1493,7 +1495,7 @@
   </action>
   <action name="action_github_repository">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
@@ -1505,7 +1507,7 @@
   </action>
   <action name="action_About_Pyslvs">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
    </property>
    <property name="text">
@@ -1523,7 +1525,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/fullscreen.png</normaloff>:/icons/fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -1538,7 +1540,7 @@
   </action>
   <action name="action_Output_to_Picture">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
    </property>
    <property name="text">
@@ -1553,7 +1555,7 @@
   </action>
   <action name="action_Save">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
@@ -1574,7 +1576,7 @@
   </action>
   <action name="action_See_Python_Scripts">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
@@ -1649,7 +1651,7 @@
   </action>
   <action name="action_Output_to_DXF">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
@@ -1661,7 +1663,7 @@
   </action>
   <action name="action_Save_as">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
    </property>
    <property name="text">
@@ -1676,7 +1678,7 @@
   </action>
   <action name="action_Output_to_Solvespace">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
@@ -1712,7 +1714,7 @@
   </action>
   <action name="action_Import_Workbook">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
@@ -1724,7 +1726,7 @@
   </action>
   <action name="action_About_Qt">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/Logo_Qt.png</normaloff>:/icons/Logo_Qt.png</iconset>
    </property>
    <property name="text">
@@ -1736,7 +1738,7 @@
   </action>
   <action name="action_Load_File">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
@@ -1751,7 +1753,7 @@
   </action>
   <action name="action_Zoom_to_fit">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
    </property>
    <property name="text">
@@ -1780,7 +1782,7 @@
   </action>
   <action name="action_Pyslvs_com">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
    </property>
    <property name="text">
@@ -1795,7 +1797,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
    </property>
    <property name="text">
@@ -1810,7 +1812,7 @@
   </action>
   <action name="action_Output_to_PMKS">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
    </property>
    <property name="text">
@@ -1822,7 +1824,7 @@
   </action>
   <action name="action_Import_PMKS_server">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
    </property>
    <property name="text">
@@ -1834,7 +1836,7 @@
   </action>
   <action name="action_Example">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
@@ -1849,7 +1851,7 @@
   </action>
   <action name="action_See_expr">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
@@ -1861,7 +1863,7 @@
   </action>
   <action name="action_Save_branch">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
@@ -1873,7 +1875,7 @@
   </action>
   <action name="action_Stash">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -1885,7 +1887,7 @@
   </action>
   <action name="action_Import_Example">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
@@ -1897,7 +1899,7 @@
   </action>
   <action name="action_Output_to_Picture_clipboard">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
    </property>
    <property name="text">
@@ -1917,7 +1919,7 @@
   </action>
   <action name="action_New_window">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../icons.qrc">
      <normaloff>:/icons/new_window.png</normaloff>:/icons/new_window.png</iconset>
    </property>
    <property name="text">
@@ -1927,9 +1929,17 @@
     <string>Open a new Pyslvs window.</string>
    </property>
   </action>
+  <action name="action_Scale_Mechanism">
+   <property name="text">
+    <string>&amp;Scale Mechanism</string>
+   </property>
+   <property name="statusTip">
+    <string>Scale the mechanism by specified factor.</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -17,7 +17,17 @@ from typing import (
 )
 from itertools import chain
 from networkx import Graph
-from core.QtModules import pyqtSlot, QAbcMeta
+from core.QtModules import (
+    pyqtSlot,
+    QAbcMeta,
+    QDialogButtonBox,
+    QDialog,
+    QDoubleSpinBox,
+    QLabel,
+    QHBoxLayout,
+    QVBoxLayout,
+    QWidget,
+)
 from core.entities import (
     EditPointDialog,
     EditLinkDialog,
@@ -32,6 +42,40 @@ from core.io import (
     FixSequenceNumber,
 )
 from core.widgets import MainWindowUiInterface
+
+
+class _ScaleDialog(QDialog):
+    
+    """Scale mechanism dialog."""
+    
+    def __init__(self, parent: QWidget):
+        super(_ScaleDialog, self).__init__(parent)
+        self.main_layout = QVBoxLayout(self)
+        self.enlarge = QDoubleSpinBox(self)
+        self.shrink = QDoubleSpinBox(self)
+        self.__addOption("Enlarge", self.enlarge)
+        self.__addOption("Shrink", self.shrink)
+        
+        button_box = QDialogButtonBox(self)
+        button_box.setStandardButtons(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+        self.main_layout.addWidget(button_box)
+
+    def __addOption(self, name: str, option: QDoubleSpinBox):
+        """Add widgets for option."""
+        layout = QHBoxLayout(self)
+        label = QLabel(name, self)
+        option.setValue(1)
+        option.setMaximum(10000)
+        option.setMinimum(0.01)
+        layout.addWidget(label)
+        layout.addWidget(option)
+        self.main_layout.addLayout(layout)
+    
+    def factor(self) -> float:
+        """Return scale value."""
+        return self.enlarge.value() / self.shrink.value()
 
 
 class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
@@ -318,15 +362,36 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
 
+    @pyqtSlot(name="on_action_Scale_Mechanism_triggered")
+    def __setScale(self):
+        """Scale the mechanism."""
+        dlg = _ScaleDialog(self)
+        if not dlg.exec_():
+            return
+
+        factor = dlg.factor()
+        self.CommandStack.beginMacro(f"Scale mechanism: {factor}")
+        for row in range(self.EntitiesPoint.rowCount()):
+            args = self.EntitiesPoint.rowTexts(row)
+            args[3] = float(args[3]) * factor
+            args[4] = float(args[4]) * factor
+            self.CommandStack.push(EditPointTable(
+                row,
+                self.EntitiesPoint,
+                self.EntitiesLink,
+                args
+            ))
+        self.CommandStack.endMacro()
+    
     @pyqtSlot(tuple)
     def setFreemove(
         self,
-        coords: Sequence[Tuple[int, Tuple[float, float, float]]]
+        args: Sequence[Tuple[int, Tuple[float, float, float]]]
     ):
         """Free move function."""
-        points_text = ", ".join(f"Point{c[0]}" for c in coords)
+        points_text = ", ".join(f"Point{c[0]}" for c in args)
         self.CommandStack.beginMacro(f"Moved {{{points_text}}}")
-        for row, (x, y, angle) in coords:
+        for row, (x, y, angle) in args:
             args = self.EntitiesPoint.rowTexts(row)
             args[3] = x
             args[4] = y

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file 'main.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -258,7 +258,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 358, 670))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 401, 733))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -782,6 +782,8 @@ class Ui_MainWindow(object):
         icon36.addPixmap(QtGui.QPixmap(":/icons/new_window.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_New_window.setIcon(icon36)
         self.action_New_window.setObjectName("action_New_window")
+        self.action_Scale_Mechanism = QtWidgets.QAction(MainWindow)
+        self.action_Scale_Mechanism.setObjectName("action_Scale_Mechanism")
         self.menuExport.addAction(self.SolvespaceMenuTitle)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
         self.menuExport.addSeparator()
@@ -817,6 +819,8 @@ class Ui_MainWindow(object):
         self.menu_Mechanism.addSeparator()
         self.menu_Mechanism.addAction(self.action_Delete_Point)
         self.menu_Mechanism.addAction(self.action_Delete_Link)
+        self.menu_Mechanism.addSeparator()
+        self.menu_Mechanism.addAction(self.action_Scale_Mechanism)
         self.menu_Options.addAction(self.action_Show_console)
         self.menu_Options.addSeparator()
         self.menu_Options.addAction(self.action_Zoom_to_fit)
@@ -1016,15 +1020,7 @@ class Ui_MainWindow(object):
         self.action_Check_update.setStatusTip(_translate("MainWindow", "Check the lastest version of Pyslvs from Github."))
         self.action_New_window.setText(_translate("MainWindow", "New Window"))
         self.action_New_window.setStatusTip(_translate("MainWindow", "Open a new Pyslvs window."))
+        self.action_Scale_Mechanism.setText(_translate("MainWindow", "&Scale Mechanism"))
+        self.action_Scale_Mechanism.setStatusTip(_translate("MainWindow", "Scale the mechanism by specified factor."))
 
 import icons_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
-
