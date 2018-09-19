@@ -25,6 +25,7 @@ from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
     QWidget,
+    QModelIndex,
     QApplication,
     QMessageBox,
     QListWidgetItem,
@@ -166,12 +167,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if reply == QMessageBox.Yes:
             self.__clearSettings()
     
-    def loadResults(
-        self,
-        __mechanism_data: List[Dict[str, Any]]
-    ):
+    def loadResults(self, mechanism_data: List[Dict[str, Any]]):
         """Append results of workbook database to memory."""
-        for e in __mechanism_data:
+        for e in mechanism_data:
             self.__mechanism_data.append(e)
             self.__addResult(e)
     
@@ -485,8 +483,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.unsaveFunc()
         self.__hasResult()
     
-    @pyqtSlot(name='on_result_list_clicked')
-    def __hasResult(self):
+    @pyqtSlot(QModelIndex, name='on_result_list_clicked')
+    def __hasResult(self, *_: QModelIndex):
         """Set enable if there has any result."""
         enable = self.result_list.currentRow() > -1
         for button in (
@@ -498,8 +496,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         ):
             button.setEnabled(enable)
     
-    @pyqtSlot(name='on_result_list_doubleClicked')
-    def __showResult(self):
+    @pyqtSlot(QModelIndex, name='on_result_list_doubleClicked')
+    def __showResult(self, _: QModelIndex):
         """Double click result item can show up preview dialog."""
         row = self.result_list.currentRow()
         if not row > -1:
