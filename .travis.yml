@@ -14,9 +14,10 @@ matrix:
       python: 3.7
       dist: xenial
     
-    #- os: osx
-    #  osx_image: xcode10
-    #  language: generic
+    - os: osx
+      osx_image: xcode10
+      language: generic
+      env: PYTHON=36
 
 branches:
   only:
@@ -28,9 +29,21 @@ addons:
     packages:
       - swig
 
-before_install:
-  # For OSX
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install swig; fi
+# For OSX
+before_install: |
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  brew install swig;
+  curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci;
+  source ./macports-ci install;
+  yes | sudo port install python$PYTHON;
+  sudo port select --set python3 python$PYTHON;
+  yes | sudo port install py$PYTHON-pip;
+  sudo port select --set pip py$PYTHON-pip;
+  python3 --version;
+  pip --version;
+  pip install -r requirements.txt;
+  pip install pyinstaller;
+  fi
 
 script:
   - make
