@@ -14,9 +14,10 @@ matrix:
       python: 3.7
       dist: xenial
     
-    #- os: osx
-    #  osx_image: xcode10
-    #  language: generic
+    - os: osx
+      osx_image: xcode10
+      language: generic
+      env: PYTHON=3.6.6
 
 branches:
   only:
@@ -28,9 +29,21 @@ addons:
     packages:
       - swig
 
-before_install:
-  # For OSX
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install swig; fi
+# For OSX
+before_install: |
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  brew install swig;
+  brew outdated pyenv || brew upgrade pyenv;
+  brew install pyenv-virtualenv;
+  pyenv install $PYTHON;
+  export PYENV_VERSION=$PYTHON;
+  export PATH="/Users/travis/.pyenv/shims:${PATH}";
+  pyenv-virtualenv venv;
+  source venv/bin/activate;
+  python --version;
+  pip install -r requirements.txt;
+  pip install pyinstaller;
+  fi
 
 script:
   - make
