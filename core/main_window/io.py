@@ -16,7 +16,7 @@ from typing import (
     Union,
 )
 from pygments.lexers.python import Python3Lexer
-from lark.exceptions import ParseError, GrammarError
+from lark.exceptions import LarkError
 from core.QtModules import (
     pyqtSlot,
     qt_image_format,
@@ -319,7 +319,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """Parse expression."""
         try:
             args_list = parse_params(expr)
-        except (ParseError, GrammarError):
+        except LarkError:
             QMessageBox.warning(
                 self,
                 "Loading failed",
@@ -516,7 +516,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 point_data.append(type_and_angle[1])
             point_data.append('tfff')
             url_table.append(','.join(point_data))
-        url += '|'.join(url_table)+'|'
+        url += '|'.join(url_table) + '|'
         text = '\n'.join((
             "Copy and past this link to web browser:\n",
             url + '\n',
