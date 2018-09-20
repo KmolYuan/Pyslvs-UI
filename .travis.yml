@@ -1,22 +1,36 @@
-#Travis-Ci
-sudo: required
+# Travis-Ci for Pyslvs
 language: python
 
 matrix:
   include:
-    - python: 3.6
+    
+    - os: linux
+      sudo: required
+      python: 3.6
       dist: xenial
-    - python: 3.7
+    
+    - os: linux
+      sudo: required
+      python: 3.7
       dist: xenial
+    
+    - os: osx
+      osx_image: xcode10
+      python: 3.6
 
 branches:
   only:
     - master
     - /^dev\d*[.]?\d*$/
 
+addons:
+  apt:
+    packages:
+      - swig
+
 before_install:
-  #SWIG & graphviz
-  - sudo apt -y install swig graphviz
+  # For OSX
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install swig; fi
 
 script:
   - make
