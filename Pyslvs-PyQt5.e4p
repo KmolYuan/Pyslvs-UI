@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-09-10, 16:01:38 -->
+<!-- Saved: 2018-09-20, 14:20:49 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -49,77 +49,18 @@
     <Source>core/io/slvs/write.py</Source>
     <Source>core/io/undo_redo.py</Source>
     <Source>core/libs/__init__.py</Source>
-    <Source>core/libs/pyslvs/Adesign/setup.py</Source>
-    <Source>core/libs/pyslvs/Adesign/src/de.pyx</Source>
-    <Source>core/libs/pyslvs/Adesign/src/firefly.pyx</Source>
-    <Source>core/libs/pyslvs/Adesign/src/rga.pyx</Source>
-    <Source>core/libs/pyslvs/Adesign/src/verify.pxd</Source>
-    <Source>core/libs/pyslvs/Adesign/src/verify.pyx</Source>
-    <Source>core/libs/pyslvs/__init__.py</Source>
-    <Source>core/libs/pyslvs/_parser.py</Source>
-    <Source>core/libs/pyslvs/examples.py</Source>
-    <Source>core/libs/pyslvs/setup.py</Source>
-    <Source>core/libs/pyslvs/src/bfgs.pxd</Source>
-    <Source>core/libs/pyslvs/src/bfgs.pyx</Source>
-    <Source>core/libs/pyslvs/src/number.pyx</Source>
-    <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
-    <Source>core/libs/pyslvs/src/pmks.pxd</Source>
-    <Source>core/libs/pyslvs/src/pmks.pyx</Source>
-    <Source>core/libs/pyslvs/src/sketch_solve.pxd</Source>
-    <Source>core/libs/pyslvs/src/tinycadlib.pxd</Source>
-    <Source>core/libs/pyslvs/src/tinycadlib.pyx</Source>
-    <Source>core/libs/pyslvs/src/topologic.pyx</Source>
-    <Source>core/libs/pyslvs/src/triangulation.pyx</Source>
-    <Source>core/libs/pyslvs/test_pyslvs.py</Source>
-    <Source>core/libs/python_solvespace/__init__.py</Source>
-    <Source>core/libs/python_solvespace/example/PyDemo.py</Source>
-    <Source>core/libs/python_solvespace/example/example_crank_rocker.py</Source>
-    <Source>core/libs/python_solvespace/example/example_crank_rocker_draw.py</Source>
-    <Source>core/libs/python_solvespace/example/example_involute_draw_matplotlib.py</Source>
-    <Source>core/libs/python_solvespace/example/example_multi_link_draw_matplotlib.py</Source>
-    <Source>core/libs/python_solvespace/example/example_nutcracker.py</Source>
     <Source>core/libs/solvespace_translate.py</Source>
-    <Source>core/main.py</Source>
-    <Source>core/main_method/__init__.py</Source>
-    <Source>core/main_method/actions.py</Source>
-    <Source>core/main_method/entities.py</Source>
-    <Source>core/main_method/io.py</Source>
-    <Source>core/main_method/solver.py</Source>
-    <Source>core/main_method/storage.py</Source>
+    <Source>core/main_window/__init__.py</Source>
+    <Source>core/main_window/actions.py</Source>
+    <Source>core/main_window/entities.py</Source>
+    <Source>core/main_window/io.py</Source>
+    <Source>core/main_window/main.py</Source>
+    <Source>core/main_window/solver.py</Source>
+    <Source>core/main_window/storage.py</Source>
     <Source>core/synthesis/Collections/Structure.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_collections.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_constraints.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_customs.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_solutions.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_targets.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/__init__.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/collections.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/constraints.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/customs.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/solutions.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/targets.py</Source>
     <Source>core/synthesis/Collections/Ui_Structure.py</Source>
-    <Source>core/synthesis/Collections/Ui_TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/__init__.py</Source>
     <Source>core/synthesis/Collections/main_widget.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Algorithm.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_path_adjust.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_preview.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/__init__.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/chart.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/thread.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
-    <Source>core/synthesis/StructureSynthesis/Permutations.py</Source>
-    <Source>core/synthesis/StructureSynthesis/Ui_Permutations.py</Source>
-    <Source>core/synthesis/StructureSynthesis/__init__.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/Ui_inputs.py</Source>
     <Source>core/widgets/Ui_main.py</Source>
@@ -143,18 +84,6 @@
     <Form>core/io/overview.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/collections.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/constraints.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/customs.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/solutions.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/targets.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.ui</Form>
-    <Form>core/synthesis/StructureSynthesis/Permutations.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
     <Form>core/widgets/main.ui</Form>
   </Forms>
@@ -168,15 +97,6 @@
     <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
     <Other>changelog.md</Other>
-    <Other>core/libs/pyslvs/.travis.yml</Other>
-    <Other>core/libs/pyslvs/Adesign/Makefile</Other>
-    <Other>core/libs/pyslvs/Makefile</Other>
-    <Other>core/libs/pyslvs/README.md</Other>
-    <Other>core/libs/pyslvs/changelog.md</Other>
-    <Other>core/libs/pyslvs/requirements.txt</Other>
-    <Other>core/libs/python_solvespace/.travis.yml</Other>
-    <Other>core/libs/python_solvespace/Makefile</Other>
-    <Other>core/libs/python_solvespace/README.md</Other>
     <Other>requirements.txt</Other>
   </Others>
   <MainScript>launch_pyslvs.py</MainScript>

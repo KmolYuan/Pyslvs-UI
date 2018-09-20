@@ -14,9 +14,9 @@ matrix:
       python: 3.7
       dist: xenial
     
-    - os: osx
-      osx_image: xcode10
-      python: 3.6
+    #- os: osx
+    #  osx_image: xcode10
+    #  language: generic
 
 branches:
   only:
