@@ -1,4 +1,4 @@
-# Travis-Ci for Pyslvs
+# Travis-Ci for Pyslvs-PyQt5
 language: python
 
 matrix:
@@ -41,10 +41,10 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     yes | sudo port install python$PYTHON;
     yes | sudo port install py$PYTHON-pip;
-    yes | sudo port install py$PYTHON-pyinstaller;
     sudo port select --set python3 python$PYTHON;
     sudo port select --set pip pip$PYTHON;
-    alias pyinstaller="python3 -m PyInstaller";
+    pip install pyinstaller --user;
+    export PATH=$PATH:/Users/travis/Library/Python/3.6/bin;
     fi
   
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -54,7 +54,7 @@ before_install:
     fi
   
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    sudo pip install -r requirements.txt;
+    pip install -r requirements.txt --user;
     fi
 
 script:
