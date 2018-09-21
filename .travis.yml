@@ -17,7 +17,7 @@ matrix:
     - os: osx
       osx_image: xcode10
       language: generic
-      env: PYTHON=3.6.6
+      env: PYTHON=36
 
 branches:
   only:
@@ -30,20 +30,33 @@ addons:
       - swig
 
 # For OSX
-before_install: |
-  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  brew install swig;
-  brew outdated pyenv || brew upgrade pyenv;
-  brew install pyenv-virtualenv;
-  pyenv install $PYTHON;
-  export PYENV_VERSION=$PYTHON;
-  export PATH="/Users/travis/.pyenv/shims:${PATH}";
-  pyenv-virtualenv venv;
-  source venv/bin/activate;
-  python --version;
-  pip install -r requirements.txt;
-  pip install pyinstaller;
-  fi
+before_install:
+  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    brew install swig;
+    curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci;
+    source ./macports-ci install;
+    fi
+  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    yes | sudo port install python$PYTHON;
+    yes | sudo port install py$PYTHON-pip;
+    yes | sudo port install py$PYTHON-pyinstaller;
+    sudo port select --set python3 python$PYTHON;
+    sudo port select --set pip pip$PYTHON;
+    sudo port select --set pyinstaller py$PYTHON-pyinstaller;
+    ls /opt/local/bin;
+    fi
+  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    python3 --version;
+    pip --version;
+    pyinstaller --version;
+    fi
+  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    sudo pip install -r requirements.txt;
+    fi
 
 script:
   - make
