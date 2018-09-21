@@ -79,7 +79,7 @@ class InputsWidget(QWidget, Ui_Form):
         # QDial ok check.
         self.variable_list.currentRowChanged.connect(self.__dialOk)
         
-        # Play button
+        # Play button.
         action = QShortcut(QKeySequence("F5"), self)
         action.activated.connect(self.variable_play.click)
         self.variable_stop.clicked.connect(self.variableValueReset)
@@ -110,6 +110,20 @@ class InputsWidget(QWidget, Ui_Form):
         for i in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
         self.variable_list.clear()
+    
+    def __setAngleMode(self):
+        """Change to angle input."""
+        self.dial.setMinimum(0)
+        self.dial.setMaximum(36000)
+        self.dial_spinbox.setMinimum(0)
+        self.dial_spinbox.setMaximum(360)
+    
+    def __setUnitMode(self):
+        """Change to unit input."""
+        self.dial.setMinimum(-50000)
+        self.dial.setMaximum(50000)
+        self.dial_spinbox.setMinimum(-500)
+        self.dial_spinbox.setMaximum(500)
     
     def pathData(self):
         """Return current path data."""
@@ -236,7 +250,14 @@ class InputsWidget(QWidget, Ui_Form):
         item: Optional[QListWidgetItem] = self.variable_list.currentItem()
         if item is None:
             return
-        value = float(item.text().split('->')[-1])
+        expr = item.text().split('->')
+        p0 = int(expr[0].replace('Point', ''))
+        p1 = int(expr[1].replace('Point', ''))
+        value = float(expr[2])
+        if p0 == p1:
+            self.__setUnitMode()
+        else:
+            self.__setAngleMode()
         self.dial.setValue(value * 100 if enabled else 0)
     
     def variableExcluding(self, row: Optional[int] = None):
@@ -296,11 +317,11 @@ class InputsWidget(QWidget, Ui_Form):
         self.variableValueReset()
     
     @pyqtSlot(float)
-    def __setVar(self, value):
-        self.dial.setValue(int(value % 360 * 100))
+    def __setVar(self, value: float):
+        self.dial.setValue(int(value * 100 % self.dial.maximum()))
     
     @pyqtSlot(int)
-    def __updateVar(self, value):
+    def __updateVar(self, value: int):
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
         value /= 100.
@@ -367,7 +388,9 @@ class InputsWidget(QWidget, Ui_Form):
     def __startRecord(self, toggled: bool):
         """Save to file path data."""
         if toggled:
-            self.MainCanvas.recordStart(int(360 / self.record_interval.value()))
+            self.MainCanvas.recordStart(int(
+                self.dial_spinbox.maximum() / self.record_interval.value()
+            ))
             return
         path = self.MainCanvas.getRecordPath()
         name, ok = QInputDialog.getText(

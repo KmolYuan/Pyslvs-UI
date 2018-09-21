@@ -274,9 +274,6 @@
             <property name="statusTip">
              <string>Current position of the variable.</string>
             </property>
-            <property name="minimum">
-             <double>-360.000000000000000</double>
-            </property>
             <property name="maximum">
              <double>360.000000000000000</double>
             </property>
