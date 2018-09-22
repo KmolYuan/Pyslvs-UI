@@ -11,6 +11,9 @@ Features
 + Appearance adjustments of main canvas.
 + Add new examples:
     + "Crank slider (Three bar)"
++ Input variable:
+    + Support slider joint.
+    + Improvement of variable list.
 
 Development
 ---
