@@ -29,7 +29,7 @@ addons:
     packages:
       - swig
 
-# For OSX
+# For OS X
 before_install:
   
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -44,7 +44,7 @@ before_install:
     sudo port select --set python3 python$PYTHON;
     sudo port select --set pip pip$PYTHON;
     pip install pyinstaller --user;
-    export PATH=$PATH:/Users/travis/Library/Python/3.6/bin;
+    export PATH=$PATH:$(python3 -c "import site; print(site.USER_BASE)")/bin;
     fi
   
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
