@@ -7,7 +7,8 @@ platform:
 environment:
   matrix:
     
-    - MSYS_DIR: C:\msys64\mingw64\bin
+    - MINGW_DIR: C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
+      MSYS_DIR: C:\msys64
       PYTHON_DIR: C:\Python36-x64
 
 branches:
@@ -24,30 +25,39 @@ cache:
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
 install:
-  # Install SWIG
+  # Install SWIG.
   - choco install swig --version 3.0.9 --yes --limit-output
   
-  # Environment variables
+  # Environment variables.
   - set Path=%PYTHON_DIR%;%Path%
   - set Path=%PYTHON_DIR%\Scripts;%Path%
-  - set Path=%MSYS_DIR%;%Path%
+  - set Path=%MSYS_DIR%\usr\bin;%Path%
+  - set Path=%MINGW_DIR%\mingw64\bin;%Path%
   
-  # Show Python versions
+  # Show Python.
   - python --version
   - pip --version
   
-  # Install modules
+  # Set Python compiler to Msys2.
+  - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
+  - echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
+  - curl -LO https://bugs.python.org/file40608/patch.diff
+  - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py patch.diff
+  - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
+  
+  # Install modules.
   - python -m ensurepip
   - pip install -r requirements.txt
   - pip install pyinstaller
   
-  # Show tool kits
+  # Show tool kits.
   - pyinstaller --version
-  - g++ --version
+  - gcc --version
   - mingw32-make --version
   - swig -version
 
 before_build:
+  # Clone submodules.
   - git submodule update --init --recursive
 
 build_script:
