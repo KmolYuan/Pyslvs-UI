@@ -1,6 +1,9 @@
 # AppVeyor for Pyslvs-PyQt5
 image: Visual Studio 2017
 
+platform:
+  - x64
+
 environment:
   matrix:
     
@@ -11,6 +14,8 @@ branches:
   only:
     - master
     - /^dev\d*[.]?\d*$/
+
+skip_tags: true
 
 cache:
   # swig.exe
@@ -41,6 +46,9 @@ install:
   - g++ --version
   - mingw32-make --version
   - swig -version
+
+before_build:
+  - git submodule update --init --recursive
 
 build_script:
   - mingw32-make
