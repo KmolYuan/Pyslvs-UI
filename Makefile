@@ -8,16 +8,17 @@
 LAUNCHSCRIPT = launch_pyslvs
 
 ifeq ($(OS),Windows_NT)
-    PYVER = $(shell python -c "import sys; t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])); print(t)")
+    PYVER = $(shell python -c "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))")
     PYSLVSVER = $(shell python -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
     COMPILERVER = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())")
     SYSVER = $(shell python -c "import platform; print(platform.machine().lower())")
 else
-    PYVER = $(shell python3 -c "import sys; t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])); print(t)")
+    PYVER = $(shell python3 -c "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))")
     PYSLVSVER = $(shell python3 -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
     COMPILERVER = $(shell python3 -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())")
     SYSVER = $(shell python3 -c "import platform; print(platform.machine().lower())")
 endif
+EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 
 all: test
 
@@ -60,26 +61,16 @@ build: $(LAUNCHSCRIPT).py build-kernel
 ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYVER)--
 	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs \
---hidden-import=PyQt5 \
---hidden-import=PyQt5.sip \
---hidden-import=PyQt5.QtPrintSupport \
 --add-binary="core/libs/python_solvespace/libslvs.so;." \
---add-binary="core/libs/pyslvs/atlas.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/bfgs.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/de.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/firefly.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/number.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/planarlinkage.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/rga.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/tinycadlib.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/triangulation.cp$(PYVER)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs/verify.cp$(PYVER)-win_amd64.pyd;."
-	rename .\dist\Pyslvs.exe pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).exe
+--hidden-import=PyQt5 \
+--hidden-import=PyQt5.sip
+	rename .\dist\Pyslvs.exe $(EXENAME).exe
 else ifeq ($(shell uname),Darwin)
 	@echo --Python Version $(PYVER)--
 	pyinstaller -w -F $< -i ./icons/main.icns -n Pyslvs
-	mv dist/Pyslvs dist/pyslvs
-	mv dist/Pyslvs.app dist/pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER).app
+	mv dist/Pyslvs dist/$(EXENAME)
+	chmod +x dist/$(EXENAME)
+	mv dist/Pyslvs.app dist/$(EXENAME).app
 else
 	@echo --Python Version $(PYVER)--
 	bash ./appimage_recipe.sh
@@ -88,10 +79,9 @@ endif
 
 test: build
 ifeq ($(OS),Windows_NT)
-	$(eval EXE = $(shell dir dist /b))
-	./dist/$(EXE) --test
+	./dist/$(EXENAME) --test
 else ifeq ($(shell uname),Darwin)
-	./dist/Pyslvs --test
+	./dist/$(EXENAME) --test
 else
 	$(eval APPIMAGE = $(shell ls -1 out))
 	./out/$(APPIMAGE) --test
