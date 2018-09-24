@@ -51,7 +51,7 @@ before_build:
   - git submodule update --init --recursive
 
 build_script:
-  - mingw32-make
+  - mingw32-make SHELL=cmd
 
 test: off
 
