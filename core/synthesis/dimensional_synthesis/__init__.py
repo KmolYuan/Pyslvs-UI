@@ -9,6 +9,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .algorithm import DimensionalSynthesis
+from .dimension_widget import DimensionalSynthesis
 
 __all__ = ['DimensionalSynthesis']

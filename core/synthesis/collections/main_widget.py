@@ -14,8 +14,8 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
-from .structure import StructureWidget
-from .triangular_iteration import TriangularIterationWidget
+from .structure_widget import StructureWidget
+from .triangular_iteration_widget import TriangularIterationWidget
 
 
 class Collections(QWidget):

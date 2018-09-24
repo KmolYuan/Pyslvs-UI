@@ -174,13 +174,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     """Option dialog.
     
     Load the settings after closed.
-    Any add, rename, delete opreations will be apply immediately
+    Any add, rename, delete operations will be apply immediately
     """
     
     def __init__(
         self,
         collections: Dict[str, Any],
-        getCollection: Callable[[], Dict[str, Any]],
+        get_collection: Callable[[], Dict[str, Any]],
         parent: QWidget
     ):
         """We put the 'collections' (from iteration widget) reference here."""
@@ -193,7 +193,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         )
         
         self.collections = collections
-        self.getCollection = getCollection
+        self.getCollection = get_collection
         
         # Current profile name.
         self.__name_loaded = ""
@@ -241,13 +241,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     def __hasCollection(self):
         """Set the buttons to enable when user choose a data."""
-        hasCollection = bool(self.collections)
+        has_collection = bool(self.collections)
         for button in [
             self.rename_button,
             self.copy_button,
             self.delete_button
         ]:
-            button.setEnabled(hasCollection)
+            button.setEnabled(has_collection)
     
     def name(self) -> str:
         return self.__name_loaded

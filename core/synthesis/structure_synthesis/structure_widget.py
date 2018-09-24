@@ -40,7 +40,7 @@ from core.graphics import (
     engines,
     EngineError,
 )
-from .Ui_permutations import Ui_Form
+from .Ui_structure_widget import Ui_Form
 
 
 class StructureSynthesis(QWidget, Ui_Form):

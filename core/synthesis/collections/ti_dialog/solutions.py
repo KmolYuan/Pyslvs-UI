@@ -13,7 +13,7 @@ from core.QtModules import (
     QPixmap,
     QDialogButtonBox,
 )
-from core.synthesis.collections import triangular_iteration as ti
+from core.synthesis.collections import triangular_iteration_widget as ti
 from .Ui_solutions import Ui_Dialog
 
 

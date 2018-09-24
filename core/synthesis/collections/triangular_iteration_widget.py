@@ -47,7 +47,7 @@ from .ti_dialog import (
     list_texts,
     list_items,
 )
-from .Ui_triangular_iteration import Ui_Form
+from .Ui_triangular_iteration_widget import Ui_Form
 
 
 class _PreviewWindow(PreviewCanvas):

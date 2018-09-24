@@ -18,7 +18,7 @@ from core.QtModules import (
     QDialog,
     QListWidget,
 )
-from core.synthesis.collections import triangular_iteration as ti
+from core.synthesis.collections import triangular_iteration_widget as ti
 from .Ui_targets import Ui_Dialog
 
 

@@ -58,7 +58,7 @@ from .ds_dialog import (
     ChartDialog,
 )
 from core import main_window as mw
-from .Ui_algorithm import Ui_Form
+from .Ui_dimension_widget import Ui_Form
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):

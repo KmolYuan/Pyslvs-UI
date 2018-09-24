@@ -37,7 +37,7 @@ from core.graphics import (
     engines,
     EngineError,
 )
-from .Ui_structure import Ui_Form
+from .Ui_structure_widget import Ui_Form
 
 
 class _TestError(Exception):
