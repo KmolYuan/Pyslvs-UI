@@ -1,4 +1,4 @@
-# Travis-Ci for Pyslvs-PyQt5
+# Travis-CI for Pyslvs-PyQt5
 language: python
 
 matrix:

@@ -7,7 +7,7 @@ Version 18.09
 Features
 ---
 
-+ Add Mac OS platform support.
++ Add fully support for Mac OS platform.
 + Appearance adjustments of main canvas.
 + Add new examples:
     + "Crank slider (Three bar)"
@@ -21,6 +21,7 @@ Development
 + Using abstract class to implement partial methods.
 + Redefine solver function of Python-Solvespace.
 + Modules are renamed to lower case.
++ Add AppVeyor CI support.
 
 Version 18.08
 ===

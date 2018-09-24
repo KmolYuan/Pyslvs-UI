@@ -1,0 +1,51 @@
+# AppVeyor for Pyslvs-PyQt5
+image: Visual Studio 2017
+
+environment:
+  matrix:
+    
+    - MSYS_DIR: C:\msys64\mingw64\bin
+      PYTHON_DIR: C:\Python36-x64
+
+branches:
+  only:
+    - master
+    - /^dev\d*[.]?\d*$/
+
+cache:
+  # swig.exe
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  # supporting swig Lib files.
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+
+install:
+  # Install SWIG
+  - choco install swig --version 3.0.9 --yes --limit-output
+  
+  # Environment variables
+  - set Path=%PYTHON_DIR%;%Path%
+  - set Path=%PYTHON_DIR%\Scripts;%Path%
+  - set Path=%MSYS_DIR%;%Path%
+  
+  # Show Python versions
+  - python --version
+  - pip --version
+  
+  # Install modules
+  - python -m ensurepip
+  - pip install -r requirements.txt
+  - pip install pyinstaller
+  
+  # Show tool kits
+  - pyinstaller --version
+  - g++ --version
+  - mingw32-make --version
+  - swig -version
+
+build_script:
+  - mingw32-make
+
+test: off
+
+matrix:
+  fast_finish: true
