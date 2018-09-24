@@ -26,7 +26,7 @@ cache:
 
 install:
   # Install SWIG.
-  - choco install swig --version 3.0.9 --yes --limit-output
+  - choco install swig --yes --limit-output
   
   # Environment variables.
   - set Path=%PYTHON_DIR%;%Path%
@@ -64,6 +64,3 @@ build_script:
   - mingw32-make SHELL=cmd
 
 test: off
-
-matrix:
-  fast_finish: true
