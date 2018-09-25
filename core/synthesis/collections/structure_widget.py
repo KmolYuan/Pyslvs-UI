@@ -128,40 +128,40 @@ class StructureWidget(QWidget, Ui_Form):
         self.NJ.setText('0')
         self.DOF.setText('0')
         self.grounded_list.clear()
-        progdlg = QProgressDialog(
+        progress_dlg = QProgressDialog(
             "Drawing atlas...",
             "Cancel",
             0,
             len(self.collections),
             self
         )
-        progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
-        progdlg.setWindowTitle("Type synthesis")
-        progdlg.resize(400, progdlg.height())
-        progdlg.setModal(True)
-        progdlg.show()
+        progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
+        progress_dlg.setWindowTitle("Type synthesis")
+        progress_dlg.resize(400, progress_dlg.height())
+        progress_dlg.setModal(True)
+        progress_dlg.show()
         engine_str = self.graph_engine.currentText().split(" - ")[1]
-        for i, G in enumerate(self.collections):
+        for i, graph in enumerate(self.collections):
             QCoreApplication.processEvents()
-            if progdlg.wasCanceled():
+            if progress_dlg.wasCanceled():
                 return
             item = QListWidgetItem(f"No. {i + 1}")
             try:
-                engine = engine_picker(G, engine_str)
+                engine = engine_picker(graph, engine_str)
                 item.setIcon(to_graph(
-                    G,
+                    graph,
                     self.collection_list.iconSize().width(),
                     engine
                 ))
             except EngineError as e:
-                progdlg.setValue(progdlg.maximum())
+                progress_dlg.setValue(progress_dlg.maximum())
                 self.__engineErrorMsg(e)
                 break
             else:
                 self.collections_layouts.append(engine)
-                item.setToolTip(f"{G.edges}\nUse the right-click menu to operate.")
+                item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate.")
                 self.collection_list.addItem(item)
-                progdlg.setValue(i + 1)
+                progress_dlg.setValue(i + 1)
     
     def addCollection(self, edges: Tuple[Tuple[int, int]]):
         """Add collection by in put edges."""

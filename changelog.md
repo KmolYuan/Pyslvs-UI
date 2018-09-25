@@ -7,13 +7,17 @@ Version 18.09
 Features
 ---
 
-+ Add fully support for Mac OS platform.
 + Appearance adjustments of main canvas.
++ Add fully support for Mac OS platform:
+    + CI testing.
+    + Standalone executable file compilation.
+    + Automatic switch to fusion mode to avoid border too wide.
 + Add new examples:
     + "Crank slider (Three bar)"
+    + "Slider lifter"
 + Input variable:
     + Support slider joint.
-    + Improvement of variable list.
+    + Add filter for variable list.
 
 Development
 ---
