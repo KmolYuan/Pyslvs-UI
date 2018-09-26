@@ -8,10 +8,11 @@ Features
 ---
 
 + Appearance adjustments of main canvas.
++ Add scale mechanism option.
 + Add fully support for Mac OS platform:
-    + CI testing.
     + Standalone executable file compilation.
     + Automatic switch to fusion mode to avoid border too wide.
+    + CI testing.
 + Add new examples:
     + "Crank slider (Three bar)"
     + "Slider lifter"
