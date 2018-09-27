@@ -9,6 +9,7 @@ Features
 
 + Appearance adjustments of main canvas.
 + Add scale mechanism option.
++ Change atlas algorithm "cancel" behavior to "skip".
 + Add fully support for Mac OS platform:
     + Standalone executable file compilation.
     + Automatic switch to fusion mode to avoid border too wide.

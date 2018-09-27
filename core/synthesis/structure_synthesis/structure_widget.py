@@ -272,39 +272,41 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __typeCombine(self, row: int) -> Optional[List[Graph]]:
         """Combine and show progress dialog."""
         item = self.expr_number.item(row)
-        progdlg = QProgressDialog(
+        progress_dlg = QProgressDialog(
             "Analysis of the topology...",
-            "Cancel",
+            "Skip",
             0,
             100,
             self
         )
-        progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
-        progdlg.setWindowTitle(f"Type synthesis - ({item.text()})")
-        progdlg.setMinimumSize(QSize(500, 120))
-        progdlg.setModal(True)
-        progdlg.show()
+        progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
+        progress_dlg.setWindowTitle(f"Type synthesis - ({item.text()})")
+        progress_dlg.setMinimumSize(QSize(500, 120))
+        progress_dlg.setModal(True)
+        progress_dlg.show()
 
-        def stopFunc():
+        def stop_func():
             """If stop by GUI."""
             QCoreApplication.processEvents()
-            progdlg.setValue(progdlg.value() + 1)
-            return progdlg.wasCanceled()
+            progress_dlg.setValue(progress_dlg.value() + 1)
+            return progress_dlg.wasCanceled()
 
-        def setjobFunc(job: str, maximum: float):
+        def set_job_func(job: str, maximum: int):
             """New job."""
-            progdlg.setLabelText(job)
-            progdlg.setValue(0)
-            progdlg.setMaximum(maximum + 1)
+            progress_dlg.reset()
+            progress_dlg.show()
+            progress_dlg.setLabelText(job)
+            progress_dlg.setValue(0)
+            progress_dlg.setMaximum(maximum + 1)
 
         answer, time = topo(
             item.links,
             not self.graph_degenerate.isChecked(),
-            setjobFunc,
-            stopFunc
+            set_job_func,
+            stop_func
         )
         self.time_label.setText(f"{time // 60}[min] {time % 60:.2f}[s]")
-        progdlg.setValue(progdlg.maximum())
+        progress_dlg.setValue(progress_dlg.maximum())
         if answer:
             return [Graph(G.edges) for G in answer]
 
