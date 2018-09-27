@@ -71,7 +71,12 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.CommandStack = QUndoStack(self)
         
         # Initialize custom UI.
-        self.__init_custom_widgets()
+        self.__undo_redo()
+        self.__appearance()
+        self.__freemove()
+        self.__options()
+        self.__zoom()
+        self.__context_menu()
     
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""
@@ -85,15 +90,6 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             return
         self.env = locate
         print(f"~Set workplace to: [\"{self.env}\"]")
-    
-    def __init_custom_widgets(self):
-        """Start up custom widgets."""
-        self.__undo_redo()
-        self.__appearance()
-        self.__freemove()
-        self.__options()
-        self.__zoom()
-        self.__context_menu()
     
     def __undo_redo(self):
         """Undo list settings.
@@ -311,16 +307,17 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             
             return func
         
-        for i, (text, icon) in enumerate((
-            ("View mode", "freemove_off"),
-            ("Translate mode", "translate"),
-            ("Rotate mode", "rotate"),
-            ("Reflect mode", "reflect"),
+        for i, (text, icon, tip) in enumerate((
+            ("View mode", "freemove_off", "Disable free mode."),
+            ("Translate mode", "translate", "Edit by 2 DOF moving."),
+            ("Rotate mode", "rotate", "Edit by 1 DOF moving."),
+            ("Reflect mode", "reflect", "Edit by flip axis."),
         )):
             action = QAction(QIcon(QPixmap(f":/icons/{icon}.png")), text, self)
             action.triggered.connect(free_move_mode_func(i, action.icon()))
             action.setShortcut(QKeySequence(f"Ctrl+{i + 1}"))
             action.setShortcutContext(Qt.WindowShortcut)
+            action.setStatusTip(tip)
             free_move_mode_menu.addAction(action)
             if i == 0:
                 self.freemode_disable = action

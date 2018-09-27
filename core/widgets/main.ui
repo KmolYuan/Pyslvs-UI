@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>401</width>
-                  <height>733</height>
+                  <width>561</width>
+                  <height>1042</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1129,7 +1129,7 @@
              <item>
               <widget class="QPushButton" name="freemode_button">
                <property name="statusTip">
-                <string>This mode allows all point coordinates to be edited by drag and drop.</string>
+                <string>Free mode: Allow selected point coordinates to be edited by drag and drop.</string>
                </property>
                <property name="icon">
                 <iconset resource="../../icons.qrc">
@@ -1313,7 +1313,7 @@
      <x>0</x>
      <y>0</y>
      <width>882</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
