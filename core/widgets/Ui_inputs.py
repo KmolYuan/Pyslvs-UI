@@ -148,7 +148,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.update_pos_option)
         self.update_pos = QtWidgets.QPushButton(self.variable_groupBox)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icons/dataupdate.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/icons/data_update.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.update_pos.setIcon(icon5)
         self.update_pos.setObjectName("update_pos")
         self.horizontalLayout_2.addWidget(self.update_pos)

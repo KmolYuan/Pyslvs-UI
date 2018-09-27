@@ -2,7 +2,7 @@
 <RCC>
     <qresource>
     <!--Splash-->
-    <file>icons/Splash.png</file>
+    <file>icons/splash.png</file>
     <!--Preview pictures-->
     <file>icons/preview/PLAP.png</file>
     <file>icons/preview/PLLP.png</file>

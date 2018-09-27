@@ -283,9 +283,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
         # Algorithm information
         fitness = mechanism['time_fitness'][-1]
         if mechanism['interrupted'] == 'False':
-            interrupt_icon = "task-completed.png"
+            interrupt_icon = "task_completed.png"
         elif mechanism['interrupted'] == 'N/A':
-            interrupt_icon = "question-mark.png"
+            interrupt_icon = "question.png"
         else:
             interrupt_icon = "interrupted.png"
         text_list = [

@@ -45,7 +45,7 @@ class PyslvsSplash(QSplashScreen):
     """Qt splash show up when startup."""
     
     def __init__(self):
-        super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/Splash.png"))
+        super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/splash.png"))
         self.showMessage(
             f"Version {_major}.{_minor}.{_build}({_label})",
             Qt.AlignBottom | Qt.AlignRight

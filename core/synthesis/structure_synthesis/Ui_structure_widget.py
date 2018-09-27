@@ -13,7 +13,7 @@ class Ui_Form(object):
         Form.setObjectName("Form")
         Form.resize(471, 671)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/number.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
@@ -131,7 +131,7 @@ class Ui_Form(object):
         self.reload_atlas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         self.reload_atlas.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/icons/dataupdate.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/icons/data_update.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.reload_atlas.setIcon(icon4)
         self.reload_atlas.setObjectName("reload_atlas")
         self.horizontalLayout.addWidget(self.reload_atlas)
@@ -188,7 +188,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.addWidget(self.save_atlas)
         self.save_edges = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/icons/savefile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap(":/icons/save_file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.save_edges.setIcon(icon6)
         self.save_edges.setObjectName("save_edges")
         self.horizontalLayout_6.addWidget(self.save_edges)
@@ -245,7 +245,7 @@ class Ui_Form(object):
         self.save_edges.setStatusTip(_translate("Form", "Save the edges of atlas to text file."))
         self.edges2atlas_button.setStatusTip(_translate("Form", "Load the edges data from text file, then save them to image files."))
         self.save_edges_auto.setStatusTip(_translate("Form", "Re-synthesis when using save actions."))
-        self.save_edges_auto_label.setText(_translate("Form", "<img src=\":icons/dataupdate.png\" width=\"20\">"))
+        self.save_edges_auto_label.setText(_translate("Form", "<img src=\":icons/data_update.png\" width=\"20\">"))
 
 import icons_rc
 

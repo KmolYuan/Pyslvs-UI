@@ -8,7 +8,7 @@
 [![Blog](https://img.shields.io/badge/blog-www.pyslvs.com-blue.svg)](http://www.pyslvs.com/blog/index.html)
 [![sourceforge](https://img.shields.io/badge/sourceforge-pyslvs-green.svg)](https://sourceforge.net/projects/pyslvs/)
 
-![title](icons/Splash.png)
+![title](icons/splash.png)
 
 1. [Introduction](#introduction)
 

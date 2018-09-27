@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
-    <normaloff>:/icons/NumberAndTypeSynthesis.png</normaloff>:/icons/NumberAndTypeSynthesis.png</iconset>
+    <normaloff>:/icons/number.png</normaloff>:/icons/number.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_7">
    <item>
@@ -241,7 +241,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                 <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
                </property>
               </widget>
              </item>
@@ -395,7 +395,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+             <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
            </property>
           </widget>
          </item>
@@ -426,7 +426,7 @@
          <item>
           <widget class="QLabel" name="save_edges_auto_label">
            <property name="text">
-            <string>&lt;img src=&quot;:icons/dataupdate.png&quot; width=&quot;20&quot;&gt;</string>
+            <string>&lt;img src=&quot;:icons/data_update.png&quot; width=&quot;20&quot;&gt;</string>
            </property>
           </widget>
          </item>

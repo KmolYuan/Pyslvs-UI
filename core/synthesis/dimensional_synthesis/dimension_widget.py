@@ -449,9 +449,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         item = QListWidgetItem(result['Algorithm'])
         interrupt = result['interrupted']
         if interrupt == 'False':
-            interrupt_icon = "task-completed.png"
+            interrupt_icon = "task_completed.png"
         elif interrupt == 'N/A':
-            interrupt_icon = "question-mark.png"
+            interrupt_icon = "question.png"
         else:
             interrupt_icon = "interrupted.png"
         item.setIcon(QIcon(QPixmap(f":/icons/{interrupt_icon}")))

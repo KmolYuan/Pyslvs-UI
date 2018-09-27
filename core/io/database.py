@@ -129,7 +129,7 @@ class LoadCommitButton(QPushButton):
     
     def __init__(self, id_int: int, parent: QWidget):
         super(LoadCommitButton, self).__init__(
-            QIcon(QPixmap(":icons/dataupdate.png")),
+            QIcon(QPixmap(":icons/data_update.png")),
             f" # {id_int}",
             parent
         )

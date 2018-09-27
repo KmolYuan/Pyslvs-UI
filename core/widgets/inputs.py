@@ -62,7 +62,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.solve = parent.solve
         self.reloadCanvas = parent.reloadCanvas
         self.outputTo = parent.outputTo
-        self.ConflictGuide = parent.ConflictGuide
+        self.conflict = parent.conflict
         self.DOF = lambda: parent.DOF
         self.rightInput = parent.rightInput
         self.CommandStack = parent.CommandStack
@@ -374,7 +374,7 @@ class InputsWidget(QWidget, Ui_Form):
         index = self.dial.value()
         speed = self.variable_speed.value()
         extreme_rebound = (
-            self.ConflictGuide.isVisible() and
+            self.conflict.isVisible() and
             self.extremeRebound.isChecked()
         )
         if extreme_rebound:

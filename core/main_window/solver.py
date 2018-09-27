@@ -86,16 +86,16 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             if self.consoleerror_option.isChecked():
                 print(format_exc())
             error_text = f"Error: {error}"
-            self.ConflictGuide.setToolTip(error_text)
-            self.ConflictGuide.setStatusTip(error_text)
-            self.ConflictGuide.setVisible(True)
+            self.conflict.setToolTip(error_text)
+            self.conflict.setStatusTip(error_text)
+            self.conflict.setVisible(True)
             self.DOFview.setVisible(False)
         else:
             # Done: Update coordinate data.
             self.EntitiesPoint.updateCurrentPosition(result)
             self.DOF = vpoint_dof(vpoints)
             self.DOFview.setText(f"{self.DOF} ({self.InputsWidget.inputCount()})")
-            self.ConflictGuide.setVisible(False)
+            self.conflict.setVisible(False)
             self.DOFview.setVisible(True)
         self.reloadCanvas()
     

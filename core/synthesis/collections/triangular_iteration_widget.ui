@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
-    <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
+    <normaloff>:/icons/ti.png</normaloff>:/icons/ti.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_12">
    <item>
@@ -67,7 +67,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+         <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
        </property>
       </widget>
      </item>

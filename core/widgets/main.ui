@@ -198,7 +198,7 @@
                    <widget class="QWidget" name="tab">
                     <attribute name="icon">
                      <iconset resource="../../icons.qrc">
-                      <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
+                      <normaloff>:/icons/ti.png</normaloff>:/icons/ti.png</iconset>
                     </attribute>
                     <attribute name="title">
                      <string>Formulas</string>
@@ -345,7 +345,7 @@
                        </property>
                        <property name="icon">
                         <iconset resource="../../icons.qrc">
-                         <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                         <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
                        </property>
                       </widget>
                      </item>
@@ -1116,7 +1116,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../../icons.qrc">
-                 <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
+                 <normaloff>:/icons/aim.png</normaloff>:/icons/aim.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1174,7 +1174,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="ConflictGuide">
+              <widget class="QLabel" name="conflict">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1185,7 +1185,7 @@
                 <string>Show Conflict Guide tool tips.</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width='30' src=&quot;:/icons/ConflictGuide.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width='30' src=&quot;:/icons/conflict.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>
@@ -1421,7 +1421,7 @@
   <action name="action_New_Workbook">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/newfile.png</normaloff>:/icons/newfile.png</iconset>
+     <normaloff>:/icons/new_file.png</normaloff>:/icons/new_file.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New Workbook</string>
@@ -1664,7 +1664,7 @@
   <action name="action_Save_as">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+     <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
    </property>
    <property name="text">
     <string>Save &amp;as ...</string>
@@ -1679,7 +1679,7 @@
   <action name="action_Output_to_Solvespace">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
+     <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;2D Sketch</string>
@@ -1727,7 +1727,7 @@
   <action name="action_About_Qt">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/Logo_Qt.png</normaloff>:/icons/Logo_Qt.png</iconset>
+     <normaloff>:/icons/qt.png</normaloff>:/icons/qt.png</iconset>
    </property>
    <property name="text">
     <string>About Qt</string>
@@ -1754,7 +1754,7 @@
   <action name="action_Zoom_to_fit">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
+     <normaloff>:/icons/aim.png</normaloff>:/icons/aim.png</iconset>
    </property>
    <property name="text">
     <string>Zoom to Fit</string>
@@ -1813,7 +1813,7 @@
   <action name="action_Output_to_PMKS">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
+     <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
    </property>
    <property name="text">
     <string>&amp;PMKS URL</string>
@@ -1825,7 +1825,7 @@
   <action name="action_Import_PMKS_server">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
+     <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
    </property>
    <property name="text">
     <string>From PMKS server</string>

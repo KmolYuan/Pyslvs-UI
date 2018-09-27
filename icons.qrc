@@ -4,19 +4,18 @@
     <!--Main window icons-->
     <file>icons/main.png</file>
     <file>icons/main_big.png</file>
-    <file>icons/Solvespace.ico</file>
+    <file>icons/solvespace.ico</file>
     <file>icons/github.png</file>
     <file>icons/kmol.png</file>
     <file>icons/picture.png</file>
     <!--File format icons-->
-    <file>icons/CSV.png</file>
+    <file>icons/csv.png</file>
     <file>icons/dxf.png</file>
     <file>icons/excel_2013.png</file>
     <file>icons/formula.png</file>
-    <file>icons/Logo_Qt.png</file>
-    <file>icons/PMKSLogo.png</file>
+    <file>icons/qt.png</file>
+    <file>icons/pmks.png</file>
     <file>icons/script.png</file>
-    <file>icons/XML.png</file>
     <!--Panel icons-->
     <file>icons/mechanism.png</file>
     <file>icons/history.png</file>
@@ -30,18 +29,18 @@
     <file>icons/arrow_down.png</file>
     <file>icons/arrow_up.png</file>
     <file>icons/bearing.png</file>
-    <file>icons/BrowseAim.png</file>
+    <file>icons/aim.png</file>
     <file>icons/capture.png</file>
     <file>icons/chart.png</file>
     <file>icons/clean.png</file>
     <file>icons/structure.png</file>
-    <file>icons/triangular-iteration.png</file>
+    <file>icons/ti.png</file>
     <file>icons/collections.png</file>
-    <file>icons/ConflictGuide.png</file>
+    <file>icons/conflict.png</file>
     <file>icons/connect.png</file>
     <file>icons/copy.png</file>
     <file>icons/data.png</file>
-    <file>icons/dataupdate.png</file>
+    <file>icons/data_update.png</file>
     <file>icons/delete.png</file>
     <file>icons/dimensional_synthesis.png</file>
     <file>icons/disconnect.png</file>
@@ -59,23 +58,23 @@
     <file>icons/merge.png</file>
     <file>icons/minimized.png</file>
     <file>icons/motor.png</file>
-    <file>icons/newfile.png</file>
+    <file>icons/new_file.png</file>
     <file>icons/new_window.png</file>
-    <file>icons/normalsized.png</file>
-    <file>icons/NumberAndTypeSynthesis.png</file>
+    <file>icons/normal_size.png</file>
+    <file>icons/number.png</file>
     <file>icons/paste.png</file>
     <file>icons/pause.png</file>
     <file>icons/play.png</file>
     <file>icons/properties.png</file>
-    <file>icons/question-mark.png</file>
+    <file>icons/question.png</file>
     <file>icons/record.png</file>
     <file>icons/redo.png</file>
     <file>icons/rename.png</file>
-    <file>icons/savefile.png</file>
+    <file>icons/save_file.png</file>
     <file>icons/select_all.png</file>
     <file>icons/settings.png</file>
-    <file>icons/SQL_icon.png</file>
-    <file>icons/task-completed.png</file>
+    <file>icons/sql.png</file>
+    <file>icons/task_completed.png</file>
     <file>icons/undo.png</file>
     <file>icons/warning.png</file>
   </qresource>
