@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-09-20, 14:20:49 -->
+<!-- Saved: 2018-09-27, 16:47:53 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -49,6 +49,32 @@
     <Source>core/io/slvs/write.py</Source>
     <Source>core/io/undo_redo.py</Source>
     <Source>core/libs/__init__.py</Source>
+    <Source>core/libs/pyslvs/Adesign/setup.py</Source>
+    <Source>core/libs/pyslvs/Adesign/src/de.pyx</Source>
+    <Source>core/libs/pyslvs/Adesign/src/firefly.pyx</Source>
+    <Source>core/libs/pyslvs/Adesign/src/rga.pyx</Source>
+    <Source>core/libs/pyslvs/Adesign/src/verify.pxd</Source>
+    <Source>core/libs/pyslvs/Adesign/src/verify.pyx</Source>
+    <Source>core/libs/pyslvs/__init__.py</Source>
+    <Source>core/libs/pyslvs/_parser.py</Source>
+    <Source>core/libs/pyslvs/examples.py</Source>
+    <Source>core/libs/pyslvs/setup.py</Source>
+    <Source>core/libs/pyslvs/src/atlas.pyx</Source>
+    <Source>core/libs/pyslvs/src/bfgs.pyx</Source>
+    <Source>core/libs/pyslvs/src/number.pyx</Source>
+    <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
+    <Source>core/libs/pyslvs/src/pmks.pyx</Source>
+    <Source>core/libs/pyslvs/src/tinycadlib.pyx</Source>
+    <Source>core/libs/pyslvs/src/triangulation.pyx</Source>
+    <Source>core/libs/pyslvs/test_pyslvs.py</Source>
+    <Source>core/libs/python_solvespace/__init__.py</Source>
+    <Source>core/libs/python_solvespace/example/PyDemo.py</Source>
+    <Source>core/libs/python_solvespace/example/example_crank_rocker.py</Source>
+    <Source>core/libs/python_solvespace/example/example_crank_rocker_draw.py</Source>
+    <Source>core/libs/python_solvespace/example/example_involute_draw_matplotlib.py</Source>
+    <Source>core/libs/python_solvespace/example/example_multi_link_draw_matplotlib.py</Source>
+    <Source>core/libs/python_solvespace/example/example_nutcracker.py</Source>
+    <Source>core/libs/python_solvespace/slvs.py</Source>
     <Source>core/libs/solvespace_translate.py</Source>
     <Source>core/main_window/__init__.py</Source>
     <Source>core/main_window/actions.py</Source>
@@ -57,8 +83,6 @@
     <Source>core/main_window/main.py</Source>
     <Source>core/main_window/solver.py</Source>
     <Source>core/main_window/storage.py</Source>
-    <Source>core/synthesis/Collections/Structure.py</Source>
-    <Source>core/synthesis/Collections/Ui_Structure.py</Source>
     <Source>core/synthesis/Collections/__init__.py</Source>
     <Source>core/synthesis/Collections/main_widget.py</Source>
     <Source>core/synthesis/__init__.py</Source>
@@ -83,7 +107,6 @@
     <Form>core/io/output_option.ui</Form>
     <Form>core/io/overview.ui</Form>
     <Form>core/io/script.ui</Form>
-    <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
     <Form>core/widgets/main.ui</Form>
   </Forms>
