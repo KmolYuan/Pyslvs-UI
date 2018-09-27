@@ -285,12 +285,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         progress_dlg.setModal(True)
         progress_dlg.show()
 
-        def stop_func():
-            """If stop by GUI."""
-            QCoreApplication.processEvents()
-            progress_dlg.setValue(progress_dlg.value() + 1)
-            return progress_dlg.wasCanceled()
-
         def set_job_func(job: str, maximum: int):
             """New job."""
             progress_dlg.reset()
@@ -298,6 +292,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             progress_dlg.setLabelText(job)
             progress_dlg.setValue(0)
             progress_dlg.setMaximum(maximum + 1)
+
+        def stop_func():
+            """Stop checking and update status."""
+            progress_dlg.setValue(progress_dlg.value() + 1)
+            QCoreApplication.processEvents()
+            return progress_dlg.wasCanceled()
 
         answer, time = topo(
             item.links,
