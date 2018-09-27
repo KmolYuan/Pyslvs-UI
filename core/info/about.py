@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""About informations."""
+"""About information."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -46,7 +46,10 @@ class PyslvsSplash(QSplashScreen):
     
     def __init__(self):
         super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/Splash.png"))
-        self.showMessage(f"Version {_major}.{_minor}.{_build}({_label})", Qt.AlignBottom | Qt.AlignRight)
+        self.showMessage(
+            f"Version {_major}.{_minor}.{_build}({_label})",
+            Qt.AlignBottom | Qt.AlignRight
+        )
 
 
 class PyslvsAbout(QDialog, Ui_Dialog):

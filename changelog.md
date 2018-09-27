@@ -9,7 +9,9 @@ Features
 
 + Appearance adjustments of main canvas.
 + Add scale mechanism option.
-+ Change atlas algorithm "cancel" behavior to "skip".
++ Change atlas algorithm "cancel" behavior to "skip":
+    + Realized partial searching in atlas algorithm.
+    + User can skip and keep partial result at each searching step.
 + Add fully support for Mac OS platform:
     + Standalone executable file compilation.
     + Automatic switch to fusion mode to avoid border too wide.

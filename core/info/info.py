@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Informations.
+"""Information.
 
 + Module versions.
 + Help descriptions.
