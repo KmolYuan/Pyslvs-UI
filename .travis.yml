@@ -3,26 +3,45 @@ language: python
 
 matrix:
   include:
-    
+
     - os: linux
       sudo: required
       python: 3.6
       dist: xenial
-    
+
     - os: linux
       sudo: required
       python: 3.7
       dist: xenial
-    
+      deploy:
+        overwrite: true
+        provider: releases
+        api_key:
+          secure: f1N7heMaLLEOr1wGolWrOvFLpUP5O2+zlB76UzjigeLFCvzRzKZ0ELOVnmY9EKz4ahtvzMw09YVcgrI+zzD/30MWZrQI38XysdNi7mPcQL6hx2KCFJblYJYT9u4InIYYd+aba4LLXJsgmvDNkEd0eklBX4KY8SdgRn3IjSPelKhlmMNry1T33y9ufpmza4G6k9t0NbB1iMpPaits+vkzPcTlRRNrlcYMdlHlOt/RSBTulqT/H6q3On7T5e8VsyrRjoKKyaxGfd4Yey1UM9mbNg7t3B8O11qxXbyingLFwpvH/8sFiL8jZI9ONvwobY823Lp2pjoyqG6HVCMpGtcWLH8RxvppdHGjKlncwMZViiqjANlPB2QzEYPkGcznxZ13edzmh4Jvvl2gbALR7JM/xmI4JQzo2d7Tc0VDlToqhLQ9JfxH1XT8ra0qF6Aso+FLiobtT5hnROb3sU3ZFbw53XFEYwAPiEI4CHdp7VpcrFVJDqKS7kHPPkxCDJs/dQ1Km/Ad5CXWPRgKySLq3eA9RcxfOAaLtFib86Zg/Idb4pTdC5iUyPWtY+3HSLCpqGRq5wXuMAPSlioOGH1D6p3TNX5G3nmjw24/tnL0Rpt3KJrH5nmDGOzj0LXLHQa5dRwBVBXYeiifMkACRLUXMttfux3t3J0XGUN+GJ9pDmoT+IE=
+        file: out/pyslvs*.AppImage
+        skip_cleanup: true
+        on:
+          tags: true
+
     - os: osx
       osx_image: xcode10
       language: generic
       env: PYTHON=36
+      deploy:
+        overwrite: true
+        provider: releases
+        api_key:
+          secure: f1N7heMaLLEOr1wGolWrOvFLpUP5O2+zlB76UzjigeLFCvzRzKZ0ELOVnmY9EKz4ahtvzMw09YVcgrI+zzD/30MWZrQI38XysdNi7mPcQL6hx2KCFJblYJYT9u4InIYYd+aba4LLXJsgmvDNkEd0eklBX4KY8SdgRn3IjSPelKhlmMNry1T33y9ufpmza4G6k9t0NbB1iMpPaits+vkzPcTlRRNrlcYMdlHlOt/RSBTulqT/H6q3On7T5e8VsyrRjoKKyaxGfd4Yey1UM9mbNg7t3B8O11qxXbyingLFwpvH/8sFiL8jZI9ONvwobY823Lp2pjoyqG6HVCMpGtcWLH8RxvppdHGjKlncwMZViiqjANlPB2QzEYPkGcznxZ13edzmh4Jvvl2gbALR7JM/xmI4JQzo2d7Tc0VDlToqhLQ9JfxH1XT8ra0qF6Aso+FLiobtT5hnROb3sU3ZFbw53XFEYwAPiEI4CHdp7VpcrFVJDqKS7kHPPkxCDJs/dQ1Km/Ad5CXWPRgKySLq3eA9RcxfOAaLtFib86Zg/Idb4pTdC5iUyPWtY+3HSLCpqGRq5wXuMAPSlioOGH1D6p3TNX5G3nmjw24/tnL0Rpt3KJrH5nmDGOzj0LXLHQa5dRwBVBXYeiifMkACRLUXMttfux3t3J0XGUN+GJ9pDmoT+IE=
+        file: dist/pyslvs*.app
+        skip_cleanup: true
+        on:
+          tags: true
 
 branches:
   only:
     - master
-    - /^dev\d*[.]?\d*$/
+    - dev
+    - /^v\d*[.]\d*[.]\d*$/
 
 addons:
   apt:
@@ -31,13 +50,13 @@ addons:
 
 # For OS X
 before_install:
-  
+
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     brew install swig;
     curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci;
     source ./macports-ci install;
     fi
-  
+
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     yes | sudo port install python$PYTHON;
     yes | sudo port install py$PYTHON-pip;
@@ -46,13 +65,13 @@ before_install:
     pip install pyinstaller --user;
     export PATH=$PATH:$(python3 -c "import site; print(site.USER_BASE)")/bin;
     fi
-  
+
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     python3 --version;
     pip --version;
     pyinstaller --version;
     fi
-  
+
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     pip install -r requirements.txt --user;
     fi
