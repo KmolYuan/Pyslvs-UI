@@ -18,6 +18,7 @@ matrix:
         provider: releases
         api_key:
           secure: f1N7heMaLLEOr1wGolWrOvFLpUP5O2+zlB76UzjigeLFCvzRzKZ0ELOVnmY9EKz4ahtvzMw09YVcgrI+zzD/30MWZrQI38XysdNi7mPcQL6hx2KCFJblYJYT9u4InIYYd+aba4LLXJsgmvDNkEd0eklBX4KY8SdgRn3IjSPelKhlmMNry1T33y9ufpmza4G6k9t0NbB1iMpPaits+vkzPcTlRRNrlcYMdlHlOt/RSBTulqT/H6q3On7T5e8VsyrRjoKKyaxGfd4Yey1UM9mbNg7t3B8O11qxXbyingLFwpvH/8sFiL8jZI9ONvwobY823Lp2pjoyqG6HVCMpGtcWLH8RxvppdHGjKlncwMZViiqjANlPB2QzEYPkGcznxZ13edzmh4Jvvl2gbALR7JM/xmI4JQzo2d7Tc0VDlToqhLQ9JfxH1XT8ra0qF6Aso+FLiobtT5hnROb3sU3ZFbw53XFEYwAPiEI4CHdp7VpcrFVJDqKS7kHPPkxCDJs/dQ1Km/Ad5CXWPRgKySLq3eA9RcxfOAaLtFib86Zg/Idb4pTdC5iUyPWtY+3HSLCpqGRq5wXuMAPSlioOGH1D6p3TNX5G3nmjw24/tnL0Rpt3KJrH5nmDGOzj0LXLHQa5dRwBVBXYeiifMkACRLUXMttfux3t3J0XGUN+GJ9pDmoT+IE=
+        file_glob: true
         file: out/pyslvs*.AppImage
         skip_cleanup: true
         on:
@@ -32,6 +33,7 @@ matrix:
         provider: releases
         api_key:
           secure: f1N7heMaLLEOr1wGolWrOvFLpUP5O2+zlB76UzjigeLFCvzRzKZ0ELOVnmY9EKz4ahtvzMw09YVcgrI+zzD/30MWZrQI38XysdNi7mPcQL6hx2KCFJblYJYT9u4InIYYd+aba4LLXJsgmvDNkEd0eklBX4KY8SdgRn3IjSPelKhlmMNry1T33y9ufpmza4G6k9t0NbB1iMpPaits+vkzPcTlRRNrlcYMdlHlOt/RSBTulqT/H6q3On7T5e8VsyrRjoKKyaxGfd4Yey1UM9mbNg7t3B8O11qxXbyingLFwpvH/8sFiL8jZI9ONvwobY823Lp2pjoyqG6HVCMpGtcWLH8RxvppdHGjKlncwMZViiqjANlPB2QzEYPkGcznxZ13edzmh4Jvvl2gbALR7JM/xmI4JQzo2d7Tc0VDlToqhLQ9JfxH1XT8ra0qF6Aso+FLiobtT5hnROb3sU3ZFbw53XFEYwAPiEI4CHdp7VpcrFVJDqKS7kHPPkxCDJs/dQ1Km/Ad5CXWPRgKySLq3eA9RcxfOAaLtFib86Zg/Idb4pTdC5iUyPWtY+3HSLCpqGRq5wXuMAPSlioOGH1D6p3TNX5G3nmjw24/tnL0Rpt3KJrH5nmDGOzj0LXLHQa5dRwBVBXYeiifMkACRLUXMttfux3t3J0XGUN+GJ9pDmoT+IE=
+        file_glob: true
         file: dist/pyslvs*.app
         skip_cleanup: true
         on:

@@ -1,7 +1,5 @@
-# This is a very simple example on how to bundle a Python application as an AppImage
-# using virtualenv and AppImageKit using Ubuntu
-# NOTE: Please test the resulting AppImage on your target systems and copy in any additional
-# libraries and/or dependencies that might be missing on your target system(s).
+#!/usr/bin/env bash
+# Pyslvs AppImage Recipe
 
 ########################################################################
 # Create the AppDir
@@ -26,16 +24,12 @@ source usr/bin/activate
 wget -q https://raw.githubusercontent.com/AppImage/AppImages/master/functions.sh -O ./functions.sh
 . ./functions.sh
 
-mkdir -p usr/bin/
-
 #Show python and pip versions
-python --version
-pip --version
+which python
+which pip
 
 # Install python dependencies into the virtualenv
 pip install -r ../../requirements.txt
-
-deactivate
 
 ########################################################################
 # "Install" app in the AppDir
@@ -48,6 +42,7 @@ chmod a+x usr/bin/$LOWERAPP
 cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
 cp -r ../../core usr/bin
+
 rm -fr usr/bin/core/libs/pyslvs/build
 rm -fr usr/bin/core/libs/pyslvs/src
 rm -fr usr/bin/core/libs/pyslvs/Adesign
