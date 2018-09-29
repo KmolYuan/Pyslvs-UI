@@ -287,17 +287,23 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         def set_job_func(job: str, maximum: int):
             """New job."""
-            progress_dlg.reset()
-            progress_dlg.show()
-            progress_dlg.setLabelText(job)
-            progress_dlg.setValue(0)
-            progress_dlg.setMaximum(maximum + 1)
+            try:
+                progress_dlg.reset()
+                progress_dlg.show()
+                progress_dlg.setLabelText(job)
+                progress_dlg.setValue(0)
+                progress_dlg.setMaximum(maximum + 1)
+            except RuntimeError:
+                return
 
         def stop_func():
             """Stop checking and update status."""
-            progress_dlg.setValue(progress_dlg.value() + 1)
-            QCoreApplication.processEvents()
-            return progress_dlg.wasCanceled()
+            try:
+                progress_dlg.setValue(progress_dlg.value() + 1)
+                QCoreApplication.processEvents()
+                return progress_dlg.wasCanceled()
+            except RuntimeError:
+                return False
 
         answer, time = topo(
             item.links,
@@ -306,7 +312,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             stop_func
         )
         self.time_label.setText(f"{time // 60}[min] {time % 60:.2f}[s]")
-        progress_dlg.setValue(progress_dlg.maximum())
+        
+        try:
+            progress_dlg.setValue(progress_dlg.maximum())
+        except RuntimeError:
+            pass
+        
         if answer:
             return [Graph(G.edges) for G in answer]
 
