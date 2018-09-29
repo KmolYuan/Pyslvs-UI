@@ -295,9 +295,12 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         def stop_func():
             """Stop checking and update status."""
-            progress_dlg.setValue(progress_dlg.value() + 1)
-            QCoreApplication.processEvents()
-            return progress_dlg.wasCanceled()
+            try:
+                progress_dlg.setValue(progress_dlg.value() + 1)
+                QCoreApplication.processEvents()
+                return progress_dlg.wasCanceled()
+            except RuntimeError:
+                return False
 
         answer, time = topo(
             item.links,
