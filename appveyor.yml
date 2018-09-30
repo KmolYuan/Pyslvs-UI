@@ -6,10 +6,14 @@ platform:
 
 environment:
   matrix:
-    
+
     - MINGW_DIR: C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
       MSYS_DIR: C:\msys64
       PYTHON_DIR: C:\Python36-x64
+
+    - MINGW_DIR: C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
+      MSYS_DIR: C:\msys64
+      PYTHON_DIR: C:\Python37-x64
 
 branches:
   only:
@@ -27,29 +31,29 @@ cache:
 install:
   # Install SWIG.
   - choco install swig --yes --limit-output
-  
+
   # Environment variables.
   - set Path=%PYTHON_DIR%;%Path%
   - set Path=%PYTHON_DIR%\Scripts;%Path%
   - set Path=%MSYS_DIR%\usr\bin;%Path%
   - set Path=%MINGW_DIR%\mingw64\bin;%Path%
-  
+
   # Show Python.
   - python --version
   - pip --version
-  
+
   # Set Python compiler to Msys2.
   - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
   - echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
   - curl -LO https://bugs.python.org/file40608/patch.diff
   - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py patch.diff
   - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
-  
+
   # Install modules.
   - python -m ensurepip
   - pip install -r requirements.txt
   - pip install pyinstaller
-  
+
   # Show tool kits.
   - pyinstaller --version
   - gcc --version
