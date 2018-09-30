@@ -262,8 +262,6 @@ Actual testing platforms:
 + ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.6-orange.svg)
 + ![u3.7](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
 
-**(Python >=3.7 currently not support PyInstaller)**
-
 **Please note that the other platforms may be available but I have not tested before.**
 
 **Mac OS and Ubuntu**:
