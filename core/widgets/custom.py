@@ -255,6 +255,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
 
         # Dimensional synthesis
         self.DimensionalSynthesis = DimensionalSynthesis(self)
+        self.MainCanvas.set_target_point.connect(self.DimensionalSynthesis.setPoint)
         self.SynthesisTab.addTab(
             self.DimensionalSynthesis,
             self.DimensionalSynthesis.windowIcon(),

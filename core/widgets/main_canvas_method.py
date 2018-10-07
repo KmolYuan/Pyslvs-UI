@@ -133,6 +133,7 @@ class DynamicCanvasInterface(BaseCanvas):
     doubleclick_edit = pyqtSignal(int)
     zoom_changed = pyqtSignal(int)
     fps_updated = pyqtSignal()
+    set_target_point = pyqtSignal(float, float)
 
     def __init__(self, parent: 'mw.MainWindow'):
         super(DynamicCanvasInterface, self).__init__(parent)
@@ -597,9 +598,10 @@ class DynamicCanvasInterface(BaseCanvas):
             self.browse_tracking.emit(self.selector.x, self.selector.y)
         elif button == Qt.LeftButton:
             self.selector.left_dragged = True
-            self.__select_func()
-            if self.selector.selection_rect:
-                self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
+            if not self.show_target_path:
+                self.__select_func()
+                if self.selector.selection_rect:
+                    self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
 
     def mouseDoubleClickEvent(self, event):
         """Mouse double click.
@@ -610,7 +612,7 @@ class DynamicCanvasInterface(BaseCanvas):
         button = event.buttons()
         if button == Qt.MidButton:
             self.zoomToFit()
-        elif button == Qt.LeftButton:
+        elif (button == Qt.LeftButton) and (not self.show_target_path):
             self.selector.x = (event.x() - self.ox) / self.zoom
             self.selector.y = (event.y() - self.oy) / -self.zoom
             self.__select_func()
@@ -618,7 +620,6 @@ class DynamicCanvasInterface(BaseCanvas):
                 self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
                 if self.freemove == FreeMode.NoFreeMove:
                     self.doubleclick_edit.emit(self.selector.selection_rect[0])
-        event.accept()
 
     def mouseReleaseEvent(self, event):
         """Release mouse button.
@@ -629,7 +630,11 @@ class DynamicCanvasInterface(BaseCanvas):
         """
         if self.selector.left_dragged:
             self.selector.selection_old = list(self.selections)
-            if (self.select_mode == 0) and (self.freemove != FreeMode.NoFreeMove):
+            if (
+                (self.select_mode == 0) and
+                (self.freemove != FreeMode.NoFreeMove) and
+                (not self.show_target_path)
+            ):
                 # Edit point coordinates.
                 self.__emit_freemove(self.selections)
             else:
@@ -642,13 +647,13 @@ class DynamicCanvasInterface(BaseCanvas):
                     )
                 elif (
                     (not self.selector.selection_rect) and
+                    (not self.show_target_path) and
                     km != Qt.ControlModifier and
                     km != Qt.ShiftModifier
                 ):
                     self.noselected.emit()
         self.selector.release()
         self.update()
-        event.accept()
 
     def mouseMoveEvent(self, event):
         """Move mouse.
@@ -663,7 +668,9 @@ class DynamicCanvasInterface(BaseCanvas):
             self.oy = event.y() + self.selector.y * self.zoom
             self.update()
         elif self.selector.left_dragged:
-            if self.freemove == FreeMode.NoFreeMove:
+            if self.show_target_path:
+                self.set_target_point.emit(x, y)
+            elif self.freemove == FreeMode.NoFreeMove:
                 # Rectangular selection.
                 self.selector.picking = True
                 self.selector.sx = self.__snap(x, is_zoom=False)
@@ -730,7 +737,6 @@ class DynamicCanvasInterface(BaseCanvas):
                     self.updatePreviewPath()
             self.update()
         self.tracking.emit(x, y)
-        event.accept()
 
     def zoomToFit(self):
         """Zoom to fit function."""

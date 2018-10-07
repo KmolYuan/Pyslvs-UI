@@ -18,6 +18,7 @@ from typing import (
     Union,
     Optional,
 )
+from math import hypot
 import csv
 import pprint
 from copy import deepcopy
@@ -313,17 +314,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         y = round(y, 4)
         self.currentPath().append((x, y))
         self.path_list.addItem(f"({x:.04f}, {y:.04f})")
+        self.path_list.setCurrentRow(self.path_list.count() - 1)
         self.__currentPathChanged()
 
     @pyqtSlot(float, float)
-    def setPoint(self, i: int, x: float, y: float):
+    def setPoint(self, x: float, y: float):
         """Set the coordinate of current target path."""
-        try:
-            self.currentPath()[i] = (x, y)
-        except IndexError:
-            pass
+        if not self.edit_target_point_button.isChecked():
+            return
+        for i, (cx, cy) in enumerate(self.currentPath()):
+            if hypot(x - cx, y - cy) < 2:
+                index = i
+                self.path_list.setCurrentRow(index)
+                break
         else:
-            self.path_list.item(i).setText(f"({x:.04f}, {y:.04f})")
+            return
+        self.currentPath()[index] = (x, y)
+        self.path_list.item(index).setText(f"({x:.04f}, {y:.04f})")
+        self.__currentPathChanged()
 
     @pyqtSlot(name='on_close_path_clicked')
     def __closePath(self):

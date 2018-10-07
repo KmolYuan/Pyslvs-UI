@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset>
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -192,7 +192,7 @@
       <widget class="QWidget" name="target_path">
        <attribute name="icon">
         <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+         <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Target path</string>
@@ -348,6 +348,23 @@
                     <property name="icon">
                      <iconset resource="../../../icons.qrc">
                       <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="edit_target_point_button">
+                    <property name="statusTip">
+                     <string>User can edit target point immediately.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/translate.png</normaloff>:/icons/translate.png</iconset>
+                    </property>
+                    <property name="checkable">
+                     <bool>true</bool>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
