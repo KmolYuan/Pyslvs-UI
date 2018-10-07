@@ -61,14 +61,14 @@ def slvs_process_script(
 
 
 class _ScriptBrowser(QTextEdit):
-    
+
     """Custom text browser to implement text zooming."""
-    
+
     def __init__(self, parent: QWidget):
         super(_ScriptBrowser, self).__init__(parent)
         self.setReadOnly(True)
         self.zoomIn(3)
-    
+
     def wheelEvent(self, event):
         super(_ScriptBrowser, self).wheelEvent(event)
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
@@ -79,9 +79,9 @@ class _ScriptBrowser(QTextEdit):
 
 
 class ScriptDialog(QDialog, Ui_Dialog):
-    
+
     """Dialog of script preview."""
-    
+
     def __init__(
         self,
         script: str,
@@ -91,7 +91,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         parent: 'mw.MainWindow'
     ):
         """Input parameters:
-        
+
         + Script
         + Lexer
         + File name
@@ -116,18 +116,18 @@ class ScriptDialog(QDialog, Ui_Dialog):
         styles.insert(0, styles.pop(styles.index('default')))
         self.style_option.addItems(styles)
         self.style_option.setCurrentIndex(0)
-    
+
     @pyqtSlot(str, name='on_style_option_currentIndexChanged')
     def __setStyle(self, style: str):
         """Redefind the CSS script of the html."""
         style_code = HtmlFormatter(style=get_style_by_name(style)).get_style_defs()
         self.script_view.setHtml(f"<style>{style_code}</style>" + self.code)
-    
+
     @pyqtSlot(name='on_copy_clicked')
     def __copy(self):
         """Copy to clipboard."""
         QApplication.clipboard().setText(self.script_view.toPlainText())
-    
+
     @pyqtSlot(name='on_save_clicked')
     def __save(self):
         """Save to .py file."""

@@ -45,9 +45,9 @@ from core.widgets import MainWindowUiInterface
 
 
 class _ScaleDialog(QDialog):
-    
+
     """Scale mechanism dialog."""
-    
+
     def __init__(self, parent: QWidget):
         super(_ScaleDialog, self).__init__(parent)
         self.main_layout = QVBoxLayout(self)
@@ -55,7 +55,7 @@ class _ScaleDialog(QDialog):
         self.shrink = QDoubleSpinBox(self)
         self.__addOption("Enlarge", self.enlarge)
         self.__addOption("Shrink", self.shrink)
-        
+
         button_box = QDialogButtonBox(self)
         button_box.setStandardButtons(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
@@ -72,19 +72,19 @@ class _ScaleDialog(QDialog):
         layout.addWidget(label)
         layout.addWidget(option)
         self.main_layout.addLayout(layout)
-    
+
     def factor(self) -> float:
         """Return scale value."""
         return self.enlarge.value() / self.shrink.value()
 
 
 class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
-    
+
     """Interface class for entities methods."""
-    
+
     def __init__(self):
         super(EntitiesMethodInterface, self).__init__()
-    
+
     def __editPoint(self, row: Union[int, bool] = False):
         """Edit point function."""
         dlg = EditPointDialog(
@@ -124,7 +124,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             args
         ))
         self.CommandStack.endMacro()
-    
+
     def __editLink(self, row: Union[int, bool] = False):
         """Edit link function."""
         dlg = EditLinkDialog(
@@ -159,7 +159,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             args
         ))
         self.CommandStack.endMacro()
-    
+
     def __getLinkSerialNumber(self) -> str:
         """Return a new serial number name of link."""
         names = {
@@ -174,7 +174,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_Delete_Link_triggered')
     def deleteLink(self, row: int):
         """Push delete link command to stack.
-        
+
         Remove link will not remove the points.
         """
         if not row > 0:
@@ -221,7 +221,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.InputsWidget.variableExcluding(row)
         self.CommandStack.endMacro()
-    
+
     @pyqtSlot(float, float)
     def qAddNormalPoint(self, x: float, y: float):
         """Add point group using alt key."""
@@ -229,15 +229,15 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             self.addTargetPoint()
         else:
             self.addPoint(x, y, False)
-    
+
     def addNormalPoint(self):
         """Add a point (not fixed)."""
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
-    
+
     def addFixedPoint(self):
         """Add a point (fixed)."""
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
-    
+
     def addPoint(
         self,
         x: float,
@@ -267,7 +267,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
         return row_count
-    
+
     def addPointsByGraph(
         self,
         graph: Graph,
@@ -279,10 +279,10 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         self.CommandStack.beginMacro(
             "Merge mechanism kit from {Number and Type Synthesis}"
         )
-        
+
         for i in range(len(pos)):
             self.addPoint(*pos[i])
-        
+
         ground: Optional[int] = None
         for link in graph.nodes:
             self.addLink(self.__getLinkSerialNumber(), 'Blue', [
@@ -298,7 +298,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     def addNormalLink(self, points: Sequence[int]):
         """Add a link."""
         self.addLink(self.__getLinkSerialNumber(), 'Blue', points)
-    
+
     def addLink(self, name: str, color: str, points: Optional[Sequence[int]] = None):
         """Push a new link command to stack."""
         if points is None:
@@ -313,7 +313,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             link_args
         ))
         self.CommandStack.endMacro()
-    
+
     def newPoint(self):
         """Create a point with arguments."""
         self.__editPoint()
@@ -323,7 +323,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         """Edit a point with arguments."""
         row = self.EntitiesPoint.currentRow()
         self.__editPoint(row if (row > -1) else 0)
-    
+
     def lockPoints(self):
         """Turn a group of points to fixed on ground or not."""
         to_fixed = self.action_point_context_lock.isChecked()
@@ -345,7 +345,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
                 args
             ))
             self.CommandStack.endMacro()
-    
+
     def clonePoint(self):
         """Clone a point (with orange color)."""
         row = self.EntitiesPoint.currentRow()
@@ -382,7 +382,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
                 args
             ))
         self.CommandStack.endMacro()
-    
+
     @pyqtSlot(tuple)
     def setFreemove(
         self,
@@ -447,18 +447,18 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_New_Link_triggered')
     def newLink(self):
         """Create a link with arguments.
-        
+
         + Last than one point:
-            
+
             - Create a new link
-        
+
         + Search method:
-            
+
             - Find the intersection between points that was
                 including any link.
             - Add the points that is not in the intersection
                 to the link.
-        
+
         + If no, just create a new link by selected points.
         """
         rows = self.EntitiesPoint.selectedRows()
@@ -554,7 +554,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             is_rename=False
         ))
         self.CommandStack.endMacro()
-    
+
     def deletePoints(self):
         """Delete the selected points.
         Be sure that the points will has new position after deleted.
@@ -566,7 +566,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             else:
                 row = p
             self.deletePoint(row)
-    
+
     def deleteLinks(self):
         """Delete the selected links.
         Be sure that the links will has new position after deleted.
@@ -578,7 +578,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         )
         for row in selections:
             self.deleteLink(row)
-    
+
     def setCoordsAsCurrent(self):
         """Update points position as current coordinate."""
         vpoints = self.EntitiesPoint.dataTuple()

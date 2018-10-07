@@ -51,20 +51,20 @@ from .Ui_triangular_iteration_widget import Ui_Form
 
 
 class _PreviewWindow(PreviewCanvas):
-    
+
     """Customized preview window has some functions of mouse interaction.
-    
+
     Emit signal call to change current point when pressed a dot.
     """
-    
+
     set_joint_number = pyqtSignal(int)
-    
+
     def __init__(self, get_solutions: Callable[[], str], parent: QWidget):
         """Add a function use to get current point from parent."""
         super(_PreviewWindow, self).__init__(get_solutions, parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
-    
+
     def mousePressEvent(self, event):
         """Check if get close to a joint."""
         mx = (event.x() - self.ox) / self.zoom
@@ -76,11 +76,11 @@ class _PreviewWindow(PreviewCanvas):
                 self.set_joint_number.emit(node)
                 self.pressed = True
                 break
-    
+
     def mouseReleaseEvent(self, event):
         """Cancel the drag."""
         self.pressed = False
-    
+
     def mouseMoveEvent(self, event):
         """Drag to move the joint."""
         if not self.pressed:
@@ -110,12 +110,12 @@ def _set_warning(label: QLabel, warning: bool):
 
 
 class TriangularIterationWidget(QWidget, Ui_Form):
-    
+
     """Triangular iteration widget.
-    
+
     This interface use to modify structure profile.
     """
-    
+
     def __init__(
         self,
         add_collection: Callable[[Sequence[Tuple[int, int]]], None],
@@ -127,10 +127,10 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.unsaveFunc = parent.workbookNoSave
         self.getCollection = parent.getCollection
         self.addCollection = add_collection
-        
+
         # Iteration data.
         self.collections = {}
-        
+
         # Customized preview canvas.
         self.PreviewWindow = _PreviewWindow(
             lambda: ';'.join(
@@ -144,20 +144,20 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         )
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
-        
+
         # Signals
         self.joint_name.currentIndexChanged.connect(self.__hasSolution)
         self.clear()
-    
+
     def addCollections(self, collections: Dict[str, Dict[str, Any]]):
         """Update the new collections."""
         self.collections.update(collections)
-    
+
     def clear(self):
         """Clear all sub-widgets."""
         self.collections.clear()
         self.__clearPanel()
-    
+
     def __clearPanel(self):
         """Clear the settings of sub-widgets."""
         self.profile_name = ""
@@ -179,7 +179,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             self.target_label
         ]:
             _set_warning(label, True)
-    
+
     @pyqtSlot(name='on_clear_button_clicked')
     def __userClear(self):
         """Ask user before clear."""
@@ -192,12 +192,12 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         )
         if reply == QMessageBox.Yes:
             self.__clearPanel()
-    
+
     @pyqtSlot(name='on_add_collection_button_clicked')
     def __addCollection(self):
         """Add the graph back to structure collections."""
         self.addCollection(tuple(self.PreviewWindow.G.edges))
-    
+
     @pyqtSlot(Graph, dict)
     def setGraph(
         self,
@@ -221,7 +221,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         # Point name as (P1, P2, P3, ...).
         for node in pos:
             self.joint_name.addItem(f'P{node}')
-    
+
     @pyqtSlot(int, name='on_grounded_list_currentRowChanged')
     def __setGround(self, row: int):
         """Change current grounded link. Reset all settings."""
@@ -251,13 +251,13 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             self.grounded_list.blockSignals(True)
             self.grounded_list.setCurrentRow(row)
             self.grounded_list.blockSignals(False)
-    
+
     @pyqtSlot(str, name='on_driver_base_currentIndexChanged')
     def __setDriverBase(self, name: str):
         self.driver_rotator.clear()
         if not name:
             return
-        
+
         def find_friends(node: int):
             """Find all the nodes that are same link with input node."""
             ev = dict(edges_view(self.PreviewWindow.G))
@@ -269,9 +269,9 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 if set(link_) & link:
                     tmp_list.append(f'P{node_}')
             return tmp_list
-        
+
         self.driver_rotator.addItems(find_friends(int(name.replace('P', ''))))
-    
+
     @pyqtSlot(name='on_driver_add_clicked')
     def __addDriver(self):
         """Add a driver joint."""
@@ -289,7 +289,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
         ])
         _set_warning(self.driver_label, False)
-    
+
     @pyqtSlot(name='on_follower_add_clicked')
     def __addFollower(self):
         """Add a follower joint."""
@@ -303,19 +303,19 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.__find_follower_to_add(f'P{d1}')
         self.driver_list.takeItem(row)
         _set_warning(self.driver_label, not self.driver_list.count())
-    
+
     def __find_follower_to_remove(self, name: str):
         """Remove node if it is in the list."""
         finds = self.follower_list.findItems(name, Qt.MatchExactly)
         for d in finds:
             self.follower_list.takeItem(self.follower_list.row(d))
-    
+
     def __find_follower_to_add(self, name: str):
         """Add name if it is not in the list."""
         if self.follower_list.findItems(name, Qt.MatchExactly):
             return
         self.follower_list.addItem(name)
-    
+
     @pyqtSlot(int)
     def __hasSolution(self, index: Optional[int] = None):
         """Set buttons enable if there has solution."""
@@ -339,7 +339,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.status_show.setText(status_str)
         self.PLAP_solution.setEnabled(not status)
         self.PLLP_solution.setEnabled(not status)
-    
+
     @pyqtSlot(name='on_add_customization_clicked')
     def __addCus(self):
         """Show up custom joints dialog."""
@@ -347,7 +347,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         dlg.show()
         dlg.exec_()
         self.PreviewWindow.update()
-    
+
     def __getCurrentMechanismParams(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.__setParmBind()
@@ -377,7 +377,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 for s in list_texts(self.constraint_list)
             ],
         }
-    
+
     @pyqtSlot(name='on_load_button_clicked')
     def __loadDataBase(self):
         """Show up the dialog to load structure data."""
@@ -430,7 +430,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 self.__addSolution(*params)
                 self.PreviewWindow.setStatus(target, True)
         _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
-    
+
     @pyqtSlot(name='on_constraints_button_clicked')
     def __setConstraints(self):
         """Show up constraint dialog."""
@@ -441,7 +441,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.constraint_list.clear()
         for constraint in list_texts(dlg.main_list):
             self.constraint_list.addItem(constraint)
-    
+
     @pyqtSlot(name='on_target_button_clicked')
     def __setTarget(self):
         """Show up target joints dialog."""
@@ -453,7 +453,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         for target in list_texts(dlg.targets_list):
             self.target_list.addItem(target)
         _set_warning(self.target_label, not self.target_list.count() > 0)
-    
+
     def __symbols(self) -> Set[str]:
         """Return all symbols."""
         expr_list = set()
@@ -462,7 +462,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             param_list.append(strbetween(expr, '(', ')'))
             expr_list.update(param_list)
         return expr_list
-    
+
     def __getParam(self, angle: bool =False) -> int:
         """Get the link / angle parameter number."""
         i = 0
@@ -470,7 +470,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         while p + str(i) in self.__symbols():
             i += 1
         return i
-    
+
     @pyqtSlot(name='on_PLAP_solution_clicked')
     def __addPLAP(self):
         """Show up dialog to add a PLAP solution."""
@@ -486,7 +486,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             f'a{self.__getParam(angle=True)}',
             point
         )
-    
+
     @pyqtSlot(name='on_PLLP_solution_clicked')
     def __addPLLP(self):
         """Show up dialog to add a PLLP solution."""
@@ -504,7 +504,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             dlg.point_B.currentText(),
             point
         )
-    
+
     def __addSolution(self, *expr: Tuple[str]):
         """Add a solution."""
         item = QListWidgetItem()
@@ -514,7 +514,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.__setParmBind()
         self.__hasSolution()
         _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
-    
+
     @pyqtSlot(QListWidgetItem)
     def __setParmBind(self, item: Optional[QListWidgetItem] = None):
         """Set parameters binding."""
@@ -545,7 +545,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             ('ground' if i == 0 else '') + f"[{link}]"
             for i, link in enumerate(link_expr_list)
         ))
-    
+
     @pyqtSlot(name='on_expression_auto_clicked')
     def __autoConfigure(self):
         """Auto configure the solutions."""
@@ -584,7 +584,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             not self.PreviewWindow.isAllLock()
         )
         self.PreviewWindow.update()
-    
+
     @pyqtSlot(name='on_expression_pop_clicked')
     def __popExpr(self):
         """Remove the last solution."""
@@ -598,7 +598,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             False
         )
         self.__setParmBind()
-    
+
     @pyqtSlot(name='on_expression_clear_clicked')
     def __clearExpr(self) -> bool:
         """Clear the solutions. Return true if succeeded."""
@@ -616,7 +616,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.expr_show.clear()
         self.__hasSolution()
         return True
-    
+
     @pyqtSlot(name='on_save_button_clicked')
     def __save(self):
         """Save the profile to database."""
@@ -637,7 +637,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.collections[name] = self.__getCurrentMechanismParams()
         self.profile_name = name
         self.unsaveFunc()
-    
+
     @pyqtSlot(name='on_clipboard_button_clicked')
     def __copy(self):
         """Copy the mechanism params."""

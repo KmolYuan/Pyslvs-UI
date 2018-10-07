@@ -33,22 +33,22 @@ from .entities import EntitiesMethodInterface
 
 
 class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
-    
+
     """Interface class for solver methods."""
-    
+
     def __init__(self):
         super(SolverMethodInterface, self).__init__()
         self.DOF = 0
-    
+
     def solve(self):
         """Resolve coordinates and preview path."""
         self.resolve()
         self.MainCanvas.updatePreviewPath()
-    
+
     @pyqtSlot()
     def resolve(self):
         """Resolve: Using three libraries to solve the system.
-        
+
         + Pyslvs
         + Python-Solvespace
         + Sketch Solve
@@ -59,7 +59,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         for b, d, a in self.InputsWidget.inputPairs():
             if b == d:
                 vpoints[b].set_offset(a)
-        
+
         try:
             if solve_kernel == 0:
                 result = expr_solving(
@@ -98,7 +98,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             self.conflict.setVisible(False)
             self.DOFview.setVisible(True)
         self.reloadCanvas()
-    
+
     def previewpath(
         self,
         auto_preview: List[List[Tuple[float, float]]],
@@ -110,15 +110,15 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             auto_preview.clear()
             slider_auto_preview.clear()
             return
-        
+
         vpoints = tuple(vpoint.copy() for vpoint in vpoints)
         vpoint_count = len(vpoints)
-        
+
         solve_kernel = self.pathpreview_option.currentIndex()
         if solve_kernel == self.pathpreview_option.count() - 1:
             solve_kernel = self.planarsolver_option.currentIndex()
         interval_o = self.InputsWidget.interval()
-        
+
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
         auto_preview.clear()
         slider_auto_preview.clear()
@@ -126,7 +126,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             auto_preview.append([])
             if vpoints[i].type in {VPoint.P, VPoint.RP}:
                 slider_auto_preview[i] = []
-        
+
         bases = []
         drivers = []
         angles_o = []
@@ -134,11 +134,11 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             bases.append(b)
             drivers.append(d)
             angles_o.append(a)
-        
+
         i_count = self.InputsWidget.inputCount()
         # Cumulative angle
         angles_cum = [0.] * i_count
-        
+
         nan = float('nan')
         for interval in (interval_o, -interval_o):
             # Driver pointer
@@ -191,10 +191,10 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                     if angles_cum[dp] > 360:
                         angles[dp] -= interval
                         dp += 1
-    
+
     def getGraph(self) -> List[Tuple[int, int]]:
         """Return edges data for NetworkX graph class.
-    
+
         + VLinks will become graph nodes.
         """
         vpoints = self.EntitiesPoint.dataTuple()
@@ -219,7 +219,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                     k += 1
                 used_point.add(p)
         return [edge for n, edge in edges_view(graph)]
-    
+
     def getCollection(self) -> Dict[str, Union[
         Dict[str, None],
         Dict[str, List[Tuple[float, float]]],
@@ -229,14 +229,14 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         Dict[str, int]
     ]]:
         """Return collection data.
-        
+
         + Driver
         + Follower
         + Target
         + Link_expr
         + Expression
         x constraint
-        
+
         + Graph
         + pos
         + cus
@@ -249,7 +249,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         vlinks = self.EntitiesLink.dataTuple()
         link_names = [vlink.name for vlink in vlinks]
         graph = tuple(self.getGraph())
-        
+
         def find(joint: Set[int]) -> int:
             """Find the vpoint that is match from joint.
             Even that is a multi joint.
@@ -257,18 +257,18 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             for order, links in enumerate(graph):
                 if joint <= set(links):
                     return order
-        
+
         pos = {}
         same = {}
         mapping = {}
         not_cus = set()
-        
+
         def has_link(order: int) -> Tuple[bool, Optional[int]]:
             for key, value in mapping.items():
                 if order == value:
                     return True, key
             return False, None
-        
+
         for i, vpoint in enumerate(vpoints):
             if len(vpoint.links) < 2:
                 continue
@@ -281,7 +281,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             else:
                 mapping[i] = j
             not_cus.add(i)
-        
+
         count = len(graph)
         cus = {}
         for i, vpoint in enumerate(vpoints):
@@ -291,30 +291,30 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             pos[count] = vpoint.c[0]
             cus[f'P{count}'] = link_names.index(vpoint.links[0])
             count += 1
-        
+
         drivers = {mapping[b] for b, d, a in self.InputsWidget.inputPairs()}
         followers = {
             mapping[i] for i, vpoint in enumerate(vpoints)
             if ('ground' in vpoint.links) and (i not in drivers)
         }
-        
+
         def map_str(s: str) -> str:
             """Replace as mapped index."""
             if not s.replace('P', '').isdigit():
                 return s
             node = int(s.replace('P', ''))
             return f"P{mapping[node]}"
-        
+
         expr_list = []
         for exprs in self.getTriangle():
             params = ','.join(map_str(i) for i in exprs[1:-1])
             expr_list.append(f'{exprs[0]}[{params}]({map_str(exprs[-1])})')
-        
+
         link_expr_list = []
         for vlink in vlinks:
             points_text = ','.join(f'P{mapping[p]}' for p in vlink.points)
             link_expr_list.append(f'[{points_text}]')
-        
+
         return {
             'Driver': {f'P{p}': None for p in drivers},
             'Follower': {f'P{p}': None for p in followers},
@@ -327,10 +327,10 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             'cus': cus,
             'same': same,
         }
-    
+
     def getTriangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
         """Update triangle expression here.
-    
+
         Special function for VPoints.
         """
         if vpoints is None:
@@ -352,14 +352,14 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             tuple(p for p, s in status.items() if not s)
         )
         return exprs
-    
+
     def rightInput(self) -> bool:
         """Is input same as DOF?"""
         inputs = self.InputsWidget.inputCount() == self.DOF
         if not inputs:
             self.EntitiesExpr.clear()
         return inputs
-    
+
     def reloadCanvas(self):
         """Update main canvas data, without resolving."""
         self.MainCanvas.updateFigure(

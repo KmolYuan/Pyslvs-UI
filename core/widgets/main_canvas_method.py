@@ -46,9 +46,9 @@ from core.libs import VPoint, VLink
 
 
 class _Selector:
-    
+
     """Use to record mouse clicked point."""
-    
+
     __slots__ = (
         'x', 'y', 'sx', 'sy',
         'selection',
@@ -58,10 +58,10 @@ class _Selector:
         'left_dragged',
         'picking',
     )
-    
+
     def __init__(self):
         """Attributes:
-        
+
         + x, y, sx, sy: Four coordinates of selection rectangle.
         + selection_rect: The selection of mouse dragging.
         + selection_old: The selection before mouse dragging.
@@ -78,18 +78,18 @@ class _Selector:
         self.middle_dragged = False
         self.left_dragged = False
         self.picking = False
-    
+
     def release(self):
         """Release the dragging status."""
         self.selection_rect.clear()
         self.middle_dragged = False
         self.left_dragged = False
         self.picking = False
-    
+
     def is_close(self, x: float, y: float, limit: float) -> bool:
         """Return the distance of selector."""
         return hypot(x - self.x, y - self.y) <= limit
-    
+
     def in_rect(self, x: float, y: float) -> bool:
         """Return True if input coordinate is in the rectangle."""
         x_right = max(self.x, self.sx)
@@ -97,14 +97,14 @@ class _Selector:
         y_top = max(self.y, self.sy)
         y_button = min(self.y, self.sy)
         return (x_left <= x <= x_right) and (y_button <= y <= y_top)
-    
+
     def to_rect(self, zoom: float) -> QRectF:
         """Return limit as QRectF type."""
         return QRectF(
             QPointF(self.x * zoom, -self.y * zoom),
             QPointF(self.sx * zoom, -self.sy * zoom)
         )
-    
+
     def current_selection(self) -> Tuple[int, ...]:
         if QApplication.keyboardModifiers() in (Qt.ControlModifier, Qt.ShiftModifier):
             return tuple(set(self.selection_old + self.selection_rect))
@@ -121,9 +121,9 @@ class FreeMode(Enum):
 
 
 class DynamicCanvasInterface(BaseCanvas):
-    
+
     """Interface class for wrapping main canvas class."""
-    
+
     tracking = pyqtSignal(float, float)
     browse_tracking = pyqtSignal(float, float)
     selected = pyqtSignal(tuple, bool)
@@ -133,7 +133,7 @@ class DynamicCanvasInterface(BaseCanvas):
     doubleclick_edit = pyqtSignal(int)
     zoom_changed = pyqtSignal(int)
     fps_updated = pyqtSignal()
-    
+
     def __init__(self, parent: 'mw.MainWindow'):
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
@@ -175,7 +175,7 @@ class DynamicCanvasInterface(BaseCanvas):
         # Widget size.
         self.width_old = None
         self.height_old = None
-    
+
     def __drawFrame(self):
         """Draw a outer frame."""
         pos_x = self.width() - self.ox
@@ -186,13 +186,13 @@ class DynamicCanvasInterface(BaseCanvas):
         self.painter.drawLine(QPointF(neg_x, neg_y), QPointF(pos_x, neg_y))
         self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(neg_x, neg_y))
         self.painter.drawLine(QPointF(pos_x, pos_y), QPointF(pos_x, neg_y))
-    
+
     def __drawPoint(self, i: int, vpoint: VPoint):
         """Draw a point."""
         if vpoint.type in {VPoint.P, VPoint.RP}:
             pen = QPen(vpoint.color)
             pen.setWidth(2)
-            
+
             # Draw slot point and pin point.
             for j, (cx, cy) in enumerate(vpoint.c):
                 if not vpoint.links:
@@ -216,7 +216,7 @@ class DynamicCanvasInterface(BaseCanvas):
                         self.painter.drawText(cp + rp, text)
                 else:
                     self.drawPoint(i, cx, cy, grounded, vpoint.color)
-            
+
             # Slider line
             pen.setColor(vpoint.color.darker())
             self.painter.setPen(pen)
@@ -238,7 +238,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.painter.drawLine(qline_2)
         else:
             self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
-        
+
         # For selects function.
         if (self.select_mode == 0) and (i in self.selections):
             pen = QPen(QColor(161, 16, 239))
@@ -249,7 +249,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 vpoint.cy * -self.zoom - 12,
                 24, 24
             )
-    
+
     def __pointsPos(self, vlink: VLink) -> List[Tuple[float, float]]:
         """Get geometry of the vlink."""
         points = []
@@ -266,7 +266,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 y = coordinate[1] * -self.zoom
             points.append((x, y))
         return points
-    
+
     def __drawLink(self, vlink: VLink):
         """Draw a link."""
         if (vlink.name == 'ground') or (not vlink.points):
@@ -303,7 +303,7 @@ class DynamicCanvasInterface(BaseCanvas):
             Qt.AlignCenter,
             f'[{vlink.name}]'
         )
-    
+
     def __drawPath(self):
         """Draw paths. Recording first."""
         paths = self.path_record or self.Path.path or self.pathpreview
@@ -328,7 +328,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 self.drawCurve(path)
             else:
                 self.drawDot(path)
-    
+
     def __drawSlvsRanges(self):
         """Draw solving range."""
         pen = QPen()
@@ -354,7 +354,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.painter.setPen(pen)
             self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
             self.painter.setBrush(Qt.NoBrush)
-    
+
     def __emit_freemove(self, targets: List[int]):
         """Emit free move targets to edit."""
         self.freemoved.emit(tuple((num, (
@@ -362,29 +362,29 @@ class DynamicCanvasInterface(BaseCanvas):
             self.vpoints[num].cy,
             self.vpoints[num].angle,
         )) for num in targets))
-    
+
     def __select_func(self, *, rect: bool = False):
         """Select function."""
         self.selector.selection_rect.clear()
         if self.select_mode == 0:
-            
+
             def catch(x: float, y: float) -> bool:
                 """Detection function for points."""
                 if rect:
                     return self.selector.in_rect(x, y)
                 else:
                     return self.selector.is_close(x, y, self.sr / self.zoom)
-            
+
             for i, vpoint in enumerate(self.vpoints):
                 if catch(vpoint.cx, vpoint.cy):
                     if i not in self.selector.selection_rect:
                         self.selector.selection_rect.append(i)
-            
+
         elif self.select_mode == 1:
-            
+
             def catch(link: VLink) -> bool:
                 """Detection function for links.
-                
+
                 + Is polygon: Using Qt polygon geometry.
                 + If just a line: Create a range for mouse detection.
                 """
@@ -404,16 +404,16 @@ class DynamicCanvasInterface(BaseCanvas):
                         QPointF(self.selector.x, -self.selector.y) * self.zoom,
                         Qt.WindingFill
                     )
-            
+
             for i, vlink in enumerate(self.vlinks):
                 if i == 0:
                     continue
                 if catch(vlink):
                     if i not in self.selector.selection_rect:
                         self.selector.selection_rect.append(i)
-            
+
         elif self.select_mode == 2:
-            
+
             def catch(exprs: Tuple[str, ...]) -> bool:
                 """Detection function for solution polygons."""
                 points, _ = self.solutionPolygon(
@@ -430,12 +430,12 @@ class DynamicCanvasInterface(BaseCanvas):
                         QPointF(self.selector.x, self.selector.y),
                         Qt.WindingFill
                     )
-            
+
             for i, expr in enumerate(self.exprs):
                 if catch(expr):
                     if i not in self.selector.selection_rect:
                         self.selector.selection_rect.append(i)
-    
+
     def __snap(self, num: float, *, is_zoom: bool = True) -> float:
         """Close to a multiple of coefficient."""
         snap_val = self.snap * self.zoom if is_zoom else self.snap
@@ -447,7 +447,7 @@ class DynamicCanvasInterface(BaseCanvas):
             return snap_val * times
         else:
             return snap_val * (times + 1)
-    
+
     def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
@@ -511,11 +511,11 @@ class DynamicCanvasInterface(BaseCanvas):
             if y_t > y_top:
                 y_top = y_t
         return x_right, x_left, y_top, y_bottom
-    
+
     def emit_freemove_all(self):
         """Edit all points to edit."""
         self.__emit_freemove(list(range(len(self.vpoints))))
-    
+
     def paintEvent(self, event):
         """Drawing functions."""
         width = self.width()
@@ -582,10 +582,10 @@ class DynamicCanvasInterface(BaseCanvas):
         # Record the widget size.
         self.width_old = width
         self.height_old = height
-    
+
     def mousePressEvent(self, event):
         """Press event.
-        
+
         Middle button: Move canvas of view.
         Left button: Select the point (only first point will be catch).
         """
@@ -600,10 +600,10 @@ class DynamicCanvasInterface(BaseCanvas):
             self.__select_func()
             if self.selector.selection_rect:
                 self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
-    
+
     def mouseDoubleClickEvent(self, event):
         """Mouse double click.
-        
+
         + Middle button: Zoom to fit.
         + Left button: Edit point function.
         """
@@ -619,10 +619,10 @@ class DynamicCanvasInterface(BaseCanvas):
                 if self.freemove == FreeMode.NoFreeMove:
                     self.doubleclick_edit.emit(self.selector.selection_rect[0])
         event.accept()
-    
+
     def mouseReleaseEvent(self, event):
         """Release mouse button.
-        
+
         + Alt & Left button: Add a point.
         + Left button: Select a point.
         + Free move mode: Edit the point(s) coordinate.
@@ -649,10 +649,10 @@ class DynamicCanvasInterface(BaseCanvas):
         self.selector.release()
         self.update()
         event.accept()
-    
+
     def mouseMoveEvent(self, event):
         """Move mouse.
-        
+
         + Middle button: Translate canvas view.
         + Left button: Free move mode / Rectangular selection.
         """
@@ -731,7 +731,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.update()
         self.tracking.emit(x, y)
         event.accept()
-    
+
     def zoomToFit(self):
         """Zoom to fit function."""
         width = self.width()

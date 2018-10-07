@@ -76,7 +76,7 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool =False):
         graph_ = graph
     if type(engine) != str:
         return engine
-    
+
     if engine == "random":
         layout = {k: (x*200, y*200) for k, (x, y) in random_layout(graph_).items()}
     elif engine == "shell":
@@ -92,7 +92,7 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool =False):
             layout = nx_pydot.graphviz_layout(graph_, prog=engine)
         except NetworkXError:
             raise EngineError("No Graphviz")
-    
+
     inf = float('inf')
     x_max = -inf
     x_min = inf

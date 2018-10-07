@@ -41,9 +41,9 @@ def _order_list(*s: str) -> str:
 
 
 class PyslvsSplash(QSplashScreen):
-    
+
     """Qt splash show up when startup."""
-    
+
     def __init__(self):
         super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/splash.png"))
         self.showMessage(
@@ -53,9 +53,9 @@ class PyslvsSplash(QSplashScreen):
 
 
 class PyslvsAbout(QDialog, Ui_Dialog):
-    
+
     """Pyslvs about dialog."""
-    
+
     def __init__(self, parent: QWidget):
         """About description strings."""
         super(PyslvsAbout, self).__init__(parent)

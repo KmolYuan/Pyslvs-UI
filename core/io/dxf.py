@@ -42,12 +42,12 @@ def dxf_frame(
     """Create frame sketch only."""
     dwg = ezdxf.new(version)
     msp = dwg.modelspace()
-    
+
     for p1, p2 in v_to_slvs():
         vp1 = vpoints[p1]
         vp2 = vpoints[p2]
         msp.add_line((vp1.cx, vp1.cy), (vp2.cx, vp2.cy))
-    
+
     dwg.saveas(file_name)
 
 
@@ -66,14 +66,14 @@ def dxf_boundary(
                 vlinks[link].append(i)
             else:
                 vlinks[link] = [i]
-    
+
     dwg = ezdxf.new(version)
     msp = dwg.modelspace()
-    
+
     # Interval: Offset with x axis.
     interval += radius * 2
     x_max = -interval
-    
+
     # Draw link boundaries.
     for name in sorted(
         vlinks,
@@ -83,20 +83,20 @@ def dxf_boundary(
             continue
         # Draw joint holes.
         x_min = min(vpoints[p].cx for p in vlinks[name])
-        
+
         centers = [(
             vpoints[p].cx
             if (interval is None) else
             x_max + interval + (vpoints[p].cx - x_min),
             vpoints[p].cy
         ) for p in vlinks[name]]
-        
+
         for coord in centers:
             msp.add_circle(coord, radius / 2)
-        
+
         if interval is not None:
             x_max = max(coord[0] for coord in centers)
-        
+
         # Sort the centers.
         centers_ch = convex_hull(centers)
         boundary = centers_ch.copy()
@@ -104,12 +104,12 @@ def dxf_boundary(
             if c not in centers_ch:
                 centers_ch.append(c)
         centers = centers_ch
-        
+
         # Draw boundary edges.
         boundary = boundaryloop(boundary, radius)
         for c1, c2 in boundary:
             msp.add_line((c1.x, c1.y), (c2.x, c2.y))
-        
+
         # Draw fillets.
         for i in range(len(boundary)):
             x, y = centers[i]
@@ -121,5 +121,5 @@ def dxf_boundary(
                 degrees(atan2(c1.y - y, c1.x - x)),
                 degrees(atan2(c2.y - y, c2.x - x))
             )
-    
+
     dwg.saveas(file_name)

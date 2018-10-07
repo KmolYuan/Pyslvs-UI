@@ -209,13 +209,13 @@ qt_image_format = (
 
 class QAbcMeta(wrappertype, ABCMeta):
     """Qt ABCMeta class.
-    
+
     Usage:
-    
+
     class MyQObject(QObject, metaclass=QAbcMeta):
         @abstractmethod
         def my_abstract_method(self):
             ...
-    
+
     """
     pass

@@ -16,9 +16,9 @@ from core.QtModules import (
 
 
 class RotatableView(QGraphicsView):
-    
+
     """Rotate QDial widget."""
-    
+
     def __init__(self, item):
         QGraphicsView.__init__(self)
         scene = QGraphicsScene(self)

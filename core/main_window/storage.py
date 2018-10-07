@@ -27,12 +27,12 @@ from .solver import SolverMethodInterface
 
 
 class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
-    
+
     """Interface class for storage methods."""
-    
+
     def __init__(self):
         super(StorageMethodInterface, self).__init__()
-    
+
     def __addStorage(self, name: str, expr: str):
         """Add storage data function."""
         self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
@@ -129,12 +129,12 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
             return
         name = item.text()
         self.CommandStack.beginMacro(f"Restore from {{Mechanism: {name}}}")
-        
+
         # After saved storage, clean all the item of two table widgets.
         self.EntitiesPoint.clear()
         self.EntitiesLink.clear()
         self.InputsWidget.variableExcluding()
-        
+
         self.parseExpression(item.expr)
         self.CommandStack.push(DeleteStorage(
             self.mechanism_storage.row(item),
@@ -142,14 +142,14 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.push(AddStorageName(name, self.mechanism_storage_name_tag))
         self.CommandStack.endMacro()
-    
+
     def getStorage(self) -> Tuple[Tuple[str, str], ...]:
         """Get storage data."""
         return tuple((
             self.mechanism_storage.item(row).text(),
             self.mechanism_storage.item(row).expr
         ) for row in range(self.mechanism_storage.count()))
-    
+
     def addMultipleStorage(self, exprs: Tuple[Tuple[str, str], ...]):
         """Add storage data from database."""
         for name, expr in exprs:

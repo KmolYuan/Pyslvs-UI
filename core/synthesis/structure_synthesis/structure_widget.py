@@ -45,13 +45,13 @@ from .Ui_structure_widget import Ui_Form
 
 class StructureSynthesis(QWidget, Ui_Form):
     """Number and type synthesis widget.
-    
+
     Calculate the combinations of mechanism family and show the atlas.
     """
 
     def __init__(self, parent: 'mw.MainWindow'):
         """Reference names:
-        
+
         + IO functions from main window.
         + Table data from PMKS expression.
         + Graph data function from main window.
@@ -146,7 +146,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     def __adjustStructureData(self):
         """Update NJ and NL values.
-        
+
         If user don't want to keep the DOF:
         Change the DOF then exit.
         """
@@ -165,17 +165,17 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         if self.sender() == self.NJ_input:
             n2 = self.NJ_input.value()
-            
+
             def nl_func() -> float:
                 return ((self.DOF.value() + 2 * n2) / 3) + 1
-            
+
             is_above = n2 > self.NJ_input_old_value
         else:
             n2 = self.NL_input.value()
-            
+
             def nl_func() -> float:
                 return (3 * (n2 - 1) - self.DOF.value()) / 2
-            
+
             is_above = n2 > self.NL_input_old_value
         n1 = nl_func()
         while not n1.is_integer():
@@ -221,7 +221,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structureSynthesis(self):
         """Type synthesis.
-        
+
         If there has no data of number synthesis,
         execute number synthesis first.
         """
@@ -239,7 +239,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_structure_synthesis_all_button_clicked')
     def __structureSynthesisAll(self):
         """Structure synthesis - find all.
-        
+
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
@@ -312,12 +312,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             stop_func
         )
         self.time_label.setText(f"{time // 60}[min] {time % 60:.2f}[s]")
-        
+
         try:
             progress_dlg.setValue(progress_dlg.maximum())
         except RuntimeError:
             pass
-        
+
         if answer:
             return [Graph(G.edges) for G in answer]
 
@@ -427,7 +427,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_save_atlas_clicked')
     def __saveAtlas(self):
         """Saving all the atlas to image file.
-        
+
         We should turn transparent background to white first.
         Then using QImage class to merge into one image.
         """
@@ -532,7 +532,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_edges2atlas_button_clicked')
     def __edges2atlas(self):
         """Turn the text files into a atlas image.
-        
+
         This operation will load all edges to list widget first.
         """
         file_names = self.inputFrom(

@@ -20,9 +20,9 @@ from core.QtModules import (
 
 
 class DataChart(QChart):
-    
+
     """Two axises Qt chart widget."""
-    
+
     def __init__(
         self,
         title: str,

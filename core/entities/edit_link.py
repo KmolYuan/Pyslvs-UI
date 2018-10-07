@@ -30,12 +30,12 @@ from .Ui_edit_link import Ui_Dialog
 
 
 class EditLinkDialog(QDialog, Ui_Dialog):
-    
+
     """Option dialog.
-    
+
     Only edit the target path after closed.
     """
-    
+
     def __init__(
         self,
         vpoints: List[VPoint],
@@ -44,7 +44,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         parent: QWidget
     ):
         """Input data reference from main window.
-        
+
         + Needs VPoints and VLinks information.
         + If row is false: Create action.
         """
@@ -71,14 +71,14 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             self.name_box.setCurrentIndex(row)
         self.name_edit.textChanged.connect(self.__isOk)
         self.__isOk()
-    
+
     @pyqtSlot()
     def __isOk(self):
         """Set button box enable if options are ok."""
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
             self.__legalName(self.name_edit.text())
         )
-    
+
     def __legalName(self, name: str) -> bool:
         """Return this name is usable or not."""
         if not match("^[A-Za-z0-9_-]*$", name):
@@ -87,7 +87,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             if (i != self.name_box.currentIndex()) and (name == vlink.name):
                 return False
         return True
-    
+
     @pyqtSlot(int, name='on_name_box_currentIndexChanged')
     def __setName(self, index: int):
         """Load the parameters of the link."""
@@ -118,14 +118,14 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.colorpick_button):
             widget.setEnabled(not_ground)
-    
+
     @pyqtSlot(int, name='on_color_box_currentIndexChanged')
     def __setColor(self, _: int):
         """Change the color icon of pick button."""
         self.colorpick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
-    
+
     @pyqtSlot(name='on_colorpick_button_clicked')
     def __setRGB(self):
         """Add a custom color from current color."""
@@ -138,14 +138,14 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         rgb_str = str((color.red(), color.green(), color.blue()))
         self.color_box.addItem(colorIcon(rgb_str), rgb_str)
         self.color_box.setCurrentIndex(self.color_box.count() - 1)
-    
+
     @pyqtSlot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
     def __addSelected(self, item: QListWidgetItem):
         """Add item to selected list."""
         self.selected.addItem(
             self.noSelected.takeItem(self.noSelected.row(item))
         )
-    
+
     @pyqtSlot(QListWidgetItem, name='on_selected_itemDoubleClicked')
     def __addNoSelected(self, item: QListWidgetItem):
         """Add item to no selected list."""

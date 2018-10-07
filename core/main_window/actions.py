@@ -31,17 +31,17 @@ def _copyTableData(table):
 
 
 class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
-    
+
     """Interface class for action methods."""
-    
+
     def __init__(self):
         super(ActionMethodInterface, self).__init__()
         self.mouse_pos_x = 0.
         self.mouse_pos_y = 0.
-    
+
     def __enablePointContext(self):
         """Adjust the status of QActions.
-        
+
         What ever we have least one point or not,
         need to enable / disable QAction.
         """
@@ -73,19 +73,19 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         # If two or more points selected.
         self.action_New_Link.setVisible(count > 1)
         self.popMenu_point_merge.menuAction().setVisible(count > 1)
-        
+
         def mjFunc(order: int):
             """Generate a merge function."""
             @pyqtSlot()
             def func():
                 self.__toMultipleJoint(order, selection)
             return func
-        
+
         for i, p in enumerate(selection):
             action = QAction(f"Base on Point{p}", self)
             action.triggered.connect(mjFunc(i))
             self.popMenu_point_merge.addAction(action)
-    
+
     def __enableLinkContext(self):
         """Enable / disable link's QAction, same as point table."""
         selection = self.EntitiesLink.selectedRows()
@@ -101,23 +101,23 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         self.action_link_context_release.setVisible((row == 0) and selected_one)
         self.action_link_context_constrain.setVisible(not_ground and selected_one)
         self.popMenu_link_merge.menuAction().setVisible(count > 1)
-        
+
         def mlFunc(order: int) -> Callable[[], None]:
             """Generate a merge function."""
             @pyqtSlot(int)
             def func():
                 self.__mergeLink(order, selection)
             return func
-        
+
         for i, row in enumerate(selection):
             name = self.EntitiesLink.item(row, 0).text()
             action = QAction(f"Base on \"{name}\"", self)
             action.triggered.connect(mlFunc(i))
             self.popMenu_link_merge.addAction(action)
-    
+
     def __toMultipleJoint(self, index: int, points: Tuple[int]):
         """Merge points into a multiple joint.
-        
+
         @index: The index of main joint in the sequence.
         """
         row = points[index]
@@ -142,10 +142,10 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
             args
         ))
         self.CommandStack.endMacro()
-    
+
     def __mergeLink(self, index: int, links: Tuple[int]):
         """Merge links to a base link.
-        
+
         @index: The index of main joint in the sequence.
         """
         row = links[index]
@@ -236,7 +236,7 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
     def copyLinksTable(self):
         """Copy text from link table."""
         _copyTableData(self.EntitiesLink)
-    
+
     def copyCoord(self):
         """Copy the current coordinate of the point."""
         pos = self.EntitiesPoint.currentPosition(self.EntitiesPoint.currentRow())

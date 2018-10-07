@@ -19,9 +19,9 @@ from .triangular_iteration_widget import TriangularIterationWidget
 
 
 class Collections(QWidget):
-    
+
     """Just a widget contains a sub tab widget."""
-    
+
     def __init__(self, parent: QWidget):
         """Create two widget page and using main window to make their parent."""
         super(Collections, self).__init__(parent)
@@ -50,16 +50,16 @@ class Collections(QWidget):
         self.StructureWidget.layout_sender.connect(
             self.TriangularIterationWidget.setGraph
         )
-    
+
     def clear(self):
         """Clear the sub-widgets."""
         self.StructureWidget.clear()
         self.TriangularIterationWidget.clear()
-    
+
     def CollectDataFunc(self):
         """Return collections to database."""
         return [tuple(G.edges) for G in self.StructureWidget.collections]
-    
+
     def TriangleDataFunc(self):
         """Return profiles to database."""
         return self.TriangularIterationWidget.collections

@@ -18,12 +18,12 @@ from .Ui_overview import Ui_Dialog
 
 
 class WorkbookOverview(QDialog, Ui_Dialog):
-    
+
     """Put all the data into this dialog!!
-    
+
     User cannot change anything in this interface.
     """
-    
+
     def __init__(
         self,
         commit: Model,
@@ -77,7 +77,7 @@ class WorkbookOverview(QDialog, Ui_Dialog):
         for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
         self.__setItemText(3, len(algorithm_data))
-    
+
     def __setItemText(self, i: int, *count: int):
         """Set the title for a specified tab."""
         text = " / ".join(str(c) for c in count)

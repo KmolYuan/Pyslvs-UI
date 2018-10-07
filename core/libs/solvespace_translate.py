@@ -63,7 +63,7 @@ def slvs_solve(
     """Use element module to convert into solvespace expression."""
     if not vpoints:
         return [], 0
-    
+
     # Define VLinks here.
     vlinks = {}
     for i, vpoint in enumerate(vpoints):
@@ -75,7 +75,7 @@ def slvs_solve(
                     vlinks[vlink].append(i)
             else:
                 vlinks[vlink] = [i]
-    
+
     # Limitation of Solvespace kernel sys.
     point_count = 0
     for vpoint in vpoints:
@@ -83,9 +83,9 @@ def slvs_solve(
             point_count += 1
         elif vpoint.type in {VPoint.P, VPoint.RP}:
             point_count += 3
-    
+
     sys, wp1, h_line = _2d_system(point_count * 2 + len(inputs) * 2)
-    
+
     solved_points = []
     slider_points = {}
     slot_points = {}
@@ -121,7 +121,7 @@ def slvs_solve(
                 Constraint.dragged(wp1, slider_points[i])
             elif vpoint.pin_grounded():
                 Constraint.dragged(wp1, solved_points[i])
-    
+
     # Link constraints.
     for vlink in vlinks:
         if len(vlinks[vlink]) < 2:
@@ -156,7 +156,7 @@ def slvs_solve(
                     Constraint.distance(distance, wp1, p1, p2)
                 else:
                     Constraint.on(wp1, p1, p2)
-    
+
     # Slider constraints.
     for i in slider_points:
         vpoint = vpoints[i]
@@ -199,7 +199,7 @@ def slvs_solve(
                         Constraint.distance(offset, wp1, slider_points[i], solved_points[i])
                     else:
                         Constraint.distance(offset, wp1, solved_points[i], slider_points[i])
-        
+
         if vpoint.type == VPoint.P:
             for vlink in vpoint.links[1:]:
                 f1 = vlinks[vlink][0]
@@ -217,7 +217,7 @@ def slvs_solve(
                     Constraint.parallel(wp1, slider_slot, helper)
                 else:
                     Constraint.angle(wp1, angle, slider_slot, helper)
-    
+
     for p0, p1, angle in inputs:
         """The constraints of drive shaft.
         
@@ -226,12 +226,12 @@ def slvs_solve(
         """
         if p0 == p1:
             continue
-        
+
         if vpoints[p0].type == VPoint.R:
             p_base = solved_points[p0]
         else:
             p_base = slider_points[p0]
-        
+
         angle = radians(angle)
         x = sys.add_param(vpoints[p0].cx + cos(angle))
         y = sys.add_param(vpoints[p0].cy + sin(angle))
@@ -246,7 +246,7 @@ def slvs_solve(
             p_drive = slider_points[p1]
         link = LineSegment2d(wp1, p_base, p_drive)
         Constraint.angle(wp1, 0.5, link, leader)
-    
+
     # Solve
     result_flag = sys.solve()
     if result_flag == SLVS_RESULT_OKAY:

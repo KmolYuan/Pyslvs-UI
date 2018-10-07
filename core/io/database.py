@@ -59,29 +59,29 @@ _db = SqliteDatabase(None)
 
 
 class UserModel(Model):
-    
+
     """Show who commited the workbook."""
-    
+
     name = CharField(unique=True)
-    
+
     class Meta:
         database = _db
 
 
 class BranchModel(Model):
-    
+
     """The branch in this workbook."""
-    
+
     name = CharField(unique=True)
-    
+
     class Meta:
         database = _db
 
 
 class CommitModel(Model):
-    
+
     """Commit data: Mechanism and Workbook information.
-    
+
     + Previous and branch commit.
     + Commit time.
     + Workbook information.
@@ -93,40 +93,40 @@ class CommitModel(Model):
     + Input variables data.
     + Algorithm data.
     """
-    
+
     previous = ForeignKeyField('self', related_name='next', null=True)
     branch = ForeignKeyField(BranchModel, null=True)
-    
+
     date = DateTimeField(default=datetime.datetime.now)
-    
+
     author = ForeignKeyField(UserModel, null=True)
     description = CharField()
-    
+
     mechanism = BlobField()
     linkcolor = BlobField()
-    
+
     storage = BlobField()
-    
+
     pathdata = BlobField()
-    
+
     collectiondata = BlobField()
-    
+
     triangledata = BlobField()
-    
+
     inputsdata = BlobField()
-    
+
     algorithmdata = BlobField()
-    
+
     class Meta:
         database = _db
 
 
 class LoadCommitButton(QPushButton):
-    
+
     """The button of load commit."""
-    
+
     loaded = pyqtSignal(int)
-    
+
     def __init__(self, id_int: int, parent: QWidget):
         super(LoadCommitButton, self).__init__(
             QIcon(QPixmap(":icons/data_update.png")),
@@ -135,26 +135,26 @@ class LoadCommitButton(QPushButton):
         )
         self.setToolTip(f"Reset to commit # {id_int}.")
         self.id = id_int
-    
+
     def mouseReleaseEvent(self, event):
         """Load the commit when release button."""
         super(LoadCommitButton, self).mouseReleaseEvent(event)
         self.loaded.emit(self.id)
-    
+
     def isLoaded(self, id_int: int):
         """Set enable if this commit is been loaded."""
         self.setEnabled(id_int != self.id)
 
 
 class FileWidget(QWidget, Ui_Form):
-    
+
     """The table that stored workbook data and changes."""
-    
+
     load_id = pyqtSignal(int)
-    
+
     def __init__(self, parent: 'mw.MainWindow'):
         """Set attributes.
-        
+
         + UI part
         + The main window functions
         + Functions to get and set data
@@ -200,7 +200,7 @@ class FileWidget(QWidget, Ui_Form):
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
         self.addStorageFunc = parent.addMultipleStorage
-        
+
         # Call to get collections data.
         self.CollectDataFunc = parent.CollectionTabPage.CollectDataFunc
         # Call to get triangle data.
@@ -221,12 +221,12 @@ class FileWidget(QWidget, Ui_Form):
         self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults
         # Call after loaded paths.
         self.loadPathFunc = parent.InputsWidget.loadPaths
-        
+
         # Close database when destroyed.
         self.destroyed.connect(self.__closeDatabase)
         # Undo Stack
         self.commandClear = parent.CommandStack.clear
-        
+
         # Reset
         self.history_commit = None
         self.Script = ""
@@ -235,7 +235,7 @@ class FileWidget(QWidget, Ui_Form):
         self.changed = False
         self.Stack = 0
         self.reset()
-    
+
     def reset(self):
         """Clear all the things that dependent on database."""
         self.history_commit: Optional[CommitModel] = None
@@ -255,19 +255,19 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_search_text.clear()
         self.commit_current_id.setValue(0)
         self.__closeDatabase()
-    
+
     def __connectDatabase(self, file_name: str):
         """Connect database."""
         self.__closeDatabase()
         _db.init(file_name)
         _db.connect()
         _db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
-    
+
     @pyqtSlot()
     def __closeDatabase(self):
         if not _db.deferred:
             _db.close()
-    
+
     def save(self, file_name: str, is_branch: bool = False):
         """Save database, append commit to new branch function."""
         author_name = self.FileAuthor.text() or self.FileAuthor.placeholderText()
@@ -372,7 +372,7 @@ class FileWidget(QWidget, Ui_Form):
             if size / 1024 // 1024 else
             f"{size / 1024:.02f} KB"
         ))
-    
+
     def read(self, file_name: str):
         """Load database commit."""
         self.__connectDatabase(file_name)
@@ -394,7 +394,7 @@ class FileWidget(QWidget, Ui_Form):
         self.__loadCommit(self.history_commit.order_by(-CommitModel.id).get())
         self.file_name = QFileInfo(file_name)
         self.isSavedFunc()
-    
+
     def importMechanism(self, file_name: str):
         """Pick and import the latest mechanism from a branch."""
         self.__connectDatabase(file_name)
@@ -429,10 +429,10 @@ class FileWidget(QWidget, Ui_Form):
             )
         else:
             self.__importCommit(commit)
-    
+
     def __addCommit(self, commit: CommitModel):
         """Add commit data to all widgets.
-        
+
         + Commit ID
         + Date
         + Description
@@ -443,22 +443,22 @@ class FileWidget(QWidget, Ui_Form):
         """
         row = self.CommitTable.rowCount()
         self.CommitTable.insertRow(row)
-        
+
         self.commit_current_id.setValue(commit.id)
         button = LoadCommitButton(commit.id, self)
         button.loaded.connect(self.__loadCommitID)
         self.load_id.connect(button.isLoaded)
         self.CommitTable.setCellWidget(row, 0, button)
-        
+
         self.CommitTable.setItem(row, 2, QTableWidgetItem(commit.description))
-        
+
         author_name = commit.author.name
         for row in range(self.AuthorList.count()):
             if author_name == self.AuthorList.item(row).text():
                 break
         else:
             self.AuthorList.addItem(author_name)
-        
+
         branch_name = commit.branch.name
         for row in range(self.BranchList.count()):
             if branch_name == self.BranchList.item(row).text():
@@ -478,7 +478,7 @@ class FileWidget(QWidget, Ui_Form):
             item = QTableWidgetItem(text)
             item.setToolTip(text)
             self.CommitTable.setItem(row, i + 1, item)
-    
+
     def __loadCommitID(self, id_int: int):
         """Check the id_int is correct."""
         try:
@@ -489,7 +489,7 @@ class FileWidget(QWidget, Ui_Form):
             QMessageBox.warning(self, "Warning", "Nothing submitted.")
         else:
             self.__loadCommit(commit)
-    
+
     def __loadCommit(self, commit: CommitModel):
         """Load the commit pointer."""
         if self.checkFileChanged():
@@ -523,17 +523,17 @@ class FileWidget(QWidget, Ui_Form):
         dlg = WorkbookOverview(commit, _decompress, self)
         dlg.show()
         dlg.exec_()
-    
+
     def __importCommit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""
         self.parseFunc(_decompress(commit.mechanism))
         print("The specified phase has been merged.")
-    
+
     @pyqtSlot(name='on_commit_stash_clicked')
     def stash(self):
         """Reload the least commit ID."""
         self.__loadCommitID(self.commit_current_id.value())
-    
+
     def loadExample(self, is_import: bool = False) -> bool:
         """Load example to new workbook."""
         if self.checkFileChanged():
@@ -561,7 +561,7 @@ class FileWidget(QWidget, Ui_Form):
         self.isSavedFunc()
         print(f"Example \"{example_name}\" has been loaded.")
         return True
-    
+
     @pyqtSlot(str, name='on_commit_search_text_textEdited')
     def __setSearchText(self, text: str):
         """Commit filter (by description and another)."""
@@ -574,12 +574,12 @@ class FileWidget(QWidget, Ui_Form):
                 (text in self.CommitTable.item(row, 2).text()) or
                 (text in self.CommitTable.item(row, 3).text())
             ))
-    
+
     @pyqtSlot(str, name='on_AuthorList_currentTextChanged')
     def __setAuthor(self, text: str):
         """Change default author's name when select another author."""
         self.FileAuthor.setPlaceholderText(text)
-    
+
     @pyqtSlot(name='on_branch_checkout_clicked')
     def __checkoutBranch(self):
         """Switch to the last commit of branch."""
@@ -596,7 +596,7 @@ class FileWidget(QWidget, Ui_Form):
             .get()
         )
         self.__loadCommit(least_commit)
-    
+
     @pyqtSlot(name='on_branch_delete_clicked')
     def __deleteBranch(self):
         """Delete all commits in the branch."""

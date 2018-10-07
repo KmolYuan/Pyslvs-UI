@@ -62,25 +62,25 @@ from .Ui_dimension_widget import Ui_Form
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
-    
+
     """Dimensional synthesis widget.
-    
+
     User can run the dimensional synthesis here.
     """
-    
+
     def __init__(self, parent: 'mw.MainWindow'):
         """Reference names:
-        
+
         + Iteration collections.
         + Result data.
         + Main window function references.
         """
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
-        
+
         self.mech_params = {}
         self.path = {}
-        
+
         # Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
         self.getCollection = parent.getCollection
@@ -89,45 +89,45 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mergeResult = parent.mergeResult
         self.updateRanges = parent.MainCanvas.updateRanges
         self.setSolvingPath = parent.MainCanvas.setSolvingPath
-        
+
         # Data and functions.
         self.__mechanism_data = []
         self.alg_options = {}
         self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
         self.__setAlgorithmToDefault()
-        
+
         def get_solutions_func() -> str:
             """For preview canvas."""
             if 'Expression' in self.mech_params:
                 return self.mech_params['Expression']
             else:
                 return ""
-        
+
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
-        
+
         # Splitter
         self.up_splitter.setSizes([80, 100])
         self.down_splitter.setSizes([20, 80])
-        
+
         # Table widget column width.
         self.parameter_list.setColumnWidth(0, 75)
         self.parameter_list.setColumnWidth(1, 75)
         self.parameter_list.setColumnWidth(2, 70)
         self.parameter_list.setColumnWidth(3, 70)
         self.parameter_list.setColumnWidth(4, 80)
-        
+
         self.clear()
-    
+
     def clear(self):
         """Clear all sub-widgets."""
         self.__mechanism_data.clear()
         self.result_list.clear()
         self.__clearSettings()
         self.__hasResult()
-    
+
     def __clearSettings(self):
         """Clear sub-widgets that contain the setting."""
         self.__clearPath(ask=False)
@@ -145,7 +145,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.Link_expr.clear()
         self.updateRange()
         self.__ableToGenerate()
-    
+
     def mechanismData(
         self,
         index: Optional[int] = None
@@ -154,7 +154,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if index is not None:
             return self.__mechanism_data[index]
         return self.__mechanism_data
-    
+
     @pyqtSlot(name='on_clear_button_clicked')
     def __userClear(self):
         if self.profile_name.text() == "No setting":
@@ -166,20 +166,20 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         if reply == QMessageBox.Yes:
             self.__clearSettings()
-    
+
     def loadResults(self, mechanism_data: List[Dict[str, Any]]):
         """Append results of workbook database to memory."""
         for e in mechanism_data:
             self.__mechanism_data.append(e)
             self.__addResult(e)
-    
+
     def __currentPathChanged(self):
         """Call the canvas to update to current target path."""
         self.setSolvingPath({
             name: tuple(path) for name, path in self.path.items()
         })
         self.__ableToGenerate()
-    
+
     def currentPath(self) -> List[Tuple[float, float]]:
         """Return the pointer of current target path."""
         item = self.target_points.currentItem()
@@ -187,7 +187,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return self.path[item.text()]
         else:
             return []
-    
+
     @pyqtSlot(str, name='on_target_points_currentTextChanged')
     def __setTarget(self, _: str):
         """Switch to the current target path."""
@@ -195,7 +195,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for x, y in self.currentPath():
             self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.__currentPathChanged()
-    
+
     @pyqtSlot(name='on_path_clear_clicked')
     def __clearPath(self, *, ask: bool = True):
         """Clear the current target path."""
@@ -210,19 +210,19 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.currentPath().clear()
         self.path_list.clear()
         self.__currentPathChanged()
-    
+
     @pyqtSlot(name='on_path_copy_clicked')
     def __copyPath(self):
         """Copy the current path coordinates to clipboard."""
         QApplication.clipboard().setText('\n'.join(
             f"{x},{y}" for x, y in self.currentPath()
         ))
-    
+
     @pyqtSlot(name='on_path_paste_clicked')
     def __pastePath(self):
         """Paste path data from clipboard."""
         self.__readPathFromCSV(char_split(";|,|\n", QApplication.clipboard().text()))
-    
+
     @pyqtSlot(name='on_import_csv_button_clicked')
     def __importCSV(self):
         """Paste path data from a text file."""
@@ -237,7 +237,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             for row in csv.reader(stream, delimiter=' ', quotechar='|'):
                 data += " ".join(row).split(',')
         self.__readPathFromCSV(data)
-    
+
     def __readPathFromCSV(self, raw_data: List[str]):
         """Turn string to float then add them to current target path."""
         try:
@@ -255,7 +255,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         else:
             for x, y in data:
                 self.addPoint(x, y)
-    
+
     @pyqtSlot(name='on_import_xlsx_button_clicked')
     def __importXLSX(self):
         """Paste path data from a Excel file."""
@@ -288,7 +288,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             i += 1
         for x, y in data:
             self.addPoint(x, y)
-    
+
     @pyqtSlot(name='on_path_adjust_button_clicked')
     def __adjustPath(self):
         """Show up path adjust dialog and
@@ -302,7 +302,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for e in dlg.r_path:
             self.addPoint(e[0], e[1])
         self.__currentPathChanged()
-    
+
     def addPoint(self, x: float, y: float):
         """Add path data to list widget and
         current target path.
@@ -312,14 +312,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.currentPath().append((x, y))
         self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.__currentPathChanged()
-    
+
     @pyqtSlot(name='on_close_path_clicked')
     def __closePath(self):
         """Add a the last point same as first point."""
         current_path = self.currentPath()
         if (self.path_list.count() > 1) and (current_path[0] != current_path[-1]):
             self.addPoint(*current_path[0])
-    
+
     @pyqtSlot(name='on_point_up_clicked')
     def __moveUpPoint(self):
         """Target point move up."""
@@ -334,7 +334,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path_list.takeItem(row + 1)
         self.path_list.setCurrentRow(row - 1)
         self.__currentPathChanged()
-    
+
     @pyqtSlot(name='on_point_down_clicked')
     def __moveDownPoint(self):
         """Target point move down."""
@@ -352,7 +352,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path_list.takeItem(row)
         self.path_list.setCurrentRow(row + 1)
         self.__currentPathChanged()
-    
+
     @pyqtSlot(name='on_point_delete_clicked')
     def __deletePoint(self):
         """Delete a target point."""
@@ -362,7 +362,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         del self.currentPath()[row]
         self.path_list.takeItem(row)
         self.__currentPathChanged()
-    
+
     def __ableToGenerate(self):
         """Set button enable if all the data are already."""
         self.pointNum.setText(
@@ -376,7 +376,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         self.path_adjust_button.setEnabled(n)
         self.synthesis_button.setEnabled(n)
-    
+
     @pyqtSlot(name='on_synthesis_button_clicked')
     def __synthesis(self):
         """Start synthesis."""
@@ -402,14 +402,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Deep copy it so the pointer will not the same.
         mech_params = deepcopy(self.mech_params)
         mech_params['Target'] = deepcopy(self.path)
-        
+
         def name_in_table(target_name: str) -> int:
             """Find a target_name and return the row from the table."""
             for r in range(self.parameter_list.rowCount()):
                 if self.parameter_list.item(r, 0).text() == target_name:
                     return r
             return -1
-        
+
         for key in ('Driver', 'Follower'):
             for name in mech_params[key]:
                 row = name_in_table(name)
@@ -418,7 +418,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     self.parameter_list.cellWidget(row, 3).value(),
                     self.parameter_list.cellWidget(row, 4).value(),
                 )
-        
+
         # Start progress dialog.
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
         dlg.show()
@@ -435,7 +435,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "Your tasks is all completed."
         )
         print("Finished.")
-    
+
     def __setTime(self, time: float):
         """Set the time label."""
         self.timeShow.setText(
@@ -443,7 +443,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             f"{time // 60}[min] {time % 60:.02f}[s]"
             "</span></p></body></html>"
         )
-    
+
     def __addResult(self, result: Dict[str, Any]):
         """Add result items, except add to the list."""
         item = QListWidgetItem(result['Algorithm'])
@@ -464,7 +464,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             text += "\n※Completeness is unknown."
         item.setToolTip(text)
         self.result_list.addItem(item)
-    
+
     @pyqtSlot(name='on_delete_button_clicked')
     def __deleteResult(self):
         """Delete a result."""
@@ -482,7 +482,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.result_list.takeItem(row)
         self.unsaveFunc()
         self.__hasResult()
-    
+
     @pyqtSlot(QModelIndex, name='on_result_list_clicked')
     def __hasResult(self, *_: QModelIndex):
         """Set enable if there has any result."""
@@ -495,7 +495,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.result_clipboard
         ):
             button.setEnabled(enable)
-    
+
     @pyqtSlot(QModelIndex, name='on_result_list_doubleClicked')
     def __showResult(self, _: QModelIndex):
         """Double click result item can show up preview dialog."""
@@ -505,7 +505,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = PreviewDialog(self.__mechanism_data[row], self.__getPath(row), self)
         dlg.show()
         dlg.exec_()
-    
+
     @pyqtSlot(name='on_merge_button_clicked')
     def __mergeResult(self):
         """Merge mechanism into main canvas."""
@@ -519,11 +519,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         if reply == QMessageBox.Yes:
             self.mergeResult(row, self.__getPath(row))
-    
+
     def __getPath(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
         result = self.__mechanism_data[row]
-        
+
         exprs = []
         for expr in result['Expression'].split(';'):
             func = strbefore(expr, '[')
@@ -532,7 +532,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             params.insert(0, func)
             params.append(target)
             exprs.append(tuple(params))
-        
+
         pos = {}
         mapping = {}
         p_count = 0
@@ -544,7 +544,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if n not in result['same']:
                 mapping[p_count] = f'P{n}'
                 p_count += 1
-        
+
         vpoints = graph2vpoints(
             Graph(result['Graph']),
             pos,
@@ -556,7 +556,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         path = []
         for i in range(vpoint_count):
             path.append([])
-        
+
         # Cumulative angle
         i_count = sum(1 for e in exprs if e[0] == 'PLAP')
         angles_cum = [0.] * i_count
@@ -591,21 +591,21 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                         angles[dp] -= interval
                         dp += 1
         return path
-    
+
     @pyqtSlot(name='on_result_chart_clicked')
     def __showResultChart(self):
         """Show up the chart dialog."""
         dlg = ChartDialog("Convergence Value", self.__mechanism_data, self)
         dlg.show()
         dlg.exec_()
-    
+
     @pyqtSlot(name='on_result_clipboard_clicked')
     def __copyResultText(self):
         """Copy pretty print result as text."""
         QApplication.clipboard().setText(
             pprint.pformat(self.__mechanism_data[self.result_list.currentRow()])
         )
-    
+
     @pyqtSlot(name='on_save_profile_clicked')
     def __saveProfile(self):
         """Save as new profile to collection widget."""
@@ -622,15 +622,15 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         while (not name) and (name not in self.collections):
             name = f"Structure_{i}"
             i += 1
-        
+
         mech_params = deepcopy(self.mech_params)
         for key in ['Driver', 'Follower', 'Target']:
             for mp in mech_params[key]:
                 mech_params[key][mp] = None
-        
+
         self.collections[name] = mech_params
         self.unsaveFunc()
-    
+
     @pyqtSlot(name='on_load_profile_clicked')
     def __loadProfile(self):
         """Load profile from collections dialog."""
@@ -642,7 +642,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.show()
         if dlg.exec_():
             self.__setProfile(dlg.name(), dlg.params())
-    
+
     def __setProfile(self, profile_name: str, params: Dict[str, Any]):
         """Set profile to sub-widgets."""
         self.__clearSettings()
@@ -659,11 +659,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.path[name] = []
         if self.target_points.count():
             self.target_points.setCurrentRow(0)
-        
+
         gj = {}
         for key in ('Driver', 'Follower'):
             gj.update(self.mech_params[key])
-        
+
         link_list = set()
         angle_list = set()
         for expr in self.mech_params['Expression'].split(';'):
@@ -674,10 +674,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     angle_list.add(e)
         link_count = len(link_list)
         angle_count = len(angle_list)
-        
+
         self.parameter_list.setRowCount(0)
         self.parameter_list.setRowCount(len(gj) + link_count + angle_count)
-        
+
         def spinbox(
             v: float,
             *,
@@ -693,7 +693,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if prefix:
                 double_spinbox.setPrefix("±")
             return double_spinbox
-        
+
         row = 0
         for name in sorted(gj):
             coord = gj[name]
@@ -714,40 +714,40 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             for s in (s1, s2, s3):
                 s.valueChanged.connect(self.updateRange)
             row += 1
-        
+
         def set_by_center(
             index: int,
             get_range: Callable[[], float]
         ) -> Callable[[float], None]:
             """Return a slot function use to set limit value by center."""
-            
+
             @pyqtSlot(float)
             def func(value: float):
                 half_range = get_range() / 2
                 self.mech_params['upper'][index] = value + half_range
                 self.mech_params['lower'][index] = value - half_range
-            
+
             return func
-        
+
         def set_by_range(
             index: int,
             get_value: Callable[[], float]
         ) -> Callable[[float], None]:
             """Return a slot function use to set limit value by range."""
-            
+
             @pyqtSlot(float)
             def func(value: float):
                 center = get_value()
                 half_range = value / 2
                 self.mech_params['upper'][index] = center + half_range
                 self.mech_params['lower'][index] = center - half_range
-            
+
             return func
-        
+
         for name in ('upper', 'lower'):
             if name not in self.mech_params:
                 self.mech_params[name] = [0.] * (link_count + angle_count)
-        
+
         for i, name in enumerate(sorted(link_list) + sorted(angle_list)):
             name_item = QTableWidgetItem(name)
             name_item.setToolTip(name)
@@ -776,7 +776,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             s1.valueChanged.connect(set_by_center(i, s2.value))
             s2.valueChanged.connect(set_by_range(i, s1.value))
             row += 1
-        
+
         self.PreviewCanvas.from_profile(self.mech_params)
         self.updateRange()
         self.__ableToGenerate()
@@ -787,7 +787,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 "This profile has no any solutions, "
                 "you can set it in the \"Triangular iteration\" page."
             )
-    
+
     @pyqtSlot(name='on_result_load_settings_clicked')
     def __loadResultSettings(self):
         """Load settings from a result."""
@@ -809,7 +809,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Load settings.
         self.alg_options.clear()
         self.alg_options.update(result['settings'])
-    
+
     @pyqtSlot(name='on_type0_clicked')
     @pyqtSlot(name='on_type1_clicked')
     @pyqtSlot(name='on_type2_clicked')
@@ -823,7 +823,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.alg_options.update(FireflyPrams)
         elif self.type2.isChecked():
             self.alg_options.update(DifferentialPrams)
-    
+
     @pyqtSlot(name='on_advance_button_clicked')
     def __showAdvance(self):
         """Get the settings from advance dialog."""
@@ -849,11 +849,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 dlg.maxTime_m.value() * 60 +
                 dlg.maxTime_s.value()
             )
-        
+
         def from_table(row: int) -> Union[int, float]:
             """Get algorithm data from table."""
             return dlg.alg_table.cellWidget(row, 1).value()
-        
+
         pop_size = dlg.pop_size.value()
         if type_num == AlgorithmType.RGA:
             self.alg_options['nPop'] = pop_size
@@ -867,31 +867,31 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.alg_options['NP'] = pop_size
             for i, tag in enumerate(('strategy', 'F', 'CR')):
                 self.alg_options[tag] = from_table(i)
-    
+
     @pyqtSlot()
     def updateRange(self):
         """Update range values to main canvas."""
-        
+
         def t(x: int, y: int):
             item = self.parameter_list.item(x, y)
             if item:
                 return item.text()
             else:
                 return self.parameter_list.cellWidget(x, y).value()
-        
+
         self.updateRanges({
             t(row, 0): (t(row, 2), t(row, 3), t(row, 4))
             for row in range(self.parameter_list.rowCount())
             if t(row, 1) in {'Follower', 'Driver'}
         })
-    
+
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copyExpr(self):
         """Copy profile expression."""
         text = self.Expression.text()
         if text:
             QApplication.clipboard().setText(text)
-    
+
     @pyqtSlot(name='on_link_expr_copy_clicked')
     def __copyLinkExpr(self):
         """Copy profile link expression."""

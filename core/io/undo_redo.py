@@ -46,39 +46,39 @@ def _noNoneString(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
 
 
 class AddTable(QUndoCommand):
-    
+
     """Add a row at last of the table."""
-    
+
     def __init__(self, table: QTableWidget):
         """Attributes
-        
+
         + Table reference
         """
         super(AddTable, self).__init__()
         self.table = table
-    
+
     def redo(self):
         """Add a empty row and add empty text strings into table items."""
         row = self.table.rowCount()
         self.table.insertRow(row)
         for column in range(row):
             self.table.setItem(row, column, QTableWidgetItem(''))
-    
+
     def undo(self):
         """Remove the last row directly."""
         self.table.removeRow(self.table.rowCount() - 1)
 
 
 class DeleteTable(QUndoCommand):
-    
+
     """Delete the specified row of table.
-    
+
     When this class has been called, the items should be empty.
     """
-    
+
     def __init__(self, row: int, table: QTableWidget, is_rename: bool):
         """Attributes
-        
+
         + Table reference
         + Row
         + Should rename
@@ -87,13 +87,13 @@ class DeleteTable(QUndoCommand):
         self.table = table
         self.row = row
         self.is_rename = is_rename
-    
+
     def redo(self):
         """Remove the row and rename sequence."""
         self.table.removeRow(self.row)
         if self.is_rename:
             self.table.rename(self.row)
-    
+
     def undo(self):
         """Rename again then insert a empty row."""
         if self.is_rename:
@@ -104,12 +104,12 @@ class DeleteTable(QUndoCommand):
 
 
 class FixSequenceNumber(QUndoCommand):
-    
+
     """Fix sequence number when deleting a point."""
-    
+
     def __init__(self, table: QTableWidget, row: int, benchmark: int):
         """Attributes
-        
+
         + Table reference
         + Row
         + Benchmark
@@ -118,13 +118,13 @@ class FixSequenceNumber(QUndoCommand):
         self.table = table
         self.row = row
         self.benchmark = benchmark
-    
+
     def redo(self):
         self.__sorting(True)
-    
+
     def undo(self):
         self.__sorting(False)
-    
+
     def __sorting(self, bs: bool):
         """Sorting point number by benchmark."""
         item = self.table.item(self.row, 2)
@@ -139,12 +139,12 @@ class FixSequenceNumber(QUndoCommand):
 
 
 class EditPointTable(QUndoCommand):
-    
+
     """Edit Point table.
-    
+
     Copy old data and put it back when called undo.
     """
-    
+
     def __init__(
         self,
         row: int,
@@ -171,24 +171,24 @@ class EditPointTable(QUndoCommand):
                 self.old_link_items.append(row)
         self.new_link_items = tuple(self.new_link_items)
         self.old_link_items = tuple(self.old_link_items)
-    
+
     def redo(self):
         """Write arguments then rewrite the dependents."""
         self.point_table.editArgs(self.row, *self.args)
         self.__writeRows(self.new_link_items, self.old_link_items)
-    
+
     def undo(self):
         """Rewrite the dependents then write arguments."""
         self.__writeRows(self.old_link_items, self.new_link_items)
         self.point_table.editArgs(self.row, *self.old_args)
-    
+
     def __writeRows(
         self,
         items1: Sequence[int],
         items2: Sequence[int]
     ):
         """Write table function.
-        
+
         + Append the point that relate with these links.
         + Remove the point that irrelevant with these links.
         """
@@ -201,7 +201,7 @@ class EditPointTable(QUndoCommand):
             new_points = self.link_table.item(row, 2).text().split(',')
             new_points.remove(point_name)
             self.__setCell(row, new_points)
-    
+
     def __setCell(self, row: int, points: List[str]):
         item = QTableWidgetItem(','.join(_noNoneString(points)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -209,12 +209,12 @@ class EditPointTable(QUndoCommand):
 
 
 class EditLinkTable(QUndoCommand):
-    
+
     """Edit Link table.
-    
+
     Copy old data and put it back when called undo.
     """
-    
+
     def __init__(
         self,
         row: int,
@@ -241,19 +241,19 @@ class EditLinkTable(QUndoCommand):
         )
         self.new_point_items = tuple(new_points - old_points)
         self.old_point_items = tuple(old_points - new_points)
-    
+
     def redo(self):
         """Write arguments then rewrite the dependents."""
         self.link_table.editArgs(self.row, *self.args)
         self.__rename(self.args, self.old_args)
         self.__writeRows(self.args[0], self.new_point_items, self.old_point_items)
-    
+
     def undo(self):
         """Rewrite the dependents then write arguments."""
         self.__writeRows(self.old_args[0], self.old_point_items, self.new_point_items)
         self.__rename(self.old_args, self.args)
         self.link_table.editArgs(self.row, *self.old_args)
-    
+
     def __rename(self, arg1: Tuple[str, ...], arg2: Tuple[str, ...]):
         """Adjust link name in all dependents,
         if link name are changed.
@@ -269,7 +269,7 @@ class EditLinkTable(QUndoCommand):
             )))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.point_table.setItem(row, 1, item)
-    
+
     def __writeRows(
         self,
         name: str,
@@ -277,7 +277,7 @@ class EditLinkTable(QUndoCommand):
         items2: Sequence[int]
     ):
         """Write table function.
-        
+
         + Append the link that relate with these points.
         + Remove the link that irrelevant with these points.
         """
@@ -290,7 +290,7 @@ class EditLinkTable(QUndoCommand):
             if name:
                 new_links.remove(name)
             self.__setCell(row, new_links)
-    
+
     def __setCell(self, row: int, links: List[str]):
         item = QTableWidgetItem(','.join(_noNoneString(links)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -298,9 +298,9 @@ class EditLinkTable(QUndoCommand):
 
 
 class AddPath(QUndoCommand):
-    
+
     """Append a new path."""
-    
+
     def __init__(
         self,
         widget: QListWidget,
@@ -313,14 +313,14 @@ class AddPath(QUndoCommand):
         self.name = name
         self.data = data
         self.path = path
-    
+
     def redo(self):
         """Add new path data."""
         self.data[self.name] = self.path
         self.widget.addItem(f"{self.name}: " + ", ".join(
             f"[{i}]" for i, d in enumerate(self.path) if d
         ))
-    
+
     def undo(self):
         """Remove the last item."""
         self.widget.takeItem(self.widget.count()-1)
@@ -328,9 +328,9 @@ class AddPath(QUndoCommand):
 
 
 class DeletePath(QUndoCommand):
-    
+
     """"Delete the specified row of path."""
-    
+
     def __init__(
         self,
         row: int,
@@ -349,7 +349,7 @@ class DeletePath(QUndoCommand):
         """Delete the path."""
         self.widget.takeItem(self.row)
         del self.data[self.name]
-    
+
     def undo(self):
         """Append back the path."""
         self.data[self.old_item.text().split(':')[0]] = self.old_path
@@ -358,42 +358,42 @@ class DeletePath(QUndoCommand):
 
 
 class AddStorage(QUndoCommand):
-    
+
     """Append a new storage."""
-    
+
     def __init__(self, name: str, widget: QListWidget, mechanism: str):
         super(AddStorage, self).__init__()
         self.name = name
         self.widget = widget
         self.mechanism = mechanism
-    
+
     def redo(self):
         """Add mechanism expression to 'expr' attribute."""
         item = QListWidgetItem(self.name)
         item.expr = self.mechanism
         item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
         self.widget.addItem(item)
-    
+
     def undo(self):
         """Remove the last item."""
         self.widget.takeItem(self.widget.count()-1)
 
 
 class DeleteStorage(QUndoCommand):
-    
+
     """Delete the specified row of storage."""
-    
+
     def __init__(self, row: int, widget: QListWidget):
         super(DeleteStorage, self).__init__()
         self.row = row
         self.widget = widget
         self.name = widget.item(row).text()
         self.mechanism = widget.item(row).expr
-    
+
     def redo(self):
         """Remove the row directly."""
         self.widget.takeItem(self.row)
-    
+
     def undo(self):
         """Create a new item and recover expression."""
         item = QListWidgetItem(self.name)
@@ -403,73 +403,73 @@ class DeleteStorage(QUndoCommand):
 
 
 class AddStorageName(QUndoCommand):
-    
+
     """Update name of storage name."""
-    
+
     def __init__(self, name: str, widget: QLineEdit):
         super(AddStorageName, self).__init__()
         self.name = name
         self.widget = widget
-    
+
     def redo(self):
         """Set the name text."""
         self.widget.setText(self.name)
-    
+
     def undo(self):
         """Clear the name text."""
         self.widget.clear()
 
 
 class ClearStorageName(QUndoCommand):
-    
+
     """Clear the storage name"""
-    
+
     def __init__(self, widget: QLineEdit):
         super(ClearStorageName, self).__init__()
         self.name = widget.text() or widget.placeholderText()
         self.widget = widget
-    
+
     def redo(self):
         """Clear name text."""
         self.widget.clear()
-    
+
     def undo(self):
         """Set the name text."""
         self.widget.setText(self.name)
 
 
 class AddVariable(QUndoCommand):
-    
+
     """Add a variable to list widget."""
-    
+
     def __init__(self, text: str, widget: QListWidget):
         super(AddVariable, self).__init__()
         self.item = QListWidgetItem(text)
         self.item.setToolTip(text)
         self.widget = widget
-    
+
     def redo(self):
         """Add to widget."""
         self.widget.addItem(self.item)
-    
+
     def undo(self):
         """Take out the item."""
         self.widget.takeItem(self.widget.row(self.item))
 
 
 class DeleteVariable(QUndoCommand):
-    
+
     """Remove the variable item."""
-    
+
     def __init__(self, row: int, widget: QListWidget):
         super(DeleteVariable, self).__init__()
         self.item = widget.item(row)
         self.widget = widget
-    
+
     def redo(self):
         """Take out the item."""
         self.widget.takeItem(self.widget.row(self.item))
-    
+
     def undo(self):
         """Add to widget."""
         self.widget.addItem(self.item)
