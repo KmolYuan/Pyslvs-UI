@@ -304,14 +304,22 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__currentPathChanged()
 
     def addPoint(self, x: float, y: float):
-        """Add path data to list widget and
-        current target path.
-        """
+        """Add path data to list widget and current target path."""
         x = round(x, 4)
         y = round(y, 4)
         self.currentPath().append((x, y))
         self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.__currentPathChanged()
+
+    @pyqtSlot(float, float)
+    def setPoint(self, i: int, x: float, y: float):
+        """Set the coordinate of current target path."""
+        try:
+            self.currentPath()[i] = (x, y)
+        except IndexError:
+            pass
+        else:
+            self.path_list.item(i).setText(f"({x:.04f}, {y:.04f})")
 
     @pyqtSlot(name='on_close_path_clicked')
     def __closePath(self):
