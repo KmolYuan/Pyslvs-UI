@@ -393,7 +393,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.saveAs(is_branch)
 
     @pyqtSlot(name='on_action_Save_as_triggered')
-    def saveAs(self, is_branch: bool):
+    def saveAs(self, is_branch: bool = False):
         """Save as action."""
         file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if file_name:
