@@ -1,6 +1,20 @@
 Change Log
 ===
 
+Version 18.09.1
+===
+
+Features
+---
+
++ Fix "Save as" error on Qt slot.
+
+Development
+---
+
++ Module of important widgets are move to `__init__.py`.
++ Fix compiler option error caused by Python (`cygwinccompiler.py`).
+
 Version 18.09
 ===
 

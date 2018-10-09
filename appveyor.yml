@@ -46,12 +46,10 @@ install:
   - pip install setuptools -U
   - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
   - echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
-  - curl -LO https://bugs.python.org/file40608/patch.diff
-  - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py patch.diff
+  - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
   - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 
   # Install modules.
-  - python -m ensurepip
   - pip install -r requirements.txt
   - pip install pyinstaller
 
