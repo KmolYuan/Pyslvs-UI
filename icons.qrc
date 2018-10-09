@@ -16,6 +16,7 @@
     <file>icons/qt.png</file>
     <file>icons/pmks.png</file>
     <file>icons/script.png</file>
+    <file>icons/yaml.png</file>
     <!--Panel icons-->
     <file>icons/mechanism.png</file>
     <file>icons/history.png</file>

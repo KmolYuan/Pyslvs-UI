@@ -107,22 +107,22 @@ class MainWindow(IOMethodInterface):
         if ok:
             self.ZoomBar.setValue(value)
 
-    @pyqtSlot(bool, name='on_action_Display_Dimensions_toggled')
+    @pyqtSlot(bool, name='on_action_show_dimensions_toggled')
     def __setShowDimensions(self, toggled: bool):
         """If turn on dimension labels, turn on the point marks."""
         if toggled:
-            self.action_Display_Point_Mark.setChecked(True)
+            self.action_show_point_mark.setChecked(True)
 
-    @pyqtSlot(bool, name='on_action_Display_Point_Mark_toggled')
+    @pyqtSlot(bool, name='on_action_show_point_mark_toggled')
     def __setShowPointMark(self, toggled: bool):
         """If no point marks, turn off the dimension labels."""
         if not toggled:
-            self.action_Display_Dimensions.setChecked(False)
+            self.action_show_dimensions.setChecked(False)
 
-    @pyqtSlot(name='on_action_Path_style_triggered')
+    @pyqtSlot(name='on_action_path_style_triggered')
     def __setCurveMode(self):
         """Set path style as curve (true) or dots (false)."""
-        self.MainCanvas.setCurveMode(self.action_Path_style.isChecked())
+        self.MainCanvas.setCurveMode(self.action_path_style.isChecked())
 
     @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
     def __setShowTargetPath(self, index: int):
@@ -225,7 +225,7 @@ class MainWindow(IOMethodInterface):
         self.consoleWidgetBrowser.insertPlainText(log)
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
 
-    @pyqtSlot(bool, name='on_action_Full_Screen_toggled')
+    @pyqtSlot(bool, name='on_action_full_screen_toggled')
     def __fullScreen(self, fullscreen: bool):
         """Show fullscreen or not."""
         if fullscreen:
@@ -233,12 +233,12 @@ class MainWindow(IOMethodInterface):
         else:
             self.showMaximized()
 
-    @pyqtSlot(name='on_action_About_Qt_triggered')
+    @pyqtSlot(name='on_action_about_qt_triggered')
     def aboutQt(self):
         """Open Qt about."""
         QMessageBox.aboutQt(self)
 
-    @pyqtSlot(name='on_action_Save_branch_triggered')
+    @pyqtSlot(name='on_action_commit_branch_triggered')
     def saveBranch(self):
         """Save as new branch action."""
         self.save(True)

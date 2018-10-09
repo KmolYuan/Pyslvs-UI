@@ -267,7 +267,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.SCMLayout.addWidget(self.FileWidget)
         self.FileWidget.commit_add.clicked.connect(self.save)
         self.FileWidget.branch_add.clicked.connect(self.saveBranch)
-        self.action_Stash.triggered.connect(self.FileWidget.stash)
+        self.action_stash.triggered.connect(self.FileWidget.stash)
 
         # Console dock will hide when startup.
         self.ConsoleWidget.hide()
@@ -291,7 +291,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             run = self.__class__()
             run.show()
 
-        self.action_New_window.triggered.connect(new_main_window)
+        self.action_new_window.triggered.connect(new_main_window)
 
     def __freemove(self):
         """Menu of free move mode."""
@@ -342,8 +342,8 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.linewidth_option.valueChanged.connect(self.MainCanvas.setLinkWidth)
         self.pathwidth_option.valueChanged.connect(self.MainCanvas.setPathWidth)
         self.fontsize_option.valueChanged.connect(self.MainCanvas.setFontSize)
-        self.action_Display_Point_Mark.toggled.connect(self.MainCanvas.setPointMark)
-        self.action_Display_Dimensions.toggled.connect(self.MainCanvas.setShowDimension)
+        self.action_show_point_mark.toggled.connect(self.MainCanvas.setPointMark)
+        self.action_show_dimensions.toggled.connect(self.MainCanvas.setShowDimension)
         self.selectionradius_option.valueChanged.connect(self.MainCanvas.setSelectionRadius)
         self.linktrans_option.valueChanged.connect(self.MainCanvas.setTransparency)
         self.marginfactor_option.valueChanged.connect(self.MainCanvas.setMarginFactor)
@@ -368,7 +368,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         + 'zoom to fit' function connections.
         + Zoom text buttons
         """
-        self.action_Zoom_to_fit.triggered.connect(
+        self.action_zoom_to_fit.triggered.connect(
             self.MainCanvas.zoomToFit
         )
         self.ResetCanvas.clicked.connect(self.MainCanvas.zoomToFit)
@@ -429,7 +429,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.action_point_context_add.triggered.connect(self.newPoint)
         self.popMenu_point.addAction(self.action_point_context_add)
         # New Link
-        self.popMenu_point.addAction(self.action_New_Link)
+        self.popMenu_point.addAction(self.action_new_link)
         self.action_point_context_edit = QAction("&Edit", self)
         self.action_point_context_edit.triggered.connect(self.editPoint)
         self.popMenu_point.addAction(self.action_point_context_edit)
@@ -531,7 +531,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.action_canvas_context_add.triggered.connect(self.addNormalPoint)
         self.popMenu_canvas_p.addAction(self.action_canvas_context_add)
         # New Link
-        self.popMenu_canvas_p.addAction(self.action_New_Link)
+        self.popMenu_canvas_p.addAction(self.action_new_link)
         self.action_canvas_context_grounded_add = QAction("Add [grounded]", self)
         self.action_canvas_context_grounded_add.triggered.connect(self.addFixedPoint)
         self.popMenu_canvas_p.addAction(self.action_canvas_context_grounded_add)

@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>561</width>
-                  <height>1042</height>
+                  <width>358</width>
+                  <height>670</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1313,7 +1313,7 @@
      <x>0</x>
      <y>0</y>
      <width>882</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1323,88 +1323,90 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <widget class="QMenu" name="menuExport">
+    <widget class="QMenu" name="menu_export">
      <property name="statusTip">
       <string>Export to other format.</string>
      </property>
      <property name="title">
       <string>E&amp;xport</string>
      </property>
-     <addaction name="SolvespaceMenuTitle"/>
-     <addaction name="action_Output_to_Solvespace"/>
+     <addaction name="action_title_slvs"/>
+     <addaction name="action_export_slvs"/>
      <addaction name="separator"/>
-     <addaction name="DXFMenuTitle"/>
-     <addaction name="action_Output_to_DXF"/>
+     <addaction name="action_title_dxf"/>
+     <addaction name="action_export_dxf"/>
      <addaction name="separator"/>
-     <addaction name="OtherFormatMenuTitle"/>
-     <addaction name="action_Output_to_Picture"/>
-     <addaction name="action_Output_to_Picture_clipboard"/>
-     <addaction name="action_Output_to_PMKS"/>
+     <addaction name="action_title_other"/>
+     <addaction name="action_export_image"/>
+     <addaction name="action_export_image_clipboard"/>
+     <addaction name="action_export_pmks_url"/>
     </widget>
     <widget class="QMenu" name="menuImport">
      <property name="title">
       <string>&amp;Import</string>
      </property>
-     <addaction name="action_Import_PMKS_server"/>
-     <addaction name="action_Import_Example"/>
-     <addaction name="action_Import_Workbook"/>
+     <addaction name="action_import_pmks_url"/>
+     <addaction name="action_import_example"/>
+     <addaction name="action_import_database"/>
     </widget>
-    <addaction name="action_New_Workbook"/>
-    <addaction name="action_Load_File"/>
-    <addaction name="action_Example"/>
+    <addaction name="action_new_workbook"/>
+    <addaction name="action_load_file"/>
+    <addaction name="action_example"/>
     <addaction name="menuImport"/>
     <addaction name="separator"/>
-    <addaction name="action_Save"/>
-    <addaction name="action_Save_branch"/>
-    <addaction name="action_Save_as"/>
-    <addaction name="action_Stash"/>
-    <addaction name="menuExport"/>
+    <addaction name="action_save"/>
+    <addaction name="menu_export"/>
     <addaction name="separator"/>
-    <addaction name="action_Full_Screen"/>
-    <addaction name="action_New_window"/>
-    <addaction name="action_Exit"/>
+    <addaction name="action_commit"/>
+    <addaction name="action_commit_branch"/>
+    <addaction name="action_commit_as"/>
+    <addaction name="action_stash"/>
+    <addaction name="separator"/>
+    <addaction name="action_full_screen"/>
+    <addaction name="action_new_window"/>
+    <addaction name="action_exit"/>
    </widget>
    <widget class="QMenu" name="menu_Mechanism">
     <property name="title">
      <string>&amp;Mechanism</string>
     </property>
-    <addaction name="action_New_Point"/>
-    <addaction name="action_New_Link"/>
+    <addaction name="action_new_point"/>
+    <addaction name="action_new_link"/>
     <addaction name="separator"/>
-    <addaction name="action_Edit_Point"/>
-    <addaction name="action_Edit_Link"/>
+    <addaction name="action_edit_point"/>
+    <addaction name="action_edit_link"/>
     <addaction name="separator"/>
-    <addaction name="action_Delete_Point"/>
-    <addaction name="action_Delete_Link"/>
+    <addaction name="action_delete_point"/>
+    <addaction name="action_delete_link"/>
     <addaction name="separator"/>
-    <addaction name="action_Scale_Mechanism"/>
+    <addaction name="action_scale_points"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
      <string>&amp;Options</string>
     </property>
-    <addaction name="action_Show_console"/>
+    <addaction name="action_show_console"/>
     <addaction name="separator"/>
-    <addaction name="action_Zoom_to_fit"/>
-    <addaction name="action_Display_Point_Mark"/>
-    <addaction name="action_Display_Dimensions"/>
-    <addaction name="action_Path_style"/>
+    <addaction name="action_zoom_to_fit"/>
+    <addaction name="action_show_point_mark"/>
+    <addaction name="action_show_dimensions"/>
+    <addaction name="action_path_style"/>
     <addaction name="separator"/>
-    <addaction name="action_See_expr"/>
-    <addaction name="action_See_Python_Scripts"/>
+    <addaction name="action_exprsion"/>
+    <addaction name="action_python_script"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="action_Pyslvs_com"/>
+    <addaction name="action_pyslvs_com"/>
     <addaction name="action_github_repository"/>
-    <addaction name="action_Get_Help"/>
+    <addaction name="action_mde_tw"/>
     <addaction name="separator"/>
-    <addaction name="action_Check_update"/>
+    <addaction name="action_check_update"/>
     <addaction name="separator"/>
-    <addaction name="action_About_Qt"/>
-    <addaction name="action_About_Pyslvs"/>
+    <addaction name="action_about_qt"/>
+    <addaction name="action_about"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
@@ -1418,7 +1420,7 @@
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="status_bar"/>
-  <action name="action_New_Workbook">
+  <action name="action_new_workbook">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/new_file.png</normaloff>:/icons/new_file.png</iconset>
@@ -1436,7 +1438,7 @@
     <enum>Qt::WindowShortcut</enum>
    </property>
   </action>
-  <action name="action_New_Point">
+  <action name="action_new_point">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
@@ -1451,7 +1453,7 @@
     <string>P</string>
    </property>
   </action>
-  <action name="action_New_Link">
+  <action name="action_new_link">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
@@ -1466,7 +1468,7 @@
     <string>L</string>
    </property>
   </action>
-  <action name="action_Exit">
+  <action name="action_exit">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -1481,7 +1483,7 @@
     <string>Exit Pyslvs.</string>
    </property>
   </action>
-  <action name="action_Get_Help">
+  <action name="action_mde_tw">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/kmol.png</normaloff>:/icons/kmol.png</iconset>
@@ -1505,7 +1507,7 @@
     <string>Goto Github storage of Pyslvs.</string>
    </property>
   </action>
-  <action name="action_About_Pyslvs">
+  <action name="action_about">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
@@ -1520,7 +1522,7 @@
     <string>F1</string>
    </property>
   </action>
-  <action name="action_Full_Screen">
+  <action name="action_full_screen">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1538,7 +1540,7 @@
     <string>Shift+F1</string>
    </property>
   </action>
-  <action name="action_Output_to_Picture">
+  <action name="action_export_image">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
@@ -1553,13 +1555,13 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="action_Save">
+  <action name="action_commit">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
-    <string>Commit and &amp;Save</string>
+    <string>&amp;Commit</string>
    </property>
    <property name="toolTip">
     <string>Save</string>
@@ -1574,7 +1576,7 @@
     <enum>QAction::HighPriority</enum>
    </property>
   </action>
-  <action name="action_See_Python_Scripts">
+  <action name="action_python_script">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
@@ -1586,7 +1588,7 @@
     <string>Generate a Python scripts from the workbook.</string>
    </property>
   </action>
-  <action name="action_Delete_Point">
+  <action name="action_delete_point">
    <property name="text">
     <string>Delete the Point</string>
    </property>
@@ -1594,7 +1596,7 @@
     <string>Delete an existing point.</string>
    </property>
   </action>
-  <action name="action_Delete_Link">
+  <action name="action_delete_link">
    <property name="text">
     <string>Delete the Link</string>
    </property>
@@ -1602,7 +1604,7 @@
     <string>Delete an existing link.</string>
    </property>
   </action>
-  <action name="action_Edit_Point">
+  <action name="action_edit_point">
    <property name="text">
     <string>Edit the Point</string>
    </property>
@@ -1610,7 +1612,7 @@
     <string>Edit an existing point.</string>
    </property>
   </action>
-  <action name="action_Edit_Link">
+  <action name="action_edit_link">
    <property name="text">
     <string>Edit the Link</string>
    </property>
@@ -1618,7 +1620,7 @@
     <string>Edit an existing link.</string>
    </property>
   </action>
-  <action name="action_Display_Dimensions">
+  <action name="action_show_dimensions">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1632,7 +1634,7 @@
     <string>F11</string>
    </property>
   </action>
-  <action name="action_Display_Point_Mark">
+  <action name="action_show_point_mark">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1649,7 +1651,7 @@
     <string>F10</string>
    </property>
   </action>
-  <action name="action_Output_to_DXF">
+  <action name="action_export_dxf">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
@@ -1661,7 +1663,7 @@
     <string>Output to Drawing Exchange sketch.</string>
    </property>
   </action>
-  <action name="action_Save_as">
+  <action name="action_commit_as">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
@@ -1676,7 +1678,7 @@
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="action_Output_to_Solvespace">
+  <action name="action_export_slvs">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
@@ -1688,7 +1690,7 @@
     <string>Output to Solvespace 2D sketch.</string>
    </property>
   </action>
-  <action name="SolvespaceMenuTitle">
+  <action name="action_title_slvs">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -1696,7 +1698,7 @@
     <string>Solvespace</string>
    </property>
   </action>
-  <action name="DXFMenuTitle">
+  <action name="action_title_dxf">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -1704,7 +1706,7 @@
     <string>DXF</string>
    </property>
   </action>
-  <action name="OtherFormatMenuTitle">
+  <action name="action_title_other">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -1712,7 +1714,7 @@
     <string>Other Format</string>
    </property>
   </action>
-  <action name="action_Import_Workbook">
+  <action name="action_import_database">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
@@ -1724,7 +1726,7 @@
     <string>Import from workbook.</string>
    </property>
   </action>
-  <action name="action_About_Qt">
+  <action name="action_about_qt">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/qt.png</normaloff>:/icons/qt.png</iconset>
@@ -1736,7 +1738,7 @@
     <string>Show Qt about.</string>
    </property>
   </action>
-  <action name="action_Load_File">
+  <action name="action_load_file">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
@@ -1751,7 +1753,7 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="action_Zoom_to_fit">
+  <action name="action_zoom_to_fit">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/aim.png</normaloff>:/icons/aim.png</iconset>
@@ -1766,7 +1768,7 @@
     <string>Home</string>
    </property>
   </action>
-  <action name="action_Path_style">
+  <action name="action_path_style">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1780,7 +1782,7 @@
     <string>Show path in solid line style, otherwise will be isolated dots.</string>
    </property>
   </action>
-  <action name="action_Pyslvs_com">
+  <action name="action_pyslvs_com">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
@@ -1792,7 +1794,7 @@
     <string>Goto Pyslvs home page.</string>
    </property>
   </action>
-  <action name="action_Show_console">
+  <action name="action_show_console">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1810,7 +1812,7 @@
     <string>F12</string>
    </property>
   </action>
-  <action name="action_Output_to_PMKS">
+  <action name="action_export_pmks_url">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
@@ -1822,7 +1824,7 @@
     <string>Pass your mechanism to PMKS server by generate a URL.</string>
    </property>
   </action>
-  <action name="action_Import_PMKS_server">
+  <action name="action_import_pmks_url">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
@@ -1834,7 +1836,7 @@
     <string>Import from PMKS URL.</string>
    </property>
   </action>
-  <action name="action_Example">
+  <action name="action_example">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
@@ -1849,7 +1851,7 @@
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="action_See_expr">
+  <action name="action_exprsion">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
@@ -1861,19 +1863,19 @@
     <string>Get the Pyslvs expression.</string>
    </property>
   </action>
-  <action name="action_Save_branch">
+  <action name="action_commit_branch">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
-    <string>Save to New Branch</string>
+    <string>Commit with New Branch</string>
    </property>
    <property name="statusTip">
     <string>Creat a new branch then save the commit to this branch.</string>
    </property>
   </action>
-  <action name="action_Stash">
+  <action name="action_stash">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
@@ -1885,7 +1887,7 @@
     <string>Abandon all changes of this time, and return to the latest commit.</string>
    </property>
   </action>
-  <action name="action_Import_Example">
+  <action name="action_import_example">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
@@ -1897,7 +1899,7 @@
     <string>Import from example</string>
    </property>
   </action>
-  <action name="action_Output_to_Picture_clipboard">
+  <action name="action_export_image_clipboard">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
@@ -1909,7 +1911,7 @@
     <string>Capture and output to clipboard.</string>
    </property>
   </action>
-  <action name="action_Check_update">
+  <action name="action_check_update">
    <property name="text">
     <string>Check for Updates</string>
    </property>
@@ -1917,7 +1919,7 @@
     <string>Check the lastest version of Pyslvs from Github.</string>
    </property>
   </action>
-  <action name="action_New_window">
+  <action name="action_new_window">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/new_window.png</normaloff>:/icons/new_window.png</iconset>
@@ -1929,12 +1931,24 @@
     <string>Open a new Pyslvs window.</string>
    </property>
   </action>
-  <action name="action_Scale_Mechanism">
+  <action name="action_scale_points">
    <property name="text">
     <string>&amp;Scale Mechanism</string>
    </property>
    <property name="statusTip">
     <string>Scale the mechanism by specified factor.</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="icon">
+    <iconset resource="../../icons.qrc">
+     <normaloff>:/icons/yaml.png</normaloff>:/icons/yaml.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="statusTip">
+    <string>Save to YAML based format.</string>
    </property>
   </action>
  </widget>
@@ -1943,7 +1957,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>action_Exit</sender>
+   <sender>action_exit</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -1959,7 +1973,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>action_Show_console</sender>
+   <sender>action_show_console</sender>
    <signal>toggled(bool)</signal>
    <receiver>ConsoleWidget</receiver>
    <slot>setVisible(bool)</slot>

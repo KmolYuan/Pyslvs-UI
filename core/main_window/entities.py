@@ -171,7 +171,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             i += 1
         return f"link_{i}"
 
-    @pyqtSlot(name='on_action_Delete_Link_triggered')
+    @pyqtSlot(name='on_action_delete_link_triggered')
     def deleteLink(self, row: int):
         """Push delete link command to stack.
 
@@ -196,7 +196,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_action_Delete_Point_triggered')
+    @pyqtSlot(name='on_action_delete_point_triggered')
     def deletePoint(self, row: int):
         """Push delete point command to stack."""
         args = self.EntitiesPoint.rowTexts(row)
@@ -318,7 +318,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         """Create a point with arguments."""
         self.__editPoint()
 
-    @pyqtSlot(name='on_action_Edit_Point_triggered')
+    @pyqtSlot(name='on_action_edit_point_triggered')
     def editPoint(self):
         """Edit a point with arguments."""
         row = self.EntitiesPoint.currentRow()
@@ -362,7 +362,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name="on_action_Scale_Mechanism_triggered")
+    @pyqtSlot(name="on_action_scale_points_triggered")
     def __setScale(self):
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
@@ -444,7 +444,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         self.link_freemode_slider.setValue(float(value))
         self.link_freemode_slider.valueChanged.connect(self.adjustLink)
 
-    @pyqtSlot(name='on_action_New_Link_triggered')
+    @pyqtSlot(name='on_action_new_link_triggered')
     def newLink(self):
         """Create a link with arguments.
 
@@ -491,7 +491,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_action_Edit_Link_triggered')
+    @pyqtSlot(name='on_action_edit_link_triggered')
     def editLink(self):
         """Edit a link with arguments."""
         self.__editLink(self.EntitiesLink.currentRow())

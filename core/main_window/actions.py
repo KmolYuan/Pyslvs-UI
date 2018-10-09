@@ -71,7 +71,7 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         ):
             action.setVisible(count == 1)
         # If two or more points selected.
-        self.action_New_Link.setVisible(count > 1)
+        self.action_new_link.setVisible(count > 1)
         self.popMenu_point_merge.menuAction().setVisible(count > 1)
 
         def mjFunc(order: int):
@@ -182,7 +182,7 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         """EntitiesPoint context menu."""
         self.__enablePointContext()
         self.popMenu_point.exec_(self.EntitiesPoint_widget.mapToGlobal(point))
-        self.action_New_Link.setVisible(True)
+        self.action_new_link.setVisible(True)
         self.popMenu_point_merge.clear()
 
     @pyqtSlot(QPoint)
@@ -200,7 +200,7 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
             self.__enablePointContext()
             self.action_canvas_context_path.setVisible(self.SynthesisTab.currentIndex() == 2)
             self.popMenu_canvas_p.exec_(self.MainCanvas.mapToGlobal(point))
-            self.action_New_Link.setVisible(True)
+            self.action_new_link.setVisible(True)
             self.popMenu_point_merge.clear()
         elif index == 1:
             self.__enableLinkContext()
@@ -221,11 +221,11 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
             (not one_link)
         )
         # Edit
-        self.action_Edit_Point.setEnabled(one_point)
-        self.action_Edit_Link.setEnabled(one_link)
+        self.action_edit_point.setEnabled(one_point)
+        self.action_edit_link.setEnabled(one_link)
         # Delete
-        self.action_Delete_Point.setEnabled(point_selected)
-        self.action_Delete_Link.setEnabled(link_selected)
+        self.action_delete_point.setEnabled(point_selected)
+        self.action_delete_link.setEnabled(link_selected)
 
     @pyqtSlot()
     def copyPointsTable(self):
