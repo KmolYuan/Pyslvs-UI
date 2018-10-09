@@ -223,13 +223,13 @@
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QWidget" name="link_freemode_widget" native="true">
+                         <widget class="QWidget" name="link_free_move_widget" native="true">
                           <property name="enabled">
                            <bool>false</bool>
                           </property>
                           <layout class="QHBoxLayout" name="horizontalLayout_3">
                            <item>
-                            <widget class="QLineEdit" name="link_freemode_linkname">
+                            <widget class="QLineEdit" name="link_free_move_linkname">
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                                <horstretch>0</horstretch>
@@ -248,7 +248,7 @@
                             </widget>
                            </item>
                            <item>
-                            <widget class="QSlider" name="link_freemode_slider">
+                            <widget class="QSlider" name="link_free_move_slider">
                              <property name="maximum">
                               <number>10000</number>
                              </property>
@@ -258,7 +258,7 @@
                             </widget>
                            </item>
                            <item>
-                            <widget class="QDoubleSpinBox" name="link_freemode_spinbox">
+                            <widget class="QDoubleSpinBox" name="link_free_move_spinbox">
                              <property name="maximum">
                               <double>10000.000000000000000</double>
                              </property>
@@ -1127,13 +1127,13 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="freemode_button">
+              <widget class="QPushButton" name="free_move_button">
                <property name="statusTip">
                 <string>Free mode: Allow selected point coordinates to be edited by drag and drop.</string>
                </property>
                <property name="icon">
                 <iconset resource="../../icons.qrc">
-                 <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
+                 <normaloff>:/icons/free_move_off.png</normaloff>:/icons/free_move_off.png</iconset>
                </property>
                <property name="iconSize">
                 <size>

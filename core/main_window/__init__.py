@@ -56,7 +56,7 @@ class MainWindow(IOMethodInterface):
         # Console widget.
         self.consoleerror_option.setChecked(ARGUMENTS.debug_mode)
         if not ARGUMENTS.debug_mode:
-            self.__consoleConnect()
+            self.__console_connect()
 
         # Start first solve function calling.
         self.solve()
@@ -108,24 +108,24 @@ class MainWindow(IOMethodInterface):
             self.ZoomBar.setValue(value)
 
     @pyqtSlot(bool, name='on_action_show_dimensions_toggled')
-    def __setShowDimensions(self, toggled: bool):
+    def __set_show_dimensions(self, toggled: bool):
         """If turn on dimension labels, turn on the point marks."""
         if toggled:
             self.action_show_point_mark.setChecked(True)
 
     @pyqtSlot(bool, name='on_action_show_point_mark_toggled')
-    def __setShowPointMark(self, toggled: bool):
+    def __set_show_point_mark(self, toggled: bool):
         """If no point marks, turn off the dimension labels."""
         if not toggled:
             self.action_show_dimensions.setChecked(False)
 
     @pyqtSlot(name='on_action_path_style_triggered')
-    def __setCurveMode(self):
+    def __set_curve_mode(self):
         """Set path style as curve (true) or dots (false)."""
         self.MainCanvas.setCurveMode(self.action_path_style.isChecked())
 
     @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
-    def __setShowTargetPath(self, index: int):
+    def __set_show_target_path(self, index: int):
         """Dimensional synthesis information will show on the canvas."""
         self.MainCanvas.setShowTargetPath(index == 2)
 
@@ -168,7 +168,7 @@ class MainWindow(IOMethodInterface):
         self.MainCanvas.zoomToFit()
 
     @pyqtSlot(int, name='on_EntitiesTab_currentChanged')
-    def __setSelectionMode(self, index: int):
+    def __set_selection_mode(self, index: int):
         """Connect selection signal for main canvas."""
         # Set selection from click table items.
         tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
@@ -193,14 +193,14 @@ class MainWindow(IOMethodInterface):
         self.InputsWidget.clearSelection()
 
     @pyqtSlot(name='on_background_choosedir_clicked')
-    def __setBackground(self):
+    def __set_background(self):
         """Show up dialog to set the background file path."""
         file_name = self.inputFrom("Background", qt_image_format)
         if file_name:
             self.background_option.setText(file_name)
 
     @pyqtSlot(name='on_console_connect_button_clicked')
-    def __consoleConnect(self):
+    def __console_connect(self):
         """Turn the OS command line (stdout) log to console."""
         print("Connect to GUI console.")
         XStream.stdout().messageWritten.connect(self.__append_to_console)
@@ -210,7 +210,7 @@ class MainWindow(IOMethodInterface):
         print("Connect to GUI console.")
 
     @pyqtSlot(name='on_console_disconnect_button_clicked')
-    def __consoleDisconnect(self):
+    def __console_disconnect(self):
         """Turn the console log to OS command line (stdout)."""
         print("Disconnect from GUI console.")
         XStream.back()
@@ -226,24 +226,24 @@ class MainWindow(IOMethodInterface):
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
 
     @pyqtSlot(bool, name='on_action_full_screen_toggled')
-    def __fullScreen(self, fullscreen: bool):
-        """Show fullscreen or not."""
-        if fullscreen:
+    def __full_screen(self, full_screen: bool):
+        """Show full screen or not."""
+        if full_screen:
             self.showFullScreen()
         else:
             self.showMaximized()
 
     @pyqtSlot(name='on_action_about_qt_triggered')
-    def aboutQt(self):
+    def __about_qt(self):
         """Open Qt about."""
         QMessageBox.aboutQt(self)
 
     @pyqtSlot(name='on_action_commit_branch_triggered')
-    def saveBranch(self):
+    def commit_branch(self):
         """Save as new branch action."""
-        self.save(True)
+        self.commit(True)
 
     @pyqtSlot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
-    def __doubleClickStorage(self, item):
+    def __double_click_storage(self, item):
         """Restore the storage data as below."""
         self.restoreStorage(item)

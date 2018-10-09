@@ -72,7 +72,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                 result, _ = slvs_solve(
                     vpoints,
                     tuple(self.InputsWidget.inputPairs())
-                    if not self.freemode_button.isChecked() else ()
+                    if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
                 result = bfgs_vpoint_solving(
@@ -154,7 +154,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                             angles
                         )
                     elif solve_kernel == 1:
-                        if self.freemode_button.isChecked():
+                        if self.free_move_button.isChecked():
                             inputs = ()
                         else:
                             inputs = tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))

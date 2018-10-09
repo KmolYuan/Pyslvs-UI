@@ -73,7 +73,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         # Initialize custom UI.
         self.__undo_redo()
         self.__appearance()
-        self.__freemove()
+        self.__free_move()
         self.__options()
         self.__zoom()
         self.__context_menu()
@@ -134,19 +134,19 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.EntitiesLink.deleteRequest.connect(self.deleteLinks)
         self.EntitiesLink_layout.addWidget(self.EntitiesLink)
         self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
-        self.EntitiesExpr.reset.connect(self.link_freemode_widget.setEnabled)
-        self.EntitiesExpr.freemove_request.connect(self.setLinkFreemove)
+        self.EntitiesExpr.reset.connect(self.link_free_move_widget.setEnabled)
+        self.EntitiesExpr.free_move_request.connect(self.setLinkFreemove)
         self.EntitiesExpr_layout.insertWidget(0, self.EntitiesExpr)
 
         # Link free mode slide bar.
-        self.link_freemode_slider.valueChanged.connect(
-            self.link_freemode_spinbox.setValue
+        self.link_free_move_slider.valueChanged.connect(
+            self.link_free_move_spinbox.setValue
         )
-        self.link_freemode_spinbox.valueChanged.connect(
-            self.link_freemode_slider.setValue
+        self.link_free_move_spinbox.valueChanged.connect(
+            self.link_free_move_slider.setValue
         )
-        self.link_freemode_slider.rangeChanged.connect(
-            self.link_freemode_spinbox.setRange
+        self.link_free_move_slider.rangeChanged.connect(
+            self.link_free_move_spinbox.setRange
         )
 
         # Select all button on the Point and Link tab as corner widget.
@@ -196,7 +196,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         clean_selection_action.setShortcutContext(Qt.WindowShortcut)
         self.addAction(clean_selection_action)
 
-        self.MainCanvas.freemoved.connect(self.setFreemove)
+        self.MainCanvas.free_moved.connect(self.setFreemove)
         self.MainCanvas.alt_add.connect(self.qAddNormalPoint)
         self.MainCanvas.doubleclick_edit.connect(self.editPoint)
         self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
@@ -220,7 +220,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         # Inputs widget.
         self.InputsWidget = InputsWidget(self)
         self.inputs_tab_layout.addWidget(self.InputsWidget)
-        self.freemode_button.toggled.connect(self.InputsWidget.variableValueReset)
+        self.free_move_button.toggled.connect(self.InputsWidget.variableValueReset)
         self.InputsWidget.aboutToResolve.connect(self.resolve)
 
         @pyqtSlot(tuple, bool)
@@ -265,8 +265,8 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         # File table settings.
         self.FileWidget = FileWidget(self)
         self.SCMLayout.addWidget(self.FileWidget)
-        self.FileWidget.commit_add.clicked.connect(self.save)
-        self.FileWidget.branch_add.clicked.connect(self.saveBranch)
+        self.FileWidget.commit_add.clicked.connect(self.commit)
+        self.FileWidget.branch_add.clicked.connect(self.commit_branch)
         self.action_stash.triggered.connect(self.FileWidget.stash)
 
         # Console dock will hide when startup.
@@ -293,15 +293,15 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
 
         self.action_new_window.triggered.connect(new_main_window)
 
-    def __freemove(self):
+    def __free_move(self):
         """Menu of free move mode."""
         free_move_mode_menu = QMenu(self)
 
-        def free_move_mode_func(j: int, qicon: QIcon):
+        def free_move_mode_func(j: int, icon_qt: QIcon):
 
             @pyqtSlot()
             def func():
-                self.freemode_button.setIcon(qicon)
+                self.free_move_button.setIcon(icon_qt)
                 self.MainCanvas.setFreeMove(j)
                 self.EntitiesTab.setCurrentIndex(0)
                 self.InputsWidget.variable_stop.click()
@@ -309,7 +309,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             return func
 
         for i, (text, icon, tip) in enumerate((
-            ("View mode", "freemove_off", "Disable free mode."),
+            ("View mode", "free_move_off", "Disable free move mode."),
             ("Translate mode", "translate", "Edit by 2 DOF moving."),
             ("Rotate mode", "rotate", "Edit by 1 DOF moving."),
             ("Reflect mode", "reflect", "Edit by flip axis."),
@@ -321,12 +321,12 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             action.setStatusTip(tip)
             free_move_mode_menu.addAction(action)
             if i == 0:
-                self.freemode_disable = action
-        self.freemode_button.setMenu(free_move_mode_menu)
+                self.free_move_disable = action
+        self.free_move_button.setMenu(free_move_mode_menu)
 
         # Link free move by expression table.
-        self.link_freemode_slider.sliderReleased.connect(
-            self.MainCanvas.emit_freemove_all
+        self.link_free_move_slider.sliderReleased.connect(
+            self.MainCanvas.emit_free_move_all
         )
 
     def __options(self):

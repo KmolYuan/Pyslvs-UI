@@ -198,7 +198,7 @@ class Ui_Form(object):
         self.horizontalLayout_8.addWidget(self.point_delete)
         self.close_path = QtWidgets.QPushButton(self.layoutWidget1)
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/icons/freemove_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":/icons/free_move_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.close_path.setIcon(icon10)
         self.close_path.setObjectName("close_path")
         self.horizontalLayout_8.addWidget(self.close_path)

@@ -53,8 +53,8 @@ class _ScaleDialog(QDialog):
         self.main_layout = QVBoxLayout(self)
         self.enlarge = QDoubleSpinBox(self)
         self.shrink = QDoubleSpinBox(self)
-        self.__addOption("Enlarge", self.enlarge)
-        self.__addOption("Shrink", self.shrink)
+        self.__add_option("Enlarge", self.enlarge)
+        self.__add_option("Shrink", self.shrink)
 
         button_box = QDialogButtonBox(self)
         button_box.setStandardButtons(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -62,7 +62,7 @@ class _ScaleDialog(QDialog):
         button_box.rejected.connect(self.reject)
         self.main_layout.addWidget(button_box)
 
-    def __addOption(self, name: str, option: QDoubleSpinBox):
+    def __add_option(self, name: str, option: QDoubleSpinBox):
         """Add widgets for option."""
         layout = QHBoxLayout(self)
         label = QLabel(name, self)
@@ -85,7 +85,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     def __init__(self):
         super(EntitiesMethodInterface, self).__init__()
 
-    def __editPoint(self, row: Union[int, bool] = False):
+    def __edit_point(self, row: Union[int, bool] = False):
         """Edit point function."""
         dlg = EditPointDialog(
             self.EntitiesPoint.dataTuple(),
@@ -125,7 +125,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
 
-    def __editLink(self, row: Union[int, bool] = False):
+    def __edit_link(self, row: Union[int, bool] = False):
         """Edit link function."""
         dlg = EditLinkDialog(
             self.EntitiesPoint.dataTuple(),
@@ -160,7 +160,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         ))
         self.CommandStack.endMacro()
 
-    def __getLinkSerialNumber(self) -> str:
+    def __get_link_serial_number(self) -> str:
         """Return a new serial number name of link."""
         names = {
             self.EntitiesLink.item(row, 0).text()
@@ -285,7 +285,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
 
         ground: Optional[int] = None
         for link in graph.nodes:
-            self.addLink(self.__getLinkSerialNumber(), 'Blue', [
+            self.addLink(self.__get_link_serial_number(), 'Blue', [
                 base_count + n for n, edge in edges_view(graph) if link in edge
             ])
             if link == ground_link:
@@ -297,7 +297,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     @pyqtSlot(list)
     def addNormalLink(self, points: Sequence[int]):
         """Add a link."""
-        self.addLink(self.__getLinkSerialNumber(), 'Blue', points)
+        self.addLink(self.__get_link_serial_number(), 'Blue', points)
 
     def addLink(self, name: str, color: str, points: Optional[Sequence[int]] = None):
         """Push a new link command to stack."""
@@ -316,13 +316,13 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
 
     def newPoint(self):
         """Create a point with arguments."""
-        self.__editPoint()
+        self.__edit_point()
 
     @pyqtSlot(name='on_action_edit_point_triggered')
     def editPoint(self):
         """Edit a point with arguments."""
         row = self.EntitiesPoint.currentRow()
-        self.__editPoint(row if (row > -1) else 0)
+        self.__edit_point(row if (row > -1) else 0)
 
     def lockPoints(self):
         """Turn a group of points to fixed on ground or not."""
@@ -410,7 +410,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         """Preview the free move result."""
         vpoints = self.EntitiesPoint.dataTuple()
         mapping = {n: f'P{n}' for n in range(len(vpoints))}
-        mapping[self.link_freemode_linkname.text()] = float(value)
+        mapping[self.link_free_move_linkname.text()] = float(value)
         try:
             result = expr_solving(
                 self.getTriangle(),
@@ -422,27 +422,27 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             pass
         else:
             self.MainCanvas.adjustLink(result)
-            if not self.link_freemode_slider.isSliderDown():
-                self.MainCanvas.emit_freemove_all()
+            if not self.link_free_move_slider.isSliderDown():
+                self.MainCanvas.emit_free_move_all()
 
     @pyqtSlot(bool)
     def setLinkFreemove(self, enable: bool):
         """Free move function for link length."""
-        self.link_freemode_widget.setEnabled(enable)
-        self.link_freemode_linkname.clear()
+        self.link_free_move_widget.setEnabled(enable)
+        self.link_free_move_linkname.clear()
         if not enable:
             return
         item = self.EntitiesExpr.currentItem()
         if not item:
             return
         name, value = item.text().split(':')
-        self.link_freemode_linkname.setText(name)
+        self.link_free_move_linkname.setText(name)
         try:
-            self.link_freemode_slider.valueChanged.disconnect(self.adjustLink)
+            self.link_free_move_slider.valueChanged.disconnect(self.adjustLink)
         except TypeError:
             pass
-        self.link_freemode_slider.setValue(float(value))
-        self.link_freemode_slider.valueChanged.connect(self.adjustLink)
+        self.link_free_move_slider.setValue(float(value))
+        self.link_free_move_slider.valueChanged.connect(self.adjustLink)
 
     @pyqtSlot(name='on_action_new_link_triggered')
     def newLink(self):
@@ -463,7 +463,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         """
         rows = self.EntitiesPoint.selectedRows()
         if not len(rows) > 1:
-            self.__editLink()
+            self.__edit_link()
             return
         links_all = list(chain(*(
             self.EntitiesPoint.getLinks(row) for row in rows
@@ -494,12 +494,12 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_edit_link_triggered')
     def editLink(self):
         """Edit a link with arguments."""
-        self.__editLink(self.EntitiesLink.currentRow())
+        self.__edit_link(self.EntitiesLink.currentRow())
 
     @pyqtSlot()
     def releaseGround(self):
         """Clone ground to a new link, then make ground no points."""
-        name = self.__getLinkSerialNumber()
+        name = self.__get_link_serial_number()
         args = [name, 'Blue', self.EntitiesLink.item(0, 2).text()]
         self.CommandStack.beginMacro(f"Release ground to {{Link: {name}}}")
         # Free all points.

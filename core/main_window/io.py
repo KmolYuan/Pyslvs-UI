@@ -91,7 +91,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
         return func
 
-    def __readSlvs(self, file_name: str):
+    def __read_slvs(self, file_name: str):
         """Read slvs format.
 
         + Choose a group.
@@ -173,7 +173,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if suffix == 'pyslvs':
             self.FileWidget.read(file_name)
         elif suffix == 'slvs':
-            self.__readSlvs(file_name)
+            self.__read_slvs(file_name)
         event.acceptProposedAction()
 
     def workbookNoSave(self):
@@ -254,7 +254,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     def clear(self):
         """Clear to create commit stage."""
-        self.freemode_disable.trigger()
+        self.free_move_disable.trigger()
         self.mechanism_storage_name_tag.clear()
         self.mechanism_storage.clear()
         self.CollectionTabPage.clear()
@@ -327,14 +327,14 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             )
         else:
             for args in args_list:
-                link_names = tuple(
-                    vlink.name for vlink in self.EntitiesLink.data()
-                )
                 links = args[0].split(',')
-                for linkName in links:
+                link_names = {
+                    vlink.name for vlink in self.EntitiesLink.data()
+                }
+                for link_name in links:
                     # If link name not exist.
-                    if linkName not in link_names:
-                        self.addLink(linkName, 'Blue')
+                    if link_name not in link_names:
+                        self.addLink(link_name, 'Blue')
                 row_count = self.EntitiesPoint.rowCount()
                 self.CommandStack.beginMacro(f"Add {{Point{row_count}}}")
                 self.CommandStack.push(AddTable(self.EntitiesPoint))
@@ -353,7 +353,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 self.addLink(name, color)
 
     @pyqtSlot(name='on_action_load_file_triggered')
-    def loadFile(self):
+    def __load_file(self):
         """Load workbook."""
         if self.checkFileChanged():
             return
@@ -367,11 +367,11 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if suffix == 'pyslvs':
             self.FileWidget.read(file_name)
         elif suffix == 'slvs':
-            self.__readSlvs(file_name)
+            self.__read_slvs(file_name)
         self.MainCanvas.zoomToFit()
 
     @pyqtSlot(name='on_action_import_database_triggered')
-    def importWorkbook(self):
+    def __import_database(self):
         """Import from workbook."""
         if self.checkFileChanged():
             return
@@ -384,16 +384,16 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         self.FileWidget.importMechanism(file_name)
 
     @pyqtSlot(name='on_action_commit_triggered')
-    def save(self, is_branch: bool = False):
+    def commit(self, is_branch: bool = False):
         """Save action."""
         file_name = self.FileWidget.file_name.absoluteFilePath()
         if self.FileWidget.file_name.suffix() == 'pyslvs':
             self.FileWidget.save(file_name, is_branch)
         else:
-            self.saveAs(is_branch)
+            self.__commit_as(is_branch)
 
     @pyqtSlot(name='on_action_commit_as_triggered')
-    def saveAs(self, is_branch: bool = False):
+    def __commit_as(self, is_branch: bool = False):
         """Save as action."""
         file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if file_name:
@@ -401,7 +401,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.saveReplyBox("Workbook", file_name)
 
     @pyqtSlot(name='on_action_export_slvs_triggered')
-    def saveSlvs(self):
+    def __export_slvs(self):
         """Solvespace 2d save function."""
         dlg = SlvsOutputDialog(
             self.env,
@@ -417,7 +417,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.saveReplyBox("Solvespace sketch", path)
 
     @pyqtSlot(name='on_action_export_dxf_triggered')
-    def saveDXF(self):
+    def __export_dxf(self):
         """DXF 2d save function."""
         dlg = DxfOutputDialog(
             self.env,
@@ -433,7 +433,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.saveReplyBox("Drawing Exchange Format", path)
 
     @pyqtSlot(name='on_action_export_image_triggered')
-    def savePicture(self):
+    def __export_image(self):
         """Picture save function."""
         file_name = self.outputTo("picture", qt_image_format)
         if not file_name:
@@ -622,7 +622,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             QMessageBox.Save
         )
         if reply == QMessageBox.Save:
-            self.save()
+            self.commit()
             return self.FileWidget.changed
         elif reply == QMessageBox.Discard:
             return False
@@ -692,6 +692,6 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if suffix == 'pyslvs':
             self.FileWidget.read(ARGUMENTS.file)
         elif suffix == 'slvs':
-            self.__readSlvs(ARGUMENTS.file)
+            self.__read_slvs(ARGUMENTS.file)
         else:
             print("Unsupported format has been ignore when startup.")

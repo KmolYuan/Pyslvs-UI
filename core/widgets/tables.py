@@ -367,7 +367,7 @@ class ExprTableWidget(_BaseTableWidget):
     """
 
     reset = pyqtSignal(bool)
-    freemove_request = pyqtSignal(bool)
+    free_move_request = pyqtSignal(bool)
 
     def __init__(self, parent: QWidget):
         column_count = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
@@ -382,9 +382,9 @@ class ExprTableWidget(_BaseTableWidget):
             without to drag the points.
             """
             if item:
-                self.freemove_request.emit(item.text().startswith('L'))
+                self.free_move_request.emit(item.text().startswith('L'))
             else:
-                self.freemove_request.emit(False)
+                self.free_move_request.emit(False)
 
         # Double click behavior.
         self.currentItemChanged.connect(adjust_request)

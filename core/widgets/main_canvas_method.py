@@ -127,7 +127,7 @@ class DynamicCanvasInterface(BaseCanvas):
     tracking = pyqtSignal(float, float)
     browse_tracking = pyqtSignal(float, float)
     selected = pyqtSignal(tuple, bool)
-    freemoved = pyqtSignal(tuple)
+    free_moved = pyqtSignal(tuple)
     noselected = pyqtSignal()
     alt_add = pyqtSignal(float, float)
     doubleclick_edit = pyqtSignal(int)
@@ -158,7 +158,7 @@ class DynamicCanvasInterface(BaseCanvas):
         # Set show_dimension to False.
         self.show_dimension = False
         # Free move mode.
-        self.freemove = FreeMode.NoFreeMove
+        self.free_move = FreeMode.NoFreeMove
         # Path preview.
         self.pathpreview: List[List[Tuple[float, float]]] = []
         self.sliderpathpreview: Dict[int, List[Tuple[float, float]]] = {}
@@ -356,9 +356,9 @@ class DynamicCanvasInterface(BaseCanvas):
             self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
             self.painter.setBrush(Qt.NoBrush)
 
-    def __emit_freemove(self, targets: List[int]):
+    def __emit_free_move(self, targets: List[int]):
         """Emit free move targets to edit."""
-        self.freemoved.emit(tuple((num, (
+        self.free_moved.emit(tuple((num, (
             self.vpoints[num].cx,
             self.vpoints[num].cy,
             self.vpoints[num].angle,
@@ -513,9 +513,9 @@ class DynamicCanvasInterface(BaseCanvas):
                 y_top = y_t
         return x_right, x_left, y_top, y_bottom
 
-    def emit_freemove_all(self):
+    def emit_free_move_all(self):
         """Edit all points to edit."""
-        self.__emit_freemove(list(range(len(self.vpoints))))
+        self.__emit_free_move(list(range(len(self.vpoints))))
 
     def paintEvent(self, event):
         """Drawing functions."""
@@ -560,13 +560,13 @@ class DynamicCanvasInterface(BaseCanvas):
                     self.painter.setPen(pen)
                     self.painter.drawPolygon(QPolygonF(pos))
         # Draw a colored frame for free move mode.
-        if self.freemove != FreeMode.NoFreeMove:
+        if self.free_move != FreeMode.NoFreeMove:
             pen = QPen()
-            if self.freemove == FreeMode.Translate:
+            if self.free_move == FreeMode.Translate:
                 pen.setColor(QColor(161, 16, 229))
-            elif self.freemove == FreeMode.Rotate:
+            elif self.free_move == FreeMode.Rotate:
                 pen.setColor(QColor(219, 162, 6))
-            elif self.freemove == FreeMode.Reflect:
+            elif self.free_move == FreeMode.Reflect:
                 pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
@@ -618,7 +618,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.__select_func()
             if self.selector.selection_rect:
                 self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
-                if self.freemove == FreeMode.NoFreeMove:
+                if self.free_move == FreeMode.NoFreeMove:
                     self.doubleclick_edit.emit(self.selector.selection_rect[0])
 
     def mouseReleaseEvent(self, event):
@@ -632,11 +632,11 @@ class DynamicCanvasInterface(BaseCanvas):
             self.selector.selection_old = list(self.selections)
             if (
                 (self.select_mode == 0) and
-                (self.freemove != FreeMode.NoFreeMove) and
+                (self.free_move != FreeMode.NoFreeMove) and
                 (not self.show_target_path)
             ):
                 # Edit point coordinates.
-                self.__emit_freemove(self.selections)
+                self.__emit_free_move(self.selections)
             else:
                 km = QApplication.keyboardModifiers()
                 if km == Qt.AltModifier:
@@ -670,7 +670,7 @@ class DynamicCanvasInterface(BaseCanvas):
         elif self.selector.left_dragged:
             if self.show_target_path:
                 self.set_target_point.emit(x, y)
-            elif self.freemove == FreeMode.NoFreeMove:
+            elif self.free_move == FreeMode.NoFreeMove:
                 # Rectangular selection.
                 self.selector.picking = True
                 self.selector.sx = self.__snap(x, is_zoom=False)
@@ -693,7 +693,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     self
                 )
             elif self.select_mode == 0:
-                if self.freemove == FreeMode.Translate:
+                if self.free_move == FreeMode.Translate:
                     # Free move translate function.
                     mouse_x = self.__snap(x - self.selector.x, is_zoom=False)
                     mouse_y = self.__snap(y - self.selector.y, is_zoom=False)
@@ -705,7 +705,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     for num in self.selections:
                         vpoint = self.vpoints[num]
                         vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
-                elif self.freemove == FreeMode.Rotate:
+                elif self.free_move == FreeMode.Rotate:
                     # Free move rotate function.
                     alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
                     QToolTip.showText(
@@ -720,7 +720,7 @@ class DynamicCanvasInterface(BaseCanvas):
                         vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
                         if vpoint.type in {VPoint.P, VPoint.RP}:
                             vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
-                elif self.freemove == FreeMode.Reflect:
+                elif self.free_move == FreeMode.Reflect:
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
                     fy = 1 if y > 0 else -1
@@ -733,7 +733,7 @@ class DynamicCanvasInterface(BaseCanvas):
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
                             if (x > 0) != (y > 0):
                                 vpoint.rotate(180 - self.vangles[num])
-                if self.freemove != FreeMode.NoFreeMove:
+                if self.free_move != FreeMode.NoFreeMove:
                     self.updatePreviewPath()
             self.update()
         self.tracking.emit(x, y)

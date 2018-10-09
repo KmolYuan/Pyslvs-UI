@@ -33,7 +33,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
     def __init__(self):
         super(StorageMethodInterface, self).__init__()
 
-    def __addStorage(self, name: str, expr: str):
+    def __add_storage(self, name: str, expr: str):
         """Add storage data function."""
         self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
         self.CommandStack.push(AddStorage(
@@ -51,7 +51,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         )
         self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
         exprs = ", ".join(vpoint.expr for vpoint in self.EntitiesPoint.data())
-        self.__addStorage(name, f"M[{exprs}]")
+        self.__add_storage(name, f"M[{exprs}]")
         self.CommandStack.push(ClearStorageName(self.mechanism_storage_name_tag))
         self.CommandStack.endMacro()
 
@@ -99,7 +99,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         while name in name_list:
             name = f"Prototype_{i}"
             i += 1
-        self.__addStorage(name, expr)
+        self.__add_storage(name, expr)
 
     @pyqtSlot(name='on_mechanism_storage_delete_clicked')
     def deleteStorage(self):
@@ -153,4 +153,4 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
     def addMultipleStorage(self, exprs: Tuple[Tuple[str, str], ...]):
         """Add storage data from database."""
         for name, expr in exprs:
-            self.__addStorage(name, expr)
+            self.__add_storage(name, expr)

@@ -126,9 +126,9 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.show_target_path = show_target_path
         self.update()
 
-    def setFreeMove(self, freemove: int):
-        """Update freemove mode number."""
-        self.freemove = FreeMode(freemove)
+    def setFreeMove(self, free_move: int):
+        """Update free move mode number."""
+        self.free_move = FreeMode(free_move)
         self.update()
 
     @pyqtSlot(int)

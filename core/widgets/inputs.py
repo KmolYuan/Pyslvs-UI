@@ -55,7 +55,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.setupUi(self)
 
         # parent's function pointer.
-        self.freemode_button = parent.freemode_button
+        self.free_move_button = parent.free_move_button
         self.EntitiesPoint = parent.EntitiesPoint
         self.EntitiesLink = parent.EntitiesLink
         self.MainCanvas = parent.MainCanvas
@@ -239,7 +239,7 @@ class InputsWidget(QWidget, Ui_Form):
         enabled = row > -1
         rotatable = (
             enabled and
-            not self.freemode_button.isChecked() and
+            not self.free_move_button.isChecked() and
             self.rightInput()
         )
         self.dial.setEnabled(rotatable)

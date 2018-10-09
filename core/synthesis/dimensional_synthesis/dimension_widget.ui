@@ -347,7 +347,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
+                      <normaloff>:/icons/free_move_off.png</normaloff>:/icons/free_move_off.png</iconset>
                     </property>
                    </widget>
                   </item>

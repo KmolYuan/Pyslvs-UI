@@ -22,7 +22,7 @@
     <file>icons/history.png</file>
     <file>icons/synthesis.png</file>
     <!--Free move mode icons-->
-    <file>icons/freemove_off.png</file>
+    <file>icons/free_move_off.png</file>
     <file>icons/reflect.png</file>
     <file>icons/rotate.png</file>
     <file>icons/translate.png</file>
