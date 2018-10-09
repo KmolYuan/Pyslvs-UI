@@ -43,6 +43,7 @@ install:
   - pip --version
 
   # Set Python compiler to Msys2.
+  - pip install setuptools -U
   - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
   - echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
   - curl -LO https://bugs.python.org/file40608/patch.diff
