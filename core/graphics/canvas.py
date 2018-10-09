@@ -45,7 +45,7 @@ from core.QtModules import (
 )
 from core import io
 from core.libs import VPoint
-from . import colorQt, traget_path_style
+from . import color_qt, target_path_style
 
 
 def convex_hull(
@@ -279,7 +279,7 @@ class BaseCanvas(QWidget):
         pen.setWidth(self.path_width)
         for i, name in enumerate(sorted(self.target_path)):
             path = self.target_path[name]
-            road, dot, brush = traget_path_style(i)
+            road, dot, brush = target_path_style(i)
             pen.setColor(road)
             self.painter.setPen(pen)
             self.painter.setBrush(brush)
@@ -300,7 +300,7 @@ class BaseCanvas(QWidget):
                         painter_path.moveTo(p)
                     else:
                         x2, y2 = path[j - 1]
-                        self.__drawArrow(x, -y, x2, -y2, zoom=True)
+                        self.__draw_arrow(x, -y, x2, -y2, zoom=True)
                         painter_path.lineTo(p)
                 pen.setColor(road)
                 self.painter.setPen(pen)
@@ -312,7 +312,7 @@ class BaseCanvas(QWidget):
                     self.painter.drawEllipse(p, self.joint_size, self.joint_size)
         self.painter.setBrush(Qt.NoBrush)
 
-    def __drawArrow(
+    def __draw_arrow(
         self,
         x1: float,
         y1: float,
@@ -442,7 +442,7 @@ class BaseCanvas(QWidget):
 
         def draw_arrow(index: int, text: str):
             """Draw arrow."""
-            self.__drawArrow(
+            self.__draw_arrow(
                 points[-1].x(),
                 points[-1].y(),
                 points[index].x(),
@@ -483,9 +483,9 @@ class PreviewCanvas(BaseCanvas):
         self.showSolutions = True
         self.get_solutions = get_solutions
         self.G = Graph()
-        self.cus = {}
-        self.same = {}
-        self.pos = {}
+        self.cus: Dict[str, int] = {}
+        self.same: Dict[int, int] = {}
+        self.pos: Dict[int, Tuple[float, float]] = {}
         self.status = {}
 
         # Additional attributes.
@@ -512,7 +512,7 @@ class PreviewCanvas(BaseCanvas):
         width = self.width()
         height = self.height()
         if self.pos:
-            x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
+            x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
             x_diff = x_left - x_right
             y_diff = y_top - y_bottom
             x_diff = x_diff if x_diff else 1
@@ -560,20 +560,20 @@ class PreviewCanvas(BaseCanvas):
             y *= -self.zoom
             if node in (self.Driver, self.Target):
                 if node == self.Driver:
-                    pen.setColor(colorQt('Red'))
+                    pen.setColor(color_qt('Red'))
                 elif node == self.Target:
-                    pen.setColor(colorQt('Yellow'))
+                    pen.setColor(color_qt('Yellow'))
                 self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
             if self.getStatus(node):
-                color = colorQt('Dark-Magenta')
+                color = color_qt('Dark-Magenta')
             else:
-                color = colorQt('Green')
+                color = color_qt('Green')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
             self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
-            pen.setColor(colorQt('Black'))
+            pen.setColor(color_qt('Black'))
             self.painter.setPen(pen)
         # Solutions
         if self.showSolutions:
@@ -599,7 +599,7 @@ class PreviewCanvas(BaseCanvas):
             self.painter.drawText(x, y, f'P{node}')
         self.painter.end()
 
-    def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
+    def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
         x_right = inf

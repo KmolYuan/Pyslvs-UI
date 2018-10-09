@@ -47,7 +47,7 @@ class WorkbookOverview(QDialog, Ui_Dialog):
             item = QListWidgetItem(f"[Storage] - {name}")
             item.setToolTip(expr)
             self.storage_list.addItem(item)
-        self.__setItemText(0, int(len(expr) > 3) + len(storage))
+        self.__set_item_text(0, int(len(expr) > 3) + len(storage))
         # Expression of inputs variable data.
         inputs_data = decompress(commit.inputsdata)
         for a, b in inputs_data:
@@ -60,7 +60,7 @@ class WorkbookOverview(QDialog, Ui_Dialog):
                 f'[{i}]' for i, path in enumerate(paths) if path
             ))
             self.records_list.addItem(item)
-        self.__setItemText(1, len(inputs_data), len(path_data))
+        self.__set_item_text(1, len(inputs_data), len(path_data))
         # Structure collections.
         collection_data = decompress(commit.collectiondata)
         for edges in collection_data:
@@ -71,14 +71,14 @@ class WorkbookOverview(QDialog, Ui_Dialog):
             item = QListWidgetItem(name)
             item.setToolTip(data['Expression'])
             self.triangular_iteration_list.addItem(item)
-        self.__setItemText(2, len(collection_data), len(triangle_data))
+        self.__set_item_text(2, len(collection_data), len(triangle_data))
         # Dimensional synthesis.
         algorithm_data = decompress(commit.algorithmdata)
         for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
-        self.__setItemText(3, len(algorithm_data))
+        self.__set_item_text(3, len(algorithm_data))
 
-    def __setItemText(self, i: int, *count: int):
+    def __set_item_text(self, i: int, *count: int):
         """Set the title for a specified tab."""
         text = " / ".join(str(c) for c in count)
         self.toolBox.setItemText(i, f"{self.toolBox.itemText(i)} - ({text})")

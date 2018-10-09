@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Optional
 import sys
 import logging
 from core.QtModules import QObject, pyqtSignal
@@ -39,15 +40,9 @@ class XStream(QObject):
 
     """Stream object to imitate Python output."""
 
-    _stdout = None
-    _stderr = None
+    _stdout: Optional['XStream'] = None
+    _stderr: Optional['XStream'] = None
     messageWritten = pyqtSignal(str)
-
-    def flush(self):
-        pass
-
-    def fileno(self):
-        return -1
 
     def write(self, msg: str):
         """Output the message."""
@@ -55,7 +50,7 @@ class XStream(QObject):
             self.messageWritten.emit(msg)
 
     @staticmethod
-    def stdout():
+    def stdout() -> 'XStream':
         """Replace stdout."""
         if not XStream._stdout:
             XStream._stdout = XStream()
@@ -63,13 +58,14 @@ class XStream(QObject):
         return XStream._stdout
 
     @staticmethod
-    def stderr():
+    def stderr() -> 'XStream':
         """Replace stderr."""
         if not XStream._stderr:
             XStream._stderr = XStream()
             sys.stderr = XStream._stderr
         return XStream._stderr
 
+    @staticmethod
     def back():
         """Disconnect from Qt widget."""
         sys.stdout = _SYS_STDOUT

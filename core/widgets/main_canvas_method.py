@@ -39,8 +39,8 @@ from core import main_window as mw
 from core.graphics import (
     convex_hull,
     BaseCanvas,
-    colorQt,
-    colorNum,
+    color_qt,
+    color_num,
 )
 from core.libs import VPoint, VLink
 
@@ -177,7 +177,7 @@ class DynamicCanvasInterface(BaseCanvas):
         self.width_old = None
         self.height_old = None
 
-    def __drawFrame(self):
+    def __draw_frame(self):
         """Draw a outer frame."""
         pos_x = self.width() - self.ox
         pos_y = -self.oy
@@ -188,7 +188,7 @@ class DynamicCanvasInterface(BaseCanvas):
         self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(neg_x, neg_y))
         self.painter.drawLine(QPointF(pos_x, pos_y), QPointF(pos_x, neg_y))
 
-    def __drawPoint(self, i: int, vpoint: VPoint):
+    def __draw_point(self, i: int, vpoint: VPoint):
         """Draw a point."""
         if vpoint.type in {VPoint.P, VPoint.RP}:
             pen = QPen(vpoint.color)
@@ -251,7 +251,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 24, 24
             )
 
-    def __pointsPos(self, vlink: VLink) -> List[Tuple[float, float]]:
+    def __points_pos(self, vlink: VLink) -> List[Tuple[float, float]]:
         """Get geometry of the vlink."""
         points = []
         for i in vlink.points:
@@ -268,11 +268,11 @@ class DynamicCanvasInterface(BaseCanvas):
             points.append((x, y))
         return points
 
-    def __drawLink(self, vlink: VLink):
+    def __draw_link(self, vlink: VLink):
         """Draw a link."""
         if (vlink.name == 'ground') or (not vlink.points):
             return
-        points = self.__pointsPos(vlink)
+        points = self.__points_pos(vlink)
         pen = QPen()
         # Rearrange: Put the nearest point to the next position.
         qpoints = convex_hull(points, as_qpoint=True)
@@ -305,7 +305,7 @@ class DynamicCanvasInterface(BaseCanvas):
             f'[{vlink.name}]'
         )
 
-    def __drawPath(self):
+    def __draw_path(self):
         """Draw paths. Recording first."""
         paths = self.path_record or self.Path.path or self.pathpreview
         if len(self.vpoints) != len(paths):
@@ -321,7 +321,7 @@ class DynamicCanvasInterface(BaseCanvas):
             if self.vpoints[i].color:
                 color = self.vpoints[i].color
             else:
-                color = colorQt('Green')
+                color = color_qt('Green')
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
@@ -330,12 +330,12 @@ class DynamicCanvasInterface(BaseCanvas):
             else:
                 self.drawDot(path)
 
-    def __drawSlvsRanges(self):
+    def __draw_slvs_ranges(self):
         """Draw solving range."""
         pen = QPen()
         pen.setWidth(5)
         for i, (tag, rect) in enumerate(self.ranges.items()):
-            range_color = QColor(colorNum(i + 1))
+            range_color = QColor(color_num(i + 1))
             range_color.setAlpha(30)
             self.painter.setBrush(range_color)
             range_color.setAlpha(255)
@@ -389,7 +389,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 + Is polygon: Using Qt polygon geometry.
                 + If just a line: Create a range for mouse detection.
                 """
-                points = self.__pointsPos(link)
+                points = self.__points_pos(link)
                 if len(points) > 2:
                     polygon = QPolygonF(convex_hull(points, as_qpoint=True))
                 else:
@@ -449,7 +449,7 @@ class DynamicCanvasInterface(BaseCanvas):
         else:
             return snap_val * (times + 1)
 
-    def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
+    def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
         x_right = inf
@@ -532,19 +532,19 @@ class DynamicCanvasInterface(BaseCanvas):
         BaseCanvas.paintEvent(self, event)
         # Draw links except ground.
         for vlink in self.vlinks[1:]:
-            self.__drawLink(vlink)
+            self.__draw_link(vlink)
         # Draw path.
         if self.Path.show != -2:
-            self.__drawPath()
+            self.__draw_path()
         # Draw solving path.
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
-            self.__drawSlvsRanges()
+            self.__draw_slvs_ranges()
             self.drawTargetPath()
             self.painter.setFont(QFont("Arial", self.font_size))
         # Draw points.
         for i, vpoint in enumerate(self.vpoints):
-            self.__drawPoint(i, vpoint)
+            self.__draw_point(i, vpoint)
         # Draw solutions.
         if self.select_mode == 2:
             for i, expr in enumerate(self.exprs):
@@ -570,7 +570,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
-            self.__drawFrame()
+            self.__draw_frame()
         # Rectangular selection
         if self.selector.picking:
             pen = QPen(Qt.gray)
@@ -744,7 +744,7 @@ class DynamicCanvasInterface(BaseCanvas):
         height = self.height()
         width = width if width else 1
         height = height if height else 1
-        x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
+        x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
         inf = float('inf')
         if (inf in {x_right, y_bottom}) or (-inf in {x_left, y_top}):
             self.zoom_changed.emit(200)

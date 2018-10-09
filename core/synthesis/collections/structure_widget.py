@@ -72,9 +72,9 @@ class StructureWidget(QWidget, Ui_Form):
         """Engine list."""
         self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
-        self.graph_engine.currentIndexChanged.connect(self.__reloadAtlas)
+        self.graph_engine.currentIndexChanged.connect(self.__reload_atlas)
 
-    def __clearSelection(self):
+    def __clear_selection(self):
         """Clear the selection preview data."""
         self.grounded_list.clear()
         self.selection_window.clear()
@@ -89,10 +89,10 @@ class StructureWidget(QWidget, Ui_Form):
         self.triangle_button.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
-        self.__clearSelection()
+        self.__clear_selection()
 
     @pyqtSlot(name='on_clear_button_clicked')
-    def __userClear(self):
+    def __user_clear(self):
         """Ask user before clear."""
         if not self.collections:
             return
@@ -106,7 +106,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.clear()
         self.unsaveFunc()
 
-    def __engineErrorMsg(self, error: EngineError):
+    def __engine_error_msg(self, error: EngineError):
         """Show up error message."""
         QMessageBox.warning(
             self,
@@ -116,7 +116,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     @pyqtSlot()
     @pyqtSlot(name='on_reload_atlas_clicked')
-    def __reloadAtlas(self):
+    def __reload_atlas(self):
         """Reload atlas with the engine."""
         if not self.collections:
             return
@@ -155,7 +155,7 @@ class StructureWidget(QWidget, Ui_Form):
                 ))
             except EngineError as e:
                 progress_dlg.setValue(progress_dlg.maximum())
-                self.__engineErrorMsg(e)
+                self.__engine_error_msg(e)
                 break
             else:
                 self.collections_layouts.append(engine)
@@ -180,7 +180,7 @@ class StructureWidget(QWidget, Ui_Form):
             return
         self.collections.append(graph)
         self.unsaveFunc()
-        self.__reloadAtlas()
+        self.__reload_atlas()
 
     def addCollections(self, collections: List[Tuple[Tuple[int, int]]]):
         """Add collections."""
@@ -188,7 +188,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.addCollection(c)
 
     @pyqtSlot(name='on_add_by_edges_button_clicked')
-    def __addFromEdges(self):
+    def __add_from_edges(self):
         """Add collection by input string."""
         edges_str = ""
         while not edges_str:
@@ -211,7 +211,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.addCollection(edges)
 
     @pyqtSlot(name='on_add_by_files_button_clicked')
-    def __addFromFiles(self):
+    def __add_from_files(self):
         """Append atlas by text files."""
         file_names = self.inputFrom(
             "Edges data",
@@ -239,10 +239,10 @@ class StructureWidget(QWidget, Ui_Form):
         if not collections:
             return
         self.collections += collections
-        self.__reloadAtlas()
+        self.__reload_atlas()
 
     @pyqtSlot(name='on_save_atlas_clicked')
-    def __saveAtlas(self):
+    def __save_atlas(self):
         """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
         if not count:
@@ -282,7 +282,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.saveReplyBox("Atlas", file_name)
 
     @pyqtSlot(name='on_save_edges_clicked')
-    def __saveEdges(self):
+    def __save_edges(self):
         """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
         if not count:
@@ -298,7 +298,7 @@ class StructureWidget(QWidget, Ui_Form):
         QListWidgetItem,
         QListWidgetItem,
         name='on_collection_list_currentItemChanged')
-    def __reloadDetails(self, item: QListWidgetItem, *_):
+    def __reload_details(self, item: QListWidgetItem, *_):
         """Show the data of collection.
 
         Save the layout position to keep the graphs
@@ -327,7 +327,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
 
     @pyqtSlot(name='on_expr_copy_clicked')
-    def __copyExpr(self):
+    def __copy_expr(self):
         """Copy the expression."""
         string = self.expr_edges.text()
         if string:
@@ -335,7 +335,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.expr_edges.selectAll()
 
     @pyqtSlot(name='on_delete_button_clicked')
-    def __deleteCollection(self):
+    def __delete_collection(self):
         """Delete the selected collection."""
         row = self.collection_list.currentRow()
         if not row > -1:
@@ -347,7 +347,7 @@ class StructureWidget(QWidget, Ui_Form):
         )
         if reply != QMessageBox.Yes:
             return
-        self.__clearSelection()
+        self.__clear_selection()
         self.collection_list.takeItem(row)
         del self.collections[row]
         self.unsaveFunc()
@@ -375,7 +375,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.ground_engine
             )
         except EngineError as e:
-            self.__engineErrorMsg(e)
+            self.__engine_error_msg(e)
             return
         item.setIcon(icon)
         self.collections_grounded.append(graph)
@@ -405,7 +405,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.grounded_merge.setEnabled(bool(self.grounded_list.count()))
 
     @pyqtSlot(name='on_grounded_merge_clicked')
-    def __groundedMerge(self):
+    def __grounded_merge(self):
         """Merge the grounded result."""
         item = self.grounded_list.currentItem()
         if not item:

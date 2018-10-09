@@ -40,7 +40,7 @@ from core.QtModules import (
 )
 
 
-def _noNoneString(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
+def _no_empty_string(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
     """Filter to exclude empty string."""
     return (s for s in str_list if s)
 
@@ -175,14 +175,14 @@ class EditPointTable(QUndoCommand):
     def redo(self):
         """Write arguments then rewrite the dependents."""
         self.point_table.editArgs(self.row, *self.args)
-        self.__writeRows(self.new_link_items, self.old_link_items)
+        self.__write_rows(self.new_link_items, self.old_link_items)
 
     def undo(self):
         """Rewrite the dependents then write arguments."""
-        self.__writeRows(self.old_link_items, self.new_link_items)
+        self.__write_rows(self.old_link_items, self.new_link_items)
         self.point_table.editArgs(self.row, *self.old_args)
 
-    def __writeRows(
+    def __write_rows(
         self,
         items1: Sequence[int],
         items2: Sequence[int]
@@ -196,14 +196,14 @@ class EditPointTable(QUndoCommand):
         for row in items1:
             new_points = self.link_table.item(row, 2).text().split(',')
             new_points.append(point_name)
-            self.__setCell(row, new_points)
+            self.__set_cell(row, new_points)
         for row in items2:
             new_points = self.link_table.item(row, 2).text().split(',')
             new_points.remove(point_name)
-            self.__setCell(row, new_points)
+            self.__set_cell(row, new_points)
 
-    def __setCell(self, row: int, points: List[str]):
-        item = QTableWidgetItem(','.join(_noNoneString(points)))
+    def __set_cell(self, row: int, points: List[str]):
+        item = QTableWidgetItem(','.join(_no_empty_string(points)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.link_table.setItem(row, 2, item)
 
@@ -233,11 +233,11 @@ class EditLinkTable(QUndoCommand):
         old_points = self.old_args[2].split(',')
         new_points = set(
             int(index.replace('Point', ''))
-            for index in _noNoneString(new_points)
+            for index in _no_empty_string(new_points)
         )
         old_points = set(
             int(index.replace('Point', ''))
-            for index in _noNoneString(old_points)
+            for index in _no_empty_string(old_points)
         )
         self.new_point_items = tuple(new_points - old_points)
         self.old_point_items = tuple(old_points - new_points)
@@ -246,11 +246,11 @@ class EditLinkTable(QUndoCommand):
         """Write arguments then rewrite the dependents."""
         self.link_table.editArgs(self.row, *self.args)
         self.__rename(self.args, self.old_args)
-        self.__writeRows(self.args[0], self.new_point_items, self.old_point_items)
+        self.__write_rows(self.args[0], self.new_point_items, self.old_point_items)
 
     def undo(self):
         """Rewrite the dependents then write arguments."""
-        self.__writeRows(self.old_args[0], self.old_point_items, self.new_point_items)
+        self.__write_rows(self.old_args[0], self.old_point_items, self.new_point_items)
         self.__rename(self.old_args, self.args)
         self.link_table.editArgs(self.row, *self.old_args)
 
@@ -260,17 +260,17 @@ class EditLinkTable(QUndoCommand):
         """
         if arg2[0] == arg1[0]:
             return
-        for index in _noNoneString(arg2[2].split(',')):
+        for index in _no_empty_string(arg2[2].split(',')):
             row = int(index.replace('Point', ''))
             new_links = self.point_table.item(row, 1).text().split(',')
-            item = QTableWidgetItem(','.join(_noNoneString(
+            item = QTableWidgetItem(','.join(_no_empty_string(
                 w.replace(arg2[0], arg1[0])
                 for w in new_links
             )))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.point_table.setItem(row, 1, item)
 
-    def __writeRows(
+    def __write_rows(
         self,
         name: str,
         items1: Sequence[int],
@@ -284,15 +284,15 @@ class EditLinkTable(QUndoCommand):
         for row in items1:
             new_links = self.point_table.item(row, 1).text().split(',')
             new_links.append(name)
-            self.__setCell(row, new_links)
+            self.__set_cell(row, new_links)
         for row in items2:
             new_links = self.point_table.item(row, 1).text().split(',')
             if name:
                 new_links.remove(name)
-            self.__setCell(row, new_links)
+            self.__set_cell(row, new_links)
 
-    def __setCell(self, row: int, links: List[str]):
-        item = QTableWidgetItem(','.join(_noNoneString(links)))
+    def __set_cell(self, row: int, links: List[str]):
+        item = QTableWidgetItem(','.join(_no_empty_string(links)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.point_table.setItem(row, 1, item)
 

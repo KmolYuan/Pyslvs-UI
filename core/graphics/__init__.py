@@ -8,11 +8,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .color import (
-    colorNum,
+    color_num,
     colorNames,
-    colorIcon,
-    colorQt,
-    traget_path_style
+    color_icon,
+    color_qt,
+    target_path_style
 )
 from .chart import DataChart
 from .canvas import (
@@ -30,11 +30,11 @@ from .nx_pydot import (
 )
 
 __all__ = [
-    'colorNum',
+    'color_num',
     'colorNames',
-    'colorIcon',
-    'colorQt',
-    'traget_path_style',
+    'color_icon',
+    'color_qt',
+    'target_path_style',
     'DataChart',
     'BaseCanvas',
     'PreviewCanvas',

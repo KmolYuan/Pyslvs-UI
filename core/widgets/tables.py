@@ -37,7 +37,7 @@ from core.QtModules import (
     QAbcMeta,
 )
 from core import main_window as mw
-from core.graphics import colorIcon, colorQt
+from core.graphics import color_icon, color_qt
 from core.libs import VPoint, VLink
 
 
@@ -201,7 +201,7 @@ class PointTableWidget(_BaseTableWidget):
             else:
                 angle = float(p_type[1])
                 type_int = 1 if p_type[0] == 'P' else 2
-            vpoint = VPoint(links, type_int, angle, color, x, y, colorQt)
+            vpoint = VPoint(links, type_int, angle, color, x, y, color_qt)
             vpoint.move(*self.currentPosition(row))
             yield vpoint
 
@@ -224,7 +224,7 @@ class PointTableWidget(_BaseTableWidget):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 3:
-                item.setIcon(colorIcon(e))
+                item.setIcon(color_icon(e))
             self.setItem(row, i, item)
 
     def rename(self, row: int):
@@ -311,7 +311,7 @@ class LinkTableWidget(_BaseTableWidget):
                 if not p:
                     continue
                 points.append(int(p.replace('Point', '')))
-            yield VLink(name, color, tuple(points), colorQt)
+            yield VLink(name, color, tuple(points), color_qt)
 
     def dataDict(self) -> Dict[str, str]:
         """Return name and color as a dict."""
@@ -329,7 +329,7 @@ class LinkTableWidget(_BaseTableWidget):
             item = QTableWidgetItem(e)
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 1:
-                item.setIcon(colorIcon(e))
+                item.setIcon(color_icon(e))
             self.setItem(row, i, item)
 
     def findName(self, name: str) -> int:

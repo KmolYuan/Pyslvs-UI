@@ -30,7 +30,7 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
-from .color import colorQt, colorNum
+from .color import color_qt, color_num
 from .canvas import convex_hull, edges_view
 
 
@@ -163,12 +163,12 @@ def to_graph(
             ], as_qpoint=True))
     for k, (x, y) in pos.items():
         if node_mode:
-            color = colorNum(len(list(graph.neighbors(k))) - 1)
+            color = color_num(len(list(graph.neighbors(k))) - 1)
         else:
             if except_node in dict(edges_view(graph))[k]:
-                color = colorQt('Green')
+                color = color_qt('Green')
             else:
-                color = colorQt('Blue')
+                color = color_qt('Blue')
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))

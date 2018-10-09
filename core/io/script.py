@@ -118,8 +118,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.style_option.setCurrentIndex(0)
 
     @pyqtSlot(str, name='on_style_option_currentIndexChanged')
-    def __setStyle(self, style: str):
-        """Redefind the CSS script of the html."""
+    def __set_style(self, style: str):
+        """Redefine the CSS script of the html."""
         style_code = HtmlFormatter(style=get_style_by_name(style)).get_style_defs()
         self.script_view.setHtml(f"<style>{style_code}</style>" + self.code)
 

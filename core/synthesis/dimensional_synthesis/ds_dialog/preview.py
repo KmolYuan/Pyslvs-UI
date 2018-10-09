@@ -27,15 +27,15 @@ from core.QtModules import (
     QDialog,
     QWidget,
 )
-from core.graphics import BaseCanvas, colorQt
+from core.graphics import BaseCanvas, color_qt
 from core.io import strbetween
 from .Ui_preview import Ui_Dialog
 
 
 class _DynamicCanvas(BaseCanvas):
-    
+
     """Custom canvas for preview algorithm result."""
-    
+
     def __init__(
         self,
         mechanism: Dict[str, Any],
@@ -51,7 +51,7 @@ class _DynamicCanvas(BaseCanvas):
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.Path.path) - 1
         self.pos: List[Tuple[float, float]] = []
-        
+
         # exp_symbol = {'P1', 'P2', 'P3', ...}
         exp_symbol = set()
         self.links = []
@@ -68,8 +68,8 @@ class _DynamicCanvas(BaseCanvas):
         self.__timer = QTimer(self)
         self.__timer.timeout.connect(self.__change_index)
         self.__timer.start(18)
-    
-    def __zoomToFitLimit(self) -> Tuple[float, float, float, float]:
+
+    def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
         x_right = inf
@@ -112,12 +112,12 @@ class _DynamicCanvas(BaseCanvas):
                 if y > y_top:
                     y_top = y
         return x_right, x_left, y_top, y_bottom
-    
+
     def paintEvent(self, event):
         """Drawing functions."""
         width = self.width()
         height = self.height()
-        x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
+        x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
         x_diff = x_left - x_right
         y_diff = y_top - y_bottom
         x_diff = x_diff if x_diff else 1
@@ -130,7 +130,7 @@ class _DynamicCanvas(BaseCanvas):
         self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
         self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         super(_DynamicCanvas, self).paintEvent(event)
-        
+
         # First check.
         for path in self.Path.path:
             if not path:
@@ -140,7 +140,7 @@ class _DynamicCanvas(BaseCanvas):
                 self.__index, self.__no_error = self.__no_error, self.__index
                 self.error = True
                 self.__interval = -self.__interval
-        
+
         # Points that in the current angle section.
         self.pos.clear()
         for i, name in enumerate(self.exp_symbol):
@@ -149,54 +149,54 @@ class _DynamicCanvas(BaseCanvas):
             else:
                 x, y = self.Path.path[i][self.__index]
                 self.pos.append((x, y))
-        
+
         # Draw links.
         for i, exp in enumerate(self.links):
             if i == 0:
                 continue
-            self.__drawLink(f"link_{i}", [self.exp_symbol.index(tag) for tag in exp])
-        
+            self.__draw_link(f"link_{i}", [self.exp_symbol.index(tag) for tag in exp])
+
         # Draw path.
-        self.__drawPath()
-        
+        self.__draw_path()
+
         # Draw solving path.
         self.drawTargetPath()
-        
+
         # Draw points.
         for i, name in enumerate(self.exp_symbol):
             if not self.pos[i]:
                 continue
-            self.__drawPoint(i, name)
-        
+            self.__draw_point(i, name)
+
         self.painter.end()
-        
+
         if self.error:
             self.error = False
             self.__index, self.__no_error = self.__no_error, self.__index
         else:
             self.__no_error = self.__index
-    
-    def __drawPoint(self, i: int, name: str):
+
+    def __draw_point(self, i: int, name: str):
         """Draw point function."""
         x, y = self.pos[i]
-        color = colorQt('Green')
+        color = color_qt('Green')
         fixed = False
         if name in self.mechanism['Target']:
-            color = colorQt('Dark-Orange')
+            color = color_qt('Dark-Orange')
         elif name in self.mechanism['Driver']:
-            color = colorQt('Red')
+            color = color_qt('Red')
             fixed = True
         elif name in self.mechanism['Follower']:
-            color = colorQt('Blue')
+            color = color_qt('Blue')
             fixed = True
         self.drawPoint(i, x, y, fixed, color)
-    
-    def __drawLink(self, name: str, points: List[int]):
+
+    def __draw_link(self, name: str, points: List[int]):
         """Draw link function.
-        
+
         The link color will be the default color.
         """
-        color = colorQt('Blue')
+        color = color_qt('Blue')
         pen = QPen(color)
         pen.setWidth(self.link_width)
         self.painter.setPen(pen)
@@ -218,22 +218,22 @@ class _DynamicCanvas(BaseCanvas):
             cen_x = sum(self.pos[i][0] for i in points if self.pos[i])
             cen_y = sum(self.pos[i][1] for i in points if self.pos[i])
             self.painter.drawText(QPointF(cen_x, -cen_y) * self.zoom / len(points), text)
-    
-    def __drawPath(self):
+
+    def __draw_path(self):
         """Draw a path.
-        
+
         A simple function than main canvas.
         """
         pen = QPen()
         for i, path in enumerate(self.Path.path):
-            color = colorQt('Green')
+            color = color_qt('Green')
             if self.exp_symbol[i] in self.mechanism['Target']:
-                color = colorQt('Dark-Orange')
+                color = color_qt('Dark-Orange')
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
             self.drawCurve(path)
-    
+
     @pyqtSlot()
     def __change_index(self):
         """A slot to change the path index."""
@@ -244,12 +244,12 @@ class _DynamicCanvas(BaseCanvas):
 
 
 class PreviewDialog(QDialog, Ui_Dialog):
-    
+
     """Preview dialog has some information.
-    
+
     We will not be able to change result settings here.
     """
-    
+
     def __init__(
         self,
         mechanism: Dict[str, Any],

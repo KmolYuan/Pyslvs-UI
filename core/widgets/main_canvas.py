@@ -43,12 +43,12 @@ class DynamicCanvas(DynamicCanvasInterface):
     def __init__(self, parent: 'mw.MainWindow'):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
-        self.__setZoom = parent.ZoomBar.setValue
+        self.__set_zoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
         self.__zoom_factor = parent.scalefactor_option.value
         # Dependent functions to set selection mode.
-        self.__setSelectionMode = parent.EntitiesTab.setCurrentIndex
-        self.__selectionMode = parent.EntitiesTab.currentIndex
+        self.__set_selection_mode = parent.EntitiesTab.setCurrentIndex
+        self.__selection_mode = parent.EntitiesTab.currentIndex
 
     def updateFigure(
         self,
@@ -274,13 +274,13 @@ class DynamicCanvas(DynamicCanvasInterface):
         """
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            self.__setSelectionMode(self.__selectionMode() + (-1 if value > 0 else 1))
-            i = self.__selectionMode()
+            self.__set_selection_mode(self.__selection_mode() + (-1 if value > 0 else 1))
+            i = self.__selection_mode()
             icons = ''.join(
                 f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"
                 for j, icon in enumerate(('bearing', 'link', 'triangular-iteration'))
             )
             QToolTip.showText(event.globalPos(), f"<p style=\"background-color: # 77abff\">{icons}</p>", self)
         else:
-            self.__setZoom(self.__zoom() + self.__zoom_factor() * (1 if value > 0 else -1))
+            self.__set_zoom(self.__zoom() + self.__zoom_factor() * (1 if value > 0 else -1))
         event.accept()

@@ -22,8 +22,8 @@ from core.QtModules import (
 )
 from core.graphics import (
     colorNames,
-    colorQt,
-    colorIcon,
+    color_qt,
+    color_icon,
 )
 from core.libs import VPoint, VLink
 from .Ui_edit_link import Ui_Dialog
@@ -54,12 +54,12 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         self.vpoints = vpoints
         self.vlinks = vlinks
         icon = self.windowIcon()
-        self.PointIcon = QIcon(QPixmap(":/icons/bearing.png"))
+        self.point_icon = QIcon(QPixmap(":/icons/bearing.png"))
         for i, e in enumerate(colorNames):
-            self.color_box.insertItem(i, colorIcon(e), e)
+            self.color_box.insertItem(i, color_icon(e), e)
         for i in range(len(self.vpoints)):
             self.noSelected.addItem(
-                QListWidgetItem(self.PointIcon, f'Point{i}')
+                QListWidgetItem(self.point_icon, f'Point{i}')
             )
         if row is False:
             self.name_box.addItem(icon, "New link")
@@ -69,17 +69,17 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             for i, vlink in enumerate(self.vlinks):
                 self.name_box.insertItem(i, icon, vlink.name)
             self.name_box.setCurrentIndex(row)
-        self.name_edit.textChanged.connect(self.__isOk)
-        self.__isOk()
+        self.name_edit.textChanged.connect(self.__is_ok)
+        self.__is_ok()
 
     @pyqtSlot()
-    def __isOk(self):
+    def __is_ok(self):
         """Set button box enable if options are ok."""
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
-            self.__legalName(self.name_edit.text())
+            self.__legal_name(self.name_edit.text())
         )
 
-    def __legalName(self, name: str) -> bool:
+    def __legal_name(self, name: str) -> bool:
         """Return this name is usable or not."""
         if not match("^[A-Za-z0-9_-]*$", name):
             return False
@@ -89,7 +89,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         return True
 
     @pyqtSlot(int, name='on_name_box_currentIndexChanged')
-    def __setName(self, index: int):
+    def __set_name(self, index: int):
         """Load the parameters of the link."""
         if not self.name_box.isEnabled():
             return
@@ -101,53 +101,53 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             if color_index > -1:
                 self.color_box.setCurrentIndex(color_index)
             else:
-                self.color_box.addItem(colorIcon(color_text), color_text)
+                self.color_box.addItem(color_icon(color_text), color_text)
                 self.color_box.setCurrentIndex(self.color_box.count() - 1)
             self.noSelected.clear()
             self.selected.clear()
             for p in vlink.points:
                 self.selected.addItem(
-                    QListWidgetItem(self.PointIcon, f'Point{p}')
+                    QListWidgetItem(self.point_icon, f'Point{p}')
                 )
             for p in range(len(self.vpoints)):
                 if p in vlink.points:
                     continue
                 self.noSelected.addItem(
-                    QListWidgetItem(self.PointIcon, f'Point{p}')
+                    QListWidgetItem(self.point_icon, f'Point{p}')
                 )
         not_ground = index > 0
-        for widget in (self.name_edit, self.color_box, self.colorpick_button):
+        for widget in (self.name_edit, self.color_box, self.color_pick_button):
             widget.setEnabled(not_ground)
 
     @pyqtSlot(int, name='on_color_box_currentIndexChanged')
-    def __setColor(self, _: int):
+    def __set_color(self, _: int):
         """Change the color icon of pick button."""
-        self.colorpick_button.setIcon(self.color_box.itemIcon(
+        self.color_pick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
 
-    @pyqtSlot(name='on_colorpick_button_clicked')
-    def __setRGB(self):
+    @pyqtSlot(name='on_color_pick_button_clicked')
+    def __set_rgb(self):
         """Add a custom color from current color."""
         color = QColorDialog.getColor(
-            colorQt(self.color_box.currentText()),
+            color_qt(self.color_box.currentText()),
             self
         )
         if not color.isValid():
             return
         rgb_str = str((color.red(), color.green(), color.blue()))
-        self.color_box.addItem(colorIcon(rgb_str), rgb_str)
+        self.color_box.addItem(color_icon(rgb_str), rgb_str)
         self.color_box.setCurrentIndex(self.color_box.count() - 1)
 
     @pyqtSlot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
-    def __addSelected(self, item: QListWidgetItem):
+    def __add_selected(self, item: QListWidgetItem):
         """Add item to selected list."""
         self.selected.addItem(
             self.noSelected.takeItem(self.noSelected.row(item))
         )
 
     @pyqtSlot(QListWidgetItem, name='on_selected_itemDoubleClicked')
-    def __addNoSelected(self, item: QListWidgetItem):
+    def __add_no_selected(self, item: QListWidgetItem):
         """Add item to no selected list."""
         self.noSelected.addItem(
             self.selected.takeItem(self.selected.row(item))

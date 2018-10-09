@@ -20,8 +20,8 @@ from core.QtModules import (
 )
 from core.graphics import (
     colorNames,
-    colorQt,
-    colorIcon,
+    color_qt,
+    color_icon,
 )
 from core.libs import VPoint, VLink
 from .Ui_edit_point import Ui_Dialog
@@ -50,14 +50,14 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
-        self.LinkIcon = QIcon(QPixmap(":/icons/link.png"))
+        self.link_icon = QIcon(QPixmap(":/icons/link.png"))
         self.vpoints = vpoints
         self.vlinks = vlinks
         vpoints_count = len(vpoints)
         for i, e in enumerate(colorNames):
-            self.color_box.insertItem(i, colorIcon(e), e)
+            self.color_box.insertItem(i, color_icon(e), e)
         for vlink in vlinks:
-            self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
+            self.noSelected.addItem(QListWidgetItem(self.link_icon, vlink.name))
         if pos is False:
             self.name_box.addItem(icon, f'Point{vpoints_count}')
             self.name_box.setEnabled(False)
@@ -68,7 +68,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
             self.name_box.setCurrentIndex(pos)
 
     @pyqtSlot(int, name='on_name_box_currentIndexChanged')
-    def __setName(self, index: int):
+    def __set_name(self, index: int):
         """Load the parameters of the point."""
         if not len(self.vpoints) > index:
             return
@@ -80,53 +80,53 @@ class EditPointDialog(QDialog, Ui_Dialog):
         if color_index > -1:
             self.color_box.setCurrentIndex(color_index)
         else:
-            self.color_box.addItem(colorIcon(color_text), color_text)
+            self.color_box.addItem(color_icon(color_text), color_text)
             self.color_box.setCurrentIndex(self.color_box.count() - 1)
         self.type_box.setCurrentIndex(vpoint.type)
         self.angle_box.setValue(vpoint.angle)
         self.noSelected.clear()
         self.selected.clear()
         for linkName in vpoint.links:
-            self.selected.addItem(QListWidgetItem(self.LinkIcon, linkName))
+            self.selected.addItem(QListWidgetItem(self.link_icon, linkName))
         for vlink in self.vlinks:
             if vlink.name in vpoint.links:
                 continue
-            self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
+            self.noSelected.addItem(QListWidgetItem(self.link_icon, vlink.name))
 
     @pyqtSlot(int, name='on_color_box_currentIndexChanged')
-    def __setColor(self, _: int):
+    def __set_color(self, _: int):
         """Change the color icon of pick button."""
-        self.colorpick_button.setIcon(self.color_box.itemIcon(
+        self.color_pick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
 
-    @pyqtSlot(name='on_colorpick_button_clicked')
-    def __setRGB(self):
+    @pyqtSlot(name='on_color_pick_button_clicked')
+    def __set_rgb(self):
         """Add a custom color from current color."""
         color = QColorDialog.getColor(
-            colorQt(self.color_box.currentText()),
+            color_qt(self.color_box.currentText()),
             self
         )
         if not color.isValid():
             return
         rgb_str = str((color.red(), color.green(), color.blue()))
-        self.color_box.addItem(colorIcon(rgb_str), rgb_str)
+        self.color_box.addItem(color_icon(rgb_str), rgb_str)
         self.color_box.setCurrentIndex(self.color_box.count() - 1)
 
     @pyqtSlot(int, name='on_type_box_currentIndexChanged')
-    def __setType(self, index: int):
+    def __set_type(self, index: int):
         """Toggle the slider angle option."""
         self.angle_box.setEnabled(index != 0)
 
     @pyqtSlot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
-    def __addSelected(self, item: QListWidgetItem):
+    def __add_selected(self, item: QListWidgetItem):
         """Add item to selected list."""
         self.selected.addItem(
             self.noSelected.takeItem(self.noSelected.row(item))
         )
 
     @pyqtSlot(QListWidgetItem, name='on_selected_itemDoubleClicked')
-    def __addNoSelected(self, item: QListWidgetItem):
+    def __add_no_selected(self, item: QListWidgetItem):
         """Add item to no selected list."""
         self.noSelected.addItem(
             self.selected.takeItem(self.selected.row(item))

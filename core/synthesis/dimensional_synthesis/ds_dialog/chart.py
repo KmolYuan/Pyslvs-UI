@@ -28,14 +28,14 @@ from core.graphics import DataChart
 
 
 class ChartDialog(QDialog):
-    
+
     """There are three charts are in the dialog.
-    
+
     + Fitness / Generation Chart.
     + Generation / Time Chart.
     + Fitness / Time Chart.
     """
-    
+
     def __init__(self, title, mechanism_data, parent: QWidget):
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
@@ -44,22 +44,22 @@ class ChartDialog(QDialog):
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
-        
+
         self.__title = title
         self.__mechanism_data = mechanism_data
-        
+
         # Widgets
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(6, 6, 6, 6)
         self.tabWidget = QTabWidget(self)
-        self.__setChart("Fitness / Generation Chart", 0, 1)
-        self.__setChart("Generation / Time Chart", 2, 0)
-        self.__setChart("Fitness / Time Chart", 2, 1)
+        self.__set_chart("Fitness / Generation Chart", 0, 1)
+        self.__set_chart("Generation / Time Chart", 2, 0)
+        self.__set_chart("Fitness / Time Chart", 2, 1)
         main_layout.addWidget(self.tabWidget)
-    
-    def __setChart(self, tab_name: str, pos_x: int, pos_y: int):
+
+    def __set_chart(self, tab_name: str, pos_x: int, pos_y: int):
         """Setting charts by data index.
-        
+
         pos_x / pos_y: [0], [1], [2]
         time_fitness: List[List[Tuple[gen, fitness, time]]]
         """
@@ -68,9 +68,9 @@ class ChartDialog(QDialog):
         axis_x.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
         axis_x.setMin(0)
         axis_y.setTickCount(11)
-        
+
         if self.__mechanism_data:
-            
+
             if type(self.__mechanism_data[0]['time_fitness'][0]) == float:
                 plot = [[
                     (data['last_gen']*i/len(data['time_fitness']), tnf, 0)
@@ -90,18 +90,18 @@ class ChartDialog(QDialog):
             else:
                 for i in range(0, 1000, 100):
                     axis_x.append(str(i / 100), i)
-            
+
             # Y max.
             max_y = max(max([tnf[pos_y] for tnf in data]) for data in plot) + 10
         else:
             plot = None
             # Y max.
             max_y = 100
-        
+
         max_y -= max_y % 10
         axis_y.setRange(0., max_y)
         chart = DataChart(self.__title, axis_x, axis_y)
-        
+
         # Append data set.
         for data in self.__mechanism_data:
             line = QLineSeries()

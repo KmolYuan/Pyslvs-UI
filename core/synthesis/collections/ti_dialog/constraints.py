@@ -49,7 +49,7 @@ def _four_bar_loops(graph: Graph) -> Iterator[Tuple[int, int, int, int]]:
     """A generator to find out the four bar loops."""
     result = set()
     vertexes = {v: k for k, v in edges_view(graph)}
-    
+
     def loop_set(n: int, n1: int, n2: int, n3: int) -> Tuple[int, int, int, int]:
         """Return a loop set."""
         return (
@@ -58,7 +58,7 @@ def _four_bar_loops(graph: Graph) -> Iterator[Tuple[int, int, int, int]]:
             vertexes[tuple(sorted((n2, n3)))],
             vertexes[tuple(sorted((n, n3)))],
         )
-    
+
     for node in graph.nodes:
         if node in result:
             continue
@@ -84,18 +84,18 @@ def _four_bar_loops(graph: Graph) -> Iterator[Tuple[int, int, int, int]]:
 
 
 class ConstraintsDialog(QDialog, Ui_Dialog):
-    
+
     """Option dialog.
-    
+
     Only edit the settings after closed.
     """
-    
+
     def __init__(self, parent: 'ti.TriangularIterationWidget'):
         """Load constraints option from parent."""
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        
+
         cl = tuple(
             set(_get_list(item)) for item in list_items(parent.constraint_list)
         )
@@ -110,18 +110,18 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
                 self.loops_list.addItem(", ".join(chain_))
         for item in list_items(parent.constraint_list):
             self.main_list.addItem(item.text())
-    
+
     @pyqtSlot(int, name='on_loops_list_currentRowChanged')
-    def __setLoops(self, row: int):
+    def __set_loops(self, row: int):
         """Update the joints of loop."""
         if not row > -1:
             return
         self.sorting_list.clear()
         for point in _get_list(self.loops_list.item(row)):
             self.sorting_list.addItem(point)
-    
+
     @pyqtSlot(name='on_main_add_clicked')
-    def __addCons(self):
+    def __add_constraint(self):
         """Add the constraint dependent."""
         if not self.sorting_list.count():
             return
@@ -130,9 +130,9 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
         ))
         self.sorting_list.clear()
         self.loops_list.takeItem(self.loops_list.currentRow())
-    
+
     @pyqtSlot(name='on_sorting_add_clicked')
-    def __removeCons(self):
+    def __remove_constraint(self):
         """Remove back to sorting list."""
         row = self.main_list.currentRow()
         if row > -1:

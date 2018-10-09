@@ -55,7 +55,7 @@
         <widget class="QComboBox" name="color_box"/>
        </item>
        <item>
-        <widget class="QPushButton" name="colorpick_button">
+        <widget class="QPushButton" name="color_pick_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>

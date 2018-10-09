@@ -55,24 +55,24 @@ defaultSettings = {'maxGen': 1000, 'report': 10}
 
 
 class AlgorithmType(Enum):
-    
+
     """Enum type of algorithms."""
-    
+
     def __str__(self):
         return str(self.value)
-    
+
     RGA = "Real-coded Genetic Algorithm"
     Firefly = "Firefly Algorithm"
     DE = "Differential Evolution"
 
 
 class AlgorithmOptionDialog(QDialog, Ui_Dialog):
-    
+
     """Option dialog.
-    
+
     Only edit the settings after closed.
     """
-    
+
     def __init__(
         self,
         algorithm: AlgorithmType,
@@ -84,16 +84,16 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"{algorithm.value} Options")
-        
+
         self.__algorithm = algorithm
         self.__init_alg_table()
         self.alg_table.setColumnWidth(0, 200)
         self.alg_table.setColumnWidth(1, 90)
-        self.__setArgs(settings)
-    
+        self.__set_args(settings)
+
     def __init_alg_table(self):
         """Initialize the algorithm table widgets."""
-        
+
         def writeTable(
             integers: Optional[List[Tuple[str, str, str]]] = None,
             floats: Optional[List[Tuple[str, str, str]]] = None
@@ -118,7 +118,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                     spinbox.setToolTip(tooltip)
                     self.alg_table.setCellWidget(i, 1, spinbox)
                     i += 1
-        
+
         if self.__algorithm == AlgorithmType.RGA:
             writeTable(
                 floats=[
@@ -160,8 +160,8 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("The chance of crossover possible."))
                 ]
             )
-    
-    def __setArgs(self, settings: Dict[str, Any]):
+
+    def __set_args(self, settings: Dict[str, Any]):
         """Set arguments by settings dict."""
         if 'maxGen' in settings:
             self.maxGen.setValue(settings['maxGen'])
@@ -188,7 +188,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.pop_size.setValue(settings['NP'])
             for i, tag in enumerate(['strategy', 'F', 'CR']):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-    
+
     @pyqtSlot(name='on_reset_button_clicked')
     def __reset(self):
         """Reset the settings to default."""
@@ -200,4 +200,4 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             d.update(FireflyPrams)
         elif self.__algorithm == AlgorithmType.DE:
             d.update(DifferentialPrams)
-        self.__setArgs(d)
+        self.__set_args(d)

@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from .script import ScriptDialog, slvs_process_script
 from .slvs import SlvsParser
-from .loggingHandler import XStream
+from .logging_handler import XStream
 from .output_option import SlvsOutputDialog, DxfOutputDialog
 from .database import FileWidget
 from .undo_redo import (
@@ -38,7 +38,6 @@ __all__ = [
     'ClearStorageName',
     'AddVariable',
     'DeleteVariable',
-    'qt_image_format',
     'SlvsParser',
     'SlvsOutputDialog',
     'DxfOutputDialog',

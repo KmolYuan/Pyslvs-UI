@@ -18,22 +18,22 @@ from .Ui_solutions import Ui_Dialog
 
 
 class SolutionsDialog(QDialog, Ui_Dialog):
-    
+
     """Option dialog.
-    
+
     + PLAP: Must have a driving joint.
     + PLLP: Two known joints.
-    
+
     Only edit the settings after closed.
     """
-    
+
     def __init__(self, mode: str, parent: 'ti.TriangularIterationWidget'):
         """Show the requirements and preview picture on interface."""
         super(SolutionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"{mode} solution")
-        
+
         if mode == 'PLAP':
             self.main_label.setText(
                 "Two known points A (Driver) and B, "
@@ -48,7 +48,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
                 "with length L0 and L1 to find out the coordinate of point C."
             )
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
-        
+
         for node, status in parent.PreviewWindow.status.items():
             if not status:
                 continue
@@ -57,11 +57,11 @@ class SolutionsDialog(QDialog, Ui_Dialog):
             if mode == 'PLLP':
                 self.point_A.addItem(f'P{node}')
                 self.point_B.addItem(f'P{node}')
-        self.point_A.currentIndexChanged.connect(self.__isOk)
-        self.point_B.currentIndexChanged.connect(self.__isOk)
-        self.__isOk()
-    
-    def __isOk(self):
+        self.point_A.currentIndexChanged.connect(self.__is_ok)
+        self.point_B.currentIndexChanged.connect(self.__is_ok)
+        self.__is_ok()
+
+    def __is_ok(self):
         """Make button box enable if the settings is already."""
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
             (self.point_A.currentText() != self.point_B.currentText()) and

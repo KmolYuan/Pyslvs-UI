@@ -363,7 +363,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         self.CommandStack.endMacro()
 
     @pyqtSlot(name="on_action_scale_points_triggered")
-    def __setScale(self):
+    def __set_scale(self):
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
         if not dlg.exec_():
