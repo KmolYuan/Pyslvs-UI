@@ -33,7 +33,7 @@ def _copy_table_data(table):
 
 class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
 
-    """Interface class for action methods."""
+    """Abstract class for action methods."""
 
     def __init__(self):
         super(ActionMethodInterface, self).__init__()

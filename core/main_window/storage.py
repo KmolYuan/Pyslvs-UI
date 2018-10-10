@@ -30,7 +30,7 @@ from .solver import SolverMethodInterface
 
 class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
 
-    """Interface class for storage methods."""
+    """Abstract class for storage methods."""
 
     def __init__(self):
         super(StorageMethodInterface, self).__init__()

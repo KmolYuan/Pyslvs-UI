@@ -11,7 +11,8 @@ from .script import ScriptDialog, slvs_process_script
 from .slvs import SlvsParser
 from .logging_handler import XStream
 from .output_option import SlvsOutputDialog, DxfOutputDialog
-from .database import FileWidget
+from .database import DatabaseWidget
+from .pyslvs_yaml import YamlEditor
 from .undo_redo import (
     AddTable, DeleteTable,
     FixSequenceNumber,
@@ -42,7 +43,8 @@ __all__ = [
     'SlvsOutputDialog',
     'DxfOutputDialog',
     'XStream',
-    'FileWidget',
+    'DatabaseWidget',
+    'YamlEditor',
     'strbetween',
     'strbefore',
 ]

@@ -129,7 +129,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.addCollection = add_collection
 
         # Iteration data.
-        self.collections = {}
+        self.collections: Dict[str, Dict[str, Any]] = {}
 
         # Customized preview canvas.
         self.PreviewWindow = _PreviewWindow(

@@ -122,7 +122,7 @@ class FreeMode(Enum):
 
 class DynamicCanvasInterface(BaseCanvas):
 
-    """Interface class for wrapping main canvas class."""
+    """Abstract class for wrapping main canvas class."""
 
     tracking = pyqtSignal(float, float)
     browse_tracking = pyqtSignal(float, float)

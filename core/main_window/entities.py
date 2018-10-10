@@ -82,7 +82,7 @@ class _ScaleDialog(QDialog):
 
 class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
 
-    """Interface class for entities methods."""
+    """Abstract class for entities methods."""
 
     def __init__(self):
         super(EntitiesMethodInterface, self).__init__()

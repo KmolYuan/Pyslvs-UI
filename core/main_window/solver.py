@@ -35,7 +35,7 @@ from .entities import EntitiesMethodInterface
 
 class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
 
-    """Interface class for solver methods."""
+    """Abstract class for solver methods."""
 
     def __init__(self):
         super(SolverMethodInterface, self).__init__()

@@ -9,6 +9,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import (
+    List,
+    Tuple,
+    Dict,
+    Any,
+)
 from core.QtModules import (
     QWidget,
     QVBoxLayout,
@@ -61,10 +67,10 @@ class Collections(QWidget):
         self.StructureWidget.clear()
         self.TriangularIterationWidget.clear()
 
-    def CollectDataFunc(self):
+    def collect_data(self) -> List[Tuple[Tuple[int, int], ...]]:
         """Return collections to database."""
         return [tuple(G.edges) for G in self.StructureWidget.collections]
 
-    def TriangleDataFunc(self):
+    def triangle_data(self) -> Dict[str, Dict[str, Any]]:
         """Return profiles to database."""
         return self.TriangularIterationWidget.collections

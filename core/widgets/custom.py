@@ -5,7 +5,6 @@
 + Sub widgets.
 + Context menus.
 """
-from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -33,7 +32,7 @@ from core.QtModules import (
     QAbcMeta,
 )
 from core.info import __version__, ARGUMENTS
-from core.io import FileWidget
+from core.io import YamlEditor, DatabaseWidget
 from core.libs import kernel_list
 from core.synthesis import (
     StructureSynthesis,
@@ -270,12 +269,15 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             "Dimensional"
         )
 
-        # File table settings.
-        self.FileWidget = FileWidget(self)
-        self.SCMLayout.addWidget(self.FileWidget)
-        self.FileWidget.commit_add.clicked.connect(self.commit)
-        self.FileWidget.branch_add.clicked.connect(self.commit_branch)
-        self.action_stash.triggered.connect(self.FileWidget.stash)
+        # YAML editor.
+        self.YamlEditor = YamlEditor(self)
+
+        # File widget settings.
+        self.DatabaseWidget = DatabaseWidget(self)
+        self.SCMLayout.addWidget(self.DatabaseWidget)
+        self.DatabaseWidget.commit_add.clicked.connect(self.commit)
+        self.DatabaseWidget.branch_add.clicked.connect(self.commit_branch)
+        self.action_stash.triggered.connect(self.DatabaseWidget.stash)
 
         # Console dock will hide when startup.
         self.ConsoleWidget.hide()

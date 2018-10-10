@@ -71,7 +71,7 @@ def _open_url(url: str):
 
 class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
-    """Interface class for action methods."""
+    """Abstract class for action methods."""
 
     def __init__(self):
         super(IOMethodInterface, self).__init__()
@@ -126,7 +126,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if not ok:
             return
         self.clear()
-        self.FileWidget.reset()
+        self.DatabaseWidget.reset()
         print(f"Read from group: {group}")
         self.parseExpression(parser.parse(group.split('@')[0]))
 
@@ -172,14 +172,14 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         file_name = event.mimeData().urls()[-1].toLocalFile()
         suffix = QFileInfo(file_name).suffix()
         if suffix == 'pyslvs':
-            self.FileWidget.read(file_name)
+            self.DatabaseWidget.read(file_name)
         elif suffix == 'slvs':
             self.__read_slvs(file_name)
         event.acceptProposedAction()
 
     def workbookNoSave(self):
         """Workbook not saved signal."""
-        self.FileWidget.changed = True
+        self.DatabaseWidget.changed = True
         not_yet_saved = " (not yet saved)"
         self.setWindowTitle(
             self.windowTitle().replace(not_yet_saved, '') + not_yet_saved
@@ -187,18 +187,18 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     def workbookSaved(self):
         """Workbook saved signal."""
-        self.FileWidget.changed = False
+        self.DatabaseWidget.changed = False
         self.setWindowTitleFullpath()
 
     @pyqtSlot(name='on_windowTitle_fullpath_clicked')
     def setWindowTitleFullpath(self):
         """Set the option 'window title will show the fullpath'."""
-        file_name = self.FileWidget.file_name
+        file_name = self.DatabaseWidget.file_name
         if self.titlefullpath_option.isChecked():
             title = file_name.absoluteFilePath()
         else:
             title = file_name.fileName()
-        saved_text = " (not yet saved)" if self.FileWidget.changed else ''
+        saved_text = " (not yet saved)" if self.DatabaseWidget.changed else ''
         self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
 
     @pyqtSlot(name='on_action_mde_tw_triggered')
@@ -234,15 +234,15 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     @pyqtSlot(name='on_action_example_triggered')
     def loadExample(self):
-        """Load examples from 'FileWidget'. Return true if succeeded."""
-        if self.FileWidget.loadExample():
+        """Load examples from 'DatabaseWidget'. Return true if succeeded."""
+        if self.DatabaseWidget.loadExample():
             self.showExpr()
             self.MainCanvas.zoomToFit()
 
     @pyqtSlot(name='on_action_import_example_triggered')
     def importExample(self):
         """Import a example and merge it to canvas."""
-        self.FileWidget.loadExample(is_import=True)
+        self.DatabaseWidget.loadExample(is_import=True)
 
     @pyqtSlot(name='on_action_new_workbook_triggered')
     def newWorkbook(self):
@@ -250,7 +250,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if self.checkFileChanged():
             return
         self.clear()
-        self.FileWidget.reset()
+        self.DatabaseWidget.reset()
         print("Created a new workbook.")
 
     def clear(self):
@@ -366,7 +366,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             return
         suffix = QFileInfo(file_name).suffix()
         if suffix == 'pyslvs':
-            self.FileWidget.read(file_name)
+            self.DatabaseWidget.read(file_name)
         elif suffix == 'slvs':
             self.__read_slvs(file_name)
         self.MainCanvas.zoomToFit()
@@ -382,14 +382,14 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         )
         if not file_name:
             return
-        self.FileWidget.importMechanism(file_name)
+        self.DatabaseWidget.importMechanism(file_name)
 
     @pyqtSlot(name='on_action_commit_triggered')
     def commit(self, is_branch: bool = False):
         """Save action."""
-        file_name = self.FileWidget.file_name.absoluteFilePath()
-        if self.FileWidget.file_name.suffix() == 'pyslvs':
-            self.FileWidget.save(file_name, is_branch)
+        file_name = self.DatabaseWidget.file_name.absoluteFilePath()
+        if self.DatabaseWidget.file_name.suffix() == 'pyslvs':
+            self.DatabaseWidget.save(file_name, is_branch)
         else:
             self.__commit_as(is_branch)
 
@@ -398,7 +398,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """Save as action."""
         file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if file_name:
-            self.FileWidget.save(file_name, is_branch)
+            self.DatabaseWidget.save(file_name, is_branch)
             self.saveReplyBox("Workbook", file_name)
 
     @pyqtSlot(name='on_action_export_slvs_triggered')
@@ -406,7 +406,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """Solvespace 2d save function."""
         dlg = SlvsOutputDialog(
             self.env,
-            self.FileWidget.file_name.baseName(),
+            self.DatabaseWidget.file_name.baseName(),
             self.EntitiesPoint.dataTuple(),
             self.__v_to_slvs(),
             self
@@ -422,7 +422,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """DXF 2d save function."""
         dlg = DxfOutputDialog(
             self.env,
-            self.FileWidget.file_name.baseName(),
+            self.DatabaseWidget.file_name.baseName(),
             self.EntitiesPoint.dataTuple(),
             self.__v_to_slvs(),
             self
@@ -449,7 +449,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
             f"Save to {format_name}...",
-            self.env + '/' + self.FileWidget.file_name.baseName() + suffix0,
+            self.env + '/' + self.DatabaseWidget.file_name.baseName() + suffix0,
             ';;'.join(format_choose)
         )
         if file_name:
@@ -553,7 +553,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
         dlg = ScriptDialog(
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
-            f"# Project \"{self.FileWidget.file_name.baseName()}\"\n" +
+            f"# Project \"{self.DatabaseWidget.file_name.baseName()}\"\n" +
             (f"M[\n{context}\n]" if context else "M[]"),
             PMKSLexer(),
             "Pyslvs expression",
@@ -568,7 +568,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
-            f"# Project \"{self.FileWidget.file_name.baseName()}\"\n" +
+            f"# Project \"{self.DatabaseWidget.file_name.baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
                 tuple((b, d) for b, d, a in self.InputsWidget.inputPairs())
@@ -613,7 +613,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
         Return True if user want to "discard" the operation.
         """
-        if not self.FileWidget.changed:
+        if not self.DatabaseWidget.changed:
             return False
         reply = QMessageBox.question(
             self,
@@ -624,7 +624,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         )
         if reply == QMessageBox.Save:
             self.commit()
-            return self.FileWidget.changed
+            return self.DatabaseWidget.changed
         elif reply == QMessageBox.Discard:
             return False
         return True
@@ -691,7 +691,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             return
         suffix = QFileInfo(ARGUMENTS.file).suffix()
         if suffix == 'pyslvs':
-            self.FileWidget.read(ARGUMENTS.file)
+            self.DatabaseWidget.read(ARGUMENTS.file)
         elif suffix == 'slvs':
             self.__read_slvs(ARGUMENTS.file)
         else:

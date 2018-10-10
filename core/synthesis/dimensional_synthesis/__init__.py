@@ -151,7 +151,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.updateRange()
         self.__able_to_generate()
 
-    def mechanismData(
+    def mechanism_data(
         self,
         index: Optional[int] = None
     ) -> Union[Dict[str, Any], List[Dict[str, Any]]]:

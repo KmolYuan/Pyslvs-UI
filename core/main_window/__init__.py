@@ -2,7 +2,7 @@
 
 """'main_window' module contains the methods of main window.
 
-Interface classes (ordered):
+Abstract classes (ordered):
 + MainWindowUiInterface (imported from core.widget.custom)
 + EntitiesMethodInterface (entities)
 + SolverMethodInterface (solver)
@@ -79,7 +79,7 @@ class MainWindow(IOMethodInterface):
     @pyqtSlot(int)
     def commandReload(self, index: int):
         """The time of withdrawal and redo action."""
-        if index != self.FileWidget.Stack:
+        if index != self.DatabaseWidget.Stack:
             self.workbookNoSave()
         else:
             self.workbookSaved()
@@ -136,7 +136,7 @@ class MainWindow(IOMethodInterface):
     @pyqtSlot(int, tuple)
     def mergeResult(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
         """Merge result function of dimensional synthesis."""
-        result = self.DimensionalSynthesis.mechanismData(row)
+        result = self.DimensionalSynthesis.mechanism_data(row)
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in result['Link_expr'].split(';'):
