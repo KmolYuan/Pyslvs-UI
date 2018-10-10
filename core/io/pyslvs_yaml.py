@@ -26,7 +26,7 @@ class YamlEditor(QObject):
         self.__workbook_saved = parent.workbookSaved
 
         # Call to get point expressions.
-        self.__point_expr_func = parent.EntitiesPoint.expression
+        self.__point_expr_func = parent.EntitiesPoint.data
         # Call to get link data.
         self.__link_expr_func = parent.EntitiesLink.colors
         # Call to get storage data.

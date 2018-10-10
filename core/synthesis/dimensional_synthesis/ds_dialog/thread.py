@@ -22,20 +22,20 @@ from core.QtModules import pyqtSignal, QThread
 from core.libs import (
     Genetic,
     Firefly,
-    DiffertialEvolution,
+    Differential,
     Planar,
 )
 from .options import AlgorithmType
 
 
 class WorkerThread(QThread):
-    
+
     """The QThread class to handle algorithm."""
-    
+
     progress_update = pyqtSignal(int, str)
     result = pyqtSignal(dict, float)
     done = pyqtSignal()
-    
+
     def __init__(
         self,
         type_num: AlgorithmType,
@@ -45,36 +45,36 @@ class WorkerThread(QThread):
         """Input settings from dialog, then call public method 'start'
         to start the algorithm.
         """
-        super(WorkerThread, self).__init__(None)
+        super(WorkerThread, self).__init__()
         self.stoped = False
         self.type_num = type_num
         self.mech_params = mech_params
         self.settings = settings
         self.loop = 1
-    
+        self.currentLoop = 0
+        self.fun = None
+
     def setLoop(self, loop: int):
         """Set the loop times."""
         self.loop = loop
-    
+
     def run(self):
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
             print(f"- [{name}]: {path}")
-        mechanismObj = Planar(self.mech_params)
         if self.type_num == AlgorithmType.RGA:
             foo = Genetic
         elif self.type_num == AlgorithmType.Firefly:
             foo = Firefly
-        elif self.type_num == AlgorithmType.DE:
-            foo = DiffertialEvolution
+        else:
+            foo = Differential
         self.fun = foo(
-            mechanismObj,
+            Planar(self.mech_params),
             self.settings,
-            progress_fun = self.progress_update.emit,
-            interrupt_fun = self.__isStoped,
+            progress_fun=self.progress_update.emit,
+            interrupt_fun=self.__isStoped,
         )
         t0 = time()
-        self.currentLoop = 0
         for self.currentLoop in range(self.loop):
             print(f"Algorithm [{self.currentLoop + 1}]: {self.type_num}")
             if self.stoped:
@@ -85,7 +85,7 @@ class WorkerThread(QThread):
             self.result.emit(mechanism, time_spand)
         print(f"total cost time: {time() - t0:.02f} [s]")
         self.done.emit()
-    
+
     def __algorithm(self) -> Tuple[Dict[str, Any], float]:
         """Get the algorithm result."""
         t0 = time()
@@ -110,7 +110,7 @@ class WorkerThread(QThread):
         mechanism.update(params)
         print(f"cost time: {time_spend:.02f} [s]")
         return mechanism, time_spend
-    
+
     def __generateProcess(self) -> Tuple[
         Dict[str, Any],
         List[Tuple[int, float, float]]
@@ -118,11 +118,11 @@ class WorkerThread(QThread):
         """Execute algorithm and sort out the result."""
         params, tf = self.fun.run()
         return params, tf
-    
+
     def __isStoped(self) -> bool:
         """Return stop status for Cython function."""
         return self.stoped
-    
+
     def stop(self):
         """Stop the algorithm."""
         self.stoped = True
