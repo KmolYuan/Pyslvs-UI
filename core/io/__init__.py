@@ -13,48 +13,26 @@ from .logging_handler import XStream
 from .output_option import SlvsOutputDialog, DxfOutputDialog
 from .database import DatabaseWidget
 from .pyslvs_yaml import YamlEditor
-from .undo_redo import (
-    AddTable, DeleteTable,
-    FixSequenceNumber,
-    EditPointTable, EditLinkTable,
-    AddPath, DeletePath,
-    AddStorage, DeleteStorage,
-    AddStorageName, ClearStorageName,
-    AddVariable, DeleteVariable,
-)
 
 __all__ = [
     'ScriptDialog',
     'slvs_process_script',
-    'AddTable',
-    'DeleteTable',
-    'FixSequenceNumber',
-    'EditPointTable',
-    'EditLinkTable',
-    'AddPath',
-    'DeletePath',
-    'AddStorage',
-    'DeleteStorage',
-    'AddStorageName',
-    'ClearStorageName',
-    'AddVariable',
-    'DeleteVariable',
     'SlvsParser',
     'SlvsOutputDialog',
     'DxfOutputDialog',
     'XStream',
     'DatabaseWidget',
     'YamlEditor',
-    'strbetween',
-    'strbefore',
+    'str_between',
+    'str_before',
 ]
 
 
-def strbetween(s: str, front: str, back: str) -> str:
+def str_between(s: str, front: str, back: str) -> str:
     """Get from parenthesis."""
     return s[(s.find(front) + 1):s.find(back)]
 
 
-def strbefore(s: str, front: str) -> str:
+def str_before(s: str, front: str) -> str:
     """Get from parenthesis."""
     return s[:s.find(front)]

@@ -47,13 +47,12 @@ from core.info import (
 from core.io import (
     ScriptDialog,
     slvs_process_script,
-    AddTable,
-    EditPointTable,
     SlvsParser,
     SlvsOutputDialog,
     DxfOutputDialog,
-    strbetween,
+    str_between,
 )
+from core.widgets import AddTable, EditPointTable
 from core.libs import (
     kernel_list,
     parse_params,
@@ -445,7 +444,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     def outputTo(self, format_name: str, format_choose: List[str]) -> str:
         """Simple to support multiple format."""
-        suffix0 = strbetween(format_choose[0], '(', ')').split('*')[-1]
+        suffix0 = str_between(format_choose[0], '(', ')').split('*')[-1]
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
             f"Save to {format_name}...",
@@ -453,7 +452,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             ';;'.join(format_choose)
         )
         if file_name:
-            suffix = strbetween(suffix, '(', ')').split('*')[-1]
+            suffix = str_between(suffix, '(', ')').split('*')[-1]
             print(f"Format: {suffix}")
             if QFileInfo(file_name).suffix() != suffix[1:]:
                 file_name += suffix
@@ -492,7 +491,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         else:
             file_name_s, suffix = QFileDialog.getOpenFileName(self, *args)
         if file_name_s:
-            suffix = strbetween(suffix, '(', ')').split('*')[-1]
+            suffix = str_between(suffix, '(', ')').split('*')[-1]
             print(f"Format: {suffix}")
             if type(file_name_s) == str:
                 self.setLocate(QFileInfo(file_name_s).absolutePath())

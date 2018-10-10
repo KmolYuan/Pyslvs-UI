@@ -16,7 +16,7 @@ from core.QtModules import (
     QPoint,
     QAbcMeta,
 )
-from core.io import (
+from core.widgets import (
     AddTable,
     EditPointTable,
     EditLinkTable,

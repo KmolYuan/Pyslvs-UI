@@ -25,14 +25,16 @@ from core.QtModules import (
     QShortcut,
     QKeySequence,
 )
-from core.io import (
-    AddVariable, DeleteVariable,
-    AddPath, DeletePath,
-)
 from core import main_window as mw
 from core.libs import VPoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
+from .undo_redo import (
+    AddVariable,
+    DeleteVariable,
+    AddPath,
+    DeletePath,
+)
 
 
 def _variable_int(text: str) -> int:

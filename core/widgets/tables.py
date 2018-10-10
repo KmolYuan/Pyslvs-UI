@@ -210,7 +210,7 @@ class PointTableWidget(_BaseTableWidget):
         exprs = ", ".join(vpoint.expr for vpoint in self.data())
         return f"M[{exprs}]"
 
-    def editArgs(
+    def editPoint(
         self,
         row: int,
         links: str,
@@ -296,7 +296,7 @@ class LinkTableWidget(_BaseTableWidget):
         super(LinkTableWidget, self).__init__(1, ('Name', 'Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
-        self.editArgs(0, 'ground', 'White', '')
+        self.editLink(0, 'ground', 'White', '')
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 130)
@@ -313,18 +313,18 @@ class LinkTableWidget(_BaseTableWidget):
                 points.append(int(p.replace('Point', '')))
             yield VLink(name, color, tuple(points), color_qt)
 
-    def dataDict(self) -> Dict[str, str]:
+    def colors(self) -> Dict[str, str]:
         """Return name and color as a dict."""
         return {vlink.name: vlink.colorSTR for vlink in self.data()}
 
-    def editArgs(
+    def editLink(
         self,
         row: int,
         name: str,
         color: str,
         points: str
     ):
-        """Edite a link."""
+        """Edit a link."""
         for i, e in enumerate((name, color, points)):
             item = QTableWidgetItem(e)
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -356,7 +356,7 @@ class LinkTableWidget(_BaseTableWidget):
         """We should keep the 'ground' left."""
         super(LinkTableWidget, self).clear()
         self.setRowCount(1)
-        self.editArgs(0, 'ground', 'White', '')
+        self.editLink(0, 'ground', 'White', '')
 
 
 class ExprTableWidget(_BaseTableWidget):

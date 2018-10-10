@@ -38,14 +38,8 @@ from core.QtModules import (
     QDoubleSpinBox,
     QTableWidgetItem,
 )
-from core.graphics import (
-    PreviewCanvas,
-    graph2vpoints,
-)
-from core.io import (
-    strbetween,
-    strbefore,
-)
+from core.graphics import PreviewCanvas, graph2vpoints
+from core import io
 from core.libs import expr_solving, VPoint
 from core.synthesis import CollectionsDialog
 from .ds_dialog import (
@@ -546,9 +540,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         exprs = []
         for expr in result['Expression'].split(';'):
-            func = strbefore(expr, '[')
-            params = strbetween(expr, '[', ']').split(',')
-            target = strbetween(expr, '(', ')')
+            func = str_before(expr, '[')
+            params = str_between(expr, '[', ']').split(',')
+            target = str_between(expr, '(', ')')
             params.insert(0, func)
             params.append(target)
             exprs.append(tuple(params))
@@ -687,7 +681,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         link_list = set()
         angle_list = set()
         for expr in self.mech_params['Expression'].split(';'):
-            for e in strbetween(expr, '[', ']').split(','):
+            for e in str_between(expr, '[', ']').split(','):
                 if e.startswith('L'):
                     link_list.add(e)
                 if e.startswith('a'):

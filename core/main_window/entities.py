@@ -36,7 +36,7 @@ from core.entities import (
 )
 from core.libs import expr_solving
 from core.graphics import edges_view
-from core.io import (
+from core.widgets import (
     AddTable,
     DeleteTable,
     EditPointTable,

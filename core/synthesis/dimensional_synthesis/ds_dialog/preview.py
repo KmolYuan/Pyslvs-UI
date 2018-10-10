@@ -28,7 +28,7 @@ from core.QtModules import (
     QWidget,
 )
 from core.graphics import BaseCanvas, color_qt
-from core.io import strbetween
+from core.io import str_between
 from .Ui_preview import Ui_Dialog
 
 
@@ -56,7 +56,7 @@ class _DynamicCanvas(BaseCanvas):
         exp_symbol = set()
         self.links = []
         for exp in self.mechanism['Link_expr'].split(';'):
-            names = strbetween(exp, '[', ']').split(',')
+            names = str_between(exp, '[', ']').split(',')
             self.links.append(tuple(names))
             for name in names:
                 exp_symbol.add(name)
@@ -271,7 +271,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         # Basic information
         link_tags = []
         for expr in mechanism['Expression'].split(';'):
-            for p in strbetween(expr, '[', ']').split(','):
+            for p in str_between(expr, '[', ']').split(','):
                 if ('L' in p) and (p not in link_tags):
                     link_tags.append(p)
         self.basic_label.setText("\n".join([f"{tag}: {mechanism[tag]}" for tag in chain(

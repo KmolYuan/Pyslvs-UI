@@ -32,8 +32,8 @@ from core.QtModules import (
     QAbcMeta,
 )
 from core.info import __version__, ARGUMENTS
-from core.io import YamlEditor, DatabaseWidget
 from core.libs import kernel_list
+from core.io import YamlEditor, DatabaseWidget
 from core.synthesis import (
     StructureSynthesis,
     Collections,

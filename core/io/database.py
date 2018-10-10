@@ -177,7 +177,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Call to get point expressions.
         self.__point_expr_func = parent.EntitiesPoint.expression
         # Call to get link data.
-        self.__link_expr_func = parent.EntitiesLink.dataDict
+        self.__link_expr_func = parent.EntitiesLink.colors
         # Call to get storage data.
         self.__storage_data_func = parent.getStorage
         # Call to get collections data.

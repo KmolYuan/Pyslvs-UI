@@ -18,7 +18,7 @@ from core.QtModules import (
     QMessageBox,
     QAbcMeta,
 )
-from core.io import (
+from core.widgets import (
     AddStorage,
     DeleteStorage,
     AddStorageName,

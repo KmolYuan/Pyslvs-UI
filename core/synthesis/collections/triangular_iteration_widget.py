@@ -9,7 +9,6 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     Dict,
-    List,
     Tuple,
     Sequence,
     Set,
@@ -36,7 +35,7 @@ from core.graphics import (
     edges_view,
     graph2vpoints,
 )
-from core.io import strbetween, strbefore
+from core.io import str_before, str_between
 from core.libs import vpoints_configure
 from .ti_dialog import (
     CollectionsDialog,
@@ -201,17 +200,19 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     @pyqtSlot(Graph, dict)
     def setGraph(
         self,
-        G: Graph,
+        graph: Graph,
         pos: Dict[int, Tuple[float, float]]
     ):
         """Set the graph to preview canvas."""
         self.__clear_panel()
-        self.PreviewWindow.setGraph(G, pos)
-        ev = dict(edges_view(G))
+        self.PreviewWindow.setGraph(graph, pos)
+        ev = dict(edges_view(graph))
         joints_count = set()
         for l1, l2 in ev.values():
             joints_count.update({l1, l2})
-        links = [[] for i in range(len(joints_count))]
+        links = []
+        for i in range(len(joints_count)):
+            links.append([])
         for joint, link in ev.items():
             for node in link:
                 links[node].append(joint)
@@ -334,8 +335,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         else:
             status_str = "Grounded."
             for expr in list_texts(self.expression_list):
-                if index == int(strbetween(expr, '(', ')').replace('P', '')):
-                    status_str = f"From {strbefore(expr, '[')}."
+                if index == int(str_between(expr, '(', ')').replace('P', '')):
+                    status_str = f"From {str_before(expr, '[')}."
         self.status_show.setText(status_str)
         self.PLAP_solution.setEnabled(not status)
         self.PLLP_solution.setEnabled(not status)
@@ -392,25 +393,25 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.profile_name = dlg.name()
         params = dlg.params()
         # Add customize joints.
-        G = Graph(params['Graph'])
-        self.setGraph(G, params['pos'])
+        graph = Graph(params['Graph'])
+        self.setGraph(graph, params['pos'])
         self.PreviewWindow.cus = params['cus']
         self.PreviewWindow.same = params['same']
         # Grounded setting.
         drivers = set(params['Driver'])
         followers = set(params['Follower'])
-        for row, link in enumerate(G.nodes):
-            points = {f'P{n}' for n, edge in edges_view(G) if link in edge}
+        for row, link in enumerate(graph.nodes):
+            points = {f'P{n}' for n, edge in edges_view(graph) if link in edge}
             if (drivers | followers) <= points:
                 self.__set_ground(row)
                 break
         # Driver, Follower, Target
         for expr in params['Expression'].split(';'):
-            if strbefore(expr, '[') != 'PLAP':
+            if str_before(expr, '[') != 'PLAP':
                 continue
-            base = strbetween(expr, '[', ']').split(',')[0]
+            base = str_between(expr, '[', ']').split(',')[0]
             self.__find_follower_to_remove(base)
-            rotator = strbetween(expr, '(', ')')
+            rotator = str_between(expr, '(', ')')
             self.driver_list.addItem(f"({base}, {rotator})")
         _set_warning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
@@ -422,9 +423,9 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         # Expression
         if params['Expression']:
             for expr in params['Expression'].split(';'):
-                func = strbefore(expr, '[')
-                target = strbetween(expr, '(', ')')
-                params = strbetween(expr, '[', ']').split(',')
+                func = str_before(expr, '[')
+                target = str_between(expr, '(', ')')
+                params = str_between(expr, '[', ']').split(',')
                 params.insert(0, func)
                 params.append(target)
                 self.__add_solution(*params)
@@ -458,8 +459,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """Return all symbols."""
         expr_list = set()
         for expr in self.expr_show.text().split(';'):
-            param_list = strbetween(expr, '[', ']').split(',')
-            param_list.append(strbetween(expr, '(', ')'))
+            param_list = str_between(expr, '[', ']').split(',')
+            param_list.append(str_between(expr, '(', ')'))
             expr_list.update(param_list)
         return expr_list
 
@@ -516,7 +517,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
 
     @pyqtSlot(QListWidgetItem)
-    def __set_parm_bind(self, item: Optional[QListWidgetItem] = None):
+    def __set_parm_bind(self, _: QListWidgetItem):
         """Set parameters binding."""
         self.expr_show.setText(';'.join(list_texts(self.expression_list)))
         link_expr_list = []
@@ -593,10 +594,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             return
         expr = self.expression_list.item(count-1).text()
         self.expression_list.takeItem(count-1)
-        self.PreviewWindow.setStatus(
-            strbetween(expr, '(', ')'),
-            False
-        )
+        self.PreviewWindow.setStatus(str_between(expr, '(', ')'), False)
         self.__set_parm_bind()
 
     @pyqtSlot(name='on_expression_clear_clicked')

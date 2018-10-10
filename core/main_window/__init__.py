@@ -26,7 +26,7 @@ from core.QtModules import (
     QListWidgetItem,
 )
 from core.info import ARGUMENTS
-from core.io import XStream, strbetween
+from core.io import XStream, str_between
 from .io import IOMethodInterface
 
 __all__ = ['MainWindow']
@@ -140,7 +140,7 @@ class MainWindow(IOMethodInterface):
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in result['Link_expr'].split(';'):
-            for name in strbetween(exp, '[', ']').split(','):
+            for name in str_between(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
         self.CommandStack.beginMacro(
@@ -155,7 +155,7 @@ class MainWindow(IOMethodInterface):
             )
         for i, exp in enumerate(result['Link_expr'].split(';')):
             self.addNormalLink(tuple(
-                tmp_dict[name] for name in strbetween(exp, '[', ']').split(',')
+                tmp_dict[name] for name in str_between(exp, '[', ']').split(',')
             ))
             if i == 0:
                 self.constrainLink(self.EntitiesLink.rowCount() - 1)
