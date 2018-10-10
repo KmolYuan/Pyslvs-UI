@@ -7,7 +7,7 @@ matrix:
     - os: linux
       sudo: required
       python: 3.6
-      dist: xenial
+      dist: trusty
 
     - os: linux
       sudo: required
