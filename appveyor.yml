@@ -15,11 +15,6 @@ environment:
       MSYS_DIR: C:\msys64
       PYTHON_DIR: C:\Python37-x64
 
-branches:
-  only:
-    - master
-    - /^dev\d*[.]?\d*$/
-
 skip_tags: true
 
 cache:
