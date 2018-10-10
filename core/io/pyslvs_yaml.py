@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Dict, Any
 import yaml
 from core.QtModules import QObject
 from core import main_window as mn
@@ -68,10 +69,21 @@ class YamlEditor(QObject):
 
     def save(self):
         """Save YAML file."""
+        data = {}
+        # TODO: Data structure.
+        yaml_script = yaml.dump(data, default_flow_style=True)
+        with open(self.file_name, 'w') as f:
+            f.write(yaml_script)
 
     def save_as(self, file_name: str):
         """Save to a new YAML file."""
+        self.file_name = file_name
+        self.save()
 
     def load(self, file_name: str):
         """Load YAML file."""
         self.file_name = file_name
+        with open(self.file_name) as f:
+            yaml_script = f.read()
+        data: Dict[str, Any] = yaml.load(yaml_script)
+        # TODO: Load function.
