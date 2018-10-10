@@ -5,13 +5,15 @@
 + Sub widgets.
 + Context menus.
 """
+from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
+from typing import Tuple, Sequence
+from abc import abstractmethod
 from core.QtModules import (
     pyqtSlot,
     Qt,
@@ -20,6 +22,7 @@ from core.QtModules import (
     QMenu,
     QIcon,
     QPixmap,
+    QPoint,
     QPushButton,
     QKeySequence,
     QStandardPaths,
@@ -76,7 +79,9 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.__free_move()
         self.__options()
         self.__zoom()
-        self.__context_menu()
+        self.__point_context_menu()
+        self.__link_context_menu()
+        self.__canvas_context_menu()
 
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""
@@ -125,17 +130,20 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
 
         # Entities tables.
         self.EntitiesTab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
+
         self.EntitiesPoint = PointTableWidget(self.EntitiesPoint_widget)
         self.EntitiesPoint.cellDoubleClicked.connect(self.editPoint)
         self.EntitiesPoint.deleteRequest.connect(self.deletePoints)
         self.EntitiesPoint_layout.addWidget(self.EntitiesPoint)
+
         self.EntitiesLink = LinkTableWidget(self.EntitiesLink_widget)
         self.EntitiesLink.cellDoubleClicked.connect(self.editLink)
         self.EntitiesLink.deleteRequest.connect(self.deleteLinks)
         self.EntitiesLink_layout.addWidget(self.EntitiesLink)
+
         self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
         self.EntitiesExpr.reset.connect(self.link_free_move_widget.setEnabled)
-        self.EntitiesExpr.free_move_request.connect(self.setLinkFreemove)
+        self.EntitiesExpr.free_move_request.connect(self.setLinkFreeMove)
         self.EntitiesExpr_layout.insertWidget(0, self.EntitiesExpr)
 
         # Link free mode slide bar.
@@ -196,7 +204,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         clean_selection_action.setShortcutContext(Qt.WindowShortcut)
         self.addAction(clean_selection_action)
 
-        self.MainCanvas.free_moved.connect(self.setFreemove)
+        self.MainCanvas.free_moved.connect(self.setFreeMove)
         self.MainCanvas.alt_add.connect(self.qAddNormalPoint)
         self.MainCanvas.doubleclick_edit.connect(self.editPoint)
         self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
@@ -224,7 +232,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.InputsWidget.aboutToResolve.connect(self.resolve)
 
         @pyqtSlot(tuple, bool)
-        def inputs_set_selection(selections: Tuple[int], key_detect: bool):
+        def inputs_set_selection(selections: Tuple[int], _: bool):
             """Distinguish table by tab index."""
             self.InputsWidget.clearSelection()
             if self.EntitiesTab.currentIndex() == 0:
@@ -285,7 +293,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         # Enable mechanism menu actions when shows.
         self.menu_Mechanism.aboutToShow.connect(self.enableMechanismActions)
 
-        # Start new window.
+        # Start a new window.
         @pyqtSlot()
         def new_main_window():
             run = self.__class__()
@@ -396,12 +404,6 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         action.triggered.connect(self.customizeZoom)
         zoom_menu.addAction(action)
         self.zoom_button.setMenu(zoom_menu)
-
-    def __context_menu(self):
-        """All context menu."""
-        self.__point_context_menu()
-        self.__link_context_menu()
-        self.__canvas_context_menu()
 
     def __point_context_menu(self):
         """EntitiesPoint context menu
@@ -570,3 +572,123 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.popMenu_canvas_l.addAction(self.action_link_context_constrain)
         self.popMenu_canvas_l.addSeparator()
         self.popMenu_canvas_l.addAction(self.action_link_context_delete)
+
+    @abstractmethod
+    def commandReload(self, index: int) -> None:
+        ...
+
+    @abstractmethod
+    def newPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def addNormalPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def addFixedPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def editPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def deletePoints(self) -> None:
+        ...
+
+    @abstractmethod
+    def lockPoints(self) -> None:
+        ...
+
+    @abstractmethod
+    def newLink(self) -> None:
+        ...
+
+    @abstractmethod
+    def editLink(self) -> None:
+        ...
+
+    @abstractmethod
+    def deleteLinks(self) -> None:
+        ...
+
+    @abstractmethod
+    def constrainLink(self) -> None:
+        ...
+
+    @abstractmethod
+    def releaseGround(self) -> None:
+        ...
+
+    @abstractmethod
+    def addTargetPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def setLinkFreeMove(self, enable: bool) -> None:
+        ...
+
+    @abstractmethod
+    def setFreeMove(self, args: Sequence[Tuple[int, Tuple[float, float, float]]]) -> None:
+        ...
+
+    @abstractmethod
+    def qAddNormalPoint(self, x: float, y: float) -> None:
+        ...
+
+    @abstractmethod
+    def setMousePos(self, x: float, y: float) -> None:
+        ...
+
+    @abstractmethod
+    def solve(self) -> None:
+        ...
+
+    @abstractmethod
+    def resolve(self) -> None:
+        ...
+
+    @abstractmethod
+    def commit(self, is_branch: bool = False) -> None:
+        ...
+
+    @abstractmethod
+    def commit_branch(self) -> None:
+        ...
+
+    @abstractmethod
+    def enableMechanismActions(self) -> None:
+        ...
+
+    @abstractmethod
+    def clonePoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyCoord(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyPointsTable(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyLinksTable(self) -> None:
+        ...
+
+    @abstractmethod
+    def canvas_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def link_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def customizeZoom(self) -> None:
+        ...
+
+    @abstractmethod
+    def resetOptions(self) -> None:
+        ...

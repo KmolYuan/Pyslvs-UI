@@ -15,6 +15,7 @@ from typing import (
     Iterator,
     Union,
 )
+from abc import abstractmethod
 from pygments.lexers.python import Python3Lexer
 from lark.exceptions import LarkError
 from core.QtModules import (
@@ -583,13 +584,13 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_check_update_triggered')
     def checkUpdate(self):
         """Check for update."""
-        progdlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
-        progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
-        progdlg.setWindowTitle("Check for update")
-        progdlg.resize(400, progdlg.height())
-        progdlg.setModal(True)
-        progdlg.show()
-        url = check_update(progdlg)
+        progress_dlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
+        progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
+        progress_dlg.setWindowTitle("Check for update")
+        progress_dlg.resize(400, progress_dlg.height())
+        progress_dlg.setModal(True)
+        progress_dlg.show()
+        url = check_update(progress_dlg)
         if not url:
             QMessageBox.information(
                 self,
@@ -695,3 +696,19 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.__read_slvs(ARGUMENTS.file)
         else:
             print("Unsupported format has been ignore when startup.")
+
+    @abstractmethod
+    def commandReload(self, index: int) -> None:
+        ...
+
+    @abstractmethod
+    def addTargetPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def commit_branch(self) -> None:
+        ...
+
+    @abstractmethod
+    def customizeZoom(self) -> None:
+        ...

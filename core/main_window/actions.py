@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Callable
+from abc import abstractmethod
 from core.QtModules import (
     pyqtSlot,
     QAction,
@@ -242,3 +243,27 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         pos = self.EntitiesPoint.currentPosition(self.EntitiesPoint.currentRow())
         text = str(pos[0] if (len(pos) == 1) else pos)
         QApplication.clipboard().setText(text)
+
+    @abstractmethod
+    def commandReload(self, index: int) -> None:
+        ...
+
+    @abstractmethod
+    def addTargetPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def commit(self, is_branch: bool = False) -> None:
+        ...
+
+    @abstractmethod
+    def commit_branch(self) -> None:
+        ...
+
+    @abstractmethod
+    def customizeZoom(self) -> None:
+        ...
+
+    @abstractmethod
+    def resetOptions(self) -> None:
+        ...

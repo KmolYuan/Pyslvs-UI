@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """This module contain the functions that main window needed."""
+from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -15,6 +16,7 @@ from typing import (
     Union,
     Optional,
 )
+from abc import abstractmethod
 from itertools import chain
 from networkx import Graph
 from core.QtModules import (
@@ -228,11 +230,11 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         if self.SynthesisTab.currentIndex() == 2:
             self.addTargetPoint()
         else:
-            self.addPoint(x, y, False)
+            self.addPoint(x, y)
 
     def addNormalPoint(self):
         """Add a point (not fixed)."""
-        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
+        self.addPoint(self.mouse_pos_x, self.mouse_pos_y)
 
     def addFixedPoint(self):
         """Add a point (fixed)."""
@@ -384,7 +386,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         self.CommandStack.endMacro()
 
     @pyqtSlot(tuple)
-    def setFreemove(
+    def setFreeMove(
         self,
         args: Sequence[Tuple[int, Tuple[float, float, float]]]
     ):
@@ -426,7 +428,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
                 self.MainCanvas.emit_free_move_all()
 
     @pyqtSlot(bool)
-    def setLinkFreemove(self, enable: bool):
+    def setLinkFreeMove(self, enable: bool):
         """Free move function for link length."""
         self.link_free_move_widget.setEnabled(enable)
         self.link_free_move_linkname.clear()
@@ -582,7 +584,67 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
     def setCoordsAsCurrent(self):
         """Update points position as current coordinate."""
         vpoints = self.EntitiesPoint.dataTuple()
-        self.setFreemove(tuple(
+        self.setFreeMove(tuple(
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))
             for row, vpoint in enumerate(vpoints)
         ))
+
+    @abstractmethod
+    def commandReload(self, index: int) -> None:
+        ...
+
+    @abstractmethod
+    def addTargetPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def setMousePos(self, x: float, y: float) -> None:
+        ...
+
+    @abstractmethod
+    def solve(self) -> None:
+        ...
+
+    @abstractmethod
+    def resolve(self) -> None:
+        ...
+
+    @abstractmethod
+    def commit(self, is_branch: bool = False) -> None:
+        ...
+
+    @abstractmethod
+    def commit_branch(self) -> None:
+        ...
+
+    @abstractmethod
+    def enableMechanismActions(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyCoord(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyPointsTable(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyLinksTable(self) -> None:
+        ...
+
+    @abstractmethod
+    def canvas_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def link_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def customizeZoom(self) -> None:
+        ...
+
+    @abstractmethod
+    def resetOptions(self) -> None:
+        ...

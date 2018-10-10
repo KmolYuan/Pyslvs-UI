@@ -333,27 +333,27 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()
         if self.answer:
-            progdlg = QProgressDialog(
+            progress_dlg = QProgressDialog(
                 "Drawing atlas...",
                 "Cancel",
                 0,
                 len(self.answer),
                 self
             )
-            progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
-            progdlg.setWindowTitle("Type synthesis")
-            progdlg.resize(400, progdlg.height())
-            progdlg.setModal(True)
-            progdlg.show()
+            progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
+            progress_dlg.setWindowTitle("Type synthesis")
+            progress_dlg.resize(400, progress_dlg.height())
+            progress_dlg.setModal(True)
+            progress_dlg.show()
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
-                if progdlg.wasCanceled():
+                if progress_dlg.wasCanceled():
                     return
                 if self.__draw_atlas(i, G):
-                    progdlg.setValue(i + 1)
+                    progress_dlg.setValue(i + 1)
                 else:
                     break
-            progdlg.setValue(progdlg.maximum())
+            progress_dlg.setValue(progress_dlg.maximum())
 
     def __draw_atlas(self, i: int, graph: Graph) -> bool:
         """Draw atlas and return True if done."""

@@ -86,7 +86,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QAbcMeta):
         self.vpoints = vpoints
         self.v_to_slvs = v_to_slvs
 
-    @pyqtSlot(name='on_choosedir_button_clicked')
+    @pyqtSlot(name='on_choose_dir_button_clicked')
     def __set_dir(self):
         """Choose path and it will be set as environment variable if accepted."""
         path = self.path_edit.text()

@@ -30,7 +30,7 @@
       <widget class="QLineEdit" name="path_edit"/>
      </item>
      <item>
-      <widget class="QToolButton" name="choosedir_button">
+      <widget class="QToolButton" name="choose_dir_button">
        <property name="text">
         <string>...</string>
        </property>

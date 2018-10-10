@@ -752,7 +752,7 @@
                        <widget class="QLineEdit" name="background_option"/>
                       </item>
                       <item>
-                       <widget class="QToolButton" name="background_choosedir">
+                       <widget class="QToolButton" name="background_choose_dir">
                         <property name="text">
                          <string>...</string>
                         </property>

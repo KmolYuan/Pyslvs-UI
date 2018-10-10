@@ -192,7 +192,7 @@ class MainWindow(IOMethodInterface):
             table.clearSelection()
         self.InputsWidget.clearSelection()
 
-    @pyqtSlot(name='on_background_choosedir_clicked')
+    @pyqtSlot(name='on_background_choose_dir_clicked')
     def __set_background(self):
         """Show up dialog to set the background file path."""
         file_name = self.inputFrom("Background", qt_image_format)

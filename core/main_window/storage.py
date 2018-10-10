@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """This module contain the functions that main window needed."""
+from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -8,6 +9,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Optional
+from abc import abstractmethod
 from core.QtModules import (
     pyqtSlot,
     QApplication,
@@ -154,3 +156,55 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         """Add storage data from database."""
         for name, expr in exprs:
             self.__add_storage(name, expr)
+
+    @abstractmethod
+    def commandReload(self, index: int) -> None:
+        ...
+
+    @abstractmethod
+    def addTargetPoint(self) -> None:
+        ...
+
+    @abstractmethod
+    def setMousePos(self, x: float, y: float) -> None:
+        ...
+
+    @abstractmethod
+    def commit(self, is_branch: bool = False) -> None:
+        ...
+
+    @abstractmethod
+    def commit_branch(self) -> None:
+        ...
+
+    @abstractmethod
+    def enableMechanismActions(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyCoord(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyPointsTable(self) -> None:
+        ...
+
+    @abstractmethod
+    def copyLinksTable(self) -> None:
+        ...
+
+    @abstractmethod
+    def canvas_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def link_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def customizeZoom(self) -> None:
+        ...
+
+    @abstractmethod
+    def resetOptions(self) -> None:
+        ...

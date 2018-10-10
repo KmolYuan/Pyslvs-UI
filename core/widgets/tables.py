@@ -363,7 +363,7 @@ class ExprTableWidget(_BaseTableWidget):
 
     """Expression table.
 
-    + Freemove request: link name, length
+    + Free move request: link name, length
     """
 
     reset = pyqtSignal(bool)
