@@ -542,8 +542,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>358</width>
-                  <height>670</height>
+                  <width>401</width>
+                  <height>733</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1570,9 +1570,6 @@
    <property name="statusTip">
     <string>Save the workbook.</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
    <property name="priority">
     <enum>QAction::HighPriority</enum>
    </property>
@@ -1670,13 +1667,10 @@
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
-    <string>Commit &amp;as ...</string>
+    <string>Commit as ...</string>
    </property>
    <property name="statusTip">
     <string>Save to another workbook.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="action_export_slvs">
@@ -1949,7 +1943,10 @@
     <string>Save</string>
    </property>
    <property name="statusTip">
-    <string>Save to YAML based format.</string>
+    <string>Save to a YAML-based format.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="action_save_as">
@@ -1959,6 +1956,12 @@
    </property>
    <property name="text">
     <string>Save &amp;as ...</string>
+   </property>
+   <property name="statusTip">
+    <string>Save to another YAML file.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
  </widget>
