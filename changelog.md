@@ -8,11 +8,14 @@ Features
 ---
 
 + Fix "Save as" error on Qt slot.
++ New YAML-based file format:
+    + Suffix: `.pyslvs.yml`
+    + New text-based format to support version control.
 
 Development
 ---
 
-+ Module of important widgets are move to `__init__.py`.
++ Module of important widgets are be moved to `__init__.py`.
 + Fix compiler option error caused by Python (`cygwinccompiler.py`).
 + Adjust almost functions and methods name with PEP 8.
 

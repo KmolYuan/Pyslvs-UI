@@ -162,18 +162,14 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if not mime_data.hasUrls():
             return
         for url in mime_data.urls():
-            file_name = url.toLocalFile()
-            if QFileInfo(file_name).suffix() in ('pyslvs', 'slvs'):
+            suffix = QFileInfo(url.toLocalFile()).completeSuffix()
+            if suffix in {'pyslvs.yml', 'pyslvs', 'slvs'}:
                 event.acceptProposedAction()
 
     def dropEvent(self, event):
         """Drop file in to our window."""
         file_name = event.mimeData().urls()[-1].toLocalFile()
-        suffix = QFileInfo(file_name).suffix()
-        if suffix == 'pyslvs':
-            self.DatabaseWidget.read(file_name)
-        elif suffix == 'slvs':
-            self.__read_slvs(file_name)
+        self.__load_file(file_name)
         event.acceptProposedAction()
 
     def workbookNoSave(self):
@@ -353,18 +349,19 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 self.addLink(name, color)
 
     @pyqtSlot(name='on_action_load_file_triggered')
-    def __load_file(self):
-        """Load workbook."""
+    def __load_file(self, file_name: str = ""):
+        """Load a supported format in Pyslvs."""
         if self.checkFileChanged():
             return
-        file_name = self.inputFrom("Workbook database", [
-            "Pyslvs YAML file (*.pyslvs.yml)",
-            "Pyslvs workbook (*.pyslvs)",
-            "Solvespace module (*.slvs)",
-        ])
 
         if not file_name:
-            return
+            file_name = self.inputFrom("Workbook database", [
+                "Pyslvs YAML file (*.pyslvs.yml)",
+                "Pyslvs workbook (*.pyslvs)",
+                "Solvespace module (*.slvs)",
+            ])
+            if not file_name:
+                return
 
         suffix = QFileInfo(file_name).completeSuffix()
         if suffix == 'pyslvs.yml':
