@@ -151,7 +151,7 @@ class MainWindow(IOMethodInterface):
             tmp_dict[tag] = self.addPoint(
                 result[tag][0],
                 result[tag][1],
-                color=("Dark-Orange" if tag in result['Target'] else None)
+                color=("Dark-Orange" if tag in result['Target'] else 'Green')
             )
         for i, exp in enumerate(result['Link_expr'].split(';')):
             self.addNormalLink(tuple(

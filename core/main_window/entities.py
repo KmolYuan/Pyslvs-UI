@@ -34,7 +34,7 @@ from core.entities import (
     EditPointDialog,
     EditLinkDialog,
 )
-from core.libs import expr_solving
+from core.libs import VPoint, expr_solving
 from core.graphics import edges_view
 from core.widgets import (
     AddTable,
@@ -102,7 +102,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         type_str = dlg.type_box.currentText().split()[0]
         if type_str != 'R':
             type_str += f":{dlg.angle_box.value() % 360}"
-        args = [
+        args = (
             ','.join(
                 dlg.selected.item(link).text()
                 for link in range(dlg.selected.count())
@@ -111,7 +111,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             dlg.color_box.currentText(),
             dlg.x_box.value(),
             dlg.y_box.value()
-        ]
+        )
         if row is False:
             self.CommandStack.beginMacro(f"Add {{Point{row_count}}}")
             self.CommandStack.push(AddTable(self.EntitiesPoint))
@@ -238,37 +238,34 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
 
     def addFixedPoint(self):
         """Add a point (fixed)."""
-        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
+        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, 'ground', 'Blue')
 
     def addPoint(
         self,
         x: float,
         y: float,
-        fixed: bool = False,
-        color: Optional[str] = None
+        links: str = "",
+        color: str = 'Green',
+        type_num: int = VPoint.R,
+        angle: float = 0.
     ) -> int:
-        """Add an ordinary point.
-        Return the row count of new point.
-        """
+        """Add an ordinary point. Return the row count of new point."""
         row_count = self.EntitiesPoint.rowCount()
-        if fixed:
-            links = 'ground'
-            if color is None:
-                color = 'Blue'
-        else:
-            links = ''
-            if color is None:
-                color = 'Green'
         self.CommandStack.beginMacro(f"Add {{Point{row_count}}}")
         self.CommandStack.push(AddTable(self.EntitiesPoint))
         self.CommandStack.push(EditPointTable(
             row_count,
             self.EntitiesPoint,
             self.EntitiesLink,
-            [links, 'R', color, x, y]
+            (links, ('R', f'P:{angle}', f'RP:{angle}')[type_num], color, x, y)
         ))
         self.CommandStack.endMacro()
         return row_count
+
+    def addPoints(self, p_attr: Sequence[Tuple[float, float, str, str, int, float]]):
+        """Add multiple points."""
+        for attr in p_attr:
+            self.addPoint(*attr)
 
     def addPointsByGraph(
         self,
@@ -283,7 +280,8 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         )
 
         for i in range(len(pos)):
-            self.addPoint(*pos[i])
+            x, y = pos[i]
+            self.addPoint(x, y)
 
         ground: Optional[int] = None
         for link in graph.nodes:

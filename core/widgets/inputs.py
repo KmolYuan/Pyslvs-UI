@@ -229,7 +229,7 @@ class InputsWidget(QWidget, Ui_Form):
         )), self.variable_list))
         self.CommandStack.endMacro()
 
-    def addInputsVariables(self, variables: Tuple[Tuple[int, int]]):
+    def addInputsVariables(self, variables: Sequence[Tuple[int, int]]):
         """Add from database."""
         for p0, p1 in variables:
             self.__add_inputs_variable(p0, p1)

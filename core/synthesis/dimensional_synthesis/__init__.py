@@ -11,12 +11,13 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     List,
-    Dict,
     Tuple,
+    Sequence,
+    Dict,
     Callable,
-    Any,
     Union,
     Optional,
+    Any,
 )
 from math import hypot
 import csv
@@ -166,7 +167,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if reply == QMessageBox.Yes:
             self.__clear_settings()
 
-    def loadResults(self, mechanism_data: List[Dict[str, Any]]):
+    def loadResults(self, mechanism_data: Sequence[Dict[str, Any]]):
         """Append results of workbook database to memory."""
         for e in mechanism_data:
             self.__mechanism_data.append(e)

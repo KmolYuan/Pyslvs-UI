@@ -191,24 +191,27 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Call to get path data.
         self.__path_data_func = parent.InputsWidget.pathData
 
-        # Call to load collections data.
-        self.__load_collect_func = parent.CollectionTabPage.StructureWidget.addCollections
-        # Call to load triangle data.
-        self.__load_triangle_func = parent.CollectionTabPage.TriangularIterationWidget.addCollections
-        # Call to load inputs variables data.
-        self.__load_inputs_func = parent.InputsWidget.addInputsVariables
-        # Call after loaded algorithm results.
-        self.__load_algorithm_func = parent.DimensionalSynthesis.loadResults
-        # Call after loaded paths.
-        self.__load_path_func = parent.InputsWidget.loadPaths
         # Add empty links function.
         self.__add_links_func = parent.addEmptyLinks
         # Parse function.
         self.__parse_func = parent.parseExpression
-        # Clear function for main window.
-        self.__clear_func = parent.clear
+
+        # Call to load inputs variables data.
+        self.__load_inputs_func = parent.InputsWidget.addInputsVariables
         # Add storage function.
         self.__add_storage_func = parent.addMultipleStorage
+        # Call to load paths.
+        self.__load_path_func = parent.InputsWidget.loadPaths
+        # Call to load collections data.
+        self.__load_collect_func = parent.CollectionTabPage.StructureWidget.addCollections
+        # Call to load triangle data.
+        self.__load_triangle_func = parent.CollectionTabPage.TriangularIterationWidget.addCollections
+        # Call to load algorithm results.
+        self.__load_algorithm_func = parent.DimensionalSynthesis.loadResults
+
+        # Clear function for main window.
+        self.__clear_func = parent.clear
+
 
         # Close database when destroyed.
         self.destroyed.connect(self.__close_database)
@@ -494,6 +497,8 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Load the expression.
         self.__add_links_func(_decompress(commit.linkcolor))
         self.__parse_func(_decompress(commit.mechanism))
+        # Load inputs data.
+        self.__load_inputs_func(_decompress(commit.inputsdata))
         # Load the storage.
         self.__add_storage_func(_decompress(commit.storage))
         # Load path data.
@@ -502,8 +507,6 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.__load_collect_func(_decompress(commit.collectiondata))
         # Load triangle data.
         self.__load_triangle_func(_decompress(commit.triangledata))
-        # Load inputs data.
-        self.__load_inputs_func(_decompress(commit.inputsdata))
         # Load algorithm data.
         self.__load_algorithm_func(_decompress(commit.algorithmdata))
         # Workbook loaded.

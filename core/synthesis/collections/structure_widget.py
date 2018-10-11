@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Tuple
+from typing import List, Tuple, Sequence
 from networkx import Graph, is_isomorphic
 from networkx.exception import NetworkXError
 from core.QtModules import (
@@ -163,7 +163,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.collection_list.addItem(item)
                 progress_dlg.setValue(i + 1)
 
-    def addCollection(self, edges: Tuple[Tuple[int, int]]):
+    def addCollection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
         graph = Graph(edges)
         try:
@@ -182,7 +182,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.unsaveFunc()
         self.__reload_atlas()
 
-    def addCollections(self, collections: List[Tuple[Tuple[int, int]]]):
+    def addCollections(self, collections: Sequence[Sequence[Tuple[int, int]]]):
         """Add collections."""
         for c in collections:
             self.addCollection(c)

@@ -117,7 +117,8 @@ class WorkerThread(QThread):
     ]:
         """Execute algorithm and sort out the result."""
         params, tf = self.fun.run()
-        return params, tf
+        # Note: Remove numpy 'scalar' format.
+        return eval(str(params)), tf
 
     def __isStoped(self) -> bool:
         """Return stop status for Cython function."""

@@ -13,12 +13,12 @@ from core.QtModules import (
     QPixmap,
     QSize,
 )
-from core.libs import colorNames, colorRGB
+from core.libs import colorNames, color_rgb
 
 
 def color_qt(name: str) -> QColor:
     """Get color and translate to QColor."""
-    return QColor(*colorRGB(name))
+    return QColor(*color_rgb(name))
 
 
 def color_num(color_index: int) -> QColor:

@@ -7,7 +7,13 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Any
+from typing import (
+    Tuple,
+    List,
+    Sequence,
+    Dict,
+    Any,
+)
 import yaml
 from core.QtModules import QObject
 from core.libs import VPoint
@@ -45,24 +51,26 @@ class YamlEditor(QObject):
         # Call to get path data.
         self.__path_data_func = parent.InputsWidget.pathData
 
+        # Add empty links function.
+        self.__add_links_func = parent.addEmptyLinks
+        # Add points function.
+        self.__add_points_func = parent.addPoints
+
+        # Call to load inputs variables data.
+        self.__load_inputs_func = parent.InputsWidget.addInputsVariables
+        # Add storage function.
+        self.__add_storage_func = parent.addMultipleStorage
+        # Call to load paths.
+        self.__load_path_func = parent.InputsWidget.loadPaths
         # Call to load collections data.
         self.__load_collect_func = parent.CollectionTabPage.StructureWidget.addCollections
         # Call to load triangle data.
         self.__load_triangle_func = parent.CollectionTabPage.TriangularIterationWidget.addCollections
-        # Call to load inputs variables data.
-        self.__load_inputs_func = parent.InputsWidget.addInputsVariables
-        # Call after loaded algorithm results.
+        # Call to load algorithm results.
         self.__load_algorithm_func = parent.DimensionalSynthesis.loadResults
-        # Call after loaded paths.
-        self.__load_path_func = parent.InputsWidget.loadPaths
-        # Add empty links function.
-        self.__add_links_func = parent.addEmptyLinks
-        # Parse function.
-        self.__parse_func = parent.parseExpression
+
         # Clear function for main window.
         self.__clear_func = parent.clear
-        # Add storage function.
-        self.__add_storage_func = parent.addMultipleStorage
 
         # File name. (Share with database)
         self.__set_file_name = parent.DatabaseWidget.setFileName
@@ -77,7 +85,7 @@ class YamlEditor(QObject):
         for vpoint in self.__vpoints():
             attr = {
                 'links': vpoint.links,
-                'type': vpoint.typeSTR,
+                'type': vpoint.type,
                 'x': vpoint.x,
                 'y': vpoint.y,
             }
@@ -88,13 +96,11 @@ class YamlEditor(QObject):
         data = {
             'mechanism': mechanism_data,
 
-            'input': [{
-                'base': b,
-                'drive': d,
-                'angle': a,
-            } for b, d, a in self.__inputs_data_func()],
+            'links': self.__vlinks_color(),
 
-            'storage': dict(self.__storage_data_func()),
+            'input': [{'base': b, 'drive': d} for b, d, a in self.__inputs_data_func()],
+
+            'storage': list(self.__storage_data_func()),
 
             'collection': self.__collect_data_func(),
 
@@ -114,8 +120,72 @@ class YamlEditor(QObject):
 
     def load(self, file_name: str = ""):
         """Load YAML file."""
+        if self.__check_file_changed():
+            return
+
         with open(file_name) as f:
             yaml_script = f.read()
         data: Dict[str, Any] = yaml.load(yaml_script)
-        # TODO: Load function.
+
+        # Clear first.
+        self.__clear_func()
+
+        # Links data.
+        links_data: Dict[str, str] = data.get('links', {})
+        self.__add_links_func(links_data)
+
+        # Mechanism data.
+        mechanism_data: List[Dict[str, Any]] = data.get('mechanism', [])
+        try:
+            p_attr = []
+            for point_attr in mechanism_data:
+                p_x: float = point_attr['x']
+                p_y: float = point_attr['y']
+                p_links: Tuple[str] = point_attr['links']
+                p_type: int = point_attr['type']
+                if p_type in {VPoint.P, VPoint.RP}:
+                    p_angle: float = point_attr['angle']
+                else:
+                    p_angle = 0.
+                p_attr.append((p_x, p_y, ','.join(p_links), 'Green', p_type, p_angle))
+        except KeyError:
+            pass
+        else:
+            self.__add_points_func(p_attr)
+
+        # Input data.
+        input_data: List[Dict[str, int]] = data.get('input', [])
+        try:
+            i_attr = []
+            for input_attr in input_data:
+                i_base = input_attr['base']
+                i_drive = input_attr['drive']
+                i_attr.append((i_base, i_drive))
+        except KeyError:
+            pass
+        else:
+            self.__load_inputs_func(i_attr)
+
+        # Storage data.
+        storage_data: List[Tuple[str, str]] = data.get('storage', [])
+        self.__add_storage_func(storage_data)
+
+        # Path data.
+        path_data: Dict[str, Sequence[Tuple[float, float]]] = data.get('path', {})
+        self.__load_path_func(path_data)
+
+        # Collection data.
+        collection_data: List[Tuple[Tuple[int, int], ...]] = data.get('collection', [])
+        self.__load_collect_func(collection_data)
+
+        # Triangle data.
+        triangle_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
+        self.__load_triangle_func(triangle_data)
+
+        # Algorithm data.
+        algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
+        self.__load_algorithm_func(algorithm_data)
+
         self.__set_file_name(file_name)
+        # Workbook loaded.
+        self.__workbook_saved()

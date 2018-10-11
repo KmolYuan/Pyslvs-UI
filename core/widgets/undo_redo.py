@@ -156,7 +156,7 @@ class EditPointTable(QUndoCommand):
         row: int,
         point_table: PointTableWidget,
         link_table: LinkTableWidget,
-        args: Sequence[Union[str, int, float]]
+        args: Sequence[Union[str, float]]
     ):
         super(EditPointTable, self).__init__()
         self.point_table = point_table
