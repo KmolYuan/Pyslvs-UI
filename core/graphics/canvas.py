@@ -581,9 +581,9 @@ class PreviewCanvas(BaseCanvas):
             if solutions:
                 for expr in solutions.split(';'):
                     self.drawSolution(
-                        str_before(expr, '['),
-                        str_between(expr, '[', ']').split(','),
-                        str_between(expr, '(', ')'),
+                        io.str_before(expr, '['),
+                        io.str_between(expr, '[', ']').split(','),
+                        io.str_between(expr, '(', ')'),
                         self.pos
                     )
         # Text of node.
@@ -676,7 +676,7 @@ class PreviewCanvas(BaseCanvas):
         # Expression
         if params['Expression']:
             for expr in params['Expression'].split(';'):
-                self.setStatus(str_between(expr, '(', ')'), True)
+                self.setStatus(io.str_between(expr, '(', ')'), True)
         self.update()
 
     def isAllLock(self) -> bool:

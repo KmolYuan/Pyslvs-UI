@@ -8,7 +8,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Optional
+from typing import (
+    Tuple,
+    Sequence,
+    Dict,
+    Optional,
+)
 from abc import abstractmethod
 from core.QtModules import (
     pyqtSlot,
@@ -145,14 +150,15 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.push(AddStorageName(name, self.mechanism_storage_name_tag))
         self.CommandStack.endMacro()
 
-    def getStorage(self) -> Tuple[Tuple[str, str], ...]:
+    def getStorage(self) -> Dict[str, str]:
         """Get storage data."""
-        return tuple((
-            self.mechanism_storage.item(row).text(),
-            self.mechanism_storage.item(row).expr
-        ) for row in range(self.mechanism_storage.count()))
+        storage: Dict[str, str] = {}
+        for row in range(self.mechanism_storage.count()):
+            item: QListWidgetItem = self.mechanism_storage.item(row)
+            storage[item.text()] = item.expr
+        return storage
 
-    def addMultipleStorage(self, exprs: Tuple[Tuple[str, str], ...]):
+    def addMultipleStorage(self, exprs: Sequence[Tuple[str, str]]):
         """Add storage data from database."""
         for name, expr in exprs:
             self.__add_storage(name, expr)

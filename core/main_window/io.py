@@ -357,17 +357,23 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """Load workbook."""
         if self.checkFileChanged():
             return
-        file_name = self.inputFrom(
-            "Workbook database",
-            ["Pyslvs workbook (*.pyslvs)", "Solvespace module (*.slvs)"]
-        )
+        file_name = self.inputFrom("Workbook database", [
+            "Pyslvs YAML file (*.pyslvs.yml)",
+            "Pyslvs workbook (*.pyslvs)",
+            "Solvespace module (*.slvs)",
+        ])
+
         if not file_name:
             return
-        suffix = QFileInfo(file_name).suffix()
-        if suffix == 'pyslvs':
+
+        suffix = QFileInfo(file_name).completeSuffix()
+        if suffix == 'pyslvs.yml':
+            self.YamlEditor.load(file_name)
+        elif suffix == 'pyslvs':
             self.DatabaseWidget.read(file_name)
         elif suffix == 'slvs':
             self.__read_slvs(file_name)
+
         self.MainCanvas.zoomToFit()
 
     @pyqtSlot(name='on_action_import_database_triggered')
@@ -383,9 +389,25 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             return
         self.DatabaseWidget.importMechanism(file_name)
 
+    @pyqtSlot(name='on_action_save_triggered')
+    def save(self):
+        """Save action. (YAML)"""
+        if self.DatabaseWidget.file_name.completeSuffix() == 'pyslvs.yml':
+            self.YamlEditor.save()
+        else:
+            self.__save_as()
+
+    @pyqtSlot(name='on_action_save_as_triggered')
+    def __save_as(self):
+        """Save as action. (YAML)"""
+        file_name = self.outputTo("YAML profile", ["Pyslvs YAML file (*.pyslvs.yml)"])
+        if file_name:
+            self.YamlEditor.save(file_name)
+            self.saveReplyBox("YAML Profile", file_name)
+
     @pyqtSlot(name='on_action_commit_triggered')
     def commit(self, is_branch: bool = False):
-        """Save action."""
+        """Save action. (Database)"""
         file_name = self.DatabaseWidget.file_name.absoluteFilePath()
         if self.DatabaseWidget.file_name.suffix() == 'pyslvs':
             self.DatabaseWidget.save(file_name, is_branch)
@@ -394,7 +416,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     @pyqtSlot(name='on_action_commit_as_triggered')
     def __commit_as(self, is_branch: bool = False):
-        """Save as action."""
+        """Save as action. (Database)"""
         file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if file_name:
             self.DatabaseWidget.save(file_name, is_branch)
@@ -444,17 +466,16 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
 
     def outputTo(self, format_name: str, format_choose: List[str]) -> str:
         """Simple to support multiple format."""
-        suffix0 = str_between(format_choose[0], '(', ')').split('*')[-1]
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
             f"Save to {format_name}...",
-            self.env + '/' + self.DatabaseWidget.file_name.baseName() + suffix0,
+            self.env + '/' + self.DatabaseWidget.file_name.baseName(),
             ';;'.join(format_choose)
         )
         if file_name:
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             print(f"Format: {suffix}")
-            if QFileInfo(file_name).suffix() != suffix[1:]:
+            if QFileInfo(file_name).completeSuffix() != suffix[1:]:
                 file_name += suffix
             self.setLocate(QFileInfo(file_name).absolutePath())
         return file_name
@@ -465,7 +486,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         print("Size: " + (
             f"{size / 1024 / 1024:.02f} MB"
             if size / 1024 // 1024 else
-            "{size / 1024:.02f} KB"
+            f"{size / 1024:.02f} KB"
         ))
         QMessageBox.information(
             self,
@@ -622,7 +643,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             QMessageBox.Save
         )
         if reply == QMessageBox.Save:
-            self.commit()
+            self.save()
             return self.DatabaseWidget.changed
         elif reply == QMessageBox.Discard:
             return False

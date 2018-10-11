@@ -39,7 +39,7 @@ from core.QtModules import (
     QTableWidgetItem,
 )
 from core.graphics import PreviewCanvas, graph2vpoints
-from core import io
+from core.io import str_before, str_between
 from core.libs import expr_solving, VPoint
 from core.synthesis import CollectionsDialog
 from .ds_dialog import (
@@ -317,7 +317,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not self.edit_target_point_button.isChecked():
             return
         for i, (cx, cy) in enumerate(self.currentPath()):
-            if hypot(x - cx, y - cy) < 2:
+            if hypot(x - cx, y - cy) < 3:
                 index = i
                 self.path_list.setCurrentRow(index)
                 break

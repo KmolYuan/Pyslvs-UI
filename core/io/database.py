@@ -242,6 +242,10 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
         self.__close_database()
 
+    def setFileName(self, file_name: str):
+        """Set file name."""
+        self.file_name = QFileInfo(file_name)
+
     def __connect_database(self, file_name: str):
         """Connect database."""
         self.__close_database()
@@ -318,7 +322,7 @@ class DatabaseWidget(QWidget, Ui_Form):
                 'description': commit_text,
                 'mechanism': _compress(self.__point_expr_func()),
                 'linkcolor': _compress(self.__link_expr_func()),
-                'storage': _compress(self.__storage_data_func()),
+                'storage': _compress(list(self.__storage_data_func())),
                 'pathdata': _compress(self.__path_data_func()),
                 'collectiondata': _compress(self.__collect_data_func()),
                 'triangledata': _compress(self.__triangle_data_func()),

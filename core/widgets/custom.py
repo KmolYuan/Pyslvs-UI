@@ -269,15 +269,15 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             "Dimensional"
         )
 
-        # YAML editor.
-        self.YamlEditor = YamlEditor(self)
-
         # File widget settings.
         self.DatabaseWidget = DatabaseWidget(self)
         self.SCMLayout.addWidget(self.DatabaseWidget)
         self.DatabaseWidget.commit_add.clicked.connect(self.commit)
         self.DatabaseWidget.branch_add.clicked.connect(self.commit_branch)
         self.action_stash.triggered.connect(self.DatabaseWidget.stash)
+
+        # YAML editor.
+        self.YamlEditor = YamlEditor(self)
 
         # Console dock will hide when startup.
         self.ConsoleWidget.hide()
