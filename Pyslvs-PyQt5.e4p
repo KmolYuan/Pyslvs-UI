@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-09-27, 16:47:53 -->
+<!-- Saved: 2018-10-12, 15:50:06 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -9,7 +9,7 @@
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
   <Description>Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.</Description>
-  <Version>18.09</Version>
+  <Version></Version>
   <Author>KmolYuan</Author>
   <Email>pyslvs@gmail.com</Email>
   <Eol index="0"/>
@@ -37,17 +37,16 @@
     <Source>core/io/__init__.py</Source>
     <Source>core/io/database.py</Source>
     <Source>core/io/dxf.py</Source>
-    <Source>core/io/images.py</Source>
-    <Source>core/io/loggingHandler.py</Source>
+    <Source>core/io/logging_handler.py</Source>
     <Source>core/io/output_option.py</Source>
     <Source>core/io/overview.py</Source>
+    <Source>core/io/pyslvs_yaml.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/slvs/__init__.py</Source>
     <Source>core/io/slvs/frame.py</Source>
     <Source>core/io/slvs/part.py</Source>
     <Source>core/io/slvs/read.py</Source>
     <Source>core/io/slvs/write.py</Source>
-    <Source>core/io/undo_redo.py</Source>
     <Source>core/libs/__init__.py</Source>
     <Source>core/libs/pyslvs/Adesign/setup.py</Source>
     <Source>core/libs/pyslvs/Adesign/src/de.pyx</Source>
@@ -80,12 +79,40 @@
     <Source>core/main_window/actions.py</Source>
     <Source>core/main_window/entities.py</Source>
     <Source>core/main_window/io.py</Source>
-    <Source>core/main_window/main.py</Source>
     <Source>core/main_window/solver.py</Source>
     <Source>core/main_window/storage.py</Source>
-    <Source>core/synthesis/Collections/__init__.py</Source>
-    <Source>core/synthesis/Collections/main_widget.py</Source>
     <Source>core/synthesis/__init__.py</Source>
+    <Source>core/synthesis/collections/Ui_structure_widget.py</Source>
+    <Source>core/synthesis/collections/Ui_triangular_iteration_widget.py</Source>
+    <Source>core/synthesis/collections/__init__.py</Source>
+    <Source>core/synthesis/collections/structure_widget.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/Ui_collections.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/Ui_constraints.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/Ui_customs.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/Ui_solutions.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/Ui_targets.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/__init__.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/collections.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/constraints.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/customs.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/solutions.py</Source>
+    <Source>core/synthesis/collections/ti_dialog/targets.py</Source>
+    <Source>core/synthesis/collections/triangular_iteration_widget.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/Ui_dimension_widget.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/__init__.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/Ui_options.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/Ui_path_adjust.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/Ui_preview.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/Ui_progress.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/__init__.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/chart.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/options.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/path_adjust.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/preview.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/progress.py</Source>
+    <Source>core/synthesis/dimensional_synthesis/ds_dialog/thread.py</Source>
+    <Source>core/synthesis/structure_synthesis/Ui_structure_widget.py</Source>
+    <Source>core/synthesis/structure_synthesis/__init__.py</Source>
     <Source>core/widgets/Ui_inputs.py</Source>
     <Source>core/widgets/Ui_main.py</Source>
     <Source>core/widgets/__init__.py</Source>
@@ -95,6 +122,7 @@
     <Source>core/widgets/main_canvas_method.py</Source>
     <Source>core/widgets/rotatable.py</Source>
     <Source>core/widgets/tables.py</Source>
+    <Source>core/widgets/undo_redo.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>preview_rc.py</Source>
