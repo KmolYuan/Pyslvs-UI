@@ -71,6 +71,7 @@ else ifeq ($(shell uname),Darwin)
 	mv dist/Pyslvs dist/$(EXENAME)
 	chmod +x dist/$(EXENAME)
 	mv dist/Pyslvs.app dist/$(EXENAME).app
+	zip -r dist/$(EXENAME).app.zip dist/$(EXENAME).app
 else
 	@echo --Python Version $(PYVER)--
 	bash ./appimage_recipe.sh
