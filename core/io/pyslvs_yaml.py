@@ -19,6 +19,7 @@ from core.QtModules import QObject
 from core.libs import VPoint
 from core.info import __version__
 from core import main_window as mn
+from .overview import OverviewDialog
 _major, _minor, _build, _label = __version__
 
 
@@ -136,8 +137,8 @@ class YamlEditor(QObject):
 
         # Mechanism data.
         mechanism_data: List[Dict[str, Any]] = data.get('mechanism', [])
+        p_attr = []
         try:
-            p_attr = []
             for point_attr in mechanism_data:
                 p_x: float = point_attr['x']
                 p_y: float = point_attr['y']
@@ -155,8 +156,8 @@ class YamlEditor(QObject):
 
         # Input data.
         input_data: List[Dict[str, int]] = data.get('input', [])
+        i_attr = []
         try:
-            i_attr = []
             for input_attr in input_data:
                 i_base = input_attr['base']
                 i_drive = input_attr['drive']
@@ -186,6 +187,20 @@ class YamlEditor(QObject):
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
         self.__load_algorithm_func(algorithm_data)
 
-        self.__set_file_name(file_name)
         # Workbook loaded.
+        self.__set_file_name(file_name)
         self.__workbook_saved()
+
+        # Show overview dialog.
+        dlg = OverviewDialog(
+            self.parent(),
+            f"Open file: {file_name}",
+            storage_data,
+            i_attr,
+            path_data,
+            collection_data,
+            triangle_data,
+            algorithm_data
+        )
+        dlg.show()
+        dlg.exec_()

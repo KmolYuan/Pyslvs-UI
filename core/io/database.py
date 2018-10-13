@@ -10,6 +10,10 @@ __email__ = "pyslvs@gmail.com"
 from os import remove as os_remove
 from os.path import isfile
 from typing import (
+    Tuple,
+    List,
+    Sequence,
+    Dict,
     Union,
     Optional,
     Any,
@@ -39,7 +43,7 @@ from core.QtModules import (
 )
 from core import main_window as mw
 from core.libs import example_list
-from .overview import WorkbookOverview
+from .overview import OverviewDialog
 from .Ui_database import Ui_Form
 nan = float('nan')
 
@@ -498,22 +502,39 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.__add_links_func(_decompress(commit.linkcolor))
         self.__parse_func(_decompress(commit.mechanism))
         # Load inputs data.
-        self.__load_inputs_func(_decompress(commit.inputsdata))
+        input_data: Sequence[Tuple[int, int]] = _decompress(commit.inputsdata)
+        self.__load_inputs_func(input_data)
         # Load the storage.
-        self.__add_storage_func(_decompress(commit.storage))
+        storage_data: List[Tuple[str, str]] = _decompress(commit.storage)
+        self.__add_storage_func(storage_data)
         # Load path data.
-        self.__load_path_func(_decompress(commit.pathdata))
+        path_data: Dict[str, Sequence[Tuple[float, float]]] = _decompress(commit.pathdata)
+        self.__load_path_func(path_data)
         # Load collection data.
-        self.__load_collect_func(_decompress(commit.collectiondata))
+        collection_data: List[Tuple[Tuple[int, int], ...]] = _decompress(commit.collectiondata)
+        self.__load_collect_func(collection_data)
         # Load triangle data.
-        self.__load_triangle_func(_decompress(commit.triangledata))
+        triangle_data: Dict[str, Dict[str, Any]] = _decompress(commit.triangledata)
+        self.__load_triangle_func(triangle_data)
         # Load algorithm data.
-        self.__load_algorithm_func(_decompress(commit.algorithmdata))
+        algorithm_data: List[Dict[str, Any]] = _decompress(commit.algorithmdata)
+        self.__load_algorithm_func(algorithm_data)
+
         # Workbook loaded.
         self.__workbook_saved()
         print("The specified phase has been loaded.")
+
         # Show overview dialog.
-        dlg = WorkbookOverview(commit, _decompress, self)
+        dlg = OverviewDialog(
+            self,
+            f"{commit.branch.name} - commit # {commit.id}",
+            storage_data,
+            input_data,
+            path_data,
+            collection_data,
+            triangle_data,
+            algorithm_data
+        )
         dlg.show()
         dlg.exec_()
 
