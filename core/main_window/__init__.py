@@ -124,10 +124,13 @@ class MainWindow(IOMethodInterface):
         """Set path style as curve (true) or dots (false)."""
         self.MainCanvas.setCurveMode(self.action_path_style.isChecked())
 
+    @pyqtSlot(int, name='on_Panel_currentChanged')
     @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
-    def __set_show_target_path(self, index: int):
+    def __set_show_target_path(self, _: int):
         """Dimensional synthesis information will show on the canvas."""
-        self.MainCanvas.setShowTargetPath(index == 2)
+        panel_index = self.Panel.currentIndex()
+        synthesis_index = self.SynthesisTab.currentIndex()
+        self.MainCanvas.setShowTargetPath(panel_index == synthesis_index == 2)
 
     def addTargetPoint(self):
         """Use context menu to add a target path coordinate."""
