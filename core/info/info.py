@@ -112,20 +112,22 @@ _parser.add_argument(
 ARGUMENTS = _parser.parse_args()
 
 
-def check_update(dlg: QProgressDialog) -> Union[str, bool]:
+def check_update(dlg: QProgressDialog) -> str:
     """Check for update."""
     m = dlg.maximum()
     for i in range(m):
         QCoreApplication.processEvents()
         if dlg.wasCanceled():
-            return
+            return ""
         next_ver = list(__version__[:m])
         next_ver[i] += 1
-        url = ("https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/"
-            f"v{next_ver[0]}.{next_ver[1]:02}.{next_ver[2]}")
+        url = (
+            "https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/"
+            f"v{next_ver[0]}.{next_ver[1]:02}.{next_ver[2]}"
+        )
         request = requests.get(url)
         dlg.setValue(i + 1)
         if request.status_code == 200:
             dlg.setValue(m)
             return url
-    return False
+    return ""

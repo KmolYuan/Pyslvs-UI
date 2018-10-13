@@ -46,7 +46,7 @@ class WorkerThread(QThread):
         to start the algorithm.
         """
         super(WorkerThread, self).__init__()
-        self.stoped = False
+        self.is_stop = False
         self.type_num = type_num
         self.mech_params = mech_params
         self.settings = settings
@@ -72,24 +72,24 @@ class WorkerThread(QThread):
             Planar(self.mech_params),
             self.settings,
             progress_fun=self.progress_update.emit,
-            interrupt_fun=self.__isStoped,
+            interrupt_fun=self.__is_stop,
         )
         t0 = time()
         for self.currentLoop in range(self.loop):
             print(f"Algorithm [{self.currentLoop + 1}]: {self.type_num}")
-            if self.stoped:
+            if self.is_stop:
                 # Cancel the remaining tasks.
                 print("Canceled.")
                 continue
-            mechanism, time_spand = self.__algorithm()
-            self.result.emit(mechanism, time_spand)
+            mechanism, time_spend = self.__algorithm()
+            self.result.emit(mechanism, time_spend)
         print(f"total cost time: {time() - t0:.02f} [s]")
         self.done.emit()
 
     def __algorithm(self) -> Tuple[Dict[str, Any], float]:
         """Get the algorithm result."""
         t0 = time()
-        params, tf = self.__generateProcess()
+        params, tf = self.__generate_process()
         time_spend = time() - t0
         cpu = numpy.distutils.cpuinfo.cpu.info[0]
         last_gen = tf[-1][0]
@@ -97,7 +97,7 @@ class WorkerThread(QThread):
             'Algorithm': self.type_num.value,
             'time': time_spend,
             'last_gen': last_gen,
-            'interrupted': str(last_gen) if self.stoped else 'False',
+            'interrupted': str(last_gen) if self.is_stop else 'False',
             'settings': self.settings,
             'hardware_info': {
                 'os': f"{platform.system()} {platform.release()} {platform.machine()}",
@@ -111,7 +111,7 @@ class WorkerThread(QThread):
         print(f"cost time: {time_spend:.02f} [s]")
         return mechanism, time_spend
 
-    def __generateProcess(self) -> Tuple[
+    def __generate_process(self) -> Tuple[
         Dict[str, Any],
         List[Tuple[int, float, float]]
     ]:
@@ -120,10 +120,10 @@ class WorkerThread(QThread):
         # Note: Remove numpy 'scalar' format.
         return eval(str(params)), tf
 
-    def __isStoped(self) -> bool:
+    def __is_stop(self) -> bool:
         """Return stop status for Cython function."""
-        return self.stoped
+        return self.is_stop
 
     def stop(self):
         """Stop the algorithm."""
-        self.stoped = True
+        self.is_stop = True

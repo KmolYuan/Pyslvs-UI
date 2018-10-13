@@ -245,8 +245,3 @@ class MainWindow(IOMethodInterface):
     def commit_branch(self):
         """Save as new branch action."""
         self.commit(True)
-
-    @pyqtSlot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
-    def __double_click_storage(self, item):
-        """Restore the storage data as below."""
-        self.restoreStorage(item)

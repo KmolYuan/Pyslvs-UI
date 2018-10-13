@@ -120,6 +120,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.endMacro()
 
     @pyqtSlot(name='on_mechanism_storage_restore_clicked')
+    @pyqtSlot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
     def restoreStorage(self, item: Optional[QListWidgetItem] = None):
         """Restore the storage data."""
         if item is None:
