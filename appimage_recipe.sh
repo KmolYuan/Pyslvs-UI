@@ -94,4 +94,4 @@ move_lib
 ########################################################################
 
 cd ..
-generate_appimage
+generate_type2_appimage
