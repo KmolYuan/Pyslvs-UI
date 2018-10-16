@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # This is a very simple example on how to bundle a Python application as an AppImage
 # using virtualenv and AppImageKit using Ubuntu
 # NOTE: Please test the resulting AppImage on your target systems and copy in any additional
@@ -18,7 +19,7 @@ cd ENV/$APP.AppDir/
 ########################################################################
 
 mkdir -p usr
-virtualenv --always-copy --python=python3 ./usr
+virtualenv ./usr --python=python3 --always-copy --system-site-packages --verbose
 
 source usr/bin/activate
 
