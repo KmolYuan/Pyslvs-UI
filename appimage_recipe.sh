@@ -11,15 +11,15 @@
 APP=pyslvs
 LOWERAPP=${APP,,}
 
-mkdir -p ENV/$APP.AppDir/
-cd ENV/$APP.AppDir/
+mkdir -p ENV/${APP}.AppDir/
+cd ENV/${APP}.AppDir/
 
 ########################################################################
 # Create a virtualenv inside the AppDir
 ########################################################################
 
 mkdir -p usr
-virtualenv ./usr --python=python3 --always-copy --system-site-packages --verbose
+virtualenv ./usr --python=python3 --always-copy --verbose
 
 source usr/bin/activate
 
@@ -42,9 +42,9 @@ deactivate
 # "Install" app in the AppDir
 ########################################################################
 
-cp ../../launch_pyslvs.py usr/bin/$LOWERAPP
-sed -i "1i\#!/usr/bin/env python3" usr/bin/$LOWERAPP
-chmod a+x usr/bin/$LOWERAPP
+cp ../../launch_pyslvs.py usr/bin/${LOWERAPP}
+sed -i "1i\#!/usr/bin/env python3" usr/bin/${LOWERAPP}
+chmod a+x usr/bin/${LOWERAPP}
 
 cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
@@ -65,21 +65,21 @@ get_apprun
 
 cd ../..
 VERSION=$(python3 -c "from core.info.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
-cd ENV/$APP.AppDir/
+cd ENV/${APP}.AppDir/
 
-cat > $LOWERAPP.desktop <<EOF
+cat > ${LOWERAPP}.desktop <<EOF
 [Desktop Entry]
-Name=$APP
-Exec=$LOWERAPP
+Name=${APP}
+Exec=${LOWERAPP}
 Type=Application
-Icon=$LOWERAPP
+Icon=${LOWERAPP}
 StartupNotify=true
 Comment=Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 EOF
 
 # Make the AppImage ask to "install" itself into the menu
-get_desktopintegration $LOWERAPP
-cp ../../icons/main_big.png $LOWERAPP.png
+get_desktopintegration ${LOWERAPP}
+cp ../../icons/main_big.png ${LOWERAPP}.png
 
 ########################################################################
 # Bundle dependencies
