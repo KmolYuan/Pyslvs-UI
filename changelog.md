@@ -18,6 +18,7 @@ Development
 + Module of important widgets are be moved to `__init__.py`.
 + Fix compiler option error caused by Python (`cygwinccompiler.py`).
 + Adjust all functions and "private" methods name with PEP 8.
++ New deploy options of Github releases.
 
 Version 18.09
 ===
