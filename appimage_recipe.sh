@@ -29,12 +29,25 @@ wget -q https://raw.githubusercontent.com/AppImage/AppImages/master/functions.sh
 
 mkdir -p usr/bin/
 
-#Show python and pip versions
+# Show python and pip versions
 python --version
 pip --version
 
 # Install python dependencies into the virtualenv
 pip install -r ../../requirements.txt
+
+# Travis-CI patch
+if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    echo "Update for Travis's Python patch ...";
+    PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))");
+    PYVERS=$(python -c "from sys import version_info as vi;print(f'{vi.major}.{vi.minor}.{vi.micro}')");
+    PYLIBDIR=/opt/python/${PYVERS}/lib;
+    PYDIR=${PYLIBDIR}/python${PYVER};
+    MY_PYLIBDIR=./usr/lib/;
+    MY_PYDIR=${MY_PYLIBDIR}/python${PYVER};
+    cp ${PYLIBDIR}/libpython3*.so* ${MY_PYLIBDIR};
+    cp ${PYDIR}/platform.py ${MY_PYDIR};
+fi
 
 deactivate
 
