@@ -15,7 +15,6 @@ __email__ = "pyslvs@gmail.com"
 from sys import version_info as _vi
 import platform
 from argparse import ArgumentParser
-from typing import Union
 import requests
 from core.QtModules import (
     QCoreApplication,

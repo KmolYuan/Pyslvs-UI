@@ -18,36 +18,70 @@ cd ENV/${APP}.AppDir/
 # Create a virtualenv inside the AppDir
 ########################################################################
 
+MY_APPDIR=${PWD}
+
 mkdir -p usr
 virtualenv ./usr --python=python3 --always-copy --verbose
 
 source usr/bin/activate
 
-# Source some helper functions
+# Source some helper functions.
 wget -q https://raw.githubusercontent.com/AppImage/AppImages/master/functions.sh -O ./functions.sh
 . ./functions.sh
 
 mkdir -p usr/bin/
 
-# Show python and pip versions
+# Show python and pip versions.
 python --version
 pip --version
 
-# Install python dependencies into the virtualenv
+# Install python dependencies into the virtualenv.
 pip install -r ../../requirements.txt
 
-# Travis-CI patch
-if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    echo "Update for Travis's Python patch ...";
-    PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))");
-    PYVERS=$(python -c "from sys import version_info as vi;print(f'{vi.major}.{vi.minor}.{vi.micro}')");
-    PYLIBDIR=/opt/python/${PYVERS}/lib;
-    PYDIR=${PYLIBDIR}/python${PYVER};
-    MY_PYLIBDIR=./usr/lib/;
-    MY_PYDIR=${MY_PYLIBDIR}/python${PYVER};
-    cp ${PYLIBDIR}/libpython3*.so* ${MY_PYLIBDIR};
-    cp -n ${PYDIR}/*.py ${MY_PYDIR};
-fi
+# Copy all built-in scripts.
+PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))")
+PYDIR=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('DESTLIB'))")
+MY_PYDIR=${MY_APPDIR}/usr/lib/python${PYVER}
+echo "Copy built-in script patch from '${PYDIR}' to '${MY_PYDIR}' ..."
+cd ${PYDIR}
+for f in *; do
+    if [ ${f} == "__pycache__" ] || [ ${f} == "test" ] || [ ${f} == "venv" ]; then continue; fi
+
+    if [[ ${f} == *.py ]]; then
+        cp -n -v ${f} ${MY_PYDIR}
+    fi
+
+    if [ ! -d ${f} ]; then continue; fi
+
+    echo "Create '${MY_PYDIR}/${f}'"
+    mkdir -p ${MY_PYDIR}/${f}
+    cp -n -v ${f}/*.py ${MY_PYDIR}/${f}
+
+    cd ${f}
+
+    for sub_f in *; do
+        if [ ${sub_f} == "__pycache__" ]; then continue; fi
+
+        if [[ ${sub_f} == *.py ]]; then
+            cp -n -v ${sub_f} ${MY_PYDIR}/${f}
+        fi
+
+        if [ ! -d ${sub_f} ]; then continue; fi
+
+        echo "Create '${MY_PYDIR}/${f}/${sub_f}'"
+        mkdir -p ${MY_PYDIR}/${f}/${sub_f}
+        cp -n -v ${sub_f}/*.py ${MY_PYDIR}/${f}/${sub_f}
+    done
+
+    cd ..
+done
+cd ${MY_APPDIR}
+
+# Python libraries.
+SCRIPTDIR=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")
+for f in ${SCRIPTDIR}/libpython3*.so*; do
+    cp -n -v ${f} ./usr/lib
+done
 
 deactivate
 
@@ -78,6 +112,7 @@ get_apprun
 
 cd ../..
 VERSION=$(python3 -c "from core.info.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
+echo "${VERSION}"
 cd ENV/${APP}.AppDir/
 
 cat > ${LOWERAPP}.desktop <<EOF
@@ -101,6 +136,9 @@ cp ../../icons/main_big.png ${LOWERAPP}.png
 copy_deps ; copy_deps ; copy_deps
 delete_blacklisted
 move_lib
+
+rm -fr ./opt
+rm -fr ./usr/share
 
 ########################################################################
 # Package the AppDir as an AppImage
