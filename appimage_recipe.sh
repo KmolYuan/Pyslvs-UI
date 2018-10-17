@@ -46,7 +46,7 @@ if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     MY_PYLIBDIR=./usr/lib/;
     MY_PYDIR=${MY_PYLIBDIR}/python${PYVER};
     cp ${PYLIBDIR}/libpython3*.so* ${MY_PYLIBDIR};
-    cp ${PYDIR}/platform.py ${MY_PYDIR};
+    cp -n ${PYDIR}/*.py ${MY_PYDIR};
 fi
 
 deactivate
