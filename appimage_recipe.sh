@@ -25,27 +25,36 @@ virtualenv ./usr --python=python3 --always-copy --verbose
 
 source usr/bin/activate
 
+
 # Source some helper functions.
 wget -q https://raw.githubusercontent.com/AppImage/AppImages/master/functions.sh -O ./functions.sh
 . ./functions.sh
 
 mkdir -p usr/bin/
 
+
 # Show python and pip versions.
 python --version
 pip --version
 
+
 # Install python dependencies into the virtualenv.
 pip install -r ../../requirements.txt
+
 
 # Copy all built-in scripts.
 PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))")
 PYDIR=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('DESTLIB'))")
 MY_PYDIR=${MY_APPDIR}/usr/lib/python${PYVER}
+
+echo "Remove venv distutils ..."
+rm -fr -v ${MY_PYDIR}/distutils
+
 echo "Copy built-in script patch from '${PYDIR}' to '${MY_PYDIR}' ..."
 cd ${PYDIR}
 for f in *; do
-    if [ ${f} == "__pycache__" ] || [ ${f} == "test" ] || [ ${f} == "venv" ]; then continue; fi
+    if [ ${f} == "__pycache__" ] || [ ${f} == "test" ] \
+        || [ ${f} == "venv" ] || [ ${f} == "idlelib" ]; then continue; fi
 
     if [[ ${f} == *.py ]]; then
         cp -n -v ${f} ${MY_PYDIR}
@@ -76,6 +85,7 @@ for f in *; do
     cd ..
 done
 cd ${MY_APPDIR}
+
 
 # Python libraries.
 SCRIPTDIR=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")
