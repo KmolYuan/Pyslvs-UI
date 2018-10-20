@@ -1,6 +1,19 @@
 Change Log
 ===
 
+Version 18.10
+===
+
+Features
+---
+
++ UI adjustments.
+
+Development
+---
+
++ None.
+
 Version 18.09.1
 ===
 
