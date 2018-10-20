@@ -255,7 +255,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QLineEdit" name="expr_edges">
+               <widget class="QLineEdit" name="edges_text">
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>

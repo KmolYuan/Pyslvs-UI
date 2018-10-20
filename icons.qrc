@@ -55,9 +55,8 @@
     <file>icons/konsole.png</file>
     <file>icons/link.png</file>
     <file>icons/loadfile.png</file>
-    <file>icons/maxmized.png</file>
     <file>icons/merge.png</file>
-    <file>icons/minimized.png</file>
+    <file>icons/merge_from.png</file>
     <file>icons/motor.png</file>
     <file>icons/new_file.png</file>
     <file>icons/new_window.png</file>

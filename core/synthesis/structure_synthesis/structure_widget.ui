@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>471</width>
-    <height>671</height>
+    <width>310</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,55 +17,47 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/number.png</normaloff>:/icons/number.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_7">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="QLabel" name="expr_joint_text">
-         <property name="text">
-          <string>Generalized expression:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLineEdit" name="expr_edges">
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="expr_copy">
-           <property name="statusTip">
-            <string>Copy expression.</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="expr_add_collection">
-           <property name="statusTip">
-            <string>Add to collection.</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      <widget class="QLabel" name="edges_label">
+       <property name="text">
+        <string>Edge set:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="edges_text">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="expr_copy">
+       <property name="statusTip">
+        <string>Copy expression.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="expr_add_collection">
+       <property name="statusTip">
+        <string>Add to collection.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="from_mechanism_button">
@@ -74,13 +66,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
+         <normaloff>:/icons/merge_from.png</normaloff>:/icons/merge_from.png</iconset>
        </property>
        <property name="autoDefault">
         <bool>true</bool>
@@ -202,7 +188,14 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="expr_number"/>
+        <widget class="QLabel" name="link_assortments_label">
+         <property name="text">
+          <string>Link assortments:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="link_assortments_list"/>
        </item>
       </layout>
      </widget>
@@ -325,7 +318,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="Topologic_result">
+        <widget class="QListWidget" name="structure_list">
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
          </property>

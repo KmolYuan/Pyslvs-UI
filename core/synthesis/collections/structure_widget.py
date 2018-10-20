@@ -78,7 +78,7 @@ class StructureWidget(QWidget, Ui_Form):
         """Clear the selection preview data."""
         self.grounded_list.clear()
         self.selection_window.clear()
-        self.expr_edges.clear()
+        self.edges_text.clear()
         self.NL.setText('0')
         self.NJ.setText('0')
         self.DOF.setText('0')
@@ -123,7 +123,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections_layouts.clear()
         self.collection_list.clear()
         self.selection_window.clear()
-        self.expr_edges.clear()
+        self.edges_text.clear()
         self.NL.setText('0')
         self.NJ.setText('0')
         self.DOF.setText('0')
@@ -321,7 +321,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.ground_engine
         ))
         self.selection_window.addItem(item_)
-        self.expr_edges.setText(str(list(graph.edges)))
+        self.edges_text.setText(str(list(graph.edges)))
         self.NL.setText(str(len(graph.nodes)))
         self.NJ.setText(str(len(graph.edges)))
         self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
@@ -329,10 +329,10 @@ class StructureWidget(QWidget, Ui_Form):
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):
         """Copy the expression."""
-        string = self.expr_edges.text()
+        string = self.edges_text.text()
         if string:
             QApplication.clipboard().setText(string)
-            self.expr_edges.selectAll()
+            self.edges_text.selectAll()
 
     @pyqtSlot(name='on_delete_button_clicked')
     def __delete_collection(self):

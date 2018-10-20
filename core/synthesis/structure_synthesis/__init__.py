@@ -83,7 +83,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NJ_input.valueChanged.connect(self.__adjust_structure_data)
         self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
-        self.Topologic_result.customContextMenuRequested.connect(
+        self.structure_list.customContextMenuRequested.connect(
             self.__topologic_result_context_menu
         )
 
@@ -114,9 +114,9 @@ class StructureSynthesis(QWidget, Ui_Form):
     def clear(self):
         """Clear all sub-widgets."""
         self.answer.clear()
-        self.expr_edges.clear()
-        self.expr_number.clear()
-        self.Topologic_result.clear()
+        self.edges_text.clear()
+        self.link_assortments_list.clear()
+        self.structure_list.clear()
         self.time_label.setText("")
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
@@ -130,9 +130,9 @@ class StructureSynthesis(QWidget, Ui_Form):
         joint_data = self.jointDataFunc()
         link_data = self.linkDataFunc()
         if joint_data and link_data:
-            self.expr_edges.setText(str(self.getGraph()))
+            self.edges_text.setText(str(self.getGraph()))
         else:
-            self.expr_edges.setText("")
+            self.edges_text.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.NL_input.setValue(
@@ -206,21 +206,21 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_number_synthesis_button_clicked')
     def __number_synthesis(self):
         """Show number of links with different number of joints."""
-        self.expr_number.clear()
+        self.link_assortments_list.clear()
         try:
             results = number_synthesis(self.NL_input.value(), self.NJ_input.value())
         except Exception as e:
             item = QListWidgetItem(str(e))
             item.links = None
-            self.expr_number.addItem(item)
+            self.link_assortments_list.addItem(item)
         else:
             for result in results:
                 item = QListWidgetItem(", ".join(
                     f"NL{i + 2} = {result[i]}" for i in range(len(result))
                 ))
                 item.links = result
-                self.expr_number.addItem(item)
-        self.expr_number.setCurrentRow(0)
+                self.link_assortments_list.addItem(item)
+        self.link_assortments_list.setCurrentRow(0)
 
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
@@ -229,11 +229,11 @@ class StructureSynthesis(QWidget, Ui_Form):
         If there has no data of number synthesis,
         execute number synthesis first.
         """
-        row = self.expr_number.currentRow()
+        row = self.link_assortments_list.currentRow()
         if not row > -1:
             self.__number_synthesis()
-            row = self.expr_number.currentRow()
-        if self.expr_number.currentItem() is None:
+            row = self.link_assortments_list.currentRow()
+        if self.link_assortments_list.currentItem() is None:
             return
         answer = self.__type_combine(row)
         if answer:
@@ -247,13 +247,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
-        if not self.expr_number.currentRow() > -1:
+        if not self.link_assortments_list.currentRow() > -1:
             self.__number_synthesis()
-        if self.expr_number.currentItem().links is None:
+        if self.link_assortments_list.currentItem().links is None:
             return
         answers = []
         break_point = False
-        for row in range(self.expr_number.count()):
+        for row in range(self.link_assortments_list.count()):
             answer = self.__type_combine(row)
             if answer:
                 answers += answer
@@ -275,7 +275,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     def __type_combine(self, row: int) -> Optional[List[Graph]]:
         """Combine and show progress dialog."""
-        item = self.expr_number.item(row)
+        item = self.link_assortments_list.item(row)
         progress_dlg = QProgressDialog(
             "Analysis of the topology...",
             "Skip",
@@ -331,7 +331,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __reload_atlas(self, *_: int):
         """Reload the atlas. Regardless there has any old data."""
         self.engine = self.graph_engine.currentText().split(" - ")[1]
-        self.Topologic_result.clear()
+        self.structure_list.clear()
         if self.answer:
             progress_dlg = QProgressDialog(
                 "Drawing atlas...",
@@ -361,7 +361,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         try:
             item.setIcon(to_graph(
                 graph,
-                self.Topologic_result.iconSize().width(),
+                self.structure_list.iconSize().width(),
                 self.engine,
                 self.graph_link_as_node.isChecked()
             ))
@@ -374,12 +374,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             return False
         else:
             item.setToolTip(str(graph.edges))
-            self.Topologic_result.addItem(item)
+            self.structure_list.addItem(item)
             return True
 
     def __atlas_image(self, row: int = None) -> QImage:
         """Capture a result item icon to image."""
-        w = self.Topologic_result
+        w = self.structure_list
         if row is None:
             item = w.currentItem()
         else:
@@ -389,11 +389,11 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(QPoint)
     def __topologic_result_context_menu(self, point):
         """Context menu for the type synthesis results."""
-        index = self.Topologic_result.currentIndex().row()
+        index = self.structure_list.currentIndex().row()
         self.add_collection.setEnabled(index > -1)
         self.copy_edges.setEnabled(index > -1)
         self.copy_image.setEnabled(index > -1)
-        action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
+        action = self.popMenu_topo.exec_(self.structure_list.mapToGlobal(point))
         if not action:
             return
         clipboard = QApplication.clipboard()
@@ -416,15 +416,15 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):
         """Copy expression button."""
-        string = self.expr_edges.text()
+        string = self.edges_text.text()
         if string:
             QApplication.clipboard().setText(string)
-            self.expr_edges.selectAll()
+            self.edges_text.selectAll()
 
     @pyqtSlot(name='on_expr_add_collection_clicked')
     def __add_collection(self):
         """Add this expression to collections widget."""
-        string = self.expr_edges.text()
+        string = self.edges_text.text()
         if string:
             self.addCollection(eval(string))
 
@@ -459,7 +459,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                     self.__structure_synthesis()
                 elif reply == QMessageBox.YesToAll:
                     self.__structure_synthesis_all()
-        count = self.Topologic_result.count()
+        count = self.structure_list.count()
         if not count:
             return
         if not lateral:
@@ -475,7 +475,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             file_name = self.outputTo("Atlas image", qt_image_format)
         if not file_name:
             return
-        width = self.Topologic_result.iconSize().width()
+        width = self.structure_list.iconSize().width()
         image_main = QImage(
             QSize(
                 lateral * width if count > lateral else count * width,
@@ -519,7 +519,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 self.__structure_synthesis()
             elif reply == QMessageBox.YesToAll:
                 self.__structure_synthesis_all()
-        count = self.Topologic_result.count()
+        count = self.structure_list.count()
         if not count:
             return
         if not file_name:
