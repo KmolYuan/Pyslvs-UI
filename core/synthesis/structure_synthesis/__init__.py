@@ -47,6 +47,11 @@ from .Ui_structure_widget import Ui_Form
 __all__ = ['StructureSynthesis']
 
 
+def _link_assortment(links_expr: str) -> List[int]:
+    """Return link assortment from expr."""
+    return [int(n.split('=')[-1]) for n in links_expr.split(", ")]
+
+
 class StructureSynthesis(QWidget, Ui_Form):
     """Number and type synthesis widget.
 
@@ -211,14 +216,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             results = number_synthesis(self.NL_input.value(), self.NJ_input.value())
         except Exception as e:
             item = QListWidgetItem(str(e))
-            item.links = None
             self.link_assortments_list.addItem(item)
         else:
             for result in results:
                 item = QListWidgetItem(", ".join(
                     f"NL{i + 2} = {result[i]}" for i in range(len(result))
                 ))
-                item.links = result
                 self.link_assortments_list.addItem(item)
         self.link_assortments_list.setCurrentRow(0)
 
@@ -249,7 +252,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         if not self.link_assortments_list.currentRow() > -1:
             self.__number_synthesis()
-        if self.link_assortments_list.currentItem().links is None:
+        item: QListWidgetItem = self.link_assortments_list.currentItem()
+        try:
+            _link_assortment(item.text())
+        except ValueError:
             return
         answers = []
         break_point = False
@@ -275,7 +281,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     def __type_combine(self, row: int) -> Optional[List[Graph]]:
         """Combine and show progress dialog."""
-        item = self.link_assortments_list.item(row)
+        item: QListWidgetItem = self.link_assortments_list.item(row)
         progress_dlg = QProgressDialog(
             "Analysis of the topology...",
             "Skip",
@@ -283,7 +289,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             100,
             self
         )
-        progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
+        progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
         progress_dlg.setWindowTitle(f"Type synthesis - ({item.text()})")
         progress_dlg.setMinimumSize(QSize(500, 120))
         progress_dlg.setModal(True)
@@ -310,7 +316,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 return False
 
         answer, time = topo(
-            item.links,
+            _link_assortment(item.text()),
             not self.graph_degenerate.isChecked(),
             set_job_func,
             stop_func
@@ -340,7 +346,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 len(self.answer),
                 self
             )
-            progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
+            progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
             progress_dlg.setWindowTitle("Type synthesis")
             progress_dlg.resize(400, progress_dlg.height())
             progress_dlg.setModal(True)
@@ -548,7 +554,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
         read_data = []
         for file_name in file_names:
-            with open(file_name, 'r') as f:
+            with open(file_name) as f:
                 for line in f:
                     read_data.append(line[:-1])
         answer = []
