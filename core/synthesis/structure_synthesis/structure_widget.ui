@@ -309,7 +309,7 @@
               <string>Keep degenerate chains in the result.</string>
              </property>
              <property name="text">
-              <string>Three edges loop</string>
+              <string>Degenerate chain</string>
              </property>
             </widget>
            </item>

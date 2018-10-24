@@ -236,7 +236,7 @@ class Ui_Form(object):
         self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
         self.graph_link_as_node.setText(_translate("Form", "Link as node"))
         self.graph_degenerate.setStatusTip(_translate("Form", "Keep degenerate chains in the result."))
-        self.graph_degenerate.setText(_translate("Form", "Three edges loop"))
+        self.graph_degenerate.setText(_translate("Form", "Degenerate chain"))
         self.time_title_label.setText(_translate("Form", "Find in:"))
         self.save_atlas.setStatusTip(_translate("Form", "Save the atlas to image file."))
         self.save_edges.setStatusTip(_translate("Form", "Save the edges of atlas to text file."))
