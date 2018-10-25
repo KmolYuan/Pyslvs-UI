@@ -36,13 +36,12 @@ from core.QtModules import (
     QFileInfo,
 )
 from core import main_window as mw
-from core.libs import number_synthesis, VPoint
+from core.libs import number_synthesis, topo, VPoint
 from core.graphics import (
     to_graph,
     engines,
     EngineError,
 )
-from .progress import AtlasProgressDialog
 from .Ui_structure_widget import Ui_Form
 
 __all__ = ['StructureSynthesis']
@@ -51,6 +50,23 @@ __all__ = ['StructureSynthesis']
 def _link_assortment(links_expr: str) -> List[int]:
     """Return link assortment from expr."""
     return [int(n.split('=')[-1]) for n in links_expr.split(", ")]
+
+
+class SynthesisProgressDialog(QProgressDialog):
+
+    """Progress dialog for structure synthesis."""
+
+    def __init__(self, job_name: str, maximum: int, parent: QWidget):
+        super(SynthesisProgressDialog, self).__init__(
+            job_name,
+            "Cancel",
+            0,
+            maximum,
+            parent
+        )
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.resize(400, self.height())
+        self.setModal(True)
 
 
 class StructureSynthesis(QWidget, Ui_Form):
@@ -239,7 +255,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             row = self.link_assortments_list.currentRow()
         if self.link_assortments_list.currentItem() is None:
             return
-        answer, t = self.__type_combine(row)
+        answer, t = self.__structural_combine(row)
         self.time_label.setText(f"{t:.04f} s")
         if answer is not None:
             self.answer = answer
@@ -263,7 +279,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         break_point = False
         t0 = 0.
         for row in range(self.link_assortments_list.count()):
-            answer, t1 = self.__type_combine(row)
+            answer, t1 = self.__structural_combine(row)
             if answer is not None:
                 answers += answer
                 t0 += t1
@@ -284,27 +300,39 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.time_label.setText(f"{t0:.04f} s")
         self.__reload_atlas()
 
-    def __type_combine(self, row: int) -> Tuple[Optional[List[Graph]], float]:
+    def __structural_combine(self, row: int) -> Tuple[Optional[List[Graph]], float]:
         """Combine and show progress dialog."""
         item: QListWidgetItem = self.link_assortments_list.item(row)
-        dlg = AtlasProgressDialog(
+        dlg = SynthesisProgressDialog("", 0, self)
+        dlg.setWindowTitle("Structural synthesis")
+
+        def job_func(cla: List[int]):
+            """job_func"""
+            dlg.setLabelText(dlg.labelText() + str(cla) + '\n')
+            dlg.setMaximum(dlg.maximum() + 1)
+
+        def step_func():
+            """step_func"""
+            dlg.setValue(dlg.value() + 1)
+            QCoreApplication.processEvents()
+
+        def stop_func() -> bool:
+            """Return dialog status."""
+            try:
+                QCoreApplication.processEvents()
+                return dlg.wasCanceled()
+            except RuntimeError:
+                return False
+
+        dlg.show()
+        result, time = topo(
             _link_assortment(item.text()),
             not self.graph_degenerate.isChecked(),
-            self
+            job_func,
+            step_func,
+            stop_func,
         )
-        dlg.show()
-        if dlg.exec_():
-            return [Graph(g.edges) for g in dlg.result_list], dlg.time
-        else:
-            reply = QMessageBox.question(
-                self,
-                "Progress canceled",
-                "Keep the results?"
-            )
-            if reply == QMessageBox.Yes:
-                return [Graph(g.edges) for g in dlg.result_list], dlg.time
-            else:
-                return None, 0.
+        return [Graph(g.edges) for g in result], time
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
@@ -314,27 +342,18 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.structure_list.clear()
         if self.answer:
-            progress_dlg = QProgressDialog(
-                "Drawing atlas...",
-                "Cancel",
-                0,
-                len(self.answer),
-                self
-            )
-            progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
-            progress_dlg.setWindowTitle("Type synthesis")
-            progress_dlg.resize(400, progress_dlg.height())
-            progress_dlg.setModal(True)
-            progress_dlg.show()
+            dlg = SynthesisProgressDialog("Drawing atlas...", len(self.answer), self)
+            dlg.setWindowTitle("Type synthesis")
+            dlg.show()
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
-                if progress_dlg.wasCanceled():
+                if dlg.wasCanceled():
                     return
                 if self.__draw_atlas(i, G):
-                    progress_dlg.setValue(i + 1)
+                    dlg.setValue(i + 1)
                 else:
                     break
-            progress_dlg.setValue(progress_dlg.maximum())
+            dlg.setValue(dlg.maximum())
 
     def __draw_atlas(self, i: int, graph: Graph) -> bool:
         """Draw atlas and return True if done."""
