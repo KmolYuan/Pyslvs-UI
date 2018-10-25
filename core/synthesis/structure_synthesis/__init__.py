@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Optional
+from typing import Tuple, List, Optional
 from networkx import Graph
 from networkx.exception import NetworkXError
 from core.QtModules import (
@@ -36,12 +36,13 @@ from core.QtModules import (
     QFileInfo,
 )
 from core import main_window as mw
-from core.libs import number_synthesis, topo, VPoint
+from core.libs import number_synthesis, VPoint
 from core.graphics import (
     to_graph,
     engines,
     EngineError,
 )
+from .progress import AtlasProgressDialog
 from .Ui_structure_widget import Ui_Form
 
 __all__ = ['StructureSynthesis']
@@ -238,8 +239,9 @@ class StructureSynthesis(QWidget, Ui_Form):
             row = self.link_assortments_list.currentRow()
         if self.link_assortments_list.currentItem() is None:
             return
-        answer = self.__type_combine(row)
-        if answer:
+        answer, t = self.__type_combine(row)
+        self.time_label.setText(f"{t:.04f} s")
+        if answer is not None:
             self.answer = answer
             self.__reload_atlas()
 
@@ -259,10 +261,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
         answers = []
         break_point = False
+        t0 = 0.
         for row in range(self.link_assortments_list.count()):
-            answer = self.__type_combine(row)
-            if answer:
+            answer, t1 = self.__type_combine(row)
+            if answer is not None:
                 answers += answer
+                t0 += t1
             else:
                 break_point = True
                 break
@@ -277,59 +281,30 @@ class StructureSynthesis(QWidget, Ui_Form):
             if reply != QMessageBox.Yes:
                 return
         self.answer = answers
+        self.time_label.setText(f"{t0:.04f} s")
         self.__reload_atlas()
 
-    def __type_combine(self, row: int) -> Optional[List[Graph]]:
+    def __type_combine(self, row: int) -> Tuple[Optional[List[Graph]], float]:
         """Combine and show progress dialog."""
         item: QListWidgetItem = self.link_assortments_list.item(row)
-        progress_dlg = QProgressDialog(
-            "Analysis of the topology...",
-            "Skip",
-            0,
-            100,
-            self
-        )
-        progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
-        progress_dlg.setWindowTitle(f"Type synthesis - ({item.text()})")
-        progress_dlg.setMinimumSize(QSize(500, 120))
-        progress_dlg.setModal(True)
-        progress_dlg.show()
-
-        def set_job_func(job: str, maximum: int):
-            """New job."""
-            try:
-                progress_dlg.reset()
-                progress_dlg.show()
-                progress_dlg.setLabelText(job)
-                progress_dlg.setValue(0)
-                progress_dlg.setMaximum(maximum + 1)
-            except RuntimeError:
-                return
-
-        def stop_func():
-            """Stop checking and update status."""
-            try:
-                progress_dlg.setValue(progress_dlg.value() + 1)
-                QCoreApplication.processEvents()
-                return progress_dlg.wasCanceled()
-            except RuntimeError:
-                return False
-
-        answer, time = topo(
+        dlg = AtlasProgressDialog(
             _link_assortment(item.text()),
             not self.graph_degenerate.isChecked(),
-            set_job_func,
-            stop_func
+            self
         )
-        self.time_label.setText(f"{time // 60}[min] {time % 60:.2f}[s]")
-
-        try:
-            progress_dlg.setValue(progress_dlg.maximum())
-        except RuntimeError:
-            pass
-
-        if answer:
-            return [Graph(G.edges) for G in answer]
+        dlg.show()
+        if dlg.exec_():
+            return [Graph(g.edges) for g in dlg.result_list], dlg.time
+        else:
+            reply = QMessageBox.question(
+                self,
+                "Progress canceled",
+                "Keep the results?"
+            )
+            if reply == QMessageBox.Yes:
+                return [Graph(g.edges) for g in dlg.result_list], dlg.time
+            else:
+                return None, 0.
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
