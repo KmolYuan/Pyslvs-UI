@@ -303,13 +303,15 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __structural_combine(self, row: int) -> Tuple[Optional[List[Graph]], float]:
         """Combine and show progress dialog."""
         item: QListWidgetItem = self.link_assortments_list.item(row)
+        item_text = item.text()
         dlg = SynthesisProgressDialog("", 0, self)
-        dlg.setWindowTitle("Structural synthesis")
+        dlg.setWindowTitle(item_text)
 
-        def job_func(cla: List[int]):
+        def job_func(cla: List[int], job_count: int):
             """job_func"""
-            dlg.setLabelText(dlg.labelText() + str(cla) + '\n')
-            dlg.setMaximum(dlg.maximum() + 1)
+            if cla:
+                dlg.setLabelText(dlg.labelText() + str(cla) + '\n')
+            dlg.setMaximum(dlg.maximum() + job_count)
 
         def step_func():
             """step_func"""
@@ -326,7 +328,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         dlg.show()
         result, time = topo(
-            _link_assortment(item.text()),
+            _link_assortment(item_text),
             not self.graph_degenerate.isChecked(),
             job_func,
             step_func,
