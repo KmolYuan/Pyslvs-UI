@@ -59,7 +59,7 @@ class SynthesisProgressDialog(QProgressDialog):
     def __init__(self, job_name: str, maximum: int, parent: QWidget):
         super(SynthesisProgressDialog, self).__init__(
             job_name,
-            "Cancel",
+            "Interrupt",
             0,
             maximum,
             parent
