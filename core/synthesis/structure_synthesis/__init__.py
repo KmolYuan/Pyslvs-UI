@@ -329,11 +329,12 @@ class StructureSynthesis(QWidget, Ui_Form):
         dlg.show()
         result, time = topo(
             _link_assortment(item_text),
-            not self.graph_degenerate.isChecked(),
+            self.graph_degenerate.currentIndex(),
             job_func,
             step_func,
             stop_func,
         )
+        dlg.close()
         return [Graph(g.edges) for g in result], time
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')

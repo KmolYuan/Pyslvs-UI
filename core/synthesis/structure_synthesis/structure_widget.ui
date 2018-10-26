@@ -304,13 +304,31 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="graph_degenerate">
-             <property name="statusTip">
-              <string>Keep degenerate chains in the result.</string>
+            <widget class="QComboBox" name="graph_degenerate">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="text">
-              <string>Degenerate chain</string>
+             <property name="currentIndex">
+              <number>1</number>
              </property>
+             <item>
+              <property name="text">
+               <string>Only degenerate</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>No degenerate</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>All</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
