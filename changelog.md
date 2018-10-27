@@ -7,12 +7,13 @@ Version 18.10
 Features
 ---
 
-+ UI adjustments.
++ UI adjustments of "Synthesis" tab pages.
++ Adjust options of structural synthesis.
 
 Development
 ---
 
-+ None.
++ High performance improvement of atlas algorithm.
 
 Version 18.09.1
 ===
