@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>310</width>
+    <width>340</width>
     <height>639</height>
    </rect>
   </property>
@@ -255,6 +255,20 @@
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QPushButton" name="structure_list_clear_button">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QPushButton" name="structure_synthesis_all_button">
                <property name="maximumSize">

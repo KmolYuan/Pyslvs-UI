@@ -138,13 +138,18 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.answer.clear()
         self.edges_text.clear()
         self.link_assortments_list.clear()
-        self.structure_list.clear()
-        self.time_label.setText("")
+        self.__clear_structure_list()
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
         self.NL_input_old_value = 0
         self.NJ_input_old_value = 0
         self.DOF.setValue(1)
+
+    @pyqtSlot(name='on_structure_list_clear_button_clicked')
+    def __clear_structure_list(self):
+        """Clear the structure list."""
+        self.structure_list.clear()
+        self.time_label.setText("")
 
     @pyqtSlot(name='on_from_mechanism_button_clicked')
     def __from_mechanism(self):
@@ -302,6 +307,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     def __structural_combine(self, row: int) -> Tuple[Optional[List[Graph]], float]:
         """Combine and show progress dialog."""
+        self.__clear_structure_list()
         item: QListWidgetItem = self.link_assortments_list.item(row)
         item_text = item.text()
         dlg = SynthesisProgressDialog("", 0, self)
