@@ -594,8 +594,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     # Update with result.
                     for i in range(vpoint_count):
                         if vpoints[i].type in {VPoint.P, VPoint.RP}:
+                            slot: Tuple[float, float] = solved_result[i][0]
+                            pin: Tuple[float, float] = solved_result[i][1]
                             path[i].append(solved_result[i][1])
-                            vpoints[i].move(solved_result[i][0], solved_result[i][1])
+                            vpoints[i].move(slot, pin)
                         else:
                             path[i].append(solved_result[i])
                             vpoints[i].move(solved_result[i])
@@ -794,6 +796,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.PreviewCanvas.from_profile(self.mech_params)
         self.updateRange()
+        self.alg_options.update(self.mech_params['settings'])
         self.__able_to_generate()
         if not self.Expression.text():
             QMessageBox.warning(

@@ -70,15 +70,8 @@ class ChartDialog(QDialog):
         axis_y.setTickCount(11)
 
         if self.__mechanism_data:
-
-            if type(self.__mechanism_data[0]['time_fitness'][0]) == float:
-                plot = [[
-                    (data['last_gen']*i/len(data['time_fitness']), tnf, 0)
-                    for i, tnf in enumerate(data['time_fitness'])
-                ] for data in self.__mechanism_data]
-            else:
-                # Just copy from __mechanism_data
-                plot = [[tnf for tnf in data['time_fitness']] for data in self.__mechanism_data]
+            # Just copy from __mechanism_data
+            plot = [[tnf for tnf in data['time_fitness']] for data in self.__mechanism_data]
 
             # X max.
             max_x = int(max([max([tnf[pos_x] for tnf in data]) for data in plot]) * 100)
