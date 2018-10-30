@@ -62,18 +62,6 @@ class WorkerThread(QThread):
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
             print(f"- [{name}]: {path}")
-        if self.type_num == AlgorithmType.RGA:
-            foo = Genetic
-        elif self.type_num == AlgorithmType.Firefly:
-            foo = Firefly
-        else:
-            foo = Differential
-        self.fun = foo(
-            Planar(self.mech_params),
-            self.settings,
-            progress_fun=self.progress_update.emit,
-            interrupt_fun=self.__is_stop,
-        )
         t0 = time()
         for self.currentLoop in range(self.loop):
             print(f"Algorithm [{self.currentLoop + 1}]: {self.type_num}")
@@ -115,7 +103,19 @@ class WorkerThread(QThread):
         Dict[str, Any],
         List[Tuple[int, float, float]]
     ]:
-        """Execute algorithm and sort out the result."""
+        """Re-create function object then execute algorithm."""
+        if self.type_num == AlgorithmType.RGA:
+            foo = Genetic
+        elif self.type_num == AlgorithmType.Firefly:
+            foo = Firefly
+        else:
+            foo = Differential
+        self.fun = foo(
+            Planar(self.mech_params),
+            self.settings,
+            progress_fun=self.progress_update.emit,
+            interrupt_fun=self.__is_stop,
+        )
         params, tf = self.fun.run()
         # Note: Remove numpy 'scalar' format.
         return eval(str(params)), tf

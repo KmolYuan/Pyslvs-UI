@@ -69,6 +69,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__set_time)
+        self.time_spend = 0.
 
         # Worker thread.
         self.work = WorkerThread(type_num, mech_params, setting)
@@ -118,7 +119,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     ):
         """Get the result."""
         self.mechanisms.append(mechanism)
-        self.time_spend = time_spend
+        self.time_spend += time_spend
 
     @pyqtSlot()
     def __finish(self):
