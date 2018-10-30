@@ -425,7 +425,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     return r
             return -1
 
-        for key in ('Driver', 'Follower'):
+        for key in {'Driver', 'Follower'}:
             for name in mech_params[key]:
                 row = name_in_table(name)
                 mech_params[key][name] = (
