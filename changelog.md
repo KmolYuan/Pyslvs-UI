@@ -9,11 +9,14 @@ Features
 
 + UI adjustments of "Synthesis" tab pages.
 + Adjust options of structural synthesis.
++ Remove "time and fitness" data in file format.
++ Chart dialog only shows after the algorithm completed.
++ Fixed bug in batch algorithm task function.
 
 Development
 ---
 
-+ High performance improvement of atlas algorithm.
++ High performance improvements of atlas algorithm.
 
 Version 18.09.1
 ===
