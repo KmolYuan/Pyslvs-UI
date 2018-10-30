@@ -281,7 +281,6 @@ class PreviewDialog(QDialog, Ui_Dialog):
             sorted(link_tags)
         )]))
         # Algorithm information
-        fitness = mechanism['time_fitness'][-1]
         if mechanism['interrupted'] == 'False':
             interrupt_icon = "task_completed.png"
         elif mechanism['interrupted'] == 'N/A':
@@ -290,7 +289,6 @@ class PreviewDialog(QDialog, Ui_Dialog):
             interrupt_icon = "interrupted.png"
         text_list = [
             f"Max generation: {mechanism['last_gen']}",
-            f"Fitness: {fitness if type(fitness) == float else fitness[1]}",
             f"<img src=\":/icons/{interrupt_icon}\" width=\"15\"/>"
             f"Interrupted at: {mechanism['interrupted']}"
         ]

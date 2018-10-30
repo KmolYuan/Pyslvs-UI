@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Any
+from typing import List, Dict, Any
 from core.QtModules import (
     QDialog,
     Qt,
@@ -40,7 +40,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.__close_work)
 
-        self.mechanisms = []
+        self.mechanisms: List[Dict[str, Any]] = []
 
         # Batch label.
         if 'maxGen' in setting:
@@ -80,7 +80,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __set_progress(self, progress: int, fitness: str):
         """Progress bar will always full."""
         value = progress + self.limit * self.work.currentLoop
-        if (self.limit_mode in ('minFit', 'maxTime')) or self.limit==0:
+        if self.limit_mode in {'minFit', 'maxTime'} or self.limit == 0:
             self.progressBar.setMaximum(value)
         self.progressBar.setValue(value)
         self.fitness_label.setText(fitness)
@@ -97,11 +97,11 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
     @pyqtSlot(name='on_start_button_clicked')
     def __start(self):
-        """Start the proccess."""
+        """Start the process."""
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
-        # Progress bar will show generations instead of percent.
-        if (self.limit_mode in ('minFit', 'maxTime')) or (self.limit == 0):
+        if self.limit_mode in {'minFit', 'maxTime'} or self.limit == 0:
+            # Progress bar will show generations instead of percent.
             self.progressBar.setFormat("%v generations")
         self.work.setLoop(loop)
         self.timer.start()
@@ -122,13 +122,13 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
     @pyqtSlot()
     def __finish(self):
-        """Finish the proccess."""
+        """Finish the process."""
         self.timer.stop()
         self.accept()
 
     @pyqtSlot(name='on_interrupt_button_clicked')
     def __interrupt(self):
-        """Interrupt the proccess."""
+        """Interrupt the process."""
         if self.work.isRunning():
             self.work.stop()
             print("The thread has been interrupted.")

@@ -621,20 +621,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="result_chart">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="statusTip">
-              <string>Show the fitness - time chart</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../../icons.qrc">
-               <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="result_clipboard">
              <property name="enabled">
               <bool>false</bool>

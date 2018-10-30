@@ -78,8 +78,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
 
-        self.mech_params = {}
-        self.path = {}
+        self.mech_params: Dict[str, Any] = {}
+        self.path: Dict[str, List[Tuple[float, float]]] = {}
 
         # Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
@@ -91,8 +91,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.setSolvingPath = parent.MainCanvas.setSolvingPath
 
         # Data and functions.
-        self.__mechanism_data = []
-        self.alg_options = {}
+        self.__mechanism_data: List[Dict[str, Any]] = []
+        self.alg_options: Dict[str, Union[int, float]] = {}
         self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
         self.__set_algorithm_default()
@@ -439,16 +439,25 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.show()
         if not dlg.exec_():
             return
-        for m in dlg.mechanisms:
-            self.__mechanism_data.append(m)
-            self.__add_result(m)
+
+        mechanisms = dlg.mechanisms
+        mechanisms_plot: List[Dict[str, Any]] = []
+        for data in mechanisms:
+            plot = {
+                'time_fitness': data['time_fitness'],
+                'Algorithm': data['Algorithm'],
+            }
+            del data['time_fitness']
+            self.__mechanism_data.append(data)
+            self.__add_result(data)
+            mechanisms_plot.append(plot)
         self.__set_time(dlg.time_spend)
         self.unsaveFunc()
-        QMessageBox.information(
-            self,
-            "Dimensional Synthesis",
-            "Your tasks is all completed."
-        )
+
+        del dlg
+
+        dlg = ChartDialog("Convergence Value", mechanisms_plot, self)
+        dlg.show()
         print("Finished.")
 
     def __set_time(self, time: float):
@@ -506,7 +515,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.merge_button,
             self.delete_button,
             self.result_load_settings,
-            self.result_chart,
             self.result_clipboard
         ):
             button.setEnabled(enable)
@@ -574,7 +582,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         # Cumulative angle
         i_count = sum(1 for e in exprs if e[0] == 'PLAP')
-        angles_cum = [0.] * i_count
+        angles_params = [0.] * i_count
         nan = float('nan')
         for interval in (3, -3):
             # Driver pointer
@@ -603,18 +611,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                             vpoints[i].move(solved_result[i])
                     angles[dp] += interval
                     angles[dp] %= 360
-                    angles_cum[dp] += abs(interval)
-                    if angles_cum[dp] > 360:
+                    angles_params[dp] += abs(interval)
+                    if angles_params[dp] > 360:
                         angles[dp] -= interval
                         dp += 1
         return path
-
-    @pyqtSlot(name='on_result_chart_clicked')
-    def __show_result_chart(self):
-        """Show up the chart dialog."""
-        dlg = ChartDialog("Convergence Value", self.__mechanism_data, self)
-        dlg.show()
-        dlg.exec_()
 
     @pyqtSlot(name='on_result_clipboard_clicked')
     def __copy_result_text(self):

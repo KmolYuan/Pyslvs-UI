@@ -96,10 +96,10 @@ class ChartDialog(QDialog):
         chart = DataChart(self.__title, axis_x, axis_y)
 
         # Append data set.
-        for data in self.__algorithm_data:
+        for i, data in enumerate(self.__algorithm_data):
             line = QLineSeries()
             scatter = QScatterSeries()
-            line.setName(f"{data['Algorithm']}({data['last_gen']} gen)")
+            line.setName(f"{i}: {data['Algorithm']}")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(plot[self.__algorithm_data.index(data)]):
