@@ -36,7 +36,7 @@ class ChartDialog(QDialog):
     + Fitness / Time Chart.
     """
 
-    def __init__(self, title, mechanism_data, parent: QWidget):
+    def __init__(self, title, algorithm_data, parent: QWidget):
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")
@@ -46,7 +46,7 @@ class ChartDialog(QDialog):
         self.setMinimumSize(QSize(800, 600))
 
         self.__title = title
-        self.__mechanism_data = mechanism_data
+        self.__algorithm_data = algorithm_data
 
         # Widgets
         main_layout = QVBoxLayout(self)
@@ -69,9 +69,9 @@ class ChartDialog(QDialog):
         axis_x.setMin(0)
         axis_y.setTickCount(11)
 
-        if self.__mechanism_data:
-            # Just copy from __mechanism_data
-            plot = [[tnf for tnf in data['time_fitness']] for data in self.__mechanism_data]
+        if self.__algorithm_data:
+            # Just copy references from algorithm data.
+            plot = [data['time_fitness'] for data in self.__algorithm_data]
 
             # X max.
             max_x = int(max([max([tnf[pos_x] for tnf in data]) for data in plot]) * 100)
@@ -96,16 +96,13 @@ class ChartDialog(QDialog):
         chart = DataChart(self.__title, axis_x, axis_y)
 
         # Append data set.
-        for data in self.__mechanism_data:
+        for data in self.__algorithm_data:
             line = QLineSeries()
             scatter = QScatterSeries()
-            gen = data['last_gen']
-            tnf = plot[self.__mechanism_data.index(data)]
-            points = tnf[:-1] if (tnf[-1] == tnf[-2]) else tnf
-            line.setName(f"{data['Algorithm']}({gen} gen): {data['Expression']}")
+            line.setName(f"{data['Algorithm']}({data['last_gen']} gen)")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
-            for i, e in enumerate(points):
+            for i, e in enumerate(plot[self.__algorithm_data.index(data)]):
                 y = e[pos_y]
                 x = e[pos_x] * 100
                 line.append(QPointF(x, y))

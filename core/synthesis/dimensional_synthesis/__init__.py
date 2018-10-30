@@ -796,7 +796,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.PreviewCanvas.from_profile(self.mech_params)
         self.updateRange()
-        self.alg_options.update(self.mech_params['settings'])
+        if 'settings' in self.mech_params:
+            self.alg_options.update(self.mech_params['settings'])
+        else:
+            self.__set_algorithm_default()
         self.__able_to_generate()
         if not self.Expression.text():
             QMessageBox.warning(
