@@ -11,11 +11,13 @@ Features
 + Adjust options of structural synthesis.
 + Remove "time and fitness" data in file format.
 + Chart dialog only shows after the algorithm completed.
-+ Fixed bug in batch algorithm task function.
++ Fixed bug in batch function of algorithm tasks.
 
 Development
 ---
 
++ Improvements of "Adesign" kernel.
++ Fixed an error caused by DE strategy option.
 + High performance improvements of atlas algorithm.
 
 Version 18.09.1
