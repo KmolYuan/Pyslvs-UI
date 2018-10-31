@@ -47,11 +47,14 @@ _POWERED_BY = ", ".join((
     "NetworkX",
     "Pydot",
     "Pygments",
+    "PyYAML",
 ))
 
 _parser = ArgumentParser(
-    description="Pyslvs - Open Source Planar Linkage Mechanism Simulation"
-        "and Mechanical Synthesis System.",
+    description=(
+        "Pyslvs - Open Source Planar Linkage Mechanism Simulation "
+        "and Mechanical Synthesis System."
+    ),
     epilog=f"Powered by {_POWERED_BY}."
 )
 _parser.add_argument(
@@ -104,8 +107,10 @@ _parser.add_argument(
     nargs='?',
     type=str,
     choices=['pyslvs', 'python_solvespace', 'sketch_solve'],
-    help="startup Pyslvs with specified solver, "
+    help=(
+        "startup Pyslvs with specified solver, "
         "default is depending on local setting"
+    )
 )
 
 ARGUMENTS = _parser.parse_args()
