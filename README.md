@@ -434,7 +434,7 @@ open ./executable.app
 
 Made by [Qt5] and Python IDE [Eric 6].
 
-If there is no special reason, please install the new version of the kits.
+If there is no special reason, please install the newest version of the kits.
 
 Including Python modules:
 
@@ -450,6 +450,7 @@ Including Python modules:
 * [NetworkX] (BSD 3-Clause)
 * [Pydot] (MIT)
 * [Pygments] (BSD)
+* [PyYAML] (MIT)
 
 Pyslvs is under [GNU Affero General Public License v3].
 
@@ -481,6 +482,7 @@ Kernel repository:
 [NetworkX]: https://networkx.github.io/
 [Pydot]: https://github.com/erocarrera/pydot
 [Pygments]: http://pygments.org/
+[PyYAML]: https://pyyaml.org/
 
 [Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
