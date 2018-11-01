@@ -61,9 +61,7 @@ build: $(LAUNCHSCRIPT).py build-kernel
 ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYVER)--
 	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs \
---add-binary="core/libs/python_solvespace/libslvs.so;." \
---hidden-import=PyQt5 \
---hidden-import=PyQt5.sip
+--add-binary="core/libs/python_solvespace/libslvs.so;."
 	rename .\dist\Pyslvs.exe $(EXENAME).exe
 else ifeq ($(shell uname),Darwin)
 	@echo --Python Version $(PYVER)--
