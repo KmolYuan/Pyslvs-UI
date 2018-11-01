@@ -12,7 +12,7 @@ matrix:
     sudo: required
     python: 3.7
     dist: xenial
-    deploy:
+    deploy: &deploy-options
       overwrite: true
       provider: releases
       api_key: $TRAVIS_TOKEN
@@ -30,14 +30,8 @@ matrix:
     language: generic
     env: PYTHON=37
     deploy:
-      overwrite: true
-      provider: releases
-      api_key: $TRAVIS_TOKEN
-      file_glob: true
+      <<: *deploy-options
       file: dist/pyslvs-*.app.zip
-      skip_cleanup: true
-      on:
-        tags: true
 
 addons:
   apt:
