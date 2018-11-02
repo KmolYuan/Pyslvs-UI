@@ -362,6 +362,13 @@ There's two options to choose SDK:
 
 When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
 
+And it will be useful if Make tool in Msys cannot find Windows command (such like `copy`, `rd` or `del`):
+
+```bash
+# Rewrite "SHELL" variable.
+mingw32-make SHELL=cmd [target]
+```
+
 ## Python-Solvespace Kernel
 
 [Python-Solvespace]\: Python bundle of [Solvespace] library.
