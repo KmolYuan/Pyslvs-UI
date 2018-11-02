@@ -360,7 +360,28 @@ There's two options to choose SDK:
 [msys]: http://www.msys2.org/
 [mingw64]: https://sourceforge.net/projects/mingw-w64/
 
-When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
+When using MinGW for Python compiler, following command might be helpful:
+
+```bash
+# Where %PYTHON_DIR% is the directory of your Python installation.
+# In Pyslvs project.
+
+# Create "distutils.cfg"
+echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
+echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
+
+# Apply the patch of "cygwinccompiler.py".
+# Unix "patch" command of Msys.
+patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
+# Also can use "git apply".
+copy platform\patch.diff %PYTHON_DIR%\lib\distutils
+cd %PYTHON_DIR%\lib\distutils
+git apply patch.diff
+rd apply patch.diff /s /q
+
+# Copy "vcruntime140.dll" to "libs".
+copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
+```
 
 And it will be useful if Make tool in Msys cannot find Windows command (such like `copy`, `rd` or `del`):
 
@@ -425,11 +446,13 @@ pip install pyinstaller
 make
 ```
 
-On Mac OS, PyInstaller will generate two executable files.
+On Mac OS, PyInstaller will generate two executable files (refer [here][pinstaller-mac]).
+
+[pinstaller-mac]: https://pyinstaller.readthedocs.io/en/stable/usage.html#building-mac-os-x-app-bundles
 
 ```bash
 # Run Unix-like executable file.
-# Can not run it directly in Finder.
+# Cannot run it directly in Finder.
 ./executable --use-arguments-here
 
 # Run Mac app file. (Cannot use any arguments)
