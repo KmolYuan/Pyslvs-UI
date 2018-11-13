@@ -36,7 +36,12 @@ from core.QtModules import (
     QFileInfo,
 )
 from core import main_window as mw
-from core.libs import number_synthesis, topo, VPoint
+from core.libs import (
+    number_synthesis,
+    contracted_link,
+    topo,
+    VPoint,
+)
 from core.graphics import (
     to_graph,
     engines,
@@ -137,7 +142,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Clear all sub-widgets."""
         self.answer.clear()
         self.edges_text.clear()
-        self.link_assortments_list.clear()
+        self.l_a_list.clear()
         self.__clear_structure_list()
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
@@ -231,21 +236,34 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.NL_input_old_value = n1
 
     @pyqtSlot(name='on_number_synthesis_button_clicked')
-    def __number_synthesis(self):
-        """Show number of links with different number of joints."""
-        self.link_assortments_list.clear()
+    def __link_assortment_synthesis(self):
+        """Synthesis of link assortments."""
+        self.l_a_list.clear()
+        self.c_l_a_list.clear()
         try:
             results = number_synthesis(self.NL_input.value(), self.NJ_input.value())
         except Exception as e:
             item = QListWidgetItem(str(e))
-            self.link_assortments_list.addItem(item)
+            self.l_a_list.addItem(item)
         else:
             for result in results:
-                item = QListWidgetItem(", ".join(
+                self.l_a_list.addItem(QListWidgetItem(", ".join(
                     f"NL{i + 2} = {result[i]}" for i in range(len(result))
-                ))
-                self.link_assortments_list.addItem(item)
-        self.link_assortments_list.setCurrentRow(0)
+                )))
+            self.l_a_list.setCurrentRow(0)
+
+    @pyqtSlot(int, name='on_l_a_list_currentRowChanged')
+    def __contracted_link_assortment_synthesis(self, index: int = 0):
+        """Synthesis of contracted link assortments."""
+        self.c_l_a_list.clear()
+        item = self.l_a_list.item(index)
+        if item is None:
+            return
+        for c_j in contracted_link(_link_assortment(item.text())):
+            self.c_l_a_list.addItem(QListWidgetItem(", ".join(
+                f"Nc{i + 1} = {c_j[i]}" for i in range(len(c_j))
+            )))
+        self.c_l_a_list.setCurrentRow(0)
 
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
@@ -254,13 +272,19 @@ class StructureSynthesis(QWidget, Ui_Form):
         If there has no data of number synthesis,
         execute number synthesis first.
         """
-        row = self.link_assortments_list.currentRow()
-        if not row > -1:
-            self.__number_synthesis()
-            row = self.link_assortments_list.currentRow()
-        if self.link_assortments_list.currentItem() is None:
+        l_a = self.l_a_list.currentRow()
+        if l_a == -1:
+            self.__link_assortment_synthesis()
+            self.__contracted_link_assortment_synthesis()
+        item: QListWidgetItem = self.c_l_a_list.currentItem()
+        try:
+            _link_assortment(item.text())
+        except ValueError:
             return
-        answer, t = self.__structural_combine(row)
+        answer, t = self.__structural_combine(
+            self.l_a_list.currentRow(),
+            self.c_l_a_list.currentRow()
+        )
         self.time_label.setText(f"{t:.04f} s")
         if answer is not None:
             self.answer = answer
@@ -273,9 +297,9 @@ class StructureSynthesis(QWidget, Ui_Form):
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
-        if not self.link_assortments_list.currentRow() > -1:
-            self.__number_synthesis()
-        item: QListWidgetItem = self.link_assortments_list.currentItem()
+        if self.l_a_list.currentRow() == -1:
+            self.__link_assortment_synthesis()
+        item: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
             _link_assortment(item.text())
         except ValueError:
@@ -283,14 +307,17 @@ class StructureSynthesis(QWidget, Ui_Form):
         answers = []
         break_point = False
         t0 = 0.
-        for row in range(self.link_assortments_list.count()):
-            answer, t1 = self.__structural_combine(row)
-            if answer is not None:
-                answers += answer
-                t0 += t1
-            else:
-                break_point = True
-                break
+        for l_a in range(self.l_a_list.count()):
+            self.l_a_list.setCurrentRow(l_a)
+            self.__contracted_link_assortment_synthesis(l_a)
+            for c_l_a in range(self.c_l_a_list.count()):
+                answer, t1 = self.__structural_combine(l_a, c_l_a)
+                if answer is not None:
+                    answers.extend(answer)
+                    t0 += t1
+                else:
+                    break_point = True
+                    break
         if not answers:
             return
         if break_point:
@@ -305,13 +332,15 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.time_label.setText(f"{t0:.04f} s")
         self.__reload_atlas()
 
-    def __structural_combine(self, row: int) -> Tuple[Optional[List[Graph]], float]:
+    def __structural_combine(self, l_a: int, c_l_a: int) -> Tuple[Optional[List[Graph]], float]:
         """Combine and show progress dialog."""
         self.__clear_structure_list()
-        item: QListWidgetItem = self.link_assortments_list.item(row)
-        item_text = item.text()
+        l_a_item: QListWidgetItem = self.l_a_list.item(l_a)
+        l_a_text = l_a_item.text()
+        c_l_a_item: QListWidgetItem = self.c_l_a_list.item(c_l_a)
+        c_l_a_text = c_l_a_item.text()
         dlg = SynthesisProgressDialog("", 0, self)
-        dlg.setWindowTitle(item_text)
+        dlg.setWindowTitle(l_a_text)
 
         def job_func(cla: List[int], job_count: int):
             """job_func"""
@@ -334,7 +363,8 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         dlg.show()
         result, time = topo(
-            _link_assortment(item_text),
+            _link_assortment(l_a_text),
+            _link_assortment(c_l_a_text),
             self.graph_degenerate.currentIndex(),
             job_func,
             step_func,

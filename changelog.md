@@ -1,6 +1,19 @@
 Change Log
 ===
 
+Version 18.11
+===
+
+Features
+---
+
++ Add independent option of contracted link assortment.
+
+Development
+---
+
++ None.
+
 Version 18.10
 ===
 
