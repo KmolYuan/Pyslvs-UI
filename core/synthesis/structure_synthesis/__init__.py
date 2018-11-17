@@ -9,7 +9,14 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Optional
+from typing import (
+    Tuple,
+    List,
+    Sequence,
+    Dict,
+    Callable,
+    Optional,
+)
 from networkx import Graph
 from networkx.exception import NetworkXError
 from core.QtModules import (
@@ -61,7 +68,7 @@ class SynthesisProgressDialog(QProgressDialog):
 
     """Progress dialog for structure synthesis."""
 
-    def __init__(self, job_name: str, maximum: int, parent: QWidget):
+    def __init__(self, title: str, job_name: str, maximum: int, parent: QWidget):
         super(SynthesisProgressDialog, self).__init__(
             job_name,
             "Interrupt",
@@ -69,9 +76,27 @@ class SynthesisProgressDialog(QProgressDialog):
             maximum,
             parent
         )
+        self.setWindowTitle(title)
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.resize(400, self.height())
         self.setModal(True)
+        self.setValue(0)
+
+    def next(self):
+        """Increase value of progress bar."""
+        self.setValue(self.value() + 1)
+
+    def progress_functions(self) -> Callable[[], bool]:
+        """Return progress function of the dialog."""
+        def stop_func() -> bool:
+            """Return dialog status."""
+            try:
+                QCoreApplication.processEvents()
+                return self.wasCanceled()
+            except RuntimeError:
+                return False
+
+        return stop_func
 
 
 class StructureSynthesis(QWidget, Ui_Form):
@@ -272,19 +297,19 @@ class StructureSynthesis(QWidget, Ui_Form):
         If there has no data of number synthesis,
         execute number synthesis first.
         """
-        l_a = self.l_a_list.currentRow()
-        if l_a == -1:
+        row = self.l_a_list.currentRow()
+        if row == -1:
             self.__link_assortment_synthesis()
             self.__contracted_link_assortment_synthesis()
-        item: QListWidgetItem = self.c_l_a_list.currentItem()
+        item_l_a: QListWidgetItem = self.l_a_list.currentItem()
+        item_c_l_a: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
-            _link_assortment(item.text())
+            l_a = _link_assortment(item_l_a.text())
+            c_l_a = _link_assortment(item_c_l_a.text())
         except ValueError:
             return
-        answer, t = self.__structural_combine(
-            self.l_a_list.currentRow(),
-            self.c_l_a_list.currentRow()
-        )
+
+        answer, t = self.__structural_combine(l_a, c_l_a)
         self.time_label.setText(f"{t:.04f} s")
         if answer is not None:
             self.answer = answer
@@ -297,6 +322,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         If the data of number synthesis has multiple results,
         execute type synthesis one by one.
         """
+        self.__clear_structure_list()
         if self.l_a_list.currentRow() == -1:
             self.__link_assortment_synthesis()
         item: QListWidgetItem = self.c_l_a_list.currentItem()
@@ -304,14 +330,25 @@ class StructureSynthesis(QWidget, Ui_Form):
             _link_assortment(item.text())
         except ValueError:
             return
+
+        job_count = 0
+        jobs = []
+        for row in range(self.l_a_list.count()):
+            item: QListWidgetItem = self.l_a_list.item(row)
+            l_a = _link_assortment(item.text())
+            c_l_as = contracted_link(l_a)
+            job_count += len(c_l_as)
+            jobs.append((l_a, c_l_as))
+
+        dlg = SynthesisProgressDialog("Structural Synthesis", "", job_count, self)
+        dlg.show()
+
         answers = []
         break_point = False
         t0 = 0.
-        for l_a in range(self.l_a_list.count()):
-            self.l_a_list.setCurrentRow(l_a)
-            self.__contracted_link_assortment_synthesis(l_a)
-            for c_l_a in range(self.c_l_a_list.count()):
-                answer, t1 = self.__structural_combine(l_a, c_l_a)
+        for l_a, c_l_as in jobs:
+            for c_l_a in c_l_as:
+                answer, t1 = self.__structural_combine(l_a, c_l_a, dlg)
                 if answer is not None:
                     answers.extend(answer)
                     t0 += t1
@@ -332,45 +369,28 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.time_label.setText(f"{t0:.04f} s")
         self.__reload_atlas()
 
-    def __structural_combine(self, l_a: int, c_l_a: int) -> Tuple[Optional[List[Graph]], float]:
+    def __structural_combine(
+        self,
+        l_a: Sequence[int],
+        c_l_a: Sequence[int],
+        dlg: Optional[SynthesisProgressDialog] = None,
+    ) -> Tuple[Optional[List[Graph]], float]:
         """Combine and show progress dialog."""
-        self.__clear_structure_list()
-        l_a_item: QListWidgetItem = self.l_a_list.item(l_a)
-        l_a_text = l_a_item.text()
-        c_l_a_item: QListWidgetItem = self.c_l_a_list.item(c_l_a)
-        c_l_a_text = c_l_a_item.text()
-        dlg = SynthesisProgressDialog("", 0, self)
-        dlg.setWindowTitle(l_a_text)
+        if dlg is None:
+            self.__clear_structure_list()
+            dlg = SynthesisProgressDialog(
+                "Structural Synthesis",
+                f"{l_a}:{c_l_a}",
+                0,
+                self
+            )
+            dlg.show()
 
-        def job_func(cla: List[int], job_count: int):
-            """job_func"""
-            if cla:
-                dlg.setLabelText(dlg.labelText() + str(cla) + '\n')
-            dlg.setMaximum(dlg.maximum() + job_count)
+        stop_func = dlg.progress_functions()
+        result, time = topo(l_a, c_l_a, self.graph_degenerate.currentIndex(), stop_func)
 
-        def step_func():
-            """step_func"""
-            dlg.setValue(dlg.value() + 1)
-            QCoreApplication.processEvents()
+        dlg.next()
 
-        def stop_func() -> bool:
-            """Return dialog status."""
-            try:
-                QCoreApplication.processEvents()
-                return dlg.wasCanceled()
-            except RuntimeError:
-                return False
-
-        dlg.show()
-        result, time = topo(
-            _link_assortment(l_a_text),
-            _link_assortment(c_l_a_text),
-            self.graph_degenerate.currentIndex(),
-            job_func,
-            step_func,
-            stop_func,
-        )
-        dlg.close()
         return [Graph(g.edges) for g in result], time
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
@@ -381,8 +401,12 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.structure_list.clear()
         if self.answer:
-            dlg = SynthesisProgressDialog("Drawing atlas...", len(self.answer), self)
-            dlg.setWindowTitle("Type synthesis")
+            dlg = SynthesisProgressDialog(
+                "Type synthesis",
+                "Drawing atlas...",
+                len(self.answer),
+                self
+            )
             dlg.show()
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
