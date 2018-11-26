@@ -100,7 +100,7 @@ class InputsWidget(QWidget, Ui_Form):
         + Copy data from Point1
         + ...
         """
-        self.popMenu_record_list = QMenu(self)
+        self.pop_menu_record_list = QMenu(self)
         self.record_list.customContextMenuRequested.connect(
             self.__record_list_context_menu
         )
@@ -488,9 +488,9 @@ class InputsWidget(QWidget, Ui_Form):
         row = self.record_list.currentRow()
         if not row > -1:
             return
-        showall_action = self.popMenu_record_list.addAction("Show all")
+        showall_action = self.pop_menu_record_list.addAction("Show all")
         showall_action.index = -1
-        copy_action = self.popMenu_record_list.addAction("Copy as new")
+        copy_action = self.pop_menu_record_list.addAction("Copy as new")
         name = self.record_list.item(row).text().split(':')[0]
         try:
             data = self.__path_data[name]
@@ -500,14 +500,14 @@ class InputsWidget(QWidget, Ui_Form):
             showall_action.setEnabled(False)
         else:
             for action_text in ("Show", "Copy data from"):
-                self.popMenu_record_list.addSeparator()
+                self.pop_menu_record_list.addSeparator()
                 for i in range(len(data)):
                     if data[i]:
-                        action = self.popMenu_record_list.addAction(
+                        action = self.pop_menu_record_list.addAction(
                             f"{action_text} Point{i}"
                         )
                         action.index = i
-        action_exec = self.popMenu_record_list.exec_(
+        action_exec = self.pop_menu_record_list.exec_(
             self.record_list.mapToGlobal(point)
         )
         if action_exec:
@@ -529,7 +529,7 @@ class InputsWidget(QWidget, Ui_Form):
                 if action_exec.index == -1:
                     self.record_show.setChecked(True)
                 self.MainCanvas.setPathShow(action_exec.index)
-        self.popMenu_record_list.clear()
+        self.pop_menu_record_list.clear()
 
     @pyqtSlot(bool, name='on_record_show_toggled')
     def __set_path_show(self, toggled: bool):

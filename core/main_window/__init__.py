@@ -23,7 +23,6 @@ from core.QtModules import (
     QMessageBox,
     QInputDialog,
     QTextCursor,
-    QListWidgetItem,
 )
 from core.info import ARGUMENTS
 from core.io import XStream, str_between
