@@ -8,7 +8,8 @@ Features
 ---
 
 + UI improvement of structural synthesis panel.
-+ Add independent option of contracted link assortment.
++ Add independent option of contracted link assortments.
++ Fix EOF error when loading edge set data from text file.
 
 Development
 ---

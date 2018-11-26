@@ -617,23 +617,33 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not file_names:
             return
         read_data = []
+
         for file_name in file_names:
             with open(file_name) as f:
                 for line in f:
-                    read_data.append(line[:-1])
+                    read_data.append(line)
+
         answer = []
         for edges in read_data:
             try:
-                answer.append(Graph(eval(edges)))
-            except NetworkXError:
+                g = Graph(eval(edges))
+            except (SyntaxError, NetworkXError):
                 QMessageBox.warning(
                     self,
                     "Wrong format",
-                    "Please check the edges text format."
+                    "Please check text format."
                 )
-                return
+            else:
+                answer.append(g)
+
         if not answer:
+            QMessageBox.information(
+                self,
+                "No data",
+                "The graph data is empty."
+            )
             return
+
         self.answer = answer
         self.__reload_atlas()
         self.save_edges_auto.setChecked(False)
