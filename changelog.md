@@ -7,6 +7,7 @@ Version 18.11
 Features
 ---
 
++ UI improvement of structural synthesis panel.
 + Add independent option of contracted link assortment.
 
 Development
