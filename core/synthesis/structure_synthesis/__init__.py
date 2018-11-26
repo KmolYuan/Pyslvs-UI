@@ -59,7 +59,7 @@ from .Ui_structure_widget import Ui_Form
 __all__ = ['StructureSynthesis']
 
 
-def _link_assortment(links_expr: str) -> List[int]:
+def _link_assortments(links_expr: str) -> List[int]:
     """Return link assortment from expr."""
     return [int(n.split('=')[-1]) for n in links_expr.split(", ")]
 
@@ -284,11 +284,15 @@ class StructureSynthesis(QWidget, Ui_Form):
         item = self.l_a_list.item(index)
         if item is None:
             return
-        for c_j in contracted_link(_link_assortment(item.text())):
+        for c_j in contracted_link(_link_assortments(item.text())):
             self.c_l_a_list.addItem(QListWidgetItem(", ".join(
                 f"Nc{i + 1} = {c_j[i]}" for i in range(len(c_j))
             )))
         self.c_l_a_list.setCurrentRow(0)
+
+    def __set_time_count(self, t: float, count: int):
+        """Set time and count digit to label."""
+        self.time_label.setText(f"{t:.04f} s ({count})")
 
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
@@ -304,13 +308,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         item_l_a: QListWidgetItem = self.l_a_list.currentItem()
         item_c_l_a: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
-            l_a = _link_assortment(item_l_a.text())
-            c_l_a = _link_assortment(item_c_l_a.text())
+            l_a = _link_assortments(item_l_a.text())
+            c_l_a = _link_assortments(item_c_l_a.text())
         except ValueError:
             return
 
-        answer, t = self.__structural_combine(l_a, c_l_a)
-        self.time_label.setText(f"{t:.04f} s")
+        answer, t, count = self.__structural_combine(l_a, c_l_a)
+        self.__set_time_count(t, count)
         if answer is not None:
             self.answer = answer
             self.__reload_atlas()
@@ -327,7 +331,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.__link_assortment_synthesis()
         item: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
-            _link_assortment(item.text())
+            _link_assortments(item.text())
         except ValueError:
             return
 
@@ -335,7 +339,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         jobs = []
         for row in range(self.l_a_list.count()):
             item: QListWidgetItem = self.l_a_list.item(row)
-            l_a = _link_assortment(item.text())
+            l_a = _link_assortments(item.text())
             c_l_as = contracted_link(l_a)
             job_count += len(c_l_as)
             jobs.append((l_a, c_l_as))
@@ -346,12 +350,14 @@ class StructureSynthesis(QWidget, Ui_Form):
         answers = []
         break_point = False
         t0 = 0.
+        c0 = 0
         for l_a, c_l_as in jobs:
             for c_l_a in c_l_as:
-                answer, t1 = self.__structural_combine(l_a, c_l_a, dlg)
+                answer, t1, count = self.__structural_combine(l_a, c_l_a, dlg)
                 if answer is not None:
                     answers.extend(answer)
                     t0 += t1
+                    c0 += count
                 else:
                     break_point = True
                     break
@@ -366,7 +372,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             if reply != QMessageBox.Yes:
                 return
         self.answer = answers
-        self.time_label.setText(f"{t0:.04f} s")
+        self.__set_time_count(t0, c0)
         self.__reload_atlas()
 
     def __structural_combine(
@@ -374,14 +380,15 @@ class StructureSynthesis(QWidget, Ui_Form):
         l_a: Sequence[int],
         c_l_a: Sequence[int],
         dlg: Optional[SynthesisProgressDialog] = None,
-    ) -> Tuple[Optional[List[Graph]], float]:
+    ) -> Tuple[List[Graph], float, int]:
         """Combine and show progress dialog."""
         if dlg is None:
             self.__clear_structure_list()
             dlg = SynthesisProgressDialog(
                 "Structural Synthesis",
-                f"{l_a}:{c_l_a}",
-                0,
+                f"Link assortments: {l_a}\n"
+                f"Contracted link assortments: {c_l_a}",
+                1,
                 self
             )
             dlg.show()
@@ -391,7 +398,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         dlg.next()
 
-        return [Graph(g.edges) for g in result], time
+        return [Graph(g.edges) for g in result], time, len(result)
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
