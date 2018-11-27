@@ -7,16 +7,20 @@
 
 LAUNCHSCRIPT = launch_pyslvs
 
+PYVER_COMAND = "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))"
+PYSLVSVER_COMAND = "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))"
+COMPILERVER_COMAND = "import platform; print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())"
+SYSVER_COMAND = "import platform; print(platform.machine().lower())"
 ifeq ($(OS),Windows_NT)
-    PYVER = $(shell python -c "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))")
-    PYSLVSVER = $(shell python -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
-    COMPILERVER = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())")
-    SYSVER = $(shell python -c "import platform; print(platform.machine().lower())")
+    PYVER = $(shell python -c $(PYVER_COMAND))
+    PYSLVSVER = $(shell python -c $(PYSLVSVER_COMAND))
+    COMPILERVER = $(shell python -c $(COMPILERVER_COMAND))
+    SYSVER = $(shell python -c $(SYSVER_COMAND))
 else
-    PYVER = $(shell python3 -c "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))")
-    PYSLVSVER = $(shell python3 -c "from core.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
-    COMPILERVER = $(shell python3 -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())")
-    SYSVER = $(shell python3 -c "import platform; print(platform.machine().lower())")
+    PYVER = $(shell python3 -c $(PYVER_COMAND))
+    PYSLVSVER = $(shell python3 -c $(PYSLVSVER_COMAND))
+    COMPILERVER = $(shell python3 -c $(COMPILERVER_COMAND))
+    SYSVER = $(shell python3 -c $(SYSVER_COMAND))
 endif
 EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 

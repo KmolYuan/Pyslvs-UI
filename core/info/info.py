@@ -13,7 +13,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from sys import version_info as _vi
-import platform
+from platform import (
+    system,
+    release,
+    machine,
+    python_compiler,
+)
 from argparse import ArgumentParser
 import requests
 from core.QtModules import (
@@ -28,9 +33,9 @@ _major, _minor, _build, _label = __version__
 
 INFO = (
     f"Pyslvs {_major}.{_minor}.{_build}({_label})",
-    f"OS Type: {platform.system()} {platform.release()} [{platform.machine()}]",
+    f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
-    f"Python Compiler: {platform.python_compiler()}",
+    f"Python Compiler: {python_compiler()}",
     f"Qt Version: {qVersion().strip()}",
     f"PyQt Version: {PYQT_VERSION_STR.strip()}",
 )

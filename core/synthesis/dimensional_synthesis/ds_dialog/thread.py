@@ -14,7 +14,7 @@ from typing import (
     Any,
 )
 from time import time
-import platform
+from platform import system
 from psutil import virtual_memory
 import numpy
 import numpy.distutils.cpuinfo
@@ -88,7 +88,7 @@ class WorkerThread(QThread):
             'interrupted': str(last_gen) if self.is_stop else 'False',
             'settings': self.settings,
             'hardware_info': {
-                'os': f"{platform.system()} {platform.release()} {platform.machine()}",
+                'os': f"{system()} {platform.release()} {platform.machine()}",
                 'memory': f"{virtual_memory().total / (1 << 30):.04f} GB",
                 'cpu': cpu.get("model name", cpu.get('ProcessorNameString', '')),
             },
