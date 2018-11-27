@@ -3,7 +3,7 @@ pyqt5>=5.10
 pyqtchart>=5.10
 ezdxf==0.8.8
 numpy
-cython==0.29
+cython
 openpyxl
 psutil
 peewee
