@@ -14,7 +14,7 @@ Features
 Development
 ---
 
-+ None.
++ Performance improvements of atlas algorithm.
 
 Version 18.10
 ===

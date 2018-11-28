@@ -59,6 +59,8 @@ __all__ = [
     'contracted_link',
     'topo',
     'Graph',
+    'link_assortments',
+    'contracted_link_assortments',
     'vpoints_configure',
     'vpoint_dof',
     'colorNames',
