@@ -13,12 +13,9 @@ from typing import (
     Tuple,
     List,
     Sequence,
-    Dict,
     Callable,
     Optional,
 )
-from networkx import Graph
-from networkx.exception import NetworkXError
 from core.QtModules import (
     pyqtSlot,
     qt_image_format,
@@ -41,6 +38,7 @@ from core.QtModules import (
     QPointF,
     QInputDialog,
     QFileInfo,
+    QScrollBar,
 )
 from core import main_window as mw
 from core.libs import (
@@ -48,6 +46,7 @@ from core.libs import (
     contracted_link,
     topo,
     VPoint,
+    Graph,
 )
 from core.graphics import (
     to_graph,
@@ -128,7 +127,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
 
-        self.answer = []
+        # Answer list.
+        self.answer: List[Graph] = []
 
         # Signals
         self.NL_input.valueChanged.connect(self.__adjust_structure_data)
@@ -406,24 +406,30 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __reload_atlas(self, *_: int):
         """Reload the atlas. Regardless there has any old data."""
         self.engine = self.graph_engine.currentText().split(" - ")[1]
+        scroll_bar: QScrollBar = self.structure_list.verticalScrollBar()
+        scroll_pos = scroll_bar.sliderPosition()
         self.structure_list.clear()
-        if self.answer:
-            dlg = SynthesisProgressDialog(
-                "Type synthesis",
-                "Drawing atlas...",
-                len(self.answer),
-                self
-            )
-            dlg.show()
-            for i, G in enumerate(self.answer):
-                QCoreApplication.processEvents()
-                if dlg.wasCanceled():
-                    return
-                if self.__draw_atlas(i, G):
-                    dlg.setValue(i + 1)
-                else:
-                    break
-            dlg.setValue(dlg.maximum())
+
+        if not self.answer:
+            return
+
+        dlg = SynthesisProgressDialog(
+            "Type synthesis",
+            "Drawing atlas...",
+            len(self.answer),
+            self
+        )
+        dlg.show()
+        for i, G in enumerate(self.answer):
+            QCoreApplication.processEvents()
+            if dlg.wasCanceled():
+                return
+            if self.__draw_atlas(i, G):
+                dlg.setValue(i + 1)
+            else:
+                break
+        dlg.setValue(dlg.maximum())
+        scroll_bar.setSliderPosition(scroll_pos)
 
     def __draw_atlas(self, i: int, graph: Graph) -> bool:
         """Draw atlas and return True if done."""
@@ -627,7 +633,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         for edges in read_data:
             try:
                 g = Graph(eval(edges))
-            except (SyntaxError, NetworkXError):
+            except (SyntaxError, TypeError):
                 QMessageBox.warning(
                     self,
                     "Wrong format",

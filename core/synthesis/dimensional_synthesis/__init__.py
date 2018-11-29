@@ -24,8 +24,7 @@ import csv
 import pprint
 from copy import deepcopy
 from re import split as char_split
-import openpyxl
-from networkx import Graph
+from openpyxl import load_workbook
 from core.QtModules import (
     pyqtSlot,
     QWidget,
@@ -41,7 +40,7 @@ from core.QtModules import (
 )
 from core.graphics import PreviewCanvas, graph2vpoints
 from core.io import str_before, str_between
-from core.libs import expr_solving, VPoint
+from core.libs import expr_solving, VPoint, Graph
 from core.synthesis import CollectionsDialog
 from .ds_dialog import (
     GeneticPrams,
@@ -265,7 +264,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         if not file_name:
             return
-        wb = openpyxl.load_workbook(file_name)
+        wb = load_workbook(file_name)
         ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
         data = []
         # Keep finding until there is no value.

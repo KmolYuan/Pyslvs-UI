@@ -7,9 +7,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Tuple, Sequence
-from networkx import Graph, is_isomorphic
-from networkx.exception import NetworkXError
+from typing import (
+    List,
+    Tuple,
+    Sequence,
+    Dict,
+)
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
@@ -37,6 +40,7 @@ from core.graphics import (
     engines,
     EngineError,
 )
+from core.libs import Graph
 from .Ui_structure_widget import Ui_Form
 
 
@@ -64,12 +68,12 @@ class StructureWidget(QWidget, Ui_Form):
         self.addPointsByGraph = parent.addPointsByGraph
         self.unsaveFunc = parent.workbookNoSave
 
-        """Data structures."""
-        self.collections = []
-        self.collections_layouts = []
-        self.collections_grounded = []
+        # Data structures.
+        self.collections: List[Graph] = []
+        self.collections_layouts: List[Dict[int, Tuple[float, float]]] = []
+        self.collections_grounded: List[Graph] = []
 
-        """Engine list."""
+        # Engine list.
         self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
         self.graph_engine.currentIndexChanged.connect(self.__reload_atlas)
@@ -173,7 +177,7 @@ class StructureWidget(QWidget, Ui_Form):
                 if len(list(graph.neighbors(n))) < 2:
                     raise _TestError("is not close chain")
             for H in self.collections:
-                if is_isomorphic(graph, H):
+                if graph.is_isomorphic(H):
                     raise _TestError("is isomorphic")
         except _TestError as e:
             QMessageBox.warning(self, "Add Collection Error", f"Error: {e}")
@@ -229,7 +233,7 @@ class StructureWidget(QWidget, Ui_Form):
         for edges in read_data:
             try:
                 collections.append(Graph(eval(edges)))
-            except NetworkXError:
+            except (SyntaxError, TypeError):
                 QMessageBox.warning(
                     self,
                     "Wrong format",
@@ -383,13 +387,12 @@ class StructureWidget(QWidget, Ui_Form):
 
         def isomorphic(g: Graph, l: List[Graph]) -> bool:
             for h in l:
-                if is_isomorphic(g, h):
+                if g.is_isomorphic(h):
                     return True
             return False
 
         for node in graph.nodes:
-            graph_ = Graph(graph)
-            graph_.remove_node(node)
+            graph_ = Graph([e for e in graph.edges if node not in e])
             if isomorphic(graph_, self.collections_grounded):
                 continue
             item = QListWidgetItem(f"link_{node}")

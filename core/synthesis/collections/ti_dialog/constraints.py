@@ -11,8 +11,8 @@ from typing import (
     Tuple,
     Iterator,
     Union,
+    Optional,
 )
-from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
     Qt,
@@ -20,6 +20,7 @@ from core.QtModules import (
     QListWidget,
     QListWidgetItem,
 )
+from core.libs import Graph
 from core.synthesis.collections import triangular_iteration_widget as ti
 from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
@@ -37,7 +38,7 @@ def list_items(
             yield widget.item(row)
 
 
-def _get_list(item: QListWidget) -> Iterator[str]:
+def _get_list(item: Optional[QListWidgetItem]) -> Iterator[str]:
     """A generator to get symbols from list widget."""
     if not item:
         return []
@@ -96,9 +97,10 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
-        cl = tuple(
-            set(_get_list(item)) for item in list_items(parent.constraint_list)
-        )
+        cl = []
+        for item in list_items(parent.constraint_list):
+            cl.append(set(_get_list(item)))
+
         for chain in _four_bar_loops(parent.PreviewWindow.G):
             chain = sorted(chain)
             chain_ = []

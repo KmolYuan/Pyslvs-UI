@@ -18,7 +18,6 @@ from typing import (
 )
 from abc import abstractmethod
 from traceback import format_exc
-from networkx import Graph
 from core.QtModules import pyqtSlot, QAbcMeta
 from core.graphics import edges_view
 from core.libs import (
@@ -29,6 +28,7 @@ from core.libs import (
     expr_solving,
     vpoint_dof,
     bfgs_vpoint_solving,
+    Graph,
 )
 from .entities import EntitiesMethodInterface
 
@@ -200,7 +200,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         """
         vpoints = self.EntitiesPoint.dataTuple()
         vlinks = self.EntitiesLink.dataTuple()
-        graph = Graph()
+        graph = Graph([])
         # links name for RP joint.
         k = len(vlinks)
         used_point = set()
