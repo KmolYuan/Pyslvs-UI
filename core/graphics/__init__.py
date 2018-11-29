@@ -26,7 +26,6 @@ from .nx_layout import (
     to_graph,
     engine_picker,
     engines,
-    EngineError,
 )
 
 __all__ = [
@@ -44,5 +43,4 @@ __all__ = [
     'to_graph',
     'engine_picker',
     'engines',
-    'EngineError',
 ]

@@ -53,7 +53,6 @@ from core.libs import (
 from core.graphics import (
     to_graph,
     engines,
-    EngineError,
 )
 from .Ui_structure_widget import Ui_Form
 
@@ -136,7 +135,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NL_input.valueChanged.connect(self.__adjust_structure_data)
         self.NJ_input.valueChanged.connect(self.__adjust_structure_data)
         self.graph_engine.addItems(engines)
-        self.graph_engine.setCurrentIndex(2)
         self.structure_list.customContextMenuRequested.connect(
             self.__topologic_result_context_menu
         )
@@ -407,7 +405,6 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self, *_: int):
         """Reload the atlas. Regardless there has any old data."""
-        self.engine = self.graph_engine.currentText().split(" - ")[1]
         scroll_bar: QScrollBar = self.structure_list.verticalScrollBar()
         scroll_pos = scroll_bar.sliderPosition()
         self.structure_list.clear()
@@ -436,28 +433,19 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __draw_atlas(self, i: int, g: Graph) -> bool:
         """Draw atlas and return True if done."""
         item = QListWidgetItem(f"No. {i + 1}")
-        try:
-            item.setIcon(to_graph(
-                g,
-                self.structure_list.iconSize().width(),
-                self.engine,
-                self.graph_link_as_node.isChecked()
-            ))
-        except EngineError as error:
-            QMessageBox.warning(
-                self,
-                f"{error}",
-                "Please install and make sure Graphviz is working."
-            )
-            return False
-        else:
-            item.setToolTip(
-                f"Edge Set: {list(g.edges)}\n"
-                f"Link Assortments: {l_a(g)}\n"
-                f"Contracted Link Assortments: {c_l_a(g)}"
-            )
-            self.structure_list.addItem(item)
-            return True
+        item.setIcon(to_graph(
+            g,
+            self.structure_list.iconSize().width(),
+            self.graph_engine.currentText(),
+            self.graph_link_as_node.isChecked()
+        ))
+        item.setToolTip(
+            f"Edge Set: {list(g.edges)}\n"
+            f"Link Assortments: {l_a(g)}\n"
+            f"Contracted Link Assortments: {c_l_a(g)}"
+        )
+        self.structure_list.addItem(item)
+        return True
 
     def __atlas_image(self, row: int = None) -> QImage:
         """Capture a result item icon to image."""

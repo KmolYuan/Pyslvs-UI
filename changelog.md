@@ -12,10 +12,12 @@ Features
     + Show more attributes of the graph.
 + Add independent option of contracted link assortments.
 + Fix EOF error when loading edge set data from text file.
++ Removed unnecessary layout engine option.
 
 Development
 ---
 
++ Removed PyDot requirement.
 + Performance improvements of atlas algorithm.
 
 Version 18.10

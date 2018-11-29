@@ -268,7 +268,7 @@ class Ui_Form(object):
         self.link_assortments_label.setText(_translate("Form", "Link assortments:"))
         self.contracted_link_assortments_label.setText(_translate("Form", "Contracted link assortments:"))
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
-        self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX and Pydot (Graphviz)."))
+        self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX."))
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))
         self.structure_synthesis_all_button.setStatusTip(_translate("Form", "Find the structure of mechanism from all numbers."))
         self.structure_synthesis_all_button.setText(_translate("Form", "Find All"))

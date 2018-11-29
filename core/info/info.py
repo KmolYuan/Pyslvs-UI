@@ -50,7 +50,6 @@ _POWERED_BY = ", ".join((
     "peewee",
     "Lark-parser",
     "NetworkX",
-    "Pydot",
     "Pygments",
     "PyYAML",
 ))

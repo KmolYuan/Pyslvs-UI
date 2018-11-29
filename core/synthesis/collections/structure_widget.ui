@@ -162,7 +162,7 @@
          <item>
           <widget class="QComboBox" name="graph_engine">
            <property name="statusTip">
-            <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
+            <string>Layout engine from NetworkX.</string>
            </property>
            <property name="currentIndex">
             <number>-1</number>

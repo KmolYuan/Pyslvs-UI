@@ -10,14 +10,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import Dict, Tuple, Union
 from networkx import (
     Graph as nx_Graph,
-    nx_pydot,
-    shell_layout,
-    circular_layout,
     spring_layout,
-    spectral_layout,
-    random_layout,
 )
-from networkx.exception import NetworkXError
 from core.QtModules import (
     QImage,
     QSize,
@@ -36,25 +30,9 @@ from .canvas import convex_hull, edges_view
 
 Pos = Dict[int, Tuple[float, float]]
 
-_nx_engine = tuple(f"NetworkX - {_ne}" for _ne in (
-    "circular",
-    "shell",
+engines = (
     "spring",
-    "spectral",
-    "random",
-))
-_graphviz_engine = tuple(f"Graphviz - {_ge}" for _ge in (
-    "dot",
-    "neato",
-    "fdp",
-    "twopi",
-    "circo",
-))
-engines = _nx_engine + _graphviz_engine
-
-
-class EngineError(Exception):
-    pass
+)
 
 
 def _reversed_graph(graph: Graph) -> Graph:
@@ -79,21 +57,9 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[s
     if type(engine) != str:
         return engine
 
-    if engine == "random":
-        layout = {k: (x * 200, y * 200) for k, (x, y) in random_layout(graph_).items()}
-    elif engine == "shell":
-        layout = shell_layout(graph_, scale=100)
-    elif engine == "circular":
-        layout = circular_layout(graph_, scale=100)
-    elif engine == "spring":
-        layout = spring_layout(graph_, scale=100)
-    elif engine == "spectral":
-        layout = spectral_layout(graph_, scale=100)
-    else:
-        try:
-            layout = nx_pydot.graphviz_layout(graph_, prog=engine)
-        except NetworkXError:
-            raise EngineError("No Graphviz")
+    # TODO: More layout.
+    # if engine == "spring":
+    layout: Pos = spring_layout(graph_, scale=100)
 
     inf = float('inf')
     x_max = -inf
@@ -128,10 +94,7 @@ def to_graph(
     except_node: int = None
 ) -> QIcon:
     """Draw a generalized chain graph."""
-    try:
-        pos: Pos = engine_picker(graph, engine, node_mode)
-    except EngineError as e:
-        raise e
+    pos: Pos = engine_picker(graph, engine, node_mode)
     width_ = -float('inf')
     for x, y in pos.values():
         if abs(x) > width_:

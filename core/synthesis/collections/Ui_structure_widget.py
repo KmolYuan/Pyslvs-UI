@@ -208,7 +208,7 @@ class Ui_Form(object):
         self.save_atlas.setStatusTip(_translate("Form", "Save the atlas to image file."))
         self.save_edges.setStatusTip(_translate("Form", "Save the edges of atlas to text file."))
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
-        self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX and Pydot (Graphviz)."))
+        self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX."))
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))
         self.expr_copy.setStatusTip(_translate("Form", "Copy expression."))
         self.triangle_button.setStatusTip(_translate("Form", "Use trangular formula to do dimentional synthesis."))

@@ -23,7 +23,6 @@
 
 1. [Modules Requirement](#modules-requirement)
 
-    + [Graphviz (Optional)](#graphviz-optional)
     + [PyQt Stuff (Development)](#pyqt-stuff-development)
 
 1. [Kernels Requirement](#kernels-requirement)
@@ -284,26 +283,6 @@ Makefile tool: [MinGW] or [Msys 2][msys].
 pip install -r requirements.txt
 ```
 
-## Graphviz (Optional)
-
-Graphviz tools provide some graph engine that can make the position of dots in atlas looks more pretty.
-
-Download it from [here](https://www.graphviz.org/) or:
-
-```bash
-# Using Homebrew
-brew install graphviz
-
-# Using APT
-sudo apt install graphviz
-```
-
-Windows user please make sure to add Graphviz `bin` folder path to environment variables.
-
-Then use the `dot` command to check if it works.
-
-If you are not willing to install Graphviz, you can just using built-in layout from NetworkX.
-
 ## PyQt Stuff (Development)
 
 PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can install them directly.
@@ -478,7 +457,6 @@ Including Python modules:
 * [peewee] (MIT)
 * [Lark-parser] (MIT)
 * [NetworkX] (BSD 3-Clause)
-* [Pydot] (MIT)
 * [Pygments] (BSD)
 * [PyYAML] (MIT)
 
@@ -510,7 +488,6 @@ Kernel repository:
 [peewee]: http://docs.peewee-orm.com/en/latest/
 [Lark-parser]: https://github.com/erezsh/lark
 [NetworkX]: https://networkx.github.io/
-[Pydot]: https://github.com/erocarrera/pydot
 [Pygments]: http://pygments.org/
 [PyYAML]: https://pyyaml.org/
 

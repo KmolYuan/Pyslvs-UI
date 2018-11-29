@@ -39,7 +39,6 @@ from core.graphics import (
     to_graph,
     engine_picker,
     engines,
-    EngineError,
 )
 from core.libs import (
     Graph,
@@ -80,7 +79,6 @@ class StructureWidget(QWidget, Ui_Form):
 
         # Engine list.
         self.graph_engine.addItems(engines)
-        self.graph_engine.setCurrentIndex(2)
         self.graph_engine.currentIndexChanged.connect(self.__reload_atlas)
 
     def clear(self):
@@ -106,25 +104,17 @@ class StructureWidget(QWidget, Ui_Form):
         self.clear()
         self.unsaveFunc()
 
-    def __engine_error_msg(self, error: EngineError):
-        """Show up error message."""
-        QMessageBox.warning(
-            self,
-            f"{error}",
-            "Please install and make sure Graphviz is working."
-        )
-
     @pyqtSlot()
     @pyqtSlot(name='on_reload_atlas_clicked')
     def __reload_atlas(self):
         """Reload atlas with the engine."""
-        if not self.collections:
-            return
-
         current_pos = self.collection_list.currentRow()
         self.collections_layouts.clear()
         self.collection_list.clear()
         self.__clear_selection()
+
+        if not self.collections:
+            return
 
         progress_dlg = QProgressDialog(
             "Drawing atlas...",
@@ -138,28 +128,22 @@ class StructureWidget(QWidget, Ui_Form):
         progress_dlg.resize(400, progress_dlg.height())
         progress_dlg.setModal(True)
         progress_dlg.show()
-        engine_str = self.graph_engine.currentText().split(" - ")[1]
+        engine_str = self.graph_engine.currentText()
         for i, graph in enumerate(self.collections):
             QCoreApplication.processEvents()
             if progress_dlg.wasCanceled():
                 return
             item = QListWidgetItem(f"No. {i + 1}")
-            try:
-                engine = engine_picker(graph, engine_str)
-                item.setIcon(to_graph(
-                    graph,
-                    self.collection_list.iconSize().width(),
-                    engine
-                ))
-            except EngineError as e:
-                progress_dlg.setValue(progress_dlg.maximum())
-                self.__engine_error_msg(e)
-                break
-            else:
-                self.collections_layouts.append(engine)
-                item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate.")
-                self.collection_list.addItem(item)
-                progress_dlg.setValue(i + 1)
+            engine = engine_picker(graph, engine_str)
+            item.setIcon(to_graph(
+                graph,
+                self.collection_list.iconSize().width(),
+                engine
+            ))
+            self.collections_layouts.append(engine)
+            item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate.")
+            self.collection_list.addItem(item)
+            progress_dlg.setValue(i + 1)
 
         self.collection_list.setCurrentRow(current_pos)
 
@@ -380,15 +364,11 @@ class StructureWidget(QWidget, Ui_Form):
         self.grounded_list.clear()
         graph = self.collections[self.collection_list.row(current_item)]
         item = QListWidgetItem("Released")
-        try:
-            icon = to_graph(
-                graph,
-                self.grounded_list.iconSize().width(),
-                self.ground_engine
-            )
-        except EngineError as e:
-            self.__engine_error_msg(e)
-            return
+        icon = to_graph(
+            graph,
+            self.grounded_list.iconSize().width(),
+            self.ground_engine
+        )
         item.setIcon(icon)
         self.collections_grounded.append(graph)
         self.grounded_list.addItem(item)

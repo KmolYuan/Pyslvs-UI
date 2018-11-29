@@ -9,6 +9,5 @@ psutil
 peewee
 lark-parser
 networkx
-pydot
 pygments
 pyyaml
