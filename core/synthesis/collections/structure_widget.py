@@ -41,7 +41,11 @@ from core.graphics import (
     engines,
     EngineError,
 )
-from core.libs import Graph
+from core.libs import (
+    Graph,
+    link_assortments as l_a,
+    contracted_link_assortments as c_l_a,
+)
 from .Ui_structure_widget import Ui_Form
 
 
@@ -320,6 +324,8 @@ class StructureWidget(QWidget, Ui_Form):
         self.nl_label.setText(str(len(graph.nodes)))
         self.nj_label.setText(str(len(graph.edges)))
         self.dof_label.setText(str(graph.dof()))
+        self.link_assortments_label.setText(str(l_a(graph)))
+        self.contracted_link_assortments_label.setText(str(c_l_a(graph)))
 
     def __clear_selection(self):
         """Clear the selection preview data."""
@@ -329,6 +335,8 @@ class StructureWidget(QWidget, Ui_Form):
         self.nl_label.setText('0')
         self.nj_label.setText('0')
         self.dof_label.setText('0')
+        self.link_assortments_label.setText("")
+        self.contracted_link_assortments_label.setText("")
 
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):

@@ -75,7 +75,7 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[s
     if not node_mode:
         graph_ = nx_Graph(_reversed_graph(graph).edges)
     else:
-        graph_ = nx_Graph(graph)
+        graph_ = nx_Graph(graph.edges)
     if type(engine) != str:
         return engine
 
@@ -123,7 +123,7 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[s
 def to_graph(
     graph: Graph,
     width: int,
-    engine: [str, Dict[int, Tuple[float, float]]],
+    engine: Union[str, Dict[int, Tuple[float, float]]],
     node_mode: bool = False,
     except_node: int = None
 ) -> QIcon:
