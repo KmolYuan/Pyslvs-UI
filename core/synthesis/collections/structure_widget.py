@@ -12,6 +12,7 @@ from typing import (
     Tuple,
     Sequence,
     Dict,
+    Optional,
 )
 from core.QtModules import (
     pyqtSignal,
@@ -78,15 +79,6 @@ class StructureWidget(QWidget, Ui_Form):
         self.graph_engine.setCurrentIndex(2)
         self.graph_engine.currentIndexChanged.connect(self.__reload_atlas)
 
-    def __clear_selection(self):
-        """Clear the selection preview data."""
-        self.grounded_list.clear()
-        self.selection_window.clear()
-        self.edges_text.clear()
-        self.NL.setText('0')
-        self.NJ.setText('0')
-        self.DOF.setText('0')
-
     def clear(self):
         """Clear all sub-widgets."""
         self.grounded_merge.setEnabled(False)
@@ -124,14 +116,12 @@ class StructureWidget(QWidget, Ui_Form):
         """Reload atlas with the engine."""
         if not self.collections:
             return
+
+        current_pos = self.collection_list.currentRow()
         self.collections_layouts.clear()
         self.collection_list.clear()
-        self.selection_window.clear()
-        self.edges_text.clear()
-        self.NL.setText('0')
-        self.NJ.setText('0')
-        self.DOF.setText('0')
-        self.grounded_list.clear()
+        self.__clear_selection()
+
         progress_dlg = QProgressDialog(
             "Drawing atlas...",
             "Cancel",
@@ -166,6 +156,8 @@ class StructureWidget(QWidget, Ui_Form):
                 item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate.")
                 self.collection_list.addItem(item)
                 progress_dlg.setValue(i + 1)
+
+        self.collection_list.setCurrentRow(current_pos)
 
     def addCollection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
@@ -298,22 +290,21 @@ class StructureWidget(QWidget, Ui_Form):
             f.write('\n'.join(str(G.edges) for G in self.collections))
         self.saveReplyBox("edges expression", file_name)
 
-    @pyqtSlot(
-        QListWidgetItem,
-        QListWidgetItem,
-        name='on_collection_list_currentItemChanged')
-    def __reload_details(self, item: QListWidgetItem, *_):
+    @pyqtSlot(int, name='on_collection_list_currentRowChanged')
+    def __set_selection(self, row: int):
         """Show the data of collection.
 
         Save the layout position to keep the graphs
         will be in same appearance.
         """
-        has_item = bool(item)
+        item: Optional[QListWidgetItem] = self.collection_list.item(row)
+        has_item = item is not None
         self.delete_button.setEnabled(has_item)
         self.grounded_button.setEnabled(has_item)
         self.triangle_button.setEnabled(has_item)
-        if not item:
+        if item is None:
             return
+
         self.selection_window.clear()
         item_ = QListWidgetItem(item.text())
         row = self.collection_list.row(item)
@@ -326,9 +317,18 @@ class StructureWidget(QWidget, Ui_Form):
         ))
         self.selection_window.addItem(item_)
         self.edges_text.setText(str(list(graph.edges)))
-        self.NL.setText(str(len(graph.nodes)))
-        self.NJ.setText(str(len(graph.edges)))
-        self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
+        self.nl_label.setText(str(len(graph.nodes)))
+        self.nj_label.setText(str(len(graph.edges)))
+        self.dof_label.setText(str(graph.dof()))
+
+    def __clear_selection(self):
+        """Clear the selection preview data."""
+        self.grounded_list.clear()
+        self.selection_window.clear()
+        self.edges_text.clear()
+        self.nl_label.setText('0')
+        self.nj_label.setText('0')
+        self.dof_label.setText('0')
 
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):

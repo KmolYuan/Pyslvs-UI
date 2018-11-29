@@ -277,14 +277,14 @@
             <item>
              <layout class="QFormLayout" name="formLayout">
               <item row="1" column="0">
-               <widget class="QLabel" name="NL_text">
+               <widget class="QLabel" name="nl_text">
                 <property name="text">
                  <string>NL:</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLabel" name="NL">
+               <widget class="QLabel" name="nl_label">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -294,14 +294,14 @@
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QLabel" name="NJ_text">
+               <widget class="QLabel" name="nj_text">
                 <property name="text">
                  <string>NJ:</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLabel" name="NJ">
+               <widget class="QLabel" name="nj_label">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -311,14 +311,14 @@
                </widget>
               </item>
               <item row="3" column="0">
-               <widget class="QLabel" name="DOF_text">
+               <widget class="QLabel" name="dof_text">
                 <property name="text">
                  <string>DOF:</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLabel" name="DOF">
+               <widget class="QLabel" name="dof_label">
                 <property name="text">
                  <string>0</string>
                 </property>

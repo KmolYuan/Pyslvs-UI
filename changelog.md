@@ -7,7 +7,9 @@ Version 18.11
 Features
 ---
 
-+ UI improvement of structural synthesis panel.
++ UI improvement of structural synthesis and collection panel.
+    + Record inspected information.
+    + Show more attributes of the graph.
 + Add independent option of contracted link assortments.
 + Fix EOF error when loading edge set data from text file.
 
