@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-10-31, 15:08:47 -->
+<!-- Saved: 2018-11-29, 16:23:18 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -25,7 +25,7 @@
     <Source>core/graphics/canvas.py</Source>
     <Source>core/graphics/chart.py</Source>
     <Source>core/graphics/color.py</Source>
-    <Source>core/graphics/nx_pydot.py</Source>
+    <Source>core/graphics/nx_layout.py</Source>
     <Source>core/info/Ui_about.py</Source>
     <Source>core/info/__init__.py</Source>
     <Source>core/info/about.py</Source>
@@ -72,7 +72,6 @@
     <Source>core/libs/pyslvs/src/bfgs.pyx</Source>
     <Source>core/libs/pyslvs/src/graph.pxd</Source>
     <Source>core/libs/pyslvs/src/graph.pyx</Source>
-    <Source>core/libs/pyslvs/src/number.pxd</Source>
     <Source>core/libs/pyslvs/src/number.pyx</Source>
     <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
     <Source>core/libs/pyslvs/src/pmks.pxd</Source>
