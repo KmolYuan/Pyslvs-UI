@@ -10,6 +10,7 @@ Features
 + UI improvement of structural synthesis and collection panel.
     + Record inspected information.
     + Show more attributes of the graph.
+    + Add "Find by links" and "Find by contracted links" buttons.
 + Add independent option of contracted link assortments.
 + Fix EOF error when loading edge set data from text file.
 + Removed unnecessary layout engine option.

@@ -14,6 +14,8 @@ from typing import (
     List,
     Sequence,
     Callable,
+    Iterator,
+    Iterable,
     Optional,
 )
 from core.QtModules import (
@@ -86,17 +88,13 @@ class SynthesisProgressDialog(QProgressDialog):
         """Increase value of progress bar."""
         self.setValue(self.value() + 1)
 
-    def progress_functions(self) -> Callable[[], bool]:
-        """Return progress function of the dialog."""
-        def stop_func() -> bool:
-            """Return dialog status."""
-            try:
-                QCoreApplication.processEvents()
-                return self.wasCanceled()
-            except RuntimeError:
-                return False
-
-        return stop_func
+    def stop_func(self) -> bool:
+        """Return dialog status."""
+        try:
+            QCoreApplication.processEvents()
+            return self.wasCanceled()
+        except RuntimeError:
+            return False
 
 
 class StructureSynthesis(QWidget, Ui_Form):
@@ -296,11 +294,8 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
-        """Type synthesis.
-
-        If there has no data of number synthesis,
-        execute number synthesis first.
-        """
+        """Structural synthesis - find by contracted links."""
+        self.__clear_structure_list()
         row = self.l_a_list.currentRow()
         if row == -1:
             self.__link_assortment_synthesis()
@@ -308,24 +303,41 @@ class StructureSynthesis(QWidget, Ui_Form):
         item_l_a: QListWidgetItem = self.l_a_list.currentItem()
         item_c_l_a: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
-            l_a = _link_assortments(item_l_a.text())
-            c_l_a = _link_assortments(item_c_l_a.text())
+            job_l_a = _link_assortments(item_l_a.text())
+            job_c_l_a = _link_assortments(item_c_l_a.text())
         except ValueError:
             return
 
-        answer, t, count = self.__structural_combine(l_a, c_l_a)
-        self.__set_time_count(t, count)
-        if answer is not None:
-            self.answer = answer
-            self.__reload_atlas()
+        self.__structural_combine([(job_l_a, job_c_l_a)], 1)
+
+    @pyqtSlot(name='on_structure_synthesis_links_button_clicked')
+    def __structure_synthesis_links(self):
+        """Structural synthesis - find by links."""
+        self.__clear_structure_list()
+        row = self.l_a_list.currentRow()
+        if row == -1:
+            self.__link_assortment_synthesis()
+            self.__contracted_link_assortment_synthesis()
+        item_l_a: QListWidgetItem = self.l_a_list.currentItem()
+        try:
+            job_l_a = _link_assortments(item_l_a.text())
+        except ValueError:
+            return
+
+        jobs = contracted_link(job_l_a)
+
+        def jobs_iterator(
+            _l_a: Sequence[int],
+            _jobs: Sequence[Sequence[int]]
+        ) -> Iterator[Tuple[Sequence[int], Sequence[int]]]:
+            for _c_l_a in _jobs:
+                yield _l_a, _c_l_a
+
+        self.__structural_combine(jobs_iterator(job_l_a, jobs), len(jobs))
 
     @pyqtSlot(name='on_structure_synthesis_all_button_clicked')
     def __structure_synthesis_all(self):
-        """Structure synthesis - find all.
-
-        If the data of number synthesis has multiple results,
-        execute type synthesis one by one.
-        """
+        """Structural synthesis - find all."""
         self.__clear_structure_list()
         if self.l_a_list.currentRow() == -1:
             self.__link_assortment_synthesis()
@@ -339,11 +351,26 @@ class StructureSynthesis(QWidget, Ui_Form):
         jobs = []
         for row in range(self.l_a_list.count()):
             item: QListWidgetItem = self.l_a_list.item(row)
-            l_a = _link_assortments(item.text())
-            c_l_as = contracted_link(l_a)
-            job_count += len(c_l_as)
-            jobs.append((l_a, c_l_as))
+            job_l_a = _link_assortments(item.text())
+            job_c_l_as = contracted_link(job_l_a)
+            job_count += len(job_c_l_as)
+            jobs.append((job_l_a, job_c_l_as))
 
+        def jobs_iterator(
+            _jobs: Sequence[Tuple[Sequence[int], Sequence[Sequence[int]]]]
+        ) -> Iterator[Tuple[Sequence[int], Sequence[int]]]:
+            for _l_a, _c_l_as in _jobs:
+                for _c_l_a in _c_l_as:
+                    yield _l_a, _c_l_a
+
+        self.__structural_combine(jobs_iterator(jobs), job_count)
+
+    def __structural_combine(
+        self,
+        jobs: Iterable[Tuple[Sequence[int], Sequence[int]]],
+        job_count: int
+    ):
+        """Structural combine by iterator."""
         dlg = SynthesisProgressDialog("Structural Synthesis", "", job_count, self)
         dlg.show()
 
@@ -351,18 +378,25 @@ class StructureSynthesis(QWidget, Ui_Form):
         break_point = False
         t0 = 0.
         c0 = 0
-        for l_a, c_l_as in jobs:
-            for c_l_a in c_l_as:
-                answer, t1, count = self.__structural_combine(l_a, c_l_a, dlg)
-                if answer is not None:
-                    answers.extend(answer)
-                    t0 += t1
-                    c0 += count
-                else:
-                    break_point = True
-                    break
+        for job_l_a, job_c_l_a in jobs:
+            answer, t1 = topo(
+                job_l_a,
+                job_c_l_a,
+                self.graph_degenerate.currentIndex(),
+                dlg.stop_func
+            )
+            dlg.next()
+            if answer is not None:
+                answers.extend(answer)
+                t0 += t1
+                c0 += len(answer)
+            else:
+                break_point = True
+                break
+
         if not answers:
             return
+
         if break_point:
             reply = QMessageBox.question(
                 self,
@@ -371,34 +405,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
             if reply != QMessageBox.Yes:
                 return
+
+        # Save the answer list.
         self.answer = answers
         self.__set_time_count(t0, c0)
         self.__reload_atlas()
-
-    def __structural_combine(
-        self,
-        l_a: Sequence[int],
-        c_l_a: Sequence[int],
-        dlg: Optional[SynthesisProgressDialog] = None,
-    ) -> Tuple[List[Graph], float, int]:
-        """Combine and show progress dialog."""
-        if dlg is None:
-            self.__clear_structure_list()
-            dlg = SynthesisProgressDialog(
-                "Structural Synthesis",
-                f"Link assortments: {l_a}\n"
-                f"Contracted link assortments: {c_l_a}",
-                1,
-                self
-            )
-            dlg.show()
-
-        stop_func = dlg.progress_functions()
-        result, time = topo(l_a, c_l_a, self.graph_degenerate.currentIndex(), stop_func)
-
-        dlg.next()
-
-        return [Graph(g.edges) for g in result], time, len(result)
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')

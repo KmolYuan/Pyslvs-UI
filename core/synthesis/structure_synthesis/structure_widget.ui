@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
+    <width>397</width>
     <height>639</height>
    </rect>
   </property>
@@ -276,6 +276,44 @@
                </property>
               </spacer>
              </item>
+             <item>
+              <widget class="QComboBox" name="graph_degenerate">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="currentIndex">
+                <number>1</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Only degenerate</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>No degenerate</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>All</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="graph_link_as_node">
+               <property name="statusTip">
+                <string>Show the edges as nodes.</string>
+               </property>
+               <property name="text">
+                <string>Link as node</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
@@ -314,12 +352,19 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="structure_synthesis_links_button">
+               <property name="text">
+                <string>Find by Links</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="structure_synthesis_button">
                <property name="statusTip">
                 <string>Find the structure of mechanism from specified numbers.</string>
                </property>
                <property name="text">
-                <string>Find Current</string>
+                <string>Find by Contracted Links</string>
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
@@ -327,48 +372,6 @@
               </widget>
              </item>
             </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
-            <widget class="QCheckBox" name="graph_link_as_node">
-             <property name="statusTip">
-              <string>Show the edges as nodes.</string>
-             </property>
-             <property name="text">
-              <string>Link as node</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="graph_degenerate">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>Only degenerate</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>No degenerate</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>All</string>
-              </property>
-             </item>
-            </widget>
            </item>
           </layout>
          </item>
