@@ -323,6 +323,23 @@
                </property>
               </widget>
              </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="is_degenerate_text">
+               <property name="text">
+                <string>Is Degenerate:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLabel" name="is_degenerate_label">
+               <property name="text">
+                <string>N/A</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
@@ -335,7 +352,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="link_assortments_label"/>
+              <widget class="QLabel" name="link_assortments_label">
+               <property name="text">
+                <string>N/A</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="contracted_link_assortments_text">
@@ -345,7 +366,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="contracted_link_assortments_label"/>
+              <widget class="QLabel" name="contracted_link_assortments_label">
+               <property name="text">
+                <string>N/A</string>
+               </property>
+              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">

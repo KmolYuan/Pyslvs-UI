@@ -291,27 +291,36 @@ class StructureWidget(QWidget, Ui_Form):
         self.delete_button.setEnabled(has_item)
         self.grounded_button.setEnabled(has_item)
         self.triangle_button.setEnabled(has_item)
+        self.selection_window.clear()
         if item is None:
             return
 
-        self.selection_window.clear()
-        item_ = QListWidgetItem(item.text())
+        # Preview item.
+        link_is_node = self.graph_link_as_node.isChecked()
+        item_preview = QListWidgetItem(item.text())
         row = self.collection_list.row(item)
         graph = self.collections[row]
         self.ground_engine = self.collections_layouts[row]
-        item_.setIcon(to_graph(
+        item_preview.setIcon(to_graph(
             graph,
             self.selection_window.iconSize().width(),
             self.ground_engine,
-            self.graph_link_as_node.isChecked()
+            link_is_node
         ))
-        self.selection_window.addItem(item_)
+        self.selection_window.addItem(item_preview)
+
+        # Set attributes.
         self.edges_text.setText(str(list(graph.edges)))
         self.nl_label.setText(str(len(graph.nodes)))
         self.nj_label.setText(str(len(graph.edges)))
         self.dof_label.setText(str(graph.dof()))
+        self.is_degenerate_label.setText(str(graph.is_degenerate()))
         self.link_assortments_label.setText(str(l_a(graph)))
         self.contracted_link_assortments_label.setText(str(c_l_a(graph)))
+
+        # "Link as node" layout cannot do these action.
+        self.triangle_button.setEnabled(not link_is_node)
+        self.grounded_merge.setEnabled(not link_is_node)
 
     def __clear_selection(self):
         """Clear the selection preview data."""
@@ -321,8 +330,9 @@ class StructureWidget(QWidget, Ui_Form):
         self.nl_label.setText('0')
         self.nj_label.setText('0')
         self.dof_label.setText('0')
-        self.link_assortments_label.setText("")
-        self.contracted_link_assortments_label.setText("")
+        self.is_degenerate_label.setText("N/A")
+        self.link_assortments_label.setText("N/A")
+        self.contracted_link_assortments_label.setText("N/A")
 
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):
@@ -397,9 +407,6 @@ class StructureWidget(QWidget, Ui_Form):
             item.setIcon(icon)
             self.collections_grounded.append(graph_)
             self.grounded_list.addItem(item)
-
-        # "Link as node" layout cannot be merged.
-        self.grounded_merge.setEnabled(not self.graph_link_as_node.isChecked())
 
     @pyqtSlot(name='on_grounded_merge_clicked')
     def __grounded_merge(self):
