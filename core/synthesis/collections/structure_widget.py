@@ -79,7 +79,6 @@ class StructureWidget(QWidget, Ui_Form):
 
         # Engine list.
         self.graph_engine.addItems(engines)
-        self.graph_engine.currentIndexChanged.connect(self.__reload_atlas)
 
     def clear(self):
         """Clear all sub-widgets."""
@@ -104,8 +103,9 @@ class StructureWidget(QWidget, Ui_Form):
         self.clear()
         self.unsaveFunc()
 
-    @pyqtSlot()
+    @pyqtSlot(name='on_graph_link_as_node_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
+    @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self):
         """Reload atlas with the engine."""
         current_pos = self.collection_list.currentRow()
@@ -134,11 +134,12 @@ class StructureWidget(QWidget, Ui_Form):
             if progress_dlg.wasCanceled():
                 return
             item = QListWidgetItem(f"No. {i + 1}")
-            engine = engine_picker(graph, engine_str)
+            engine = engine_picker(graph, engine_str, self.graph_link_as_node.isChecked())
             item.setIcon(to_graph(
                 graph,
                 self.collection_list.iconSize().width(),
-                engine
+                engine,
+                self.graph_link_as_node.isChecked()
             ))
             self.collections_layouts.append(engine)
             item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate.")
@@ -301,7 +302,8 @@ class StructureWidget(QWidget, Ui_Form):
         item_.setIcon(to_graph(
             graph,
             self.selection_window.iconSize().width(),
-            self.ground_engine
+            self.ground_engine,
+            self.graph_link_as_node.isChecked()
         ))
         self.selection_window.addItem(item_)
         self.edges_text.setText(str(list(graph.edges)))
@@ -367,7 +369,8 @@ class StructureWidget(QWidget, Ui_Form):
         icon = to_graph(
             graph,
             self.grounded_list.iconSize().width(),
-            self.ground_engine
+            self.ground_engine,
+            self.graph_link_as_node.isChecked()
         )
         item.setIcon(icon)
         self.collections_grounded.append(graph)
@@ -388,12 +391,15 @@ class StructureWidget(QWidget, Ui_Form):
                 graph,
                 self.grounded_list.iconSize().width(),
                 self.ground_engine,
+                self.graph_link_as_node.isChecked(),
                 except_node=node
             )
             item.setIcon(icon)
             self.collections_grounded.append(graph_)
             self.grounded_list.addItem(item)
-        self.grounded_merge.setEnabled(bool(self.grounded_list.count()))
+
+        # "Link as node" layout cannot be merged.
+        self.grounded_merge.setEnabled(not self.graph_link_as_node.isChecked())
 
     @pyqtSlot(name='on_grounded_merge_clicked')
     def __grounded_merge(self):

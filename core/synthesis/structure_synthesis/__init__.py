@@ -415,7 +415,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_reload_atlas_clicked')
     @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self, *_: int):
-        """Reload the atlas. Regardless there has any old data."""
+        """Reload the atlas."""
         scroll_bar: QScrollBar = self.structure_list.verticalScrollBar()
         scroll_pos = scroll_bar.sliderPosition()
         self.structure_list.clear()

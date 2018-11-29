@@ -95,23 +95,34 @@ def to_graph(
 ) -> QIcon:
     """Draw a generalized chain graph."""
     pos: Pos = engine_picker(graph, engine, node_mode)
-    width_ = -float('inf')
+    width_bound = -float('inf')
     for x, y in pos.values():
-        if abs(x) > width_:
-            width_ = x
-        if abs(y) > width_:
-            width_ = y
-    width_ *= 2 * 1.2
-    image = QImage(QSize(int(width_), int(width_)), QImage.Format_ARGB32_Premultiplied)
+        if abs(x) > width_bound:
+            width_bound = x
+        if abs(y) > width_bound:
+            width_bound = y
+    width_bound *= 2.2
+    image = QImage(
+        QSize(int(width_bound), int(width_bound)),
+        QImage.Format_ARGB32_Premultiplied
+    )
     image.fill(Qt.transparent)
     painter = QPainter(image)
-    painter.translate(image.width()/2, image.height()/2)
+    painter.translate(image.width() / 2, image.height() / 2)
     pen = QPen()
-    r = width_ / 50
+    r = width_bound / 50
     pen.setWidth(int(r))
     painter.setPen(pen)
+
+    # Draw edges.
     if node_mode:
         for l1, l2 in graph.edges:
+            if except_node in {l1, l2}:
+                pen.setColor(color_qt('Gray'))
+            else:
+                pen.setColor(color_qt('Black'))
+            painter.setPen(pen)
+
             painter.drawLine(
                 QPointF(pos[l1][0], -pos[l1][1]),
                 QPointF(pos[l2][0], -pos[l2][1])
@@ -120,15 +131,22 @@ def to_graph(
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         for link in graph.nodes:
             if link == except_node:
-                continue
-            # Distance sorted function from canvas
+                pen.setColor(color_qt('Gray'))
+            else:
+                pen.setColor(color_qt('Black'))
+            painter.setPen(pen)
+
             painter.drawPolygon(*convex_hull([
                 (pos[n][0], -pos[n][1])
                 for n, edge in edges_view(graph) if link in edge
             ], as_qpoint=True))
+
+    # Draw nodes.
     for k, (x, y) in pos.items():
         if node_mode:
             color = color_num(len(list(graph.neighbors(k))) - 1)
+            if k == except_node:
+                color.setAlpha(150)
         else:
             if except_node in dict(edges_view(graph))[k]:
                 color = color_qt('Green')
