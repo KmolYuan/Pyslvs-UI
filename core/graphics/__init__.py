@@ -22,7 +22,7 @@ from .canvas import (
     edges_view,
     graph2vpoints,
 )
-from .nx_pydot import (
+from .nx_layout import (
     to_graph,
     engine_picker,
     engines,

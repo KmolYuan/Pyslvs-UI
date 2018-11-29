@@ -18,7 +18,6 @@ from typing import (
 )
 from abc import abstractmethod
 from itertools import chain
-from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
     QAbcMeta,
@@ -34,7 +33,7 @@ from core.entities import (
     EditPointDialog,
     EditLinkDialog,
 )
-from core.libs import VPoint, expr_solving
+from core.libs import VPoint, expr_solving, Graph
 from core.graphics import edges_view
 from core.widgets import (
     AddTable,

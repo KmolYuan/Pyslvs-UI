@@ -25,7 +25,6 @@ from typing import (
     Union,
 )
 from functools import reduce
-from networkx import Graph
 from core.QtModules import (
     pyqtSlot,
     Qt,
@@ -44,7 +43,7 @@ from core.QtModules import (
     QImage,
 )
 from core import io
-from core.libs import VPoint
+from core.libs import VPoint, Graph
 from . import color_qt, target_path_style
 
 
@@ -87,8 +86,7 @@ def convex_hull(
 
 def edges_view(graph: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
     """This generator can keep the numbering be consistent."""
-    for n, edge in enumerate(sorted(sorted(e) for e in graph.edges)):
-        yield (n, tuple(edge))
+    yield from enumerate(sorted(tuple(sorted(e)) for e in graph.edges))
 
 
 def graph2vpoints(
@@ -194,8 +192,9 @@ class BaseCanvas(QWidget):
         if not self.background.isNull():
             rect = self.background.rect()
             self.painter.setOpacity(self.background_opacity)
+            img_origin: QPointF = self.background_offset * self.zoom
             self.painter.drawImage(
-                QRectF(self.background_offset * self.zoom, QSizeF(
+                QRectF(img_origin, QSizeF(
                     rect.width() * self.background_scale * self.zoom,
                     rect.height() * self.background_scale * self.zoom
                 )),
@@ -482,7 +481,7 @@ class PreviewCanvas(BaseCanvas):
         super(PreviewCanvas, self).__init__(parent)
         self.showSolutions = True
         self.get_solutions = get_solutions
-        self.G = Graph()
+        self.G = Graph([])
         self.cus: Dict[str, int] = {}
         self.same: Dict[int, int] = {}
         self.pos: Dict[int, Tuple[float, float]] = {}
@@ -497,7 +496,7 @@ class PreviewCanvas(BaseCanvas):
 
     def clear(self):
         """Clear the attributes."""
-        self.G = Graph()
+        self.G = Graph([])
         self.cus.clear()
         self.same.clear()
         self.pos.clear()
@@ -596,7 +595,7 @@ class PreviewCanvas(BaseCanvas):
             x += 2 * self.joint_size
             y *= -self.zoom
             y -= 2 * self.joint_size
-            self.painter.drawText(x, y, f'P{node}')
+            self.painter.drawText(QPointF(x, y), f'P{node}')
         self.painter.end()
 
     def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:

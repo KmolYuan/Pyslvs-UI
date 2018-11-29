@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/collections/Structure.ui'
+# Form implementation generated from reading ui file 'structure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -134,27 +134,27 @@ class Ui_Form(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
-        self.NL_text = QtWidgets.QLabel(self.widget)
-        self.NL_text.setObjectName("NL_text")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.NL_text)
-        self.NL = QtWidgets.QLabel(self.widget)
-        self.NL.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.NL.setObjectName("NL")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.NL)
-        self.NJ_text = QtWidgets.QLabel(self.widget)
-        self.NJ_text.setObjectName("NJ_text")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.NJ_text)
-        self.NJ = QtWidgets.QLabel(self.widget)
-        self.NJ.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.NJ.setObjectName("NJ")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.NJ)
-        self.DOF_text = QtWidgets.QLabel(self.widget)
-        self.DOF_text.setObjectName("DOF_text")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.DOF_text)
-        self.DOF = QtWidgets.QLabel(self.widget)
-        self.DOF.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.DOF.setObjectName("DOF")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.DOF)
+        self.nl_text = QtWidgets.QLabel(self.widget)
+        self.nl_text.setObjectName("nl_text")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.nl_text)
+        self.nl_label = QtWidgets.QLabel(self.widget)
+        self.nl_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.nl_label.setObjectName("nl_label")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.nl_label)
+        self.nj_text = QtWidgets.QLabel(self.widget)
+        self.nj_text.setObjectName("nj_text")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.nj_text)
+        self.nj_label = QtWidgets.QLabel(self.widget)
+        self.nj_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.nj_label.setObjectName("nj_label")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.nj_label)
+        self.dof_text = QtWidgets.QLabel(self.widget)
+        self.dof_text.setObjectName("dof_text")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.dof_text)
+        self.dof_label = QtWidgets.QLabel(self.widget)
+        self.dof_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.dof_label.setObjectName("dof_label")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.dof_label)
         self.verticalLayout_2.addLayout(self.formLayout)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem2)
@@ -215,12 +215,12 @@ class Ui_Form(object):
         self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX and Pydot (Graphviz)."))
         self.reload_atlas.setToolTip(_translate("Form", "Add to collection."))
         self.expr_copy.setStatusTip(_translate("Form", "Copy expression."))
-        self.NL_text.setText(_translate("Form", "NL:"))
-        self.NL.setText(_translate("Form", "0"))
-        self.NJ_text.setText(_translate("Form", "NJ:"))
-        self.NJ.setText(_translate("Form", "0"))
-        self.DOF_text.setText(_translate("Form", "DOF:"))
-        self.DOF.setText(_translate("Form", "0"))
+        self.nl_text.setText(_translate("Form", "NL:"))
+        self.nl_label.setText(_translate("Form", "0"))
+        self.nj_text.setText(_translate("Form", "NJ:"))
+        self.nj_label.setText(_translate("Form", "0"))
+        self.dof_text.setText(_translate("Form", "DOF:"))
+        self.dof_label.setText(_translate("Form", "0"))
         self.triangle_button.setStatusTip(_translate("Form", "Use trangular formula to do dimentional synthesis."))
         self.triangle_button.setText(_translate("Form", "Iterate"))
         self.grounded_button.setStatusTip(_translate("Form", "Re-layout the grounded chains."))
@@ -229,13 +229,3 @@ class Ui_Form(object):
         self.grounded_merge.setText(_translate("Form", "Merge"))
 
 import icons_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())
-

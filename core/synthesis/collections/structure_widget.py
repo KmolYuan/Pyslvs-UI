@@ -7,9 +7,13 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Tuple, Sequence
-from networkx import Graph, is_isomorphic
-from networkx.exception import NetworkXError
+from typing import (
+    List,
+    Tuple,
+    Sequence,
+    Dict,
+    Optional,
+)
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
@@ -37,6 +41,7 @@ from core.graphics import (
     engines,
     EngineError,
 )
+from core.libs import Graph
 from .Ui_structure_widget import Ui_Form
 
 
@@ -64,24 +69,15 @@ class StructureWidget(QWidget, Ui_Form):
         self.addPointsByGraph = parent.addPointsByGraph
         self.unsaveFunc = parent.workbookNoSave
 
-        """Data structures."""
-        self.collections = []
-        self.collections_layouts = []
-        self.collections_grounded = []
+        # Data structures.
+        self.collections: List[Graph] = []
+        self.collections_layouts: List[Dict[int, Tuple[float, float]]] = []
+        self.collections_grounded: List[Graph] = []
 
-        """Engine list."""
+        # Engine list.
         self.graph_engine.addItems(engines)
         self.graph_engine.setCurrentIndex(2)
         self.graph_engine.currentIndexChanged.connect(self.__reload_atlas)
-
-    def __clear_selection(self):
-        """Clear the selection preview data."""
-        self.grounded_list.clear()
-        self.selection_window.clear()
-        self.edges_text.clear()
-        self.NL.setText('0')
-        self.NJ.setText('0')
-        self.DOF.setText('0')
 
     def clear(self):
         """Clear all sub-widgets."""
@@ -120,14 +116,12 @@ class StructureWidget(QWidget, Ui_Form):
         """Reload atlas with the engine."""
         if not self.collections:
             return
+
+        current_pos = self.collection_list.currentRow()
         self.collections_layouts.clear()
         self.collection_list.clear()
-        self.selection_window.clear()
-        self.edges_text.clear()
-        self.NL.setText('0')
-        self.NJ.setText('0')
-        self.DOF.setText('0')
-        self.grounded_list.clear()
+        self.__clear_selection()
+
         progress_dlg = QProgressDialog(
             "Drawing atlas...",
             "Cancel",
@@ -163,6 +157,8 @@ class StructureWidget(QWidget, Ui_Form):
                 self.collection_list.addItem(item)
                 progress_dlg.setValue(i + 1)
 
+        self.collection_list.setCurrentRow(current_pos)
+
     def addCollection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
         graph = Graph(edges)
@@ -173,7 +169,7 @@ class StructureWidget(QWidget, Ui_Form):
                 if len(list(graph.neighbors(n))) < 2:
                     raise _TestError("is not close chain")
             for H in self.collections:
-                if is_isomorphic(graph, H):
+                if graph.is_isomorphic(H):
                     raise _TestError("is isomorphic")
         except _TestError as e:
             QMessageBox.warning(self, "Add Collection Error", f"Error: {e}")
@@ -229,7 +225,7 @@ class StructureWidget(QWidget, Ui_Form):
         for edges in read_data:
             try:
                 collections.append(Graph(eval(edges)))
-            except NetworkXError:
+            except (SyntaxError, TypeError):
                 QMessageBox.warning(
                     self,
                     "Wrong format",
@@ -294,22 +290,21 @@ class StructureWidget(QWidget, Ui_Form):
             f.write('\n'.join(str(G.edges) for G in self.collections))
         self.saveReplyBox("edges expression", file_name)
 
-    @pyqtSlot(
-        QListWidgetItem,
-        QListWidgetItem,
-        name='on_collection_list_currentItemChanged')
-    def __reload_details(self, item: QListWidgetItem, *_):
+    @pyqtSlot(int, name='on_collection_list_currentRowChanged')
+    def __set_selection(self, row: int):
         """Show the data of collection.
 
         Save the layout position to keep the graphs
         will be in same appearance.
         """
-        has_item = bool(item)
+        item: Optional[QListWidgetItem] = self.collection_list.item(row)
+        has_item = item is not None
         self.delete_button.setEnabled(has_item)
         self.grounded_button.setEnabled(has_item)
         self.triangle_button.setEnabled(has_item)
-        if not item:
+        if item is None:
             return
+
         self.selection_window.clear()
         item_ = QListWidgetItem(item.text())
         row = self.collection_list.row(item)
@@ -322,9 +317,18 @@ class StructureWidget(QWidget, Ui_Form):
         ))
         self.selection_window.addItem(item_)
         self.edges_text.setText(str(list(graph.edges)))
-        self.NL.setText(str(len(graph.nodes)))
-        self.NJ.setText(str(len(graph.edges)))
-        self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
+        self.nl_label.setText(str(len(graph.nodes)))
+        self.nj_label.setText(str(len(graph.edges)))
+        self.dof_label.setText(str(graph.dof()))
+
+    def __clear_selection(self):
+        """Clear the selection preview data."""
+        self.grounded_list.clear()
+        self.selection_window.clear()
+        self.edges_text.clear()
+        self.nl_label.setText('0')
+        self.nj_label.setText('0')
+        self.dof_label.setText('0')
 
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):
@@ -383,13 +387,12 @@ class StructureWidget(QWidget, Ui_Form):
 
         def isomorphic(g: Graph, l: List[Graph]) -> bool:
             for h in l:
-                if is_isomorphic(g, h):
+                if g.is_isomorphic(h):
                     return True
             return False
 
         for node in graph.nodes:
-            graph_ = Graph(graph)
-            graph_.remove_node(node)
+            graph_ = Graph([e for e in graph.edges if node not in e])
             if isomorphic(graph_, self.collections_grounded):
                 continue
             item = QListWidgetItem(f"link_{node}")

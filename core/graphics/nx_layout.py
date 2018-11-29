@@ -7,15 +7,15 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union
 from networkx import (
-    Graph,
+    Graph as nx_Graph,
     nx_pydot,
     shell_layout,
     circular_layout,
     spring_layout,
     spectral_layout,
-    random_layout
+    random_layout,
 )
 from networkx.exception import NetworkXError
 from core.QtModules import (
@@ -30,9 +30,11 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
+from core.libs import Graph
 from .color import color_qt, color_num
 from .canvas import convex_hull, edges_view
 
+Pos = Dict[int, Tuple[float, float]]
 
 _nx_engine = tuple(f"NetworkX - {_ne}" for _ne in (
     "circular",
@@ -57,7 +59,7 @@ class EngineError(Exception):
 
 def _reversed_graph(graph: Graph) -> Graph:
     """Edges will become nodes."""
-    graph_ = Graph()
+    graph_ = Graph([])
     nodes = dict(edges_view(graph))
     for i, (l1, l2) in nodes.items():
         for j, edge in nodes.items():
@@ -68,17 +70,17 @@ def _reversed_graph(graph: Graph) -> Graph:
     return graph_
 
 
-def engine_picker(graph: Graph, engine: str, node_mode: bool =False):
+def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[str, Pos]:
     """Generate a position dict."""
     if not node_mode:
-        graph_ = _reversed_graph(graph)
+        graph_ = nx_Graph(_reversed_graph(graph).edges)
     else:
-        graph_ = graph
+        graph_ = nx_Graph(graph)
     if type(engine) != str:
         return engine
 
     if engine == "random":
-        layout = {k: (x*200, y*200) for k, (x, y) in random_layout(graph_).items()}
+        layout = {k: (x * 200, y * 200) for k, (x, y) in random_layout(graph_).items()}
     elif engine == "shell":
         layout = shell_layout(graph_, scale=100)
     elif engine == "circular":
@@ -111,7 +113,7 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool =False):
             y_min = y
     x_cen = (x_max + x_min)/2
     y_cen = (y_max + y_min)/2
-    pos = {node: (
+    pos: Pos = {node: (
         round(float(x), 4) - x_cen,
         round(float(y), 4) - y_cen
     ) for node, (x, y) in layout.items()}
@@ -127,7 +129,7 @@ def to_graph(
 ) -> QIcon:
     """Draw a generalized chain graph."""
     try:
-        pos = engine_picker(graph, engine, node_mode)
+        pos: Pos = engine_picker(graph, engine, node_mode)
     except EngineError as e:
         raise e
     width_ = -float('inf')
@@ -137,13 +139,13 @@ def to_graph(
         if abs(y) > width_:
             width_ = y
     width_ *= 2 * 1.2
-    image = QImage(QSize(width_, width_), QImage.Format_ARGB32_Premultiplied)
+    image = QImage(QSize(int(width_), int(width_)), QImage.Format_ARGB32_Premultiplied)
     image.fill(Qt.transparent)
     painter = QPainter(image)
     painter.translate(image.width()/2, image.height()/2)
     pen = QPen()
     r = width_ / 50
-    pen.setWidth(r)
+    pen.setWidth(int(r))
     painter.setPen(pen)
     if node_mode:
         for l1, l2 in graph.edges:

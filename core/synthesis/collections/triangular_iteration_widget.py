@@ -18,7 +18,6 @@ from typing import (
 )
 from math import hypot
 import pprint
-from networkx import Graph
 from core.QtModules import (
     Qt,
     pyqtSignal,
@@ -36,7 +35,7 @@ from core.graphics import (
     graph2vpoints,
 )
 from core.io import str_before, str_between
-from core.libs import vpoints_configure
+from core.libs import vpoints_configure, Graph
 from .ti_dialog import (
     CollectionsDialog,
     ConstraintsDialog,
