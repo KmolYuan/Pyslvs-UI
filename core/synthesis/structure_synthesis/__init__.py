@@ -47,6 +47,8 @@ from core.libs import (
     topo,
     VPoint,
     Graph,
+    link_assortments as l_a,
+    contracted_link_assortments as c_l_a,
 )
 from core.graphics import (
     to_graph,
@@ -431,12 +433,12 @@ class StructureSynthesis(QWidget, Ui_Form):
         dlg.setValue(dlg.maximum())
         scroll_bar.setSliderPosition(scroll_pos)
 
-    def __draw_atlas(self, i: int, graph: Graph) -> bool:
+    def __draw_atlas(self, i: int, g: Graph) -> bool:
         """Draw atlas and return True if done."""
         item = QListWidgetItem(f"No. {i + 1}")
         try:
             item.setIcon(to_graph(
-                graph,
+                g,
                 self.structure_list.iconSize().width(),
                 self.engine,
                 self.graph_link_as_node.isChecked()
@@ -449,7 +451,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
             return False
         else:
-            item.setToolTip(str(graph.edges))
+            item.setToolTip(
+                f"Edge Set: {list(g.edges)}\n"
+                f"Link Assortments: {l_a(g)}\n"
+                f"Contracted Link Assortments: {c_l_a(g)}"
+            )
             self.structure_list.addItem(item)
             return True
 
