@@ -102,14 +102,6 @@ make
 
 Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 
-1. Point
-
-    ![Point](images/Point.png)
-
-1. Link
-
-    ![Link](images/Link.png)
-
 The PMKS expression is using a name label to present a link bar.
 
 A joint between two links will get two name labels, and so on.
@@ -139,8 +131,6 @@ The grammar is defined with Extended Backus–Naur Form (EBNF), you can checkout
 
 Pyslvs has a simple simulation function driving with revolute joints.
 
-![PMKS example](images/Kinemetic.png)
-
 There is a planar constraint solving mechanism done with three CAD kernels:
 
 + Pyslvs and Sketch Solve.
@@ -164,8 +154,6 @@ Some exceptions are not support:
 
 Analysis a type of mechanism that exists, and find out other possibilities.
 
-![](images/Number_and_Type_Synthesis.png)
-
 We have a topological algorithm to combine atlas with:
 
 + Same degree of freedom.
@@ -174,8 +162,6 @@ We have a topological algorithm to combine atlas with:
 
 And use a type of mechanism to do grounding combine.
 
-![](images/Grounding.png)
-
 Grounding combine can merge the structure diagram immediately to canvas.
 
 But in the common ways, you can give it to dimensional synthesis to make it more useful.
@@ -183,8 +169,6 @@ But in the common ways, you can give it to dimensional synthesis to make it more
 ## Triangular iteration
 
 Before doing dimensional synthesis, a structure diagram has to configure it's verification formula.
-
-![](images/Triangular_Iteration.png)
 
 **PLAP** function is using two known points, a length variable and an angle variable to find out the position of third point.
 
@@ -198,8 +182,6 @@ Generate a mechanism with path requirement by random variables.
 
 + The structure settings is get from triangular iteration.
 + There also have algorithm options, such like constraints or probability.
-
-![](images/Dimensional_Synthesis.png)
 
 Contains three algorithms:
 
