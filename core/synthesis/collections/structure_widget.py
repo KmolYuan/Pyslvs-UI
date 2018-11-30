@@ -44,6 +44,7 @@ from core.libs import (
     Graph,
     link_assortments as l_a,
     contracted_link_assortments as c_l_a,
+    is_planar,
 )
 from .Ui_structure_widget import Ui_Form
 
@@ -153,13 +154,14 @@ class StructureWidget(QWidget, Ui_Form):
         graph = Graph(edges)
         try:
             if not edges:
-                raise _TestError("is empty graph.")
-            for n in graph.nodes:
-                if len(list(graph.neighbors(n))) < 2:
-                    raise _TestError("is not close chain")
-            for H in self.collections:
-                if graph.is_isomorphic(H):
-                    raise _TestError("is isomorphic")
+                raise _TestError("is an empty graph")
+            if not graph.is_connected():
+                raise _TestError("is not a close chain")
+            if not is_planar(graph):
+                raise _TestError("is not a planar chain")
+            for graph_ in self.collections:
+                if graph.is_isomorphic(graph_):
+                    raise _TestError(f"is isomorphic with: {graph_.edges}")
         except _TestError as e:
             QMessageBox.warning(self, "Add Collection Error", f"Error: {e}")
             return
