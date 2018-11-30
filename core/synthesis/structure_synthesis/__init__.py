@@ -66,6 +66,16 @@ def _link_assortments(links_expr: str) -> List[int]:
     return [int(n.split('=')[-1]) for n in links_expr.split(", ")]
 
 
+def compare_assortment(first: Tuple[int, ...], second: Sequence[Tuple[int, ...]]) -> int:
+    """Compare assortment."""
+    my_len = len(first)
+    for i, job in enumerate(second):
+        print(job, first + (0,) * (len(job) - my_len))
+        if job == first + (0,) * (len(job) - my_len):
+            return i
+    return -1
+
+
 class SynthesisProgressDialog(QProgressDialog):
 
     """Progress dialog for structure synthesis."""
@@ -185,8 +195,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         joint_data = self.jointDataFunc()
         link_data = self.linkDataFunc()
         if joint_data and link_data:
-            self.edges_text.setText(str(self.getGraph()))
+            graph = Graph(self.getGraph())
+            self.edges_text.setText(str(graph.edges))
         else:
+            graph = Graph([])
             self.edges_text.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
@@ -202,6 +214,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             for vpoint in joint_data if (len(vpoint.links) > 1)
         ))
         self.keep_dof.setChecked(keep_dof_checked)
+
+        # Auto synthesis.
+        if not graph.edges:
+            return
+        self.l_a_list.setCurrentRow(compare_assortment(tuple(l_a(graph)), self.__l_a_synthesis()))
+        self.c_l_a_list.setCurrentRow(compare_assortment(tuple(c_l_a(graph)), self.__c_l_a_synthesis()))
 
     def __adjust_structure_data(self):
         """Update NJ and NL values.
@@ -259,7 +277,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.NL_input_old_value = n1
 
     @pyqtSlot(name='on_number_synthesis_button_clicked')
-    def __link_assortment_synthesis(self):
+    def __l_a_synthesis(self) -> List[Tuple[int, ...]]:
         """Synthesis of link assortments."""
         self.l_a_list.clear()
         self.c_l_a_list.clear()
@@ -268,25 +286,29 @@ class StructureSynthesis(QWidget, Ui_Form):
         except Exception as e:
             item = QListWidgetItem(str(e))
             self.l_a_list.addItem(item)
+            return []
         else:
             for result in results:
                 self.l_a_list.addItem(QListWidgetItem(", ".join(
                     f"NL{i + 2} = {result[i]}" for i in range(len(result))
                 )))
             self.l_a_list.setCurrentRow(0)
+            return results
 
     @pyqtSlot(int, name='on_l_a_list_currentRowChanged')
-    def __contracted_link_assortment_synthesis(self, index: int = 0):
+    def __c_l_a_synthesis(self, index: int = 0) -> List[Tuple[int, ...]]:
         """Synthesis of contracted link assortments."""
         self.c_l_a_list.clear()
         item = self.l_a_list.item(index)
         if item is None:
-            return
-        for c_j in contracted_link(_link_assortments(item.text())):
+            return []
+        results = contracted_link(_link_assortments(item.text()))
+        for c_j in results:
             self.c_l_a_list.addItem(QListWidgetItem(", ".join(
                 f"Nc{i + 1} = {c_j[i]}" for i in range(len(c_j))
             )))
         self.c_l_a_list.setCurrentRow(0)
+        return results
 
     def __set_time_count(self, t: float, count: int):
         """Set time and count digit to label."""
@@ -298,8 +320,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.__clear_structure_list()
         row = self.l_a_list.currentRow()
         if row == -1:
-            self.__link_assortment_synthesis()
-            self.__contracted_link_assortment_synthesis()
+            self.__l_a_synthesis()
+            self.__c_l_a_synthesis()
         item_l_a: QListWidgetItem = self.l_a_list.currentItem()
         item_c_l_a: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
@@ -316,8 +338,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.__clear_structure_list()
         row = self.l_a_list.currentRow()
         if row == -1:
-            self.__link_assortment_synthesis()
-            self.__contracted_link_assortment_synthesis()
+            self.__l_a_synthesis()
+            self.__c_l_a_synthesis()
         item_l_a: QListWidgetItem = self.l_a_list.currentItem()
         try:
             job_l_a = _link_assortments(item_l_a.text())
@@ -340,7 +362,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Structural synthesis - find all."""
         self.__clear_structure_list()
         if self.l_a_list.currentRow() == -1:
-            self.__link_assortment_synthesis()
+            self.__l_a_synthesis()
         item: QListWidgetItem = self.c_l_a_list.currentItem()
         try:
             _link_assortments(item.text())
