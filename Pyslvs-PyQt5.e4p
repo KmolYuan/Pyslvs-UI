@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-11-29, 16:23:18 -->
+<!-- Saved: 2018-11-30, 13:06:00 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -63,6 +63,7 @@
     <Source>core/libs/pyslvs/firefly.pyi</Source>
     <Source>core/libs/pyslvs/graph.pyi</Source>
     <Source>core/libs/pyslvs/number.pyi</Source>
+    <Source>core/libs/pyslvs/planar_check.pyi</Source>
     <Source>core/libs/pyslvs/planarlinkage.pyi</Source>
     <Source>core/libs/pyslvs/pmks.pyi</Source>
     <Source>core/libs/pyslvs/rga.pyi</Source>
@@ -73,6 +74,8 @@
     <Source>core/libs/pyslvs/src/graph.pxd</Source>
     <Source>core/libs/pyslvs/src/graph.pyx</Source>
     <Source>core/libs/pyslvs/src/number.pyx</Source>
+    <Source>core/libs/pyslvs/src/planar_check.pxd</Source>
+    <Source>core/libs/pyslvs/src/planar_check.pyx</Source>
     <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
     <Source>core/libs/pyslvs/src/pmks.pxd</Source>
     <Source>core/libs/pyslvs/src/pmks.pyx</Source>
@@ -153,6 +156,19 @@
     <Form>core/io/output_option.ui</Form>
     <Form>core/io/overview.ui</Form>
     <Form>core/io/script.ui</Form>
+    <Form>core/synthesis/collections/structure_widget.ui</Form>
+    <Form>core/synthesis/collections/ti_dialog/collections.ui</Form>
+    <Form>core/synthesis/collections/ti_dialog/constraints.ui</Form>
+    <Form>core/synthesis/collections/ti_dialog/customs.ui</Form>
+    <Form>core/synthesis/collections/ti_dialog/solutions.ui</Form>
+    <Form>core/synthesis/collections/ti_dialog/targets.ui</Form>
+    <Form>core/synthesis/collections/triangular_iteration_widget.ui</Form>
+    <Form>core/synthesis/dimensional_synthesis/dimension_widget.ui</Form>
+    <Form>core/synthesis/dimensional_synthesis/ds_dialog/options.ui</Form>
+    <Form>core/synthesis/dimensional_synthesis/ds_dialog/path_adjust.ui</Form>
+    <Form>core/synthesis/dimensional_synthesis/ds_dialog/preview.ui</Form>
+    <Form>core/synthesis/dimensional_synthesis/ds_dialog/progress.ui</Form>
+    <Form>core/synthesis/structure_synthesis/structure_widget.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
     <Form>core/widgets/main.ui</Form>
   </Forms>

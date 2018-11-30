@@ -19,8 +19,10 @@ Features
 Development
 ---
 
++ Replaced all most NetworkX graph type to Pyslvs graph type.
 + Removed PyDot requirement.
-+ Performance improvements of atlas algorithm.
++ Add planar graph checking of atlas algorithm.
++ Performance improvements of atlas algorithm (Object creation and function calling).
 
 Version 18.10
 ===
