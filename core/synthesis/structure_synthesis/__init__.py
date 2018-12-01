@@ -217,8 +217,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Auto synthesis.
         if not graph.edges:
             return
-        self.l_a_list.setCurrentRow(compare_assortment(tuple(l_a(graph)), self.__l_a_synthesis()))
-        self.c_l_a_list.setCurrentRow(compare_assortment(tuple(c_l_a(graph)), self.__c_l_a_synthesis()))
+
+        l_a_row = compare_assortment(tuple(l_a(graph)), self.__l_a_synthesis())
+        self.l_a_list.setCurrentRow(l_a_row)
+        self.c_l_a_list.setCurrentRow(compare_assortment(tuple(c_l_a(graph)), self.__c_l_a_synthesis(l_a_row)))
 
     def __adjust_structure_data(self):
         """Update NJ and NL values.
@@ -232,13 +234,11 @@ class StructureSynthesis(QWidget, Ui_Form):
                 2 * self.NJ_input.value()
             )
             return
-        """Prepare the input value.
 
-        + N2: Get the user's adjusted value.
-        + NL_func: Get the another value of parameters (N1) by
-            degrees of freedom formula.
-        + is_above: Is value increase or decrease?
-        """
+        # Prepare the input value.
+        # + N2: Get the user's adjusted value.
+        # + NL_func: Get the another value of parameters (N1) by degrees of freedom formula.
+        # + is_above: Is value increase or decrease?
         if self.sender() == self.NJ_input:
             n2 = self.NJ_input.value()
 
@@ -259,11 +259,10 @@ class StructureSynthesis(QWidget, Ui_Form):
             n1 = nl_func()
             if (n1 == 0) or (n2 == 0):
                 break
-        """Return the result values.
 
-        + Value of widgets.
-        + Setting old value record.
-        """
+        # Return the result values.
+        # + Value of widgets.
+        # + Setting old value record.
         if self.sender() == self.NL_input:
             self.NJ_input.setValue(n1)
             self.NL_input.setValue(n2)
@@ -307,10 +306,10 @@ class StructureSynthesis(QWidget, Ui_Form):
             return results
 
     @pyqtSlot(int, name='on_l_a_list_currentRowChanged')
-    def __c_l_a_synthesis(self, index: int = 0) -> List[Tuple[int, ...]]:
+    def __c_l_a_synthesis(self, l_a_row: int = 0) -> List[Tuple[int, ...]]:
         """Synthesis of contracted link assortments."""
         self.c_l_a_list.clear()
-        item = self.l_a_list.item(index)
+        item = self.l_a_list.item(l_a_row)
         if item is None:
             return []
 

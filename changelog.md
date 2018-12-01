@@ -7,6 +7,20 @@ Version 18.11
 Features
 ---
 
++ Add progress dialog for number synthesis.
++ Fix bug of number synthesis when import from mechanism.
+
+Development
+---
+
++ None
+
+Version 18.11
+===
+
+Features
+---
+
 + UI improvement of structural synthesis and collection panel.
     + Record inspected information.
     + Show more attributes of the graph.
