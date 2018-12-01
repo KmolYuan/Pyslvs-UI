@@ -70,7 +70,6 @@ def compare_assortment(first: Tuple[int, ...], second: Sequence[Tuple[int, ...]]
     """Compare assortment."""
     my_len = len(first)
     for i, job in enumerate(second):
-        print(job, first + (0,) * (len(job) - my_len))
         if job == first + (0,) * (len(job) - my_len):
             return i
     return -1
@@ -281,11 +280,22 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Synthesis of link assortments."""
         self.l_a_list.clear()
         self.c_l_a_list.clear()
+
+        nl = self.NL_input.value()
+        nj = self.NJ_input.value()
+        dlg = SynthesisProgressDialog(
+            "Link assortments",
+            f"({nl}, {nj})",
+            1,
+            self
+        )
+        dlg.show()
         try:
-            results = number_synthesis(self.NL_input.value(), self.NJ_input.value())
+            results = number_synthesis(nl, nj, dlg.stop_func)
         except Exception as e:
             item = QListWidgetItem(str(e))
             self.l_a_list.addItem(item)
+            dlg.next()
             return []
         else:
             for result in results:
@@ -293,6 +303,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                     f"NL{i + 2} = {result[i]}" for i in range(len(result))
                 )))
             self.l_a_list.setCurrentRow(0)
+            dlg.next()
             return results
 
     @pyqtSlot(int, name='on_l_a_list_currentRowChanged')
@@ -302,12 +313,22 @@ class StructureSynthesis(QWidget, Ui_Form):
         item = self.l_a_list.item(index)
         if item is None:
             return []
-        results = contracted_link(_link_assortments(item.text()))
+
+        job_l_a = _link_assortments(item.text())
+        dlg = SynthesisProgressDialog(
+            "Contracted link assortments",
+            str(job_l_a),
+            1,
+            self
+        )
+        dlg.show()
+        results = contracted_link(job_l_a, dlg.stop_func)
         for c_j in results:
             self.c_l_a_list.addItem(QListWidgetItem(", ".join(
                 f"Nc{i + 1} = {c_j[i]}" for i in range(len(c_j))
             )))
         self.c_l_a_list.setCurrentRow(0)
+        dlg.next()
         return results
 
     def __set_time_count(self, t: float, count: int):
