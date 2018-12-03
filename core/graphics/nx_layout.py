@@ -51,15 +51,15 @@ def _reversed_graph(graph: Graph) -> Graph:
 def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[str, Pos]:
     """Generate a position dict."""
     if not node_mode:
-        graph_ = nx_Graph(_reversed_graph(graph).edges)
+        edges = _reversed_graph(graph).edges
     else:
-        graph_ = nx_Graph(graph.edges)
+        edges = graph.edges
     if type(engine) != str:
         return engine
 
     # TODO: More layout.
     # if engine == "spring":
-    layout: Pos = spring_layout(graph_, scale=100)
+    layout: Pos = spring_layout(nx_Graph(edges), scale=100)
 
     inf = float('inf')
     x_max = -inf

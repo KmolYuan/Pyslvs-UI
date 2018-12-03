@@ -13,7 +13,6 @@ from typing import (
     Tuple,
     List,
     Sequence,
-    Callable,
     Iterator,
     Iterable,
     Optional,
@@ -35,7 +34,6 @@ from core.QtModules import (
     QPoint,
     QApplication,
     QImage,
-    QColor,
     QPainter,
     QPointF,
     QInputDialog,
@@ -143,7 +141,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NJ_input.valueChanged.connect(self.__adjust_structure_data)
         self.graph_engine.addItems(engines)
         self.structure_list.customContextMenuRequested.connect(
-            self.__topologic_result_context_menu
+            self.__structure_list_context_menu
         )
 
         """Context menu
@@ -500,17 +498,18 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.structure_list.addItem(item)
         return True
 
-    def __atlas_image(self, row: int = None) -> QImage:
+    def __atlas_image(self, row: Optional[int] = None) -> QImage:
         """Capture a result item icon to image."""
-        w = self.structure_list
         if row is None:
-            item = w.currentItem()
+            item: QListWidgetItem = self.structure_list.currentItem()
         else:
-            item = w.item(row)
-        return item.icon().pixmap(w.iconSize()).toImage()
+            item: QListWidgetItem = self.structure_list.item(row)
+        icon: QIcon = item.icon()
+        pixmap: QPixmap = icon.pixmap(self.structure_list.iconSize())
+        return pixmap.toImage()
 
     @pyqtSlot(QPoint)
-    def __topologic_result_context_menu(self, point):
+    def __structure_list_context_menu(self, point):
         """Context menu for the type synthesis results."""
         index = self.structure_list.currentIndex().row()
         self.add_collection.setEnabled(index > -1)
@@ -528,13 +527,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             # Turn the transparent background to white.
             image1 = self.__atlas_image()
             image2 = QImage(image1.size(), image1.format())
-            image2.fill(QColor(Qt.white).rgb())
+            image2.fill(Qt.white)
             painter = QPainter(image2)
             painter.drawImage(QPointF(0, 0), image1)
             painter.end()
-            pixmap = QPixmap()
-            pixmap.convertFromImage(image2)
-            clipboard.setPixmap(pixmap)
+            clipboard.setPixmap(QPixmap.fromImage(image2))
 
     @pyqtSlot(name='on_expr_copy_clicked')
     def __copy_expr(self):
@@ -558,55 +555,37 @@ class StructureSynthesis(QWidget, Ui_Form):
         We should turn transparent background to white first.
         Then using QImage class to merge into one image.
         """
-        file_name = ""
-        lateral = 0
-        if self.save_edges_auto.isChecked():
-            lateral, ok = QInputDialog.getInt(
-                self,
-                "Atlas",
-                "The number of lateral:",
-                5, 1, 10
-            )
-            if not ok:
-                return
-            file_name = self.outputTo("Atlas image", qt_image_format)
-            if file_name:
-                reply = QMessageBox.question(
-                    self,
-                    "Type synthesis",
-                    "Do you want to Re-synthesis?",
-                    (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
-                    QMessageBox.Yes
-                )
-                if reply == QMessageBox.Yes:
-                    self.__structure_synthesis()
-                elif reply == QMessageBox.YesToAll:
-                    self.__structure_synthesis_all()
         count = self.structure_list.count()
         if not count:
             return
+
+        lateral = self.__save_atlas_ask()
         if not lateral:
-            lateral, ok = QInputDialog.getInt(
-                self,
-                "Atlas",
-                "The number of lateral:",
-                5, 1, 10
-            )
-            if not ok:
-                return
-        if not file_name:
-            file_name = self.outputTo("Atlas image", qt_image_format)
+            return
+
+        file_name = self.outputTo("Atlas image", qt_image_format)
         if not file_name:
             return
+
+        if self.save_edges_auto.isChecked():
+            reply = QMessageBox.question(
+                self,
+                "Type synthesis",
+                "Do you want to Re-synthesis?",
+                (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
+                QMessageBox.Yes
+            )
+            if reply == QMessageBox.Yes:
+                self.__structure_synthesis()
+            elif reply == QMessageBox.YesToAll:
+                self.__structure_synthesis_all()
+
         width = self.structure_list.iconSize().width()
-        image_main = QImage(
-            QSize(
-                lateral * width if count > lateral else count * width,
-                ((count // lateral) + bool(count % lateral)) * width
-            ),
-            self.__atlas_image(0).format()
-        )
-        image_main.fill(QColor(Qt.white).rgb())
+        image_main = QImage(QSize(
+            lateral * width if count > lateral else count * width,
+            ((count // lateral) + bool(count % lateral)) * width
+        ), self.__atlas_image(0).format())
+        image_main.fill(Qt.transparent)
         painter = QPainter(image_main)
         for row in range(count):
             image = self.__atlas_image(row)
@@ -615,10 +594,22 @@ class StructureSynthesis(QWidget, Ui_Form):
                 row // lateral * width
             ), image)
         painter.end()
-        pixmap = QPixmap()
-        pixmap.convertFromImage(image_main)
+        pixmap = QPixmap.fromImage(image_main)
         pixmap.save(file_name, format=QFileInfo(file_name).suffix())
         self.saveReplyBox("Atlas", file_name)
+
+    def __save_atlas_ask(self) -> int:
+        """Ask when saving the atlas."""
+        lateral, ok = QInputDialog.getInt(
+            self,
+            "Atlas",
+            "The number of lateral:",
+            5,
+            1
+        )
+        if not ok:
+            return 0
+        return lateral
 
     @pyqtSlot(name='on_save_edges_clicked')
     def __save_edges(self):

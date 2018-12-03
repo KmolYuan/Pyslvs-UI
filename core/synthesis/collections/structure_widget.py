@@ -26,7 +26,6 @@ from core.QtModules import (
     QInputDialog,
     QImage,
     QSize,
-    QColor,
     QWidget,
     QPainter,
     QPointF,
@@ -143,7 +142,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.graph_link_as_node.isChecked()
             ))
             self.collections_layouts.append(engine)
-            item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate.")
+            item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate the graph.")
             self.collection_list.addItem(item)
             progress_dlg.setValue(i + 1)
 
@@ -234,27 +233,28 @@ class StructureWidget(QWidget, Ui_Form):
         count = self.collection_list.count()
         if not count:
             return
+
         lateral, ok = QInputDialog.getInt(
             self,
             "Atlas",
             "The number of lateral:",
-            5, 1, 10
+            5,
+            1
         )
         if not ok:
             return
+
         file_name = self.outputTo("Atlas image", qt_image_format)
         if not file_name:
             return
+
         icon_size = self.collection_list.iconSize()
         width = icon_size.width()
-        image_main = QImage(
-            QSize(
-                lateral * width if count > lateral else count * width,
-                ((count // lateral) + bool(count % lateral)) * width
-            ),
-            self.collection_list.item(0).icon().pixmap(icon_size).toImage().format()
-        )
-        image_main.fill(QColor(Qt.white).rgb())
+        image_main = QImage(QSize(
+            lateral * width if count > lateral else count * width,
+            ((count // lateral) + bool(count % lateral)) * width
+        ), self.collection_list.item(0).icon().pixmap(icon_size).toImage().format())
+        image_main.fill(Qt.transparent)
         painter = QPainter(image_main)
         for row in range(count):
             image = self.collection_list.item(row).icon().pixmap(icon_size).toImage()
