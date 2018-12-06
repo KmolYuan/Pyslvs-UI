@@ -17,6 +17,7 @@ from typing import (
     Iterable,
     Optional,
 )
+from time import time
 from core.QtModules import (
     pyqtSlot,
     qt_image_format,
@@ -470,6 +471,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self
         )
         dlg.show()
+        t0 = time()
         for i, G in enumerate(self.answer):
             QCoreApplication.processEvents()
             if dlg.wasCanceled():
@@ -478,6 +480,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 dlg.setValue(i + 1)
             else:
                 break
+        print(f"Painted atlas in {time() - t0}")
         dlg.setValue(dlg.maximum())
         scroll_bar.setSliderPosition(scroll_pos)
 

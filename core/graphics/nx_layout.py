@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Dict, Tuple, Union
+from time import time
 from networkx import (
     Graph as nx_Graph,
     spring_layout,
@@ -24,14 +25,15 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
-from core.libs import Graph
+from core.libs import Graph, outer_loop_layout
 from .color import color_qt, color_num
 from .canvas import convex_hull, edges_view
 
 Pos = Dict[int, Tuple[float, float]]
 
-engines = (
+engines: Tuple[str, ...] = (
     "spring",
+    "outer loop",
 )
 
 
@@ -48,18 +50,19 @@ def _reversed_graph(graph: Graph) -> Graph:
     return graph_
 
 
-def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[str, Pos]:
+def engine_picker(g: Graph, engine: str, node_mode: bool = False) -> Union[str, Pos]:
     """Generate a position dict."""
-    if not node_mode:
-        edges = _reversed_graph(graph).edges
-    else:
-        edges = graph.edges
     if type(engine) != str:
         return engine
 
-    # TODO: More layout.
-    # if engine == "spring":
-    layout: Pos = spring_layout(nx_Graph(edges), scale=100)
+    if engine == "spring":
+        if not node_mode:
+            g = _reversed_graph(g)
+        layout: Pos = spring_layout(nx_Graph(g.edges), scale=100)
+    elif engine == "outer loop":
+        layout: Pos = outer_loop_layout(g, node_mode, scale=100)
+    else:
+        raise ValueError(f"engine {engine} is not exist")
 
     inf = float('inf')
     x_max = -inf
@@ -77,8 +80,8 @@ def engine_picker(graph: Graph, engine: str, node_mode: bool = False) -> Union[s
             y_max = y
         if y < y_min:
             y_min = y
-    x_cen = (x_max + x_min)/2
-    y_cen = (y_max + y_min)/2
+    x_cen = (x_max + x_min) / 2
+    y_cen = (y_max + y_min) / 2
     pos: Pos = {node: (
         round(float(x), 4) - x_cen,
         round(float(y), 4) - y_cen
