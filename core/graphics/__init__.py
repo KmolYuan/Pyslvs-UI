@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from .color import (
     color_num,
-    colorNames,
+    color_names,
     color_icon,
     color_qt,
     target_path_style
@@ -30,7 +30,7 @@ from .nx_layout import (
 
 __all__ = [
     'color_num',
-    'colorNames',
+    'color_names',
     'color_icon',
     'color_qt',
     'target_path_style',

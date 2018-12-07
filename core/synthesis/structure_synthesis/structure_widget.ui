@@ -93,99 +93,119 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="1">
-            <widget class="QLabel" name="NJ_text">
-             <property name="toolTip">
-              <string>Number of joints</string>
-             </property>
-             <property name="text">
-              <string>NJ (?)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="NL_text">
-             <property name="toolTip">
-              <string>Number of links</string>
-             </property>
-             <property name="text">
-              <string>NL (?)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QSpinBox" name="NL_input">
-             <property name="minimum">
-              <number>4</number>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QSpinBox" name="NJ_input">
-             <property name="minimum">
-              <number>4</number>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="DOF_text">
-             <property name="toolTip">
-              <string>Degree of freedom</string>
-             </property>
-             <property name="text">
-              <string>DOF (?)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QSpinBox" name="DOF">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimum">
-              <number>-99</number>
-             </property>
-             <property name="value">
-              <number>1</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="1">
+          <widget class="QLabel" name="NJ_text">
+           <property name="toolTip">
+            <string>Number of joints</string>
+           </property>
+           <property name="text">
+            <string>NJ (?)</string>
+           </property>
+          </widget>
          </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="NL_text">
+           <property name="toolTip">
+            <string>Number of links</string>
+           </property>
+           <property name="text">
+            <string>NL (?)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QSpinBox" name="NL_input">
+           <property name="minimum">
+            <number>4</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="NJ_input">
+           <property name="minimum">
+            <number>4</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="DOF_text">
+           <property name="toolTip">
+            <string>Degree of freedom</string>
+           </property>
+           <property name="text">
+            <string>DOF (?)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QSpinBox" name="DOF">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimum">
+            <number>-99</number>
+           </property>
+           <property name="value">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QCheckBox" name="keep_dof">
+           <property name="statusTip">
+            <string>Keep the degrees of freedom when adjusting numbers.</string>
+           </property>
+           <property name="text">
+            <string>Keep the DOF</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QComboBox" name="graph_degenerate">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
            <item>
-            <widget class="QCheckBox" name="keep_dof">
-             <property name="statusTip">
-              <string>Keep the degrees of freedom when adjusting numbers.</string>
-             </property>
-             <property name="text">
-              <string>Keep the DOF</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
+            <property name="text">
+             <string>Only degenerate</string>
+            </property>
            </item>
            <item>
-            <widget class="QPushButton" name="number_synthesis_button">
-             <property name="statusTip">
-              <string>Find the possible number of different joints.</string>
-             </property>
-             <property name="text">
-              <string>Number Synthesis</string>
-             </property>
-             <property name="autoDefault">
-              <bool>true</bool>
-             </property>
-            </widget>
+            <property name="text">
+             <string>No degenerate</string>
+            </property>
            </item>
-          </layout>
+           <item>
+            <property name="text">
+             <string>All</string>
+            </property>
+           </item>
+          </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="number_synthesis_button">
+         <property name="statusTip">
+          <string>Find the possible number of different joints.</string>
+         </property>
+         <property name="text">
+          <string>Number Synthesis</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QSplitter" name="splitter_2">
@@ -277,40 +297,22 @@
               </spacer>
              </item>
              <item>
-              <widget class="QComboBox" name="graph_degenerate">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="currentIndex">
-                <number>1</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Only degenerate</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>No degenerate</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>All</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
               <widget class="QCheckBox" name="graph_link_as_node">
                <property name="statusTip">
                 <string>Show the edges as nodes.</string>
                </property>
                <property name="text">
                 <string>Link as node</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="graph_show_label">
+               <property name="text">
+                <string>Show labels</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -418,6 +420,16 @@
           <widget class="QLabel" name="time_label"/>
          </item>
          <item>
+          <widget class="QLabel" name="paint_time_title_label">
+           <property name="text">
+            <string>Painted in:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="paint_time_label"/>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -466,20 +478,6 @@
              <width>40</width>
              <height>16</height>
             </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="save_edges_auto">
-           <property name="statusTip">
-            <string>Re-synthesis when using save actions.</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="save_edges_auto_label">
-           <property name="text">
-            <string>&lt;img src=&quot;:icons/data_update.png&quot; width=&quot;20&quot;&gt;</string>
            </property>
           </widget>
          </item>

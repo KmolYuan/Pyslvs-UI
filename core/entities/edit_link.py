@@ -21,7 +21,7 @@ from core.QtModules import (
     QWidget,
 )
 from core.graphics import (
-    colorNames,
+    color_names,
     color_qt,
     color_icon,
 )
@@ -55,7 +55,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         self.vlinks = vlinks
         icon = self.windowIcon()
         self.point_icon = QIcon(QPixmap(":/icons/bearing.png"))
-        for i, e in enumerate(colorNames):
+        for i, e in enumerate(color_names):
             self.color_box.insertItem(i, color_icon(e), e)
         for i in range(len(self.vpoints)):
             self.noSelected.addItem(

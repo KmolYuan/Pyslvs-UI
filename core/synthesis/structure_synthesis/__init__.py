@@ -120,7 +120,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         super(StructureSynthesis, self).__init__(parent)
         self.setupUi(self)
-        self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
 
         # Function references
         self.outputTo = parent.outputTo
@@ -333,6 +332,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Set time and count digit to label."""
         self.time_label.setText(f"{t:.04f} s ({count})")
 
+    def __set_paint_time(self, t: float):
+        """Set painting time of atlas."""
+        self.paint_time_label.setText(f"{t:.04f}s")
+
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
         """Structural synthesis - find by contracted links."""
@@ -453,6 +456,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.__reload_atlas()
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
+    @pyqtSlot(name='on_graph_show_label_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
     @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self, *_: int):
@@ -480,7 +484,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 dlg.setValue(i + 1)
             else:
                 break
-        print(f"Painted atlas in {time() - t0}")
+        self.__set_paint_time(time() - t0)
         dlg.setValue(dlg.maximum())
         scroll_bar.setSliderPosition(scroll_pos)
 
@@ -491,7 +495,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             g,
             self.structure_list.iconSize().width(),
             self.graph_engine.currentText(),
-            self.graph_link_as_node.isChecked()
+            self.graph_link_as_node.isChecked(),
+            self.graph_show_label.isChecked()
         ))
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"
@@ -570,19 +575,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not file_name:
             return
 
-        if self.save_edges_auto.isChecked():
-            reply = QMessageBox.question(
-                self,
-                "Type synthesis",
-                "Do you want to Re-synthesis?",
-                (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
-                QMessageBox.Yes
-            )
-            if reply == QMessageBox.Yes:
-                self.__structure_synthesis()
-            elif reply == QMessageBox.YesToAll:
-                self.__structure_synthesis_all()
-
         width = self.structure_list.iconSize().width()
         image_main = QImage(QSize(
             lateral * width if count > lateral else count * width,
@@ -618,24 +610,6 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __save_edges(self):
         """Saving all the atlas to text file."""
         file_name = ""
-        if self.save_edges_auto.isChecked():
-            file_name = self.outputTo(
-                "Atlas edges expression",
-                ["Text file (*.txt)"]
-            )
-            if not file_name:
-                return
-            reply = QMessageBox.question(
-                self,
-                "Type synthesis",
-                "Do you want to Re-synthesis?",
-                (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel),
-                QMessageBox.Yes
-            )
-            if reply == QMessageBox.Yes:
-                self.__structure_synthesis()
-            elif reply == QMessageBox.YesToAll:
-                self.__structure_synthesis_all()
         count = self.structure_list.count()
         if not count:
             return
@@ -693,6 +667,4 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         self.answer = answer
         self.__reload_atlas()
-        self.save_edges_auto.setChecked(False)
         self.__save_atlas()
-        self.save_edges_auto.setChecked(self.save_edges_auto.isChecked())

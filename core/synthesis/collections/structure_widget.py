@@ -139,7 +139,8 @@ class StructureWidget(QWidget, Ui_Form):
                 graph,
                 self.collection_list.iconSize().width(),
                 engine,
-                self.graph_link_as_node.isChecked()
+                self.graph_link_as_node.isChecked(),
+                self.graph_show_label.isChecked()
             ))
             self.collections_layouts.append(engine)
             item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate the graph.")
@@ -307,7 +308,8 @@ class StructureWidget(QWidget, Ui_Form):
             graph,
             self.selection_window.iconSize().width(),
             self.ground_engine,
-            link_is_node
+            link_is_node,
+            self.graph_show_label.isChecked()
         ))
         self.selection_window.addItem(item_preview)
 
@@ -382,7 +384,8 @@ class StructureWidget(QWidget, Ui_Form):
             graph,
             self.grounded_list.iconSize().width(),
             self.ground_engine,
-            self.graph_link_as_node.isChecked()
+            self.graph_link_as_node.isChecked(),
+            self.graph_show_label.isChecked()
         )
         item.setIcon(icon)
         self.collections_grounded.append(graph)
@@ -404,6 +407,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.grounded_list.iconSize().width(),
                 self.ground_engine,
                 self.graph_link_as_node.isChecked(),
+                self.graph_show_label.isChecked(),
                 except_node=node
             )
             item.setIcon(icon)

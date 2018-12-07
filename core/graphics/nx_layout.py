@@ -7,16 +7,20 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Tuple, Union
-from time import time
+from typing import (
+    Dict,
+    Tuple,
+    Union,
+    Optional,
+)
 from networkx import (
     Graph as nx_Graph,
     spring_layout,
 )
 from core.QtModules import (
+    Qt,
     QImage,
     QSize,
-    Qt,
     QPainter,
     QBrush,
     QPen,
@@ -24,6 +28,7 @@ from core.QtModules import (
     QColor,
     QIcon,
     QPixmap,
+    QFont,
 )
 from core.libs import Graph, outer_loop_layout
 from .color import color_qt, color_num
@@ -32,25 +37,27 @@ from .canvas import convex_hull, edges_view
 Pos = Dict[int, Tuple[float, float]]
 
 engines: Tuple[str, ...] = (
-    "spring",
     "outer loop",
+    "spring",
 )
+
+_font = QFont()
+_font.setBold(True)
 
 
 def _reversed_graph(graph: Graph) -> Graph:
     """Edges will become nodes."""
-    graph_ = Graph([])
-    nodes = dict(edges_view(graph))
-    for i, (l1, l2) in nodes.items():
-        for j, edge in nodes.items():
+    edges = []
+    for i, edge1 in edges_view(graph):
+        for j, edge2 in edges_view(graph):
             if i == j:
                 continue
-            if (l1 in edge) or (l2 in edge):
-                graph_.add_edge(i, j)
-    return graph_
+            if set(edge1) & set(edge2):
+                edges.append((i, j))
+    return Graph(edges)
 
 
-def engine_picker(g: Graph, engine: str, node_mode: bool = False) -> Union[str, Pos]:
+def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool = False) -> Union[str, Pos]:
     """Generate a position dict."""
     if type(engine) != str:
         return engine
@@ -90,14 +97,15 @@ def engine_picker(g: Graph, engine: str, node_mode: bool = False) -> Union[str, 
 
 
 def to_graph(
-    graph: Graph,
+    g: Graph,
     width: int,
-    engine: Union[str, Dict[int, Tuple[float, float]]],
+    engine: Union[str, Pos],
     node_mode: bool = False,
-    except_node: int = None
+    show_label: bool = False,
+    except_node: Optional[int] = None
 ) -> QIcon:
     """Draw a generalized chain graph."""
-    pos: Pos = engine_picker(graph, engine, node_mode)
+    pos: Pos = engine_picker(g, engine, node_mode)
     width_bound = -float('inf')
     for x, y in pos.values():
         if abs(x) > width_bound:
@@ -116,14 +124,16 @@ def to_graph(
     r = width_bound / 50
     pen.setWidth(int(r))
     painter.setPen(pen)
+    _font.setPixelSize(r * 5)
+    painter.setFont(_font)
 
     # Draw edges.
     if node_mode:
-        for l1, l2 in graph.edges:
+        for l1, l2 in g.edges:
             if except_node in {l1, l2}:
-                pen.setColor(color_qt('Gray'))
+                pen.setColor(Qt.gray)
             else:
-                pen.setColor(color_qt('Black'))
+                pen.setColor(Qt.black)
             painter.setPen(pen)
 
             painter.drawLine(
@@ -132,33 +142,38 @@ def to_graph(
             )
     else:
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
-        for link in graph.nodes:
+        for link in g.nodes:
             if link == except_node:
-                pen.setColor(color_qt('Gray'))
+                pen.setColor(Qt.gray)
             else:
-                pen.setColor(color_qt('Black'))
+                pen.setColor(Qt.black)
             painter.setPen(pen)
 
             painter.drawPolygon(*convex_hull([
                 (pos[n][0], -pos[n][1])
-                for n, edge in edges_view(graph) if link in edge
+                for n, edge in edges_view(g) if link in edge
             ], as_qpoint=True))
 
     # Draw nodes.
     for k, (x, y) in pos.items():
         if node_mode:
-            color = color_num(len(list(graph.neighbors(k))) - 1)
+            color = color_num(len(list(g.neighbors(k))) - 1)
             if k == except_node:
                 color.setAlpha(150)
         else:
-            if except_node in dict(edges_view(graph))[k]:
+            if except_node in dict(edges_view(g))[k]:
                 color = color_qt('Green')
             else:
                 color = color_qt('Blue')
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))
-        painter.drawEllipse(QPointF(x, -y), r, r)
+        point = QPointF(x, -y)
+        painter.drawEllipse(point, r, r)
+        if show_label:
+            pen.setColor(Qt.darkMagenta)
+            painter.setPen(pen)
+            painter.drawText(point, str(k))
     painter.end()
     icon = QIcon(QPixmap.fromImage(image).scaledToWidth(width))
     return icon

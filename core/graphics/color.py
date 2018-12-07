@@ -13,7 +13,7 @@ from core.QtModules import (
     QPixmap,
     QSize,
 )
-from core.libs import colorNames, color_rgb
+from core.libs import color_names, color_rgb
 
 
 def color_qt(name: str) -> QColor:
@@ -23,7 +23,7 @@ def color_qt(name: str) -> QColor:
 
 def color_num(color_index: int) -> QColor:
     """Get color by index."""
-    return color_qt(colorNames[color_index % len(colorNames)])
+    return color_qt(color_names[color_index % len(color_names)])
 
 
 def color_icon(name: str, size: int = 20) -> QIcon:
