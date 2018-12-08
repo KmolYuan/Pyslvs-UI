@@ -41,8 +41,9 @@ engines: Tuple[str, ...] = (
     "spring",
 )
 
-_font = QFont()
+_font = QFont("Monospace")
 _font.setBold(True)
+_font.setStyleHint(QFont.TypeWriter)
 
 
 def _reversed_graph(graph: Graph) -> Graph:
@@ -113,7 +114,7 @@ def to_graph(
             width_bound = x
         if abs(y) > width_bound:
             width_bound = y
-    width_bound *= 2.2
+    width_bound *= 2.5
     image = QImage(
         QSize(int(width_bound), int(width_bound)),
         QImage.Format_ARGB32_Premultiplied
@@ -125,7 +126,7 @@ def to_graph(
     r = width_bound / 50
     pen.setWidth(int(r))
     painter.setPen(pen)
-    _font.setPixelSize(r * 5)
+    _font.setPixelSize(r * 6)
     painter.setFont(_font)
 
     # Draw edges.
