@@ -57,7 +57,7 @@ def _reversed_graph(graph: Graph) -> Graph:
     return Graph(edges)
 
 
-def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool = False) -> Union[str, Pos]:
+def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[str, Pos]:
     """Generate a position dict."""
     if type(engine) != str:
         return engine
@@ -100,8 +100,9 @@ def to_graph(
     g: Graph,
     width: int,
     engine: Union[str, Pos],
-    node_mode: bool = False,
-    show_label: bool = False,
+    node_mode: bool,
+    show_label: bool,
+    *,
     except_node: Optional[int] = None
 ) -> QIcon:
     """Draw a generalized chain graph."""

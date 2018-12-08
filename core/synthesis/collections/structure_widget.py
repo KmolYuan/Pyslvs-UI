@@ -104,6 +104,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.unsaveFunc()
 
     @pyqtSlot(name='on_graph_link_as_node_clicked')
+    @pyqtSlot(name='on_graph_show_label_clicked')
     @pyqtSlot(name='on_reload_atlas_clicked')
     @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self):
@@ -129,21 +130,21 @@ class StructureWidget(QWidget, Ui_Form):
         progress_dlg.setModal(True)
         progress_dlg.show()
         engine_str = self.graph_engine.currentText()
-        for i, graph in enumerate(self.collections):
+        for i, g in enumerate(self.collections):
             QCoreApplication.processEvents()
             if progress_dlg.wasCanceled():
                 return
             item = QListWidgetItem(f"No. {i + 1}")
-            engine = engine_picker(graph, engine_str, self.graph_link_as_node.isChecked())
+            engine = engine_picker(g, engine_str, self.graph_link_as_node.isChecked())
             item.setIcon(to_graph(
-                graph,
+                g,
                 self.collection_list.iconSize().width(),
                 engine,
                 self.graph_link_as_node.isChecked(),
                 self.graph_show_label.isChecked()
             ))
             self.collections_layouts.append(engine)
-            item.setToolTip(f"{graph.edges}\nUse the right-click menu to operate the graph.")
+            item.setToolTip(f"{g.edges}\nUse the right-click menu to operate the graph.")
             self.collection_list.addItem(item)
             progress_dlg.setValue(i + 1)
 
@@ -302,10 +303,10 @@ class StructureWidget(QWidget, Ui_Form):
         link_is_node = self.graph_link_as_node.isChecked()
         item_preview = QListWidgetItem(item.text())
         row = self.collection_list.row(item)
-        graph = self.collections[row]
+        g = self.collections[row]
         self.ground_engine = self.collections_layouts[row]
         item_preview.setIcon(to_graph(
-            graph,
+            g,
             self.selection_window.iconSize().width(),
             self.ground_engine,
             link_is_node,
@@ -314,13 +315,13 @@ class StructureWidget(QWidget, Ui_Form):
         self.selection_window.addItem(item_preview)
 
         # Set attributes.
-        self.edges_text.setText(str(list(graph.edges)))
-        self.nl_label.setText(str(len(graph.nodes)))
-        self.nj_label.setText(str(len(graph.edges)))
-        self.dof_label.setText(str(graph.dof()))
-        self.is_degenerate_label.setText(str(graph.is_degenerate()))
-        self.link_assortments_label.setText(str(l_a(graph)))
-        self.contracted_link_assortments_label.setText(str(c_l_a(graph)))
+        self.edges_text.setText(str(list(g.edges)))
+        self.nl_label.setText(str(len(g.nodes)))
+        self.nj_label.setText(str(len(g.edges)))
+        self.dof_label.setText(str(g.dof()))
+        self.is_degenerate_label.setText(str(g.is_degenerate()))
+        self.link_assortments_label.setText(str(l_a(g)))
+        self.contracted_link_assortments_label.setText(str(c_l_a(g)))
 
         # "Link as node" layout cannot do these action.
         self.triangle_button.setEnabled(not link_is_node)
@@ -378,17 +379,17 @@ class StructureWidget(QWidget, Ui_Form):
         current_item = self.collection_list.currentItem()
         self.collections_grounded.clear()
         self.grounded_list.clear()
-        graph = self.collections[self.collection_list.row(current_item)]
+        g = self.collections[self.collection_list.row(current_item)]
         item = QListWidgetItem("Released")
         icon = to_graph(
-            graph,
+            g,
             self.grounded_list.iconSize().width(),
             self.ground_engine,
             self.graph_link_as_node.isChecked(),
             self.graph_show_label.isChecked()
         )
         item.setIcon(icon)
-        self.collections_grounded.append(graph)
+        self.collections_grounded.append(g)
         self.grounded_list.addItem(item)
 
         def isomorphic(g: Graph, l: List[Graph]) -> bool:
@@ -397,13 +398,13 @@ class StructureWidget(QWidget, Ui_Form):
                     return True
             return False
 
-        for node in graph.nodes:
-            graph_ = Graph([e for e in graph.edges if node not in e])
+        for node in g.nodes:
+            graph_ = Graph([e for e in g.edges if node not in e])
             if isomorphic(graph_, self.collections_grounded):
                 continue
             item = QListWidgetItem(f"link_{node}")
             icon = to_graph(
-                graph,
+                g,
                 self.grounded_list.iconSize().width(),
                 self.ground_engine,
                 self.graph_link_as_node.isChecked(),
