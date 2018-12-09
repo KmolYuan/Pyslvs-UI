@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """'structure_synthesis' module contains
-number and type synthesis functional interfaces.
+number and type _synthesis functional interfaces.
 """
 
 __author__ = "Yuan Chang"
@@ -76,7 +76,7 @@ def compare_assortment(first: Tuple[int, ...], second: Sequence[Tuple[int, ...]]
 
 class SynthesisProgressDialog(QProgressDialog):
 
-    """Progress dialog for structure synthesis."""
+    """Progress dialog for structure _synthesis."""
 
     def __init__(self, title: str, job_name: str, maximum: int, parent: QWidget):
         super(SynthesisProgressDialog, self).__init__(
@@ -106,7 +106,7 @@ class SynthesisProgressDialog(QProgressDialog):
 
 
 class StructureSynthesis(QWidget, Ui_Form):
-    """Number and type synthesis widget.
+    """Number and type _synthesis widget.
 
     Calculate the combinations of mechanism family and show the atlas.
     """
@@ -212,7 +212,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         ))
         self.keep_dof.setChecked(keep_dof_checked)
 
-        # Auto synthesis.
+        # Auto _synthesis.
         if not graph.edges:
             return
 
@@ -338,7 +338,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
-        """Structural synthesis - find by contracted links."""
+        """Structural _synthesis - find by contracted links."""
         self.__clear_structure_list()
         row = self.l_a_list.currentRow()
         if row == -1:
@@ -356,7 +356,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_structure_synthesis_links_button_clicked')
     def __structure_synthesis_links(self):
-        """Structural synthesis - find by links."""
+        """Structural _synthesis - find by links."""
         self.__clear_structure_list()
         row = self.l_a_list.currentRow()
         if row == -1:
@@ -381,7 +381,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_structure_synthesis_all_button_clicked')
     def __structure_synthesis_all(self):
-        """Structural synthesis - find all."""
+        """Structural _synthesis - find all."""
         self.__clear_structure_list()
         if self.l_a_list.currentRow() == -1:
             self.__l_a_synthesis()
@@ -444,7 +444,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if break_point:
             reply = QMessageBox.question(
                 self,
-                "Type synthesis - abort",
+                "Type _synthesis - abort",
                 "Do you want to keep the results?"
             )
             if reply != QMessageBox.Yes:
@@ -469,7 +469,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
 
         dlg = SynthesisProgressDialog(
-            "Type synthesis",
+            "Type _synthesis",
             "Drawing atlas...",
             len(self.answer),
             self
@@ -518,7 +518,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(QPoint)
     def __structure_list_context_menu(self, point):
-        """Context menu for the type synthesis results."""
+        """Context menu for the type _synthesis results."""
         index = self.structure_list.currentIndex().row()
         self.add_collection.setEnabled(index > -1)
         self.copy_edges.setEnabled(index > -1)

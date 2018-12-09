@@ -218,7 +218,7 @@ class Ui_MainWindow(object):
         self.SynthesisTab.setObjectName("SynthesisTab")
         self.verticalLayout_14.addWidget(self.synthesis_splitter)
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap(":/icons/_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Panel.addTab(self.synthesis_tab, icon11, "")
         self.history_tab = QtWidgets.QWidget()
         self.history_tab.setObjectName("history_tab")

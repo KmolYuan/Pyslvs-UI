@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/collections/TriangularIteration.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/_synthesis/collections/TriangularIteration.ui'
 #
 # Created by: PyQt5 UI code generator 5.10
 #
@@ -330,7 +330,7 @@ class Ui_Form(object):
         self.grounded_label.setText(_translate("Form", "Gounded:"))
         self.grounded_list.setStatusTip(_translate("Form", "Set a link as the ground. Existing solutions will be reset."))
         self.target_button.setText(_translate("Form", "Targets"))
-        self.target_list.setStatusTip(_translate("Form", "Target points will match as the target path of dimensional synthesis."))
+        self.target_list.setStatusTip(_translate("Form", "Target points will match as the target path of dimensional _synthesis."))
         self.constraints_button.setText(_translate("Form", "Constraints"))
         self.constraint_list.setStatusTip(_translate("Form", "Four bar loop to apply Gruebler\'s Equation."))
         self.show_solutions.setStatusTip(_translate("Form", "Show triangle sketch on preview window."))

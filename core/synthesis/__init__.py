@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""'synthesis' module contains synthesis functional interfaces."""
+"""'_synthesis' module contains _synthesis functional interfaces."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"

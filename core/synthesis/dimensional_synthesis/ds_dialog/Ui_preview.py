@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/dimensional_synthesis/ds_dialog/preview.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/_synthesis/dimensional_synthesis/ds_dialog/preview.ui'
 #
 # Created by: PyQt5 UI code generator 5.10
 #

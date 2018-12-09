@@ -70,7 +70,7 @@ def dxf_boundary(
     dwg = ezdxf.new(version)
     msp = dwg.modelspace()
 
-    # Interval: Offset with x axis.
+    # _Interval: Offset with x axis.
     interval += radius * 2
     x_max = -interval
 

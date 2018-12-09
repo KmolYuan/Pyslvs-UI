@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\synthesis\dimensional_synthesis\ds_dialog\options.ui'
+# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\_synthesis\dimensional_synthesis\ds_dialog\options.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -13,7 +13,7 @@ class Ui_Dialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(461, 559)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)

@@ -273,7 +273,7 @@ class Ui_Form(object):
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))
         self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
         self.graph_link_as_node.setText(_translate("Form", "Link as node"))
-        self.graph_show_label.setText(_translate("Form", "Show labels"))
+        self.graph_show_label.setText(_translate("Form", "Show _labels"))
         self.structure_synthesis_all_button.setStatusTip(_translate("Form", "Find the structure of mechanism from all numbers."))
         self.structure_synthesis_all_button.setText(_translate("Form", "Find All"))
         self.structure_synthesis_links_button.setText(_translate("Form", "Find by Links"))

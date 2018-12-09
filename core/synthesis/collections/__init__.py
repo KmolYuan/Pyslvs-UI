@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """'collections' module contains
-the result from type synthesis and triangular iteration by users.
+the result from type _synthesis and triangular iteration by users.
 """
 
 __author__ = "Yuan Chang"

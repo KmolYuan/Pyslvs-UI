@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""The preview dialog of dimensional synthesis result."""
+"""The preview dialog of dimensional _synthesis result."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"

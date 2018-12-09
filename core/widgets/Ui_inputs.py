@@ -243,7 +243,7 @@ class Ui_Form(object):
         self.record_groupBox.setTitle(_translate("Form", "Records"))
         self.record_show.setStatusTip(_translate("Form", "Show path data on the canvas."))
         self.record_show.setText(_translate("Form", "Show path data"))
-        self.record_interval_label.setText(_translate("Form", "Interval:"))
+        self.record_interval_label.setText(_translate("Form", "_Interval:"))
         self.record_interval.setStatusTip(_translate("Form", "Each coordinate will be recorded after this angle value."))
         self.record_interval.setSuffix(_translate("Form", "°"))
         self.record_list.setStatusTip(_translate("Form", "All recorded path data of this workbook."))

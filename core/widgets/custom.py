@@ -241,7 +241,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.MainCanvas.noselected.connect(self.InputsWidget.clearSelection)
         self.InputsWidget.update_preview_button.clicked.connect(self.MainCanvas.updatePreviewPath)
 
-        # Number and type synthesis.
+        # Number and type _synthesis.
         self.StructureSynthesis = StructureSynthesis(self)
         self.SynthesisTab.addTab(
             self.StructureSynthesis,
@@ -260,7 +260,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             self.CollectionTabPage.StructureWidget.addCollection
         )
 
-        # Dimensional synthesis
+        # Dimensional _synthesis
         self.DimensionalSynthesis = DimensionalSynthesis(self)
         self.MainCanvas.set_target_point.connect(self.DimensionalSynthesis.setPoint)
         self.SynthesisTab.addTab(

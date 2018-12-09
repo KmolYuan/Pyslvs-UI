@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """'dimensional_synthesis' module contains
-dimensional synthesis functional interfaces.
+dimensional _synthesis functional interfaces.
 """
 
 __author__ = "Yuan Chang"
@@ -62,9 +62,9 @@ __all__ = ['DimensionalSynthesis']
 
 class DimensionalSynthesis(QWidget, Ui_Form):
 
-    """Dimensional synthesis widget.
+    """Dimensional _synthesis widget.
 
-    User can run the dimensional synthesis here.
+    User can run the dimensional _synthesis here.
     """
 
     def __init__(self, parent: 'mw.MainWindow'):
@@ -393,7 +393,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_synthesis_button_clicked')
     def __synthesis(self):
-        """Start synthesis."""
+        """Start _synthesis."""
         # Check if the number of target points are same.
         length = -1
         for path in self.path.values():

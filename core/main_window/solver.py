@@ -81,7 +81,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                     tuple(self.InputsWidget.inputPairs())
                 )
             else:
-                raise RuntimeError("Incorrect kernel")
+                raise RuntimeError("incorrect kernel")
         except RuntimeError as error:
             # Error: Show warning without update data.
             if self.consoleerror_option.isChecked():
@@ -166,7 +166,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                             tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
                         )
                     else:
-                        raise RuntimeError("Incorrect kernel")
+                        raise RuntimeError("incorrect kernel")
                 except RuntimeError:
                     # Update with error sign.
                     for i in range(vpoint_count):
@@ -246,7 +246,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         vpoints = self.EntitiesPoint.dataTuple()
         for vpoint in vpoints:
             if vpoint.type in {VPoint.P, VPoint.RP}:
-                raise ValueError("Not support for prismatic joint yet")
+                raise ValueError("not support for prismatic joint yet")
         vlinks = self.EntitiesLink.dataTuple()
         link_names = [vlink.name for vlink in vlinks]
         graph = tuple(self.getGraph())

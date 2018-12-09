@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""The chart dialog of dimensional synthesis result."""
+"""The chart dialog of dimensional _synthesis result."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"

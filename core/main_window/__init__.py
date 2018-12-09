@@ -108,13 +108,13 @@ class MainWindow(IOMethodInterface):
 
     @pyqtSlot(bool, name='on_action_show_dimensions_toggled')
     def __set_show_dimensions(self, toggled: bool):
-        """If turn on dimension labels, turn on the point marks."""
+        """If turn on dimension _labels, turn on the point marks."""
         if toggled:
             self.action_show_point_mark.setChecked(True)
 
     @pyqtSlot(bool, name='on_action_show_point_mark_toggled')
     def __set_show_point_mark(self, toggled: bool):
-        """If no point marks, turn off the dimension labels."""
+        """If no point marks, turn off the dimension _labels."""
         if not toggled:
             self.action_show_dimensions.setChecked(False)
 
@@ -126,7 +126,7 @@ class MainWindow(IOMethodInterface):
     @pyqtSlot(int, name='on_Panel_currentChanged')
     @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
     def __set_show_target_path(self, _: int):
-        """Dimensional synthesis information will show on the canvas."""
+        """Dimensional _synthesis information will show on the canvas."""
         panel_index = self.Panel.currentIndex()
         synthesis_index = self.SynthesisTab.currentIndex()
         self.MainCanvas.setShowTargetPath(panel_index == synthesis_index == 2)
@@ -137,7 +137,7 @@ class MainWindow(IOMethodInterface):
 
     @pyqtSlot(int, tuple)
     def mergeResult(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
-        """Merge result function of dimensional synthesis."""
+        """Merge result function of dimensional _synthesis."""
         result = self.DimensionalSynthesis.mechanism_data(row)
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []

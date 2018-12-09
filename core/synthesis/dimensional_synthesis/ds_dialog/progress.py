@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""The progress dialog of dimensional synthesis algorithm."""
+"""The progress dialog of dimensional _synthesis algorithm."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
