@@ -108,13 +108,13 @@ class MainWindow(IOMethodInterface):
 
     @pyqtSlot(bool, name='on_action_show_dimensions_toggled')
     def __set_show_dimensions(self, toggled: bool):
-        """If turn on dimension _labels, turn on the point marks."""
+        """If turn on dimension labels, turn on the point marks."""
         if toggled:
             self.action_show_point_mark.setChecked(True)
 
     @pyqtSlot(bool, name='on_action_show_point_mark_toggled')
     def __set_show_point_mark(self, toggled: bool):
-        """If no point marks, turn off the dimension _labels."""
+        """If no point marks, turn off the dimension labels."""
         if not toggled:
             self.action_show_dimensions.setChecked(False)
 

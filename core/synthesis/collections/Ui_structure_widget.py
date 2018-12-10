@@ -230,7 +230,7 @@ class Ui_Form(object):
         self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX."))
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))
         self.graph_link_as_node.setText(_translate("Form", "Link as node"))
-        self.graph_show_label.setText(_translate("Form", "Show _labels"))
+        self.graph_show_label.setText(_translate("Form", "Show labels"))
         self.expr_copy.setStatusTip(_translate("Form", "Copy expression."))
         self.triangle_button.setStatusTip(_translate("Form", "Use trangular formula to do dimentional _synthesis."))
         self.nl_text.setText(_translate("Form", "Number of links:"))
