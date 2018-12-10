@@ -144,7 +144,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.graph_show_label.isChecked()
             ))
             self.collections_layouts.append(engine)
-            item.setToolTip(f"{g.edges}\nUse the right-click menu to operate the graph.")
+            item.setToolTip(f"{g.edges}")
             self.collection_list.addItem(item)
             progress_dlg.setValue(i + 1)
 

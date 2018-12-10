@@ -1,12 +1,13 @@
 Change Log
 ===
 
-Version 18.11
+Version 18.12
 ===
 
 Features
 ---
 
++ "Outer loop" layout of atlas.
 + Add progress dialog for number synthesis.
 + Fix bug of number synthesis when import from mechanism.
 + Image background color fixed for structural synthesis atlas.
@@ -14,7 +15,7 @@ Features
 Development
 ---
 
-+ None
++ Methods and function naming corrections of Cython libraries.
 
 Version 18.11
 ===
