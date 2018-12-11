@@ -30,14 +30,14 @@ from core.QtModules import (
     QPixmap,
     QFont,
 )
-from core.libs import Graph, outer_loop_layout
+from core.libs import Graph, external_loop_layout
 from .color import color_qt, color_num
 from .canvas import convex_hull, edges_view
 
 Pos = Dict[int, Tuple[float, float]]
 
 engines: Tuple[str, ...] = (
-    "outer loop",
+    "external loop",
     "spring",
 )
 
@@ -67,8 +67,8 @@ def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[s
         if not node_mode:
             g = _reversed_graph(g)
         layout: Pos = spring_layout(nx_Graph(g.edges), scale=100)
-    elif engine == "outer loop":
-        layout: Pos = outer_loop_layout(g, node_mode, scale=100)
+    elif engine == "external loop":
+        layout: Pos = external_loop_layout(g, node_mode, scale=100)
     else:
         raise ValueError(f"engine {engine} is not exist")
 

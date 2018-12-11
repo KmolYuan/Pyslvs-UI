@@ -178,7 +178,7 @@ class DynamicCanvasInterface(BaseCanvas):
         self.height_old = None
 
     def __draw_frame(self):
-        """Draw a outer frame."""
+        """Draw a external frame."""
         pos_x = self.width() - self.ox
         pos_y = -self.oy
         neg_x = -self.ox
