@@ -9,7 +9,8 @@ Features
 
 + "Outer loop" layout of atlas.
 + Add progress dialog for number synthesis.
-+ Fix bug of number synthesis when import from mechanism.
++ Fix the error of dimensional synthesis.
++ Fix the bug of number synthesis when import from mechanism.
 + Image background color fixed for structural synthesis atlas.
 
 Development
