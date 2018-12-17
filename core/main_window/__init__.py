@@ -126,7 +126,7 @@ class MainWindow(IOMethodInterface):
     @pyqtSlot(int, name='on_Panel_currentChanged')
     @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
     def __set_show_target_path(self, _: int):
-        """Dimensional _synthesis information will show on the canvas."""
+        """Dimensional synthesis information will show on the canvas."""
         panel_index = self.Panel.currentIndex()
         synthesis_index = self.SynthesisTab.currentIndex()
         self.MainCanvas.setShowTargetPath(panel_index == synthesis_index == 2)
@@ -137,7 +137,7 @@ class MainWindow(IOMethodInterface):
 
     @pyqtSlot(int, tuple)
     def mergeResult(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
-        """Merge result function of dimensional _synthesis."""
+        """Merge result function of dimensional synthesis."""
         result = self.DimensionalSynthesis.mechanism_data(row)
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []

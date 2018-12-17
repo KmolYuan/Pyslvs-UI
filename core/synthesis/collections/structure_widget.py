@@ -125,7 +125,7 @@ class StructureWidget(QWidget, Ui_Form):
             self
         )
         progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
-        progress_dlg.setWindowTitle("Type _synthesis")
+        progress_dlg.setWindowTitle("Type synthesis")
         progress_dlg.resize(400, progress_dlg.height())
         progress_dlg.setModal(True)
         progress_dlg.show()
@@ -231,7 +231,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_save_atlas_clicked')
     def __save_atlas(self):
-        """Save function as same as type _synthesis widget."""
+        """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
         if not count:
             return
@@ -272,7 +272,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     @pyqtSlot(name='on_save_edges_clicked')
     def __save_edges(self):
-        """Save function as same as type _synthesis widget."""
+        """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
         if not count:
             return

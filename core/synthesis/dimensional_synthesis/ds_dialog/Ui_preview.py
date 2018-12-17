@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/_synthesis/dimensional_synthesis/ds_dialog/preview.ui'
+# Form implementation generated from reading ui file 'preview.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -136,14 +136,4 @@ class Ui_Dialog(object):
         self.hardware_groupbox.setTitle(_translate("Dialog", "Hardware information"))
         self.hardware_label.setText(_translate("Dialog", "TextLabel"))
         self.information_tab.setTabText(self.information_tab.indexOf(self.geometry), _translate("Dialog", "Geometry"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
 

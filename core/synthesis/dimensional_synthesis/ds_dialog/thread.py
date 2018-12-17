@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Thread of dimensional _synthesis."""
+"""Thread of dimensional synthesis."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/_synthesis/collections/ti_dialog/collections.ui'
+# Form implementation generated from reading ui file 'collections.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -144,7 +144,7 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Ball lifter linkage mechanism"))
         self.common_list.setSortingEnabled(__sortingEnabled)
         self.common_load.setText(_translate("Dialog", "Load common structure"))
-        self.Collections_label.setText(_translate("Dialog", "Workbook collections:"))
+        self.Collections_label.setText(_translate("Dialog", "Workbook Collections:"))
         self.workbook_button.setText(_translate("Dialog", "Mechanism"))
         self.rename_button.setText(_translate("Dialog", "Rename"))
         self.copy_button.setText(_translate("Dialog", "Copy"))
@@ -152,13 +152,3 @@ class Ui_Dialog(object):
 
 import icons_rc
 import preview_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
-

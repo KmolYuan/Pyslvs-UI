@@ -232,7 +232,7 @@ class Ui_Form(object):
         self.graph_link_as_node.setText(_translate("Form", "Link as node"))
         self.graph_show_label.setText(_translate("Form", "Show labels"))
         self.expr_copy.setStatusTip(_translate("Form", "Copy expression."))
-        self.triangle_button.setStatusTip(_translate("Form", "Use trangular formula to do dimentional _synthesis."))
+        self.triangle_button.setStatusTip(_translate("Form", "Use trangular formula to do dimentional synthesis."))
         self.nl_text.setText(_translate("Form", "Number of links:"))
         self.nl_label.setText(_translate("Form", "0"))
         self.nj_text.setText(_translate("Form", "Number of joints:"))

@@ -74,7 +74,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
             self.triangular_iteration_list.addItem(item)
         self.__set_item_text(2, len(collection_data), len(triangle_data))
 
-        # Dimensional _synthesis.
+        # Dimensional synthesis.
         for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
         self.__set_item_text(3, len(algorithm_data))

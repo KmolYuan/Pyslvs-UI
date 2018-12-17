@@ -35,7 +35,7 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     + Parse and show PMKS expression.
     + Show paths.
-    + Show settings of dimensional _synthesis widget.
+    + Show settings of dimensional synthesis widget.
     + Mouse interactions.
     + Zoom to fit function.
     """
@@ -225,7 +225,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.update()
 
     def updateRanges(self, ranges: Dict[str, Tuple[float, float, float]]):
-        """Update the ranges of dimensional _synthesis."""
+        """Update the ranges of dimensional synthesis."""
         self.ranges.clear()
         self.ranges.update({tag: QRectF(
             QPointF(values[0] - values[2]/2, values[1] + values[2]/2),
