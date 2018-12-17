@@ -6,6 +6,7 @@
 [![GitHub license](https://img.shields.io/github/license/KmolYuan/Pyslvs-PyQt5.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE)
 
 [![Blog](https://img.shields.io/badge/blog-www.pyslvs.com-blue.svg)](http://www.pyslvs.com/blog/index.html)
+[![CMS](https://img.shields.io/badge/cms-www.pyslvs.com-blue.svg)](http://www.pyslvs.com/content/)
 [![sourceforge](https://img.shields.io/badge/sourceforge-pyslvs-green.svg)](https://sourceforge.net/projects/pyslvs/)
 
 ![title](icons/splash.png)
