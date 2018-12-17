@@ -438,9 +438,12 @@ Including Python modules:
 * [psutil] (BSD)
 * [peewee] (MIT)
 * [Lark-parser] (MIT)
-* [NetworkX] (BSD 3-Clause)
 * [Pygments] (BSD)
 * [PyYAML] (MIT)
+
+References:
+
+* [NetworkX] (BSD 3-Clause)
 
 Pyslvs is under [GNU Affero General Public License v3].
 

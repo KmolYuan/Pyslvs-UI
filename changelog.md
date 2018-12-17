@@ -8,6 +8,7 @@ Features
 ---
 
 + "Outer loop" layout of atlas.
++ Other layout functions are removed from option.
 + Add progress dialog for number synthesis.
 + Fix the error of dimensional synthesis.
 + Fix the bug of number synthesis when import from mechanism.
@@ -17,6 +18,7 @@ Development
 ---
 
 + Methods and function naming corrections of Cython libraries.
++ Removed NetworkX requirement.
 
 Version 18.11
 ===

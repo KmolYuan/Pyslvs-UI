@@ -8,6 +8,5 @@ openpyxl
 psutil
 peewee
 lark-parser
-networkx
 pygments
 pyyaml

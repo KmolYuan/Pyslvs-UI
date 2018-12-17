@@ -13,10 +13,6 @@ from typing import (
     Union,
     Optional,
 )
-from networkx import (
-    Graph as nx_Graph,
-    spring_layout,
-)
 from core.QtModules import (
     Qt,
     QImage,
@@ -38,7 +34,6 @@ Pos = Dict[int, Tuple[float, float]]
 
 engines: Tuple[str, ...] = (
     "external loop",
-    "spring",
 )
 
 _font = QFont("Monospace")
@@ -46,29 +41,13 @@ _font.setBold(True)
 _font.setStyleHint(QFont.TypeWriter)
 
 
-def _reversed_graph(graph: Graph) -> Graph:
-    """Edges will become nodes."""
-    edges = []
-    for i, edge1 in edges_view(graph):
-        for j, edge2 in edges_view(graph):
-            if i == j:
-                continue
-            if set(edge1) & set(edge2):
-                edges.append((i, j))
-    return Graph(edges)
-
-
 def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[str, Pos]:
     """Generate a position dict."""
     if type(engine) != str:
         return engine
 
-    if engine == "spring":
-        if not node_mode:
-            g = _reversed_graph(g)
-        layout: Pos = spring_layout(nx_Graph(g.edges), scale=100)
-    elif engine == "external loop":
-        layout: Pos = external_loop_layout(g, node_mode, scale=100)
+    if engine == "external loop":
+        layout: Pos = external_loop_layout(g, node_mode, scale=30)
     else:
         raise ValueError(f"engine {engine} is not exist")
 
