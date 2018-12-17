@@ -1,6 +1,6 @@
 --- cygwinccompiler.py
 +++ cygwinccompiler.py
-@@ -82,7 +82,21 @@ def get_msvcr():
+@@ -82,7 +82,23 @@ def get_msvcr():
          elif msc_ver == '1600':
              # VS2010 / MSVC 10.0
              return ['msvcr100']
@@ -17,6 +17,8 @@
 +        elif msc_ver == '1910':
 +            return ['vcruntime140']
 +        elif msc_ver == '1914':
++            return ['vcruntime140']
++        elif msc_ver == '1915':
 +            return ['vcruntime140']
          else:
              raise ValueError("Unknown MS Compiler version %s " % msc_ver)

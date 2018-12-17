@@ -19,6 +19,7 @@ Development
 
 + Methods and function naming corrections of Cython libraries.
 + Removed NetworkX requirement.
++ Environment of Visual Studio 2017 version 15.8 supported. (`_MSC_VER == 1915`)
 
 Version 18.11
 ===
