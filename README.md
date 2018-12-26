@@ -1,13 +1,14 @@
 [![Version](https://img.shields.io/badge/version-18.12.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases/latest)
 [![Build status](https://ci.appveyor.com/api/projects/status/d2rxv6psmuj5fco9?svg=true)](https://ci.appveyor.com/project/KmolYuan/pyslvs-pyqt5)
-[![Build status](https://img.shields.io/travis/KmolYuan/Pyslvs-PyQt5.svg?logo=travis)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-[![PyQt](https://img.shields.io/badge/pyqt-&ge;5.10-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
-[![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
-[![GitHub license](https://img.shields.io/github/license/KmolYuan/Pyslvs-PyQt5.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE)
+[![Build status](https://img.shields.io/travis/KmolYuan/Pyslvs-UI.svg?logo=travis)](https://travis-ci.org/KmolYuan/Pyslvs-UI)
 
-[![Blog](https://img.shields.io/badge/blog-www.pyslvs.com-blue.svg)](http://www.pyslvs.com/blog/index.html)
-[![CMS](https://img.shields.io/badge/cms-www.pyslvs.com-blue.svg)](http://www.pyslvs.com/content/)
-[![sourceforge](https://img.shields.io/badge/sourceforge-pyslvs-green.svg)](https://sourceforge.net/projects/pyslvs/)
+[![Qt](https://img.shields.io/badge/qt%20version-&ge;5.10-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
+[![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-UI/total.svg)](https://github.com/KmolYuan/Pyslvs-UI/releases)
+[![GitHub license](https://img.shields.io/github/license/KmolYuan/Pyslvs-UI.svg)](https://github.com/KmolYuan/Pyslvs-UI/blob/master/LICENSE)
+
+[![sourceforge](https://img.shields.io/badge/site-sourceforge-green.svg)](https://sourceforge.net/projects/pyslvs/)
+[![Blog](https://img.shields.io/badge/info-blog-blue.svg)](http://www.pyslvs.com/blog/index.html)
+[![CMS](https://img.shields.io/badge/info-cms-blue.svg)](http://www.pyslvs.com/content/)
 
 ![title](icons/splash.png)
 
