@@ -37,6 +37,8 @@ from .pyslvs import (
     color_rgb,
     parse_params,
     parse_vpoints,
+    edges_view,
+    graph2vpoints,
     PMKSLexer,
     example_list,
 )
@@ -73,6 +75,8 @@ __all__ = [
     'color_rgb',
     'parse_params',
     'parse_vpoints',
+    'edges_view',
+    'graph2vpoints',
     'PMKSLexer',
     'example_list',
     'slvs_solve',

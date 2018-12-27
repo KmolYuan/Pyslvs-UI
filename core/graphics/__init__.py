@@ -19,8 +19,6 @@ from .canvas import (
     BaseCanvas,
     PreviewCanvas,
     convex_hull,
-    edges_view,
-    graph2vpoints,
 )
 from .nx_layout import (
     to_graph,
@@ -38,8 +36,6 @@ __all__ = [
     'BaseCanvas',
     'PreviewCanvas',
     'convex_hull',
-    'edges_view',
-    'graph2vpoints',
     'to_graph',
     'engine_picker',
     'engines',

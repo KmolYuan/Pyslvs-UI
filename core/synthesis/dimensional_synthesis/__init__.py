@@ -38,9 +38,14 @@ from core.QtModules import (
     QDoubleSpinBox,
     QTableWidgetItem,
 )
-from core.graphics import PreviewCanvas, graph2vpoints
+from core.graphics import PreviewCanvas
 from core.io import str_before, str_between
-from core.libs import expr_solving, VPoint, Graph
+from core.libs import (
+    expr_solving,
+    VPoint,
+    Graph,
+    graph2vpoints,
+)
 from core.synthesis import CollectionsDialog
 from .ds_dialog import (
     GeneticPrams,

@@ -20,9 +20,8 @@ from core.QtModules import (
     QListWidget,
     QListWidgetItem,
 )
-from core.libs import Graph
+from core.libs import Graph, edges_view
 from core.synthesis.collections import triangular_iteration_widget as ti
-from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
 
 

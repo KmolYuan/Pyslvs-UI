@@ -19,7 +19,6 @@ from typing import (
     List,
     Dict,
     Sequence,
-    Iterator,
     Callable,
     Any,
     Union,
@@ -43,7 +42,11 @@ from core.QtModules import (
     QImage,
 )
 from core import io
-from core.libs import VPoint, Graph
+from core.libs import (
+    VPoint,
+    Graph,
+    edges_view,
+)
 from . import color_qt, target_path_style
 
 
@@ -82,44 +85,6 @@ def convex_hull(
         else:
             result.append((x, y))
     return result
-
-
-def edges_view(graph: Graph) -> Iterator[Tuple[int, Tuple[int, int]]]:
-    """This generator can keep the numbering be consistent."""
-    yield from enumerate(sorted(tuple(sorted(e)) for e in graph.edges))
-
-
-def graph2vpoints(
-    graph: Graph,
-    pos: Dict[int, Tuple[float, float]],
-    cus: Dict[str, int],
-    same: Dict[int, int]
-) -> List[VPoint]:
-    """Change NetworkX graph into VPoints."""
-    same_r = {}
-    for k, v in same.items():
-        if v in same_r:
-            same_r[v].append(k)
-        else:
-            same_r[v] = [k]
-    tmp_list = []
-    ev = dict(edges_view(graph))
-    for i, e in ev.items():
-        if i in same:
-            # Do not connect to anyone!
-            continue
-        e = set(e)
-        if i in same_r:
-            for j in same_r[i]:
-                e.update(set(ev[j]))
-        link = ", ".join((str(l) if l else 'ground') for l in e)
-        x, y = pos[i]
-        tmp_list.append(VPoint.r_joint(link, x, y))
-    for name in sorted(cus):
-        link = str(cus[name]) if cus[name] else 'ground'
-        x, y = pos[int(name.replace('P', ''))]
-        tmp_list.append(VPoint.r_joint(link, x, y))
-    return tmp_list
 
 
 class _Path:

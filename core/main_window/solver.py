@@ -19,7 +19,6 @@ from typing import (
 from abc import abstractmethod
 from traceback import format_exc
 from core.QtModules import pyqtSlot, QAbcMeta
-from core.graphics import edges_view
 from core.libs import (
     slvs_solve,
     vpoints_configure,
@@ -29,6 +28,7 @@ from core.libs import (
     vpoint_dof,
     bfgs_vpoint_solving,
     Graph,
+    edges_view,
 )
 from .entities import EntitiesMethodInterface
 

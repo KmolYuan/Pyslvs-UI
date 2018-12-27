@@ -33,8 +33,12 @@ from core.entities import (
     EditPointDialog,
     EditLinkDialog,
 )
-from core.libs import VPoint, expr_solving, Graph
-from core.graphics import edges_view
+from core.libs import (
+    VPoint,
+    expr_solving,
+    Graph,
+    edges_view,
+)
 from core.widgets import (
     AddTable,
     DeleteTable,

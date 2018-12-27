@@ -29,13 +29,14 @@ from core.QtModules import (
     QLabel,
     QApplication,
 )
-from core.graphics import (
-    PreviewCanvas,
+from core.graphics import PreviewCanvas
+from core.io import str_before, str_between
+from core.libs import (
+    vpoints_configure,
+    Graph,
     edges_view,
     graph2vpoints,
 )
-from core.io import str_before, str_between
-from core.libs import vpoints_configure, Graph
 from .ti_dialog import (
     CollectionsDialog,
     ConstraintsDialog,

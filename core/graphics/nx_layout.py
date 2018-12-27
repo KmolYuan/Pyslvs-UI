@@ -26,9 +26,13 @@ from core.QtModules import (
     QPixmap,
     QFont,
 )
-from core.libs import Graph, external_loop_layout
+from core.libs import (
+    Graph,
+    external_loop_layout,
+    edges_view,
+)
 from .color import color_qt, color_num
-from .canvas import convex_hull, edges_view
+from .canvas import convex_hull
 
 Pos = Dict[int, Tuple[float, float]]
 
