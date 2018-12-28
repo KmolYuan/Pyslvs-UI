@@ -20,6 +20,7 @@ Development
 + Methods and function naming corrections of Cython libraries.
 + Removed NetworkX requirement.
 + Two functions are moved to core kernel. ("edges_view" and "graph2vpoints")
++ Add "--platform" argument for Qt plugins.
 + Environment of Visual Studio 2017 version 15.8 supported. (`_MSC_VER == 1915`)
 
 Version 18.11

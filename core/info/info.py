@@ -12,6 +12,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Tuple
 from sys import version_info as _vi
 from platform import (
     system,
@@ -28,10 +29,10 @@ from core.QtModules import (
     PYQT_VERSION_STR,
 )
 from core.libs import __version__
+
 _major, _minor, _build, _label = __version__
 
-
-INFO = (
+INFO: Tuple[str, ...] = (
     f"Pyslvs {_major}.{_minor}.{_build}({_label})",
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
@@ -106,7 +107,7 @@ _parser.add_argument(
 )
 _parser.add_argument(
     '--kernel',
-    metavar="kernel name",
+    metavar="kernel",
     default=None,
     nargs='?',
     type=str,
@@ -115,6 +116,15 @@ _parser.add_argument(
         "startup Pyslvs with specified solver, "
         "default is depending on local setting"
     )
+)
+_parser.add_argument(
+    '--platform',
+    metavar="plugins",
+    default="",
+    nargs='?',
+    type=str,
+    help="startup Pyslvs with specified Qt platform plugins, "
+         "such as WebGL (webgl:[port])."
 )
 
 ARGUMENTS = _parser.parse_args()
