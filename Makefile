@@ -12,6 +12,7 @@ PYSLVSVER_COMAND = "from core.info import __version__; print(\"{}.{:02}.{}\".for
 COMPILERVER_COMAND = "import platform; print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())"
 SYSVER_COMAND = "import platform; print(platform.machine().lower())"
 ifeq ($(OS),Windows_NT)
+    SHELL = cmd
     PYVER = $(shell python -c $(PYVER_COMAND))
     PYSLVSVER = $(shell python -c $(PYSLVSVER_COMAND))
     COMPILERVER = $(shell python -c $(COMPILERVER_COMAND))
