@@ -27,7 +27,7 @@ from core.libs import (
     data_collecting,
     expr_solving,
     vpoint_dof,
-    bfgs_vpoint_solving,
+    vpoint_solving,
     Graph,
     edges_view,
 )
@@ -77,9 +77,9 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                     if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
-                result = bfgs_vpoint_solving(
+                result = vpoint_solving(
                     vpoints,
-                    tuple(self.InputsWidget.inputPairs())
+                    {(b, d): a for b, d, a in self.InputsWidget.inputPairs()}
                 )
             else:
                 raise RuntimeError("incorrect kernel")
@@ -162,9 +162,9 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                             inputs = tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
                         result, _ = slvs_solve(vpoints, inputs)
                     elif solve_kernel == 2:
-                        result = bfgs_vpoint_solving(
+                        result = vpoint_solving(
                             vpoints,
-                            tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
+                            {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
                         )
                     else:
                         raise RuntimeError("incorrect kernel")
