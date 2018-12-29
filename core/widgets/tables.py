@@ -38,7 +38,7 @@ from core.QtModules import (
 )
 from core import main_window as mw
 from core.graphics import color_icon, color_qt
-from core.libs import VPoint, VLink
+from core.libs import VJoint, VPoint, VLink
 
 
 class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
@@ -196,12 +196,12 @@ class PointTableWidget(_BaseTableWidget):
             # p_type = (type: str, angle: float)
             p_type = self.item(row, 2).text().split(':')
             if p_type[0] == 'R':
-                type_int = 0
+                j_type = VJoint.R
                 angle = 0.
             else:
                 angle = float(p_type[1])
-                type_int = 1 if p_type[0] == 'P' else 2
-            vpoint = VPoint(links, type_int, angle, color, x, y, color_qt)
+                j_type = VJoint.P if p_type[0] == 'P' else VJoint.RP
+            vpoint = VPoint(links, j_type, angle, color, x, y, color_qt)
             vpoint.move(*self.currentPosition(row))
             yield vpoint
 
