@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, List
 from math import radians, cos, sin
-from .pyslvs import VPoint
+from .pyslvs import VJoint, VPoint
 from .python_solvespace import (
     # Entities & Constraint
     Point3d,
@@ -79,9 +79,9 @@ def slvs_solve(
     # Limitation of Solvespace kernel sys.
     point_count = 0
     for vpoint in vpoints:
-        if vpoint.type == VPoint.R:
+        if vpoint.type == VJoint.R:
             point_count += 1
-        elif vpoint.type in {VPoint.P, VPoint.RP}:
+        elif vpoint.type in {VJoint.P, VJoint.RP}:
             point_count += 3
 
     sys, wp1, h_line = _2d_system(point_count * 2 + len(inputs) * 2)
@@ -90,14 +90,14 @@ def slvs_solve(
     slider_points = {}
     slot_points = {}
     for i, vpoint in enumerate(vpoints):
-        if vpoint.type == VPoint.R:
+        if vpoint.type == VJoint.R:
             # Point coordinate.
             x = sys.add_param(vpoint.cx)
             y = sys.add_param(vpoint.cy)
             solved_points.append(Point2d(wp1, x, y))
             if vpoint.grounded():
                 Constraint.dragged(wp1, solved_points[i])
-        elif vpoint.type in {VPoint.P, VPoint.RP}:
+        elif vpoint.type in {VJoint.P, VJoint.RP}:
             # Base point coordinate.
             bx = sys.add_param(vpoint.c[0][0])
             by = sys.add_param(vpoint.c[0][1])
@@ -200,7 +200,7 @@ def slvs_solve(
                     else:
                         Constraint.distance(offset, wp1, solved_points[i], slider_points[i])
 
-        if vpoint.type == VPoint.P:
+        if vpoint.type == VJoint.P:
             for vlink in vpoint.links[1:]:
                 f1 = vlinks[vlink][0]
                 if f1 == i:
@@ -227,7 +227,7 @@ def slvs_solve(
         if p0 == p1:
             continue
 
-        if vpoints[p0].type == VPoint.R:
+        if vpoints[p0].type == VJoint.R:
             p_base = solved_points[p0]
         else:
             p_base = slider_points[p0]
@@ -240,7 +240,7 @@ def slvs_solve(
         # The virtual link that dragged by "hand".
         leader = LineSegment2d(wp1, p_base, p_hand)
         # Make another virtual link that should follow "hand".
-        if vpoints[p1].type == VPoint.R:
+        if vpoints[p1].type == VJoint.R:
             p_drive = solved_points[p1]
         else:
             p_drive = slider_points[p1]
@@ -253,7 +253,7 @@ def slvs_solve(
         result_list = []
         for i, vpoint in enumerate(vpoints):
             p = solved_points[i]
-            if vpoint.type == VPoint.R:
+            if vpoint.type == VJoint.R:
                 result_list.append(_pos(p))
             else:
                 result_list.append((_pos(slider_points[i]), _pos(p)))

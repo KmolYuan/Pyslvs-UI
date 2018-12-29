@@ -34,7 +34,7 @@ from core.entities import (
     EditLinkDialog,
 )
 from core.libs import (
-    VPoint,
+    VJoint,
     expr_solving,
     Graph,
     edges_view,
@@ -249,7 +249,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         y: float,
         links: str = "",
         color: str = 'Green',
-        type_num: int = VPoint.R,
+        type_num: int = VJoint.R,
         angle: float = 0.
     ) -> int:
         """Add an ordinary point. Return the row count of new point."""

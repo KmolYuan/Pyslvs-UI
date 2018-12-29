@@ -42,7 +42,7 @@ from core.graphics import PreviewCanvas
 from core.io import str_before, str_between
 from core.libs import (
     expr_solving,
-    VPoint,
+    VJoint,
     Graph,
     graph2vpoints,
 )
@@ -605,7 +605,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 else:
                     # Update with result.
                     for i in range(vpoint_count):
-                        if vpoints[i].type in {VPoint.P, VPoint.RP}:
+                        if vpoints[i].type in {VJoint.P, VJoint.RP}:
                             slot: Tuple[float, float] = solved_result[i][0]
                             pin: Tuple[float, float] = solved_result[i][1]
                             path[i].append(solved_result[i][1])

@@ -26,7 +26,7 @@ from core.QtModules import (
     QKeySequence,
 )
 from core import main_window as mw
-from core.libs import VPoint
+from core.libs import VJoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 from .undo_redo import (
@@ -154,7 +154,7 @@ class InputsWidget(QWidget, Ui_Form):
 
         vpoints = self.EntitiesPoint.dataTuple()
         type_int = vpoints[p0].type
-        if type_int == VPoint.R:
+        if type_int == VJoint.R:
             for i, vpoint in enumerate(vpoints):
                 if i == p0:
                     continue
@@ -162,7 +162,7 @@ class InputsWidget(QWidget, Ui_Form):
                     if vpoints[p0].grounded() and vpoint.grounded():
                         continue
                     self.driver_list.addItem(f"[{vpoint.typeSTR}] Point{i}")
-        elif type_int in {VPoint.P, VPoint.RP}:
+        elif type_int in {VJoint.P, VJoint.RP}:
             self.driver_list.addItem(f"[{vpoints[p0].typeSTR}] Point{p0}")
 
     @pyqtSlot(int, name='on_driver_list_currentRowChanged')
@@ -206,7 +206,7 @@ class InputsWidget(QWidget, Ui_Form):
 
         # Check repeated pairs.
         for p0_, p1_, a in self.inputPairs():
-            if {p0, p1} == {p0_, p1_} and vpoints[p0].type == VPoint.R:
+            if {p0, p1} == {p0_, p1_} and vpoints[p0].type == VJoint.R:
                 QMessageBox.warning(
                     self,
                     "Wrong pair",

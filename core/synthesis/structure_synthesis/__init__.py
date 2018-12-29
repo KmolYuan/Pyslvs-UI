@@ -46,7 +46,7 @@ from core.libs import (
     number_synthesis,
     contracted_link,
     topo,
-    VPoint,
+    VJoint,
     Graph,
     link_assortments as l_a,
     contracted_link_assortments as c_l_a,
@@ -203,11 +203,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             sum(len(vlink.points) > 1 for vlink in link_data) +
             sum(
                 len(vpoint.links) - 2 for vpoint in joint_data
-                if (vpoint.type == VPoint.RP) and (len(vpoint.links) > 1)
+                if (vpoint.type == VJoint.RP) and (len(vpoint.links) > 1)
             )
         )
         self.NJ_input.setValue(sum(
-            (len(vpoint.links) - 1 + int(vpoint.type == VPoint.RP))
+            (len(vpoint.links) - 1 + int(vpoint.type == VJoint.RP))
             for vpoint in joint_data if (len(vpoint.links) > 1)
         ))
         self.keep_dof.setChecked(keep_dof_checked)

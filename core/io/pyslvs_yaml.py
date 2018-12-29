@@ -16,7 +16,7 @@ from typing import (
 )
 import yaml
 from core.QtModules import QObject
-from core.libs import VPoint
+from core.libs import VJoint
 from core.info import __version__
 from core import main_window as mn
 from .overview import OverviewDialog
@@ -90,7 +90,7 @@ class YamlEditor(QObject):
                 'x': vpoint.x,
                 'y': vpoint.y,
             }
-            if vpoint.type in {VPoint.P, VPoint.RP}:
+            if vpoint.type in {VJoint.P, VJoint.RP}:
                 attr['angle'] = vpoint.angle
             mechanism_data.append(attr)
 
@@ -144,7 +144,7 @@ class YamlEditor(QObject):
                 p_y: float = point_attr['y']
                 p_links: Tuple[str] = point_attr['links']
                 p_type: int = point_attr['type']
-                if p_type in {VPoint.P, VPoint.RP}:
+                if p_type in {VJoint.P, VJoint.RP}:
                     p_angle: float = point_attr['angle']
                 else:
                     p_angle = 0.

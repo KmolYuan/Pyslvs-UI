@@ -22,6 +22,7 @@ from core.QtModules import pyqtSlot, QAbcMeta
 from core.libs import (
     slvs_solve,
     vpoints_configure,
+    VJoint,
     VPoint,
     data_collecting,
     expr_solving,
@@ -125,7 +126,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         slider_auto_preview.clear()
         for i in range(vpoint_count):
             auto_preview.append([])
-            if vpoints[i].type in {VPoint.P, VPoint.RP}:
+            if vpoints[i].type in {VJoint.P, VJoint.RP}:
                 slider_auto_preview[i] = []
 
         bases = []
@@ -177,10 +178,10 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                 else:
                     # Update with result.
                     for i in range(vpoint_count):
-                        if vpoints[i].type == VPoint.R:
+                        if vpoints[i].type == VJoint.R:
                             auto_preview[i].append(result[i])
                             vpoints[i].move(result[i])
-                        elif vpoints[i].type in {VPoint.P, VPoint.RP}:
+                        elif vpoints[i].type in {VJoint.P, VJoint.RP}:
                             # Pin path
                             auto_preview[i].append(result[i][1])
                             # Slot path
@@ -212,7 +213,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                 for m, vlink_ in enumerate(vlinks):
                     if not ((i != m) and (p in vlink_.points)):
                         continue
-                    if vpoints[p].type != VPoint.RP:
+                    if vpoints[p].type != VJoint.RP:
                         graph.add_edge(i, m)
                         continue
                     graph.add_edge(i, k)
@@ -245,7 +246,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         """
         vpoints = self.EntitiesPoint.dataTuple()
         for vpoint in vpoints:
-            if vpoint.type in {VPoint.P, VPoint.RP}:
+            if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
         vlinks = self.EntitiesLink.dataTuple()
         link_names = [vlink.name for vlink in vlinks]

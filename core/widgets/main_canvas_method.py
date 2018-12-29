@@ -42,7 +42,7 @@ from core.graphics import (
     color_qt,
     color_num,
 )
-from core.libs import VPoint, VLink
+from core.libs import VJoint, VPoint, VLink
 
 
 class _Selector:
@@ -190,7 +190,7 @@ class DynamicCanvasInterface(BaseCanvas):
 
     def __draw_point(self, i: int, vpoint: VPoint):
         """Draw a point."""
-        if vpoint.type in {VPoint.P, VPoint.RP}:
+        if vpoint.type in {VJoint.P, VJoint.RP}:
             pen = QPen(vpoint.color)
             pen.setWidth(2)
 
@@ -201,7 +201,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 else:
                     grounded = vpoint.links[j] == 'ground'
                 # Slot point.
-                if (j == 0) or (vpoint.type == VPoint.P):
+                if (j == 0) or (vpoint.type == VJoint.P):
                     pen.setColor(vpoint.color)
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
@@ -256,7 +256,7 @@ class DynamicCanvasInterface(BaseCanvas):
         points = []
         for i in vlink.points:
             vpoint = self.vpoints[i]
-            if vpoint.type == VPoint.R:
+            if vpoint.type == VJoint.R:
                 x = vpoint.cx * self.zoom
                 y = vpoint.cy * -self.zoom
             else:
@@ -718,7 +718,7 @@ class DynamicCanvasInterface(BaseCanvas):
                         r = hypot(vpoint.x, vpoint.y)
                         beta = atan2(vpoint.y, vpoint.x)
                         vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
-                        if vpoint.type in {VPoint.P, VPoint.RP}:
+                        if vpoint.type in {VJoint.P, VJoint.RP}:
                             vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
                 elif self.free_move == FreeMode.Reflect:
                     # Free move reflect function.
@@ -727,7 +727,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)
                     for num in self.selections:
                         vpoint = self.vpoints[num]
-                        if vpoint.type == VPoint.R:
+                        if vpoint.type == VJoint.R:
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
                         else:
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
