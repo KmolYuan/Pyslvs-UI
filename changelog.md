@@ -7,7 +7,7 @@ Version 18.12
 Features
 ---
 
-+ "Outer loop" layout of atlas.
++ "External loop" layout for atlas of structural synthesis.
 + Other layout functions are removed from option.
 + Add progress dialog for number synthesis.
 + Fix the error of dimensional synthesis.
