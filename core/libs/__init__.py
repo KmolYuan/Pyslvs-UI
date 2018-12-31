@@ -13,10 +13,6 @@ from .pyslvs import (
     Firefly,
     Differential,
     Coordinate,
-    PLAP,
-    PLLP,
-    PLPP,
-    PXY,
     expr_solving,
     data_collecting,
     VJoint,
@@ -47,15 +43,10 @@ from .solvespace_translate import slvs_solve
 
 __all__ = [
     '__version__',
-    'kernel_list',
     'Genetic',
     'Firefly',
     'Differential',
     'Coordinate',
-    'PLAP',
-    'PLLP',
-    'PLPP',
-    'PXY',
     'expr_solving',
     'data_collecting',
     'VJoint',
@@ -82,7 +73,7 @@ __all__ = [
     'PMKSLexer',
     'example_list',
     'slvs_solve',
+    'kernel_list',
 ]
-
 
 kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
