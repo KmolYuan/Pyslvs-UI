@@ -1,6 +1,19 @@
 Change Log
 ===
 
+Version 19.01
+===
+
+Features
+---
+
++ None.
+
+Development
+---
+
++ None.
+
 Version 18.12
 ===
 
