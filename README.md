@@ -350,9 +350,11 @@ copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 
 And it will be useful if Make tool in Msys cannot find Windows command (such like `copy`, `rd` or `del`):
 
-```bash
-# Rewrite "SHELL" variable.
-mingw32-make SHELL=cmd [target]
+```makefile
+ifeq ($(OS),Windows_NT)
+    # Rewrite "SHELL" variable.
+    SHELL = cmd
+endif
 ```
 
 ## Python-Solvespace Kernel
