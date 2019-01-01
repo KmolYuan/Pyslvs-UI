@@ -3,7 +3,7 @@
 """About information."""
 
 __author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2018"
+__copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
@@ -62,7 +62,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Title.setText(html(_title("Pyslvs") + _content(
-            f"Version {_major}.{_minor}.{_build}({_label}) 2016-2018"
+            f"Version {_major}.{_minor}.{_build}({_label}) 2016-2019"
         )))
         self.description_text.setText(html(_content(
             "A GUI-based tool use to solving 2D linkage subject.",

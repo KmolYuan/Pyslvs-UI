@@ -7,7 +7,7 @@
 """
 
 __author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2018"
+__copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
