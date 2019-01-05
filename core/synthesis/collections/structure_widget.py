@@ -229,6 +229,20 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections += collections
         self.__reload_atlas()
 
+    @pyqtSlot(name='on_capture_graph_clicked')
+    def __save_graph(self):
+        """Save the current graph."""
+        if self.selection_window.count() != 1:
+            return
+
+        file_name = self.outputTo("Atlas image", qt_image_format)
+        if not file_name:
+            return
+
+        pixmap: QPixmap = self.selection_window.item(0).icon().pixmap(self.selection_window.iconSize())
+        pixmap.save(file_name)
+        self.saveReplyBox("Graph", file_name)
+
     @pyqtSlot(name='on_save_atlas_clicked')
     def __save_atlas(self):
         """Save function as same as type synthesis widget."""
@@ -267,7 +281,7 @@ class StructureWidget(QWidget, Ui_Form):
         painter.end()
         pixmap = QPixmap()
         pixmap.convertFromImage(image_main)
-        pixmap.save(file_name, format=QFileInfo(file_name).suffix())
+        pixmap.save(file_name)
         self.saveReplyBox("Atlas", file_name)
 
     @pyqtSlot(name='on_save_edges_clicked')

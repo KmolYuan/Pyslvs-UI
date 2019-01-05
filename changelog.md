@@ -7,7 +7,8 @@ Version 19.01
 Features
 ---
 
-+ None.
++ Add single graph saving function for synthesis collection panel.
++ UI description improvements.
 
 Development
 ---

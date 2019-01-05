@@ -10,6 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
+    Sequence,
     Dict,
     Callable,
     Iterator,
@@ -458,10 +459,10 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if not file_name:
             return
         pixmap = self.MainCanvas.grab()
-        pixmap.save(file_name, format=QFileInfo(file_name).suffix())
+        pixmap.save(file_name)
         self.saveReplyBox("Picture", file_name)
 
-    def outputTo(self, format_name: str, format_choose: List[str]) -> str:
+    def outputTo(self, format_name: str, format_choose: Sequence[str]) -> str:
         """Simple to support multiple format."""
         file_name, suffix = QFileDialog.getSaveFileName(
             self,

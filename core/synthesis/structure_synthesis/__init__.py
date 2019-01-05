@@ -514,9 +514,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             item: QListWidgetItem = self.structure_list.currentItem()
         else:
             item: QListWidgetItem = self.structure_list.item(row)
-        icon: QIcon = item.icon()
-        pixmap: QPixmap = icon.pixmap(self.structure_list.iconSize())
-        return pixmap.toImage()
+        return item.icon().pixmap(self.structure_list.iconSize()).toImage()
 
     @pyqtSlot(QPoint)
     def __structure_list_context_menu(self, point):
@@ -592,7 +590,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             ), image)
         painter.end()
         pixmap = QPixmap.fromImage(image_main)
-        pixmap.save(file_name, format=QFileInfo(file_name).suffix())
+        pixmap.save(file_name)
         self.saveReplyBox("Atlas", file_name)
 
     def __save_atlas_ask(self) -> int:
@@ -668,5 +666,6 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
 
         self.answer = answer
+        self.__set_time_count(0, len(answer))
         self.__reload_atlas()
         self.__save_atlas()

@@ -447,6 +447,9 @@
            <property name="statusTip">
             <string>Save the atlas to image file.</string>
            </property>
+           <property name="text">
+            <string>Save as image</string>
+           </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
              <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
@@ -457,6 +460,9 @@
           <widget class="QPushButton" name="save_edges">
            <property name="statusTip">
             <string>Save the edges of atlas to text file.</string>
+           </property>
+           <property name="text">
+            <string>Save as list</string>
            </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">

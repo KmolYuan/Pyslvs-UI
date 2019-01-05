@@ -282,7 +282,9 @@ class Ui_Form(object):
         self.time_title_label.setText(_translate("Form", "Find in:"))
         self.paint_time_title_label.setText(_translate("Form", "Painted in:"))
         self.save_atlas.setStatusTip(_translate("Form", "Save the atlas to image file."))
+        self.save_atlas.setText(_translate("Form", "Save as image"))
         self.save_edges.setStatusTip(_translate("Form", "Save the edges of atlas to text file."))
+        self.save_edges.setText(_translate("Form", "Save as list"))
         self.edges2atlas_button.setStatusTip(_translate("Form", "Load the edges data from text file, then save them to image files."))
 
 import icons_rc

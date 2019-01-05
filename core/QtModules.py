@@ -10,6 +10,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Tuple
 from abc import ABCMeta
 from PyQt5.sip import wrappertype
 from PyQt5.QtCore import (
@@ -196,7 +197,7 @@ __all__ = [
 ]
 
 
-qt_image_format = (
+qt_image_format: Tuple[str, ...] = (
     "Portable Network Graphics (*.png)",
     "Joint Photographic Experts Group (*.jpg)",
     "Bitmap Image file (*.bmp)",
