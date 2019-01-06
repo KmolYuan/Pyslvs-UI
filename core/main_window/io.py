@@ -9,7 +9,6 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     Tuple,
-    List,
     Sequence,
     Dict,
     Callable,
@@ -496,7 +495,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     def inputFrom(
         self,
         format_name: str,
-        format_choose: List[str],
+        format_choose: Sequence[str],
         multiple: bool = False
     ) -> str:
         """Get file name(s)."""

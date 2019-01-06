@@ -237,8 +237,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not file_name:
             return
         data = []
-        with open(file_name, newline='') as stream:
-            for row in csv.reader(stream, delimiter=' ', quotechar='|'):
+        with open(file_name, 'r', encoding='utf-8', newline='') as f:
+            for row in csv.reader(f, delimiter=' ', quotechar='|'):
                 data += " ".join(row).split(',')
         self.__read_path_from_csv(data)
 

@@ -470,7 +470,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         if not file_name:
             return
-        with open(file_name, 'w', newline='') as stream:
+        with open(file_name, 'w', encoding='utf-8', newline='') as stream:
             writer = csv.writer(stream)
             for point in data:
                 for coordinate in point:

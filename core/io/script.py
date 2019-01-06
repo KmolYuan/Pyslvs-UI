@@ -134,6 +134,6 @@ class ScriptDialog(QDialog, Ui_Dialog):
         file_name = self.outputTo(self.filename, self.file_format)
         if not file_name:
             return
-        with open(file_name, 'w', newline='') as f:
+        with open(file_name, 'w', encoding='utf-8', newline='') as f:
             f.write(self.script_view.toPlainText())
         self.saveReplyBox(self.filename, file_name)

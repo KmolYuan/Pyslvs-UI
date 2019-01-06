@@ -38,7 +38,6 @@ from core.QtModules import (
     QPainter,
     QPointF,
     QInputDialog,
-    QFileInfo,
     QScrollBar,
 )
 from core import main_window as mw
@@ -620,7 +619,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
         if not file_name:
             return
-        with open(file_name, 'w') as f:
+        with open(file_name, 'w', encoding='utf-8') as f:
             f.write('\n'.join(str(G.edges) for G in self.answer))
         self.saveReplyBox("edges expression", file_name)
 
@@ -637,10 +636,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         )
         if not file_names:
             return
-        read_data = []
 
+        read_data = []
         for file_name in file_names:
-            with open(file_name) as f:
+            with open(file_name, 'r', encoding='utf-8') as f:
                 for line in f:
                     read_data.append(line)
 

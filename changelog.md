@@ -13,7 +13,7 @@ Features
 Development
 ---
 
-+ None.
++ Unified the IO encoding of text-based files.
 
 Version 18.12
 ===

@@ -30,7 +30,6 @@ from core.QtModules import (
     QPainter,
     QPointF,
     QPixmap,
-    QFileInfo,
     QApplication,
 )
 from core import main_window as mw
@@ -208,11 +207,13 @@ class StructureWidget(QWidget, Ui_Form):
         )
         if not file_names:
             return
+
         read_data = []
         for file_name in file_names:
-            with open(file_name, 'r') as f:
+            with open(file_name, 'r', encoding='utf-8') as f:
                 for line in f:
-                    read_data.append(line[:-1])
+                    read_data.append(line)
+
         collections = []
         for edges in read_data:
             try:
@@ -293,7 +294,7 @@ class StructureWidget(QWidget, Ui_Form):
         file_name = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
         if not file_name:
             return
-        with open(file_name, 'w') as f:
+        with open(file_name, 'w', encoding='utf-8') as f:
             f.write('\n'.join(str(G.edges) for G in self.collections))
         self.saveReplyBox("edges expression", file_name)
 
@@ -341,6 +342,9 @@ class StructureWidget(QWidget, Ui_Form):
         self.triangle_button.setEnabled(not link_is_node)
         self.grounded_merge.setEnabled(not link_is_node)
 
+        # Automatic ground.
+        self.__grounded()
+
     def __clear_selection(self):
         """Clear the selection preview data."""
         self.grounded_list.clear()
@@ -387,7 +391,6 @@ class StructureWidget(QWidget, Ui_Form):
             self.ground_engine
         )
 
-    @pyqtSlot(name='on_grounded_button_clicked')
     def __grounded(self):
         """Grounded combinations."""
         current_item = self.collection_list.currentItem()

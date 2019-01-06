@@ -17,22 +17,22 @@ public:
         POINT_N_ROT_TRANS      =  2011,
         POINT_N_COPY           =  2012,
         POINT_N_ROT_AA         =  2013,
-        
+
         NORMAL_IN_3D           =  3000,
         NORMAL_IN_2D           =  3001,
         NORMAL_N_COPY          =  3010,
         NORMAL_N_ROT           =  3011,
         NORMAL_N_ROT_AA        =  3012,
-        
+
         DISTANCE               =  4000,
         DISTANCE_N_COPY        =  4001,
-        
+
         FACE_NORMAL_PT         =  5000,
         FACE_XPROD             =  5001,
         FACE_N_ROT_TRANS       =  5002,
         FACE_N_TRANS           =  5003,
         FACE_N_ROT_AA          =  5004,
-        
+
         WORKPLANE              = 10000,
         LINE_SEGMENT           = 11000,
         CUBIC                  = 12000,
@@ -81,7 +81,7 @@ public:
         CURVE_CURVE_TANGENT    = 125,
         EQUAL_RADIUS           = 130,
         WHERE_DRAGGED          = 200,
-        
+
         COMMENT                = 1000
     };
 }
@@ -97,7 +97,7 @@ from typing import Optional
 
 def _shift16(num: int) -> int:
     """Left shift with 16 bit.
-    
+
     Usage:
     >>> a = 0x20009
     >>> hex(_shift16(a))
@@ -108,9 +108,9 @@ def _shift16(num: int) -> int:
 
 
 class SlvsWriter:
-    
+
     """Use to save data with solvespace file format."""
-    
+
     def __init__(self, *,
         group: int = 0x2,
         comment_group: int = 0x3,
@@ -120,12 +120,12 @@ class SlvsWriter:
         self.__group = group
         self.__comment_group = comment_group
         self.__workplane = workplane
-        
+
         self.script_group = ["±²³SolveSpaceREVa\n"]
         self.group_origin(0x1)
         self.group_normal(0x2, "sketch-in-plane")
         self.group_normal(0x3, "comments")
-        
+
         self.param_num = 0x40000
         self.script_param = []
         for n in range(3):
@@ -141,12 +141,12 @@ class SlvsWriter:
             self.param(0x30010 + n)
         for n in range(4):
             self.param_val(0x30020 + n, 0.5 if (n == 0) else -0.5)
-        
+
         self.request_num = 0x4
         self.script_request = []
         for n in range(1, 4):
             self.request_workplane(n)
-        
+
         self.entity_num = 0x40000
         self.script_entity = []
         self.entity_plane(0x10000, 0x10001, 0x10020)
@@ -158,30 +158,30 @@ class SlvsWriter:
         self.entity_plane(0x30000, 0x30001, 0x30020)
         self.entity_point(0x30001)
         self.entity_normal_3d_wxyz(0x30020, 0x30001, reversed=True)
-        
+
         self.constraint_num = 0x1
         self.script_constraint = []
-    
+
     def set_group(self, num: int):
         """Set the group number."""
         self.__group = num
-    
+
     def set_comment_group(self, num: int):
         """Set the comment group number."""
         self.__comment_group = num
-    
+
     def set_workplane(self, num: int):
         """Set main workplane."""
         self.__workplane = num
-    
+
     def param_shift16(self):
         """Shift param counting."""
         self.param_num = _shift16(self.param_num)
-    
+
     def entity_shift16(self):
         """Shift entity counting."""
         self.entity_num = _shift16(self.entity_num)
-    
+
     def group_origin(self, num: int = 1, name: str = "#references"):
         """First group called "#references"."""
         self.script_group.append('\n'.join([
@@ -201,7 +201,7 @@ class SlvsWriter:
             "Group.remap={\n}",
             "AddGroup",
         ]))
-    
+
     def group_normal(self, num: int, name: str):
         """A normal group."""
         self.script_group.append('\n'.join([
@@ -226,14 +226,14 @@ class SlvsWriter:
             "Group.remap={\n}",
             "AddGroup",
         ]))
-    
+
     def param(self, num: int) -> str:
         """A no value parameter."""
         self.script_param.append('\n'.join((
             f"Param.h.v.={num:08x}",
             "AddParam",
         )))
-    
+
     def param_val(self, num: int, val: float):
         """A value parameter."""
         self.script_param.append('\n'.join([
@@ -241,7 +241,7 @@ class SlvsWriter:
             f"Param.val={val:.20f}",
             "AddParam",
         ]))
-    
+
     def request(self, num: int, type: int):
         """A request for an entity."""
         self.script_request.append('\n'.join([
@@ -252,7 +252,7 @@ class SlvsWriter:
             "Request.construction=0",
             "AddRequest",
         ]))
-    
+
     def request_workplane(self, num: int):
         """Workplane request."""
         self.script_request.append('\n'.join([
@@ -262,19 +262,19 @@ class SlvsWriter:
             "Request.construction=0",
             "AddRequest",
         ]))
-    
+
     def request_line(self, num: int):
         """Line segment request."""
         self.request(num, 200)
-    
+
     def request_arc(self, num: int):
         """Arc request."""
         self.request(num, 500)
-    
+
     def request_circle(self, num: int):
         """Circle request."""
         self.request(num, 400)
-    
+
     def entity_plane(self, num: int, origin: int, normal: int):
         """A workplane."""
         self.script_entity.append('\n'.join([
@@ -286,7 +286,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_point(self, num: int):
         """A independent point."""
         self.script_entity.append('\n'.join([
@@ -296,7 +296,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_normal(self, num: int, p: int, type: int):
         """A 3D normal."""
         self.script_entity.append('\n'.join([
@@ -308,11 +308,11 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_normal_3d(self, num: int, p: int):
         """A 3D normal."""
         self.entity_normal(num, p, 3000)
-    
+
     def entity_normal_3d_wxyz(self, num: int, p: int, *, reversed: bool = False):
         """A 3D normal from quaternion."""
         unit = -0.5 if reversed else 0.5
@@ -328,7 +328,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_normal_2d(self, num: int, p: int):
         """A 2D normal."""
         unit = 1
@@ -342,11 +342,11 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_normal_copy(self, num: int, p: int):
         """A copied normal."""
         self.entity_normal(num, p, 3010)
-    
+
     def entity_point_2d(self, num: int, x: float, y: float):
         """A point related with the entity."""
         self.script_entity.append('\n'.join([
@@ -359,7 +359,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_line(self, num: int):
         """A line segment."""
         self.script_entity.append('\n'.join([
@@ -372,7 +372,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_arc(self, num: int):
         """An arc."""
         self.script_entity.append('\n'.join([
@@ -387,7 +387,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_circle(self, num: int):
         """A circle."""
         self.script_entity.append('\n'.join([
@@ -401,7 +401,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def entity_distance(self, num: int, val: float):
         """A distance entity."""
         self.script_entity.append('\n'.join([
@@ -413,7 +413,7 @@ class SlvsWriter:
             "Entity.actVisible=1",
             "AddEntity",
         ]))
-    
+
     def constraint_point(self, num: int, p1: int, p2: int):
         """Constraint two points as same one."""
         self.script_constraint.append('\n'.join([
@@ -439,7 +439,7 @@ class SlvsWriter:
         offset: int = 10
     ):
         """Constraint two distance between two workplane."""
-        
+
         def constraint_fix_hv(num: int, phv: int, val: float):
             """Constraint a distance from a point to a plane."""
             self.script_constraint.append('\n'.join([
@@ -457,10 +457,10 @@ class SlvsWriter:
                 f"Constraint.disp.offset.y={offset:.20f}",
                 "AddConstraint",
             ]))
-        
+
         constraint_fix_hv(num, 0x30000, y)
         constraint_fix_hv(num + 1, 0x20000, x)
-    
+
     def constraint_distance(
         self,
         num: int,
@@ -486,7 +486,7 @@ class SlvsWriter:
             f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
-    
+
     def constraint_diameter(
         self,
         num: int,
@@ -512,7 +512,7 @@ class SlvsWriter:
             f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
-    
+
     def constraint_angle(
         self,
         num: int,
@@ -538,7 +538,7 @@ class SlvsWriter:
             f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
-    
+
     def constraint_arc_line_tangent(
         self,
         num: int,
@@ -560,7 +560,7 @@ class SlvsWriter:
             "Constraint.reference=0",
             "AddConstraint",
         ]))
-    
+
     def constraint_equal_radius(self, num: int, e1: int, e2: int):
         """Constraint two arcs or circles are be the same radius."""
         self.script_constraint.append('\n'.join([
@@ -575,7 +575,7 @@ class SlvsWriter:
             "Constraint.reference=0",
             "AddConstraint",
         ]))
-    
+
     def constraint_comment(
         self,
         num: int,
@@ -599,7 +599,7 @@ class SlvsWriter:
             f"Constraint.disp.offset.y={y + offset:.20f}",
             "AddConstraint",
         ]))
-    
+
     def save(self, file_name: str):
         """Save the file."""
         self.entity_plane(0x80020000, 0x80020002, 0x80020001)
