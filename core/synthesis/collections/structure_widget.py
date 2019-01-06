@@ -308,7 +308,6 @@ class StructureWidget(QWidget, Ui_Form):
         item: Optional[QListWidgetItem] = self.collection_list.item(row)
         has_item = item is not None
         self.delete_button.setEnabled(has_item)
-        self.grounded_button.setEnabled(has_item)
         self.triangle_button.setEnabled(has_item)
         self.selection_window.clear()
         if item is None:

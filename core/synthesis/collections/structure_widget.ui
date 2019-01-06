@@ -278,20 +278,6 @@
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QPushButton" name="triangle_button">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="statusTip">
-                <string>Use trangular formula to do dimentional synthesis.</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/ti.png</normaloff>:/icons/ti.png</iconset>
-               </property>
-              </widget>
-             </item>
             </layout>
            </item>
            <item>
@@ -399,19 +385,19 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QPushButton" name="grounded_button">
+                <widget class="QPushButton" name="triangle_button">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
                  <property name="statusTip">
-                  <string>Re-layout the grounded chains.</string>
+                  <string>Use trangular formula to do dimentional synthesis.</string>
                  </property>
                  <property name="text">
-                  <string>Ground</string>
+                  <string>Configure</string>
                  </property>
                  <property name="icon">
                   <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
+                   <normaloff>:/icons/ti.png</normaloff>:/icons/ti.png</iconset>
                  </property>
                 </widget>
                </item>
