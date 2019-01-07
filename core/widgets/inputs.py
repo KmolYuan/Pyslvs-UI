@@ -274,17 +274,11 @@ class InputsWidget(QWidget, Ui_Form):
             self.CommandStack.endMacro()
 
     @pyqtSlot(name='on_variable_remove_clicked')
-    def __remove_var(self):
+    def remove_var(self, row: int = -1):
         """Remove and reset angle."""
-        row = self.variable_list.currentRow()
+        if row == -1:
+            row = self.variable_list.currentRow()
         if not row > -1:
-            return
-        reply = QMessageBox.question(
-            self,
-            "Remove variable",
-            "Do you want to remove this variable?"
-        )
-        if reply != QMessageBox.Yes:
             return
         self.variable_stop.click()
         self.CommandStack.beginMacro(f"Remove variable of Point{row}")

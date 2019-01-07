@@ -207,6 +207,11 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         args = self.EntitiesPoint.rowTexts(row)
         args[0] = ''
         self.CommandStack.beginMacro(f"Delete {{Point{row}}}")
+        for i in reversed([
+            i for i, (b, d, a) in enumerate(self.InputsWidget.inputPairs())
+            if row in {b, d}
+        ]):
+            self.InputsWidget.remove_var(i)
         self.CommandStack.push(EditPointTable(
             row,
             self.EntitiesPoint,

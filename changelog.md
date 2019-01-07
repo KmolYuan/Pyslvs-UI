@@ -10,6 +10,7 @@ Features
 + Add single graph saving function for synthesis collection panel.
 + UI description improvements.
 + Removed "ground enumerate" button of synthesis collection panel.
++ Fix bug when deleting a point is inside the input pairs.
 
 Development
 ---
