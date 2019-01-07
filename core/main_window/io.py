@@ -391,6 +391,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """Save action. (YAML)"""
         if self.DatabaseWidget.file_name.completeSuffix() == 'pyslvs.yml':
             self.YamlEditor.save()
+            self.workbookSaved()
         else:
             self.__save_as()
 
@@ -400,6 +401,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         file_name = self.outputTo("YAML profile", ["Pyslvs YAML file (*.pyslvs.yml)"])
         if file_name:
             self.YamlEditor.save(file_name)
+            self.workbookSaved()
             self.saveReplyBox("YAML Profile", file_name)
 
     @pyqtSlot(name='on_action_commit_triggered')
