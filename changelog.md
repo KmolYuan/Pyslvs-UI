@@ -11,6 +11,7 @@ Features
 + UI description improvements.
 + Removed "ground enumerate" button of synthesis collection panel.
 + Fix bug when deleting a point is inside the input pairs.
++ Widget focus behavior correction of tables.
 
 Development
 ---

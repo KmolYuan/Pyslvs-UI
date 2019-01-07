@@ -97,6 +97,11 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
         """Get what row is been selected."""
         return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
 
+    def selectAll(self):
+        """Override method of select all function."""
+        self.setFocus(Qt.ShortcutFocusReason)
+        super(_BaseTableWidget, self).selectAll()
+
     def setSelections(self, selections: Sequence[int], key_detect: bool = False):
         """Auto select function, get the signal from canvas."""
         self.setFocus()
@@ -108,13 +113,13 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
             }.get(keyboard_modifiers, (False, False))
             self.__setSelectedRanges(
                 selections,
-                continue_select=continue_select,
+                is_continue=continue_select,
                 un_select=not_select
             )
         else:
             self.__setSelectedRanges(
                 selections,
-                continue_select=(keyboard_modifiers == Qt.ShiftModifier),
+                is_continue=(keyboard_modifiers == Qt.ShiftModifier),
                 un_select=False
             )
 
@@ -122,12 +127,12 @@ class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
         self,
         selections: Sequence[int],
         *,
-        continue_select: bool,
+        is_continue: bool,
         un_select: bool
     ):
         """Different mode of select function."""
         selected_rows = self.selectedRows()
-        if not continue_select:
+        if not is_continue:
             self.clearSelection()
         self.setCurrentCell(selections[-1], 0)
         for row in selections:
@@ -467,7 +472,7 @@ class SelectionLabel(QLabel):
         if p_count > 1:
             distances = []
             angles = []
-            for i in range(p_count):
+            for i in range(min(p_count, 3)):
                 if i != 0:
                     vpoint0 = vpoints[points[i - 1]]
                     vpoint1 = vpoints[points[i]]
