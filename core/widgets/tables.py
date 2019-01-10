@@ -315,7 +315,7 @@ class LinkTableWidget(_BaseTableWidget):
                 if not p:
                     continue
                 points.append(int(p.replace('Point', '')))
-            yield VLink(name, color, tuple(points), color_qt)
+            yield VLink(name, color, tuple(points), color_rgb)
 
     def colors(self) -> Dict[str, str]:
         """Return name and color as a dict."""

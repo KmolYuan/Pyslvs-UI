@@ -285,7 +285,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.painter.setPen(pen)
             self.painter.drawPolygon(*qpoints)
         pen.setWidth(self.link_width)
-        pen.setColor(vlink.color)
+        pen.setColor(QColor(*vlink.color))
         self.painter.setPen(pen)
         brush = QColor(226, 219, 190)
         brush.setAlphaF(self.transparency)
@@ -318,10 +318,10 @@ class DynamicCanvasInterface(BaseCanvas):
         for i, path in o_path:
             if (self.Path.show != i) and (self.Path.show != -1):
                 continue
-            if self.vpoints[i].color is not None:
-                color = QColor(*self.vpoints[i].color)
-            else:
+            if self.vpoints[i].color is None:
                 color = color_qt('Green')
+            else:
+                color = QColor(*self.vpoints[i].color)
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
