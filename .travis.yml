@@ -5,12 +5,12 @@ matrix:
   include:
   - os: linux
     sudo: required
-    python: 3.6
+    python: "3.6"
     dist: trusty
 
   - os: linux
     sudo: required
-    python: 3.7
+    python: "3.7"
     dist: xenial
     deploy: &deploy-options
       overwrite: true
@@ -42,12 +42,12 @@ addons:
 before_install:
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  brew install swig;
   curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci;
   source ./macports-ci install;
   fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  yes | sudo port install swig-python;
   yes | sudo port install python$PYTHON;
   yes | sudo port install py$PYTHON-pip;
   sudo port select --set python3 python$PYTHON;
