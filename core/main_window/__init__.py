@@ -191,7 +191,7 @@ class MainWindow(IOMethodInterface):
             self.MainCanvas.doubleclick_edit.connect(self.edit_link)
         # Clear all selections.
         for table in tables:
-            table.clear_selection()
+            table.clearSelection()
         self.InputsWidget.clear_selection()
 
     @pyqtSlot(name='on_background_choose_dir_clicked')

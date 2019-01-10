@@ -257,7 +257,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             "Collections"
         )
         self.StructureSynthesis.addCollection = (
-            self.CollectionTabPage.StructureWidget.addCollection
+            self.CollectionTabPage.StructureWidget.add_collection
         )
 
         # Dimensional synthesis

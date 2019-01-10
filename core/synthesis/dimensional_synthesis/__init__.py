@@ -86,7 +86,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path: Dict[str, List[Tuple[float, float]]] = {}
 
         # Some reference of 'collections'.
-        self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
+        self.collections = parent.CollectionTabPage.ConfigureWidget.collections
         self.get_collection = parent.get_collection
         self.input_from = parent.input_from
         self.workbook_no_save = parent.workbook_no_save

@@ -37,7 +37,7 @@ from core.libs import (
     edges_view,
     graph2vpoints,
 )
-from .ti_dialog import (
+from .configure_dialog import (
     CollectionsDialog,
     ConstraintsDialog,
     CustomsDialog,
@@ -46,7 +46,7 @@ from .ti_dialog import (
     list_texts,
     list_items,
 )
-from .Ui_triangular_iteration_widget import Ui_Form
+from .Ui_configure_widget import Ui_Form
 
 
 class _PreviewWindow(PreviewCanvas):
@@ -108,9 +108,9 @@ def _set_warning(label: QLabel, warning: bool):
         label.setText(warning_icon + label.text())
 
 
-class TriangularIterationWidget(QWidget, Ui_Form):
+class ConfigureWidget(QWidget, Ui_Form):
 
-    """Triangular iteration widget.
+    """Configure widget.
 
     This interface use to modify structure profile.
     """
@@ -121,7 +121,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         parent: QWidget
     ):
         """We need some function from structure collections."""
-        super(TriangularIterationWidget, self).__init__(parent)
+        super(ConfigureWidget, self).__init__(parent)
         self.setupUi(self)
         self.unsave_func = parent.workbook_no_save
         self.get_collection = parent.get_collection
@@ -131,13 +131,10 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.collections: Dict[str, Dict[str, Any]] = {}
 
         # Customized preview canvas.
-        self.PreviewWindow = _PreviewWindow(
-            lambda: ';'.join(
-                self.expression_list.item(row).text()
-                for row in range(self.expression_list.count())
-            ),
-            self
-        )
+        self.PreviewWindow = _PreviewWindow(lambda: ';'.join(
+            self.expression_list.item(row).text()
+            for row in range(self.expression_list.count())
+        ), self)
         self.PreviewWindow.set_joint_number.connect(
             self.joint_name.setCurrentIndex
         )
@@ -148,7 +145,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.joint_name.currentIndexChanged.connect(self.__has_solution)
         self.clear()
 
-    def addCollections(self, collections: Dict[str, Dict[str, Any]]):
+    def add_collections(self, collections: Dict[str, Dict[str, Any]]):
         """Update the new collections."""
         self.collections.update(collections)
 
@@ -198,7 +195,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.add_collection(tuple(self.PreviewWindow.G.edges))
 
     @pyqtSlot(Graph, dict)
-    def setGraph(
+    def set_graph(
         self,
         graph: Graph,
         pos: Dict[int, Tuple[float, float]]
@@ -394,7 +391,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         params = dlg.params()
         # Add customize joints.
         graph = Graph(params['Graph'])
-        self.setGraph(graph, params['pos'])
+        self.set_graph(graph, params['pos'])
         self.PreviewWindow.cus = params['cus']
         self.PreviewWindow.same = params['same']
         # Grounded setting.
@@ -464,7 +461,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             expr_list.update(param_list)
         return expr_list
 
-    def __get_param(self, angle: bool =False) -> int:
+    def __get_param(self, angle: bool = False) -> int:
         """Get the link / angle parameter number."""
         i = 0
         p = ('a' if angle else 'L')
@@ -517,7 +514,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
 
     @pyqtSlot(QListWidgetItem)
-    def __set_parm_bind(self, _: QListWidgetItem):
+    def __set_parm_bind(self, _: QListWidgetItem = None):
         """Set parameters binding."""
         self.expr_show.setText(';'.join(list_texts(self.expression_list)))
         link_expr_list = []

@@ -123,7 +123,7 @@ class Ui_MainWindow(object):
         self.EntitiesExpr_layout.addWidget(self.link_free_move_widget)
         self.verticalLayout_8.addWidget(self.EntitiesExpr_widget)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icons/ti.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.EntitiesTab.addTab(self.tab, icon3, "")
         self.verticalLayout_29.addWidget(self.EntitiesTab)
         self.MechanismsTabWidget = QtWidgets.QWidget(self.MechanismPanelSplitter)

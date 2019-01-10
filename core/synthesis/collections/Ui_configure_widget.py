@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'triangular_iteration_widget.ui'
+# Form implementation generated from reading ui file 'configure_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -13,7 +13,7 @@ class Ui_Form(object):
         Form.setObjectName("Form")
         Form.resize(434, 688)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/ti.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_12.setObjectName("verticalLayout_12")

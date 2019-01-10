@@ -11,7 +11,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Dict
 from core.QtModules import pyqtSlot, Qt, QDialog
-from core.synthesis.collections import triangular_iteration_widget as ti
+from core.synthesis.collections import configure_widget as cw
 from .Ui_customs import Ui_Dialog
 
 
@@ -25,7 +25,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
 
-    def __init__(self, parent: 'ti.TriangularIterationWidget'):
+    def __init__(self, parent: 'cw.ConfigureWidget'):
         """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)

@@ -18,7 +18,7 @@ from core.QtModules import (
     QDialog,
     QListWidget,
 )
-from core.synthesis.collections import triangular_iteration_widget as ti
+from core.synthesis.collections import configure_widget as cw
 from .Ui_targets import Ui_Dialog
 
 
@@ -41,7 +41,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
 
-    def __init__(self, parent: 'ti.TriangularIterationWidget'):
+    def __init__(self, parent: 'cw.ConfigureWidget'):
         """Filter and show the target option (just like movable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)

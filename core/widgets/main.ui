@@ -198,7 +198,7 @@
                    <widget class="QWidget" name="tab">
                     <attribute name="icon">
                      <iconset resource="../../icons.qrc">
-                      <normaloff>:/icons/ti.png</normaloff>:/icons/ti.png</iconset>
+                      <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
                     </attribute>
                     <attribute name="title">
                      <string>Formulas</string>

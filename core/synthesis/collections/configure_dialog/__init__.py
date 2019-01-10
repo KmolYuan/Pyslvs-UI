@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""'ti_dialog' module contains
+"""'configure_dialog' module contains
 the dialog of this tab.
 """
 
@@ -24,5 +24,3 @@ __all__ = [
     'list_texts',
     'list_items',
 ]
-
-

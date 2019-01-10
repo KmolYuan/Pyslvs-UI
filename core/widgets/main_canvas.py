@@ -278,7 +278,7 @@ class DynamicCanvas(DynamicCanvasInterface):
             i = self.__selection_mode()
             icons = ''.join(
                 f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"
-                for j, icon in enumerate(('bearing', 'link', 'ti'))
+                for j, icon in enumerate(('bearing', 'link', 'configure'))
             )
             QToolTip.showText(event.globalPos(), f"<p style=\"background-color: # 77abff\">{icons}</p>", self)
         else:

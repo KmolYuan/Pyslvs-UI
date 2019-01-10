@@ -149,7 +149,7 @@ class StructureWidget(QWidget, Ui_Form):
 
         self.collection_list.setCurrentRow(current_pos)
 
-    def addCollection(self, edges: Sequence[Tuple[int, int]]):
+    def add_collection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
         graph = Graph(edges)
         try:
@@ -169,10 +169,10 @@ class StructureWidget(QWidget, Ui_Form):
         self.unsaveFunc()
         self.__reload_atlas()
 
-    def addCollections(self, collections: Sequence[Sequence[Tuple[int, int]]]):
+    def add_collections(self, collections: Sequence[Sequence[Tuple[int, int]]]):
         """Add collections."""
         for c in collections:
-            self.addCollection(c)
+            self.add_collection(c)
 
     @pyqtSlot(name='on_add_by_edges_button_clicked')
     def __add_from_edges(self):
@@ -195,7 +195,7 @@ class StructureWidget(QWidget, Ui_Form):
             QMessageBox.warning(self, str(e), f"Error: {e}")
             return
         else:
-            self.addCollection(edges)
+            self.add_collection(edges)
 
     @pyqtSlot(name='on_add_by_files_button_clicked')
     def __add_from_files(self):

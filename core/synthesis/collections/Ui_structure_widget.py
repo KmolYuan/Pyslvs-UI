@@ -183,7 +183,7 @@ class Ui_Form(object):
         self.triangle_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.triangle_button.setEnabled(False)
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/icons/ti.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.triangle_button.setIcon(icon8)
         self.triangle_button.setObjectName("triangle_button")
         self.horizontalLayout_5.addWidget(self.triangle_button)

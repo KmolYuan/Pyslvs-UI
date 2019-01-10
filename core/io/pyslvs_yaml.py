@@ -64,9 +64,9 @@ class YamlEditor(QObject):
         # Call to load paths.
         self.__load_path_func = parent.InputsWidget.load_paths
         # Call to load collections data.
-        self.__load_collect_func = parent.CollectionTabPage.StructureWidget.addCollections
+        self.__load_collect_func = parent.CollectionTabPage.StructureWidget.add_collections
         # Call to load triangle data.
-        self.__load_triangle_func = parent.CollectionTabPage.TriangularIterationWidget.addCollections
+        self.__load_triangle_func = parent.CollectionTabPage.ConfigureWidget.add_collections
         # Call to load algorithm results.
         self.__load_algorithm_func = parent.DimensionalSynthesis.load_results
 

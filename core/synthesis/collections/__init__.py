@@ -23,8 +23,8 @@ from core.QtModules import (
     QPixmap,
 )
 from .structure_widget import StructureWidget
-from .triangular_iteration_widget import TriangularIterationWidget
-from .ti_dialog import CollectionsDialog
+from .configure_widget import ConfigureWidget
+from .configure_dialog import CollectionsDialog
 
 __all__ = ['Collections', 'CollectionsDialog']
 
@@ -41,8 +41,8 @@ class Collections(QWidget):
         layout.addWidget(tab_widget)
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
         self.StructureWidget = StructureWidget(parent)
-        self.TriangularIterationWidget = TriangularIterationWidget(
-            self.StructureWidget.addCollection,
+        self.ConfigureWidget = ConfigureWidget(
+            self.StructureWidget.add_collection,
             parent
         )
         tab_widget.addTab(
@@ -51,21 +51,21 @@ class Collections(QWidget):
             "Structures"
         )
         tab_widget.addTab(
-            self.TriangularIterationWidget,
-            self.TriangularIterationWidget.windowIcon(),
-            "Triangular iteration"
+            self.ConfigureWidget,
+            self.ConfigureWidget.windowIcon(),
+            "Configuration"
         )
         self.StructureWidget.triangle_button.clicked.connect(
             lambda: tab_widget.setCurrentIndex(1)
         )
         self.StructureWidget.layout_sender.connect(
-            self.TriangularIterationWidget.setGraph
+            self.ConfigureWidget.set_graph
         )
 
     def clear(self):
         """Clear the sub-widgets."""
         self.StructureWidget.clear()
-        self.TriangularIterationWidget.clear()
+        self.ConfigureWidget.clear()
 
     def collect_data(self) -> List[Tuple[Tuple[int, int], ...]]:
         """Return collections to database."""
@@ -73,4 +73,4 @@ class Collections(QWidget):
 
     def triangle_data(self) -> Dict[str, Dict[str, Any]]:
         """Return profiles to database."""
-        return self.TriangularIterationWidget.collections
+        return self.ConfigureWidget.collections

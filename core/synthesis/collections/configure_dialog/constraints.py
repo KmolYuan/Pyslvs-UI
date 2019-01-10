@@ -21,7 +21,7 @@ from core.QtModules import (
     QListWidgetItem,
 )
 from core.libs import Graph, edges_view
-from core.synthesis.collections import triangular_iteration_widget as ti
+from core.synthesis.collections import configure_widget as cw
 from .Ui_constraints import Ui_Dialog
 
 
@@ -90,7 +90,7 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
 
-    def __init__(self, parent: 'ti.TriangularIterationWidget'):
+    def __init__(self, parent: 'cw.ConfigureWidget'):
         """Load constraints option from parent."""
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
