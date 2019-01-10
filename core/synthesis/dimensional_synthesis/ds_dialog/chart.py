@@ -112,6 +112,7 @@ class ChartDialog(QDialog):
                 series.attachAxis(axis_x)
                 series.attachAxis(axis_y)
             chart.legend().markers(scatter)[0].setVisible(False)
+
         # Add chart into tab widget
         widget = QWidget()
         self.tabWidget.addTab(widget, QIcon(), tab_name)

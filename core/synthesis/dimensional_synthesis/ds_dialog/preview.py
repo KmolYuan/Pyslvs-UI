@@ -62,9 +62,11 @@ class _DynamicCanvas(BaseCanvas):
             for name in names:
                 exp_symbol.add(name)
         self.exp_symbol = sorted(exp_symbol, key=lambda e: int(e.replace('P', '')))
+
         # Error
         self.error = False
         self.__no_error = 0
+
         # Timer start.
         self.__timer = QTimer(self)
         self.__timer.timeout.connect(self.__change_index)
@@ -211,7 +213,7 @@ class _DynamicCanvas(BaseCanvas):
         if len(qpoints) == len(points):
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.show_point_mark and (name != 'ground') and qpoints:
+        if self.show_point_mark and name != 'ground' and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.font_size))
@@ -265,22 +267,35 @@ class PreviewDialog(QDialog, Ui_Dialog):
             f"(max {mechanism['last_gen']} generations)"
         )
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
-        self.main_splitter.setSizes([800, 100])
+        self.main_splitter.setSizes([400, 150])
         self.splitter.setSizes([100, 100, 100])
         preview_widget = _DynamicCanvas(mechanism, path, self)
         self.left_layout.insertWidget(0, preview_widget)
+
         # Basic information
-        link_tags = []
+        link_tags = set()
         for expr in mechanism['Expression'].split(';'):
             for p in str_between(expr, '[', ']').split(','):
                 if ('L' in p) and (p not in link_tags):
-                    link_tags.append(p)
-        self.basic_label.setText("\n".join([f"{tag}: {mechanism[tag]}" for tag in chain(
+                    link_tags.add(p)
+
+        labels = []
+        for tag in chain(
             ('Algorithm', 'time'),
             mechanism['Driver'],
             mechanism['Follower'],
             sorted(link_tags)
-        )]))
+        ):
+            data = mechanism[tag]
+            if type(data) == tuple:
+                label = f"({data[0]:.02f}, {data[1]:.02f})"
+            elif type(data) == float:
+                label = f"{data:.02f}"
+            else:
+                label = f"{data}"
+            labels.append(f"{tag}: {label}")
+        self.basic_label.setText("\n".join(labels))
+
         # Algorithm information
         if mechanism['interrupted'] == 'False':
             interrupt_icon = "task_completed.png"
@@ -297,6 +312,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
             text_list.append(f"{k}: {v}")
         text = "<br/>".join(text_list)
         self.algorithm_label.setText(f"<html><head/><body><p>{text}</p></body></html>")
+
         # Hardware information
         self.hardware_label.setText("\n".join([
             f"{tag}: {mechanism['hardware_info'][tag]}" for tag in ('os', 'memory', 'cpu')
