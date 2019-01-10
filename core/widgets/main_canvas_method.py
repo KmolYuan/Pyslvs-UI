@@ -191,7 +191,7 @@ class DynamicCanvasInterface(BaseCanvas):
     def __draw_point(self, i: int, vpoint: VPoint):
         """Draw a point."""
         if vpoint.type in {VJoint.P, VJoint.RP}:
-            pen = QPen(vpoint.color)
+            pen = QPen(QColor(*vpoint.color))
             pen.setWidth(2)
 
             # Draw slot point and pin point.
@@ -202,7 +202,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     grounded = vpoint.links[j] == 'ground'
                 # Slot point.
                 if (j == 0) or (vpoint.type == VJoint.P):
-                    pen.setColor(vpoint.color)
+                    pen.setColor(QColor(*vpoint.color))
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
                     jr = self.joint_size * (2 if j == 0 else 1)
@@ -216,10 +216,10 @@ class DynamicCanvasInterface(BaseCanvas):
                             text += f":({cx:.02f}, {cy:.02f})"
                         self.painter.drawText(cp + rp, text)
                 else:
-                    self.drawPoint(i, cx, cy, grounded, vpoint.color)
+                    self.draw_point(i, cx, cy, grounded, vpoint.color)
 
             # Slider line
-            pen.setColor(vpoint.color.darker())
+            pen.setColor(QColor(*vpoint.color).darker())
             self.painter.setPen(pen)
             qline_m = QLineF(
                 QPointF(vpoint.c[1][0], -vpoint.c[1][1]) * self.zoom,
@@ -238,7 +238,7 @@ class DynamicCanvasInterface(BaseCanvas):
             qline_2.setAngle(qline_2.angle() + 180)
             self.painter.drawLine(qline_2)
         else:
-            self.drawPoint(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
+            self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
 
         # For selects function.
         if (self.select_mode == 0) and (i in self.selections):
@@ -318,17 +318,17 @@ class DynamicCanvasInterface(BaseCanvas):
         for i, path in o_path:
             if (self.Path.show != i) and (self.Path.show != -1):
                 continue
-            if self.vpoints[i].color:
-                color = self.vpoints[i].color
+            if self.vpoints[i].color is not None:
+                color = QColor(*self.vpoints[i].color)
             else:
                 color = color_qt('Green')
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
             if self.Path.curve:
-                self.drawCurve(path)
+                self.draw_curve(path)
             else:
-                self.drawDot(path)
+                self.draw_dot(path)
 
     def __draw_slvs_ranges(self):
         """Draw solving range."""
@@ -417,7 +417,7 @@ class DynamicCanvasInterface(BaseCanvas):
 
             def catch(exprs: Tuple[str, ...]) -> bool:
                 """Detection function for solution polygons."""
-                points, _ = self.solutionPolygon(
+                points, _ = self.solution_polygon(
                     exprs[0],
                     exprs[1:-1],
                     exprs[-1],
@@ -540,7 +540,7 @@ class DynamicCanvasInterface(BaseCanvas):
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
             self.__draw_slvs_ranges()
-            self.drawTargetPath()
+            self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
         # Draw points.
         for i, vpoint in enumerate(self.vpoints):
@@ -551,9 +551,9 @@ class DynamicCanvasInterface(BaseCanvas):
                 func = expr[0]
                 params = expr[1:-1]
                 target = expr[-1]
-                self.drawSolution(func, params, target, self.vpoints)
+                self.draw_solution(func, params, target, self.vpoints)
                 if i in self.selections:
-                    pos, _ = self.solutionPolygon(func, params, target, self.vpoints)
+                    pos, _ = self.solution_polygon(func, params, target, self.vpoints)
                     pen = QPen()
                     pen.setWidth(self.link_width + 3)
                     pen.setColor(QColor(161, 16, 239))

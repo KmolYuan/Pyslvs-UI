@@ -58,7 +58,7 @@ class WorkerThread(QThread):
         self.currentLoop = 0
         self.fun = None
 
-    def setLoop(self, loop: int):
+    def set_loop(self, loop: int):
         """Set the loop times."""
         self.loop = loop
 

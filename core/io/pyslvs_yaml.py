@@ -31,9 +31,9 @@ class YamlEditor(QObject):
         super(YamlEditor, self).__init__(parent)
 
         # Check file changed function.
-        self.__check_file_changed = parent.checkFileChanged
+        self.__check_file_changed = parent.check_file_changed
         # Check workbook saved function.
-        self.__workbook_saved = parent.workbookSaved
+        self.__workbook_saved = parent.workbook_saved
 
         # Call to get point expressions.
         self.__vpoints = parent.EntitiesPoint.data
@@ -46,35 +46,35 @@ class YamlEditor(QObject):
         # Call to get triangle data.
         self.__triangle_data_func = parent.CollectionTabPage.triangle_data
         # Call to get inputs variables data.
-        self.__inputs_data_func = parent.InputsWidget.inputPairs
+        self.__inputs_data_func = parent.InputsWidget.input_pairs
         # Call to get algorithm data.
         self.__algorithm_data_func = parent.DimensionalSynthesis.mechanism_data
         # Call to get path data.
-        self.__path_data_func = parent.InputsWidget.pathData
+        self.__path_data_func = parent.InputsWidget.path_data
 
         # Add empty links function.
-        self.__add_links_func = parent.addEmptyLinks
+        self.__add_links_func = parent.add_empty_links
         # Add points function.
         self.__add_points_func = parent.addPoints
 
         # Call to load inputs variables data.
-        self.__load_inputs_func = parent.InputsWidget.addInputsVariables
+        self.__load_inputs_func = parent.InputsWidget.add_inputs_variables
         # Add storage function.
         self.__add_storage_func = parent.addMultipleStorage
         # Call to load paths.
-        self.__load_path_func = parent.InputsWidget.loadPaths
+        self.__load_path_func = parent.InputsWidget.load_paths
         # Call to load collections data.
         self.__load_collect_func = parent.CollectionTabPage.StructureWidget.addCollections
         # Call to load triangle data.
         self.__load_triangle_func = parent.CollectionTabPage.TriangularIterationWidget.addCollections
         # Call to load algorithm results.
-        self.__load_algorithm_func = parent.DimensionalSynthesis.loadResults
+        self.__load_algorithm_func = parent.DimensionalSynthesis.load_results
 
         # Clear function for main window.
         self.__clear_func = parent.clear
 
         # File name. (Share with database)
-        self.__set_file_name = parent.DatabaseWidget.setFileName
+        self.__set_file_name = parent.DatabaseWidget.set_file_name
         self.file_name = lambda: parent.DatabaseWidget.file_name
 
     def save(self, file_name: str = ""):

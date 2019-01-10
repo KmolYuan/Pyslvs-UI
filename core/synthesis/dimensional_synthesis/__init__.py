@@ -87,12 +87,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         # Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.TriangularIterationWidget.collections
-        self.getCollection = parent.getCollection
-        self.inputFrom = parent.inputFrom
-        self.unsaveFunc = parent.workbookNoSave
-        self.mergeResult = parent.mergeResult
-        self.updateRanges = parent.MainCanvas.updateRanges
-        self.setSolvingPath = parent.MainCanvas.setSolvingPath
+        self.get_collection = parent.get_collection
+        self.input_from = parent.input_from
+        self.workbook_no_save = parent.workbook_no_save
+        self.mergeResult = parent.merge_result
+        self.updateRanges = parent.MainCanvas.update_ranges
+        self.setSolvingPath = parent.MainCanvas.set_solving_path
 
         # Data and functions.
         self.__mechanism_data: List[Dict[str, Any]] = []
@@ -110,7 +110,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
-        self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
+        self.show_solutions.clicked.connect(self.PreviewCanvas.set_show_solutions)
 
         # Splitter
         self.up_splitter.setSizes([80, 100])
@@ -147,7 +147,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.target_points.clear()
         self.Expression.clear()
         self.Link_expr.clear()
-        self.updateRange()
+        self.update_range()
         self.__able_to_generate()
 
     def mechanism_data(
@@ -171,7 +171,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if reply == QMessageBox.Yes:
             self.__clear_settings()
 
-    def loadResults(self, mechanism_data: Sequence[Dict[str, Any]]):
+    def load_results(self, mechanism_data: Sequence[Dict[str, Any]]):
         """Append results of workbook database to memory."""
         for e in mechanism_data:
             self.__mechanism_data.append(e)
@@ -184,7 +184,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         })
         self.__able_to_generate()
 
-    def currentPath(self) -> List[Tuple[float, float]]:
+    def current_path(self) -> List[Tuple[float, float]]:
         """Return the pointer of current target path."""
         item = self.target_points.currentItem()
         if item:
@@ -196,7 +196,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __set_target(self, _: str):
         """Switch to the current target path."""
         self.path_list.clear()
-        for x, y in self.currentPath():
+        for x, y in self.current_path():
             self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.__current_path_changed()
 
@@ -211,7 +211,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             )
             if reply != QMessageBox.Yes:
                 return
-        self.currentPath().clear()
+        self.current_path().clear()
         self.path_list.clear()
         self.__current_path_changed()
 
@@ -219,7 +219,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __copy_path(self):
         """Copy the current path coordinates to clipboard."""
         QApplication.clipboard().setText('\n'.join(
-            f"{x},{y}" for x, y in self.currentPath()
+            f"{x},{y}" for x, y in self.current_path()
         ))
 
     @pyqtSlot(name='on_path_paste_clicked')
@@ -230,7 +230,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot(name='on_import_csv_button_clicked')
     def __import_csv(self):
         """Paste path data from a text file."""
-        file_name = self.inputFrom(
+        file_name = self.input_from(
             "Path data",
             ["Text file (*.txt)", "Comma-Separated Values (*.csv)"]
         )
@@ -258,12 +258,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             )
         else:
             for x, y in data:
-                self.addPoint(x, y)
+                self.add_point(x, y)
 
     @pyqtSlot(name='on_import_xlsx_button_clicked')
     def __import_xlsx(self):
         """Paste path data from a Excel file."""
-        file_name = self.inputFrom(
+        file_name = self.input_from(
             "Excel file",
             ["Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)"]
         )
@@ -291,7 +291,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 break
             i += 1
         for x, y in data:
-            self.addPoint(x, y)
+            self.add_point(x, y)
 
     @pyqtSlot(name='on_path_adjust_button_clicked')
     def __adjust_path(self):
@@ -304,40 +304,40 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         self.__clear_path(ask=False)
         for e in dlg.r_path:
-            self.addPoint(e[0], e[1])
+            self.add_point(e[0], e[1])
         self.__current_path_changed()
 
-    def addPoint(self, x: float, y: float):
+    def add_point(self, x: float, y: float):
         """Add path data to list widget and current target path."""
         x = round(x, 4)
         y = round(y, 4)
-        self.currentPath().append((x, y))
+        self.current_path().append((x, y))
         self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.path_list.setCurrentRow(self.path_list.count() - 1)
         self.__current_path_changed()
 
     @pyqtSlot(float, float)
-    def setPoint(self, x: float, y: float):
+    def set_point(self, x: float, y: float):
         """Set the coordinate of current target path."""
         if not self.edit_target_point_button.isChecked():
             return
-        for i, (cx, cy) in enumerate(self.currentPath()):
+        for i, (cx, cy) in enumerate(self.current_path()):
             if hypot(x - cx, y - cy) < 3:
                 index = i
                 self.path_list.setCurrentRow(index)
                 break
         else:
             return
-        self.currentPath()[index] = (x, y)
+        self.current_path()[index] = (x, y)
         self.path_list.item(index).setText(f"({x:.04f}, {y:.04f})")
         self.__current_path_changed()
 
     @pyqtSlot(name='on_close_path_clicked')
     def __close_path(self):
         """Add a the last point same as first point."""
-        current_path = self.currentPath()
+        current_path = self.current_path()
         if (self.path_list.count() > 1) and (current_path[0] != current_path[-1]):
-            self.addPoint(*current_path[0])
+            self.add_point(*current_path[0])
 
     @pyqtSlot(name='on_point_up_clicked')
     def __move_up_point(self):
@@ -345,7 +345,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.path_list.currentRow()
         if not ((row > 0) and (self.path_list.count() > 1)):
             return
-        path = self.currentPath()
+        path = self.current_path()
         path.insert(row - 1, (path[row][0], path[row][1]))
         del path[row + 1]
         x, y = self.path_list.currentItem().text()[1:-1].split(", ")
@@ -363,7 +363,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             (self.path_list.count() > 1)
         ):
             return
-        path = self.currentPath()
+        path = self.current_path()
         path.insert(row + 2, (path[row][0], path[row][1]))
         del path[row]
         x, y = self.path_list.currentItem().text()[1:-1].split(", ")
@@ -378,7 +378,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.path_list.currentRow()
         if not row > -1:
             return
-        del self.currentPath()[row]
+        del self.current_path()[row]
         self.path_list.takeItem(row)
         self.__current_path_changed()
 
@@ -456,7 +456,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.__add_result(data)
             mechanisms_plot.append(plot)
         self.__set_time(dlg.time_spend)
-        self.unsaveFunc()
+        self.workbook_no_save()
 
         del dlg
 
@@ -508,7 +508,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         del self.__mechanism_data[row]
         self.result_list.takeItem(row)
-        self.unsaveFunc()
+        self.workbook_no_save()
         self.__has_result()
 
     @pyqtSlot(QModelIndex, name='on_result_list_clicked')
@@ -651,14 +651,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 mech_params[key][mp] = None
 
         self.collections[name] = mech_params
-        self.unsaveFunc()
+        self.workbook_no_save()
 
     @pyqtSlot(name='on_load_profile_clicked')
     def __load_profile(self):
         """Load profile from collections dialog."""
         dlg = CollectionsDialog(
             self.collections,
-            self.getCollection,
+            self.get_collection,
             self
         )
         dlg.show()
@@ -734,7 +734,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setCellWidget(row, 4, s3)
             # Signal connections.
             for s in (s1, s2, s3):
-                s.valueChanged.connect(self.updateRange)
+                s.valueChanged.connect(self.update_range)
             row += 1
 
         def set_by_center(
@@ -800,7 +800,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             row += 1
 
         self.PreviewCanvas.from_profile(self.mech_params)
-        self.updateRange()
+        self.update_range()
         if 'settings' in self.mech_params:
             self.alg_options.update(self.mech_params['settings'])
         else:
@@ -895,7 +895,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.alg_options[tag] = from_table(i)
 
     @pyqtSlot()
-    def updateRange(self):
+    def update_range(self):
         """Update range values to main canvas."""
 
         def t(x: int, y: int):

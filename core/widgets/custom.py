@@ -63,7 +63,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
 
         self.env = ""
 
-        self.setLocate(
+        self.set_locate(
             QFileInfo(ARGUMENTS.c).canonicalFilePath()
             if ARGUMENTS.c else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
@@ -87,7 +87,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         super(MainWindowUiInterface, self).show()
         self.MainCanvas.zoomToFit()
 
-    def setLocate(self, locate: str):
+    def set_locate(self, locate: str):
         """Set environment variables."""
         if locate == self.env:
             # If no changed.
@@ -104,7 +104,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         """
         self.CommandStack.setUndoLimit(self.undolimit_option.value())
         self.undolimit_option.valueChanged.connect(self.CommandStack.setUndoLimit)
-        self.CommandStack.indexChanged.connect(self.commandReload)
+        self.CommandStack.indexChanged.connect(self.command_reload)
         self.undoView = QUndoView(self.CommandStack)
         self.undoView.setEmptyLabel("~ Start Pyslvs")
         self.UndoRedoLayout.addWidget(self.undoView)
@@ -131,18 +131,18 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.EntitiesTab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
 
         self.EntitiesPoint = PointTableWidget(self.EntitiesPoint_widget)
-        self.EntitiesPoint.cellDoubleClicked.connect(self.editPoint)
-        self.EntitiesPoint.deleteRequest.connect(self.deletePoints)
+        self.EntitiesPoint.cellDoubleClicked.connect(self.edit_point)
+        self.EntitiesPoint.deleteRequest.connect(self.delete_points)
         self.EntitiesPoint_layout.addWidget(self.EntitiesPoint)
 
         self.EntitiesLink = LinkTableWidget(self.EntitiesLink_widget)
-        self.EntitiesLink.cellDoubleClicked.connect(self.editLink)
-        self.EntitiesLink.deleteRequest.connect(self.deleteLinks)
+        self.EntitiesLink.cellDoubleClicked.connect(self.edit_link)
+        self.EntitiesLink.deleteRequest.connect(self.delete_links)
         self.EntitiesLink_layout.addWidget(self.EntitiesLink)
 
         self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
         self.EntitiesExpr.reset.connect(self.link_free_move_widget.setEnabled)
-        self.EntitiesExpr.free_move_request.connect(self.setLinkFreeMove)
+        self.EntitiesExpr.free_move_request.connect(self.set_link_free_move)
         self.EntitiesExpr_layout.insertWidget(0, self.EntitiesExpr)
 
         # Link free mode slide bar.
@@ -178,16 +178,16 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
 
         # QPainter canvas window
         self.MainCanvas = DynamicCanvas(self)
-        self.EntitiesTab.currentChanged.connect(self.MainCanvas.setSelectionMode)
+        self.EntitiesTab.currentChanged.connect(self.MainCanvas.set_selection_mode)
 
         @pyqtSlot(tuple, bool)
         def table_set_selection(selections: Tuple[int], key_detect: bool):
             """Distinguish table by tab index."""
             tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
-            tables[self.EntitiesTab.currentIndex()].setSelections(selections, key_detect)
+            tables[self.EntitiesTab.currentIndex()].set_selections(selections, key_detect)
 
         self.MainCanvas.selected.connect(table_set_selection)
-        self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.setSelection)
+        self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.set_selection)
 
         @pyqtSlot()
         def table_clear_selection():
@@ -203,43 +203,43 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         clean_selection_action.setShortcutContext(Qt.WindowShortcut)
         self.addAction(clean_selection_action)
 
-        self.MainCanvas.free_moved.connect(self.setFreeMove)
-        self.MainCanvas.alt_add.connect(self.qAddNormalPoint)
-        self.MainCanvas.doubleclick_edit.connect(self.editPoint)
+        self.MainCanvas.free_moved.connect(self.set_free_move)
+        self.MainCanvas.alt_add.connect(self.q_add_normal_point)
+        self.MainCanvas.doubleclick_edit.connect(self.edit_point)
         self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
-        self.MainCanvas.tracking.connect(self.setMousePos)
+        self.MainCanvas.tracking.connect(self.set_mouse_pos)
         self.canvasSplitter.insertWidget(0, self.MainCanvas)
         self.canvasSplitter.setSizes([600, 10, 30])
 
         # Selection label on status bar right side.
         selection_label = SelectionLabel(self)
         self.EntitiesPoint.selectionLabelUpdate.connect(
-            selection_label.updateSelectPoint
+            selection_label.update_select_point
         )
-        self.MainCanvas.browse_tracking.connect(selection_label.updateMousePosition)
+        self.MainCanvas.browse_tracking.connect(selection_label.update_mouse_position)
         self.status_bar.addPermanentWidget(selection_label)
 
         # FPS label on status bar right side.
         fps_label = FPSLabel(self)
-        self.MainCanvas.fps_updated.connect(fps_label.updateText)
+        self.MainCanvas.fps_updated.connect(fps_label.update_text)
         self.status_bar.addPermanentWidget(fps_label)
 
         # Inputs widget.
         self.InputsWidget = InputsWidget(self)
         self.inputs_tab_layout.addWidget(self.InputsWidget)
-        self.free_move_button.toggled.connect(self.InputsWidget.variableValueReset)
+        self.free_move_button.toggled.connect(self.InputsWidget.variable_value_reset)
         self.InputsWidget.aboutToResolve.connect(self.resolve)
 
         @pyqtSlot(tuple, bool)
         def inputs_set_selection(selections: Tuple[int], _: bool):
             """Distinguish table by tab index."""
-            self.InputsWidget.clearSelection()
+            self.InputsWidget.clear_selection()
             if self.EntitiesTab.currentIndex() == 0:
-                self.InputsWidget.setSelection(selections)
+                self.InputsWidget.set_selection(selections)
 
         self.MainCanvas.selected.connect(inputs_set_selection)
-        self.MainCanvas.noselected.connect(self.InputsWidget.clearSelection)
-        self.InputsWidget.update_preview_button.clicked.connect(self.MainCanvas.updatePreviewPath)
+        self.MainCanvas.noselected.connect(self.InputsWidget.clear_selection)
+        self.InputsWidget.update_preview_button.clicked.connect(self.MainCanvas.update_preview_path)
 
         # Number and type synthesis.
         self.StructureSynthesis = StructureSynthesis(self)
@@ -262,7 +262,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
 
         # Dimensional synthesis
         self.DimensionalSynthesis = DimensionalSynthesis(self)
-        self.MainCanvas.set_target_point.connect(self.DimensionalSynthesis.setPoint)
+        self.MainCanvas.set_target_point.connect(self.DimensionalSynthesis.set_point)
         self.SynthesisTab.addTab(
             self.DimensionalSynthesis,
             self.DimensionalSynthesis.windowIcon(),
@@ -293,7 +293,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.synthesis_splitter.setSizes([100, 500])
 
         # Enable mechanism menu actions when shows.
-        self.menu_Mechanism.aboutToShow.connect(self.enableMechanismActions)
+        self.menu_Mechanism.aboutToShow.connect(self.enable_mechanism_actions)
 
         # Start a new window.
         @pyqtSlot()
@@ -312,7 +312,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             @pyqtSlot()
             def func():
                 self.free_move_button.setIcon(icon_qt)
-                self.MainCanvas.setFreeMove(j)
+                self.MainCanvas.set_free_move(j)
                 self.EntitiesTab.setCurrentIndex(0)
                 self.InputsWidget.variable_stop.click()
 
@@ -348,29 +348,29 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         """
         # While value change, update the canvas widget.
         self.settings = QSettings('Kmol', 'Pyslvs')
-        self.ZoomBar.valueChanged.connect(self.MainCanvas.setZoom)
-        self.linewidth_option.valueChanged.connect(self.MainCanvas.setLinkWidth)
-        self.pathwidth_option.valueChanged.connect(self.MainCanvas.setPathWidth)
-        self.fontsize_option.valueChanged.connect(self.MainCanvas.setFontSize)
-        self.action_show_point_mark.toggled.connect(self.MainCanvas.setPointMark)
-        self.action_show_dimensions.toggled.connect(self.MainCanvas.setShowDimension)
-        self.selectionradius_option.valueChanged.connect(self.MainCanvas.setSelectionRadius)
-        self.linktrans_option.valueChanged.connect(self.MainCanvas.setTransparency)
-        self.marginfactor_option.valueChanged.connect(self.MainCanvas.setMarginFactor)
-        self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
-        self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
-        self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
-        self.background_option.textChanged.connect(self.MainCanvas.setBackground)
-        self.background_opacity_option.valueChanged.connect(self.MainCanvas.setBackgroundOpacity)
-        self.background_scale_option.valueChanged.connect(self.MainCanvas.setBackgroundScale)
-        self.background_offset_x_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetX)
-        self.background_offset_y_option.valueChanged.connect(self.MainCanvas.setBackgroundOffsetY)
+        self.ZoomBar.valueChanged.connect(self.MainCanvas.set_zoom)
+        self.linewidth_option.valueChanged.connect(self.MainCanvas.set_link_width)
+        self.pathwidth_option.valueChanged.connect(self.MainCanvas.set_path_width)
+        self.fontsize_option.valueChanged.connect(self.MainCanvas.set_font_size)
+        self.action_show_point_mark.toggled.connect(self.MainCanvas.set_point_mark)
+        self.action_show_dimensions.toggled.connect(self.MainCanvas.set_show_dimension)
+        self.selectionradius_option.valueChanged.connect(self.MainCanvas.set_selection_radius)
+        self.linktrans_option.valueChanged.connect(self.MainCanvas.set_transparency)
+        self.marginfactor_option.valueChanged.connect(self.MainCanvas.set_margin_factor)
+        self.jointsize_option.valueChanged.connect(self.MainCanvas.set_joint_size)
+        self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.set_zoom_by)
+        self.snap_option.valueChanged.connect(self.MainCanvas.set_snap)
+        self.background_option.textChanged.connect(self.MainCanvas.set_background)
+        self.background_opacity_option.valueChanged.connect(self.MainCanvas.set_background_opacity)
+        self.background_scale_option.valueChanged.connect(self.MainCanvas.set_background_scale)
+        self.background_offset_x_option.valueChanged.connect(self.MainCanvas.set_background_offset_x)
+        self.background_offset_y_option.valueChanged.connect(self.MainCanvas.set_background_offset_y)
         # Resolve after change current kernel.
         self.planarsolver_option.addItems(kernel_list)
         self.pathpreview_option.addItems(kernel_list + ("Same as solver kernel",))
         self.planarsolver_option.currentIndexChanged.connect(self.solve)
         self.pathpreview_option.currentIndexChanged.connect(self.solve)
-        self.settings_reset.clicked.connect(self.resetOptions)
+        self.settings_reset.clicked.connect(self.reset_options)
 
     def __zoom(self):
         """Zoom functions.
@@ -403,7 +403,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
             action.triggered.connect(zoom_level(level))
             zoom_menu.addAction(action)
         action = QAction("customize", self)
-        action.triggered.connect(self.customizeZoom)
+        action.triggered.connect(self.customize_zoom)
         zoom_menu.addAction(action)
         self.zoom_button.setMenu(zoom_menu)
 
@@ -430,32 +430,32 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.pop_menu_point = QMenu(self)
         self.pop_menu_point.setSeparatorsCollapsible(True)
         self.action_point_context_add = QAction("&Add", self)
-        self.action_point_context_add.triggered.connect(self.newPoint)
+        self.action_point_context_add.triggered.connect(self.new_point)
         self.pop_menu_point.addAction(self.action_point_context_add)
         # New Link
         self.pop_menu_point.addAction(self.action_new_link)
         self.action_point_context_edit = QAction("&Edit", self)
-        self.action_point_context_edit.triggered.connect(self.editPoint)
+        self.action_point_context_edit.triggered.connect(self.edit_point)
         self.pop_menu_point.addAction(self.action_point_context_edit)
         self.action_point_context_lock = QAction("&Grounded", self)
         self.action_point_context_lock.setCheckable(True)
-        self.action_point_context_lock.triggered.connect(self.lockPoints)
+        self.action_point_context_lock.triggered.connect(self.lock_points)
         self.pop_menu_point.addAction(self.action_point_context_lock)
         self.pop_menu_point_merge = QMenu(self)
         self.pop_menu_point_merge.setTitle("Multiple joint")
         self.pop_menu_point.addMenu(self.pop_menu_point_merge)
         self.action_point_context_copydata = QAction("&Copy table data", self)
-        self.action_point_context_copydata.triggered.connect(self.copyPointsTable)
+        self.action_point_context_copydata.triggered.connect(self.copy_points_table)
         self.pop_menu_point.addAction(self.action_point_context_copydata)
         self.action_point_context_copyCoord = QAction("&Copy coordinate", self)
-        self.action_point_context_copyCoord.triggered.connect(self.copyCoord)
+        self.action_point_context_copyCoord.triggered.connect(self.copy_coord)
         self.pop_menu_point.addAction(self.action_point_context_copyCoord)
         self.action_point_context_copyPoint = QAction("C&lone", self)
-        self.action_point_context_copyPoint.triggered.connect(self.clonePoint)
+        self.action_point_context_copyPoint.triggered.connect(self.clone_point)
         self.pop_menu_point.addAction(self.action_point_context_copyPoint)
         self.pop_menu_point.addSeparator()
         self.action_point_context_delete = QAction("&Delete", self)
-        self.action_point_context_delete.triggered.connect(self.deletePoints)
+        self.action_point_context_delete.triggered.connect(self.delete_points)
         self.pop_menu_point.addAction(self.action_point_context_delete)
 
     def __link_context_menu(self):
@@ -478,26 +478,26 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.pop_menu_link = QMenu(self)
         self.pop_menu_link.setSeparatorsCollapsible(True)
         self.action_link_context_add = QAction("&Add", self)
-        self.action_link_context_add.triggered.connect(self.newLink)
+        self.action_link_context_add.triggered.connect(self.new_link)
         self.pop_menu_link.addAction(self.action_link_context_add)
         self.action_link_context_edit = QAction("&Edit", self)
-        self.action_link_context_edit.triggered.connect(self.editLink)
+        self.action_link_context_edit.triggered.connect(self.edit_link)
         self.pop_menu_link.addAction(self.action_link_context_edit)
         self.pop_menu_link_merge = QMenu(self)
         self.pop_menu_link_merge.setTitle("Merge links")
         self.pop_menu_link.addMenu(self.pop_menu_link_merge)
         self.action_link_context_copydata = QAction("&Copy table data", self)
-        self.action_link_context_copydata.triggered.connect(self.copyLinksTable)
+        self.action_link_context_copydata.triggered.connect(self.copy_links_table)
         self.pop_menu_link.addAction(self.action_link_context_copydata)
         self.action_link_context_release = QAction("&Release", self)
-        self.action_link_context_release.triggered.connect(self.releaseGround)
+        self.action_link_context_release.triggered.connect(self.release_ground)
         self.pop_menu_link.addAction(self.action_link_context_release)
         self.action_link_context_constrain = QAction("C&onstrain", self)
-        self.action_link_context_constrain.triggered.connect(self.constrainLink)
+        self.action_link_context_constrain.triggered.connect(self.constrain_link)
         self.pop_menu_link.addAction(self.action_link_context_constrain)
         self.pop_menu_link.addSeparator()
         self.action_link_context_delete = QAction("&Delete", self)
-        self.action_link_context_delete.triggered.connect(self.deleteLinks)
+        self.action_link_context_delete.triggered.connect(self.delete_links)
         self.pop_menu_link.addAction(self.action_link_context_delete)
 
     def __canvas_context_menu(self):
@@ -532,15 +532,15 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.pop_menu_canvas_p = QMenu(self)
         self.pop_menu_canvas_p.setSeparatorsCollapsible(True)
         self.action_canvas_context_add = QAction("&Add", self)
-        self.action_canvas_context_add.triggered.connect(self.addNormalPoint)
+        self.action_canvas_context_add.triggered.connect(self.add_normal_point)
         self.pop_menu_canvas_p.addAction(self.action_canvas_context_add)
         # New Link
         self.pop_menu_canvas_p.addAction(self.action_new_link)
         self.action_canvas_context_grounded_add = QAction("Add [grounded]", self)
-        self.action_canvas_context_grounded_add.triggered.connect(self.addFixedPoint)
+        self.action_canvas_context_grounded_add.triggered.connect(self.add_fixed_point)
         self.pop_menu_canvas_p.addAction(self.action_canvas_context_grounded_add)
         self.action_canvas_context_path = QAction("Add [target path]", self)
-        self.action_canvas_context_path.triggered.connect(self.addTargetPoint)
+        self.action_canvas_context_path.triggered.connect(self.add_target_point)
         self.pop_menu_canvas_p.addAction(self.action_canvas_context_path)
         # The following actions will be shown when points selected.
         self.pop_menu_canvas_p.addAction(self.action_point_context_edit)
@@ -576,71 +576,71 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         self.pop_menu_canvas_l.addAction(self.action_link_context_delete)
 
     @abstractmethod
-    def commandReload(self, index: int) -> None:
+    def command_reload(self, index: int) -> None:
         ...
 
     @abstractmethod
-    def newPoint(self) -> None:
+    def new_point(self) -> None:
         ...
 
     @abstractmethod
-    def addNormalPoint(self) -> None:
+    def add_normal_point(self) -> None:
         ...
 
     @abstractmethod
-    def addFixedPoint(self) -> None:
+    def add_fixed_point(self) -> None:
         ...
 
     @abstractmethod
-    def editPoint(self) -> None:
+    def edit_point(self) -> None:
         ...
 
     @abstractmethod
-    def deletePoints(self) -> None:
+    def delete_points(self) -> None:
         ...
 
     @abstractmethod
-    def lockPoints(self) -> None:
+    def lock_points(self) -> None:
         ...
 
     @abstractmethod
-    def newLink(self) -> None:
+    def new_link(self) -> None:
         ...
 
     @abstractmethod
-    def editLink(self) -> None:
+    def edit_link(self) -> None:
         ...
 
     @abstractmethod
-    def deleteLinks(self) -> None:
+    def delete_links(self) -> None:
         ...
 
     @abstractmethod
-    def constrainLink(self) -> None:
+    def constrain_link(self) -> None:
         ...
 
     @abstractmethod
-    def releaseGround(self) -> None:
+    def release_ground(self) -> None:
         ...
 
     @abstractmethod
-    def addTargetPoint(self) -> None:
+    def add_target_point(self) -> None:
         ...
 
     @abstractmethod
-    def setLinkFreeMove(self, enable: bool) -> None:
+    def set_link_free_move(self, enable: bool) -> None:
         ...
 
     @abstractmethod
-    def setFreeMove(self, args: Sequence[Tuple[int, Tuple[float, float, float]]]) -> None:
+    def set_free_move(self, args: Sequence[Tuple[int, Tuple[float, float, float]]]) -> None:
         ...
 
     @abstractmethod
-    def qAddNormalPoint(self, x: float, y: float) -> None:
+    def q_add_normal_point(self, x: float, y: float) -> None:
         ...
 
     @abstractmethod
-    def setMousePos(self, x: float, y: float) -> None:
+    def set_mouse_pos(self, x: float, y: float) -> None:
         ...
 
     @abstractmethod
@@ -660,23 +660,23 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def enableMechanismActions(self) -> None:
+    def enable_mechanism_actions(self) -> None:
         ...
 
     @abstractmethod
-    def clonePoint(self) -> None:
+    def clone_point(self) -> None:
         ...
 
     @abstractmethod
-    def copyCoord(self) -> None:
+    def copy_coord(self) -> None:
         ...
 
     @abstractmethod
-    def copyPointsTable(self) -> None:
+    def copy_points_table(self) -> None:
         ...
 
     @abstractmethod
-    def copyLinksTable(self) -> None:
+    def copy_links_table(self) -> None:
         ...
 
     @abstractmethod
@@ -688,9 +688,9 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def customizeZoom(self) -> None:
+    def customize_zoom(self) -> None:
         ...
 
     @abstractmethod
-    def resetOptions(self) -> None:
+    def reset_options(self) -> None:
         ...

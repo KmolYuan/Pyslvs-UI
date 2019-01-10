@@ -46,13 +46,13 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         What ever we have least one point or not,
         need to enable / disable QAction.
         """
-        selection = self.EntitiesPoint.selectedRows()
+        selection = self.EntitiesPoint.selected_rows()
         count = len(selection)
         # If connecting with the ground.
         if count:
             self.action_point_context_lock.setChecked(all(
                 'ground' in self.EntitiesPoint.item(row, 1).text()
-                for row in self.EntitiesPoint.selectedRows()
+                for row in self.EntitiesPoint.selected_rows()
             ))
         # If no any points selected.
         for action in (
@@ -89,7 +89,7 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
 
     def __enable_link_context(self):
         """Enable / disable link's QAction, same as point table."""
-        selection = self.EntitiesLink.selectedRows()
+        selection = self.EntitiesLink.selected_rows()
         count = len(selection)
         row = self.EntitiesLink.currentRow()
         self.action_link_context_add.setVisible(count == 0)
@@ -126,14 +126,14 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.beginMacro(
             f"Merge {{{points_text}}} as multiple joint {{Point{row}}}"
         )
-        vpoints = self.EntitiesPoint.dataTuple()
+        vpoints = self.EntitiesPoint.data_tuple()
         links = list(vpoints[row].links)
-        args = self.EntitiesPoint.rowTexts(row)
+        args = self.EntitiesPoint.row_text(row)
         for point in sorted(points, reverse=True):
             for link in vpoints[point].links:
                 if link not in links:
                     links.append(link)
-            self.deletePoint(point)
+            self.delete_point(point)
         args[0] = ','.join(links)
         self.CommandStack.push(AddTable(self.EntitiesPoint))
         self.CommandStack.push(EditPointTable(
@@ -153,16 +153,16 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         links_text = ", ".join(self.EntitiesLink.item(link, 0).text() for link in links)
         name = self.EntitiesLink.item(row, 0).text()
         self.CommandStack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
-        vlinks = self.EntitiesLink.dataTuple()
+        vlinks = self.EntitiesLink.data_tuple()
         points = list(vlinks[row].points)
-        args = self.EntitiesLink.rowTexts(row, has_name=True)
+        args = self.EntitiesLink.row_text(row, has_name=True)
         for link in sorted(links, reverse=True):
             if vlinks[link].name == vlinks[row].name:
                 continue
             for point in vlinks[link].points:
                 if point not in points:
                     points.append(point)
-            self.deleteLink(link)
+            self.delete_link(link)
         args[2] = ','.join(f'Point{p}' for p in points)
         self.CommandStack.push(EditLinkTable(
             [vlink.name for vlink in self.EntitiesLink.data()].index(args[0]),
@@ -173,7 +173,7 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.endMacro()
 
     @pyqtSlot(float, float)
-    def setMousePos(self, x: float, y: float):
+    def set_mouse_pos(self, x: float, y: float):
         """Mouse position on canvas."""
         self.mouse_pos_x = x
         self.mouse_pos_y = y
@@ -209,10 +209,10 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
             self.pop_menu_link_merge.clear()
 
     @pyqtSlot()
-    def enableMechanismActions(self):
+    def enable_mechanism_actions(self):
         """Enable / disable 'mechanism' menu."""
-        point_selection = self.EntitiesPoint.selectedRows()
-        link_selection = self.EntitiesLink.selectedRows()
+        point_selection = self.EntitiesPoint.selected_rows()
+        link_selection = self.EntitiesLink.selected_rows()
         one_point = len(point_selection) == 1
         one_link = len(link_selection) == 1
         point_selected = bool(point_selection)
@@ -229,27 +229,27 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         self.action_delete_link.setEnabled(link_selected)
 
     @pyqtSlot()
-    def copyPointsTable(self):
+    def copy_points_table(self):
         """Copy text from point table."""
         _copy_table_data(self.EntitiesPoint)
 
     @pyqtSlot()
-    def copyLinksTable(self):
+    def copy_links_table(self):
         """Copy text from link table."""
         _copy_table_data(self.EntitiesLink)
 
-    def copyCoord(self):
+    def copy_coord(self):
         """Copy the current coordinate of the point."""
-        pos = self.EntitiesPoint.currentPosition(self.EntitiesPoint.currentRow())
+        pos = self.EntitiesPoint.current_position(self.EntitiesPoint.currentRow())
         text = str(pos[0] if (len(pos) == 1) else pos)
         QApplication.clipboard().setText(text)
 
     @abstractmethod
-    def commandReload(self, index: int) -> None:
+    def command_reload(self, index: int) -> None:
         ...
 
     @abstractmethod
-    def addTargetPoint(self) -> None:
+    def add_target_point(self) -> None:
         ...
 
     @abstractmethod
@@ -261,9 +261,9 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def customizeZoom(self) -> None:
+    def customize_zoom(self) -> None:
         ...
 
     @abstractmethod
-    def resetOptions(self) -> None:
+    def reset_options(self) -> None:
         ...

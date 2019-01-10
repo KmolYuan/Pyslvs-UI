@@ -65,11 +65,11 @@ class StructureWidget(QWidget, Ui_Form):
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)
-        self.outputTo = parent.outputTo
-        self.saveReplyBox = parent.saveReplyBox
-        self.inputFrom = parent.inputFrom
+        self.output_to = parent.output_to
+        self.save_reply_box = parent.save_reply_box
+        self.input_from = parent.input_from
         self.addPointsByGraph = parent.addPointsByGraph
-        self.unsaveFunc = parent.workbookNoSave
+        self.unsaveFunc = parent.workbook_no_save
 
         # Data structures.
         self.collections: List[Graph] = []
@@ -200,7 +200,7 @@ class StructureWidget(QWidget, Ui_Form):
     @pyqtSlot(name='on_add_by_files_button_clicked')
     def __add_from_files(self):
         """Append atlas by text files."""
-        file_names = self.inputFrom(
+        file_names = self.input_from(
             "Edges data",
             ["Text File (*.txt)"],
             multiple=True
@@ -236,13 +236,13 @@ class StructureWidget(QWidget, Ui_Form):
         if self.selection_window.count() != 1:
             return
 
-        file_name = self.outputTo("Atlas image", qt_image_format)
+        file_name = self.output_to("Atlas image", qt_image_format)
         if not file_name:
             return
 
         pixmap: QPixmap = self.selection_window.item(0).icon().pixmap(self.selection_window.iconSize())
         pixmap.save(file_name)
-        self.saveReplyBox("Graph", file_name)
+        self.save_reply_box("Graph", file_name)
 
     @pyqtSlot(name='on_save_atlas_clicked')
     def __save_atlas(self):
@@ -261,7 +261,7 @@ class StructureWidget(QWidget, Ui_Form):
         if not ok:
             return
 
-        file_name = self.outputTo("Atlas image", qt_image_format)
+        file_name = self.output_to("Atlas image", qt_image_format)
         if not file_name:
             return
 
@@ -283,7 +283,7 @@ class StructureWidget(QWidget, Ui_Form):
         pixmap = QPixmap()
         pixmap.convertFromImage(image_main)
         pixmap.save(file_name)
-        self.saveReplyBox("Atlas", file_name)
+        self.save_reply_box("Atlas", file_name)
 
     @pyqtSlot(name='on_save_edges_clicked')
     def __save_edges(self):
@@ -291,12 +291,12 @@ class StructureWidget(QWidget, Ui_Form):
         count = self.collection_list.count()
         if not count:
             return
-        file_name = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
+        file_name = self.output_to("Atlas edges expression", ["Text file (*.txt)"])
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8') as f:
             f.write('\n'.join(str(G.edges) for G in self.collections))
-        self.saveReplyBox("edges expression", file_name)
+        self.save_reply_box("edges expression", file_name)
 
     @pyqtSlot(int, name='on_collection_list_currentRowChanged')
     def __set_selection(self, row: int):

@@ -45,7 +45,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
     def solve(self):
         """Resolve coordinates and preview path."""
         self.resolve()
-        self.MainCanvas.updatePreviewPath()
+        self.MainCanvas.update_preview_path()
 
     @pyqtSlot()
     def resolve(self):
@@ -55,10 +55,10 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         + Python-Solvespace
         + Sketch Solve
         """
-        vpoints = self.EntitiesPoint.dataTuple()
+        vpoints = self.EntitiesPoint.data_tuple()
         solve_kernel = self.planarsolver_option.currentIndex()
 
-        for b, d, a in self.InputsWidget.inputPairs():
+        for b, d, a in self.InputsWidget.input_pairs():
             if b == d:
                 vpoints[b].set_offset(a)
 
@@ -68,18 +68,18 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                     self.getTriangle(),
                     {n: f'P{n}' for n in range(len(vpoints))},
                     vpoints,
-                    tuple(a for b, d, a in self.InputsWidget.inputPairs() if b != d)
+                    tuple(a for b, d, a in self.InputsWidget.input_pairs() if b != d)
                 )
             elif solve_kernel == 1:
                 result, _ = slvs_solve(
                     vpoints,
-                    tuple(self.InputsWidget.inputPairs())
+                    tuple(self.InputsWidget.input_pairs())
                     if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
                 result = vpoint_solving(
                     vpoints,
-                    {(b, d): a for b, d, a in self.InputsWidget.inputPairs()}
+                    {(b, d): a for b, d, a in self.InputsWidget.input_pairs()}
                 )
             else:
                 raise RuntimeError("incorrect kernel")
@@ -94,12 +94,12 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             self.DOFview.setVisible(False)
         else:
             # Done: Update coordinate data.
-            self.EntitiesPoint.updateCurrentPosition(result)
+            self.EntitiesPoint.update_current_position(result)
             self.DOF = vpoint_dof(vpoints)
-            self.DOFview.setText(f"{self.DOF} ({self.InputsWidget.inputCount()})")
+            self.DOFview.setText(f"{self.DOF} ({self.InputsWidget.input_count()})")
             self.conflict.setVisible(False)
             self.DOFview.setVisible(True)
-        self.reloadCanvas()
+        self.reload_canvas()
 
     def previewpath(
         self,
@@ -108,7 +108,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         vpoints: Tuple[VPoint, ...]
     ):
         """Resolve auto preview path."""
-        if not self.rightInput():
+        if not self.right_input():
             auto_preview.clear()
             slider_auto_preview.clear()
             return
@@ -132,12 +132,12 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         bases = []
         drivers = []
         angles_o = []
-        for b, d, a in self.InputsWidget.inputPairs():
+        for b, d, a in self.InputsWidget.input_pairs():
             bases.append(b)
             drivers.append(d)
             angles_o.append(a)
 
-        i_count = self.InputsWidget.inputCount()
+        i_count = self.InputsWidget.input_count()
         # Cumulative angle
         angles_cum = [0.] * i_count
 
@@ -199,8 +199,8 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
 
         + VLinks will become graph nodes.
         """
-        vpoints = self.EntitiesPoint.dataTuple()
-        vlinks = self.EntitiesLink.dataTuple()
+        vpoints = self.EntitiesPoint.data_tuple()
+        vlinks = self.EntitiesLink.data_tuple()
         graph = Graph([])
         # links name for RP joint.
         k = len(vlinks)
@@ -222,7 +222,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                 used_point.add(p)
         return [edge for n, edge in edges_view(graph)]
 
-    def getCollection(self) -> Dict[str, Union[
+    def get_collection(self) -> Dict[str, Union[
         Dict[str, None],
         Dict[str, List[Tuple[float, float]]],
         str,
@@ -244,11 +244,11 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         + cus
         + same
         """
-        vpoints = self.EntitiesPoint.dataTuple()
+        vpoints = self.EntitiesPoint.data_tuple()
         for vpoint in vpoints:
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
-        vlinks = self.EntitiesLink.dataTuple()
+        vlinks = self.EntitiesLink.data_tuple()
         link_names = [vlink.name for vlink in vlinks]
         graph = tuple(self.getGraph())
 
@@ -294,7 +294,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             cus[f'P{count}'] = link_names.index(vpoint.links[0])
             count += 1
 
-        drivers = {mapping[b] for b, d, a in self.InputsWidget.inputPairs()}
+        drivers = {mapping[b] for b, d, a in self.InputsWidget.input_pairs()}
         followers = {
             mapping[i] for i, vpoint in enumerate(vpoints)
             if ('ground' in vpoint.links) and (i not in drivers)
@@ -336,11 +336,11 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         Special function for VPoints.
         """
         if vpoints is None:
-            vpoints = self.EntitiesPoint.dataTuple()
+            vpoints = self.EntitiesPoint.data_tuple()
         status = {}
         exprs = vpoints_configure(
             vpoints,
-            tuple((b, d) for b, d, a in self.InputsWidget.inputPairs()),
+            tuple((b, d) for b, d, a in self.InputsWidget.input_pairs()),
             status
         )
         data_dict, _ = data_collecting(
@@ -348,39 +348,39 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             {n: f'P{n}' for n in range(len(vpoints))},
             vpoints
         )
-        self.EntitiesExpr.setExpr(
+        self.EntitiesExpr.set_expr(
             exprs,
             data_dict,
             tuple(p for p, s in status.items() if not s)
         )
         return exprs
 
-    def rightInput(self) -> bool:
+    def right_input(self) -> bool:
         """Is input same as DOF?"""
-        inputs = self.InputsWidget.inputCount() == self.DOF
+        inputs = self.InputsWidget.input_count() == self.DOF
         if not inputs:
             self.EntitiesExpr.clear()
         return inputs
 
-    def reloadCanvas(self):
+    def reload_canvas(self):
         """Update main canvas data, without resolving."""
-        self.MainCanvas.updateFigure(
-            self.EntitiesPoint.dataTuple(),
-            self.EntitiesLink.dataTuple(),
+        self.MainCanvas.update_figure(
+            self.EntitiesPoint.data_tuple(),
+            self.EntitiesLink.data_tuple(),
             self.getTriangle(),
-            self.InputsWidget.currentPath()
+            self.InputsWidget.current_path()
         )
 
     @abstractmethod
-    def commandReload(self, index: int) -> None:
+    def command_reload(self, index: int) -> None:
         ...
 
     @abstractmethod
-    def addTargetPoint(self) -> None:
+    def add_target_point(self) -> None:
         ...
 
     @abstractmethod
-    def setMousePos(self, x: float, y: float) -> None:
+    def set_mouse_pos(self, x: float, y: float) -> None:
         ...
 
     @abstractmethod
@@ -392,19 +392,19 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def enableMechanismActions(self) -> None:
+    def enable_mechanism_actions(self) -> None:
         ...
 
     @abstractmethod
-    def copyCoord(self) -> None:
+    def copy_coord(self) -> None:
         ...
 
     @abstractmethod
-    def copyPointsTable(self) -> None:
+    def copy_points_table(self) -> None:
         ...
 
     @abstractmethod
-    def copyLinksTable(self) -> None:
+    def copy_links_table(self) -> None:
         ...
 
     @abstractmethod
@@ -416,9 +416,9 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def customizeZoom(self) -> None:
+    def customize_zoom(self) -> None:
         ...
 
     @abstractmethod
-    def resetOptions(self) -> None:
+    def reset_options(self) -> None:
         ...

@@ -29,6 +29,7 @@ from core.QtModules import (
 )
 from core.graphics import BaseCanvas, color_qt
 from core.io import str_between
+from core.libs import color_rgb
 from .Ui_preview import Ui_Dialog
 
 
@@ -160,7 +161,7 @@ class _DynamicCanvas(BaseCanvas):
         self.__draw_path()
 
         # Draw solving path.
-        self.drawTargetPath()
+        self.draw_target_path()
 
         # Draw points.
         for i, name in enumerate(self.exp_symbol):
@@ -179,17 +180,17 @@ class _DynamicCanvas(BaseCanvas):
     def __draw_point(self, i: int, name: str):
         """Draw point function."""
         x, y = self.pos[i]
-        color = color_qt('Green')
+        color = color_rgb('Green')
         fixed = False
         if name in self.mechanism['Target']:
-            color = color_qt('Dark-Orange')
+            color = color_rgb('Dark-Orange')
         elif name in self.mechanism['Driver']:
-            color = color_qt('Red')
+            color = color_rgb('Red')
             fixed = True
         elif name in self.mechanism['Follower']:
-            color = color_qt('Blue')
+            color = color_rgb('Blue')
             fixed = True
-        self.drawPoint(i, x, y, fixed, color)
+        self.draw_point(i, x, y, fixed, color)
 
     def __draw_link(self, name: str, points: List[int]):
         """Draw link function.
@@ -232,7 +233,7 @@ class _DynamicCanvas(BaseCanvas):
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
-            self.drawCurve(path)
+            self.draw_curve(path)
 
     @pyqtSlot()
     def __change_index(self):

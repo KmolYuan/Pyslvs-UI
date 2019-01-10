@@ -163,7 +163,7 @@ class EditPointTable(QUndoCommand):
         self.row = row
         self.link_table = link_table
         self.args = tuple(args)
-        self.old_args: str = self.point_table.rowTexts(row)
+        self.old_args: str = self.point_table.row_text(row)
         # Tuple[str] -> Set[str]
         new_links = set(self.args[0].split(','))
         old_links = set(self.old_args[0].split(','))
@@ -180,13 +180,13 @@ class EditPointTable(QUndoCommand):
 
     def redo(self):
         """Write arguments then rewrite the dependents."""
-        self.point_table.editPoint(self.row, *self.args)
+        self.point_table.edit_point(self.row, *self.args)
         self.__write_rows(self.new_link_items, self.old_link_items)
 
     def undo(self):
         """Rewrite the dependents then write arguments."""
         self.__write_rows(self.old_link_items, self.new_link_items)
-        self.point_table.editPoint(self.row, *self.old_args)
+        self.point_table.edit_point(self.row, *self.old_args)
 
     def __write_rows(
         self,
@@ -233,7 +233,7 @@ class EditLinkTable(QUndoCommand):
         self.row = row
         self.point_table = point_table
         self.args = tuple(args)
-        self.old_args = self.link_table.rowTexts(row, has_name=True)
+        self.old_args = self.link_table.row_text(row, has_name=True)
         # Points: Tuple[int]
         new_points = self.args[2].split(',')
         old_points = self.old_args[2].split(',')
@@ -250,7 +250,7 @@ class EditLinkTable(QUndoCommand):
 
     def redo(self):
         """Write arguments then rewrite the dependents."""
-        self.link_table.editLink(self.row, *self.args)
+        self.link_table.edit_link(self.row, *self.args)
         self.__rename(self.args, self.old_args)
         self.__write_rows(self.args[0], self.new_point_items, self.old_point_items)
 
@@ -258,7 +258,7 @@ class EditLinkTable(QUndoCommand):
         """Rewrite the dependents then write arguments."""
         self.__write_rows(self.old_args[0], self.old_point_items, self.new_point_items)
         self.__rename(self.old_args, self.args)
-        self.link_table.editLink(self.row, *self.old_args)
+        self.link_table.edit_link(self.row, *self.old_args)
 
     def __rename(self, arg1: Sequence[str], arg2: Sequence[str]):
         """Adjust link name in all dependents,

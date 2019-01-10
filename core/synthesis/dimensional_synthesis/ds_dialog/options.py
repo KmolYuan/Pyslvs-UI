@@ -94,7 +94,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
     def __init_alg_table(self):
         """Initialize the algorithm table widgets."""
 
-        def writeTable(
+        def write_table(
             integers: Optional[List[Tuple[str, str, str]]] = None,
             floats: Optional[List[Tuple[str, str, str]]] = None
         ):
@@ -120,7 +120,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                     i += 1
 
         if self.__algorithm == AlgorithmType.RGA:
-            writeTable(
+            write_table(
                 floats=[
                     ("Crossover Rate", 'pCross',
                         html("The chance of crossover.")),
@@ -133,7 +133,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 ]
             )
         elif self.__algorithm == AlgorithmType.Firefly:
-            writeTable(
+            write_table(
                 floats=[
                     ("Alpha value", 'alpha', html(
                         "Alpha value is the step size of the firefly.")),
@@ -147,7 +147,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 ]
             )
         elif self.__algorithm == AlgorithmType.DE:
-            writeTable(
+            write_table(
                 integers=[
                     ("Evolutionary strategy (0-9)", 'strategy',
                         html("There are 10 way to evolution."))

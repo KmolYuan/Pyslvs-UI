@@ -121,11 +121,11 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.setupUi(self)
 
         # Function references
-        self.outputTo = parent.outputTo
-        self.saveReplyBox = parent.saveReplyBox
-        self.inputFrom = parent.inputFrom
-        self.jointDataFunc = parent.EntitiesPoint.dataTuple
-        self.linkDataFunc = parent.EntitiesLink.dataTuple
+        self.output_to = parent.output_to
+        self.save_reply_box = parent.save_reply_box
+        self.input_from = parent.input_from
+        self.jointDataFunc = parent.EntitiesPoint.data_tuple
+        self.linkDataFunc = parent.EntitiesLink.data_tuple
         self.getGraph = parent.getGraph
 
         # Splitters
@@ -570,7 +570,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not lateral:
             return
 
-        file_name = self.outputTo("Atlas image", qt_image_format)
+        file_name = self.output_to("Atlas image", qt_image_format)
         if not file_name:
             return
 
@@ -590,7 +590,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         painter.end()
         pixmap = QPixmap.fromImage(image_main)
         pixmap.save(file_name)
-        self.saveReplyBox("Atlas", file_name)
+        self.save_reply_box("Atlas", file_name)
 
     def __save_atlas_ask(self) -> int:
         """Ask when saving the atlas."""
@@ -613,7 +613,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not count:
             return
         if not file_name:
-            file_name = self.outputTo(
+            file_name = self.output_to(
                 "Atlas edges expression",
                 ["Text file (*.txt)"]
             )
@@ -621,7 +621,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
         with open(file_name, 'w', encoding='utf-8') as f:
             f.write('\n'.join(str(G.edges) for G in self.answer))
-        self.saveReplyBox("edges expression", file_name)
+        self.save_reply_box("edges expression", file_name)
 
     @pyqtSlot(name='on_edges2atlas_button_clicked')
     def __edges2atlas(self):
@@ -629,7 +629,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         This operation will load all edges to list widget first.
         """
-        file_names = self.inputFrom(
+        file_names = self.input_from(
             "Edges data",
             ["Text file (*.txt)"],
             multiple=True

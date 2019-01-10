@@ -214,7 +214,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
-        self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
+        self.show_solutions.clicked.connect(self.PreviewCanvas.set_show_solutions)
         for name in self.collections:
             self.collections_list.addItem(name)
 

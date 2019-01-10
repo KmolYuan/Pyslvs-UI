@@ -50,7 +50,7 @@ class MainWindow(IOMethodInterface):
         + Start main window with no parent.
         """
         super(MainWindow, self).__init__()
-        self.restoreSettings()
+        self.restore_settings()
 
         # Console widget.
         self.consoleerror_option.setChecked(ARGUMENTS.debug_mode)
@@ -61,38 +61,38 @@ class MainWindow(IOMethodInterface):
         self.solve()
 
         # Load workbook from argument.
-        self.readFromArgs()
+        self.load_from_args()
 
     def closeEvent(self, event):
         """Close event to avoid user close the window accidentally."""
-        if self.checkFileChanged():
+        if self.check_file_changed():
             event.ignore()
             return
         if self.InputsWidget.inputs_playShaft.isActive():
             self.InputsWidget.inputs_playShaft.stop()
-        self.saveSettings()
+        self.save_settings()
         XStream.back()
         print("Exit.")
         event.accept()
 
     @pyqtSlot(int)
-    def commandReload(self, index: int):
+    def command_reload(self, index: int):
         """The time of withdrawal and redo action."""
         if index != self.DatabaseWidget.Stack:
-            self.workbookNoSave()
+            self.workbook_no_save()
         else:
-            self.workbookSaved()
+            self.workbook_saved()
         self.EntitiesPoint.clearSelection()
-        self.InputsWidget.variableReload()
+        self.InputsWidget.variable_reload()
         self.solve()
 
     @pyqtSlot(int, name='on_ZoomBar_valueChanged')
-    def setZoom(self, value: int):
+    def __set_zoom(self, value: int):
         """Reset the text when zoom bar changed."""
         self.zoom_button.setText(f'{value}%')
 
     @pyqtSlot()
-    def customizeZoom(self):
+    def customize_zoom(self):
         """Customize zoom value."""
         value, ok = QInputDialog.getInt(
             self,
@@ -121,7 +121,7 @@ class MainWindow(IOMethodInterface):
     @pyqtSlot(name='on_action_path_style_triggered')
     def __set_curve_mode(self):
         """Set path style as curve (true) or dots (false)."""
-        self.MainCanvas.setCurveMode(self.action_path_style.isChecked())
+        self.MainCanvas.set_curve_mode(self.action_path_style.isChecked())
 
     @pyqtSlot(int, name='on_Panel_currentChanged')
     @pyqtSlot(int, name='on_SynthesisTab_currentChanged')
@@ -129,14 +129,14 @@ class MainWindow(IOMethodInterface):
         """Dimensional synthesis information will show on the canvas."""
         panel_index = self.Panel.currentIndex()
         synthesis_index = self.SynthesisTab.currentIndex()
-        self.MainCanvas.setShowTargetPath(panel_index == synthesis_index == 2)
+        self.MainCanvas.set_show_target_path(panel_index == synthesis_index == 2)
 
-    def addTargetPoint(self):
+    def add_target_point(self):
         """Use context menu to add a target path coordinate."""
-        self.DimensionalSynthesis.addPoint(self.mouse_pos_x, self.mouse_pos_y)
+        self.DimensionalSynthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
     @pyqtSlot(int, tuple)
-    def mergeResult(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
+    def merge_result(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
         """Merge result function of dimensional synthesis."""
         result = self.DimensionalSynthesis.mechanism_data(row)
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
@@ -150,7 +150,7 @@ class MainWindow(IOMethodInterface):
         )
         tmp_dict = {}
         for tag in sorted(exp_symbol):
-            tmp_dict[tag] = self.addPoint(
+            tmp_dict[tag] = self.add_point(
                 result[tag][0],
                 result[tag][1],
                 color=("Dark-Orange" if tag in result['Target'] else 'Green')
@@ -160,13 +160,13 @@ class MainWindow(IOMethodInterface):
                 tmp_dict[name] for name in str_between(exp, '[', ']').split(',')
             ))
             if i == 0:
-                self.constrainLink(self.EntitiesLink.rowCount() - 1)
+                self.constrain_link(self.EntitiesLink.rowCount() - 1)
         self.CommandStack.endMacro()
         # Add the path.
         i = 0
-        while f"Algorithm_{i}" in self.InputsWidget.pathData():
+        while f"Algorithm_{i}" in self.InputsWidget.path_data():
             i += 1
-        self.InputsWidget.addPath(f"Algorithm_{i}", path)
+        self.InputsWidget.add_path(f"Algorithm_{i}", path)
         self.MainCanvas.zoomToFit()
 
     @pyqtSlot(int, name='on_EntitiesTab_currentChanged')
@@ -179,25 +179,25 @@ class MainWindow(IOMethodInterface):
                 table.rowSelectionChanged.disconnect()
         except TypeError:
             pass
-        tables[index].rowSelectionChanged.connect(self.MainCanvas.setSelection)
+        tables[index].rowSelectionChanged.connect(self.MainCanvas.set_selection)
         # Double click signal.
         try:
             self.MainCanvas.doubleclick_edit.disconnect()
         except TypeError:
             pass
         if index == 0:
-            self.MainCanvas.doubleclick_edit.connect(self.editPoint)
+            self.MainCanvas.doubleclick_edit.connect(self.edit_point)
         elif index == 1:
-            self.MainCanvas.doubleclick_edit.connect(self.editLink)
+            self.MainCanvas.doubleclick_edit.connect(self.edit_link)
         # Clear all selections.
         for table in tables:
-            table.clearSelection()
-        self.InputsWidget.clearSelection()
+            table.clear_selection()
+        self.InputsWidget.clear_selection()
 
     @pyqtSlot(name='on_background_choose_dir_clicked')
     def __set_background(self):
         """Show up dialog to set the background file path."""
-        file_name = self.inputFrom("Background", qt_image_format)
+        file_name = self.input_from("Background", qt_image_format)
         if file_name:
             self.background_option.setText(file_name)
 

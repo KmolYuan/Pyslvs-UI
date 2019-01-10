@@ -199,16 +199,16 @@ class BaseCanvas(QWidget):
         # Please to call the "end" method when ending paint event.
         # self.painter.end()
 
-    def drawPoint(
+    def draw_point(
         self,
         i: int,
         cx,
         cy,
         fix: bool,
-        color: QColor
+        color: Tuple[int, int, int]
     ):
         """Draw a joint."""
-        pen = QPen(color)
+        pen = QPen(QColor(*color))
         pen.setWidth(2)
         self.painter.setPen(pen)
         x = cx * self.zoom
@@ -237,7 +237,7 @@ class BaseCanvas(QWidget):
             text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
 
-    def drawTargetPath(self):
+    def draw_target_path(self):
         """Draw solving path."""
         pen = QPen()
         pen.setWidth(self.path_width)
@@ -322,7 +322,7 @@ class BaseCanvas(QWidget):
         self.painter.setPen(pen)
         self.painter.setFont(font_copy)
 
-    def drawCurve(self, path: Sequence[Tuple[float, float]]):
+    def draw_curve(self, path: Sequence[Tuple[float, float]]):
         """Draw path as curve."""
         if len(set(path)) <= 2:
             return
@@ -347,7 +347,7 @@ class BaseCanvas(QWidget):
                     painter_path.lineTo(x, y)
         self.painter.drawPath(painter_path)
 
-    def drawDot(self, path: Sequence[Tuple[float, float]]):
+    def draw_dot(self, path: Sequence[Tuple[float, float]]):
         """Draw path as dots."""
         if len(set(path)) <= 2:
             return
@@ -356,7 +356,7 @@ class BaseCanvas(QWidget):
                 continue
             self.painter.drawPoint(QPointF(x, -y) * self.zoom)
 
-    def solutionPolygon(
+    def solution_polygon(
         self,
         func: str,
         args: Sequence[str],
@@ -389,7 +389,7 @@ class BaseCanvas(QWidget):
                 tmp_list.append(QPointF(x, -y) * self.zoom)
         return tmp_list, color
 
-    def drawSolution(
+    def draw_solution(
         self,
         func: str,
         args: Sequence[str],
@@ -397,7 +397,7 @@ class BaseCanvas(QWidget):
         pos: Union[Tuple[VPoint, ...], Dict[int, Tuple[float, float]]]
     ):
         """Draw the solution triangle."""
-        points, color = self.solutionPolygon(func, args, target, pos)
+        points, color = self.solution_polygon(func, args, target, pos)
 
         color.setAlpha(150)
         pen = QPen(color)
@@ -529,7 +529,7 @@ class PreviewCanvas(BaseCanvas):
                     pen.setColor(color_qt('Yellow'))
                 self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
-            if self.getStatus(node):
+            if self.get_status(node):
                 color = color_qt('Dark-Magenta')
             else:
                 color = color_qt('Green')
@@ -544,7 +544,7 @@ class PreviewCanvas(BaseCanvas):
             solutions = self.get_solutions()
             if solutions:
                 for expr in solutions.split(';'):
-                    self.drawSolution(
+                    self.draw_solution(
                         io.str_before(expr, '['),
                         io.str_between(expr, '[', ']').split(','),
                         io.str_between(expr, '(', ')'),
@@ -581,14 +581,14 @@ class PreviewCanvas(BaseCanvas):
                 y_top = y
         return x_right, x_left, y_top, y_bottom
 
-    def setGraph(self, graph: Graph, pos: Dict[int, Tuple[float, float]]):
+    def set_graph(self, graph: Graph, pos: Dict[int, Tuple[float, float]]):
         """Set the graph from NetworkX graph type."""
         self.G = graph
         self.pos = pos
         self.status = {k: False for k in pos}
         self.update()
 
-    def setGrounded(self, link: int):
+    def set_grounded(self, link: int):
         """Set the grounded link number."""
         self.grounded = link
         for n, edge in edges_view(self.G):
@@ -597,27 +597,27 @@ class PreviewCanvas(BaseCanvas):
             self.status[int(n.replace('P', ''))] = self.grounded == link
         self.update()
 
-    def setDriver(self, nodes: Sequence[int]):
+    def set_driver(self, nodes: Sequence[int]):
         """Set driver nodes."""
         self.Driver = tuple(nodes)
         self.update()
 
-    def setTarget(self, nodes: Sequence[int]):
+    def set_target(self, nodes: Sequence[int]):
         """Set target nodes."""
         self.Target = tuple(nodes)
         self.update()
 
-    def setStatus(self, point: str, status: bool):
+    def set_status(self, point: str, status: bool):
         """Set status node."""
         self.status[int(point.replace('P', ''))] = status
         self.update()
 
-    def getStatus(self, point: int) -> bool:
+    def get_status(self, point: int) -> bool:
         """Get status. If multiple joints, return true."""
         return self.status[point] or (point in self.same)
 
     @pyqtSlot(bool)
-    def setShowSolutions(self, status: bool):
+    def set_show_solutions(self, status: bool):
         """Switch solutions."""
         self.showSolutions = status
         self.update()
@@ -626,7 +626,7 @@ class PreviewCanvas(BaseCanvas):
         """Simple load by dict object."""
         # Add customize joints.
         graph = Graph(params['Graph'])
-        self.setGraph(graph, params['pos'])
+        self.set_graph(graph, params['pos'])
         self.cus = params['cus']
         self.same = params['same']
         # Grounded setting.
@@ -635,21 +635,21 @@ class PreviewCanvas(BaseCanvas):
         for row, link in enumerate(graph.nodes):
             points = set(f'P{n}' for n, edge in edges_view(graph) if link in edge)
             if (driver | follower) <= points:
-                self.setGrounded(row)
+                self.set_grounded(row)
                 break
         # Expression
         if params['Expression']:
             for expr in params['Expression'].split(';'):
-                self.setStatus(io.str_between(expr, '(', ')'), True)
+                self.set_status(io.str_between(expr, '(', ')'), True)
         self.update()
 
-    def isAllLock(self) -> bool:
+    def is_all_lock(self) -> bool:
         """Is all joint has solution."""
         for node, status in self.status.items():
             if not status and node not in self.same:
                 return False
         return True
 
-    def isMultiple(self, name: str) -> bool:
+    def is_multiple(self, name: str) -> bool:
         """Is the name in 'same'."""
         return int(name.replace('P', '')) in self.same

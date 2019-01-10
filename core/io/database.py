@@ -174,9 +174,9 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.CommitTable.setColumnWidth(5, 70)
 
         # Check file changed function.
-        self.__check_file_changed = parent.checkFileChanged
+        self.__check_file_changed = parent.check_file_changed
         # Check workbook saved function.
-        self.__workbook_saved = parent.workbookSaved
+        self.__workbook_saved = parent.workbook_saved
 
         # Call to get point expressions.
         self.__point_expr_func = parent.EntitiesPoint.expression
@@ -189,29 +189,29 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Call to get triangle data.
         self.__triangle_data_func = parent.CollectionTabPage.triangle_data
         # Call to get inputs variables data.
-        self.__inputs_data_func = parent.InputsWidget.inputPairs
+        self.__inputs_data_func = parent.InputsWidget.input_pairs
         # Call to get algorithm data.
         self.__algorithm_data_func = parent.DimensionalSynthesis.mechanism_data
         # Call to get path data.
-        self.__path_data_func = parent.InputsWidget.pathData
+        self.__path_data_func = parent.InputsWidget.path_data
 
         # Add empty links function.
-        self.__add_links_func = parent.addEmptyLinks
+        self.__add_links_func = parent.add_empty_links
         # Parse function.
-        self.__parse_func = parent.parseExpression
+        self.__parse_func = parent.parse_expression
 
         # Call to load inputs variables data.
-        self.__load_inputs_func = parent.InputsWidget.addInputsVariables
+        self.__load_inputs_func = parent.InputsWidget.add_inputs_variables
         # Add storage function.
         self.__add_storage_func = parent.addMultipleStorage
         # Call to load paths.
-        self.__load_path_func = parent.InputsWidget.loadPaths
+        self.__load_path_func = parent.InputsWidget.load_paths
         # Call to load collections data.
         self.__load_collect_func = parent.CollectionTabPage.StructureWidget.addCollections
         # Call to load triangle data.
         self.__load_triangle_func = parent.CollectionTabPage.TriangularIterationWidget.addCollections
         # Call to load algorithm results.
-        self.__load_algorithm_func = parent.DimensionalSynthesis.loadResults
+        self.__load_algorithm_func = parent.DimensionalSynthesis.load_results
 
         # Clear function for main window.
         self.__clear_func = parent.clear
@@ -249,7 +249,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
         self.__close_database()
 
-    def setFileName(self, file_name: str):
+    def set_file_name(self, file_name: str):
         """Set file name."""
         self.file_name = QFileInfo(file_name)
 
@@ -392,7 +392,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.file_name = QFileInfo(file_name)
         self.__workbook_saved()
 
-    def importMechanism(self, file_name: str):
+    def import_mechanism(self, file_name: str):
         """Pick and import the latest mechanism from a branch."""
         self.__connect_database(file_name)
         commit_all = CommitModel.select().join(BranchModel)
@@ -548,7 +548,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         """Reload the least commit ID."""
         self.__load_commit_id(self.commit_current_id.value())
 
-    def loadExample(self, is_import: bool = False) -> bool:
+    def load_example(self, is_import: bool = False) -> bool:
         """Load example to new workbook."""
         if self.__check_file_changed():
             return False

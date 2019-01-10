@@ -141,7 +141,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         # After saved storage, clean all the item of two table widgets.
         self.EntitiesPoint.clear()
         self.EntitiesLink.clear()
-        self.InputsWidget.variableExcluding()
+        self.InputsWidget.variable_excluding()
 
         self.parseExpression(item.expr)
         self.CommandStack.push(DeleteStorage(
@@ -165,15 +165,15 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
             self.__add_storage(name, expr)
 
     @abstractmethod
-    def commandReload(self, index: int) -> None:
+    def command_reload(self, index: int) -> None:
         ...
 
     @abstractmethod
-    def addTargetPoint(self) -> None:
+    def add_target_point(self) -> None:
         ...
 
     @abstractmethod
-    def setMousePos(self, x: float, y: float) -> None:
+    def set_mouse_pos(self, x: float, y: float) -> None:
         ...
 
     @abstractmethod
@@ -185,19 +185,19 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def enableMechanismActions(self) -> None:
+    def enable_mechanism_actions(self) -> None:
         ...
 
     @abstractmethod
-    def copyCoord(self) -> None:
+    def copy_coord(self) -> None:
         ...
 
     @abstractmethod
-    def copyPointsTable(self) -> None:
+    def copy_points_table(self) -> None:
         ...
 
     @abstractmethod
-    def copyLinksTable(self) -> None:
+    def copy_links_table(self) -> None:
         ...
 
     @abstractmethod
@@ -209,9 +209,9 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def customizeZoom(self) -> None:
+    def customize_zoom(self) -> None:
         ...
 
     @abstractmethod
-    def resetOptions(self) -> None:
+    def reset_options(self) -> None:
         ...

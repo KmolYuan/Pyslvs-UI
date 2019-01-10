@@ -127,7 +127,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         self.clear()
         self.DatabaseWidget.reset()
         print(f"Read from group: {group}")
-        self.parseExpression(parser.parse(group.split('@')[0]))
+        self.parse_expression(parser.parse(group.split('@')[0]))
 
     def __settings(self) -> Tuple[Tuple[QWidget, Settings], ...]:
         """Give the settings of all option widgets."""
@@ -172,7 +172,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         self.__load_file(file_name)
         event.acceptProposedAction()
 
-    def workbookNoSave(self):
+    def workbook_no_save(self):
         """Workbook not saved signal."""
         self.DatabaseWidget.changed = True
         not_yet_saved = " (not yet saved)"
@@ -180,14 +180,14 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.windowTitle().replace(not_yet_saved, '') + not_yet_saved
         )
 
-    def workbookSaved(self):
+    def workbook_saved(self):
         """Workbook saved signal."""
         self.DatabaseWidget.changed = False
-        self.setWindowTitleFullpath()
+        self.__set_window_title_full_path()
 
-    @pyqtSlot(name='on_windowTitle_fullpath_clicked')
-    def setWindowTitleFullpath(self):
-        """Set the option 'window title will show the fullpath'."""
+    @pyqtSlot(name='on_titlefullpath_option_clicked')
+    def __set_window_title_full_path(self):
+        """Set the option 'window title will show the full path'."""
         file_name = self.DatabaseWidget.file_name
         if self.titlefullpath_option.isChecked():
             title = file_name.absoluteFilePath()
@@ -197,19 +197,19 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
 
     @pyqtSlot(name='on_action_mde_tw_triggered')
-    def showHelp(self):
+    def __show_help(self):
         """Open website: mde.tw"""
         _open_url("http://mde.tw")
         self.showMinimized()
 
     @pyqtSlot(name='on_action_pyslvs_com_triggered')
-    def showDotCOM(self):
+    def __show_dot_com(self):
         """Open website: pyslvs.com"""
         _open_url("http://www.pyslvs.com/blog/index.html")
         self.showMinimized()
 
     @pyqtSlot(name='on_action_github_repository_triggered')
-    def showGithub(self):
+    def __show_github(self):
         """Open website: Github repository."""
         _open_url("https://github.com/KmolYuan/Pyslvs-PyQt5")
         self.showMinimized()
@@ -222,27 +222,27 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         dlg.exec_()
 
     @pyqtSlot(name='on_action_Console_triggered')
-    def showConsole(self):
+    def __show_console(self):
         """Open GUI console."""
         self.OptionTab.setCurrentIndex(2)
         self.History_tab.setCurrentIndex(1)
 
     @pyqtSlot(name='on_action_example_triggered')
-    def loadExample(self):
+    def __load_example(self):
         """Load examples from 'DatabaseWidget'. Return true if succeeded."""
-        if self.DatabaseWidget.loadExample():
-            self.showExpr()
+        if self.DatabaseWidget.load_example():
+            self.__show_expr()
             self.MainCanvas.zoomToFit()
 
     @pyqtSlot(name='on_action_import_example_triggered')
-    def importExample(self):
+    def __import_example(self):
         """Import a example and merge it to canvas."""
-        self.DatabaseWidget.loadExample(is_import=True)
+        self.DatabaseWidget.load_example(is_import=True)
 
     @pyqtSlot(name='on_action_new_workbook_triggered')
-    def newWorkbook(self):
+    def __new_workbook(self):
         """Create (Clean) a new workbook."""
-        if self.checkFileChanged():
+        if self.check_file_changed():
             return
         self.clear()
         self.DatabaseWidget.reset()
@@ -263,7 +263,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         self.solve()
 
     @pyqtSlot(name='on_action_import_pmks_url_triggered')
-    def importPmksURL(self):
+    def __import_pmks_url(self):
         """Load PMKS URL and turn it to expression."""
         url, ok = QInputDialog.getText(
             self,
@@ -309,9 +309,9 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 "Your link is in an incorrect format."
             )
         else:
-            self.parseExpression(expr)
+            self.parse_expression(expr)
 
-    def parseExpression(self, expr: str):
+    def parse_expression(self, expr: str):
         """Parse expression."""
         try:
             args_list = parse_params(expr)
@@ -342,7 +342,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 ))
                 self.CommandStack.endMacro()
 
-    def addEmptyLinks(self, link_color: Dict[str, str]):
+    def add_empty_links(self, link_color: Dict[str, str]):
         """Use to add empty link when loading database."""
         for name, color in link_color.items():
             if name != 'ground':
@@ -351,11 +351,11 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_load_file_triggered')
     def __load_file(self, file_name: str = ""):
         """Load a supported format in Pyslvs."""
-        if self.checkFileChanged():
+        if self.check_file_changed():
             return
 
         if not file_name:
-            file_name = self.inputFrom("Workbook database", [
+            file_name = self.input_from("Workbook database", [
                 "Pyslvs YAML file (*.pyslvs.yml)",
                 "Pyslvs workbook (*.pyslvs)",
                 "Solvespace module (*.slvs)",
@@ -376,33 +376,33 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_import_database_triggered')
     def __import_database(self):
         """Import from workbook."""
-        if self.checkFileChanged():
+        if self.check_file_changed():
             return
-        file_name = self.inputFrom(
+        file_name = self.input_from(
             "Workbook database (Import)",
             ["Pyslvs workbook (*.pyslvs)"]
         )
         if not file_name:
             return
-        self.DatabaseWidget.importMechanism(file_name)
+        self.DatabaseWidget.import_mechanism(file_name)
 
     @pyqtSlot(name='on_action_save_triggered')
     def save(self):
         """Save action. (YAML)"""
         if self.DatabaseWidget.file_name.completeSuffix() == 'pyslvs.yml':
             self.YamlEditor.save()
-            self.workbookSaved()
+            self.workbook_saved()
         else:
             self.__save_as()
 
     @pyqtSlot(name='on_action_save_as_triggered')
     def __save_as(self):
         """Save as action. (YAML)"""
-        file_name = self.outputTo("YAML profile", ["Pyslvs YAML file (*.pyslvs.yml)"])
+        file_name = self.output_to("YAML profile", ["Pyslvs YAML file (*.pyslvs.yml)"])
         if file_name:
             self.YamlEditor.save(file_name)
-            self.workbookSaved()
-            self.saveReplyBox("YAML Profile", file_name)
+            self.workbook_saved()
+            self.save_reply_box("YAML Profile", file_name)
 
     @pyqtSlot(name='on_action_commit_triggered')
     def commit(self, is_branch: bool = False):
@@ -416,10 +416,10 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
     @pyqtSlot(name='on_action_commit_as_triggered')
     def __commit_as(self, is_branch: bool = False):
         """Save as action. (Database)"""
-        file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
+        file_name = self.output_to("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if file_name:
             self.DatabaseWidget.save(file_name, is_branch)
-            self.saveReplyBox("Workbook", file_name)
+            self.save_reply_box("Workbook", file_name)
 
     @pyqtSlot(name='on_action_export_slvs_triggered')
     def __export_slvs(self):
@@ -427,15 +427,15 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         dlg = SlvsOutputDialog(
             self.env,
             self.DatabaseWidget.file_name.baseName(),
-            self.EntitiesPoint.dataTuple(),
+            self.EntitiesPoint.data_tuple(),
             self.__v_to_slvs(),
             self
         )
         dlg.show()
         if dlg.exec_():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
-            self.setLocate(path)
-            self.saveReplyBox("Solvespace sketch", path)
+            self.set_locate(path)
+            self.save_reply_box("Solvespace sketch", path)
 
     @pyqtSlot(name='on_action_export_dxf_triggered')
     def __export_dxf(self):
@@ -443,27 +443,27 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         dlg = DxfOutputDialog(
             self.env,
             self.DatabaseWidget.file_name.baseName(),
-            self.EntitiesPoint.dataTuple(),
+            self.EntitiesPoint.data_tuple(),
             self.__v_to_slvs(),
             self
         )
         dlg.show()
         if dlg.exec_():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
-            self.setLocate(path)
-            self.saveReplyBox("Drawing Exchange Format", path)
+            self.set_locate(path)
+            self.save_reply_box("Drawing Exchange Format", path)
 
     @pyqtSlot(name='on_action_export_image_triggered')
     def __export_image(self):
         """Picture save function."""
-        file_name = self.outputTo("picture", qt_image_format)
+        file_name = self.output_to("picture", qt_image_format)
         if not file_name:
             return
         pixmap = self.MainCanvas.grab()
         pixmap.save(file_name)
-        self.saveReplyBox("Picture", file_name)
+        self.save_reply_box("Picture", file_name)
 
-    def outputTo(self, format_name: str, format_choose: Sequence[str]) -> str:
+    def output_to(self, format_name: str, format_choose: Sequence[str]) -> str:
         """Simple to support multiple format."""
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
@@ -476,10 +476,10 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             print(f"Format: {suffix}")
             if QFileInfo(file_name).completeSuffix() != suffix[1:]:
                 file_name += suffix
-            self.setLocate(QFileInfo(file_name).absolutePath())
+            self.set_locate(QFileInfo(file_name).absolutePath())
         return file_name
 
-    def saveReplyBox(self, title: str, file_name: str):
+    def save_reply_box(self, title: str, file_name: str):
         """Show message when successfully saved."""
         size = QFileInfo(file_name).size()
         print("Size: " + (
@@ -494,7 +494,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         )
         print(f"Initial saved: [\"{file_name}\"]")
 
-    def inputFrom(
+    def input_from(
         self,
         format_name: str,
         format_choose: Sequence[str],
@@ -514,13 +514,13 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             print(f"Format: {suffix}")
             if type(file_name_s) == str:
-                self.setLocate(QFileInfo(file_name_s).absolutePath())
+                self.set_locate(QFileInfo(file_name_s).absolutePath())
             else:
-                self.setLocate(QFileInfo(file_name_s[0]).absolutePath())
+                self.set_locate(QFileInfo(file_name_s[0]).absolutePath())
         return file_name_s
 
     @pyqtSlot(name='on_action_export_pmks_url_triggered')
-    def savePMKS(self):
+    def __save_pmks(self):
         """Output to PMKS as URL."""
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         url_table = []
@@ -557,7 +557,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             QApplication.clipboard().setText(url)
 
     @pyqtSlot(name='on_action_export_image_clipboard_triggered')
-    def savePictureClipboard(self):
+    def __save_picture_clipboard(self):
         """Capture the canvas image to clipboard."""
         QApplication.clipboard().setPixmap(self.MainCanvas.grab())
         QMessageBox.information(
@@ -567,7 +567,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         )
 
     @pyqtSlot(name='on_action_exprsion_triggered')
-    def showExpr(self):
+    def __show_expr(self):
         """Output as expression."""
         context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
         dlg = ScriptDialog(
@@ -583,14 +583,14 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         dlg.exec_()
 
     @pyqtSlot(name='on_action_python_script_triggered')
-    def showPyScript(self):
+    def __show_py_script(self):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
             f"# Project \"{self.DatabaseWidget.file_name.baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
-                tuple((b, d) for b, d, a in self.InputsWidget.inputPairs())
+                tuple((b, d) for b, d, a in self.InputsWidget.input_pairs())
             ),
             Python3Lexer(),
             "Python script",
@@ -601,7 +601,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         dlg.exec_()
 
     @pyqtSlot(name='on_action_check_update_triggered')
-    def checkUpdate(self):
+    def __check_update(self):
         """Check for update."""
         progress_dlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
         progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
@@ -627,7 +627,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         if reply == QMessageBox.Ok:
             _open_url(url)
 
-    def checkFileChanged(self) -> bool:
+    def check_file_changed(self) -> bool:
         """If the user has not saved the change.
 
         Return True if user want to "discard" the operation.
@@ -648,7 +648,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             return False
         return True
 
-    def restoreSettings(self):
+    def restore_settings(self):
         """Restore Pyslvs settings."""
         for widget, value in self.__settings():
             name = widget.objectName()
@@ -675,7 +675,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.planarsolver_option.setCurrentText(kernel_name)
             self.pathpreview_option.setCurrentText(kernel_name)
 
-    def saveSettings(self):
+    def save_settings(self):
         """Save Pyslvs settings (auto save when close event)."""
         if self.dontsave_option.isChecked():
             self.settings.clear()
@@ -692,7 +692,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             elif widget_type == QLineEdit:
                 self.settings.setValue(name, widget.text())
 
-    def resetOptions(self):
+    def reset_options(self):
         """Reset options with default value."""
         for widget, value in self.__settings():
             widget_type = type(widget)
@@ -705,7 +705,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             elif widget_type == QLineEdit:
                 widget.setText(value)
 
-    def readFromArgs(self):
+    def load_from_args(self):
         if not ARGUMENTS.file:
             return
         suffix = QFileInfo(ARGUMENTS.file).suffix()
@@ -717,11 +717,11 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             print("Unsupported format has been ignore when startup.")
 
     @abstractmethod
-    def commandReload(self, index: int) -> None:
+    def command_reload(self, index: int) -> None:
         ...
 
     @abstractmethod
-    def addTargetPoint(self) -> None:
+    def add_target_point(self) -> None:
         ...
 
     @abstractmethod
@@ -729,5 +729,5 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         ...
 
     @abstractmethod
-    def customizeZoom(self) -> None:
+    def customize_zoom(self) -> None:
         ...

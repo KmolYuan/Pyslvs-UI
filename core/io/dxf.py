@@ -77,7 +77,7 @@ def dxf_boundary(
     # Draw link boundaries.
     for name in sorted(
         vlinks,
-        key=lambda name: min(vpoints[p].cx for p in vlinks[name])
+        key=lambda n: min(vpoints[p].cx for p in vlinks[n])
     ):
         if name == 'ground':
             continue

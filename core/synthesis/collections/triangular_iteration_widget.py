@@ -123,9 +123,9 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """We need some function from structure collections."""
         super(TriangularIterationWidget, self).__init__(parent)
         self.setupUi(self)
-        self.unsaveFunc = parent.workbookNoSave
-        self.getCollection = parent.getCollection
-        self.addCollection = add_collection
+        self.unsave_func = parent.workbook_no_save
+        self.get_collection = parent.get_collection
+        self.add_collection = add_collection
 
         # Iteration data.
         self.collections: Dict[str, Dict[str, Any]] = {}
@@ -142,7 +142,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             self.joint_name.setCurrentIndex
         )
         self.main_layout.insertWidget(0, self.PreviewWindow)
-        self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
+        self.show_solutions.clicked.connect(self.PreviewWindow.set_show_solutions)
 
         # Signals
         self.joint_name.currentIndexChanged.connect(self.__has_solution)
@@ -195,7 +195,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     @pyqtSlot(name='on_add_collection_button_clicked')
     def __add_collection(self):
         """Add the graph back to structure collections."""
-        self.addCollection(tuple(self.PreviewWindow.G.edges))
+        self.add_collection(tuple(self.PreviewWindow.G.edges))
 
     @pyqtSlot(Graph, dict)
     def setGraph(
@@ -205,7 +205,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
     ):
         """Set the graph to preview canvas."""
         self.__clear_panel()
-        self.PreviewWindow.setGraph(graph, pos)
+        self.PreviewWindow.set_graph(graph, pos)
         ev = dict(edges_view(graph))
         joints_count = set()
         for l1, l2 in ev.values():
@@ -228,7 +228,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """Change current grounded link. Reset all settings."""
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
-        self.PreviewWindow.setGrounded(row)
+        self.PreviewWindow.set_grounded(row)
         self.__has_solution()
         self.expression_list.clear()
         self.expr_show.clear()
@@ -286,7 +286,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 return
         self.__find_follower_to_remove(d1)
         self.driver_list.addItem(d1_d2)
-        self.PreviewWindow.setDriver([
+        self.PreviewWindow.set_driver([
             eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
         ])
         _set_warning(self.driver_label, False)
@@ -327,7 +327,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             self.PLAP_solution.setEnabled(False)
             self.PLLP_solution.setEnabled(False)
             return
-        status = self.PreviewWindow.getStatus(index)
+        status = self.PreviewWindow.get_status(index)
         if not status:
             status_str = "Not known."
         elif index in self.PreviewWindow.same:
@@ -362,11 +362,11 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             # Mechanism params.
             'Driver': {
                 s.split(',')[0][1:]: None for s in list_texts(self.driver_list)
-                if not self.PreviewWindow.isMultiple(s.split(',')[0][1:])
+                if not self.PreviewWindow.is_multiple(s.split(',')[0][1:])
             },
             'Follower': {
                 s: None for s in list_texts(self.follower_list)
-                if not self.PreviewWindow.isMultiple(s)
+                if not self.PreviewWindow.is_multiple(s)
             },
             'Target': {
                 s: None for s in list_texts(self.target_list)
@@ -384,7 +384,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         """Show up the dialog to load structure data."""
         dlg = CollectionsDialog(
             self.collections,
-            self.getCollection,
+            self.get_collection,
             self
         )
         dlg.show()
@@ -429,8 +429,8 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 params.insert(0, func)
                 params.append(target)
                 self.__add_solution(*params)
-                self.PreviewWindow.setStatus(target, True)
-        _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
+                self.PreviewWindow.set_status(target, True)
+        _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
 
     @pyqtSlot(name='on_constraints_button_clicked')
     def __set_constraints(self):
@@ -511,10 +511,10 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         item = QListWidgetItem()
         self.expression_list.addItem(item)
         item.setText(f"{expr[0]}[{','.join(expr[1:-1])}]({expr[-1]})")
-        self.PreviewWindow.setStatus(expr[-1], True)
+        self.PreviewWindow.set_status(expr[-1], True)
         self.__set_parm_bind()
         self.__has_solution()
-        _set_warning(self.expression_list_label, not self.PreviewWindow.isAllLock())
+        _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
 
     @pyqtSlot(QListWidgetItem)
     def __set_parm_bind(self, _: QListWidgetItem):
@@ -526,7 +526,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
                 link_expr = []
                 # Links from grounded list.
                 for name in gs.replace('(', '').replace(')', '').split(", "):
-                    if self.PreviewWindow.isMultiple(name):
+                    if self.PreviewWindow.is_multiple(name):
                         i = self.PreviewWindow.same[int(name.replace('P', ''))]
                         name = f'P{i}'
                     link_expr.append(name)
@@ -582,7 +582,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         self.__has_solution()
         self.__setWarning(
             self.expression_list_label,
-            not self.PreviewWindow.isAllLock()
+            not self.PreviewWindow.is_all_lock()
         )
         self.PreviewWindow.update()
 
@@ -594,7 +594,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             return
         expr = self.expression_list.item(count-1).text()
         self.expression_list.takeItem(count-1)
-        self.PreviewWindow.setStatus(str_between(expr, '(', ')'), False)
+        self.PreviewWindow.set_status(str_between(expr, '(', ')'), False)
         self.__set_parm_bind()
 
     @pyqtSlot(name='on_expression_clear_clicked')
@@ -609,7 +609,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
         )
         if reply != QMessageBox.Yes:
             return False
-        self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
+        self.PreviewWindow.set_grounded(self.grounded_list.currentRow())
         self.expression_list.clear()
         self.expr_show.clear()
         self.__has_solution()
@@ -634,7 +634,7 @@ class TriangularIterationWidget(QWidget, Ui_Form):
             name = f"Structure_{i}"
         self.collections[name] = self.__get_current_mechanism_params()
         self.profile_name = name
-        self.unsaveFunc()
+        self.unsave_func()
 
     @pyqtSlot(name='on_clipboard_button_clicked')
     def __copy(self):

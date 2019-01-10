@@ -109,8 +109,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.code = highlight(script, lexer, HtmlFormatter())
         self.filename = filename
         self.file_format = file_format
-        self.outputTo = parent.outputTo
-        self.saveReplyBox = parent.saveReplyBox
+        self.output_to = parent.output_to
+        self.save_reply_box = parent.save_reply_box
         self.setWindowTitle(self.filename)
         styles = sorted(get_all_styles())
         styles.insert(0, styles.pop(styles.index('default')))
@@ -131,9 +131,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @pyqtSlot(name='on_save_clicked')
     def __save(self):
         """Save to .py file."""
-        file_name = self.outputTo(self.filename, self.file_format)
+        file_name = self.output_to(self.filename, self.file_format)
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8', newline='') as f:
             f.write(self.script_view.toPlainText())
-        self.saveReplyBox(self.filename, file_name)
+        self.save_reply_box(self.filename, file_name)

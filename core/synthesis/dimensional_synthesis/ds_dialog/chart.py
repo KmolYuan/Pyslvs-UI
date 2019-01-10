@@ -102,7 +102,7 @@ class ChartDialog(QDialog):
             line.setName(f"{i}: {data['Algorithm']}")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
-            for i, e in enumerate(plot[self.__algorithm_data.index(data)]):
+            for e in plot[self.__algorithm_data.index(data)]:
                 y = e[pos_y]
                 x = e[pos_x] * 100
                 line.append(QPointF(x, y))

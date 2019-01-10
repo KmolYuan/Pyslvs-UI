@@ -18,6 +18,7 @@ Development
 ---
 
 + Unified the IO encoding of text-based files.
++ Change the name of all most camelcase methods to lowercase.
 
 Version 18.12
 ===
