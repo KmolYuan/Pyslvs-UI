@@ -89,6 +89,7 @@ class WorkerThread(QThread):
             'Algorithm': self.type_num.value,
             'time': time_spend,
             'last_gen': last_gen,
+            'last_fitness': tf[-1][1],
             'interrupted': str(last_gen) if self.is_stop else 'False',
             'settings': self.settings,
             'hardware_info': {

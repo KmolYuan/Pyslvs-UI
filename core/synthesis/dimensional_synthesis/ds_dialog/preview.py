@@ -297,16 +297,18 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.basic_label.setText("\n".join(labels))
 
         # Algorithm information
-        if mechanism['interrupted'] == 'False':
-            interrupt_icon = "task_completed.png"
-        elif mechanism['interrupted'] == 'N/A':
-            interrupt_icon = "question.png"
+        inter = mechanism.get('interrupted', 'N/A')
+        if inter == 'False':
+            inter_icon = "task_completed.png"
+        elif inter == 'N/A':
+            inter_icon = "question.png"
         else:
-            interrupt_icon = "interrupted.png"
+            inter_icon = "interrupted.png"
         text_list = [
-            f"Max generation: {mechanism['last_gen']}",
-            f"<img src=\":/icons/{interrupt_icon}\" width=\"15\"/>"
-            f"Interrupted at: {mechanism['interrupted']}"
+            f"Max generation: {mechanism.get('last_gen', 'N/A')}",
+            f"Fitness: {mechanism.get('last_fitness', 'N/A'):.06f}",
+            f"<img src=\":/icons/{inter_icon}\" width=\"15\"/>"
+            f"Interrupted at: {inter}"
         ]
         for k, v in mechanism['settings'].items():
             text_list.append(f"{k}: {v}")
