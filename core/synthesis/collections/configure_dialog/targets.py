@@ -35,16 +35,10 @@ def list_texts(
             yield widget.item(row).text()
 
 
-def list_items(
-    widget: QListWidget,
-    return_row: bool = False
-) -> Iterator[Union[Tuple[int, QListWidgetItem], QListWidgetItem]]:
+def list_items(widget: QListWidget) -> Iterator[QListWidgetItem]:
     """A generator to get items from list widget."""
     for row in range(widget.count()):
-        if return_row:
-            yield row, widget.item(row)
-        else:
-            yield widget.item(row)
+        yield widget.item(row)
 
 
 class TargetsDialog(QDialog, Ui_Dialog):

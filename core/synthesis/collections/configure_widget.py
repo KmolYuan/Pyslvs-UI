@@ -531,6 +531,7 @@ class ConfigureWidget(QWidget, Ui_Form):
                 "Please setting the driver joint(s)."
             )
             return
+
         reply = QMessageBox.question(
             self,
             "Auto configure",
@@ -540,24 +541,38 @@ class ConfigureWidget(QWidget, Ui_Form):
         )
         if (reply != QMessageBox.Yes) or (not self.__clear_expr()):
             return
-        exprs = vpoints_configure(
+
+        index = 0
+        mapping = {}
+        for i in range(len(self.PreviewWindow.G.edges)):
+            if i in self.PreviewWindow.same:
+                continue
+            mapping[i] = index
+            index += 1
+        for i, j in self.PreviewWindow.same.items():
+            mapping[i] = mapping[j]
+        for name in sorted(self.PreviewWindow.cus):
+            mapping[int(name.replace('P', ''))] = index
+            index += 1
+
+        status = {}
+        for expr in vpoints_configure(
             graph2vpoints(
                 self.PreviewWindow.G,
                 self.PreviewWindow.pos,
                 self.PreviewWindow.cus,
                 self.PreviewWindow.same
             ),
-            [eval(item.text().replace('P', ''))
-                for item in list_items(self.driver_list)],
-            self.PreviewWindow.status
-        )
-        for expr in exprs:
+            [eval(item.text().replace('P', '')) for item in list_items(self.driver_list)],
+            status
+        ):
             self.__add_solution(*expr)
+
+        for i in self.PreviewWindow.status:
+            self.PreviewWindow.status[i] = status[mapping[i]]
+
         self.__has_solution()
-        self.__setWarning(
-            self.expression_list_label,
-            not self.PreviewWindow.is_all_lock()
-        )
+        _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
         self.PreviewWindow.update()
 
     @pyqtSlot(name='on_expression_pop_clicked')

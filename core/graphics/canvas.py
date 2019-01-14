@@ -454,8 +454,8 @@ class PreviewCanvas(BaseCanvas):
 
         # Additional attributes.
         self.grounded = -1
-        self.Driver = -1
-        self.Target = -1
+        self.driver = -1
+        self.target = -1
 
         self.clear()
 
@@ -467,8 +467,8 @@ class PreviewCanvas(BaseCanvas):
         self.pos.clear()
         self.status.clear()
         self.grounded = -1
-        self.Driver = -1
-        self.Target = -1
+        self.driver = -1
+        self.target = -1
         self.update()
 
     def paintEvent(self, event):
@@ -522,10 +522,10 @@ class PreviewCanvas(BaseCanvas):
                 continue
             x *= self.zoom
             y *= -self.zoom
-            if node in (self.Driver, self.Target):
-                if node == self.Driver:
+            if node in (self.driver, self.target):
+                if node == self.driver:
                     pen.setColor(color_qt('Red'))
-                elif node == self.Target:
+                elif node == self.target:
                     pen.setColor(color_qt('Yellow'))
                 self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
@@ -599,12 +599,12 @@ class PreviewCanvas(BaseCanvas):
 
     def set_driver(self, nodes: Sequence[int]):
         """Set driver nodes."""
-        self.Driver = tuple(nodes)
+        self.driver = tuple(nodes)
         self.update()
 
     def set_target(self, nodes: Sequence[int]):
         """Set target nodes."""
-        self.Target = tuple(nodes)
+        self.target = tuple(nodes)
         self.update()
 
     def set_status(self, point: str, status: bool):

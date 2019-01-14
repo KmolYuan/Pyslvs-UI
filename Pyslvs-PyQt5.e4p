@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2019-11-30, 13:06:00 -->
+<!-- Saved: 2019-01-14, 20:44:57 -->
 <!-- Copyright (C) 2019 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -88,13 +88,15 @@
     <Source>core/libs/pyslvs/triangulation.pyi</Source>
     <Source>core/libs/pyslvs/verify.pyi</Source>
     <Source>core/libs/python_solvespace/__init__.py</Source>
-    <Source>core/libs/python_solvespace/example/PyDemo.py</Source>
     <Source>core/libs/python_solvespace/example/example_crank_rocker.py</Source>
     <Source>core/libs/python_solvespace/example/example_crank_rocker_draw.py</Source>
     <Source>core/libs/python_solvespace/example/example_involute_draw_matplotlib.py</Source>
     <Source>core/libs/python_solvespace/example/example_multi_link_draw_matplotlib.py</Source>
     <Source>core/libs/python_solvespace/example/example_nutcracker.py</Source>
+    <Source>core/libs/python_solvespace/setup.py</Source>
     <Source>core/libs/python_solvespace/slvs.py</Source>
+    <Source>core/libs/python_solvespace/test/PyDemo.py</Source>
+    <Source>core/libs/python_solvespace/test/__init__.py</Source>
     <Source>core/libs/solvespace_translate.py</Source>
     <Source>core/main_window/__init__.py</Source>
     <Source>core/main_window/actions.py</Source>
@@ -103,22 +105,20 @@
     <Source>core/main_window/solver.py</Source>
     <Source>core/main_window/storage.py</Source>
     <Source>core/synthesis/__init__.py</Source>
+    <Source>core/synthesis/collections/Ui_configure_widget.py</Source>
     <Source>core/synthesis/collections/Ui_structure_widget.py</Source>
-    <Source>core/synthesis/collections/Ui_triangular_iteration_widget.py</Source>
     <Source>core/synthesis/collections/__init__.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/Ui_collections.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/Ui_customs.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/Ui_solutions.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/Ui_targets.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/__init__.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/collections.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/customs.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/solutions.py</Source>
+    <Source>core/synthesis/collections/configure_dialog/targets.py</Source>
+    <Source>core/synthesis/collections/configure_widget.py</Source>
     <Source>core/synthesis/collections/structure_widget.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/Ui_collections.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/Ui_constraints.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/Ui_customs.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/Ui_solutions.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/Ui_targets.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/__init__.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/collections.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/constraints.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/customs.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/solutions.py</Source>
-    <Source>core/synthesis/collections/ti_dialog/targets.py</Source>
-    <Source>core/synthesis/collections/triangular_iteration_widget.py</Source>
     <Source>core/synthesis/dimensional_synthesis/Ui_dimension_widget.py</Source>
     <Source>core/synthesis/dimensional_synthesis/__init__.py</Source>
     <Source>core/synthesis/dimensional_synthesis/ds_dialog/Ui_options.py</Source>
@@ -156,13 +156,13 @@
     <Form>core/io/output_option.ui</Form>
     <Form>core/io/overview.ui</Form>
     <Form>core/io/script.ui</Form>
+    <Form>core/synthesis/collections/configure_dialog/collections.ui</Form>
+    <Form>core/synthesis/collections/configure_dialog/constraints.ui</Form>
+    <Form>core/synthesis/collections/configure_dialog/customs.ui</Form>
+    <Form>core/synthesis/collections/configure_dialog/solutions.ui</Form>
+    <Form>core/synthesis/collections/configure_dialog/targets.ui</Form>
+    <Form>core/synthesis/collections/configure_widget.ui</Form>
     <Form>core/synthesis/collections/structure_widget.ui</Form>
-    <Form>core/synthesis/collections/ti_dialog/collections.ui</Form>
-    <Form>core/synthesis/collections/ti_dialog/constraints.ui</Form>
-    <Form>core/synthesis/collections/ti_dialog/customs.ui</Form>
-    <Form>core/synthesis/collections/ti_dialog/solutions.ui</Form>
-    <Form>core/synthesis/collections/ti_dialog/targets.ui</Form>
-    <Form>core/synthesis/collections/triangular_iteration_widget.ui</Form>
     <Form>core/synthesis/dimensional_synthesis/dimension_widget.ui</Form>
     <Form>core/synthesis/dimensional_synthesis/ds_dialog/options.ui</Form>
     <Form>core/synthesis/dimensional_synthesis/ds_dialog/path_adjust.ui</Form>

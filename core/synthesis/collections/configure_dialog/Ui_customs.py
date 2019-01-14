@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(343, 627)
+        Dialog.resize(388, 627)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -103,7 +103,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Custom joints"))
         self.new_group.setTitle(_translate("Dialog", "New joints"))
-        self.link_choose_label.setText(_translate("Dialog", "Belong with:"))
+        self.link_choose_label.setText(_translate("Dialog", "Belong with the link of:"))
         self.add_button.setText(_translate("Dialog", "Add"))
         self.delete_button.setText(_translate("Dialog", "Delete"))
         self.multiple_group.setTitle(_translate("Dialog", "Multiple joints"))

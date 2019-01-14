@@ -374,8 +374,15 @@ class ExprTableWidget(_BaseTableWidget):
     free_move_request = pyqtSignal(bool)
 
     def __init__(self, parent: QWidget):
-        column_count = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
-        super(ExprTableWidget, self).__init__(0, column_count, parent)
+        super(ExprTableWidget, self).__init__(0, (
+            'Function',
+            'p0',
+            'p1',
+            'p2',
+            'p3',
+            'p4',
+            'target',
+        ), parent)
         for column in range(self.columnCount()):
             self.setColumnWidth(column, 80)
         self.expr = []
