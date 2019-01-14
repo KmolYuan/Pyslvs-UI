@@ -236,7 +236,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     def record_start(self, limit: int):
         """Start a limit from main window."""
         self.path_record = []
-        for i in range(len(self.vpoints)):
+        for _ in range(len(self.vpoints)):
             self.path_record.append(deque([], limit))
 
     def record_path(self):

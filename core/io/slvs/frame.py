@@ -19,10 +19,10 @@ def slvs_frame(
 ):
     """Generate frame sketch, ignore all points that was no any connection."""
     edges = tuple(v_to_slvs())
-    
+
     # Writer object.
     writer = SlvsWriter()
-    
+
     # Add "Param".
     for i, edge in enumerate(edges):
         writer.param_num += 0x10
@@ -32,17 +32,17 @@ def slvs_frame(
             writer.param_val(writer.param_num, vpoints[p].cy)
             writer.param_num += 2
         writer.param_shift16()
-    
+
     # Add "Request".
-    for i in range(len(edges)):
+    for _ in range(len(edges)):
         writer.request_line(writer.request_num)
         writer.request_num += 1
-    
+
     # The number of same points.
-    point_num = [[] for i in range(len(vpoints))]
+    point_num = [[] for _ in range(len(vpoints))]
     # The number of same lines.
-    line_num = [[] for i in range(len(edges))]
-    
+    line_num = [[] for _ in range(len(edges))]
+
     # Add "Entity".
     for i, edge in enumerate(edges):
         writer.entity_line(writer.entity_num)
@@ -52,7 +52,7 @@ def slvs_frame(
             writer.entity_point_2d(writer.entity_num, vpoints[p].cx, vpoints[p].cy)
             line_num[i].append(writer.entity_num)
         writer.entity_shift16()
-    
+
     # Add "Constraint"
     # Same point constraint.
     for p in point_num:
@@ -73,6 +73,6 @@ def slvs_frame(
     for i, vpoint in enumerate(vpoints):
         writer.constraint_comment(writer.constraint_num, f"Point{i}", vpoint.cx, vpoint.cy)
         writer.constraint_num += 1
-    
+
     # Write file.
     writer.save(file_name)

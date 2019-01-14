@@ -109,7 +109,7 @@ class InputsWidget(QWidget, Ui_Form):
     def clear(self):
         """Clear function to reset widget status."""
         self.__path_data.clear()
-        for i in range(self.record_list.count() - 1):
+        for _ in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
         self.variable_list.clear()
 

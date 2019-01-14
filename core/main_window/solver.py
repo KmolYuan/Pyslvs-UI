@@ -324,7 +324,6 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             'Link_expr': ';'.join(link_expr_list),
             'Expression': ';'.join(expr_list),
             'Graph': graph,
-            'constraints': [],
             'pos': pos,
             'cus': cus,
             'same': same,

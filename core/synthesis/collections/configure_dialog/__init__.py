@@ -10,14 +10,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .collections import CollectionsDialog
-from .constraints import ConstraintsDialog, list_items
 from .customs import CustomsDialog
-from .targets import TargetsDialog, list_texts
+from .targets import TargetsDialog, list_texts, list_items
 from .solutions import SolutionsDialog
 
 __all__ = [
     'CollectionsDialog',
-    'ConstraintsDialog',
     'CustomsDialog',
     'TargetsDialog',
     'SolutionsDialog',

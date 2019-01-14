@@ -39,7 +39,6 @@ from core.libs import (
 )
 from .configure_dialog import (
     CollectionsDialog,
-    ConstraintsDialog,
     CustomsDialog,
     TargetsDialog,
     SolutionsDialog,
@@ -164,7 +163,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.driver_list.clear()
         self.follower_list.clear()
         self.target_list.clear()
-        self.constraint_list.clear()
         self.link_expr_show.clear()
         self.expr_show.clear()
         for label in [
@@ -172,7 +170,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.grounded_label,
             self.driver_label,
             self.follower_label,
-            self.target_label
+            self.target_label,
         ]:
             _set_warning(label, True)
 
@@ -207,9 +205,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         joints_count = set()
         for l1, l2 in ev.values():
             joints_count.update({l1, l2})
-        links = []
-        for i in range(len(joints_count)):
-            links.append([])
+        links = [[] for _ in range(len(joints_count))]
         for joint, link in ev.items():
             for node in link:
                 links[node].append(joint)
@@ -370,10 +366,6 @@ class ConfigureWidget(QWidget, Ui_Form):
             },
             'Link_expr': self.link_expr_show.text(),
             'Expression': self.expr_show.text(),
-            'constraints': [
-                tuple(s.split(", "))
-                for s in list_texts(self.constraint_list)
-            ],
         }
 
     @pyqtSlot(name='on_load_button_clicked')
@@ -413,10 +405,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         _set_warning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
         _set_warning(self.target_label, not self.target_list.count() > 0)
-        # Constraints
-        self.constraint_list.addItems([
-            ", ".join(c) for c in params['constraints']
-        ])
         # Expression
         if params['Expression']:
             for expr in params['Expression'].split(';'):
@@ -428,17 +416,6 @@ class ConfigureWidget(QWidget, Ui_Form):
                 self.__add_solution(*params)
                 self.PreviewWindow.set_status(target, True)
         _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
-
-    @pyqtSlot(name='on_constraints_button_clicked')
-    def __set_constraints(self):
-        """Show up constraint dialog."""
-        dlg = ConstraintsDialog(self)
-        dlg.show()
-        if not dlg.exec_():
-            return
-        self.constraint_list.clear()
-        for constraint in list_texts(dlg.main_list):
-            self.constraint_list.addItem(constraint)
 
     @pyqtSlot(name='on_target_button_clicked')
     def __set_target(self):

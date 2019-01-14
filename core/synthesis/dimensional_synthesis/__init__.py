@@ -580,9 +580,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         vpoint_count = len(vpoints)
 
-        path = []
-        for i in range(vpoint_count):
-            path.append([])
+        path = [[] for _ in range(vpoint_count)]
 
         # Cumulative angle
         i_count = sum(1 for e in exprs if e[0] == 'PLAP')

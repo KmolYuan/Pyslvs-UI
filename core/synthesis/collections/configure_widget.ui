@@ -388,24 +388,6 @@
            </layout>
           </widget>
           <widget class="QWidget" name="layoutWidget">
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <widget class="QPushButton" name="constraints_button">
-              <property name="text">
-               <string>Constraints</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QListWidget" name="constraint_list">
-              <property name="statusTip">
-               <string>Four bar loop to apply Gruebler's Equation.</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">

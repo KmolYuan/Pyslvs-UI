@@ -17,6 +17,7 @@ from core.QtModules import (
     Qt,
     QDialog,
     QListWidget,
+    QListWidgetItem,
 )
 from core.synthesis.collections import configure_widget as cw
 from .Ui_targets import Ui_Dialog
@@ -32,6 +33,18 @@ def list_texts(
             yield row, widget.item(row).text()
         else:
             yield widget.item(row).text()
+
+
+def list_items(
+    widget: QListWidget,
+    return_row: bool = False
+) -> Iterator[Union[Tuple[int, QListWidgetItem], QListWidgetItem]]:
+    """A generator to get items from list widget."""
+    for row in range(widget.count()):
+        if return_row:
+            yield row, widget.item(row)
+        else:
+            yield widget.item(row)
 
 
 class TargetsDialog(QDialog, Ui_Dialog):
