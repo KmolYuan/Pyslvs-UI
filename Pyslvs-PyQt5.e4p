@@ -64,7 +64,7 @@
     <Source>core/libs/pyslvs/graph.pyi</Source>
     <Source>core/libs/pyslvs/number.pyi</Source>
     <Source>core/libs/pyslvs/planar_check.pyi</Source>
-    <Source>core/libs/pyslvs/planarlinkage.pyi</Source>
+    <Source>core/libs/pyslvs/planar_linkage.pyi</Source>
     <Source>core/libs/pyslvs/pmks.pyi</Source>
     <Source>core/libs/pyslvs/rga.pyi</Source>
     <Source>core/libs/pyslvs/setup.py</Source>
@@ -76,7 +76,7 @@
     <Source>core/libs/pyslvs/src/number.pyx</Source>
     <Source>core/libs/pyslvs/src/planar_check.pxd</Source>
     <Source>core/libs/pyslvs/src/planar_check.pyx</Source>
-    <Source>core/libs/pyslvs/src/planarlinkage.pyx</Source>
+    <Source>core/libs/pyslvs/src/planar_linkage.pyx</Source>
     <Source>core/libs/pyslvs/src/pmks.pxd</Source>
     <Source>core/libs/pyslvs/src/pmks.pyx</Source>
     <Source>core/libs/pyslvs/src/sketch_solve.pxd</Source>
