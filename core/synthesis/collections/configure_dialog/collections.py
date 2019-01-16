@@ -195,7 +195,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         # Current profile name.
         self.__name_loaded = ""
 
-        def get_solutions_func() -> Tuple[str, ...]:
+        def get_solutions_func() -> str:
             """Return solutions to preview canvas."""
             try:
                 return self.collections[self.__name_loaded]['Expression']
@@ -207,7 +207,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 elif self.__name_loaded == "Ball lifter linkage mechanism":
                     return _mech_params_ball_lifter['Expression']
                 else:
-                    return ()
+                    return ""
 
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)

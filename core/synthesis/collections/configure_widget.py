@@ -11,10 +11,8 @@ from typing import (
     Dict,
     Tuple,
     Sequence,
-    Set,
     Callable,
     Any,
-    Optional,
 )
 from math import hypot
 import pprint
@@ -32,7 +30,6 @@ from core.QtModules import (
 from core.graphics import PreviewCanvas
 from core.io import str_before, str_between
 from core.libs import (
-    vpoints_configure,
     Graph,
     edges_view,
     graph2vpoints,
@@ -41,9 +38,7 @@ from .configure_dialog import (
     CollectionsDialog,
     CustomsDialog,
     TargetsDialog,
-    SolutionsDialog,
     list_texts,
-    list_items,
 )
 from .Ui_configure_widget import Ui_Form
 
@@ -130,19 +125,14 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.collections: Dict[str, Dict[str, Any]] = {}
 
         # Customized preview canvas.
-        self.PreviewWindow = _PreviewWindow(lambda: ';'.join(
-            self.expression_list.item(row).text()
-            for row in range(self.expression_list.count())
-        ), self)
+        self.PreviewWindow = _PreviewWindow(lambda: "", self)
         self.PreviewWindow.set_joint_number.connect(
             self.joint_name.setCurrentIndex
         )
         self.main_layout.insertWidget(0, self.PreviewWindow)
-        self.show_solutions.clicked.connect(self.PreviewWindow.set_show_solutions)
+        self.main_splitter.setSizes([300, 300])
 
-        # Signals
-        self.joint_name.currentIndexChanged.connect(self.__has_solution)
-        self.clear()
+        self.__clear_panel()
 
     def add_collections(self, collections: Dict[str, Dict[str, Any]]):
         """Update the new collections."""
@@ -158,15 +148,13 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.profile_name = ""
         self.PreviewWindow.clear()
         self.joint_name.clear()
-        self.expression_list.clear()
         self.grounded_list.clear()
         self.driver_list.clear()
         self.follower_list.clear()
         self.target_list.clear()
-        self.link_expr_show.clear()
         self.expr_show.clear()
+        self.link_expr_show.clear()
         for label in [
-            self.expression_list_label,
             self.grounded_label,
             self.driver_label,
             self.follower_label,
@@ -203,15 +191,20 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.PreviewWindow.set_graph(graph, pos)
         ev = dict(edges_view(graph))
         joints_count = set()
+
         for l1, l2 in ev.values():
             joints_count.update({l1, l2})
+
         links = [[] for _ in range(len(joints_count))]
+
         for joint, link in ev.items():
             for node in link:
                 links[node].append(joint)
+
         for link in links:
             points_text = ", ".join(f'P{node}' for node in link)
             self.grounded_list.addItem(f"({points_text})")
+
         # Point name as (P1, P2, P3, ...).
         for node in pos:
             self.joint_name.addItem(f'P{node}')
@@ -222,9 +215,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
         self.PreviewWindow.set_grounded(row)
-        self.__has_solution()
-        self.expression_list.clear()
-        self.expr_show.clear()
         self.follower_list.clear()
         self.driver_list.clear()
         self.driver_base.clear()
@@ -238,13 +228,15 @@ class ConfigureWidget(QWidget, Ui_Form):
             )
             self.follower_list.addItems(items)
             self.driver_base.addItems(items)
+
         _set_warning(self.follower_label, not has_choose)
         _set_warning(self.driver_label, True)
-        _set_warning(self.expression_list_label, True)
-        if row != self.grounded_list.currentRow():
-            self.grounded_list.blockSignals(True)
-            self.grounded_list.setCurrentRow(row)
-            self.grounded_list.blockSignals(False)
+        if row == self.grounded_list.currentRow():
+            return
+
+        self.grounded_list.blockSignals(True)
+        self.grounded_list.setCurrentRow(row)
+        self.grounded_list.blockSignals(False)
 
     @pyqtSlot(str, name='on_driver_base_currentIndexChanged')
     def __set_driver_base(self, name: str):
@@ -273,10 +265,12 @@ class ConfigureWidget(QWidget, Ui_Form):
         d2 = self.driver_rotator.currentText()
         if not (d1 and d2):
             return
+
         d1_d2 = f"({d1}, {d2})"
         for n in list_texts(self.driver_list):
             if n == d1_d2:
                 return
+
         self.__find_follower_to_remove(d1)
         self.driver_list.addItem(d1_d2)
         self.PreviewWindow.set_driver([
@@ -290,8 +284,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         row = self.driver_list.currentRow()
         if not row > -1:
             return
-        if not self.__clear_expr():
-            return
+
         d1_d2 = self.driver_list.item(row).text()
         d1, d2 = eval(d1_d2.replace('P', ''))
         self.__find_follower_to_add(f'P{d1}')
@@ -309,30 +302,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         if self.follower_list.findItems(name, Qt.MatchExactly):
             return
         self.follower_list.addItem(name)
-
-    @pyqtSlot(int)
-    def __has_solution(self, index: Optional[int] = None):
-        """Set buttons enable if there has solution."""
-        if index is None:
-            index = self.joint_name.currentIndex()
-        if not index > -1:
-            self.status_show.setText("N/A")
-            self.PLAP_solution.setEnabled(False)
-            self.PLLP_solution.setEnabled(False)
-            return
-        status = self.PreviewWindow.get_status(index)
-        if not status:
-            status_str = "Not known."
-        elif index in self.PreviewWindow.same:
-            status_str = f"Same as P{self.PreviewWindow.same[index]}."
-        else:
-            status_str = "Grounded."
-            for expr in list_texts(self.expression_list):
-                if index == int(str_between(expr, '(', ')').replace('P', '')):
-                    status_str = f"From {str_before(expr, '[')}."
-        self.status_show.setText(status_str)
-        self.PLAP_solution.setEnabled(not status)
-        self.PLLP_solution.setEnabled(not status)
 
     @pyqtSlot(name='on_add_customization_clicked')
     def __add_cus(self):
@@ -364,8 +333,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             'Target': {
                 s: None for s in list_texts(self.target_list)
             },
-            'Link_expr': self.link_expr_show.text(),
             'Expression': self.expr_show.text(),
+            'Link_expr': self.link_expr_show.text(),
         }
 
     @pyqtSlot(name='on_load_button_clicked')
@@ -379,13 +348,16 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg.show()
         if not dlg.exec_():
             return
+
         self.profile_name = dlg.name()
         params = dlg.params()
+
         # Add customize joints.
         graph = Graph(params['Graph'])
         self.set_graph(graph, params['pos'])
         self.PreviewWindow.cus = params['cus']
         self.PreviewWindow.same = params['same']
+
         # Grounded setting.
         drivers = set(params['Driver'])
         followers = set(params['Follower'])
@@ -394,6 +366,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             if (drivers | followers) <= points:
                 self.__set_ground(row)
                 break
+
         # Driver, Follower, Target
         for expr in params['Expression'].split(';'):
             if str_before(expr, '[') != 'PLAP':
@@ -405,17 +378,14 @@ class ConfigureWidget(QWidget, Ui_Form):
         _set_warning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
         _set_warning(self.target_label, not self.target_list.count() > 0)
+
         # Expression
-        if params['Expression']:
-            for expr in params['Expression'].split(';'):
-                func = str_before(expr, '[')
-                target = str_between(expr, '(', ')')
-                params = str_between(expr, '[', ']').split(',')
-                params.insert(0, func)
-                params.append(target)
-                self.__add_solution(*params)
-                self.PreviewWindow.set_status(target, True)
-        _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
+        if 'Expression' in params:
+            self.expr_show.setText(params['Expression'])
+
+        # Link expression
+        if 'Link_expr' in params:
+            self.link_expr_show.setText(params['Link_expr'])
 
     @pyqtSlot(name='on_target_button_clicked')
     def __set_target(self):
@@ -429,71 +399,9 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.target_list.addItem(target)
         _set_warning(self.target_label, not self.target_list.count() > 0)
 
-    def __symbols(self) -> Set[str]:
-        """Return all symbols."""
-        expr_list = set()
-        for expr in self.expr_show.text().split(';'):
-            param_list = str_between(expr, '[', ']').split(',')
-            param_list.append(str_between(expr, '(', ')'))
-            expr_list.update(param_list)
-        return expr_list
-
-    def __get_param(self, angle: bool = False) -> int:
-        """Get the link / angle parameter number."""
-        i = 0
-        p = ('a' if angle else 'L')
-        while p + str(i) in self.__symbols():
-            i += 1
-        return i
-
-    @pyqtSlot(name='on_PLAP_solution_clicked')
-    def __add_plap(self):
-        """Show up dialog to add a PLAP solution."""
-        dlg = SolutionsDialog('PLAP', self)
-        dlg.show()
-        if not dlg.exec_():
-            return
-        point = self.joint_name.currentText()
-        self.__add_solution(
-            "PLAP",
-            dlg.point_A.currentText(),
-            f'L{self.__get_param()}',
-            f'a{self.__get_param(angle=True)}',
-            point
-        )
-
-    @pyqtSlot(name='on_PLLP_solution_clicked')
-    def __add_pllp(self):
-        """Show up dialog to add a PLLP solution."""
-        dlg = SolutionsDialog('PLLP', self)
-        dlg.show()
-        if not dlg.exec_():
-            return
-        point = self.joint_name.currentText()
-        link_num = self.__get_param()
-        self.__add_solution(
-            "PLLP",
-            dlg.point_A.currentText(),
-            f'L{link_num}',
-            f'L{link_num + 1}',
-            dlg.point_B.currentText(),
-            point
-        )
-
-    def __add_solution(self, *expr: str):
-        """Add a solution."""
-        item = QListWidgetItem()
-        self.expression_list.addItem(item)
-        item.setText(f"{expr[0]}[{','.join(expr[1:-1])}]({expr[-1]})")
-        self.PreviewWindow.set_status(expr[-1], True)
-        self.__set_parm_bind()
-        self.__has_solution()
-        _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
-
     @pyqtSlot(QListWidgetItem)
     def __set_parm_bind(self, _: QListWidgetItem = None):
         """Set parameters binding."""
-        self.expr_show.setText(';'.join(list_texts(self.expression_list)))
         link_expr_list = []
         for row, gs in list_texts(self.grounded_list, True):
             try:
@@ -516,93 +424,17 @@ class ConfigureWidget(QWidget, Ui_Form):
                     link_expr_list.insert(0, link_expr_str)
                 else:
                     link_expr_list.append(link_expr_str)
+
+        self.expr_show.setText("M[" + ", ".join(vp.expr for vp in graph2vpoints(
+            self.PreviewWindow.G,
+            self.PreviewWindow.pos,
+            self.PreviewWindow.cus,
+            self.PreviewWindow.same
+        )) + "]")
         self.link_expr_show.setText(';'.join(
             ('ground' if i == 0 else '') + f"[{link}]"
             for i, link in enumerate(link_expr_list)
         ))
-
-    @pyqtSlot(name='on_expression_auto_clicked')
-    def __auto_configure(self):
-        """Auto configure the solutions."""
-        if not self.driver_list.count():
-            QMessageBox.information(
-                self,
-                "Auto configure",
-                "Please setting the driver joint(s)."
-            )
-            return
-
-        reply = QMessageBox.question(
-            self,
-            "Auto configure",
-            "This function can detect the structure "
-            "to configure the solutions.\n"
-            "The current settings will be cleared."
-        )
-        if (reply != QMessageBox.Yes) or (not self.__clear_expr()):
-            return
-
-        index = 0
-        mapping = {}
-        for i in range(len(self.PreviewWindow.G.edges)):
-            if i in self.PreviewWindow.same:
-                continue
-            mapping[i] = index
-            index += 1
-        for i, j in self.PreviewWindow.same.items():
-            mapping[i] = mapping[j]
-        for name in sorted(self.PreviewWindow.cus):
-            mapping[int(name.replace('P', ''))] = index
-            index += 1
-
-        status = {}
-        for expr in vpoints_configure(
-            graph2vpoints(
-                self.PreviewWindow.G,
-                self.PreviewWindow.pos,
-                self.PreviewWindow.cus,
-                self.PreviewWindow.same
-            ),
-            [eval(item.text().replace('P', '')) for item in list_items(self.driver_list)],
-            status
-        ):
-            self.__add_solution(*expr)
-
-        for i in self.PreviewWindow.status:
-            self.PreviewWindow.status[i] = status[mapping[i]]
-
-        self.__has_solution()
-        _set_warning(self.expression_list_label, not self.PreviewWindow.is_all_lock())
-        self.PreviewWindow.update()
-
-    @pyqtSlot(name='on_expression_pop_clicked')
-    def __pop_expr(self):
-        """Remove the last solution."""
-        count = self.expression_list.count()
-        if not count:
-            return
-        expr = self.expression_list.item(count-1).text()
-        self.expression_list.takeItem(count-1)
-        self.PreviewWindow.set_status(str_between(expr, '(', ')'), False)
-        self.__set_parm_bind()
-
-    @pyqtSlot(name='on_expression_clear_clicked')
-    def __clear_expr(self) -> bool:
-        """Clear the solutions. Return true if succeeded."""
-        if not self.expression_list.count():
-            return True
-        reply = QMessageBox.question(
-            self,
-            "Clear the solutions",
-            "Are you sure to clear the solutions?"
-        )
-        if reply != QMessageBox.Yes:
-            return False
-        self.PreviewWindow.set_grounded(self.grounded_list.currentRow())
-        self.expression_list.clear()
-        self.expr_show.clear()
-        self.__has_solution()
-        return True
 
     @pyqtSlot(name='on_save_button_clicked')
     def __save(self):

@@ -27,7 +27,7 @@ from core import main_window as mw
 from .Ui_script import Ui_Dialog
 
 
-_script = """
+_SCRIPT = """
 from pyslvs import (
     parse_vpoints,
     vpoints_configure,
@@ -54,7 +54,7 @@ def slvs_process_script(
     inputs: Sequence[Tuple[int, int]]
 ) -> str:
     """Return parser function script."""
-    return _script.format(
+    return _SCRIPT.format(
         '\n'.join(" " * 8 + f'"{expr}, "' for expr in script),
         inputs
     )

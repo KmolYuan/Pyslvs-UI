@@ -35,12 +35,6 @@ def list_texts(
             yield widget.item(row).text()
 
 
-def list_items(widget: QListWidget) -> Iterator[QListWidgetItem]:
-    """A generator to get items from list widget."""
-    for row in range(widget.count()):
-        yield widget.item(row)
-
-
 class TargetsDialog(QDialog, Ui_Dialog):
 
     """Option dialog.
