@@ -16,102 +16,22 @@ from PyQt5.sip import wrappertype
 from PyQt5.QtCore import (
     pyqtSignal,
     pyqtSlot,
-    QCoreApplication,
-    QDir,
-    QFileInfo,
-    QLineF,
-    QModelIndex,
-    QMutex,
-    QMutexLocker,
-    QObject,
-    QPoint,
-    QPointF,
-    QRectF,
-    QSettings,
-    QSize,
-    QSizeF,
-    QStandardPaths,
-    QThread,
-    QTimer,
-    QUrl,
-    Qt,
+    qVersion,
+    PYQT_VERSION_STR,
 )
-from PyQt5.QtWidgets import (
-    QAbstractItemView,
-    QAction,
-    QApplication,
-    QCheckBox,
-    QColorDialog,
-    QComboBox,
-    QDial,
-    QDialog,
-    QDialogButtonBox,
-    QDoubleSpinBox,
-    QFileDialog,
-    QGraphicsScene,
-    QGraphicsView,
-    QHBoxLayout,
-    QInputDialog,
-    QLabel,
-    QLineEdit,
-    QListWidget,
-    QListWidgetItem,
-    QMainWindow,
-    QMenu,
-    QMessageBox,
-    QProgressDialog,
-    QPushButton,
-    QScrollBar,
-    QShortcut,
-    QSizePolicy,
-    QSpacerItem,
-    QSpinBox,
-    QSplashScreen,
-    QTabWidget,
-    QTableWidget,
-    QTableWidgetItem,
-    QTableWidgetSelectionRange,
-    QTextEdit,
-    QToolTip,
-    QUndoCommand,
-    QUndoStack,
-    QUndoView,
-    QVBoxLayout,
-    QWidget,
-)
-from PyQt5.QtGui import (
-    QBrush,
-    QColor,
-    QCursor,
-    QDesktopServices,
-    QFont,
-    QFontMetrics,
-    QIcon,
-    QImage,
-    QKeySequence,
-    QPainter,
-    QPainterPath,
-    QPen,
-    QPixmap,
-    QPolygonF,
-    QTextCursor,
-)
-from PyQt5.QtChart import (
-    QCategoryAxis,
-    QChart,
-    QChartView,
-    QLineSeries,
-    QScatterSeries,
-    QValueAxis,
-)
-from PyQt5.QtCore import qVersion, PYQT_VERSION_STR
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtChart import *
 
 __all__ = [
+    'Qt',
     'pyqtSignal',
     'pyqtSlot',
     'qt_image_format',
     'qVersion',
     'PYQT_VERSION_STR',
+    'QAbcMeta',
     'QAbstractItemView',
     'QAction',
     'QApplication',
@@ -192,8 +112,6 @@ __all__ = [
     'QValueAxis',
     'QVBoxLayout',
     'QWidget',
-    'Qt',
-    'QAbcMeta',
 ]
 
 
@@ -219,6 +137,5 @@ class QAbcMeta(wrappertype, ABCMeta):
         @abstractmethod
         def my_abstract_method(self):
             ...
-
     """
     pass
