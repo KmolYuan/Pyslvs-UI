@@ -432,7 +432,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.configure_canvas.G,
             self.configure_canvas.pos,
             self.configure_canvas.cus,
-            self.configure_canvas.same
+            self.configure_canvas.same,
+            self.grounded_list.currentRow()
         )) + "]")
         self.link_expr_show.setText(';'.join(
             ('ground' if i == 0 else '') + f"[{link}]"

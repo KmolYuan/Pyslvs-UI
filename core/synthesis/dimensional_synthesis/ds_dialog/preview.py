@@ -304,9 +304,13 @@ class PreviewDialog(QDialog, Ui_Dialog):
             inter_icon = "question.png"
         else:
             inter_icon = "interrupted.png"
+        if 'last_fitness' in mechanism:
+            fitness = f"{mechanism['fitness']:.06f}"
+        else:
+            fitness = 'N/A'
         text_list = [
             f"Max generation: {mechanism.get('last_gen', 'N/A')}",
-            f"Fitness: {mechanism.get('last_fitness', 'N/A'):.06f}",
+            f"Fitness: {fitness}",
             f"<img src=\":/icons/{inter_icon}\" width=\"15\"/>"
             f"Interrupted at: {inter}"
         ]
