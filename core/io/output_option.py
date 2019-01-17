@@ -96,7 +96,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QAbcMeta):
         if path:
             self.path_edit.setText(path)
 
-    @pyqtSlot(name='on_buttonBox_accepted')
+    @pyqtSlot(name='on_button_box_accepted')
     def __accepted(self):
         """Use the file path to export the project."""
         qdir = QDir(_get_name(self.path_edit, ispath=True))

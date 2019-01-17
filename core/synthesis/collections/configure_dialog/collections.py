@@ -9,12 +9,9 @@ __email__ = "pyslvs@gmail.com"
 
 from copy import deepcopy
 from typing import (
-    Tuple,
     Dict,
     Callable,
     Any,
-    Union,
-    Optional,
 )
 from core.QtModules import (
     Qt,
@@ -219,20 +216,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.main_splitter.setSizes([200, 200])
         self.sub_splitter.setSizes([100, 200])
 
-        # Signals
-        self.common_list.currentTextChanged.connect(self.__choose_common)
-        self.common_list.itemDoubleClicked.connect(self.__load_common)
-        self.common_load.clicked.connect(self.__load_common)
-        self.collections_list.currentTextChanged.connect(self.__choose_collections)
-        self.collections_list.currentTextChanged.connect(self.__can_open)
-        self.collections_list.itemDoubleClicked.connect(self.__load_collections)
-        self.buttonBox.accepted.connect(self.__load_collections)
         self.__has_collection()
         self.__can_open()
 
-    def __can_open(self):
+    @pyqtSlot(str, name='on_collections_list_currentTextChanged')
+    def __can_open(self, _=None):
         """Set the button box to enable when data is already."""
-        self.buttonBox.button(QDialogButtonBox.Open).setEnabled(
+        self.button_box.button(QDialogButtonBox.Open).setEnabled(
             self.collections_list.currentRow() > -1
         )
 
@@ -258,6 +248,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.collections_list.currentRow()
         if not row > -1:
             return
+
         name, ok = QInputDialog.getText(
             self,
             "Profile name",
@@ -265,6 +256,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         )
         if not ok:
             return
+
         if not name:
             QMessageBox.warning(
                 self,
@@ -272,6 +264,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 "Can not use blank string to rename."
             )
             return
+
         item = self.collections_list.item(row)
         self.collections[name] = self.collections.pop(item.text())
         item.setText(name)
@@ -282,6 +275,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.collections_list.currentRow()
         if not row > -1:
             return
+
         name, ok = QInputDialog.getText(
             self,
             "Profile name",
@@ -289,6 +283,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         )
         if not ok:
             return
+
         if not name:
             QMessageBox.warning(
                 self,
@@ -296,6 +291,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 "Can not use blank string to rename."
             )
             return
+
         name_old = self.collections_list.item(row).text()
         self.collections[name] = self.collections[name_old].copy()
         self.collections_list.addItem(name)
@@ -306,6 +302,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.collections_list.currentRow()
         if not row > -1:
             return
+
         reply = QMessageBox.question(
             self,
             "Delete",
@@ -313,18 +310,19 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         )
         if reply != QMessageBox.Yes:
             return
+
         item = self.collections_list.takeItem(row)
         del self.collections[item.text()]
         self.PreviewCanvas.clear()
         self.__has_collection()
 
-    @pyqtSlot(str)
-    @pyqtSlot(QListWidgetItem)
-    def __choose_common(self, p0: Union[str, QListWidgetItem, None] = None):
+    @pyqtSlot(str, name='on_common_list_currentTextChanged')
+    def __choose_common(self, _=None):
         """Update preview canvas for common data."""
         item = self.common_list.currentItem()
         if not item:
             return
+
         self.__name_loaded = item.text()
         if self.__name_loaded == "Four bar linkage mechanism":
             self.__mech_params = deepcopy(_mech_params_4_bar)
@@ -334,13 +332,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.__mech_params = deepcopy(_mech_params_ball_lifter)
         self.PreviewCanvas.from_profile(self.__mech_params)
 
-    @pyqtSlot(str)
-    @pyqtSlot(QListWidgetItem)
-    def __choose_collections(self, p0: Union[str, QListWidgetItem, None] = None):
+    @pyqtSlot(str, name='on_collections_list_currentTextChanged')
+    def __choose_collections(self, _=None):
         """Update preview canvas for a workbook data."""
         item = self.collections_list.currentItem()
         if not item:
             return
+
         self.__name_loaded = item.text()
         self.__mech_params = deepcopy(self.collections[self.__name_loaded])
         self.PreviewCanvas.from_profile(self.__mech_params)
@@ -361,16 +359,16 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.collections[name] = collection.copy()
             self.collections_list.addItem(name)
 
-    @pyqtSlot()
-    @pyqtSlot(QListWidgetItem)
-    def __load_common(self, p0: Optional[QListWidgetItem] = None):
+    @pyqtSlot(name='on_common_load_clicked')
+    @pyqtSlot(QListWidgetItem, name='on_common_list_itemDoubleClicked')
+    def __load_common(self, _=None):
         """Load a common data and close."""
         self.__choose_common()
         self.accept()
 
-    @pyqtSlot()
-    @pyqtSlot(QListWidgetItem)
-    def __load_collections(self, p0: Optional[QListWidgetItem] = None):
+    @pyqtSlot(name='on_button_box_accepted')
+    @pyqtSlot(QListWidgetItem, name='on_collections_list_itemDoubleClicked')
+    def __load_collections(self, _=None):
         """Load a workbook data and close."""
         self.__choose_collections()
         self.accept()

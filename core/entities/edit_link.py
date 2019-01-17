@@ -75,7 +75,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def __is_ok(self):
         """Set button box enable if options are ok."""
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
+        self.button_box.button(QDialogButtonBox.Ok).setEnabled(
             self.__legal_name(self.name_edit.text())
         )
 

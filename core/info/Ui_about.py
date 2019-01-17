@@ -91,21 +91,21 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.button_box = QtWidgets.QDialogButtonBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
-        self.buttonBox.setSizePolicy(sizePolicy)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout_2.addWidget(self.buttonBox)
+        sizePolicy.setHeightForWidth(self.button_box.sizePolicy().hasHeightForWidth())
+        self.button_box.setSizePolicy(sizePolicy)
+        self.button_box.setOrientation(QtCore.Qt.Horizontal)
+        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
+        self.button_box.setObjectName("button_box")
+        self.horizontalLayout_2.addWidget(self.button_box)
         self.verticalLayout_7.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
+        self.button_box.accepted.connect(Dialog.accept)
+        self.button_box.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -118,7 +118,7 @@ class Ui_Dialog(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.LicenseTab), _translate("Dialog", "LICENSE"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.VersionsTab), _translate("Dialog", "Versions"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ArgumentsTab), _translate("Dialog", "Arguments"))
-        self.buttonBox.setWhatsThis(_translate("Dialog", "Click to exit"))
+        self.button_box.setWhatsThis(_translate("Dialog", "Click to exit"))
 
 import icons_rc
 
