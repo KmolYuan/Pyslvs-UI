@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """This module contain the functions that main window needed."""
-from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
@@ -16,11 +15,10 @@ from typing import (
     Union,
     Optional,
 )
-from abc import abstractmethod
+from abc import ABC
 from itertools import chain
 from core.QtModules import (
     pyqtSlot,
-    QAbcMeta,
     QDialogButtonBox,
     QDialog,
     QDoubleSpinBox,
@@ -83,12 +81,9 @@ class _ScaleDialog(QDialog):
         return self.enlarge.value() / self.shrink.value()
 
 
-class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
+class EntitiesMethodInterface(MainWindowUiInterface, ABC):
 
     """Abstract class for entities methods."""
-
-    def __init__(self):
-        super(EntitiesMethodInterface, self).__init__()
 
     def __edit_point(self, row: Union[int, bool] = False):
         """Edit point function."""
@@ -101,6 +96,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
         dlg.show()
         if not dlg.exec_():
             return
+
         row_count = self.EntitiesPoint.rowCount()
         type_str = dlg.type_box.currentText().split()[0]
         if type_str != 'R':
@@ -594,63 +590,3 @@ class EntitiesMethodInterface(MainWindowUiInterface, metaclass=QAbcMeta):
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))
             for row, vpoint in enumerate(vpoints)
         ))
-
-    @abstractmethod
-    def command_reload(self, index: int) -> None:
-        ...
-
-    @abstractmethod
-    def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def set_mouse_pos(self, x: float, y: float) -> None:
-        ...
-
-    @abstractmethod
-    def solve(self) -> None:
-        ...
-
-    @abstractmethod
-    def resolve(self) -> None:
-        ...
-
-    @abstractmethod
-    def commit(self, is_branch: bool = False) -> None:
-        ...
-
-    @abstractmethod
-    def commit_branch(self) -> None:
-        ...
-
-    @abstractmethod
-    def enable_mechanism_actions(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_coord(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_points_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_links_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def canvas_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def link_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def customize_zoom(self) -> None:
-        ...
-
-    @abstractmethod
-    def reset_options(self) -> None:
-        ...

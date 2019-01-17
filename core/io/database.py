@@ -183,7 +183,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Call to get link data.
         self.__link_expr_func = parent.EntitiesLink.colors
         # Call to get storage data.
-        self.__storage_data_func = parent.getStorage
+        self.__storage_data_func = parent.get_storage
         # Call to get collections data.
         self.__collect_data_func = parent.CollectionTabPage.collect_data
         # Call to get triangle data.
@@ -203,7 +203,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Call to load inputs variables data.
         self.__load_inputs_func = parent.InputsWidget.add_inputs_variables
         # Add storage function.
-        self.__add_storage_func = parent.addMultipleStorage
+        self.__add_storage_func = parent.add_multiple_storage
         # Call to load paths.
         self.__load_path_func = parent.InputsWidget.load_paths
         # Call to load collections data.

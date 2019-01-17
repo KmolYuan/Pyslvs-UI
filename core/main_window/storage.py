@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """This module contain the functions that main window needed."""
-from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
@@ -14,14 +13,13 @@ from typing import (
     Dict,
     Optional,
 )
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from core.QtModules import (
     pyqtSlot,
     QApplication,
     QListWidgetItem,
     QInputDialog,
     QMessageBox,
-    QAbcMeta,
 )
 from core.widgets import (
     AddStorage,
@@ -33,12 +31,9 @@ from core.libs import parse_params
 from .solver import SolverMethodInterface
 
 
-class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
+class StorageMethodInterface(SolverMethodInterface, ABC):
 
     """Abstract class for storage methods."""
-
-    def __init__(self):
-        super(StorageMethodInterface, self).__init__()
 
     def __add_storage(self, name: str, expr: str):
         """Add storage data function."""
@@ -51,7 +46,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.endMacro()
 
     @pyqtSlot(name='on_mechanism_storage_add_clicked')
-    def addStorage(self):
+    def __add_current_storage(self):
         name = (
             self.mechanism_storage_name_tag.text() or
             self.mechanism_storage_name_tag.placeholderText()
@@ -63,14 +58,14 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.endMacro()
 
     @pyqtSlot(name='on_mechanism_storage_copy_clicked')
-    def copyStorage(self):
+    def __copy_storage(self):
         """Copy the expression from a storage data."""
         item = self.mechanism_storage.currentItem()
         if item:
             QApplication.clipboard().setText(item.expr)
 
     @pyqtSlot(name='on_mechanism_storage_paste_clicked')
-    def pasteStorage(self):
+    def __paste_storage(self):
         """Add the storage data from string."""
         expr, ok = QInputDialog.getMultiLineText(
             self,
@@ -109,7 +104,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.__add_storage(name, expr)
 
     @pyqtSlot(name='on_mechanism_storage_delete_clicked')
-    def deleteStorage(self):
+    def __delete_storage(self):
         """Delete the storage data."""
         row = self.mechanism_storage.currentRow()
         if not row > -1:
@@ -121,7 +116,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
 
     @pyqtSlot(name='on_mechanism_storage_restore_clicked')
     @pyqtSlot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
-    def restoreStorage(self, item: Optional[QListWidgetItem] = None):
+    def __restore_storage(self, item: Optional[QListWidgetItem] = None):
         """Restore the storage data."""
         if item is None:
             item = self.mechanism_storage.currentItem()
@@ -144,7 +139,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.EntitiesLink.clear()
         self.InputsWidget.variable_excluding()
 
-        self.parseExpression(item.expr)
+        self.parse_expression(item.expr)
         self.CommandStack.push(DeleteStorage(
             self.mechanism_storage.row(item),
             self.mechanism_storage
@@ -152,7 +147,7 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
         self.CommandStack.push(AddStorageName(name, self.mechanism_storage_name_tag))
         self.CommandStack.endMacro()
 
-    def getStorage(self) -> Dict[str, str]:
+    def get_storage(self) -> Dict[str, str]:
         """Get storage data."""
         storage: Dict[str, str] = {}
         for row in range(self.mechanism_storage.count()):
@@ -160,59 +155,11 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
             storage[item.text()] = item.expr
         return storage
 
-    def addMultipleStorage(self, exprs: Sequence[Tuple[str, str]]):
+    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]):
         """Add storage data from database."""
         for name, expr in exprs:
             self.__add_storage(name, expr)
 
     @abstractmethod
-    def command_reload(self, index: int) -> None:
-        ...
-
-    @abstractmethod
-    def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def set_mouse_pos(self, x: float, y: float) -> None:
-        ...
-
-    @abstractmethod
-    def commit(self, is_branch: bool = False) -> None:
-        ...
-
-    @abstractmethod
-    def commit_branch(self) -> None:
-        ...
-
-    @abstractmethod
-    def enable_mechanism_actions(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_coord(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_points_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_links_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def canvas_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def link_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def customize_zoom(self) -> None:
-        ...
-
-    @abstractmethod
-    def reset_options(self) -> None:
+    def parse_expression(self, expr: str) -> None:
         ...

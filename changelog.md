@@ -20,6 +20,7 @@ Development
 
 + Unified the IO encoding of text-based files.
 + Change the name of all most camelcase methods to lowercase.
++ Re-design the inherit method of main window classes.
 
 Version 18.12
 ===

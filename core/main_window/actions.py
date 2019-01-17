@@ -8,13 +8,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Callable
-from abc import abstractmethod
+from abc import ABC
 from core.QtModules import (
     pyqtSlot,
     QAction,
     QApplication,
     QPoint,
-    QAbcMeta,
 )
 from core.widgets import (
     AddTable,
@@ -31,7 +30,7 @@ def _copy_table_data(table):
         QApplication.clipboard().setText(text)
 
 
-class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
+class ActionMethodInterface(StorageMethodInterface, ABC):
 
     """Abstract class for action methods."""
 
@@ -243,27 +242,3 @@ class ActionMethodInterface(StorageMethodInterface, metaclass=QAbcMeta):
         pos = self.EntitiesPoint.current_position(self.EntitiesPoint.currentRow())
         text = str(pos[0] if (len(pos) == 1) else pos)
         QApplication.clipboard().setText(text)
-
-    @abstractmethod
-    def command_reload(self, index: int) -> None:
-        ...
-
-    @abstractmethod
-    def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def commit(self, is_branch: bool = False) -> None:
-        ...
-
-    @abstractmethod
-    def commit_branch(self) -> None:
-        ...
-
-    @abstractmethod
-    def customize_zoom(self) -> None:
-        ...
-
-    @abstractmethod
-    def reset_options(self) -> None:
-        ...

@@ -15,13 +15,13 @@ from typing import (
     Iterator,
     Union,
 )
-from abc import abstractmethod
+from abc import ABC
 from pygments.lexers.python import Python3Lexer
 from lark.exceptions import LarkError
 from core.QtModules import (
+    Qt,
     pyqtSlot,
     qt_image_format,
-    Qt,
     QApplication,
     QWidget,
     QMessageBox,
@@ -36,7 +36,6 @@ from core.QtModules import (
     QComboBox,
     QCheckBox,
     QLineEdit,
-    QAbcMeta,
 )
 from core.info import (
     __version__,
@@ -68,12 +67,9 @@ def _open_url(url: str):
     QDesktopServices.openUrl(QUrl(url))
 
 
-class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
+class IOMethodInterface(ActionMethodInterface, ABC):
 
     """Abstract class for action methods."""
-
-    def __init__(self):
-        super(IOMethodInterface, self).__init__()
 
     def __v_to_slvs(self) -> Callable[[], Iterator[Tuple[int, int]]]:
         """Solvespace edges."""
@@ -668,9 +664,10 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 kernel_name = kernel_list[1]
             elif ARGUMENTS.kernel == "sketch_solve":
                 kernel_name = kernel_list[2]
-            else:
-                # pyslvs
+            elif ARGUMENTS.kernel == "pyslvs":
                 kernel_name = kernel_list[0]
+            else:
+                raise ValueError("no such kernel")
             self.planarsolver_option.setCurrentText(kernel_name)
             self.pathpreview_option.setCurrentText(kernel_name)
 
@@ -714,19 +711,3 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
             self.__read_slvs(ARGUMENTS.file)
         else:
             print("Unsupported format has been ignore when startup.")
-
-    @abstractmethod
-    def command_reload(self, index: int) -> None:
-        ...
-
-    @abstractmethod
-    def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def commit_branch(self) -> None:
-        ...
-
-    @abstractmethod
-    def customize_zoom(self) -> None:
-        ...

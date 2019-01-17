@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """This module contain the functions that main window needed."""
-from PyQt5.QtCore import QPoint
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
@@ -16,9 +15,9 @@ from typing import (
     Union,
     Optional,
 )
-from abc import abstractmethod
+from abc import ABC
 from traceback import format_exc
-from core.QtModules import pyqtSlot, QAbcMeta
+from core.QtModules import pyqtSlot
 from core.libs import (
     slvs_solve,
     vpoints_configure,
@@ -34,7 +33,7 @@ from core.libs import (
 from .entities import EntitiesMethodInterface
 
 
-class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
+class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
     """Abstract class for solver methods."""
 
@@ -65,7 +64,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         try:
             if solve_kernel == 0:
                 result = expr_solving(
-                    self.getTriangle(),
+                    self.__get_triangle(),
                     {n: f'P{n}' for n in range(len(vpoints))},
                     vpoints,
                     tuple(a for b, d, a in self.InputsWidget.input_pairs() if b != d)
@@ -150,7 +149,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
                 try:
                     if solve_kernel == 0:
                         result = expr_solving(
-                            self.getTriangle(vpoints),
+                            self.__get_triangle(vpoints),
                             {n: f'P{n}' for n in range(vpoint_count)},
                             vpoints,
                             angles
@@ -308,7 +307,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             return f"P{mapping[node]}"
 
         expr_list = []
-        for exprs in self.getTriangle():
+        for exprs in self.__get_triangle():
             params = ','.join(map_str(i) for i in exprs[1:-1])
             expr_list.append(f'{exprs[0]}[{params}]({map_str(exprs[-1])})')
 
@@ -329,7 +328,7 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
             'same': same,
         }
 
-    def getTriangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
+    def __get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
         """Update triangle expression here.
 
         Special function for VPoints.
@@ -366,58 +365,6 @@ class SolverMethodInterface(EntitiesMethodInterface, metaclass=QAbcMeta):
         self.MainCanvas.update_figure(
             self.EntitiesPoint.data_tuple(),
             self.EntitiesLink.data_tuple(),
-            self.getTriangle(),
+            self.__get_triangle(),
             self.InputsWidget.current_path()
         )
-
-    @abstractmethod
-    def command_reload(self, index: int) -> None:
-        ...
-
-    @abstractmethod
-    def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def set_mouse_pos(self, x: float, y: float) -> None:
-        ...
-
-    @abstractmethod
-    def commit(self, is_branch: bool = False) -> None:
-        ...
-
-    @abstractmethod
-    def commit_branch(self) -> None:
-        ...
-
-    @abstractmethod
-    def enable_mechanism_actions(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_coord(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_points_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_links_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def canvas_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def link_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def customize_zoom(self) -> None:
-        ...
-
-    @abstractmethod
-    def reset_options(self) -> None:
-        ...
