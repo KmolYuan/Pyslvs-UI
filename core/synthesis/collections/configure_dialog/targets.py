@@ -58,7 +58,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
                     yield widget.itemText(index)
 
             for text in combo_texts(parent.joint_name):
-                if not parent.PreviewWindow.is_multiple(text) and (text not in (
+                if not parent.configure_canvas.is_multiple(text) and (text not in (
                     current_item.text()
                     .replace('(', '')
                     .replace(')', '')

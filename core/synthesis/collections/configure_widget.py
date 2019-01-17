@@ -43,7 +43,7 @@ from .configure_dialog import (
 from .Ui_configure_widget import Ui_Form
 
 
-class _PreviewWindow(PreviewCanvas):
+class _ConfigureCanvas(PreviewCanvas):
 
     """Customized preview window has some functions of mouse interaction.
 
@@ -54,7 +54,7 @@ class _PreviewWindow(PreviewCanvas):
 
     def __init__(self, parent: QWidget):
         """Add a function use to get current point from parent."""
-        super(_PreviewWindow, self).__init__(parent)
+        super(_ConfigureCanvas, self).__init__(parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
 
@@ -129,11 +129,11 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.collections: Dict[str, Dict[str, Any]] = {}
 
         # Customized preview canvas.
-        self.PreviewWindow = _PreviewWindow(self)
-        self.PreviewWindow.set_joint_number.connect(
+        self.configure_canvas = _ConfigureCanvas(self)
+        self.configure_canvas.set_joint_number.connect(
             self.joint_name.setCurrentIndex
         )
-        self.main_layout.insertWidget(0, self.PreviewWindow)
+        self.main_layout.insertWidget(0, self.configure_canvas)
         self.main_splitter.setSizes([300, 300])
 
         self.__clear_panel()
@@ -150,7 +150,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     def __clear_panel(self):
         """Clear the settings of sub-widgets."""
         self.profile_name = ""
-        self.PreviewWindow.clear()
+        self.configure_canvas.clear()
         self.joint_name.clear()
         self.grounded_list.clear()
         self.driver_list.clear()
@@ -181,7 +181,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     @pyqtSlot(name='on_add_collection_button_clicked')
     def __add_collection(self):
         """Add the graph back to structure collections."""
-        self.add_collection(tuple(self.PreviewWindow.G.edges))
+        self.add_collection(tuple(self.configure_canvas.G.edges))
 
     @pyqtSlot(Graph, dict)
     def set_graph(
@@ -191,7 +191,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     ):
         """Set the graph to preview canvas."""
         self.__clear_panel()
-        self.PreviewWindow.set_graph(graph, pos)
+        self.configure_canvas.set_graph(graph, pos)
         ev = dict(edges_view(graph))
         joints_count = set()
 
@@ -217,7 +217,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Change current grounded link. Reset all settings."""
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
-        self.PreviewWindow.set_grounded(row)
+        self.configure_canvas.set_grounded(row)
         self.follower_list.clear()
         self.driver_list.clear()
         self.driver_base.clear()
@@ -249,7 +249,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         def find_friends(node: int):
             """Find all the nodes that are same link with input node."""
-            ev = dict(edges_view(self.PreviewWindow.G))
+            ev = dict(edges_view(self.configure_canvas.G))
             link = set(ev[node])
             tmp_list = []
             for node_, link_ in ev.items():
@@ -276,7 +276,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         self.__find_follower_to_remove(d1)
         self.driver_list.addItem(d1_d2)
-        self.PreviewWindow.set_driver([
+        self.configure_canvas.set_driver([
             eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
         ])
         _set_warning(self.driver_label, False)
@@ -312,26 +312,26 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg = CustomsDialog(self)
         dlg.show()
         dlg.exec_()
-        self.PreviewWindow.update()
+        self.configure_canvas.update()
 
     def __get_current_mechanism_params(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.__set_parm_bind()
         return {
             # To keep the origin graph.
-            'Graph': tuple(self.PreviewWindow.G.edges),
+            'Graph': tuple(self.configure_canvas.G.edges),
             # To keep the position of points.
-            'pos': self.PreviewWindow.pos.copy(),
-            'cus': self.PreviewWindow.cus.copy(),
-            'same': self.PreviewWindow.same.copy(),
+            'pos': self.configure_canvas.pos.copy(),
+            'cus': self.configure_canvas.cus.copy(),
+            'same': self.configure_canvas.same.copy(),
             # Mechanism params.
             'Driver': {
                 s.split(',')[0][1:]: None for s in list_texts(self.driver_list)
-                if not self.PreviewWindow.is_multiple(s.split(',')[0][1:])
+                if not self.configure_canvas.is_multiple(s.split(',')[0][1:])
             },
             'Follower': {
                 s: None for s in list_texts(self.follower_list)
-                if not self.PreviewWindow.is_multiple(s)
+                if not self.configure_canvas.is_multiple(s)
             },
             'Target': {
                 s: None for s in list_texts(self.target_list)
@@ -358,8 +358,8 @@ class ConfigureWidget(QWidget, Ui_Form):
         # Add customize joints.
         graph = Graph(params['Graph'])
         self.set_graph(graph, params['pos'])
-        self.PreviewWindow.cus = params['cus']
-        self.PreviewWindow.same = params['same']
+        self.configure_canvas.cus = params['cus']
+        self.configure_canvas.same = params['same']
 
         # Grounded setting.
         drivers = set(params['Driver'])
@@ -411,15 +411,15 @@ class ConfigureWidget(QWidget, Ui_Form):
                 link_expr = []
                 # Links from grounded list.
                 for name in gs.replace('(', '').replace(')', '').split(", "):
-                    if self.PreviewWindow.is_multiple(name):
-                        i = self.PreviewWindow.same[int(name.replace('P', ''))]
+                    if self.configure_canvas.is_multiple(name):
+                        i = self.configure_canvas.same[int(name.replace('P', ''))]
                         name = f'P{i}'
                     link_expr.append(name)
             except KeyError:
                 continue
             else:
                 # Customize joints.
-                for joint, link in self.PreviewWindow.cus.items():
+                for joint, link in self.configure_canvas.cus.items():
                     if row == link:
                         link_expr.append(joint)
                 link_expr_str = ','.join(sorted(set(link_expr)))
@@ -429,10 +429,10 @@ class ConfigureWidget(QWidget, Ui_Form):
                     link_expr_list.append(link_expr_str)
 
         self.expr_show.setText("M[" + ", ".join(vp.expr for vp in graph2vpoints(
-            self.PreviewWindow.G,
-            self.PreviewWindow.pos,
-            self.PreviewWindow.cus,
-            self.PreviewWindow.same
+            self.configure_canvas.G,
+            self.configure_canvas.pos,
+            self.configure_canvas.cus,
+            self.configure_canvas.same
         )) + "]")
         self.link_expr_show.setText(';'.join(
             ('ground' if i == 0 else '') + f"[{link}]"

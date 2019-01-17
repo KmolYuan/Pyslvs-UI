@@ -31,10 +31,10 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
-        self.cus: Dict[str, int] = parent.PreviewWindow.cus
-        self.same: Dict[int, int] = parent.PreviewWindow.same
-        self.pos = parent.PreviewWindow.pos
-        self.status = parent.PreviewWindow.status
+        self.cus: Dict[str, int] = parent.configure_canvas.cus
+        self.same: Dict[int, int] = parent.configure_canvas.same
+        self.pos = parent.configure_canvas.pos
+        self.status = parent.configure_canvas.status
         self.joint_combobox = parent.joint_name
 
         for row in range(parent.grounded_list.count()):

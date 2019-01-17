@@ -430,8 +430,6 @@ class PreviewCanvas(BaseCanvas):
     def __init__(self, parent: QWidget):
         """Input parameters and attributes.
 
-        + A function should return a tuple of function expression.
-            format: ("PLAP[P1,a0,L0,P2](P3)", "PLLP[P1,a0,L0,P2](P3)", ...)
         + Origin graph
         + Customize points: Dict[str, int]
         + Multiple joints: Dict[int, int]

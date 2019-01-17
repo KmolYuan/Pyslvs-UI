@@ -192,8 +192,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         # Current profile name.
         self.__name_loaded = ""
 
-        self.PreviewCanvas = PreviewCanvas(self)
-        self.preview_layout.addWidget(self.PreviewCanvas)
+        self.preview_canvas = PreviewCanvas(self)
+        self.preview_layout.addWidget(self.preview_canvas)
         for name in self.collections:
             self.collections_list.addItem(name)
 
@@ -297,7 +297,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         item = self.collections_list.takeItem(row)
         del self.collections[item.text()]
-        self.PreviewCanvas.clear()
+        self.preview_canvas.clear()
         self.__has_collection()
 
     @pyqtSlot(str, name='on_common_list_currentTextChanged')
@@ -314,7 +314,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.__mech_params = deepcopy(_mech_params_8_bar)
         elif self.__name_loaded == "Ball lifter linkage mechanism":
             self.__mech_params = deepcopy(_mech_params_ball_lifter)
-        self.PreviewCanvas.from_profile(self.__mech_params)
+        self.preview_canvas.from_profile(self.__mech_params)
 
     @pyqtSlot(str, name='on_collections_list_currentTextChanged')
     def __choose_collections(self, _=None):
@@ -325,7 +325,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.__name_loaded = item.text()
         self.__mech_params = deepcopy(self.collections[self.__name_loaded])
-        self.PreviewCanvas.from_profile(self.__mech_params)
+        self.preview_canvas.from_profile(self.__mech_params)
 
     @pyqtSlot(name='on_workbook_button_clicked')
     def __from_canvas(self):

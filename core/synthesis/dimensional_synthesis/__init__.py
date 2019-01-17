@@ -101,8 +101,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.update(DifferentialPrams)
         self.__set_algorithm_default()
 
-        self.PreviewCanvas = PreviewCanvas(self)
-        self.preview_layout.addWidget(self.PreviewCanvas)
+        self.preview_canvas = PreviewCanvas(self)
+        self.preview_layout.addWidget(self.preview_canvas)
 
         # Splitter
         self.up_splitter.setSizes([80, 100])
@@ -129,7 +129,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__clear_path(ask=False)
         self.path.clear()
         self.mech_params.clear()
-        self.PreviewCanvas.clear()
+        self.preview_canvas.clear()
         self.alg_options.clear()
         self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
@@ -791,7 +791,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             s2.valueChanged.connect(set_by_range(i, s1.value))
             row += 1
 
-        self.PreviewCanvas.from_profile(self.mech_params)
+        self.preview_canvas.from_profile(self.mech_params)
         self.update_range()
         if 'settings' in self.mech_params:
             self.alg_options.update(self.mech_params['settings'])
