@@ -101,16 +101,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.update(DifferentialPrams)
         self.__set_algorithm_default()
 
-        def get_solutions_func() -> str:
-            """For preview canvas."""
-            if 'Expression' in self.mech_params:
-                return self.mech_params['Expression']
-            else:
-                return ""
-
-        self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
+        self.PreviewCanvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.PreviewCanvas)
-        self.show_solutions.clicked.connect(self.PreviewCanvas.set_show_solutions)
 
         # Splitter
         self.up_splitter.setSizes([80, 100])
@@ -163,12 +155,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __user_clear(self):
         if self.profile_name.text() == "No setting":
             return
-        reply = QMessageBox.question(
+
+        if QMessageBox.question(
             self,
             "Clear setting",
             "Do you want to clear the setting?"
-        )
-        if reply == QMessageBox.Yes:
+        ) == QMessageBox.Yes:
             self.__clear_settings()
 
     def load_results(self, mechanism_data: Sequence[Dict[str, Any]]):
@@ -204,13 +196,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __clear_path(self, *, ask: bool = True):
         """Clear the current target path."""
         if ask:
-            reply = QMessageBox.question(
+            if QMessageBox.question(
                 self,
                 "Clear path",
                 "Are you sure to clear the current path?"
-            )
-            if reply != QMessageBox.Yes:
+            ) != QMessageBox.Yes:
                 return
+
         self.current_path().clear()
         self.path_list.clear()
         self.__current_path_changed()
@@ -499,13 +491,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(
+
+        if QMessageBox.question(
             self,
             "Delete",
             "Delete this result from list?"
-        )
-        if reply != QMessageBox.Yes:
+        ) != QMessageBox.Yes:
             return
+
         del self.__mechanism_data[row]
         self.result_list.takeItem(row)
         self.workbook_no_save()
@@ -529,6 +522,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
+
         dlg = PreviewDialog(self.__mechanism_data[row], self.__get_path(row), self)
         dlg.show()
         dlg.exec_()
@@ -539,12 +533,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(
+
+        if QMessageBox.question(
             self,
             "Merge",
             "Merge this result to your canvas?"
-        )
-        if reply == QMessageBox.Yes:
+        ) == QMessageBox.Yes:
             self.mergeResult(row, self.__get_path(row))
 
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:

@@ -52,9 +52,9 @@ class _PreviewWindow(PreviewCanvas):
 
     set_joint_number = pyqtSignal(int)
 
-    def __init__(self, get_solutions: Callable[[], str], parent: QWidget):
+    def __init__(self, parent: QWidget):
         """Add a function use to get current point from parent."""
-        super(_PreviewWindow, self).__init__(get_solutions, parent)
+        super(_PreviewWindow, self).__init__(parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
 
@@ -62,9 +62,11 @@ class _PreviewWindow(PreviewCanvas):
         """Check if get close to a joint."""
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
+
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
+
             if hypot(x - mx, y - my) <= 5:
                 self.set_joint_number.emit(node)
                 self.pressed = True
@@ -78,9 +80,11 @@ class _PreviewWindow(PreviewCanvas):
         """Drag to move the joint."""
         if not self.pressed:
             return
+
         row = self.get_joint_number()
         if not row > -1:
             return
+
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
         if -120 <= mx <= 120:
@@ -125,7 +129,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.collections: Dict[str, Dict[str, Any]] = {}
 
         # Customized preview canvas.
-        self.PreviewWindow = _PreviewWindow(lambda: "", self)
+        self.PreviewWindow = _PreviewWindow(self)
         self.PreviewWindow.set_joint_number.connect(
             self.joint_name.setCurrentIndex
         )
@@ -165,14 +169,13 @@ class ConfigureWidget(QWidget, Ui_Form):
     @pyqtSlot(name='on_clear_button_clicked')
     def __user_clear(self):
         """Ask user before clear."""
-        reply = QMessageBox.question(
+        if QMessageBox.question(
             self,
             "New profile",
             "Triangular iteration should be added structure diagrams "
             "from structure collections.\n"
             "Do you want to create a new profile?"
-        )
-        if reply == QMessageBox.Yes:
+        ) == QMessageBox.Yes:
             self.__clear_panel()
 
     @pyqtSlot(name='on_add_collection_button_clicked')

@@ -617,14 +617,12 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
                 "You are using the latest version of Pyslvs."
             )
             return
-        reply = QMessageBox.question(
+
+        if QMessageBox.question(
             self,
             "Pyslvs has update",
-            "Do you want to get it from Github?",
-            (QMessageBox.Ok | QMessageBox.Cancel),
-            QMessageBox.Ok
-        )
-        if reply == QMessageBox.Ok:
+            "Do you want to get it from Github?"
+        ) == QMessageBox.Yes:
             _open_url(url)
 
     def check_file_changed(self) -> bool:
@@ -634,6 +632,7 @@ class IOMethodInterface(ActionMethodInterface, metaclass=QAbcMeta):
         """
         if not self.DatabaseWidget.changed:
             return False
+
         reply = QMessageBox.question(
             self,
             "Message",

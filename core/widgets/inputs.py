@@ -448,22 +448,24 @@ class InputsWidget(QWidget, Ui_Form):
             data = self.__path_data[name]
         except KeyError:
             return
+
         points_text = ", ".join(f"Point{i}" for i in range(len(data)))
-        reply = QMessageBox.question(
+        if QMessageBox.question(
             self,
             "Path data",
             f"This path data including {points_text}.",
             (QMessageBox.Save | QMessageBox.Close),
             QMessageBox.Close
-        )
-        if reply != QMessageBox.Save:
+        ) != QMessageBox.Save:
             return
+
         file_name = self.output_to(
             "path data",
             ["Comma-Separated Values (*.csv)", "Text file (*.txt)"]
         )
         if not file_name:
             return
+
         with open(file_name, 'w', encoding='utf-8', newline='') as stream:
             writer = csv.writer(stream)
             for point in data:

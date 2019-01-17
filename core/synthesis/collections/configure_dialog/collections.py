@@ -192,23 +192,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         # Current profile name.
         self.__name_loaded = ""
 
-        def get_solutions_func() -> str:
-            """Return solutions to preview canvas."""
-            try:
-                return self.collections[self.__name_loaded]['Expression']
-            except KeyError:
-                if self.__name_loaded == "Four bar linkage mechanism":
-                    return _mech_params_4_bar['Expression']
-                elif self.__name_loaded == "Eight bar linkage mechanism":
-                    return _mech_params_8_bar['Expression']
-                elif self.__name_loaded == "Ball lifter linkage mechanism":
-                    return _mech_params_ball_lifter['Expression']
-                else:
-                    return ""
-
-        self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
+        self.PreviewCanvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.PreviewCanvas)
-        self.show_solutions.clicked.connect(self.PreviewCanvas.set_show_solutions)
         for name in self.collections:
             self.collections_list.addItem(name)
 
@@ -303,12 +288,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if not row > -1:
             return
 
-        reply = QMessageBox.question(
+        if QMessageBox.question(
             self,
             "Delete",
             "Do you want to delete this structure?"
-        )
-        if reply != QMessageBox.Yes:
+        ) != QMessageBox.Yes:
             return
 
         item = self.collections_list.takeItem(row)

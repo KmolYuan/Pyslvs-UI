@@ -127,14 +127,15 @@ class StorageMethodInterface(SolverMethodInterface, metaclass=QAbcMeta):
             item = self.mechanism_storage.currentItem()
         if not item:
             return
-        reply = QMessageBox.question(
+
+        if QMessageBox.question(
             self,
             "Storage",
             "Restore mechanism will overwrite the canvas.\n"
             "Do you want to continue?"
-        )
-        if reply != QMessageBox.Yes:
+        ) != QMessageBox.Yes:
             return
+
         name = item.text()
         self.CommandStack.beginMacro(f"Restore from {{Mechanism: {name}}}")
 

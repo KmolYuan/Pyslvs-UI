@@ -441,12 +441,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
 
         if break_point:
-            reply = QMessageBox.question(
+            if QMessageBox.question(
                 self,
                 "Type synthesis - abort",
                 "Do you want to keep the results?"
-            )
-            if reply != QMessageBox.Yes:
+            ) != QMessageBox.Yes:
                 return
 
         # Save the answer list.

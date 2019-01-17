@@ -13,6 +13,7 @@ Features
 + Fix the bug of deleting a point is inside the input pairs.
 + Widget focus behavior correction of tables.
 + Fix the bug of saving a YAML project.
++ Remove "solution" preview function from preview canvas class.
 
 Development
 ---

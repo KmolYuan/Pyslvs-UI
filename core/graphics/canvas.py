@@ -427,11 +427,7 @@ class PreviewCanvas(BaseCanvas):
 
     """A preview canvas use to show structure diagram."""
 
-    def __init__(
-        self,
-        get_solutions: Callable[[], str],
-        parent: QWidget
-    ):
+    def __init__(self, parent: QWidget):
         """Input parameters and attributes.
 
         + A function should return a tuple of function expression.
@@ -444,8 +440,6 @@ class PreviewCanvas(BaseCanvas):
         + Name dict: Dict['P0', 'A']
         """
         super(PreviewCanvas, self).__init__(parent)
-        self.showSolutions = True
-        self.get_solutions = get_solutions
         self.G = Graph([])
         self.cus: Dict[str, int] = {}
         self.same: Dict[int, int] = {}
@@ -498,6 +492,7 @@ class PreviewCanvas(BaseCanvas):
         pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
         self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+
         # Links
         for link in self.G.nodes:
             if link == self.grounded:
@@ -516,6 +511,7 @@ class PreviewCanvas(BaseCanvas):
                     x, y = self.pos[int(name.replace('P', ''))]
                     points.append((x * self.zoom, y * -self.zoom))
             self.painter.drawPolygon(*convex_hull(points, as_qpoint=True))
+
         # Nodes
         for node, (x, y) in self.pos.items():
             if node in self.same:
@@ -530,26 +526,16 @@ class PreviewCanvas(BaseCanvas):
                 self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
             if self.get_status(node):
-                color = color_qt('Dark-Magenta')
-            else:
                 color = color_qt('Green')
+            else:
+                color = color_qt('Blue')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
             self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
             pen.setColor(color_qt('Black'))
             self.painter.setPen(pen)
-        # Solutions
-        if self.showSolutions:
-            solutions = self.get_solutions()
-            if solutions:
-                for expr in solutions.split(';'):
-                    self.draw_solution(
-                        io.str_before(expr, '['),
-                        io.str_between(expr, '[', ']').split(','),
-                        io.str_between(expr, '(', ')'),
-                        self.pos
-                    )
+
         # Text of node.
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
@@ -616,12 +602,6 @@ class PreviewCanvas(BaseCanvas):
         """Get status. If multiple joints, return true."""
         return self.status[point] or (point in self.same)
 
-    @pyqtSlot(bool)
-    def set_show_solutions(self, status: bool):
-        """Switch solutions."""
-        self.showSolutions = status
-        self.update()
-
     def from_profile(self, params: Dict[str, Any]):
         """Simple load by dict object."""
         # Add customize joints.
@@ -629,18 +609,17 @@ class PreviewCanvas(BaseCanvas):
         self.set_graph(graph, params['pos'])
         self.cus = params['cus']
         self.same = params['same']
+
         # Grounded setting.
         driver = set(params['Driver'])
         follower = set(params['Follower'])
         for row, link in enumerate(graph.nodes):
-            points = set(f'P{n}' for n, edge in edges_view(graph) if link in edge)
-            if (driver | follower) <= points:
+            if (driver | follower) <= {
+                f'P{n}' for n, edge in edges_view(graph) if link in edge
+            }:
                 self.set_grounded(row)
                 break
-        # Expression
-        if params['Expression']:
-            for expr in params['Expression'].split(';'):
-                self.set_status(io.str_between(expr, '(', ')'), True)
+
         self.update()
 
     def is_all_lock(self) -> bool:

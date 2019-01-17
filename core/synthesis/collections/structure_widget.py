@@ -92,13 +92,13 @@ class StructureWidget(QWidget, Ui_Form):
         """Ask user before clear."""
         if not self.collections:
             return
-        reply = QMessageBox.question(
+        if QMessageBox.question(
             self,
             "Delete",
             "Sure to remove all your collections?"
-        )
-        if reply != QMessageBox.Yes:
+        ) != QMessageBox.Yes:
             return
+
         self.clear()
         self.unsaveFunc()
 
@@ -370,13 +370,14 @@ class StructureWidget(QWidget, Ui_Form):
         row = self.collection_list.currentRow()
         if not row > -1:
             return
-        reply = QMessageBox.question(
+
+        if QMessageBox.question(
             self,
             "Delete",
             f"Sure to remove # {row} from your collections?"
-        )
-        if reply != QMessageBox.Yes:
+        ) != QMessageBox.Yes:
             return
+
         self.__clear_selection()
         self.collection_list.takeItem(row)
         del self.collections[row]
@@ -437,18 +438,18 @@ class StructureWidget(QWidget, Ui_Form):
         item = self.grounded_list.currentItem()
         if not item:
             return
+
         graph = self.collections_grounded[0]
         text = item.text()
         if text == "Released":
             ground_link = None
         else:
             ground_link = int(text.split("_")[1])
-        reply = QMessageBox.question(
+        if QMessageBox.question(
             self,
             "Message",
             f"Merge \"{text}\" chain to your canvas?"
-        )
-        if reply == QMessageBox.Yes:
+        ) == QMessageBox.Yes:
             self.addPointsByGraph(
                 graph,
                 self.ground_engine,
