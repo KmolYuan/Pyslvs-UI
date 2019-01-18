@@ -11,6 +11,7 @@ Features
 + UI description improvements.
 + Removed "ground enumerate" button of synthesis collection panel.
 + Fix the bug of deleting a point is inside the input pairs.
++ Fix the bug of limitation option when algorithm option loaded.
 + Widget focus behavior correction of tables.
 + Fix the bug of saving a YAML project.
 + Remove "solution" preview function from preview canvas class.
@@ -25,6 +26,7 @@ Development
 + Simplified Qt module introduction.
 + Enhancement of enum types.
 + Rename "signal" and "slot" introduction of PyQt.
++ Adjust limitation option of algorithm to "max_gen", "min_fit" and "max_time".
 
 Version 18.12
 ===

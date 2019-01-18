@@ -51,7 +51,7 @@ DifferentialPrams = {
     'CR': 0.9,
 }
 
-defaultSettings = {'maxGen': 1000, 'report': 10}
+defaultSettings = {'max_gen': 1000, 'report': 10}
 
 
 @unique
@@ -164,15 +164,15 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
 
     def __set_args(self, settings: Dict[str, Any]):
         """Set arguments by settings dict."""
-        if 'maxGen' in settings:
-            self.maxGen.setValue(settings['maxGen'])
-        elif 'minFit' in settings:
+        if 'max_gen' in settings:
+            self.max_gen.setValue(settings['max_gen'])
+        elif 'min_fit' in settings:
             self.minFit_option.setChecked(True)
-            self.minFit.setValue(settings['minFit'])
-        elif 'maxTime' in settings:
+            self.min_fit.setValue(settings['min_fit'])
+        elif 'max_time' in settings:
             self.maxTime_option.setChecked(True)
             # In second (int).
-            max_time = settings['maxTime']
+            max_time = settings['max_time']
             self.maxTime_h.setValue(max_time // 3600)
             self.maxTime_m.setValue((max_time % 3600) // 60)
             self.maxTime_s.setValue(max_time % 3600 % 60)

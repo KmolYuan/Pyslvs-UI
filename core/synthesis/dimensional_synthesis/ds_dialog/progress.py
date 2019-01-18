@@ -43,25 +43,25 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.mechanisms: List[Dict[str, Any]] = []
 
         # Batch label.
-        if 'maxGen' in setting:
-            self.limit = setting['maxGen']
+        if 'max_gen' in setting:
+            self.limit = setting['max_gen']
             if self.limit > 0:
                 self.batch_label.setText(f"{self.limit} generation(s)")
             else:
                 self.batch_label.setText('∞')
-            self.limit_mode = 'maxGen'
-        elif 'minFit' in setting:
-            self.limit = setting['minFit']
+            self.limit_mode = 'max_gen'
+        elif 'min_fit' in setting:
+            self.limit = setting['min_fit']
             self.batch_label.setText(f"fitness less then {self.limit}")
-            self.limit_mode = 'minFit'
-        elif 'maxTime' in setting:
-            self.limit = setting['maxTime']
+            self.limit_mode = 'min_fit'
+        elif 'max_time' in setting:
+            self.limit = setting['max_time']
             self.batch_label.setText(
                 f"{self.limit // 3600:02d}:"
                 f"{self.limit % 3600 // 60:02d}:"
                 f"{self.limit % 3600 % 60:02d}"
             )
-            self.limit_mode = 'maxTime'
+            self.limit_mode = 'max_time'
         self.loopTime.setEnabled(self.limit > 0)
 
         # Timer.
@@ -81,7 +81,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __set_progress(self, progress: int, fitness: str):
         """Progress bar will always full."""
         value = progress + self.limit * self.work.currentLoop
-        if self.limit_mode in {'minFit', 'maxTime'} or self.limit == 0:
+        if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
             self.progressBar.setMaximum(value)
         self.progressBar.setValue(value)
         self.fitness_label.setText(fitness)
@@ -101,7 +101,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         """Start the process."""
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
-        if self.limit_mode in {'minFit', 'maxTime'} or self.limit == 0:
+        if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
             # Progress bar will show generations instead of percent.
             self.progressBar.setFormat("%v generations")
         self.work.set_loop(loop)

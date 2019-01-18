@@ -718,15 +718,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 role = 'Follower'
             self.parameter_list.setItem(row, 1, QTableWidgetItem(role))
             x, y = self.mech_params['pos'][int(name.replace('P', ''))]
-            s1 = spinbox(coord[0] if coord else x, minimum=-1000000.0)
-            s2 = spinbox(coord[1] if coord else y, minimum=-1000000.0)
-            s3 = spinbox(coord[2] if coord else 50., prefix=True)
-            self.parameter_list.setCellWidget(row, 2, s1)
-            self.parameter_list.setCellWidget(row, 3, s2)
-            self.parameter_list.setCellWidget(row, 4, s3)
-            # Signal connections.
-            for s in (s1, s2, s3):
+            for i, s in enumerate([
+                spinbox(coord[0] if coord else x, minimum=-1000000.0),
+                spinbox(coord[1] if coord else y, minimum=-1000000.0),
+                spinbox(coord[2] if coord else 50., prefix=True),
+            ]):
                 s.valueChanged.connect(self.update_range)
+                self.parameter_list.setCellWidget(row, i + 2, s)
             row += 1
 
         def set_by_center(
@@ -855,18 +853,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.show()
         if not dlg.exec_():
             return
+
         self.alg_options['report'] = dlg.report.value()
+        self.alg_options.pop('max_gen', None)
+        self.alg_options.pop('min_fit', None)
+        self.alg_options.pop('max_time', None)
         if dlg.maxGen_option.isChecked():
-            self.alg_options['maxGen'] = dlg.maxGen.value()
+            self.alg_options['max_gen'] = dlg.max_gen.value()
         elif dlg.minFit_option.isChecked():
-            self.alg_options['minFit'] = dlg.minFit.value()
+            self.alg_options['min_fit'] = dlg.min_fit.value()
         elif dlg.maxTime_option.isChecked():
             # Three spinbox value translate to second.
-            self.alg_options['maxTime'] = (
+            self.alg_options['max_time'] = (
                 dlg.maxTime_h.value() * 3600 +
                 dlg.maxTime_m.value() * 60 +
                 dlg.maxTime_s.value()
             )
+        else:
+            raise ValueError("invalid option")
 
         def from_table(row: int) -> Union[int, float]:
             """Get algorithm data from table."""

@@ -37,7 +37,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QSpinBox" name="maxGen">
+      <widget class="QSpinBox" name="max_gen">
        <property name="minimum">
         <number>0</number>
        </property>
@@ -63,7 +63,7 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="minFit">
+      <widget class="QDoubleSpinBox" name="min_fit">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -103,7 +103,7 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QWidget" name="maxTime" native="true">
+      <widget class="QWidget" name="max_time" native="true">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -291,7 +291,7 @@
   <connection>
    <sender>maxGen_option</sender>
    <signal>toggled(bool)</signal>
-   <receiver>maxGen</receiver>
+   <receiver>max_gen</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -307,7 +307,7 @@
   <connection>
    <sender>minFit_option</sender>
    <signal>toggled(bool)</signal>
-   <receiver>minFit</receiver>
+   <receiver>min_fit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -323,7 +323,7 @@
   <connection>
    <sender>maxTime_option</sender>
    <signal>toggled(bool)</signal>
-   <receiver>maxTime</receiver>
+   <receiver>max_time</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
