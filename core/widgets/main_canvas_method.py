@@ -130,6 +130,13 @@ class SelectMode(IntEnum):
     Solution = auto()
 
 
+_selection_unit = {
+    SelectMode.Joint: 'point',
+    SelectMode.Link: 'link',
+    SelectMode.Solution: 'solution',
+}
+
+
 class DynamicCanvasInterface(BaseCanvas, ABC):
 
     """Abstract class for wrapping main canvas class."""
@@ -690,25 +697,28 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         elif self.selector.left_dragged:
             if self.show_target_path:
                 self.set_target_point.emit(x, y)
+
             elif self.free_move == FreeMode.NoFreeMove:
                 # Rectangular selection.
                 self.selector.picking = True
                 self.selector.sx = self.__snap(x, is_zoom=False)
                 self.selector.sy = self.__snap(y, is_zoom=False)
                 self.__select_func(rect=True)
+
                 selection = self.selector.current_selection()
                 if selection:
                     self.selected.emit(selection, False)
                 else:
                     self.noselected.emit()
-                unit_text = ('point', 'link', 'solution')[self.select_mode]
+
                 QToolTip.showText(
                     event.globalPos(),
                     f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
                     f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
-                    f"{len(selection)} {unit_text}(s)",
+                    f"{len(selection)} {_selection_unit[self.select_mode]}(s)",
                     self
                 )
+
             elif self.select_mode == SelectMode.Joint:
                 if self.free_move == FreeMode.Translate:
                     # Free move translate function.
@@ -722,6 +732,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     for num in self.selections:
                         vpoint = self.vpoints[num]
                         vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
+
                 elif self.free_move == FreeMode.Rotate:
                     # Free move rotate function.
                     alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
@@ -737,6 +748,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                         vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
                         if vpoint.type in {VJoint.P, VJoint.RP}:
                             vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
+
                 elif self.free_move == FreeMode.Reflect:
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
@@ -750,8 +762,10 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
                             if (x > 0) != (y > 0):
                                 vpoint.rotate(180 - self.vangles[num])
+
                 if self.free_move != FreeMode.NoFreeMove:
                     self.update_preview_path()
+
             self.update()
         self.tracking.emit(x, y)
 
