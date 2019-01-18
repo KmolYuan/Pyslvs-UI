@@ -14,6 +14,7 @@ Features
 + Widget focus behavior correction of tables.
 + Fix the bug of saving a YAML project.
 + Remove "solution" preview function from preview canvas class.
++ Adjustment margin size of preview window.
 
 Development
 ---
@@ -22,6 +23,7 @@ Development
 + Change the name of all most camelcase methods to lowercase.
 + Re-design the inherit method of main window classes.
 + Simplified Qt module introduction.
++ Enhancement of enum types.
 
 Version 18.12
 ===
