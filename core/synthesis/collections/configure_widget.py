@@ -18,9 +18,9 @@ from math import hypot
 import pprint
 from core.QtModules import (
     Qt,
-    pyqtSignal,
+    Signal,
     QWidget,
-    pyqtSlot,
+    Slot,
     QMessageBox,
     QInputDialog,
     QListWidgetItem,
@@ -50,7 +50,7 @@ class _ConfigureCanvas(PreviewCanvas):
     Emit signal call to change current point when pressed a dot.
     """
 
-    set_joint_number = pyqtSignal(int)
+    set_joint_number = Signal(int)
 
     def __init__(self, parent: QWidget):
         """Add a function use to get current point from parent."""
@@ -166,7 +166,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         ]:
             _set_warning(label, True)
 
-    @pyqtSlot(name='on_clear_button_clicked')
+    @Slot(name='on_clear_button_clicked')
     def __user_clear(self):
         """Ask user before clear."""
         if QMessageBox.question(
@@ -178,12 +178,12 @@ class ConfigureWidget(QWidget, Ui_Form):
         ) == QMessageBox.Yes:
             self.__clear_panel()
 
-    @pyqtSlot(name='on_add_collection_button_clicked')
+    @Slot(name='on_add_collection_button_clicked')
     def __add_collection(self):
         """Add the graph back to structure collections."""
         self.add_collection(tuple(self.configure_canvas.G.edges))
 
-    @pyqtSlot(Graph, dict)
+    @Slot(Graph, dict)
     def set_graph(
         self,
         graph: Graph,
@@ -212,7 +212,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         for node in pos:
             self.joint_name.addItem(f'P{node}')
 
-    @pyqtSlot(int, name='on_grounded_list_currentRowChanged')
+    @Slot(int, name='on_grounded_list_currentRowChanged')
     def __set_ground(self, row: int):
         """Change current grounded link. Reset all settings."""
         has_choose = row > -1
@@ -241,7 +241,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.grounded_list.setCurrentRow(row)
         self.grounded_list.blockSignals(False)
 
-    @pyqtSlot(str, name='on_driver_base_currentIndexChanged')
+    @Slot(str, name='on_driver_base_currentIndexChanged')
     def __set_driver_base(self, name: str):
         self.driver_rotator.clear()
         if not name:
@@ -261,7 +261,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         self.driver_rotator.addItems(find_friends(int(name.replace('P', ''))))
 
-    @pyqtSlot(name='on_driver_add_clicked')
+    @Slot(name='on_driver_add_clicked')
     def __add_driver(self):
         """Add a driver joint."""
         d1 = self.driver_base.currentText()
@@ -281,7 +281,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         ])
         _set_warning(self.driver_label, False)
 
-    @pyqtSlot(name='on_follower_add_clicked')
+    @Slot(name='on_follower_add_clicked')
     def __add_follower(self):
         """Add a follower joint."""
         row = self.driver_list.currentRow()
@@ -306,7 +306,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             return
         self.follower_list.addItem(name)
 
-    @pyqtSlot(name='on_add_customization_clicked')
+    @Slot(name='on_add_customization_clicked')
     def __add_cus(self):
         """Show up custom joints dialog."""
         dlg = CustomsDialog(self)
@@ -340,7 +340,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             'Link_expr': self.link_expr_show.text(),
         }
 
-    @pyqtSlot(name='on_load_button_clicked')
+    @Slot(name='on_load_button_clicked')
     def __load_data_base(self):
         """Show up the dialog to load structure data."""
         dlg = CollectionsDialog(
@@ -390,7 +390,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         if 'Link_expr' in params:
             self.link_expr_show.setText(params['Link_expr'])
 
-    @pyqtSlot(name='on_target_button_clicked')
+    @Slot(name='on_target_button_clicked')
     def __set_target(self):
         """Show up target joints dialog."""
         dlg = TargetsDialog(self)
@@ -402,7 +402,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.target_list.addItem(target)
         _set_warning(self.target_label, not self.target_list.count() > 0)
 
-    @pyqtSlot(QListWidgetItem)
+    @Slot(QListWidgetItem)
     def __set_parm_bind(self, _: QListWidgetItem = None):
         """Set parameters binding."""
         link_expr_list = []
@@ -440,7 +440,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             for i, link in enumerate(link_expr_list)
         ))
 
-    @pyqtSlot(name='on_save_button_clicked')
+    @Slot(name='on_save_button_clicked')
     def __save(self):
         """Save the profile to database."""
         if self.profile_name:
@@ -461,7 +461,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.profile_name = name
         self.unsave_func()
 
-    @pyqtSlot(name='on_clipboard_button_clicked')
+    @Slot(name='on_clipboard_button_clicked')
     def __copy(self):
         """Copy the mechanism params."""
         QApplication.clipboard().setText(

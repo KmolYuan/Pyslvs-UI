@@ -16,7 +16,7 @@ from typing import (
     Any,
 )
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QDialog,
     QTableWidgetItem,
@@ -190,7 +190,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             for i, tag in enumerate(['strategy', 'F', 'CR']):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
 
-    @pyqtSlot(name='on_reset_button_clicked')
+    @Slot(name='on_reset_button_clicked')
     def __reset(self):
         """Reset the settings to default."""
         # Differential Evolution (Default)

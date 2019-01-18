@@ -22,14 +22,14 @@ from typing import (
     Any,
 )
 from core.QtModules import (
-    pyqtSignal,
+    Signal,
     Qt,
     QTimer,
     QTableWidget,
     QSizePolicy,
     QAbstractItemView,
     QTableWidgetItem,
-    pyqtSlot,
+    Slot,
     QApplication,
     QTableWidgetSelectionRange,
     QLabel,
@@ -45,8 +45,8 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
 
     """Two tables has some shared function."""
 
-    rowSelectionChanged = pyqtSignal(list)
-    deleteRequest = pyqtSignal()
+    rowSelectionChanged = Signal(list)
+    deleteRequest = Signal()
 
     def __init__(self, row: int, headers: Sequence[str], parent: QWidget):
         super(_BaseTableWidget, self).__init__(parent)
@@ -62,7 +62,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         for i, e in enumerate(headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
 
-        @pyqtSlot()
+        @Slot()
         def __emit_selection_changed():
             self.rowSelectionChanged.emit(self.selected_rows())
 
@@ -159,7 +159,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         for row in range(self.rowCount()):
             self.removeRow(0)
 
-    @pyqtSlot()
+    @Slot()
     def clearSelection(self):
         """Overridden the 'clear_selection' slot to emit 'rowSelectionChanged'"""
         super(_BaseTableWidget, self).clearSelection()
@@ -170,7 +170,7 @@ class PointTableWidget(_BaseTableWidget):
 
     """Custom table widget for points."""
 
-    selectionLabelUpdate = pyqtSignal(list)
+    selectionLabelUpdate = Signal(list)
 
     def __init__(self, parent: QWidget):
         super(PointTableWidget, self).__init__(0, (
@@ -283,7 +283,7 @@ class PointTableWidget(_BaseTableWidget):
         else:
             return range(1, self.columnCount() - 1)
 
-    @pyqtSlot()
+    @Slot()
     def clearSelection(self):
         """Overridden the 'clear_selection' slot,
         so it will emit signal to clean the selection.
@@ -370,8 +370,8 @@ class ExprTableWidget(_BaseTableWidget):
     + Free move request: link name, length
     """
 
-    reset = pyqtSignal(bool)
-    free_move_request = pyqtSignal(bool)
+    reset = Signal(bool)
+    free_move_request = Signal(bool)
 
     def __init__(self, parent: QWidget):
         super(ExprTableWidget, self).__init__(0, (
@@ -387,7 +387,7 @@ class ExprTableWidget(_BaseTableWidget):
             self.setColumnWidth(column, 80)
         self.expr = []
 
-        @pyqtSlot(QTableWidgetItem)
+        @Slot(QTableWidgetItem)
         def adjust_request(item: QTableWidgetItem):
             """This function is use to change link length
             without to drag the points.
@@ -461,8 +461,8 @@ class SelectionLabel(QLabel):
         self.update_select_point()
         self.dataTuple = parent.EntitiesPoint.data_tuple
 
-    @pyqtSlot()
-    @pyqtSlot(list)
+    @Slot()
+    @Slot(list)
     def update_select_point(self, points: Optional[List[int]] = None):
         """Get points and distance from Point table widget."""
         if points is None:
@@ -489,7 +489,7 @@ class SelectionLabel(QLabel):
             text += f" | {ds_t} | {as_t}"
         self.setText(text)
 
-    @pyqtSlot(float, float)
+    @Slot(float, float)
     def update_mouse_position(self, x: float, y: float):
         """Get the mouse position from canvas when press the middle button."""
         self.setText(f"Mouse at: ({x:.04f}, {y:.04f})")
@@ -506,14 +506,14 @@ class FPSLabel(QLabel):
         self.__frame_timer.timeout.connect(self.__update_text)
         self.__frame_timer.start(500)
 
-    @pyqtSlot()
+    @Slot()
     def __update_text(self):
         """Update FPS with timer."""
         t1 = time() - self.__t0
         fps = 1 / t1 if t1 else 1
         self.setText(f"FPS: {fps:6.02f}")
 
-    @pyqtSlot()
+    @Slot()
     def update_text(self):
         """Update FPS with timer."""
         self.__update_text()

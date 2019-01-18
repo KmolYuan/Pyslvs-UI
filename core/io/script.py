@@ -16,7 +16,7 @@ from pygments.styles import (
     get_all_styles,
 )
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QApplication,
     QDialog,
@@ -117,18 +117,18 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.style_option.addItems(styles)
         self.style_option.setCurrentIndex(0)
 
-    @pyqtSlot(str, name='on_style_option_currentIndexChanged')
+    @Slot(str, name='on_style_option_currentIndexChanged')
     def __set_style(self, style: str):
         """Redefine the CSS script of the html."""
         style_code = HtmlFormatter(style=get_style_by_name(style)).get_style_defs()
         self.script_view.setHtml(f"<style>{style_code}</style>" + self.code)
 
-    @pyqtSlot(name='on_copy_clicked')
+    @Slot(name='on_copy_clicked')
     def __copy(self):
         """Copy to clipboard."""
         QApplication.clipboard().setText(self.script_view.toPlainText())
 
-    @pyqtSlot(name='on_save_clicked')
+    @Slot(name='on_save_clicked')
     def __save(self):
         """Save to .py file."""
         file_name = self.output_to(self.filename, self.file_format)

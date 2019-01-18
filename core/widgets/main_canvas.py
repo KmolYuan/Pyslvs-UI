@@ -15,7 +15,7 @@ from typing import (
     Union,
 )
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QApplication,
     QRectF,
@@ -69,49 +69,49 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.Path.path = path
         self.update()
 
-    @pyqtSlot()
+    @Slot()
     def update_preview_path(self):
         """Update preview path."""
         self.previewpath(self.pathpreview, self.sliderpathpreview, self.vpoints)
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_link_width(self, link_width: int):
         """Update width of links."""
         self.link_width = link_width
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_path_width(self, path_width: int):
         """Update width of links."""
         self.path_width = path_width
         self.update()
 
-    @pyqtSlot(bool)
+    @Slot(bool)
     def set_point_mark(self, show_point_mark: bool):
         """Update show point mark or not."""
         self.show_point_mark = show_point_mark
         self.update()
 
-    @pyqtSlot(bool)
+    @Slot(bool)
     def set_show_dimension(self, show_dimension: bool):
         """Update show dimension or not."""
         self.show_dimension = show_dimension
         self.update()
 
-    @pyqtSlot(bool)
+    @Slot(bool)
     def set_curve_mode(self, curve: bool):
         """Update show as curve mode or not."""
         self.Path.curve = curve
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_font_size(self, font_size: int):
         """Update font size."""
         self.font_size = font_size
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_zoom(self, zoom: int):
         """Update zoom factor."""
         zoom_old = self.zoom
@@ -135,76 +135,76 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.free_move = FreeMode(free_move + 1)
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_selection_radius(self, sr: int):
         """Update radius of point selector."""
         self.sr = sr
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_transparency(self, transparency: int):
         """Update transparency. (0%: opaque)"""
         self.transparency = (100 - transparency) / 100
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_margin_factor(self, margin_factor: int):
         """Update margin factor when zoom to fit."""
         self.margin_factor = 1 - margin_factor / 100
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_joint_size(self, joint_size: int):
         """Update size for each joint."""
         self.joint_size = joint_size
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_zoom_by(self, zoomby: int):
         """Update zooming center option."""
         self.zoomby = zoomby
 
-    @pyqtSlot(float)
+    @Slot(float)
     def set_snap(self, snap: float):
         """Update mouse capture value."""
         self.snap = snap
 
-    @pyqtSlot(str)
+    @Slot(str)
     def set_background(self, path: str):
         """Set background from file path."""
         if self.background.load(path):
             self.update()
 
-    @pyqtSlot(float)
+    @Slot(float)
     def set_background_opacity(self, opacity: float):
         """Set opacity of background."""
         self.background_opacity = opacity
         self.update()
 
-    @pyqtSlot(float)
+    @Slot(float)
     def set_background_scale(self, scale: float):
         """Set scale value of background."""
         self.background_scale = scale
         self.update()
 
-    @pyqtSlot(float)
+    @Slot(float)
     def set_background_offset_x(self, x: float):
         """Set offset x value of background."""
         self.background_offset.setX(x)
         self.update()
 
-    @pyqtSlot(float)
+    @Slot(float)
     def set_background_offset_y(self, y: float):
         """Set offset y value of background."""
         self.background_offset.setY(-y)
         self.update()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def set_selection_mode(self, select_mode: int):
         """Update the selection."""
         self.select_mode = SelectMode(select_mode + 1)
         self.update()
 
-    @pyqtSlot(list)
+    @Slot(list)
     def set_selection(self, selections: List[int]):
         """Update the selection."""
         self.selections = selections

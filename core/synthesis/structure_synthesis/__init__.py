@@ -19,7 +19,7 @@ from typing import (
 )
 from time import time
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     qt_image_format,
     Qt,
     QWidget,
@@ -179,13 +179,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NJ_input_old_value = 0
         self.DOF.setValue(1)
 
-    @pyqtSlot(name='on_structure_list_clear_button_clicked')
+    @Slot(name='on_structure_list_clear_button_clicked')
     def __clear_structure_list(self):
         """Clear the structure list."""
         self.structure_list.clear()
         self.time_label.setText("")
 
-    @pyqtSlot(name='on_from_mechanism_button_clicked')
+    @Slot(name='on_from_mechanism_button_clicked')
     def __from_mechanism(self):
         """Reload button: Auto-combine the mechanism from the workbook."""
         joint_data = self.jointDataFunc()
@@ -271,7 +271,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.NJ_input_old_value = n2
             self.NL_input_old_value = n1
 
-    @pyqtSlot(name='on_number_synthesis_button_clicked')
+    @Slot(name='on_number_synthesis_button_clicked')
     def __l_a_synthesis(self) -> List[Tuple[int, ...]]:
         """Synthesis of link assortments."""
         self.l_a_list.clear()
@@ -302,7 +302,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             dlg.next()
             return results
 
-    @pyqtSlot(int, name='on_l_a_list_currentRowChanged')
+    @Slot(int, name='on_l_a_list_currentRowChanged')
     def __c_l_a_synthesis(self, l_a_row: int = 0) -> List[Tuple[int, ...]]:
         """Synthesis of contracted link assortments."""
         self.c_l_a_list.clear()
@@ -335,7 +335,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Set painting time of atlas."""
         self.paint_time_label.setText(f"{t:.04f}s")
 
-    @pyqtSlot(name='on_structure_synthesis_button_clicked')
+    @Slot(name='on_structure_synthesis_button_clicked')
     def __structure_synthesis(self):
         """Structural synthesis - find by contracted links."""
         self.__clear_structure_list()
@@ -353,7 +353,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         self.__structural_combine([(job_l_a, job_c_l_a)], 1)
 
-    @pyqtSlot(name='on_structure_synthesis_links_button_clicked')
+    @Slot(name='on_structure_synthesis_links_button_clicked')
     def __structure_synthesis_links(self):
         """Structural synthesis - find by links."""
         self.__clear_structure_list()
@@ -378,7 +378,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         self.__structural_combine(jobs_iterator(job_l_a, jobs), len(jobs))
 
-    @pyqtSlot(name='on_structure_synthesis_all_button_clicked')
+    @Slot(name='on_structure_synthesis_all_button_clicked')
     def __structure_synthesis_all(self):
         """Structural synthesis - find all."""
         self.__clear_structure_list()
@@ -453,10 +453,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.__set_time_count(t0, c0)
         self.__reload_atlas()
 
-    @pyqtSlot(name='on_graph_link_as_node_clicked')
-    @pyqtSlot(name='on_graph_show_label_clicked')
-    @pyqtSlot(name='on_reload_atlas_clicked')
-    @pyqtSlot(int, name='on_graph_engine_currentIndexChanged')
+    @Slot(name='on_graph_link_as_node_clicked')
+    @Slot(name='on_graph_show_label_clicked')
+    @Slot(name='on_reload_atlas_clicked')
+    @Slot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self, *_: int):
         """Reload the atlas."""
         scroll_bar: QScrollBar = self.structure_list.verticalScrollBar()
@@ -514,7 +514,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             item: QListWidgetItem = self.structure_list.item(row)
         return item.icon().pixmap(self.structure_list.iconSize()).toImage()
 
-    @pyqtSlot(QPoint)
+    @Slot(QPoint)
     def __structure_list_context_menu(self, point):
         """Context menu for the type synthesis results."""
         index = self.structure_list.currentIndex().row()
@@ -539,7 +539,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             painter.end()
             clipboard.setPixmap(QPixmap.fromImage(image2))
 
-    @pyqtSlot(name='on_expr_copy_clicked')
+    @Slot(name='on_expr_copy_clicked')
     def __copy_expr(self):
         """Copy expression button."""
         string = self.edges_text.text()
@@ -547,14 +547,14 @@ class StructureSynthesis(QWidget, Ui_Form):
             QApplication.clipboard().setText(string)
             self.edges_text.selectAll()
 
-    @pyqtSlot(name='on_expr_add_collection_clicked')
+    @Slot(name='on_expr_add_collection_clicked')
     def __add_collection(self):
         """Add this expression to collections widget."""
         string = self.edges_text.text()
         if string:
             self.addCollection(eval(string))
 
-    @pyqtSlot(name='on_save_atlas_clicked')
+    @Slot(name='on_save_atlas_clicked')
     def __save_atlas(self):
         """Saving all the atlas to image file.
 
@@ -604,7 +604,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             return 0
         return lateral
 
-    @pyqtSlot(name='on_save_edges_clicked')
+    @Slot(name='on_save_edges_clicked')
     def __save_edges(self):
         """Saving all the atlas to text file."""
         file_name = ""
@@ -622,7 +622,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             f.write('\n'.join(str(G.edges) for G in self.answer))
         self.save_reply_box("edges expression", file_name)
 
-    @pyqtSlot(name='on_edges2atlas_button_clicked')
+    @Slot(name='on_edges2atlas_button_clicked')
     def __edges2atlas(self):
         """Turn the text files into a atlas image.
 

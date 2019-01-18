@@ -15,7 +15,7 @@ from typing import (
 )
 from abc import ABC, abstractmethod
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     QApplication,
     QListWidgetItem,
     QInputDialog,
@@ -45,7 +45,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_mechanism_storage_add_clicked')
+    @Slot(name='on_mechanism_storage_add_clicked')
     def __add_current_storage(self):
         name = (
             self.mechanism_storage_name_tag.text() or
@@ -57,14 +57,14 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         self.CommandStack.push(ClearStorageName(self.mechanism_storage_name_tag))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_mechanism_storage_copy_clicked')
+    @Slot(name='on_mechanism_storage_copy_clicked')
     def __copy_storage(self):
         """Copy the expression from a storage data."""
         item = self.mechanism_storage.currentItem()
         if item:
             QApplication.clipboard().setText(item.expr)
 
-    @pyqtSlot(name='on_mechanism_storage_paste_clicked')
+    @Slot(name='on_mechanism_storage_paste_clicked')
     def __paste_storage(self):
         """Add the storage data from string."""
         expr, ok = QInputDialog.getMultiLineText(
@@ -103,7 +103,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             i += 1
         self.__add_storage(name, expr)
 
-    @pyqtSlot(name='on_mechanism_storage_delete_clicked')
+    @Slot(name='on_mechanism_storage_delete_clicked')
     def __delete_storage(self):
         """Delete the storage data."""
         row = self.mechanism_storage.currentRow()
@@ -114,8 +114,8 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         self.CommandStack.push(DeleteStorage(row, self.mechanism_storage))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_mechanism_storage_restore_clicked')
-    @pyqtSlot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
+    @Slot(name='on_mechanism_storage_restore_clicked')
+    @Slot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
     def __restore_storage(self, item: Optional[QListWidgetItem] = None):
         """Restore the storage data."""
         if item is None:

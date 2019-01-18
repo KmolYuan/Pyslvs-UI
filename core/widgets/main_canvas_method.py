@@ -23,7 +23,7 @@ from math import (
 )
 from itertools import chain
 from core.QtModules import (
-    pyqtSignal,
+    Signal,
     Qt,
     QApplication,
     QPolygonF,
@@ -141,16 +141,16 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     """Abstract class for wrapping main canvas class."""
 
-    tracking = pyqtSignal(float, float)
-    browse_tracking = pyqtSignal(float, float)
-    selected = pyqtSignal(tuple, bool)
-    free_moved = pyqtSignal(tuple)
-    noselected = pyqtSignal()
-    alt_add = pyqtSignal(float, float)
-    doubleclick_edit = pyqtSignal(int)
-    zoom_changed = pyqtSignal(int)
-    fps_updated = pyqtSignal()
-    set_target_point = pyqtSignal(float, float)
+    tracking = Signal(float, float)
+    browse_tracking = Signal(float, float)
+    selected = Signal(tuple, bool)
+    free_moved = Signal(tuple)
+    noselected = Signal()
+    alt_add = Signal(float, float)
+    doubleclick_edit = Signal(int)
+    zoom_changed = Signal(int)
+    fps_updated = Signal()
+    set_target_point = Signal(float, float)
 
     def __init__(self, parent: 'mw.MainWindow'):
         super(DynamicCanvasInterface, self).__init__(parent)

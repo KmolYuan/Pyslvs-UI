@@ -18,7 +18,7 @@ from typing import (
 from abc import ABC
 from itertools import chain
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     QDialogButtonBox,
     QDialog,
     QDoubleSpinBox,
@@ -172,7 +172,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             i += 1
         return f"link_{i}"
 
-    @pyqtSlot(name='on_action_delete_link_triggered')
+    @Slot(name='on_action_delete_link_triggered')
     def delete_link(self, row: int):
         """Push delete link command to stack.
 
@@ -197,7 +197,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_action_delete_point_triggered')
+    @Slot(name='on_action_delete_point_triggered')
     def delete_point(self, row: int):
         """Push delete point command to stack."""
         args = self.EntitiesPoint.row_text(row)
@@ -228,7 +228,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         self.InputsWidget.variable_excluding(row)
         self.CommandStack.endMacro()
 
-    @pyqtSlot(float, float)
+    @Slot(float, float)
     def q_add_normal_point(self, x: float, y: float):
         """Add point group using alt key."""
         if self.SynthesisTab.currentIndex() == 2:
@@ -298,7 +298,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         if ground_link is not None:
             self.constrain_link(ground)
 
-    @pyqtSlot(list)
+    @Slot(list)
     def addNormalLink(self, points: Sequence[int]):
         """Add a link."""
         self.addLink(self.__get_link_serial_number(), 'Blue', points)
@@ -322,7 +322,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         """Create a point with arguments."""
         self.__edit_point()
 
-    @pyqtSlot(name='on_action_edit_point_triggered')
+    @Slot(name='on_action_edit_point_triggered')
     def edit_point(self):
         """Edit a point with arguments."""
         row = self.EntitiesPoint.currentRow()
@@ -366,7 +366,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name="on_action_scale_points_triggered")
+    @Slot(name="on_action_scale_points_triggered")
     def __set_scale(self):
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
@@ -387,7 +387,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(tuple)
+    @Slot(tuple)
     def set_free_move(
         self,
         args: Sequence[Tuple[int, Tuple[float, float, float]]]
@@ -409,7 +409,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def adjustLink(self, value: int):
         """Preview the free move result."""
         vpoints = self.EntitiesPoint.data_tuple()
@@ -429,7 +429,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             if not self.link_free_move_slider.isSliderDown():
                 self.MainCanvas.emit_free_move_all()
 
-    @pyqtSlot(bool)
+    @Slot(bool)
     def set_link_free_move(self, enable: bool):
         """Free move function for link length."""
         self.link_free_move_widget.setEnabled(enable)
@@ -448,7 +448,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         self.link_free_move_slider.setValue(float(value))
         self.link_free_move_slider.valueChanged.connect(self.adjustLink)
 
-    @pyqtSlot(name='on_action_new_link_triggered')
+    @Slot(name='on_action_new_link_triggered')
     def new_link(self):
         """Create a link with arguments.
 
@@ -495,12 +495,12 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_action_edit_link_triggered')
+    @Slot(name='on_action_edit_link_triggered')
     def edit_link(self):
         """Edit a link with arguments."""
         self.__edit_link(self.EntitiesLink.currentRow())
 
-    @pyqtSlot()
+    @Slot()
     def release_ground(self):
         """Clone ground to a new link, then make ground no points."""
         name = self.__get_link_serial_number()
@@ -523,7 +523,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot()
+    @Slot()
     def constrain_link(self, row1: Optional[int] = None, row2: int = 0):
         """Turn a link to ground, then delete this link."""
         if row1 is None:

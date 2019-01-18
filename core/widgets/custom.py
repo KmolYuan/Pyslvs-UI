@@ -14,7 +14,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import Tuple, Sequence
 from abc import abstractmethod
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QMainWindow,
     QAction,
@@ -162,7 +162,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         select_all_button.setToolTip("Select all")
         select_all_button.setStatusTip("Select all item of point table.")
 
-        @pyqtSlot()
+        @Slot()
         def table_select_all():
             """Distinguish table by tab index."""
             tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
@@ -180,7 +180,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.MainCanvas = DynamicCanvas(self)
         self.EntitiesTab.currentChanged.connect(self.MainCanvas.set_selection_mode)
 
-        @pyqtSlot(tuple, bool)
+        @Slot(tuple, bool)
         def table_set_selection(selections: Tuple[int], key_detect: bool):
             """Distinguish table by tab index."""
             tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
@@ -189,7 +189,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.MainCanvas.selected.connect(table_set_selection)
         self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.set_selection)
 
-        @pyqtSlot()
+        @Slot()
         def table_clear_selection():
             """Distinguish table by tab index."""
             tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
@@ -230,7 +230,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.free_move_button.toggled.connect(self.InputsWidget.variable_value_reset)
         self.InputsWidget.aboutToResolve.connect(self.resolve)
 
-        @pyqtSlot(tuple, bool)
+        @Slot(tuple, bool)
         def inputs_set_selection(selections: Tuple[int], _: bool):
             """Distinguish table by tab index."""
             self.InputsWidget.clear_selection()
@@ -296,7 +296,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.menu_Mechanism.aboutToShow.connect(self.enable_mechanism_actions)
 
         # Start a new window.
-        @pyqtSlot()
+        @Slot()
         def new_main_window():
             run = self.__class__()
             run.show()
@@ -309,7 +309,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
         def free_move_mode_func(j: int, icon_qt: QIcon):
 
-            @pyqtSlot()
+            @Slot()
             def func():
                 self.free_move_button.setIcon(icon_qt)
                 self.MainCanvas.set_free_move(j)
@@ -388,7 +388,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         def zoom_level(value: int):
             """Return a function that set the specified zoom value."""
 
-            @pyqtSlot()
+            @Slot()
             def func():
                 return self.ZoomBar.setValue(value)
 

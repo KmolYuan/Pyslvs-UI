@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import List
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QDialog,
     QIcon,
@@ -67,7 +67,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
                 self.name_box.insertItem(i, icon, f'Point{i}')
             self.name_box.setCurrentIndex(pos)
 
-    @pyqtSlot(int, name='on_name_box_currentIndexChanged')
+    @Slot(int, name='on_name_box_currentIndexChanged')
     def __set_name(self, index: int):
         """Load the parameters of the point."""
         if not len(self.vpoints) > index:
@@ -93,14 +93,14 @@ class EditPointDialog(QDialog, Ui_Dialog):
                 continue
             self.noSelected.addItem(QListWidgetItem(self.link_icon, vlink.name))
 
-    @pyqtSlot(int, name='on_color_box_currentIndexChanged')
+    @Slot(int, name='on_color_box_currentIndexChanged')
     def __set_color(self, _: int):
         """Change the color icon of pick button."""
         self.color_pick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
 
-    @pyqtSlot(name='on_color_pick_button_clicked')
+    @Slot(name='on_color_pick_button_clicked')
     def __set_rgb(self):
         """Add a custom color from current color."""
         color = QColorDialog.getColor(
@@ -113,19 +113,19 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.color_box.addItem(color_icon(rgb_str), rgb_str)
         self.color_box.setCurrentIndex(self.color_box.count() - 1)
 
-    @pyqtSlot(int, name='on_type_box_currentIndexChanged')
+    @Slot(int, name='on_type_box_currentIndexChanged')
     def __set_type(self, index: int):
         """Toggle the slider angle option."""
         self.angle_box.setEnabled(index != 0)
 
-    @pyqtSlot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
+    @Slot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
     def __add_selected(self, item: QListWidgetItem):
         """Add item to selected list."""
         self.selected.addItem(
             self.noSelected.takeItem(self.noSelected.row(item))
         )
 
-    @pyqtSlot(QListWidgetItem, name='on_selected_itemDoubleClicked')
+    @Slot(QListWidgetItem, name='on_selected_itemDoubleClicked')
     def __add_no_selected(self, item: QListWidgetItem):
         """Add item to no selected list."""
         self.noSelected.addItem(

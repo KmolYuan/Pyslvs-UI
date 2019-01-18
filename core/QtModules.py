@@ -14,8 +14,8 @@ from typing import Tuple
 from abc import ABCMeta
 from PyQt5.sip import wrappertype
 from PyQt5.QtCore import (
-    pyqtSignal,
-    pyqtSlot,
+    pyqtSignal as Signal,
+    pyqtSlot as Slot,
     qVersion,
     PYQT_VERSION_STR,
 )
@@ -26,8 +26,8 @@ from PyQt5.QtChart import *
 
 __all__ = [
     'Qt',
-    'pyqtSignal',
-    'pyqtSlot',
+    'Signal',
+    'Slot',
     'qt_image_format',
     'qVersion',
     'PYQT_VERSION_STR',

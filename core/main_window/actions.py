@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import Tuple, Callable
 from abc import ABC
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     QAction,
     QApplication,
     QPoint,
@@ -76,7 +76,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
 
         def mj_func(order: int):
             """Generate a merge function."""
-            @pyqtSlot()
+            @Slot()
             def func():
                 self.__to_multiple_joint(order, selection)
             return func
@@ -104,7 +104,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
 
         def ml_func(order: int) -> Callable[[], None]:
             """Generate a merge function."""
-            @pyqtSlot(int)
+            @Slot(int)
             def func():
                 self.__merge_link(order, selection)
             return func
@@ -171,13 +171,13 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         ))
         self.CommandStack.endMacro()
 
-    @pyqtSlot(float, float)
+    @Slot(float, float)
     def set_mouse_pos(self, x: float, y: float):
         """Mouse position on canvas."""
         self.mouse_pos_x = x
         self.mouse_pos_y = y
 
-    @pyqtSlot(QPoint)
+    @Slot(QPoint)
     def point_context_menu(self, point: QPoint):
         """EntitiesPoint context menu."""
         self.__enable_point_context()
@@ -185,14 +185,14 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.action_new_link.setVisible(True)
         self.pop_menu_point_merge.clear()
 
-    @pyqtSlot(QPoint)
+    @Slot(QPoint)
     def link_context_menu(self, point: QPoint):
         """EntitiesLink context menu."""
         self.__enable_link_context()
         self.pop_menu_link.exec_(self.EntitiesLink_widget.mapToGlobal(point))
         self.pop_menu_link_merge.clear()
 
-    @pyqtSlot(QPoint)
+    @Slot(QPoint)
     def canvas_context_menu(self, point: QPoint):
         """MainCanvas context menu."""
         index = self.EntitiesTab.currentIndex()
@@ -207,7 +207,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.pop_menu_canvas_l.exec_(self.MainCanvas.mapToGlobal(point))
             self.pop_menu_link_merge.clear()
 
-    @pyqtSlot()
+    @Slot()
     def enable_mechanism_actions(self):
         """Enable / disable 'mechanism' menu."""
         point_selection = self.EntitiesPoint.selected_rows()
@@ -227,12 +227,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.action_delete_point.setEnabled(point_selected)
         self.action_delete_link.setEnabled(link_selected)
 
-    @pyqtSlot()
+    @Slot()
     def copy_points_table(self):
         """Copy text from point table."""
         _copy_table_data(self.EntitiesPoint)
 
-    @pyqtSlot()
+    @Slot()
     def copy_links_table(self):
         """Copy text from link table."""
         _copy_table_data(self.EntitiesLink)

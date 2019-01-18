@@ -11,8 +11,8 @@ from typing import (
     Optional,
 )
 from core.QtModules import (
-    pyqtSignal,
-    pyqtSlot,
+    Signal,
+    Slot,
     QWidget,
     QDial,
     QTimer,
@@ -50,7 +50,7 @@ class InputsWidget(QWidget, Ui_Form):
     + Path recording.
     """
 
-    aboutToResolve = pyqtSignal()
+    aboutToResolve = Signal()
 
     def __init__(self, parent: 'mw.MainWindow'):
         super(InputsWidget, self).__init__(parent)
@@ -131,18 +131,18 @@ class InputsWidget(QWidget, Ui_Form):
         """Return current path data."""
         return self.__path_data
 
-    @pyqtSlot(tuple)
+    @Slot(tuple)
     def set_selection(self, selections: Tuple[int]):
         """Set one selection from canvas."""
         self.joint_list.setCurrentRow(selections[0])
 
-    @pyqtSlot()
+    @Slot()
     def clear_selection(self):
         """Clear the points selection."""
         self.driver_list.clear()
         self.joint_list.setCurrentRow(-1)
 
-    @pyqtSlot(int, name='on_joint_list_currentRowChanged')
+    @Slot(int, name='on_joint_list_currentRowChanged')
     def __update_relate_points(self, _: int):
         """Change the point row from input widget."""
         self.driver_list.clear()
@@ -165,13 +165,13 @@ class InputsWidget(QWidget, Ui_Form):
         elif type_int in {VJoint.P, VJoint.RP}:
             self.driver_list.addItem(f"[{vpoints[p0].typeSTR}] Point{p0}")
 
-    @pyqtSlot(int, name='on_driver_list_currentRowChanged')
+    @Slot(int, name='on_driver_list_currentRowChanged')
     def __set_add_var_enabled(self, _: int):
         """Set enable of 'add variable' button."""
         driver = self.driver_list.currentIndex()
         self.variable_add.setEnabled(driver != -1)
 
-    @pyqtSlot(name='on_variable_add_clicked')
+    @Slot(name='on_variable_add_clicked')
     def __add_inputs_variable(self, p0: Optional[int] = None, p1: Optional[int] = None):
         """Add variable with '->' sign."""
         if p0 is None:
@@ -234,7 +234,7 @@ class InputsWidget(QWidget, Ui_Form):
         for p0, p1 in variables:
             self.__add_inputs_variable(p0, p1)
 
-    @pyqtSlot()
+    @Slot()
     def __dial_ok(self):
         """Set the angle of base link and drive link."""
         row = self.variable_list.currentRow()
@@ -273,7 +273,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.CommandStack.push(DeleteVariable(i, self.variable_list))
             self.CommandStack.endMacro()
 
-    @pyqtSlot(name='on_variable_remove_clicked')
+    @Slot(name='on_variable_remove_clicked')
     def remove_var(self, row: int = -1):
         """Remove and reset angle."""
         if row == -1:
@@ -312,11 +312,11 @@ class InputsWidget(QWidget, Ui_Form):
             self.joint_list.addItem(f"[{type_text}] Point{i}")
         self.variable_value_reset()
 
-    @pyqtSlot(float)
+    @Slot(float)
     def __set_var(self, value: float):
         self.dial.setValue(int(value * 100 % self.dial.maximum()))
 
-    @pyqtSlot(int)
+    @Slot(int)
     def __update_var(self, value: int):
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
@@ -352,7 +352,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.__dial_ok()
         self.solve()
 
-    @pyqtSlot(bool, name='on_variable_play_toggled')
+    @Slot(bool, name='on_variable_play_toggled')
     def __play(self, toggled: bool):
         """Triggered when play button was changed."""
         self.dial.setEnabled(not toggled)
@@ -364,7 +364,7 @@ class InputsWidget(QWidget, Ui_Form):
             if self.update_pos_option.isChecked():
                 self.set_coords_as_current()
 
-    @pyqtSlot()
+    @Slot()
     def __change_index(self):
         """QTimer change index."""
         index = self.dial.value()
@@ -380,7 +380,7 @@ class InputsWidget(QWidget, Ui_Form):
         index %= self.dial.maximum()
         self.dial.setValue(index)
 
-    @pyqtSlot(bool, name='on_record_start_toggled')
+    @Slot(bool, name='on_record_start_toggled')
     def __start_record(self, toggled: bool):
         """Save to file path data."""
         if toggled:
@@ -423,7 +423,7 @@ class InputsWidget(QWidget, Ui_Form):
         for name, path in paths.items():
             self.add_path(name, path)
 
-    @pyqtSlot(name='on_record_remove_clicked')
+    @Slot(name='on_record_remove_clicked')
     def __remove_path(self):
         """Remove path data."""
         row = self.record_list.currentRow()
@@ -440,7 +440,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.setCurrentRow(self.record_list.count() - 1)
         self.reload_canvas()
 
-    @pyqtSlot(QListWidgetItem, name='on_record_list_itemDoubleClicked')
+    @Slot(QListWidgetItem, name='on_record_list_itemDoubleClicked')
     def __path_dlg(self, item: QListWidgetItem):
         """View path data."""
         name = item.text().split(":")[0]
@@ -474,7 +474,7 @@ class InputsWidget(QWidget, Ui_Form):
                 writer.writerow(())
         print(f"Output path data: {file_name}")
 
-    @pyqtSlot(QPoint)
+    @Slot(QPoint)
     def __record_list_context_menu(self, point):
         """Show the context menu.
 
@@ -527,12 +527,12 @@ class InputsWidget(QWidget, Ui_Form):
                 self.MainCanvas.set_path_show(action_exec.index)
         self.pop_menu_record_list.clear()
 
-    @pyqtSlot(bool, name='on_record_show_toggled')
+    @Slot(bool, name='on_record_show_toggled')
     def __set_path_show(self, toggled: bool):
         """Show all paths or hide."""
         self.MainCanvas.set_path_show(-1 if toggled else -2)
 
-    @pyqtSlot(int, name='on_record_list_currentRowChanged')
+    @Slot(int, name='on_record_list_currentRowChanged')
     def __set_path(self, _: int):
         """Reload the canvas when switch the path."""
         if not self.record_show.isChecked():
@@ -552,8 +552,8 @@ class InputsWidget(QWidget, Ui_Form):
         path_name = self.record_list.item(row).text().split(':')[0]
         return self.__path_data.get(path_name, ())
 
-    @pyqtSlot(name='on_variable_up_clicked')
-    @pyqtSlot(name='on_variable_down_clicked')
+    @Slot(name='on_variable_up_clicked')
+    @Slot(name='on_variable_down_clicked')
     def __set_variable_priority(self):
         row = self.variable_list.currentRow()
         if not row > -1:

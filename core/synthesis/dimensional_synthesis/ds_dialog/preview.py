@@ -17,7 +17,7 @@ from typing import (
     Any,
 )
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QTimer,
     QPen,
@@ -237,7 +237,7 @@ class _DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             self.draw_curve(path)
 
-    @pyqtSlot()
+    @Slot()
     def __change_index(self):
         """A slot to change the path index."""
         self.__index += self.__interval

@@ -13,7 +13,7 @@ from typing import (
     Union,
 )
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QDialog,
     QListWidget,
@@ -70,7 +70,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
             if text in target_list:
                 self.targets_list.addItem(self.other_list.takeItem(row))
 
-    @pyqtSlot(name='on_targets_add_clicked')
+    @Slot(name='on_targets_add_clicked')
     def __add(self):
         """Add a new target joint."""
         row = self.other_list.currentRow()
@@ -78,7 +78,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
             return
         self.targets_list.addItem(self.other_list.takeItem(row))
 
-    @pyqtSlot(name='on_other_add_clicked')
+    @Slot(name='on_other_add_clicked')
     def __remove(self):
         """Remove a target joint."""
         row = self.targets_list.currentRow()

@@ -12,7 +12,7 @@ from core.QtModules import (
     QDialog,
     Qt,
     QTimer,
-    pyqtSlot,
+    Slot,
 )
 from .Ui_progress import Ui_Dialog
 from .thread import WorkerThread
@@ -77,7 +77,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.work.result.connect(self.__get_result)
         self.work.done.connect(self.__finish)
 
-    @pyqtSlot(int, str)
+    @Slot(int, str)
     def __set_progress(self, progress: int, fitness: str):
         """Progress bar will always full."""
         value = progress + self.limit * self.work.currentLoop
@@ -86,7 +86,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.progressBar.setValue(value)
         self.fitness_label.setText(fitness)
 
-    @pyqtSlot()
+    @Slot()
     def __set_time(self):
         """Set time label."""
         self.time += 1
@@ -96,7 +96,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
             f"{self.time % 3600 % 60:02d}"
         )
 
-    @pyqtSlot(name='on_start_button_clicked')
+    @Slot(name='on_start_button_clicked')
     def __start(self):
         """Start the process."""
         loop = self.loopTime.value()
@@ -111,7 +111,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.loopTime.setEnabled(False)
         self.interrupt_button.setEnabled(True)
 
-    @pyqtSlot(dict, float)
+    @Slot(dict, float)
     def __get_result(
         self,
         mechanism: Dict[str, Any],
@@ -121,20 +121,20 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.mechanisms.append(mechanism)
         self.time_spend += time_spend
 
-    @pyqtSlot()
+    @Slot()
     def __finish(self):
         """Finish the process."""
         self.timer.stop()
         self.accept()
 
-    @pyqtSlot(name='on_interrupt_button_clicked')
+    @Slot(name='on_interrupt_button_clicked')
     def __interrupt(self):
         """Interrupt the process."""
         if self.work.isRunning():
             self.work.stop()
             print("The thread has been interrupted.")
 
-    @pyqtSlot()
+    @Slot()
     def __close_work(self):
         """Close the thread."""
         if self.work.isRunning():

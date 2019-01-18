@@ -30,12 +30,12 @@ from peewee import (
 )
 from core.QtModules import (
     QPushButton,
-    pyqtSignal,
+    Signal,
     QIcon,
     QPixmap,
     QFileInfo,
     QWidget,
-    pyqtSlot,
+    Slot,
     QInputDialog,
     QLineEdit,
     QMessageBox,
@@ -129,7 +129,7 @@ class LoadCommitButton(QPushButton):
 
     """The button of load commit."""
 
-    loaded = pyqtSignal(int)
+    loaded = Signal(int)
 
     def __init__(self, id_int: int, parent: QWidget):
         super(LoadCommitButton, self).__init__(
@@ -154,7 +154,7 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     """The table that stored workbook data and changes."""
 
-    load_id = pyqtSignal(int)
+    load_id = Signal(int)
 
     def __init__(self, parent: 'mw.MainWindow'):
         super(DatabaseWidget, self).__init__(parent)
@@ -259,7 +259,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         _db.connect()
         _db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
 
-    @pyqtSlot()
+    @Slot()
     def __close_database(self):
         if not _db.deferred:
             _db.close()
@@ -542,7 +542,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.__parse_func(_decompress(commit.mechanism))
         print("The specified phase has been merged.")
 
-    @pyqtSlot(name='on_commit_stash_clicked')
+    @Slot(name='on_commit_stash_clicked')
     def stash(self):
         """Reload the least commit ID."""
         self.__load_commit_id(self.commit_current_id.value())
@@ -575,7 +575,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         print(f"Example \"{example_name}\" has been loaded.")
         return True
 
-    @pyqtSlot(str, name='on_commit_search_text_textEdited')
+    @Slot(str, name='on_commit_search_text_textEdited')
     def __set_search_text(self, text: str):
         """Commit filter (by description and another)."""
         if not text:
@@ -588,12 +588,12 @@ class DatabaseWidget(QWidget, Ui_Form):
                 (text in self.CommitTable.item(row, 3).text())
             ))
 
-    @pyqtSlot(str, name='on_AuthorList_currentTextChanged')
+    @Slot(str, name='on_AuthorList_currentTextChanged')
     def __set_author(self, text: str):
         """Change default author's name when select another author."""
         self.FileAuthor.setPlaceholderText(text)
 
-    @pyqtSlot(name='on_branch_checkout_clicked')
+    @Slot(name='on_branch_checkout_clicked')
     def __checkout_branch(self):
         """Switch to the last commit of branch."""
         if not self.BranchList.currentRow() > -1:
@@ -610,7 +610,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         )
         self.__load_commit(least_commit)
 
-    @pyqtSlot(name='on_branch_delete_clicked')
+    @Slot(name='on_branch_delete_clicked')
     def __delete_branch(self):
         """Delete all commits in the branch."""
         if not self.BranchList.currentRow() > -1:

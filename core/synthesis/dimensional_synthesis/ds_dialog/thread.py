@@ -22,7 +22,7 @@ from platform import (
 from psutil import virtual_memory
 import numpy
 import numpy.distutils.cpuinfo
-from core.QtModules import pyqtSignal, QThread
+from core.QtModules import Signal, QThread
 from core.libs import (
     Genetic,
     Firefly,
@@ -36,9 +36,9 @@ class WorkerThread(QThread):
 
     """The QThread class to handle algorithm."""
 
-    progress_update = pyqtSignal(int, str)
-    result = pyqtSignal(dict, float)
-    done = pyqtSignal()
+    progress_update = Signal(int, str)
+    result = Signal(dict, float)
+    done = Signal()
 
     def __init__(
         self,

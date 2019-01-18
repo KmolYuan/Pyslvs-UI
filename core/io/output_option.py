@@ -18,7 +18,7 @@ from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QDialog,
     QDir,
@@ -86,7 +86,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         self.vpoints = vpoints
         self.v_to_slvs = v_to_slvs
 
-    @pyqtSlot(name='on_choose_dir_button_clicked')
+    @Slot(name='on_choose_dir_button_clicked')
     def __set_dir(self):
         """Choose path and it will be set as environment variable if accepted."""
         path = self.path_edit.text()
@@ -96,7 +96,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         if path:
             self.path_edit.setText(path)
 
-    @pyqtSlot(name='on_button_box_accepted')
+    @Slot(name='on_button_box_accepted')
     def __accepted(self):
         """Use the file path to export the project."""
         qdir = QDir(_get_name(self.path_edit, ispath=True))

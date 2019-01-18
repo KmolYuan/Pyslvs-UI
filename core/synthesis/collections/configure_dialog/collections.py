@@ -17,7 +17,7 @@ from core.QtModules import (
     Qt,
     QDialog,
     QDialogButtonBox,
-    pyqtSlot,
+    Slot,
     QInputDialog,
     QMessageBox,
     QListWidgetItem,
@@ -204,7 +204,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__has_collection()
         self.__can_open()
 
-    @pyqtSlot(str, name='on_collections_list_currentTextChanged')
+    @Slot(str, name='on_collections_list_currentTextChanged')
     def __can_open(self, _=None):
         """Set the button box to enable when data is already."""
         self.button_box.button(QDialogButtonBox.Open).setEnabled(
@@ -227,7 +227,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def params(self) -> Dict[str, Any]:
         return self.__mech_params
 
-    @pyqtSlot(name='on_rename_button_clicked')
+    @Slot(name='on_rename_button_clicked')
     def __rename(self):
         """Show up a string input to change the data name."""
         row = self.collections_list.currentRow()
@@ -254,7 +254,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections[name] = self.collections.pop(item.text())
         item.setText(name)
 
-    @pyqtSlot(name='on_copy_button_clicked')
+    @Slot(name='on_copy_button_clicked')
     def __copy(self):
         """Ask a name to copy a data."""
         row = self.collections_list.currentRow()
@@ -281,7 +281,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections[name] = self.collections[name_old].copy()
         self.collections_list.addItem(name)
 
-    @pyqtSlot(name='on_delete_button_clicked')
+    @Slot(name='on_delete_button_clicked')
     def __delete(self):
         """Delete a data."""
         row = self.collections_list.currentRow()
@@ -300,7 +300,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.preview_canvas.clear()
         self.__has_collection()
 
-    @pyqtSlot(str, name='on_common_list_currentTextChanged')
+    @Slot(str, name='on_common_list_currentTextChanged')
     def __choose_common(self, _=None):
         """Update preview canvas for common data."""
         item = self.common_list.currentItem()
@@ -316,7 +316,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.__mech_params = deepcopy(_mech_params_ball_lifter)
         self.preview_canvas.from_profile(self.__mech_params)
 
-    @pyqtSlot(str, name='on_collections_list_currentTextChanged')
+    @Slot(str, name='on_collections_list_currentTextChanged')
     def __choose_collections(self, _=None):
         """Update preview canvas for a workbook data."""
         item = self.collections_list.currentItem()
@@ -327,7 +327,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__mech_params = deepcopy(self.collections[self.__name_loaded])
         self.preview_canvas.from_profile(self.__mech_params)
 
-    @pyqtSlot(name='on_workbook_button_clicked')
+    @Slot(name='on_workbook_button_clicked')
     def __from_canvas(self):
         """Get a collection data from current mechanism."""
         try:
@@ -343,15 +343,15 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.collections[name] = collection.copy()
             self.collections_list.addItem(name)
 
-    @pyqtSlot(name='on_common_load_clicked')
-    @pyqtSlot(QListWidgetItem, name='on_common_list_itemDoubleClicked')
+    @Slot(name='on_common_load_clicked')
+    @Slot(QListWidgetItem, name='on_common_list_itemDoubleClicked')
     def __load_common(self, _=None):
         """Load a common data and close."""
         self.__choose_common()
         self.accept()
 
-    @pyqtSlot(name='on_button_box_accepted')
-    @pyqtSlot(QListWidgetItem, name='on_collections_list_itemDoubleClicked')
+    @Slot(name='on_button_box_accepted')
+    @Slot(QListWidgetItem, name='on_collections_list_itemDoubleClicked')
     def __load_collections(self, _=None):
         """Load a workbook data and close."""
         self.__choose_collections()

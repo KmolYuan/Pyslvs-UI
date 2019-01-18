@@ -24,6 +24,7 @@ Development
 + Re-design the inherit method of main window classes.
 + Simplified Qt module introduction.
 + Enhancement of enum types.
++ Rename "signal" and "slot" introduction of PyQt.
 
 Version 18.12
 ===

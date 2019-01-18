@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import Optional
 import sys
 import logging
-from core.QtModules import QObject, pyqtSignal
+from core.QtModules import QObject, Signal
 
 
 class _QtHandler(logging.Handler):
@@ -42,7 +42,7 @@ class XStream(QObject):
 
     _stdout: Optional['XStream'] = None
     _stderr: Optional['XStream'] = None
-    messageWritten = pyqtSignal(str)
+    messageWritten = Signal(str)
 
     def write(self, msg: str):
         """Output the message."""

@@ -17,7 +17,7 @@ from typing import (
 )
 from abc import ABC
 from traceback import format_exc
-from core.QtModules import pyqtSlot
+from core.QtModules import Slot
 from core.libs import (
     slvs_solve,
     vpoints_configure,
@@ -46,7 +46,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         self.resolve()
         self.MainCanvas.update_preview_path()
 
-    @pyqtSlot()
+    @Slot()
     def resolve(self):
         """Resolve: Using three libraries to solve the system.
 

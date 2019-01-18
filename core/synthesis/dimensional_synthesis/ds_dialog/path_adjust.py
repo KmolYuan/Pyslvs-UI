@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import List
 import numpy as np
 from core.QtModules import (
-    pyqtSlot,
+    Slot,
     Qt,
     QDialog,
     QMessageBox,
@@ -41,7 +41,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         self.points_num.setText(str(len(self.path)))
         self.match_num.setValue(len(self.path))
 
-    @pyqtSlot(name='on_scaling_button_clicked')
+    @Slot(name='on_scaling_button_clicked')
     def __scale(self):
         ox = self.scaling_rx.value()
         oy = self.scaling_ry.value()
@@ -54,7 +54,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         ]
         self.accept()
 
-    @pyqtSlot(name='on_moving_button_clicked')
+    @Slot(name='on_moving_button_clicked')
     def __move(self):
         """Translate functions."""
         mx = self.moving_x_coordinate.value()
@@ -62,7 +62,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         self.r_path = [(x + mx, y + my) for x, y in self.path]
         self.accept()
 
-    @pyqtSlot(name='on_match_button_clicked')
+    @Slot(name='on_match_button_clicked')
     def __match(self):
         """Fitting function."""
         length = len(self.path)
