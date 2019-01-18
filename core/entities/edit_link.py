@@ -96,7 +96,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         if len(self.vlinks) > index:
             vlink = self.vlinks[index]
             self.name_edit.setText(vlink.name)
-            color_text = vlink.colorSTR
+            color_text = vlink.color_str
             color_index = self.color_box.findText(color_text)
             if color_index > -1:
                 self.color_box.setCurrentIndex(color_index)

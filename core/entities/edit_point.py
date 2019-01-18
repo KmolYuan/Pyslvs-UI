@@ -75,7 +75,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         vpoint = self.vpoints[index]
         self.x_box.setValue(vpoint.x)
         self.y_box.setValue(vpoint.y)
-        color_text = vpoint.colorSTR
+        color_text = vpoint.color_str
         color_index = self.color_box.findText(color_text)
         if color_index > -1:
             self.color_box.setCurrentIndex(color_index)

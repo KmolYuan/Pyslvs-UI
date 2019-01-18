@@ -26,7 +26,7 @@ from core.QtModules import (
     QKeySequence,
 )
 from core import main_window as mw
-from core.libs import VJoint
+from core.libs import VJoint, VPoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 from .undo_redo import (
@@ -152,7 +152,7 @@ class InputsWidget(QWidget, Ui_Form):
             return
         p0 = _variable_int(item.text())
 
-        vpoints = self.EntitiesPoint.data_tuple()
+        vpoints: Tuple[VPoint, ...] = self.EntitiesPoint.data_tuple()
         type_int = vpoints[p0].type
         if type_int == VJoint.R:
             for i, vpoint in enumerate(vpoints):
@@ -161,9 +161,9 @@ class InputsWidget(QWidget, Ui_Form):
                 if vpoints[p0].same_link(vpoint):
                     if vpoints[p0].grounded() and vpoint.grounded():
                         continue
-                    self.driver_list.addItem(f"[{vpoint.typeSTR}] Point{i}")
+                    self.driver_list.addItem(f"[{vpoint.type_str}] Point{i}")
         elif type_int in {VJoint.P, VJoint.RP}:
-            self.driver_list.addItem(f"[{vpoints[p0].typeSTR}] Point{p0}")
+            self.driver_list.addItem(f"[{vpoints[p0].type_str}] Point{p0}")
 
     @Slot(int, name='on_driver_list_currentRowChanged')
     def __set_add_var_enabled(self, _: int):

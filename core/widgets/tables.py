@@ -37,7 +37,7 @@ from core.QtModules import (
     QABCMeta,
 )
 from core import main_window as mw
-from core.graphics import color_icon, color_qt
+from core.graphics import color_icon
 from core.libs import VJoint, VPoint, VLink, color_rgb
 
 
@@ -205,7 +205,9 @@ class PointTableWidget(_BaseTableWidget):
             else:
                 angle = float(p_type[1])
                 j_type = VJoint.P if p_type[0] == 'P' else VJoint.RP
-            vpoint = VPoint(links, j_type, angle, color, x, y, color_rgb)
+            vpoint = VPoint([
+                link for link in links.replace(" ", '').split(',') if link
+            ], j_type, angle, color, x, y, color_rgb)
             vpoint.move(*self.current_position(row))
             yield vpoint
 
@@ -319,7 +321,7 @@ class LinkTableWidget(_BaseTableWidget):
 
     def colors(self) -> Dict[str, str]:
         """Return name and color as a dict."""
-        return {vlink.name: vlink.colorSTR for vlink in self.data()}
+        return {vlink.name: vlink.color_str for vlink in self.data()}
 
     def edit_link(
         self,
