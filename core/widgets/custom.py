@@ -85,7 +85,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""
         super(MainWindowUiInterface, self).show()
-        self.MainCanvas.zoomToFit()
+        self.MainCanvas.zoom_to_fit()
 
     def set_locate(self, locate: str):
         """Set environment variables."""
@@ -379,9 +379,9 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         + Zoom text buttons
         """
         self.action_zoom_to_fit.triggered.connect(
-            self.MainCanvas.zoomToFit
+            self.MainCanvas.zoom_to_fit
         )
-        self.ResetCanvas.clicked.connect(self.MainCanvas.zoomToFit)
+        self.ResetCanvas.clicked.connect(self.MainCanvas.zoom_to_fit)
 
         zoom_menu = QMenu(self)
 

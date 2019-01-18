@@ -7,7 +7,13 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from enum import Enum
+from typing import (
+    Tuple,
+    List,
+    Dict,
+)
+from abc import ABC, abstractmethod
+from enum import IntEnum, auto, unique
 from math import (
     degrees,
     sin,
@@ -16,11 +22,6 @@ from math import (
     hypot,
 )
 from itertools import chain
-from typing import (
-    Tuple,
-    List,
-    Dict,
-)
 from core.QtModules import (
     pyqtSignal,
     Qt,
@@ -112,15 +113,24 @@ class _Selector:
             return tuple(self.selection_rect)
 
 
-class FreeMode(Enum):
-    """Free move mode."""
-    NoFreeMove = 0
-    Translate = 1
-    Rotate = 2
-    Reflect = 3
+@unique
+class FreeMode(IntEnum):
+    """Free move mode"""
+    NoFreeMove = auto()
+    Translate = auto()
+    Rotate = auto()
+    Reflect = auto()
 
 
-class DynamicCanvasInterface(BaseCanvas):
+@unique
+class SelectMode(IntEnum):
+    """Selection mode"""
+    Joint = auto()
+    Link = auto()
+    Solution = auto()
+
+
+class DynamicCanvasInterface(BaseCanvas, ABC):
 
     """Abstract class for wrapping main canvas class."""
 
@@ -148,7 +158,7 @@ class DynamicCanvasInterface(BaseCanvas):
         # Solution.
         self.exprs: List[Tuple[str, ...]] = []
         # Select function.
-        self.select_mode = 0
+        self.select_mode = SelectMode.Joint
         self.sr = 10
         self.selections: List[int] = []
         # Link transparency.
@@ -201,7 +211,7 @@ class DynamicCanvasInterface(BaseCanvas):
                 else:
                     grounded = vpoint.links[j] == 'ground'
                 # Slot point.
-                if (j == 0) or (vpoint.type == VJoint.P):
+                if j == 0 or vpoint.type == VJoint.P:
                     pen.setColor(QColor(*vpoint.color))
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
@@ -241,7 +251,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
 
         # For selects function.
-        if (self.select_mode == 0) and (i in self.selections):
+        if self.select_mode == SelectMode.Joint and (i in self.selections):
             pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
             self.painter.setPen(pen)
@@ -270,14 +280,14 @@ class DynamicCanvasInterface(BaseCanvas):
 
     def __draw_link(self, vlink: VLink):
         """Draw a link."""
-        if (vlink.name == 'ground') or (not vlink.points):
+        if vlink.name == 'ground' or (not vlink.points):
             return
         points = self.__points_pos(vlink)
         pen = QPen()
         # Rearrange: Put the nearest point to the next position.
         qpoints = convex_hull(points, as_qpoint=True)
         if (
-            (self.select_mode == 1) and
+            (self.select_mode == SelectMode.Link) and
             (self.vlinks.index(vlink) in self.selections)
         ):
             pen.setWidth(self.link_width + 6)
@@ -367,7 +377,7 @@ class DynamicCanvasInterface(BaseCanvas):
     def __select_func(self, *, rect: bool = False):
         """Select function."""
         self.selector.selection_rect.clear()
-        if self.select_mode == 0:
+        if self.select_mode == SelectMode.Joint:
 
             def catch(x: float, y: float) -> bool:
                 """Detection function for points."""
@@ -381,7 +391,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     if i not in self.selector.selection_rect:
                         self.selector.selection_rect.append(i)
 
-        elif self.select_mode == 1:
+        elif self.select_mode == SelectMode.Link:
 
             def catch(link: VLink) -> bool:
                 """Detection function for links.
@@ -413,7 +423,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     if i not in self.selector.selection_rect:
                         self.selector.selection_rect.append(i)
 
-        elif self.select_mode == 2:
+        elif self.select_mode == SelectMode.Solution:
 
             def catch(exprs: Tuple[str, ...]) -> bool:
                 """Detection function for solution polygons."""
@@ -552,7 +562,7 @@ class DynamicCanvasInterface(BaseCanvas):
             self.__draw_point(i, vpoint)
 
         # Draw solutions.
-        if self.select_mode == 2:
+        if self.select_mode == SelectMode.Solution:
             for i, expr in enumerate(self.exprs):
                 func = expr[0]
                 params = expr[1:-1]
@@ -621,7 +631,7 @@ class DynamicCanvasInterface(BaseCanvas):
         """
         button = event.buttons()
         if button == Qt.MidButton:
-            self.zoomToFit()
+            self.zoom_to_fit()
         elif (button == Qt.LeftButton) and (not self.show_target_path):
             self.selector.x = (event.x() - self.ox) / self.zoom
             self.selector.y = (event.y() - self.oy) / -self.zoom
@@ -641,7 +651,7 @@ class DynamicCanvasInterface(BaseCanvas):
         if self.selector.left_dragged:
             self.selector.selection_old = list(self.selections)
             if (
-                (self.select_mode == 0) and
+                (self.select_mode == SelectMode.Joint) and
                 (self.free_move != FreeMode.NoFreeMove) and
                 (not self.show_target_path)
             ):
@@ -694,15 +704,12 @@ class DynamicCanvasInterface(BaseCanvas):
                 unit_text = ('point', 'link', 'solution')[self.select_mode]
                 QToolTip.showText(
                     event.globalPos(),
-                    f"({self.selector.x:.02f}, "
-                    f"{self.selector.y:.02f})\n"
-                    f"({self.selector.sx:.02f}, "
-                    f"{self.selector.sy:.02f})\n"
-                    f"{len(selection)} "
-                    f"{unit_text}(s)",
+                    f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
+                    f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
+                    f"{len(selection)} {unit_text}(s)",
                     self
                 )
-            elif self.select_mode == 0:
+            elif self.select_mode == SelectMode.Joint:
                 if self.free_move == FreeMode.Translate:
                     # Free move translate function.
                     mouse_x = self.__snap(x - self.selector.x, is_zoom=False)
@@ -744,11 +751,11 @@ class DynamicCanvasInterface(BaseCanvas):
                             if (x > 0) != (y > 0):
                                 vpoint.rotate(180 - self.vangles[num])
                 if self.free_move != FreeMode.NoFreeMove:
-                    self.updatePreviewPath()
+                    self.update_preview_path()
             self.update()
         self.tracking.emit(x, y)
 
-    def zoomToFit(self):
+    def zoom_to_fit(self):
         """Zoom to fit function."""
         width = self.width()
         height = self.height()
@@ -774,3 +781,7 @@ class DynamicCanvasInterface(BaseCanvas):
         self.ox = (width - (x_left + x_right) * self.zoom) / 2
         self.oy = (height + (y_top + y_bottom) * self.zoom) / 2
         self.update()
+
+    @abstractmethod
+    def update_preview_path(self) -> None:
+        ...

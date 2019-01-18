@@ -167,7 +167,7 @@ class MainWindow(IOMethodInterface):
         while f"Algorithm_{i}" in self.InputsWidget.path_data():
             i += 1
         self.InputsWidget.add_path(f"Algorithm_{i}", path)
-        self.MainCanvas.zoomToFit()
+        self.MainCanvas.zoom_to_fit()
 
     @pyqtSlot(int, name='on_EntitiesTab_currentChanged')
     def __set_selection_mode(self, index: int):

@@ -228,7 +228,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Load examples from 'DatabaseWidget'. Return true if succeeded."""
         if self.DatabaseWidget.load_example():
             self.__show_expr()
-            self.MainCanvas.zoomToFit()
+            self.MainCanvas.zoom_to_fit()
 
     @pyqtSlot(name='on_action_import_example_triggered')
     def __import_example(self):
@@ -367,7 +367,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         elif suffix == 'slvs':
             self.__read_slvs(file_name)
 
-        self.MainCanvas.zoomToFit()
+        self.MainCanvas.zoom_to_fit()
 
     @pyqtSlot(name='on_action_import_database_triggered')
     def __import_database(self):

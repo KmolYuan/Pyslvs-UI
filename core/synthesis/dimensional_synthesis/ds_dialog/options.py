@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from enum import Enum
+from enum import Enum, unique
 from typing import (
     List,
     Tuple,
@@ -54,16 +54,17 @@ DifferentialPrams = {
 defaultSettings = {'maxGen': 1000, 'report': 10}
 
 
+@unique
 class AlgorithmType(Enum):
 
     """Enum type of algorithms."""
 
-    def __str__(self):
-        return str(self.value)
-
     RGA = "Real-coded Genetic Algorithm"
     Firefly = "Firefly Algorithm"
     DE = "Differential Evolution"
+
+    def __str__(self):
+        return str(self.value)
 
 
 class AlgorithmOptionDialog(QDialog, Ui_Dialog):

@@ -26,7 +26,11 @@ from core.QtModules import (
 )
 from core import main_window as mw
 from core.libs import VPoint, VLink
-from .main_canvas_method import DynamicCanvasInterface, FreeMode
+from .main_canvas_method import (
+    DynamicCanvasInterface,
+    FreeMode,
+    SelectMode,
+)
 
 
 class DynamicCanvas(DynamicCanvasInterface):
@@ -128,7 +132,7 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def set_free_move(self, free_move: int):
         """Update free move mode number."""
-        self.free_move = FreeMode(free_move)
+        self.free_move = FreeMode(free_move + 1)
         self.update()
 
     @pyqtSlot(int)
@@ -197,7 +201,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     @pyqtSlot(int)
     def set_selection_mode(self, select_mode: int):
         """Update the selection."""
-        self.select_mode = select_mode
+        self.select_mode = SelectMode(select_mode + 1)
         self.update()
 
     @pyqtSlot(list)
