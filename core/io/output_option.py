@@ -35,7 +35,7 @@ from core.QtModules import (
     QSpacerItem,
     QIcon,
     QPixmap,
-    QAbcMeta,
+    QABCMeta,
 )
 from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
@@ -57,7 +57,7 @@ def _get_name(widget: QTextEdit, *, ispath: bool = False) -> str:
     return ''.join(x for x in text if x.isalnum() or x in "._- ") or place_text
 
 
-class _OutputDialog(QDialog, Ui_Dialog, metaclass=QAbcMeta):
+class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
 
     """Output dialog template."""
 

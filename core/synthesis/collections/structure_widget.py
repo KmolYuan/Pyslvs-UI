@@ -409,9 +409,9 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections_grounded.append(g)
         self.grounded_list.addItem(item)
 
-        def isomorphic(g: Graph, l: List[Graph]) -> bool:
-            for h in l:
-                if g.is_isomorphic(h):
+        def isomorphic(graph: Graph, graph_list: List[Graph]) -> bool:
+            for h in graph_list:
+                if graph.is_isomorphic(h):
                     return True
             return False
 

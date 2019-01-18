@@ -7,6 +7,15 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import (
+    Tuple,
+    List,
+    Dict,
+    Sequence,
+    Any,
+    Union,
+)
+from abc import abstractmethod
 from math import (
     radians,
     sin,
@@ -14,19 +23,10 @@ from math import (
     atan2,
     isnan,
 )
-from typing import (
-    Tuple,
-    List,
-    Dict,
-    Sequence,
-    Callable,
-    Any,
-    Union,
-)
 from functools import reduce
 from core.QtModules import (
-    pyqtSlot,
     Qt,
+    QABCMeta,
     QPointF,
     QRectF,
     QPolygonF,
@@ -41,7 +41,6 @@ from core.QtModules import (
     QPainterPath,
     QImage,
 )
-from core import io
 from core.libs import (
     VPoint,
     Graph,
@@ -107,7 +106,7 @@ class _Path:
         self.curve: bool = True
 
 
-class BaseCanvas(QWidget):
+class BaseCanvas(QWidget, metaclass=QABCMeta):
 
     """The subclass can draw a blank canvas more easier."""
 
@@ -145,6 +144,7 @@ class BaseCanvas(QWidget):
         self.background_scale = 1
         self.background_offset = QPointF(0, 0)
 
+    @abstractmethod
     def paintEvent(self, event):
         """Using a QPainter under 'self',
         so just change QPen or QBrush before painting.
@@ -197,7 +197,6 @@ class BaseCanvas(QWidget):
                 QPointF(10 if y % 10 == 0 else 5, y * self.zoom)
             )
         # Please to call the "end" method when ending paint event.
-        # self.painter.end()
 
     def draw_point(
         self,
@@ -427,6 +426,8 @@ class PreviewCanvas(BaseCanvas):
 
     """A preview canvas use to show structure diagram."""
 
+    view_size = 240
+
     def __init__(self, parent: QWidget):
         """Input parameters and attributes.
 
@@ -477,15 +478,19 @@ class PreviewCanvas(BaseCanvas):
                 factor = width / x_diff
             else:
                 factor = height / y_diff
-            self.zoom = factor * 0.95
+            self.zoom = factor * 0.75
             self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
             self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         else:
-            sq_w = 240
-            self.zoom = (width / sq_w) if (width <= height) else (height / sq_w)
+            if width <= height:
+                self.zoom = width / PreviewCanvas.view_size
+            else:
+                self.zoom = height / PreviewCanvas.view_size
             self.ox = width / 2
             self.oy = height / 2
+
         super(PreviewCanvas, self).paintEvent(event)
+
         pen = QPen()
         pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
@@ -545,6 +550,7 @@ class PreviewCanvas(BaseCanvas):
             y *= -self.zoom
             y -= 2 * self.joint_size
             self.painter.drawText(QPointF(x, y), f'P{node}')
+
         self.painter.end()
 
     def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:

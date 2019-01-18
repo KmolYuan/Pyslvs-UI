@@ -305,7 +305,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         else:
             inter_icon = "interrupted.png"
         if 'last_fitness' in mechanism:
-            fitness = f"{mechanism['fitness']:.06f}"
+            fitness = f"{mechanism['last_fitness']:.06f}"
         else:
             fitness = 'N/A'
         text_list = [

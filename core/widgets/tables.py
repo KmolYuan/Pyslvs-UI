@@ -34,14 +34,14 @@ from core.QtModules import (
     QTableWidgetSelectionRange,
     QLabel,
     QWidget,
-    QAbcMeta,
+    QABCMeta,
 )
 from core import main_window as mw
 from core.graphics import color_icon, color_qt
 from core.libs import VJoint, VPoint, VLink, color_rgb
 
 
-class _BaseTableWidget(QTableWidget, metaclass=QAbcMeta):
+class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
 
     """Two tables has some shared function."""
 

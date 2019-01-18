@@ -31,7 +31,7 @@ __all__ = [
     'qt_image_format',
     'qVersion',
     'PYQT_VERSION_STR',
-    'QAbcMeta',
+    'QABCMeta',
     'QAbstractItemView',
     'QAction',
     'QApplication',
@@ -128,12 +128,12 @@ qt_image_format: Tuple[str, ...] = (
 )
 
 
-class QAbcMeta(wrappertype, ABCMeta):
+class QABCMeta(wrappertype, ABCMeta):
     """Qt ABCMeta class.
 
     Usage:
 
-    class MyQObject(QObject, metaclass=QAbcMeta):
+    class MyQObject(QObject, metaclass=QABCMeta):
         @abstractmethod
         def my_abstract_method(self):
             ...

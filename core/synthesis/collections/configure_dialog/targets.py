@@ -17,7 +17,6 @@ from core.QtModules import (
     Qt,
     QDialog,
     QListWidget,
-    QListWidgetItem,
 )
 from core.synthesis.collections import configure_widget as cw
 from .Ui_targets import Ui_Dialog

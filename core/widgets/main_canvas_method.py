@@ -528,23 +528,29 @@ class DynamicCanvasInterface(BaseCanvas):
         if (self.width_old != width) or (self.height_old != height):
             self.ox += (width - self.width_old) / 2
             self.oy += (height - self.height_old) / 2
+
         # 'self' is the instance of 'DynamicCanvas'.
         BaseCanvas.paintEvent(self, event)
+
         # Draw links except ground.
         for vlink in self.vlinks[1:]:
             self.__draw_link(vlink)
+
         # Draw path.
         if self.Path.show != -2:
             self.__draw_path()
+
         # Draw solving path.
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
             self.__draw_slvs_ranges()
             self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
+
         # Draw points.
         for i, vpoint in enumerate(self.vpoints):
             self.__draw_point(i, vpoint)
+
         # Draw solutions.
         if self.select_mode == 2:
             for i, expr in enumerate(self.exprs):
@@ -559,6 +565,7 @@ class DynamicCanvasInterface(BaseCanvas):
                     pen.setColor(QColor(161, 16, 239))
                     self.painter.setPen(pen)
                     self.painter.drawPolygon(QPolygonF(pos))
+
         # Draw a colored frame for free move mode.
         if self.free_move != FreeMode.NoFreeMove:
             pen = QPen()
@@ -571,15 +578,18 @@ class DynamicCanvasInterface(BaseCanvas):
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.__draw_frame()
+
         # Rectangular selection
         if self.selector.picking:
             pen = QPen(Qt.gray)
             pen.setWidth(1)
             self.painter.setPen(pen)
             self.painter.drawRect(self.selector.to_rect(self.zoom))
+
         # Show FPS
         self.fps_updated.emit()
         self.painter.end()
+
         # Record the widget size.
         self.width_old = width
         self.height_old = height
