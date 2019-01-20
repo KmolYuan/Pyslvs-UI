@@ -100,7 +100,7 @@ class SynthesisProgressDialog(QProgressDialog):
         try:
             QCoreApplication.processEvents()
             return self.wasCanceled()
-        except RuntimeError:
+        except ValueError:
             return False
 
 
@@ -126,7 +126,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.input_from = parent.input_from
         self.jointDataFunc = parent.EntitiesPoint.data_tuple
         self.linkDataFunc = parent.EntitiesLink.data_tuple
-        self.getGraph = parent.getGraph
+        self.getGraph = parent.get_graph
 
         # Splitters
         self.splitter.setStretchFactor(0, 2)
@@ -279,17 +279,12 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         nl = self.NL_input.value()
         nj = self.NJ_input.value()
-        dlg = SynthesisProgressDialog(
-            "Link assortments",
-            f"({nl}, {nj})",
-            1,
-            self
-        )
+        dlg = SynthesisProgressDialog("Link assortments", f"({nl}, {nj})", 1, self)
         dlg.show()
         try:
             results = number_synthesis(nl, nj, dlg.stop_func)
-        except Exception as e:
-            item = QListWidgetItem(str(e))
+        except Exception as error:
+            item = QListWidgetItem(str(error))
             self.l_a_list.addItem(item)
             dlg.next()
             return []

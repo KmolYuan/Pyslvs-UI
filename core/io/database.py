@@ -350,8 +350,8 @@ class DatabaseWidget(QWidget, Ui_Form):
                 author_model.save()
                 branch_model.save()
                 new_commit.save()
-            except Exception as e:
-                print(str(e))
+            except Exception as error:
+                print(error)
                 _db.rollback()
                 is_error = True
             else:

@@ -162,8 +162,8 @@ class StructureWidget(QWidget, Ui_Form):
             for graph_ in self.collections:
                 if graph.is_isomorphic(graph_):
                     raise _TestError(f"is isomorphic with: {graph_.edges}")
-        except _TestError as e:
-            QMessageBox.warning(self, "Add Collection Error", f"Error: {e}")
+        except _TestError as error:
+            QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
             return
         self.collections.append(graph)
         self.unsaveFunc()
@@ -190,9 +190,9 @@ class StructureWidget(QWidget, Ui_Form):
         try:
             edges = eval(edges_str)
             if any(len(edge) != 2 for edge in edges):
-                raise IOError("wrong format")
-        except Exception as e:
-            QMessageBox.warning(self, str(e), f"Error: {e}")
+                raise ValueError("wrong format")
+        except (SyntaxError, ValueError) as error:
+            QMessageBox.warning(self, str(error), f"Error: {error}")
             return
         else:
             self.add_collection(edges)

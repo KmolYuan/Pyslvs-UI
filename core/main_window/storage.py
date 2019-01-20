@@ -77,8 +77,8 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         try:
             # Put the expression into parser to see if it is legal.
             parse_params(expr)
-        except Exception as e:
-            print(e)
+        except Exception as error:
+            print(error)
             QMessageBox.warning(
                 self,
                 "Loading failed",

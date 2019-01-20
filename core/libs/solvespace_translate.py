@@ -264,4 +264,4 @@ def slvs_solve(
         error = "Did not converge."
     else:
         error = "Too many unknowns."
-    raise RuntimeError(error)
+    raise ValueError(error)

@@ -422,7 +422,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
                 vpoints,
                 tuple(v[-1] for v in self.InputsWidget.input_pairs())
             )
-        except RuntimeError:
+        except ValueError:
             pass
         else:
             self.MainCanvas.adjust_link(result)

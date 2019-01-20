@@ -587,7 +587,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             while dp < i_count:
                 try:
                     solved_result = expr_solving(exprs, mapping, vpoints, angles)
-                except RuntimeError:
+                except ValueError:
                     # Update with error sign.
                     for i in range(vpoint_count):
                         path[i].append((nan, nan))

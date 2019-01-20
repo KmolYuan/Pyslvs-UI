@@ -187,7 +187,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         )
 
         self.collections = collections
-        self.getCollection = get_collection
+        self.get_collection = get_collection
 
         # Current profile name.
         self.__name_loaded = ""
@@ -331,17 +331,18 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def __from_canvas(self):
         """Get a collection data from current mechanism."""
         try:
-            collection = self.getCollection()
-        except ValueError as e:
-            QMessageBox.warning(self, "Mechanism not support.", str(e))
-        else:
-            num = 0
+            collection = self.get_collection()
+        except ValueError as error:
+            QMessageBox.warning(self, "Mechanism not support.", str(error))
+            return
+
+        num = 0
+        name = f"mechanism{num}"
+        while name in self.collections:
             name = f"mechanism{num}"
-            while name in self.collections:
-                name = f"mechanism{num}"
-                num += 1
-            self.collections[name] = collection.copy()
-            self.collections_list.addItem(name)
+            num += 1
+        self.collections[name] = collection.copy()
+        self.collections_list.addItem(name)
 
     @Slot(name='on_common_load_clicked')
     @Slot(QListWidgetItem, name='on_common_list_itemDoubleClicked')

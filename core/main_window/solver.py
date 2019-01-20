@@ -17,7 +17,7 @@ from typing import (
 )
 from abc import ABC
 from traceback import format_exc
-from core.QtModules import Slot
+from core.QtModules import Slot, QMessageBox
 from core.libs import (
     slvs_solve,
     vpoints_configure,
@@ -81,8 +81,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     {(b, d): a for b, d, a in self.InputsWidget.input_pairs()}
                 )
             else:
-                raise RuntimeError("incorrect kernel")
-        except RuntimeError as error:
+                raise ValueError("incorrect kernel")
+        except ValueError as error:
             # Error: Show warning without update data.
             if self.consoleerror_option.isChecked():
                 print(format_exc())
@@ -166,8 +166,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
                         )
                     else:
-                        raise RuntimeError("incorrect kernel")
-                except RuntimeError:
+                        raise ValueError("incorrect kernel")
+                except ValueError:
                     # Update with error sign.
                     for i in range(vpoint_count):
                         auto_preview[i].append((nan, nan))
@@ -193,7 +193,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                         angles[dp] -= interval
                         dp += 1
 
-    def getGraph(self) -> List[Tuple[int, int]]:
+    def get_graph(self) -> List[Tuple[int, int]]:
         """Return edges data for NetworkX graph class.
 
         + VLinks will become graph nodes.
@@ -247,9 +247,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         for vpoint in vpoints:
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
+
         vlinks = self.EntitiesLink.data_tuple()
         link_names = [vlink.name for vlink in vlinks]
-        graph = tuple(self.getGraph())
+        graph = tuple(self.get_graph())
 
         def find(joint: Set[int]) -> int:
             """Find the vpoint that is match from joint.

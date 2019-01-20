@@ -109,8 +109,8 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
             del new_folder
         try:
             ok = self.do(qdir)
-        except PermissionError as e:
-            QMessageBox.warning(self, "Permission error", str(e))
+        except PermissionError as error:
+            QMessageBox.warning(self, "Permission error", str(error))
         else:
             if ok:
                 self.accept()
