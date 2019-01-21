@@ -326,7 +326,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 for link_name in links:
                     # If link name not exist.
                     if link_name not in link_names:
-                        self.addLink(link_name, 'Blue')
+                        self.add_link(link_name, 'Blue')
                 row_count = self.EntitiesPoint.rowCount()
                 self.CommandStack.beginMacro(f"Add {{Point{row_count}}}")
                 self.CommandStack.push(AddTable(self.EntitiesPoint))
@@ -342,7 +342,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Use to add empty link when loading database."""
         for name, color in link_color.items():
             if name != 'ground':
-                self.addLink(name, color)
+                self.add_link(name, color)
 
     @Slot(name='on_action_load_file_triggered')
     def __load_file(self, file_name: str = ""):

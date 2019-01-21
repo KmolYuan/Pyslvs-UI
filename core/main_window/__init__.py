@@ -156,7 +156,7 @@ class MainWindow(IOMethodInterface):
                 color=("Dark-Orange" if tag in result['Target'] else 'Green')
             )
         for i, exp in enumerate(result['Link_expr'].split(';')):
-            self.addNormalLink(tuple(
+            self.add_normal_link(tuple(
                 tmp_dict[name] for name in str_between(exp, '[', ']').split(',')
             ))
             if i == 0:

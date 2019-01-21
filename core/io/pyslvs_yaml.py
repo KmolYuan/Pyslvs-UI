@@ -55,7 +55,7 @@ class YamlEditor(QObject):
         # Add empty links function.
         self.__add_links_func = parent.add_empty_links
         # Add points function.
-        self.__add_points_func = parent.addPoints
+        self.__add_points_func = parent.add_points
 
         # Call to load inputs variables data.
         self.__load_inputs_func = parent.InputsWidget.add_inputs_variables

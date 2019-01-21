@@ -68,7 +68,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.input_from = parent.input_from
-        self.addPointsByGraph = parent.addPointsByGraph
+        self.addPointsByGraph = parent.add_points_by_graph
         self.unsaveFunc = parent.workbook_no_save
 
         # Data structures.

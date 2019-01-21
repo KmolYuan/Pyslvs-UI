@@ -266,12 +266,12 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         self.CommandStack.endMacro()
         return row_count
 
-    def addPoints(self, p_attr: Sequence[Tuple[float, float, str, str, int, float]]):
+    def add_points(self, p_attr: Sequence[Tuple[float, float, str, str, int, float]]):
         """Add multiple points."""
         for attr in p_attr:
             self.add_point(*attr)
 
-    def addPointsByGraph(
+    def add_points_by_graph(
         self,
         graph: Graph,
         pos: Dict[int, Tuple[float, float]],
@@ -289,7 +289,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
 
         ground: Optional[int] = None
         for link in graph.nodes:
-            self.addLink(self.__get_link_serial_number(), 'Blue', [
+            self.add_link(self.__get_link_serial_number(), 'Blue', [
                 base_count + n for n, edge in edges_view(graph) if link in edge
             ])
             if link == ground_link:
@@ -299,11 +299,11 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             self.constrain_link(ground)
 
     @Slot(list)
-    def addNormalLink(self, points: Sequence[int]):
+    def add_normal_link(self, points: Sequence[int]):
         """Add a link."""
-        self.addLink(self.__get_link_serial_number(), 'Blue', points)
+        self.add_link(self.__get_link_serial_number(), 'Blue', points)
 
-    def addLink(self, name: str, color: str, points: Optional[Sequence[int]] = None):
+    def add_link(self, name: str, color: str, points: Optional[Sequence[int]] = None):
         """Push a new link command to stack."""
         if points is None:
             points: List[int] = []
@@ -410,8 +410,11 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         self.CommandStack.endMacro()
 
     @Slot(int)
-    def adjustLink(self, value: int):
-        """Preview the free move result."""
+    def adjust_link(self, value: int):
+        """Preview the free move result.
+
+        TODO: change input.
+        """
         vpoints = self.EntitiesPoint.data_tuple()
         mapping = {n: f'P{n}' for n in range(len(vpoints))}
         mapping[self.link_free_move_linkname.text()] = float(value)
@@ -442,11 +445,11 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         name, value = item.text().split(':')
         self.link_free_move_linkname.setText(name)
         try:
-            self.link_free_move_slider.valueChanged.disconnect(self.adjustLink)
+            self.link_free_move_slider.valueChanged.disconnect(self.adjust_link)
         except TypeError:
             pass
         self.link_free_move_slider.setValue(float(value))
-        self.link_free_move_slider.valueChanged.connect(self.adjustLink)
+        self.link_free_move_slider.valueChanged.connect(self.adjust_link)
 
     @Slot(name='on_action_new_link_triggered')
     def new_link(self):
@@ -478,7 +481,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
                 count_0 = True
                 break
         if (not links_all) or (not count_0):
-            self.addNormalLink(rows)
+            self.add_normal_link(rows)
             return
         name = max(set(links_all), key=links_all.count)
         row = self.EntitiesLink.find_name(name)
