@@ -11,7 +11,11 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence
+from typing import (
+    Tuple,
+    List,
+    Sequence,
+)
 from abc import abstractmethod
 from core.QtModules import (
     Slot,
@@ -42,6 +46,7 @@ from core.synthesis import (
 from .Ui_main import Ui_MainWindow
 from .main_canvas import DynamicCanvas
 from .tables import (
+    BaseTableWidget,
     PointTableWidget,
     LinkTableWidget,
     ExprTableWidget,
@@ -92,6 +97,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         if locate == self.env:
             # If no changed.
             return
+
         self.env = locate
         print(f"~Set workplace to: [\"{self.env}\"]")
 
@@ -132,29 +138,16 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
         self.EntitiesPoint = PointTableWidget(self.EntitiesPoint_widget)
         self.EntitiesPoint.cellDoubleClicked.connect(self.edit_point)
-        self.EntitiesPoint.deleteRequest.connect(self.delete_points)
+        self.EntitiesPoint.delete_request.connect(self.delete_points)
         self.EntitiesPoint_layout.addWidget(self.EntitiesPoint)
 
         self.EntitiesLink = LinkTableWidget(self.EntitiesLink_widget)
         self.EntitiesLink.cellDoubleClicked.connect(self.edit_link)
-        self.EntitiesLink.deleteRequest.connect(self.delete_links)
+        self.EntitiesLink.delete_request.connect(self.delete_links)
         self.EntitiesLink_layout.addWidget(self.EntitiesLink)
 
         self.EntitiesExpr = ExprTableWidget(self.EntitiesExpr_widget)
-        self.EntitiesExpr.reset.connect(self.link_free_move_widget.setEnabled)
-        self.EntitiesExpr.free_move_request.connect(self.set_link_free_move)
         self.EntitiesExpr_layout.insertWidget(0, self.EntitiesExpr)
-
-        # Link free mode slide bar.
-        self.link_free_move_slider.valueChanged.connect(
-            self.link_free_move_spinbox.setValue
-        )
-        self.link_free_move_spinbox.valueChanged.connect(
-            self.link_free_move_slider.setValue
-        )
-        self.link_free_move_slider.rangeChanged.connect(
-            self.link_free_move_spinbox.setRange
-        )
 
         # Select all button on the Point and Link tab as corner widget.
         select_all_button = QPushButton()
@@ -165,7 +158,11 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         @Slot()
         def table_select_all():
             """Distinguish table by tab index."""
-            tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+            tables: List[BaseTableWidget] = [
+                self.EntitiesPoint,
+                self.EntitiesLink,
+                self.EntitiesExpr,
+            ]
             tables[self.EntitiesTab.currentIndex()].selectAll()
 
         select_all_button.clicked.connect(table_select_all)
@@ -183,16 +180,24 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         @Slot(tuple, bool)
         def table_set_selection(selections: Tuple[int], key_detect: bool):
             """Distinguish table by tab index."""
-            tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+            tables: List[BaseTableWidget] = [
+                self.EntitiesPoint,
+                self.EntitiesLink,
+                self.EntitiesExpr,
+            ]
             tables[self.EntitiesTab.currentIndex()].set_selections(selections, key_detect)
 
         self.MainCanvas.selected.connect(table_set_selection)
-        self.EntitiesPoint.rowSelectionChanged.connect(self.MainCanvas.set_selection)
+        self.EntitiesPoint.row_selection_changed.connect(self.MainCanvas.set_selection)
 
         @Slot()
         def table_clear_selection():
             """Distinguish table by tab index."""
-            tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
+            tables: List[BaseTableWidget] = [
+                self.EntitiesPoint,
+                self.EntitiesLink,
+                self.EntitiesExpr,
+            ]
             tables[self.EntitiesTab.currentIndex()].clearSelection()
 
         self.MainCanvas.noselected.connect(table_clear_selection)
@@ -228,7 +233,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.InputsWidget = InputsWidget(self)
         self.inputs_tab_layout.addWidget(self.InputsWidget)
         self.free_move_button.toggled.connect(self.InputsWidget.variable_value_reset)
-        self.InputsWidget.aboutToResolve.connect(self.resolve)
+        self.InputsWidget.about_to_resolve.connect(self.resolve)
 
         @Slot(tuple, bool)
         def inputs_set_selection(selections: Tuple[int], _: bool):
@@ -333,11 +338,6 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             if i == 0:
                 self.free_move_disable = action
         self.free_move_button.setMenu(free_move_mode_menu)
-
-        # Link free move by expression table.
-        self.link_free_move_slider.sliderReleased.connect(
-            self.MainCanvas.emit_free_move_all
-        )
 
     def __options(self):
         """Signal connection for option widgets.
@@ -575,6 +575,36 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.pop_menu_canvas_l.addSeparator()
         self.pop_menu_canvas_l.addAction(self.action_link_context_delete)
 
+    @Slot(int, name='on_EntitiesTab_currentChanged')
+    def __set_selection_mode(self, index: int):
+        """Connect selection signal for main canvas."""
+        # Set selection from click table items.
+        tables: List[BaseTableWidget] = [
+            self.EntitiesPoint,
+            self.EntitiesLink,
+            self.EntitiesExpr,
+        ]
+        try:
+            for table in tables:
+                table.row_selection_changed.disconnect()
+        except TypeError:
+            pass
+
+        tables[index].row_selection_changed.connect(self.MainCanvas.set_selection)
+        # Double click signal.
+        try:
+            self.MainCanvas.doubleclick_edit.disconnect()
+        except TypeError:
+            pass
+        if index == 0:
+            self.MainCanvas.doubleclick_edit.connect(self.edit_point)
+        elif index == 1:
+            self.MainCanvas.doubleclick_edit.connect(self.edit_link)
+        # Clear all selections.
+        for table in tables:
+            table.clearSelection()
+        self.InputsWidget.clear_selection()
+
     @abstractmethod
     def command_reload(self, index: int) -> None:
         ...
@@ -625,10 +655,6 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def set_link_free_move(self, enable: bool) -> None:
         ...
 
     @abstractmethod

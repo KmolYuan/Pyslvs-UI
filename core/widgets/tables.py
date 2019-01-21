@@ -19,7 +19,7 @@ from typing import (
     Sequence,
     Union,
     Optional,
-    Any,
+    TypeVar,
 )
 from core.QtModules import (
     Signal,
@@ -40,16 +40,18 @@ from core import main_window as mw
 from core.graphics import color_icon
 from core.libs import VJoint, VPoint, VLink, color_rgb
 
+_Data = TypeVar('_Data', VPoint, VLink)
 
-class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
+
+class BaseTableWidget(QTableWidget, metaclass=QABCMeta):
 
     """Two tables has some shared function."""
 
-    rowSelectionChanged = Signal(list)
-    deleteRequest = Signal()
+    row_selection_changed = Signal(list)
+    delete_request = Signal()
 
     def __init__(self, row: int, headers: Sequence[str], parent: QWidget):
-        super(_BaseTableWidget, self).__init__(parent)
+        super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setStatusTip("This table will show about the entities items in current view mode.")
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -64,7 +66,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
 
         @Slot()
         def __emit_selection_changed():
-            self.rowSelectionChanged.emit(self.selected_rows())
+            self.row_selection_changed.emit(self.selected_rows())
 
         self.itemSelectionChanged.connect(__emit_selection_changed)
 
@@ -89,11 +91,15 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def data(self) -> Iterator[Any]:
-        """Return table data in subclass."""
+    def item_data(self, row: int) -> _Data:
+        """Return a table data by row index."""
         ...
 
-    def data_tuple(self) -> Tuple[Union[VPoint, VLink], ...]:
+    def data(self) -> Iterator[_Data]:
+        """Return table data in subclass."""
+        yield from (self.item_data(row) for row in range(self.rowCount()))
+
+    def data_tuple(self) -> Tuple[_Data, ...]:
         """Return data set as a container."""
         return tuple(self.data())
 
@@ -104,7 +110,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
     def selectAll(self):
         """Override method of select all function."""
         self.setFocus(Qt.ShortcutFocusReason)
-        super(_BaseTableWidget, self).selectAll()
+        super(BaseTableWidget, self).selectAll()
 
     def set_selections(self, selections: Sequence[int], key_detect: bool = False):
         """Auto select function, get the signal from canvas."""
@@ -152,7 +158,7 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         will emit delete signal from this table.
         """
         if event.key() == Qt.Key_Delete:
-            self.deleteRequest.emit()
+            self.delete_request.emit()
 
     def clear(self):
         """Overridden the clear function, just removed all items."""
@@ -161,12 +167,12 @@ class _BaseTableWidget(QTableWidget, metaclass=QABCMeta):
 
     @Slot()
     def clearSelection(self):
-        """Overridden the 'clear_selection' slot to emit 'rowSelectionChanged'"""
-        super(_BaseTableWidget, self).clearSelection()
-        self.rowSelectionChanged.emit([])
+        """Overridden the 'clear_selection' slot to emit 'row_selection_changed'"""
+        super(BaseTableWidget, self).clearSelection()
+        self.row_selection_changed.emit([])
 
 
-class PointTableWidget(_BaseTableWidget):
+class PointTableWidget(BaseTableWidget):
 
     """Custom table widget for points."""
 
@@ -190,26 +196,25 @@ class PointTableWidget(_BaseTableWidget):
         self.setColumnWidth(5, 60)
         self.setColumnWidth(6, 130)
 
-    def data(self) -> Iterator[VPoint]:
-        """Yield the digitization of all table data."""
-        for row in range(self.rowCount()):
-            links = self.item(row, 1).text()
-            color = self.item(row, 3).text()
-            x = float(self.item(row, 4).text())
-            y = float(self.item(row, 5).text())
-            # p_type = (type: str, angle: float)
-            p_type = self.item(row, 2).text().split(':')
-            if p_type[0] == 'R':
-                j_type = VJoint.R
-                angle = 0.
-            else:
-                angle = float(p_type[1])
-                j_type = VJoint.P if p_type[0] == 'P' else VJoint.RP
-            vpoint = VPoint([
-                link for link in links.replace(" ", '').split(',') if link
-            ], j_type, angle, color, x, y, color_rgb)
-            vpoint.move(*self.current_position(row))
-            yield vpoint
+    def item_data(self, row: int) -> VPoint:
+        """Return data of VPoint."""
+        links = self.item(row, 1).text()
+        color = self.item(row, 3).text()
+        x = float(self.item(row, 4).text())
+        y = float(self.item(row, 5).text())
+        # p_type = (type: str, angle: float)
+        p_type = self.item(row, 2).text().split(':')
+        if p_type[0] == 'R':
+            j_type = VJoint.R
+            angle = 0.
+        else:
+            angle = float(p_type[1])
+            j_type = VJoint.P if p_type[0] == 'P' else VJoint.RP
+        vpoint = VPoint([
+            link for link in links.replace(" ", '').split(',') if link
+        ], j_type, angle, color, x, y, color_rgb)
+        vpoint.move(*self.current_position(row))
+        return vpoint
 
     def expression(self) -> str:
         """Return expression string."""
@@ -294,7 +299,7 @@ class PointTableWidget(_BaseTableWidget):
         self.selectionLabelUpdate.emit([])
 
 
-class LinkTableWidget(_BaseTableWidget):
+class LinkTableWidget(BaseTableWidget):
 
     """Custom table widget for link."""
 
@@ -307,17 +312,15 @@ class LinkTableWidget(_BaseTableWidget):
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 130)
 
-    def data(self) -> Iterator[VLink]:
-        """Yield the digitization of all table data."""
-        for row in range(self.rowCount()):
-            name = self.item(row, 0).text()
-            color = self.item(row, 1).text()
-            points = []
-            for p in self.item(row, 2).text().split(','):
-                if not p:
-                    continue
+    def item_data(self, row: int) -> VLink:
+        """Return data of VLink."""
+        name = self.item(row, 0).text()
+        color = self.item(row, 1).text()
+        points = []
+        for p in self.item(row, 2).text().split(','):
+            if p:
                 points.append(int(p.replace('Point', '')))
-            yield VLink(name, color, tuple(points), color_rgb)
+        return VLink(name, color, tuple(points), color_rgb)
 
     def colors(self) -> Dict[str, str]:
         """Return name and color as a dict."""
@@ -365,15 +368,12 @@ class LinkTableWidget(_BaseTableWidget):
         self.edit_link(0, 'ground', 'White', '')
 
 
-class ExprTableWidget(_BaseTableWidget):
+class ExprTableWidget(BaseTableWidget):
 
     """Expression table.
 
     + Free move request: link name, length
     """
-
-    reset = Signal(bool)
-    free_move_request = Signal(bool)
 
     def __init__(self, parent: QWidget):
         super(ExprTableWidget, self).__init__(0, (
@@ -388,19 +388,6 @@ class ExprTableWidget(_BaseTableWidget):
         for column in range(self.columnCount()):
             self.setColumnWidth(column, 80)
         self.expr = []
-
-        @Slot(QTableWidgetItem)
-        def adjust_request(item: QTableWidgetItem):
-            """This function is use to change link length
-            without to drag the points.
-            """
-            if item:
-                self.free_move_request.emit(item.text().startswith('L'))
-            else:
-                self.free_move_request.emit(False)
-
-        # Double click behavior.
-        self.currentItemChanged.connect(adjust_request)
 
     def set_expr(
         self,
@@ -440,9 +427,9 @@ class ExprTableWidget(_BaseTableWidget):
             row += 1
         self.expr = expr
 
-    def data(self) -> None:
+    def item_data(self, _: int) -> None:
         """Not used generator."""
-        return
+        return None
 
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Return column count."""
@@ -451,7 +438,6 @@ class ExprTableWidget(_BaseTableWidget):
     def clear(self):
         """Emit to close the link free move widget."""
         super(ExprTableWidget, self).clear()
-        self.reset.emit(False)
 
 
 class SelectionLabel(QLabel):

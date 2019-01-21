@@ -75,17 +75,6 @@ class MainWindow(IOMethodInterface):
         print("Exit.")
         event.accept()
 
-    @Slot(int)
-    def command_reload(self, index: int):
-        """The time of withdrawal and redo action."""
-        if index != self.DatabaseWidget.Stack:
-            self.workbook_no_save()
-        else:
-            self.workbook_saved()
-        self.EntitiesPoint.clearSelection()
-        self.InputsWidget.variable_reload()
-        self.solve()
-
     @Slot(int, name='on_ZoomBar_valueChanged')
     def __set_zoom(self, value: int):
         """Reset the text when zoom bar changed."""
@@ -168,31 +157,6 @@ class MainWindow(IOMethodInterface):
             i += 1
         self.InputsWidget.add_path(f"Algorithm_{i}", path)
         self.MainCanvas.zoom_to_fit()
-
-    @Slot(int, name='on_EntitiesTab_currentChanged')
-    def __set_selection_mode(self, index: int):
-        """Connect selection signal for main canvas."""
-        # Set selection from click table items.
-        tables = (self.EntitiesPoint, self.EntitiesLink, self.EntitiesExpr)
-        try:
-            for table in tables:
-                table.rowSelectionChanged.disconnect()
-        except TypeError:
-            pass
-        tables[index].rowSelectionChanged.connect(self.MainCanvas.set_selection)
-        # Double click signal.
-        try:
-            self.MainCanvas.doubleclick_edit.disconnect()
-        except TypeError:
-            pass
-        if index == 0:
-            self.MainCanvas.doubleclick_edit.connect(self.edit_point)
-        elif index == 1:
-            self.MainCanvas.doubleclick_edit.connect(self.edit_link)
-        # Clear all selections.
-        for table in tables:
-            table.clearSelection()
-        self.InputsWidget.clear_selection()
 
     @Slot(name='on_background_choose_dir_clicked')
     def __set_background(self):

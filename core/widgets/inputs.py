@@ -50,7 +50,7 @@ class InputsWidget(QWidget, Ui_Form):
     + Path recording.
     """
 
-    aboutToResolve = Signal()
+    about_to_resolve = Signal()
 
     def __init__(self, parent: 'mw.MainWindow'):
         super(InputsWidget, self).__init__(parent)
@@ -328,7 +328,7 @@ class InputsWidget(QWidget, Ui_Form):
             item_text = item.text().split('->')
             item_text[-1] = f"{value:.02f}"
             item.setText('->'.join(item_text))
-            self.aboutToResolve.emit()
+            self.about_to_resolve.emit()
         if (
             self.record_start.isChecked() and
             abs(self.oldVar - value) > self.record_interval.value()

@@ -26,6 +26,7 @@ from PyQt5.QtChart import *
 
 __all__ = [
     'Qt',
+    'wrappertype',
     'Signal',
     'Slot',
     'qt_image_format',

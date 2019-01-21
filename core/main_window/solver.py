@@ -17,7 +17,7 @@ from typing import (
 )
 from abc import ABC
 from traceback import format_exc
-from core.QtModules import Slot, QMessageBox
+from core.QtModules import Slot
 from core.libs import (
     slvs_solve,
     vpoints_configure,
@@ -64,7 +64,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         try:
             if solve_kernel == 0:
                 result = expr_solving(
-                    self.__get_triangle(),
+                    self.get_triangle(),
                     {n: f'P{n}' for n in range(len(vpoints))},
                     vpoints,
                     tuple(a for b, d, a in self.InputsWidget.input_pairs() if b != d)
@@ -149,7 +149,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 try:
                     if solve_kernel == 0:
                         result = expr_solving(
-                            self.__get_triangle(vpoints),
+                            self.get_triangle(vpoints),
                             {n: f'P{n}' for n in range(vpoint_count)},
                             vpoints,
                             angles
@@ -308,7 +308,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             return f"P{mapping[node]}"
 
         expr_list = []
-        for exprs in self.__get_triangle():
+        for exprs in self.get_triangle():
             params = ','.join(map_str(i) for i in exprs[1:-1])
             expr_list.append(f'{exprs[0]}[{params}]({map_str(exprs[-1])})')
 
@@ -329,7 +329,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             'same': same,
         }
 
-    def __get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
+    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
         """Update triangle expression here.
 
         Special function for VPoints.
@@ -366,6 +366,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         self.MainCanvas.update_figure(
             self.EntitiesPoint.data_tuple(),
             self.EntitiesLink.data_tuple(),
-            self.__get_triangle(),
+            self.get_triangle(),
             self.InputsWidget.current_path()
         )

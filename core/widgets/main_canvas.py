@@ -11,6 +11,7 @@ from collections import deque
 from typing import (
     List,
     Tuple,
+    Sequence,
     Dict,
     Union,
 )
@@ -259,7 +260,7 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def adjust_link(
         self,
-        coords: Tuple[Union[Tuple[Tuple[float, float], Tuple[float, float]]]]
+        coords: Sequence[Union[Tuple[Tuple[float, float], ...], Tuple[float, float]]]
     ):
         """Change points coordinates."""
         for i, c in enumerate(coords):

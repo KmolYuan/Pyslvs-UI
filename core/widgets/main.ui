@@ -223,49 +223,21 @@
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QWidget" name="link_free_move_widget" native="true">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <layout class="QHBoxLayout" name="horizontalLayout_3">
-                           <item>
-                            <widget class="QLineEdit" name="link_free_move_linkname">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>30</width>
-                               <height>16777215</height>
-                              </size>
-                             </property>
-                             <property name="readOnly">
-                              <bool>true</bool>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QSlider" name="link_free_move_slider">
-                             <property name="maximum">
-                              <number>10000</number>
-                             </property>
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QDoubleSpinBox" name="link_free_move_spinbox">
-                             <property name="maximum">
-                              <double>10000.000000000000000</double>
-                             </property>
-                            </widget>
-                           </item>
-                          </layout>
-                         </widget>
+                         <layout class="QHBoxLayout" name="horizontalLayout_4">
+                          <item>
+                           <widget class="QComboBox" name="link_free_move_base"/>
+                          </item>
+                          <item>
+                           <widget class="QComboBox" name="link_free_move_other"/>
+                          </item>
+                          <item>
+                           <widget class="QDoubleSpinBox" name="link_free_move_spinbox">
+                            <property name="maximum">
+                             <double>10000.000000000000000</double>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
                         </item>
                        </layout>
                       </widget>
@@ -542,8 +514,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>401</width>
-                  <height>733</height>
+                  <width>561</width>
+                  <height>1042</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1313,7 +1285,7 @@
      <x>0</x>
      <y>0</y>
      <width>882</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

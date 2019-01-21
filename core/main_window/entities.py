@@ -15,7 +15,7 @@ from typing import (
     Union,
     Optional,
 )
-from abc import ABC
+from abc import ABC, abstractmethod
 from itertools import chain
 from core.QtModules import (
     Slot,
@@ -33,6 +33,8 @@ from core.entities import (
 )
 from core.libs import (
     VJoint,
+    VPoint,
+    VLink,
     expr_solving,
     Graph,
     edges_view,
@@ -409,47 +411,47 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             ))
         self.CommandStack.endMacro()
 
-    @Slot(int)
-    def adjust_link(self, value: int):
-        """Preview the free move result.
+    @Slot(int, name='on_link_free_move_base_currentIndexChanged')
+    def __reload_adjust_link_base(self, base: int):
+        """Set the base and other option."""
+        if base == -1:
+            return
 
-        TODO: change input.
-        """
+        self.link_free_move_other.clear()
+        vpoints: Tuple[VPoint, ...] = self.EntitiesPoint.data_tuple()
+        vlinks: Tuple[VLink, ...] = self.EntitiesLink.data_tuple()
+        for link in vpoints[base].links:
+            for i in vlinks[self.EntitiesLink.find_name(link)].points:
+                if i != base:
+                    self.link_free_move_other.addItem(f"Point{i}")
+
+    @Slot(int, name='on_link_free_move_base_currentIndexChanged')
+    def __reload_adjust_link_other(self, other: int):
+        """Set the link length value."""
+
+    @Slot(float, name='on_link_free_move_spinbox_valueChanged')
+    def __adjust_link(self, value: float):
+        """Preview the free move result."""
+        base = self.link_free_move_base.currentIndex()
+        other = self.link_free_move_other.currentIndex()
+        if -1 in {base, other}:
+            return
+
         vpoints = self.EntitiesPoint.data_tuple()
         mapping = {n: f'P{n}' for n in range(len(vpoints))}
-        mapping[self.link_free_move_linkname.text()] = float(value)
+        mapping[base, other] = float(value)
         try:
             result = expr_solving(
-                self.getTriangle(),
+                self.get_triangle(),
                 mapping,
                 vpoints,
                 tuple(v[-1] for v in self.InputsWidget.input_pairs())
             )
         except ValueError:
-            pass
-        else:
-            self.MainCanvas.adjust_link(result)
-            if not self.link_free_move_slider.isSliderDown():
-                self.MainCanvas.emit_free_move_all()
+            return
 
-    @Slot(bool)
-    def set_link_free_move(self, enable: bool):
-        """Free move function for link length."""
-        self.link_free_move_widget.setEnabled(enable)
-        self.link_free_move_linkname.clear()
-        if not enable:
-            return
-        item = self.EntitiesExpr.currentItem()
-        if not item:
-            return
-        name, value = item.text().split(':')
-        self.link_free_move_linkname.setText(name)
-        try:
-            self.link_free_move_slider.valueChanged.disconnect(self.adjust_link)
-        except TypeError:
-            pass
-        self.link_free_move_slider.setValue(float(value))
-        self.link_free_move_slider.valueChanged.connect(self.adjust_link)
+        self.MainCanvas.adjust_link(result)
+        self.MainCanvas.emit_free_move_all()
 
     @Slot(name='on_action_new_link_triggered')
     def new_link(self):
@@ -472,6 +474,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         if not len(rows) > 1:
             self.__edit_link()
             return
+
         links_all = list(chain(*(
             self.EntitiesPoint.get_links(row) for row in rows
         )))
@@ -480,9 +483,10 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             if links_all.count(p) > 1:
                 count_0 = True
                 break
-        if (not links_all) or (not count_0):
+        if not links_all or not count_0:
             self.add_normal_link(rows)
             return
+
         name = max(set(links_all), key=links_all.count)
         row = self.EntitiesLink.find_name(name)
         self.CommandStack.beginMacro(f"Edit {{Link: {name}}}")
@@ -593,3 +597,7 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))
             for row, vpoint in enumerate(vpoints)
         ))
+
+    @abstractmethod
+    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
+        ...

@@ -711,3 +711,23 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.__read_slvs(ARGUMENTS.file)
         else:
             print("Unsupported format has been ignore when startup.")
+
+    @Slot(int)
+    def command_reload(self, index: int):
+        """The time of withdrawal and redo action."""
+        if index != self.DatabaseWidget.Stack:
+            self.workbook_no_save()
+        else:
+            self.workbook_saved()
+        self.EntitiesPoint.clearSelection()
+
+        # Variable reload for link adjust function.
+        self.link_free_move_base.clear()
+        for i in range(self.EntitiesPoint.rowCount()):
+            self.link_free_move_base.addItem(f"Point{i}")
+
+        # Variable reload for input widget.
+        self.InputsWidget.variable_reload()
+
+        # Solve
+        self.solve()
