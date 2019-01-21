@@ -16,6 +16,7 @@ Features
 + Fix the bug of saving a YAML project.
 + Remove "solution" preview function from preview canvas class.
 + Adjustment margin size of preview window.
++ Support the "Categories" key of AppImage desktop file.
 
 Development
 ---
