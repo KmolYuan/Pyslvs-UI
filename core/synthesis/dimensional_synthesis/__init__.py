@@ -858,16 +858,16 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.pop('max_gen', None)
         self.alg_options.pop('min_fit', None)
         self.alg_options.pop('max_time', None)
-        if dlg.maxGen_option.isChecked():
+        if dlg.max_gen_option.isChecked():
             self.alg_options['max_gen'] = dlg.max_gen.value()
-        elif dlg.minFit_option.isChecked():
+        elif dlg.min_fit_option.isChecked():
             self.alg_options['min_fit'] = dlg.min_fit.value()
-        elif dlg.maxTime_option.isChecked():
+        elif dlg.max_time_option.isChecked():
             # Three spinbox value translate to second.
             self.alg_options['max_time'] = (
-                dlg.maxTime_h.value() * 3600 +
-                dlg.maxTime_m.value() * 60 +
-                dlg.maxTime_s.value()
+                dlg.max_time_h.value() * 3600 +
+                dlg.max_time_m.value() * 60 +
+                dlg.max_time_s.value()
             )
         else:
             raise ValueError("invalid option")

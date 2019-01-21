@@ -24,7 +24,7 @@
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="2" column="0">
-      <widget class="QRadioButton" name="maxGen_option">
+      <widget class="QRadioButton" name="max_gen_option">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This parameter determines the generations of evolution.&lt;/p&gt;&lt;p&gt;If the value set to 0, algorithm will stop only when you clicked the interrupt button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -53,7 +53,7 @@
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QRadioButton" name="minFit_option">
+      <widget class="QRadioButton" name="min_fit_option">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This parameter determines the last fitness of evolution.&lt;/p&gt;&lt;p&gt;If the value set to 0, algorithm will stop only when you clicked the interrupt button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -93,7 +93,7 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QRadioButton" name="maxTime_option">
+      <widget class="QRadioButton" name="max_time_option">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This parameter determines the times of evolution.&lt;/p&gt;&lt;p&gt;If the value set to 0, algorithm will stop only when you clicked the interrupt button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -109,7 +109,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QSpinBox" name="maxTime_h"/>
+         <widget class="QSpinBox" name="max_time_h"/>
         </item>
         <item>
          <widget class="QLabel" name="label_2">
@@ -125,7 +125,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="maxTime_m">
+         <widget class="QSpinBox" name="max_time_m">
           <property name="maximum">
            <number>59</number>
           </property>
@@ -148,7 +148,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="maxTime_s">
+         <widget class="QSpinBox" name="max_time_s">
           <property name="maximum">
            <number>59</number>
           </property>
@@ -289,7 +289,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>maxGen_option</sender>
+   <sender>max_gen_option</sender>
    <signal>toggled(bool)</signal>
    <receiver>max_gen</receiver>
    <slot>setEnabled(bool)</slot>
@@ -305,7 +305,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>minFit_option</sender>
+   <sender>min_fit_option</sender>
    <signal>toggled(bool)</signal>
    <receiver>min_fit</receiver>
    <slot>setEnabled(bool)</slot>
@@ -321,7 +321,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>maxTime_option</sender>
+   <sender>max_time_option</sender>
    <signal>toggled(bool)</signal>
    <receiver>max_time</receiver>
    <slot>setEnabled(bool)</slot>

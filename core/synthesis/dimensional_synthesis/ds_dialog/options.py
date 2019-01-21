@@ -167,15 +167,15 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         if 'max_gen' in settings:
             self.max_gen.setValue(settings['max_gen'])
         elif 'min_fit' in settings:
-            self.minFit_option.setChecked(True)
+            self.min_fit_option.setChecked(True)
             self.min_fit.setValue(settings['min_fit'])
         elif 'max_time' in settings:
-            self.maxTime_option.setChecked(True)
+            self.max_time_option.setChecked(True)
             # In second (int).
             max_time = settings['max_time']
-            self.maxTime_h.setValue(max_time // 3600)
-            self.maxTime_m.setValue((max_time % 3600) // 60)
-            self.maxTime_s.setValue(max_time % 3600 % 60)
+            self.max_time_h.setValue(max_time // 3600)
+            self.max_time_m.setValue((max_time % 3600) // 60)
+            self.max_time_s.setValue(max_time % 3600 % 60)
         self.report.setValue(settings['report'])
         if self.__algorithm == AlgorithmType.RGA:
             self.pop_size.setValue(settings['nPop'])
