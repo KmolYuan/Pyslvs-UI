@@ -16,6 +16,7 @@ from typing import (
     Optional,
 )
 from abc import ABC, abstractmethod
+from math import hypot
 from itertools import chain
 from core.QtModules import (
     Slot,
@@ -418,28 +419,44 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             return
 
         self.link_free_move_other.clear()
-        vpoints: Tuple[VPoint, ...] = self.EntitiesPoint.data_tuple()
         vlinks: Tuple[VLink, ...] = self.EntitiesLink.data_tuple()
-        for link in vpoints[base].links:
+        for link in self.EntitiesPoint.item_data(base).links:
+            if link == 'ground':
+                continue
             for i in vlinks[self.EntitiesLink.find_name(link)].points:
-                if i != base:
-                    self.link_free_move_other.addItem(f"Point{i}")
+                if i == base:
+                    continue
+                self.link_free_move_other.addItem(f"Point{i}")
 
-    @Slot(int, name='on_link_free_move_base_currentIndexChanged')
+    @Slot(int, name='on_link_free_move_other_currentIndexChanged')
     def __reload_adjust_link_other(self, other: int):
         """Set the link length value."""
+        p = self.link_free_move_other.itemText(other)
+        if not p:
+            return
+
+        vpoint1 = self.EntitiesPoint.item_data(self.link_free_move_base.currentIndex())
+        vpoint2 = self.EntitiesPoint.item_data(int(p.replace("Point", "")))
+        distance = hypot(vpoint2.cx - vpoint1.cx, vpoint2.cy - vpoint1.cy)
+        self.link_free_move_spinbox.blockSignals(True)
+        self.link_free_move_spinbox.setValue(distance)
+        self.link_free_move_spinbox.blockSignals(False)
 
     @Slot(float, name='on_link_free_move_spinbox_valueChanged')
     def __adjust_link(self, value: float):
         """Preview the free move result."""
         base = self.link_free_move_base.currentIndex()
-        other = self.link_free_move_other.currentIndex()
+        p = self.link_free_move_other.currentText()
+        if not p:
+            return
+
+        other = int(p.replace("Point", ""))
         if -1 in {base, other}:
             return
 
         vpoints = self.EntitiesPoint.data_tuple()
         mapping = {n: f'P{n}' for n in range(len(vpoints))}
-        mapping[base, other] = float(value)
+        mapping[base, other] = value
         try:
             result = expr_solving(
                 self.get_triangle(),

@@ -17,6 +17,7 @@ Features
 + Remove "solution" preview function from preview canvas class.
 + Adjustment margin size of preview window.
 + Support the "Categories" key of AppImage desktop file.
++ Enhancement of "link adjust" function.
 
 Development
 ---

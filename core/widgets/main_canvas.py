@@ -57,9 +57,9 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def update_figure(
         self,
-        vpoints: Tuple[VPoint],
-        vlinks: Tuple[VLink],
-        exprs: List[Tuple[str]],
+        vpoints: Sequence[VPoint],
+        vlinks: Sequence[VLink],
+        exprs: List[Tuple[str, ...]],
         path: List[Tuple[float, float]]
     ):
         """Update with Point and Links data."""
@@ -264,11 +264,10 @@ class DynamicCanvas(DynamicCanvasInterface):
     ):
         """Change points coordinates."""
         for i, c in enumerate(coords):
-            vpoint = self.vpoints[i]
             if type(c[0]) == float:
-                vpoint.move(c)
+                self.vpoints[i].move(c)
             else:
-                vpoint.move(*c)
+                self.vpoints[i].move(*c)
         self.update()
 
     def wheelEvent(self, event):
