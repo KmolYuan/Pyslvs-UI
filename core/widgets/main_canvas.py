@@ -73,7 +73,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     @Slot()
     def update_preview_path(self):
         """Update preview path."""
-        self.previewpath(self.pathpreview, self.sliderpathpreview, self.vpoints)
+        self.preview_path(self.path_preview, self.slider_path_preview, self.vpoints)
         self.update()
 
     @Slot(int)
@@ -268,7 +268,7 @@ class DynamicCanvas(DynamicCanvasInterface):
                 self.vpoints[i].move(c)
             else:
                 self.vpoints[i].move(*c)
-        self.update()
+        self.update_preview_path()
 
     def wheelEvent(self, event):
         """Switch function by mouse wheel.

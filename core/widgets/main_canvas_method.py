@@ -152,6 +152,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
     fps_updated = Signal()
     set_target_point = Signal(float, float)
 
+    @abstractmethod
     def __init__(self, parent: 'mw.MainWindow'):
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
@@ -177,9 +178,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Free move mode.
         self.free_move = FreeMode.NoFreeMove
         # Path preview.
-        self.pathpreview: List[List[Tuple[float, float]]] = []
-        self.sliderpathpreview: Dict[int, List[Tuple[float, float]]] = {}
-        self.previewpath = parent.previewpath
+        self.path_preview: List[List[Tuple[float, float]]] = []
+        self.slider_path_preview: Dict[int, List[Tuple[float, float]]] = {}
+        self.preview_path = parent.preview_path
         # Path record.
         self.path_record = []
         # Zooming center.
@@ -324,11 +325,11 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     def __draw_path(self):
         """Draw paths. Recording first."""
-        paths = self.path_record or self.Path.path or self.pathpreview
+        paths = self.path_record or self.Path.path or self.path_preview
         if len(self.vpoints) != len(paths):
             return
-        if paths == self.pathpreview:
-            o_path = chain(enumerate(self.pathpreview), self.sliderpathpreview.items())
+        if paths == self.path_preview:
+            o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
         else:
             o_path = enumerate(paths)
         pen = QPen()
@@ -475,9 +476,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         y_bottom = inf
         # Paths
         if self.Path.show != -2:
-            paths = self.path_record or self.Path.path or self.pathpreview
-            if paths == self.pathpreview:
-                o_path = chain(enumerate(self.pathpreview), self.sliderpathpreview.items())
+            paths = self.path_record or self.Path.path or self.path_preview
+            if paths == self.path_preview:
+                o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
             else:
                 o_path = enumerate(paths)
             for i, path in o_path:

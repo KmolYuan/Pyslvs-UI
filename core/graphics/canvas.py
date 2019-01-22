@@ -110,6 +110,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
 
     """The subclass can draw a blank canvas more easier."""
 
+    @abstractmethod
     def __init__(self, parent: QWidget):
         """Set the parameters for drawing."""
         super(BaseCanvas, self).__init__(parent)

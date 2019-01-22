@@ -101,7 +101,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.DOFview.setVisible(True)
         self.reload_canvas()
 
-    def previewpath(
+    def preview_path(
         self,
         auto_preview: List[List[Tuple[float, float]]],
         slider_auto_preview: Dict[int, List[Tuple[float, float]]],
