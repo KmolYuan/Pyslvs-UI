@@ -428,10 +428,11 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
                     continue
                 self.link_free_move_other.addItem(f"Point{i}")
 
+    @Slot(name='on_link_free_move_reset_clicked')
     @Slot(int, name='on_link_free_move_other_currentIndexChanged')
-    def __reload_adjust_link_other(self, other: int):
+    def __reload_adjust_link_other(self, other: Optional[int] = None):
         """Set the link length value."""
-        p = self.link_free_move_other.itemText(other)
+        p = self.link_free_move_other.currentText()
         if not p:
             return
 
@@ -441,6 +442,8 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         self.link_free_move_spinbox.blockSignals(True)
         self.link_free_move_spinbox.setValue(distance)
         self.link_free_move_spinbox.blockSignals(False)
+        if other is None:
+            self.__adjust_link(distance)
 
     @Slot(float, name='on_link_free_move_spinbox_valueChanged')
     def __adjust_link(self, value: float):
@@ -468,7 +471,6 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
             return
 
         self.MainCanvas.adjust_link(result)
-        self.MainCanvas.emit_free_move_all()
 
     @Slot(name='on_action_new_link_triggered')
     def new_link(self):

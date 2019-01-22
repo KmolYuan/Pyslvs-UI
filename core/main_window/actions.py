@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Callable
-from abc import ABC
+from abc import ABC, abstractmethod
 from core.QtModules import (
     Slot,
     QAction,
@@ -34,6 +34,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
 
     """Abstract class for action methods."""
 
+    @abstractmethod
     def __init__(self):
         super(ActionMethodInterface, self).__init__()
         self.mouse_pos_x = 0.

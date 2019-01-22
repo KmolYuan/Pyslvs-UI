@@ -15,7 +15,7 @@ from typing import (
     Union,
     Optional,
 )
-from abc import ABC
+from abc import ABC, abstractmethod
 from traceback import format_exc
 from core.QtModules import Slot
 from core.libs import (
@@ -37,6 +37,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
     """Abstract class for solver methods."""
 
+    @abstractmethod
     def __init__(self):
         super(SolverMethodInterface, self).__init__()
         self.DOF = 0

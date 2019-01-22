@@ -251,12 +251,12 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def get_record_path(self) -> Tuple[Tuple[Tuple[float, float], ...], ...]:
         """Return paths."""
-        path = tuple(
-            tuple(path) if (len(set(path)) > 1) else ()
+        paths = tuple(
+            tuple(path) if len(set(path)) > 1 else ()
             for path in self.path_record
         )
         self.path_record.clear()
-        return path
+        return paths
 
     def adjust_link(
         self,

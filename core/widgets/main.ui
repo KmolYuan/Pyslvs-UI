@@ -231,9 +231,38 @@
                            <widget class="QComboBox" name="link_free_move_other"/>
                           </item>
                           <item>
+                           <spacer name="horizontalSpacer_3">
+                            <property name="orientation">
+                             <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>40</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                           </spacer>
+                          </item>
+                          <item>
                            <widget class="QDoubleSpinBox" name="link_free_move_spinbox">
                             <property name="maximum">
                              <double>10000.000000000000000</double>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="link_free_move_reset">
+                            <property name="icon">
+                             <iconset resource="../../icons.qrc">
+                              <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="link_free_move_confirm">
+                            <property name="icon">
+                             <iconset resource="../../icons.qrc">
+                              <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
                             </property>
                            </widget>
                           </item>

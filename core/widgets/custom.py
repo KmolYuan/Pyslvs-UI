@@ -61,6 +61,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     """External UI settings."""
 
+    @abstractmethod
     def __init__(self):
         super(MainWindowUiInterface, self).__init__()
         self.setupUi(self)
@@ -323,12 +324,12 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
             return func
 
-        for i, (text, icon, tip) in enumerate((
+        for i, (text, icon, tip) in enumerate([
             ("View mode", "free_move_off", "Disable free move mode."),
             ("Translate mode", "translate", "Edit by 2 DOF moving."),
             ("Rotate mode", "rotate", "Edit by 1 DOF moving."),
             ("Reflect mode", "reflect", "Edit by flip axis."),
-        )):
+        ]):
             action = QAction(QIcon(QPixmap(f":/icons/{icon}.png")), text, self)
             action.triggered.connect(free_move_mode_func(i, action.icon()))
             action.setShortcut(QKeySequence(f"Ctrl+{i + 1}"))
@@ -338,6 +339,9 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             if i == 0:
                 self.free_move_disable = action
         self.free_move_button.setMenu(free_move_mode_menu)
+
+        # "Link adjust" function
+        self.link_free_move_confirm.clicked.connect(self.MainCanvas.emit_free_move_all)
 
     def __options(self):
         """Signal connection for option widgets.
