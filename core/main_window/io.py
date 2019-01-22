@@ -722,9 +722,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.EntitiesPoint.clearSelection()
 
         # Variable reload for link adjust function.
-        self.link_free_move_base.clear()
-        for i in range(self.EntitiesPoint.rowCount()):
-            self.link_free_move_base.addItem(f"Point{i}")
+        if self.link_free_move_base.count() != self.EntitiesPoint.rowCount():
+            self.link_free_move_base.clear()
+            for i in range(self.EntitiesPoint.rowCount()):
+                self.link_free_move_base.addItem(f"Point{i}")
 
         # Variable reload for input widget.
         self.InputsWidget.variable_reload()
