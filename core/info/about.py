@@ -40,12 +40,12 @@ def _order_list(*s: str) -> str:
     return f'<ul><li>{"</li><li>".join(s)}</li></ul>'
 
 
-class PyslvsSplash(QSplashScreen):
+class Splash(QSplashScreen):
 
     """Qt splash show up when startup."""
 
     def __init__(self):
-        super(PyslvsSplash, self).__init__(None, QPixmap(":/icons/splash.png"))
+        super(Splash, self).__init__(QPixmap(":/icons/splash.png"))
         self.showMessage(
             f"Version {_major}.{_minor}.{_build}({_label})",
             Qt.AlignBottom | Qt.AlignRight

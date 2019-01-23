@@ -15,6 +15,8 @@ from typing import (
     Tuple,
     List,
     Sequence,
+    Dict,
+    Union,
 )
 from abc import abstractmethod
 from core.QtModules import (
@@ -36,7 +38,7 @@ from core.QtModules import (
     QABCMeta,
 )
 from core.info import __version__, ARGUMENTS
-from core.libs import kernel_list
+from core.libs import kernel_list, VPoint
 from core.io import YamlEditor, DatabaseWidget
 from core.synthesis import (
     StructureSynthesis,
@@ -57,13 +59,13 @@ from .inputs import InputsWidget
 _major, _minor, _build, _label = __version__
 
 
-class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
+class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     """External UI settings."""
 
     @abstractmethod
     def __init__(self):
-        super(MainWindowUiInterface, self).__init__()
+        super(MainWindowBase, self).__init__()
         self.setupUi(self)
         self.setAttribute(Qt.WA_DeleteOnClose)
 
@@ -90,7 +92,7 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""
-        super(MainWindowUiInterface, self).show()
+        super(MainWindowBase, self).show()
         self.MainCanvas.zoom_to_fit()
 
     def set_locate(self, locate: str):
@@ -222,7 +224,9 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.EntitiesPoint.selectionLabelUpdate.connect(
             selection_label.update_select_point
         )
-        self.MainCanvas.browse_tracking.connect(selection_label.update_mouse_position)
+        self.MainCanvas.browse_tracking.connect(
+            selection_label.update_mouse_position
+        )
         self.status_bar.addPermanentWidget(selection_label)
 
         # FPS label on status bar right side.
@@ -723,4 +727,108 @@ class MainWindowUiInterface(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def reset_options(self) -> None:
+        ...
+
+    @abstractmethod
+    def preview_path(
+        self,
+        auto_preview: List[List[Tuple[float, float]]],
+        slider_auto_preview: Dict[int, List[Tuple[float, float]]],
+        vpoints: Tuple[VPoint, ...]
+    ) -> None:
+        ...
+
+    @abstractmethod
+    def reload_canvas(self) -> None:
+        ...
+
+    @abstractmethod
+    def output_to(self, format_name: str, format_choose: Sequence[str]) -> str:
+        ...
+
+    @abstractmethod
+    def right_input(self) -> bool:
+        ...
+
+    @abstractmethod
+    def set_coords_as_current(self) -> None:
+        ...
+
+    @abstractmethod
+    def dof(self) -> int:
+        ...
+
+    @abstractmethod
+    def save_reply_box(self, title: str, file_name: str) -> None:
+        ...
+
+    @abstractmethod
+    def input_from(
+        self,
+        format_name: str,
+        format_choose: Sequence[str],
+        multiple: bool = False
+    ) -> str:
+        ...
+
+    @abstractmethod
+    def get_graph(self) -> List[Tuple[int, int]]:
+        ...
+
+    @abstractmethod
+    def get_collection(self) -> Dict[str, Union[
+        Dict[str, None],
+        Dict[str, List[Tuple[float, float]]],
+        str,
+        Tuple[Tuple[int, int], ...],
+        Dict[int, Tuple[float, float]],
+        Dict[str, int]
+    ]]:
+        ...
+
+    @abstractmethod
+    def workbook_no_save(self) -> None:
+        ...
+
+    @abstractmethod
+    def workbook_saved(self) -> bool:
+        ...
+
+    @abstractmethod
+    def merge_result(
+        self,
+        row: int,
+        path: Sequence[Sequence[Tuple[float, float]]]
+    ) -> None:
+        ...
+
+    @abstractmethod
+    def check_file_changed(self) -> bool:
+        ...
+
+    @abstractmethod
+    def get_storage(self) -> Dict[str, str]:
+        ...
+
+    @abstractmethod
+    def add_empty_links(self, link_color: Dict[str, str]) -> None:
+        ...
+
+    @abstractmethod
+    def parse_expression(self, expr: str) -> None:
+        ...
+
+    @abstractmethod
+    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]) -> None:
+        ...
+
+    @abstractmethod
+    def clear(self) -> None:
+        ...
+
+    @abstractmethod
+    def add_points(
+        self,
+        p_attr: Sequence[Tuple[float, float, str, str, int, float]]
+    ) -> None:
         ...

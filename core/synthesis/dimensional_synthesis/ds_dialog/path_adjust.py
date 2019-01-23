@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List
+from typing import TYPE_CHECKING, List
 import numpy as np
 from core.QtModules import (
     Slot,
@@ -15,8 +15,10 @@ from core.QtModules import (
     QDialog,
     QMessageBox,
 )
-from core import synthesis as sy
 from .Ui_path_adjust import Ui_Dialog
+
+if TYPE_CHECKING:
+    from core.synthesis import DimensionalSynthesis
 
 
 class PathAdjustDialog(QDialog, Ui_Dialog):
@@ -26,7 +28,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
 
-    def __init__(self, parent: 'sy.DimensionalSynthesis'):
+    def __init__(self, parent: 'DimensionalSynthesis'):
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)

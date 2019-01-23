@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     List,
     Sequence,
@@ -18,16 +19,18 @@ import yaml
 from core.QtModules import QObject
 from core.libs import VJoint
 from core.info import __version__
-from core import main_window as mn
 from .overview import OverviewDialog
 _major, _minor, _build, _label = __version__
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 class YamlEditor(QObject):
 
     """YAML reader and writer."""
 
-    def __init__(self, parent: 'mn.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         super(YamlEditor, self).__init__(parent)
 
         # Check file changed function.

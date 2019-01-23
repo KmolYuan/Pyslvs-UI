@@ -10,6 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     List,
     Tuple,
     Dict,
@@ -26,14 +27,22 @@ from .structure_widget import StructureWidget
 from .configure_widget import ConfigureWidget
 from .configure_dialog import CollectionsDialog
 
-__all__ = ['Collections', 'CollectionsDialog']
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
+
+__all__ = [
+    'Collections',
+    'StructureWidget',
+    'ConfigureWidget',
+    'CollectionsDialog',
+]
 
 
 class Collections(QWidget):
 
     """Just a widget contains a sub tab widget."""
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: 'MainWindowBase'):
         """Create two widget page and using main window to make their parent."""
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)

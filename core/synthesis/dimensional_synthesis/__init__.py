@@ -10,6 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     List,
     Tuple,
     Sequence,
@@ -59,8 +60,10 @@ from .ds_dialog import (
     PreviewDialog,
     ChartDialog,
 )
-from core import main_window as mw
 from .Ui_dimension_widget import Ui_Form
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 __all__ = ['DimensionalSynthesis']
 
@@ -72,7 +75,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     User can run the dimensional synthesis here.
     """
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         """Reference names:
 
         + Iteration collections.

@@ -10,6 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from os import remove as os_remove
 from os.path import isfile
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     List,
     Sequence,
@@ -41,11 +42,13 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-from core import main_window as mw
 from core.libs import example_list
 from .overview import OverviewDialog
 from .Ui_database import Ui_Form
 nan = float('nan')
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 def _compress(obj: Any) -> bytes:
@@ -156,7 +159,7 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     load_id = Signal(int)
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         super(DatabaseWidget, self).__init__(parent)
         self.setupUi(self)
 

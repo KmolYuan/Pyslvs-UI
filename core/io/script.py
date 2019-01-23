@@ -7,7 +7,12 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Sequence
+from typing import (
+    TYPE_CHECKING,
+    Tuple,
+    List,
+    Sequence,
+)
 from pygments import highlight
 from pygments.lexer import RegexLexer
 from pygments.formatters.html import HtmlFormatter
@@ -23,8 +28,10 @@ from core.QtModules import (
     QTextEdit,
     QWidget,
 )
-from core import main_window as mw
 from .Ui_script import Ui_Dialog
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 _SCRIPT = """
@@ -88,7 +95,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         lexer: RegexLexer,
         filename: str,
         file_format: List[str],
-        parent: 'mw.MainWindow'
+        parent: 'MainWindowBase'
     ):
         """Input parameters:
 

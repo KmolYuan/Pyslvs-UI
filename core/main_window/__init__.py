@@ -3,7 +3,7 @@
 """'main_window' module contains the methods of main window.
 
 Abstract classes (ordered):
-+ MainWindowUiInterface (imported from core.widget.custom)
++ MainWindowBase (imported from core.widget.custom)
 + EntitiesMethodInterface (entities)
 + SolverMethodInterface (solver)
 + StorageMethodInterface (storage)

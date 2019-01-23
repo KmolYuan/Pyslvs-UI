@@ -14,7 +14,7 @@ from .info import (
     check_update
 )
 from .about import (
-    PyslvsSplash,
+    Splash,
     PyslvsAbout,
     html
 )
@@ -24,7 +24,7 @@ __all__ = [
     'ARGUMENTS',
     '__version__',
     'check_update',
-    'PyslvsSplash',
+    'Splash',
     'PyslvsAbout',
     'html'
 ]

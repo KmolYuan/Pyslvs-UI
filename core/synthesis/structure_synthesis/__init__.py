@@ -10,6 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     List,
     Sequence,
@@ -40,7 +41,6 @@ from core.QtModules import (
     QInputDialog,
     QScrollBar,
 )
-from core import main_window as mw
 from core.libs import (
     number_synthesis,
     contracted_link,
@@ -55,6 +55,9 @@ from core.graphics import (
     engines,
 )
 from .Ui_structure_widget import Ui_Form
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 __all__ = ['StructureSynthesis']
 
@@ -110,7 +113,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     Calculate the combinations of mechanism family and show the atlas.
     """
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         """Reference names:
 
         + IO functions from main window.
@@ -126,7 +129,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.input_from = parent.input_from
         self.jointDataFunc = parent.EntitiesPoint.data_tuple
         self.linkDataFunc = parent.EntitiesLink.data_tuple
-        self.getGraph = parent.get_graph
+        self.get_graph = parent.get_graph
 
         # Splitters
         self.splitter.setStretchFactor(0, 2)
@@ -191,7 +194,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         joint_data = self.jointDataFunc()
         link_data = self.linkDataFunc()
         if joint_data and link_data:
-            graph = Graph(self.getGraph())
+            graph = Graph(self.get_graph())
             self.edges_text.setText(str(graph.edges))
         else:
             graph = Graph([])

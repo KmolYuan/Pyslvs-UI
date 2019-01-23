@@ -159,7 +159,3 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         """Add storage data from database."""
         for name, expr in exprs:
             self.__add_storage(name, expr)
-
-    @abstractmethod
-    def parse_expression(self, expr: str) -> None:
-        ...

@@ -68,7 +68,7 @@ class _DynamicCanvas(BaseCanvas):
         self.__no_error = 0
 
         # Timer start.
-        self.__timer = QTimer(self)
+        self.__timer = QTimer()
         self.__timer.timeout.connect(self.__change_index)
         self.__timer.start(18)
 

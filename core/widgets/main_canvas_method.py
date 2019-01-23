@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     List,
     Dict,
@@ -36,7 +37,6 @@ from core.QtModules import (
     QColor,
     QToolTip,
 )
-from core import main_window as mw
 from core.graphics import (
     convex_hull,
     BaseCanvas,
@@ -44,6 +44,9 @@ from core.graphics import (
     color_num,
 )
 from core.libs import VJoint, VPoint, VLink
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 class _Selector:
@@ -153,7 +156,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
     set_target_point = Signal(float, float)
 
     @abstractmethod
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")

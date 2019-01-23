@@ -47,7 +47,7 @@ from core.widgets import (
     EditLinkTable,
     FixSequenceNumber,
 )
-from core.widgets import MainWindowUiInterface
+from core.widgets import MainWindowBase
 
 
 class _ScaleDialog(QDialog):
@@ -84,7 +84,7 @@ class _ScaleDialog(QDialog):
         return self.enlarge.value() / self.shrink.value()
 
 
-class EntitiesMethodInterface(MainWindowUiInterface, ABC):
+class EntitiesMethodInterface(MainWindowBase, ABC):
 
     """Abstract class for entities methods."""
 
@@ -269,7 +269,10 @@ class EntitiesMethodInterface(MainWindowUiInterface, ABC):
         self.CommandStack.endMacro()
         return row_count
 
-    def add_points(self, p_attr: Sequence[Tuple[float, float, str, str, int, float]]):
+    def add_points(
+        self,
+        p_attr: Sequence[Tuple[float, float, str, str, int, float]]
+    ):
         """Add multiple points."""
         for attr in p_attr:
             self.add_point(*attr)

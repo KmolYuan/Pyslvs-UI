@@ -9,6 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from collections import deque
 from typing import (
+    TYPE_CHECKING,
     List,
     Tuple,
     Sequence,
@@ -25,13 +26,15 @@ from core.QtModules import (
     QCursor,
     QToolTip,
 )
-from core import main_window as mw
 from core.libs import VPoint, VLink
 from .main_canvas_method import (
     DynamicCanvasInterface,
     FreeMode,
     SelectMode,
 )
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 class DynamicCanvas(DynamicCanvasInterface):
@@ -45,7 +48,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     + Zoom to fit function.
     """
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
         self.__set_zoom = parent.ZoomBar.setValue

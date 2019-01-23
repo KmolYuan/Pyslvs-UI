@@ -370,3 +370,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.get_triangle(),
             self.InputsWidget.current_path()
         )
+
+    def dof(self) -> int:
+        """Return DOF."""
+        return self.DOF

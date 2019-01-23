@@ -4,6 +4,7 @@
 
 import csv
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     Dict,
     Sequence,
@@ -25,7 +26,6 @@ from core.QtModules import (
     QShortcut,
     QKeySequence,
 )
-from core import main_window as mw
 from core.libs import VJoint, VPoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
@@ -35,6 +35,9 @@ from .undo_redo import (
     AddPath,
     DeletePath,
 )
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 def _variable_int(text: str) -> int:
@@ -52,7 +55,7 @@ class InputsWidget(QWidget, Ui_Form):
 
     about_to_resolve = Signal()
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
 
@@ -65,7 +68,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.reload_canvas = parent.reload_canvas
         self.output_to = parent.output_to
         self.conflict = parent.conflict
-        self.DOF = lambda: parent.DOF
+        self.dof = parent.dof
         self.right_input = parent.right_input
         self.CommandStack = parent.CommandStack
         self.set_coords_as_current = parent.set_coords_as_current
@@ -87,7 +90,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_stop.clicked.connect(self.variable_value_reset)
 
         # Timer for play button.
-        self.inputs_playShaft = QTimer(self)
+        self.inputs_playShaft = QTimer()
         self.inputs_playShaft.setInterval(10)
         self.inputs_playShaft.timeout.connect(self.__change_index)
 
@@ -186,7 +189,7 @@ class InputsWidget(QWidget, Ui_Form):
             p1 = _variable_int(item.text())
 
         # Check DOF.
-        if self.DOF() <= self.input_count():
+        if self.dof() <= self.input_count():
             QMessageBox.warning(
                 self,
                 "Wrong DOF",

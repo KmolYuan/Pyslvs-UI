@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .custom import MainWindowUiInterface
+from .custom import MainWindowBase
 from .tables import PointTableWidget, LinkTableWidget
 from .undo_redo import (
     AddTable,
@@ -28,7 +28,7 @@ from .undo_redo import (
 )
 
 __all__ = [
-    'MainWindowUiInterface',
+    'MainWindowBase',
     'PointTableWidget',
     'LinkTableWidget',
     'AddTable',

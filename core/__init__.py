@@ -11,11 +11,7 @@ from sys import argv, exit
 from platform import system
 from .QtModules import QApplication
 from core.main_window import MainWindow
-from .info import (
-    ARGUMENTS,
-    INFO,
-    PyslvsSplash
-)
+from .info import ARGUMENTS, INFO, Splash
 
 __all__ = ['main']
 
@@ -41,7 +37,7 @@ def main():
     if ARGUMENTS.fusion:
         app.setStyle('fusion')
 
-    splash = PyslvsSplash()
+    splash = Splash()
     splash.show()
 
     run = MainWindow()

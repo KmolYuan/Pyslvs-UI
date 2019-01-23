@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     Iterator,
     Union,
@@ -18,8 +19,10 @@ from core.QtModules import (
     QDialog,
     QListWidget,
 )
-from core.synthesis.collections import configure_widget as cw
 from .Ui_targets import Ui_Dialog
+
+if TYPE_CHECKING:
+    from core.synthesis.collections import ConfigureWidget
 
 
 def list_texts(
@@ -41,7 +44,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
 
-    def __init__(self, parent: 'cw.ConfigureWidget'):
+    def __init__(self, parent: 'ConfigureWidget'):
         """Filter and show the target option (just like movable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)

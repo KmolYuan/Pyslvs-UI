@@ -12,6 +12,7 @@ __email__ = "pyslvs@gmail.com"
 from abc import abstractmethod
 from time import time
 from typing import (
+    TYPE_CHECKING,
     Tuple,
     List,
     Dict,
@@ -36,9 +37,11 @@ from core.QtModules import (
     QWidget,
     QABCMeta,
 )
-from core import main_window as mw
 from core.graphics import color_icon
 from core.libs import VJoint, VPoint, VLink, color_rgb
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 _Data = TypeVar('_Data', VPoint, VLink)
 
@@ -444,7 +447,7 @@ class SelectionLabel(QLabel):
 
     """This QLabel can show distance in status bar."""
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
         self.dataTuple = parent.EntitiesPoint.data_tuple
@@ -490,7 +493,7 @@ class FPSLabel(QLabel):
     def __init__(self, parent: QWidget):
         super(FPSLabel, self).__init__(parent)
         self.__t0 = time() - 1
-        self.__frame_timer = QTimer(self)
+        self.__frame_timer = QTimer()
         self.__frame_timer.timeout.connect(self.__update_text)
         self.__frame_timer.start(500)
 

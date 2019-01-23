@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     List,
     Tuple,
     Sequence,
@@ -32,7 +33,6 @@ from core.QtModules import (
     QPixmap,
     QApplication,
 )
-from core import main_window as mw
 from core.graphics import (
     to_graph,
     engine_picker,
@@ -45,6 +45,9 @@ from core.libs import (
     is_planar,
 )
 from .Ui_structure_widget import Ui_Form
+
+if TYPE_CHECKING:
+    from core.widgets import MainWindowBase
 
 
 class _TestError(Exception):
@@ -61,7 +64,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     layout_sender = Signal(Graph, dict)
 
-    def __init__(self, parent: 'mw.MainWindow'):
+    def __init__(self, parent: 'MainWindowBase'):
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)

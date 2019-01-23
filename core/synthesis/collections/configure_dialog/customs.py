@@ -9,10 +9,12 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict
+from typing import TYPE_CHECKING, Dict
 from core.QtModules import Slot, Qt, QDialog
-from core.synthesis.collections import configure_widget as cw
 from .Ui_customs import Ui_Dialog
+
+if TYPE_CHECKING:
+    from core.synthesis.collections import ConfigureWidget
 
 
 class CustomsDialog(QDialog, Ui_Dialog):
@@ -25,7 +27,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
 
-    def __init__(self, parent: 'cw.ConfigureWidget'):
+    def __init__(self, parent: 'ConfigureWidget'):
         """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)

@@ -66,7 +66,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
         # Timer.
         self.time = 0
-        self.timer = QTimer(self)
+        self.timer = QTimer()
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__set_time)
         self.time_spend = 0.
