@@ -18,6 +18,7 @@ Features
 + Adjustment margin size of preview window.
 + Support the "Categories" key of AppImage desktop file.
 + Enhancement of "link adjust" function.
++ Enhancement of mechanism grammar.
 
 Development
 ---
