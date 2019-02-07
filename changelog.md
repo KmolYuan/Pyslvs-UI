@@ -1,7 +1,7 @@
 Change Log
 ===
 
-Version 19.01
+Version 19.02
 ===
 
 Features
@@ -31,6 +31,14 @@ Development
 + Rename "signal" and "slot" introduction of PyQt.
 + Adjust limitation option of algorithm to "max_gen", "min_fit" and "max_time".
 + Recursive import when doing type checking.
+
+Version 19.01
+===
+
+Development
+---
+
++ This version has been skipped.
 
 Version 18.12
 ===
