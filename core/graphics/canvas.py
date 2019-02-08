@@ -612,8 +612,8 @@ class PreviewCanvas(BaseCanvas):
         # Add customize joints.
         graph = Graph(params['Graph'])
         self.set_graph(graph, params['pos'])
-        self.cus = params['cus']
-        self.same = params['same']
+        self.cus: Dict[str, int] = params['cus']
+        self.same: Dict[int, int] = params['same']
 
         # Grounded setting.
         driver = set(params['Driver'])
