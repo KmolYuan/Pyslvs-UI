@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>434</width>
+    <width>440</width>
     <height>688</height>
    </rect>
   </property>
@@ -195,7 +195,7 @@
            <item>
             <widget class="QLabel" name="driver_label">
              <property name="text">
-              <string>Drivers:</string>
+              <string>Inputs:</string>
              </property>
             </widget>
            </item>
@@ -226,7 +226,7 @@
            <item>
             <widget class="QLabel" name="follower_label">
              <property name="text">
-              <string>Followers:</string>
+              <string>Fixed Joints:</string>
              </property>
             </widget>
            </item>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'configure_widget.ui'
+# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/synthesis/collections/configure_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(434, 688)
+        Form.resize(440, 688)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -200,10 +200,10 @@ class Ui_Form(object):
         self.add_customization.setText(_translate("Form", "Properties of Joints"))
         self.target_button.setText(_translate("Form", "Targets"))
         self.target_list.setStatusTip(_translate("Form", "Target points will match as the target path of dimensional synthesis."))
-        self.driver_label.setText(_translate("Form", "Drivers:"))
+        self.driver_label.setText(_translate("Form", "Inputs:"))
         self.driver_list.setStatusTip(_translate("Form", "These joints will setup an revolute input. The number of them as same as DOF."))
         self.follower_add.setText(_translate("Form", ">>"))
-        self.follower_label.setText(_translate("Form", "Followers:"))
+        self.follower_label.setText(_translate("Form", "Fixed Joints:"))
         self.follower_list.setStatusTip(_translate("Form", "These joints are on the grounded link, the position of them will generate. So they are don\'t need to have a solution."))
         self.driver_add.setText(_translate("Form", "<<"))
         self.label.setText(_translate("Form", "<<"))
