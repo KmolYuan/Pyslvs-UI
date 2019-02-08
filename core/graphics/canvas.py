@@ -633,7 +633,3 @@ class PreviewCanvas(BaseCanvas):
             if not status and node not in self.same:
                 return False
         return True
-
-    def is_multiple(self, name: str) -> bool:
-        """Is the name in 'same'."""
-        return int(name.replace('P', '')) in self.same

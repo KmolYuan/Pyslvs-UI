@@ -207,7 +207,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="follower_add">
+            <widget class="QPushButton" name="driver_del">
              <property name="text">
               <string>&gt;&gt;</string>
              </property>
@@ -290,23 +290,6 @@
       <widget class="QLineEdit" name="expr_show">
        <property name="statusTip">
         <string>Expression of the mechanism</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="link_expression_label">
-       <property name="text">
-        <string>Link expression:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="link_expr_show">
-       <property name="statusTip">
-        <string>Link relative expression.</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>

@@ -157,7 +157,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.follower_list.clear()
         self.target_list.clear()
         self.expr_show.clear()
-        self.link_expr_show.clear()
         for label in [
             self.grounded_label,
             self.driver_label,
@@ -263,10 +262,10 @@ class ConfigureWidget(QWidget, Ui_Form):
 
     @Slot(name='on_driver_add_clicked')
     def __add_driver(self):
-        """Add a driver joint."""
+        """Add a input pair."""
         d1 = self.driver_base.currentText()
         d2 = self.driver_rotator.currentText()
-        if not (d1 and d2):
+        if d1 == d2 == "":
             return
 
         d1_d2 = f"({d1}, {d2})"
@@ -274,37 +273,21 @@ class ConfigureWidget(QWidget, Ui_Form):
             if n == d1_d2:
                 return
 
-        self.__find_follower_to_remove(d1)
         self.driver_list.addItem(d1_d2)
         self.configure_canvas.set_driver([
             eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
         ])
         _set_warning(self.driver_label, False)
 
-    @Slot(name='on_follower_add_clicked')
+    @Slot(name='on_driver_del_clicked')
     def __add_follower(self):
-        """Add a follower joint."""
+        """Remove a input pair."""
         row = self.driver_list.currentRow()
         if not row > -1:
             return
 
-        d1_d2 = self.driver_list.item(row).text()
-        d1, d2 = eval(d1_d2.replace('P', ''))
-        self.__find_follower_to_add(f'P{d1}')
         self.driver_list.takeItem(row)
-        _set_warning(self.driver_label, not self.driver_list.count())
-
-    def __find_follower_to_remove(self, name: str):
-        """Remove node if it is in the list."""
-        finds = self.follower_list.findItems(name, Qt.MatchExactly)
-        for d in finds:
-            self.follower_list.takeItem(self.follower_list.row(d))
-
-    def __find_follower_to_add(self, name: str):
-        """Add name if it is not in the list."""
-        if self.follower_list.findItems(name, Qt.MatchExactly):
-            return
-        self.follower_list.addItem(name)
+        _set_warning(self.driver_label, self.driver_list.count() == 0)
 
     @Slot(name='on_add_customization_clicked')
     def __add_cus(self):
@@ -317,27 +300,34 @@ class ConfigureWidget(QWidget, Ui_Form):
     def __get_current_mechanism_params(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.__set_parm_bind()
+
+        input_list = []
+        for s in list_texts(self.driver_list):
+            pair: Tuple[int, int] = eval(s.replace('P', ''))
+            if set(pair) & set(self.configure_canvas.same):
+                continue
+            input_list.append(pair)
+
+        place_list = {}
+        for s in list_texts(self.follower_list):
+            joint = int(s.replace('P', ''))
+            if joint in self.configure_canvas.same:
+                continue
+            place_list[joint] = None
+
+        target_list = {}
+        for s in list_texts(self.target_list):
+            target_list[int(s.replace('P', ''))] = None
+
         return {
-            # To keep the origin graph.
+            'Expression': self.expr_show.text(),
+            'input': input_list,
+            'Placement': place_list,
+            'Target': target_list,
             'Graph': tuple(self.configure_canvas.G.edges),
-            # To keep the position of points.
             'pos': self.configure_canvas.pos.copy(),
             'cus': self.configure_canvas.cus.copy(),
             'same': self.configure_canvas.same.copy(),
-            # Mechanism params.
-            'Driver': {
-                s.split(',')[0][1:]: None for s in list_texts(self.driver_list)
-                if not self.configure_canvas.is_multiple(s.split(',')[0][1:])
-            },
-            'Follower': {
-                s: None for s in list_texts(self.follower_list)
-                if not self.configure_canvas.is_multiple(s)
-            },
-            'Target': {
-                s: None for s in list_texts(self.target_list)
-            },
-            'Expression': self.expr_show.text(),
-            'Link_expr': self.link_expr_show.text(),
         }
 
     @Slot(name='on_load_button_clicked')
@@ -375,20 +365,15 @@ class ConfigureWidget(QWidget, Ui_Form):
             if str_before(expr, '[') != 'PLAP':
                 continue
             base = str_between(expr, '[', ']').split(',')[0]
-            self.__find_follower_to_remove(base)
             rotator = str_between(expr, '(', ')')
             self.driver_list.addItem(f"({base}, {rotator})")
-        _set_warning(self.driver_label, not self.driver_list.count())
+        _set_warning(self.driver_label, self.driver_list.count() == 0)
         self.target_list.addItems(list(params['Target']))
-        _set_warning(self.target_label, not self.target_list.count() > 0)
+        _set_warning(self.target_label, self.target_list.count() == 0)
 
         # Expression
         if 'Expression' in params:
             self.expr_show.setText(params['Expression'])
-
-        # Link expression
-        if 'Link_expr' in params:
-            self.link_expr_show.setText(params['Link_expr'])
 
     @Slot(name='on_target_button_clicked')
     def __set_target(self):
@@ -400,20 +385,20 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.target_list.clear()
         for target in list_texts(dlg.targets_list):
             self.target_list.addItem(target)
-        _set_warning(self.target_label, not self.target_list.count() > 0)
+        _set_warning(self.target_label, self.target_list.count() == 0)
 
     @Slot(QListWidgetItem)
     def __set_parm_bind(self, _: QListWidgetItem = None):
         """Set parameters binding."""
         link_expr_list = []
-        for row, gs in list_texts(self.grounded_list, True):
+        for row, gs in enumerate(list_texts(self.grounded_list)):
             try:
                 link_expr = []
                 # Links from grounded list.
                 for name in gs.replace('(', '').replace(')', '').split(", "):
-                    if self.configure_canvas.is_multiple(name):
-                        i = self.configure_canvas.same[int(name.replace('P', ''))]
-                        name = f'P{i}'
+                    num = int(name.replace('P', ''))
+                    if num in self.configure_canvas.same:
+                        name = f'P{self.configure_canvas.same[num]}'
                     link_expr.append(name)
             except KeyError:
                 continue
@@ -435,10 +420,6 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.configure_canvas.same,
             self.grounded_list.currentRow()
         )) + "]")
-        self.link_expr_show.setText(';'.join(
-            ('ground' if i == 0 else '') + f"[{link}]"
-            for i, link in enumerate(link_expr_list)
-        ))
 
     @Slot(name='on_save_button_clicked')
     def __save(self):

@@ -7,12 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    Tuple,
-    Iterator,
-    Union,
-)
+from typing import TYPE_CHECKING, Iterator
 from core.QtModules import (
     Slot,
     Qt,
@@ -25,16 +20,10 @@ if TYPE_CHECKING:
     from core.synthesis.collections import ConfigureWidget
 
 
-def list_texts(
-    widget: QListWidget,
-    return_row: bool = False
-) -> Iterator[Union[Tuple[int, str], str]]:
+def list_texts(widget: QListWidget) -> Iterator[str]:
     """Generator to get the text from list widget."""
     for row in range(widget.count()):
-        if return_row:
-            yield row, widget.item(row).text()
-        else:
-            yield widget.item(row).text()
+        yield widget.item(row).text()
 
 
 class TargetsDialog(QDialog, Ui_Dialog):
@@ -60,7 +49,8 @@ class TargetsDialog(QDialog, Ui_Dialog):
                     yield widget.itemText(index)
 
             for text in combo_texts(parent.joint_name):
-                if not parent.configure_canvas.is_multiple(text) and (text not in (
+                num = int(text.replace('P', ''))
+                if (num not in parent.configure_canvas.same) and (text not in (
                     current_item.text()
                     .replace('(', '')
                     .replace(')', '')
@@ -69,7 +59,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
                     self.other_list.addItem(text)
 
         target_list = [text for text in list_texts(parent.target_list)]
-        for row, text in list_texts(self.other_list, True):
+        for row, text in enumerate(list_texts(self.other_list)):
             if text in target_list:
                 self.targets_list.addItem(self.other_list.takeItem(row))
 

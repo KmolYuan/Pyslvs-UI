@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'structure_widget.ui'
+# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/synthesis/collections/structure_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(434, 639)
+        Form.resize(507, 639)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/structure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -239,7 +239,7 @@ class Ui_Form(object):
         self.nj_label.setText(_translate("Form", "0"))
         self.dof_text.setText(_translate("Form", "Degrees of freedom:"))
         self.dof_label.setText(_translate("Form", "0"))
-        self.is_degenerate_text.setText(_translate("Form", "Is Degenerate:"))
+        self.is_degenerate_text.setText(_translate("Form", "Is degenerate:"))
         self.is_degenerate_label.setText(_translate("Form", "N/A"))
         self.link_assortments_text.setText(_translate("Form", "Link assortments:"))
         self.link_assortments_label.setText(_translate("Form", "N/A"))
