@@ -19,7 +19,6 @@ from typing import (
 from math import hypot
 import pprint
 from core.QtModules import (
-    Qt,
     Signal,
     QWidget,
     Slot,
@@ -30,11 +29,11 @@ from core.QtModules import (
     QApplication,
 )
 from core.graphics import PreviewCanvas
-from core.io import str_before, str_between
 from core.libs import (
     Graph,
     edges_view,
     graph2vpoints,
+    parse_pos,
 )
 from .configure_dialog import (
     CollectionsDialog,
@@ -324,10 +323,9 @@ class ConfigureWidget(QWidget, Ui_Form):
         return {
             'Expression': self.expr_show.text(),
             'input': input_list,
+            'Graph': tuple(self.configure_canvas.G.edges),
             'Placement': place_list,
             'Target': target_list,
-            'Graph': tuple(self.configure_canvas.G.edges),
-            'pos': self.configure_canvas.pos.copy(),
             'cus': self.configure_canvas.cus.copy(),
             'same': self.configure_canvas.same.copy(),
         }
@@ -349,34 +347,34 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         # Add customize joints.
         graph = Graph(params['Graph'])
-        self.set_graph(graph, params['pos'])
-        self.configure_canvas.cus: Dict[int, int] = params['cus']
-        self.configure_canvas.same: Dict[int, int] = params['same']
+        expression: str = params['Expression']
+        pos_list = parse_pos(expression)
+        cus: Dict[int, int] = params['cus']
+        same: Dict[int, int] = params['same']
+        for node, ref in sorted(same.items()):
+            pos_list.insert(node, pos_list[ref])
+        pos: Dict[int, Tuple[float, float]] = dict(enumerate(pos_list))
+        self.set_graph(graph, pos)
+        self.configure_canvas.cus = cus
+        self.configure_canvas.same = same
 
         # Grounded setting.
-        drivers: Set[int] = set(params['Driver'])
-        followers: Set[int] = set(params['Follower'])
+        placement: Set[int] = set(params['Placement'])
         for row, link in enumerate(graph.nodes):
-            points = {n for n, edge in edges_view(graph) if link in edge}
-            if (drivers | followers) <= points:
+            if placement <= {n for n, edge in edges_view(graph) if link in edge}:
                 self.__set_ground(row)
                 break
 
         # Driver, Follower, Target
-        for expr in params['Expression'].split(';'):
-            if str_before(expr, '[') != 'PLAP':
-                continue
-            base = str_between(expr, '[', ']').split(',')[0]
-            rotator = str_between(expr, '(', ')')
-            self.driver_list.addItem(f"({base}, {rotator})")
+        inputs: List[Tuple[int, int]] = params['input']
+        self.driver_list.addItems(f"(P{b}, P{d})" for b, d in inputs)
         _set_warning(self.driver_label, self.driver_list.count() == 0)
         target_list: List[int] = params['Target']
         self.target_list.addItems(f"P{n}" for n in target_list)
         _set_warning(self.target_label, self.target_list.count() == 0)
 
         # Expression
-        if 'Expression' in params:
-            self.expr_show.setText(params['Expression'])
+        self.expr_show.setText(params['Expression'])
 
     @Slot(name='on_target_button_clicked')
     def __set_target(self):

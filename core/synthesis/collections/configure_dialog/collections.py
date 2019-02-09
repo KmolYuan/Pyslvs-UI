@@ -27,139 +27,94 @@ from core.graphics import PreviewCanvas
 from .Ui_collections import Ui_Dialog
 
 
-_mech_params_4_bar = {
-    'Driver': {0: None},
-    'Follower': {1: None},
-    'Target': {4: None},
-    'Link_expr':
-        "ground[P0,P1];"
-        "[P0,P2];"
-        "[P1,P3];"
-        "[P2,P3,P4]",
-    'Expression':
-        "PLAP[P0,L0,a0](P2);"
-        "PLLP[P2,L1,L2,P1](P3);"
-        "PLLP[P2,L3,L4,P3](P4)",
-    'Graph': ((0, 1), (0, 2), (1, 3), (2, 3)),
-    'pos': {
-        0: (-70, -70),
-        1: (70, -70),
-        2: (-70, 12.5),
-        3: (70, 12.5),
-        4: (0, 63.5),
+_examples = {
+    "Four bar linkage mechanism": {
+        'Expression':
+            "M["
+            "J[R, P[-70, -70], L[ground, L1]],"
+            "J[R, P[70, -70], L[ground, L2]],"
+            "J[R, P[-70, 12.5], L[L1, L3]],"
+            "J[R, P[70, 12.5], L[L2, L3]],"
+            "J[R, P[0, 63.5], L[L3]]"
+            "]",
+        'input': [(0, 2)],
+        'Graph': ((0, 1), (0, 2), (1, 3), (2, 3)),
+        'Placement': {0: None, 1: None},
+        'Target': {4: None},
+        'cus': {4: 3},
+        'same': {},
     },
-    'cus': {4: 3},
-    'same': {},
-}
 
-_mech_params_8_bar = {
-    'Driver': {0: None},
-    'Follower': {1: None},
-    'Target': {10: None},
-    'Link_expr':
-        "ground[P0,P1];"
-        "[P0,P3];"
-        "[P3,P5];"
-        "[P3,P6];"
-        "[P1,P5,P8];"
-        "[P1,P6];"
-        "[P8,P9];"
-        "[P10,P6,P9]",
-    'Expression':
-        "PLAP[P0,L0,a0](P3);"
-        "PLLP[P1,L1,L2,P3](P5);"
-        "PLLP[P3,L3,L4,P1](P6);"
-        "PLLP[P1,L5,L6,P5](P8);"
-        "PLLP[P6,L7,L8,P8](P9);"
-        "PLLP[P6,L9,L10,P9](P10)",
-    'Graph': (
-        (0, 1),
-        (0, 4),
-        (0, 5),
-        (1, 2),
-        (1, 3),
-        (2, 4),
-        (3, 5),
-        (3, 7),
-        (4, 6),
-        (6, 7),
-    ),
-    'cus': {10: 7},
-    'pos': {
-        0: (30.5, 10.5),
-        1: (-14.5, 10.5),
-        2: (-18.5, 0.),
-        3: (81.5, 60.5),
-        4: (92.5, 75.5),
-        5: (-31.5, 86.5),
-        6: (41.5, -38.5),
-        7: (19.5, -32.5),
-        8: (-85.5, 9.5),
-        9: (-37.5, -48.5),
-        10: (35.5, -107.5),
+    "Eight bar linkage mechanism": {
+        'Expression':
+            "M["
+            "J[R, P[30.5, 10.5], L[ground, L1]],"
+            "J[R, P[-14.5, 10.5], L[ground, L4, L5]],"
+            "J[R, P[81.5, 60.5], L[L1, L2, L3]],"
+            "J[R, P[-31.5, 86.5], L[L2, L4]],"
+            "J[R, P[41.5, -38.5], L[L3, L5, L7]],"
+            "J[R, P[-85.5, 9.5], L[L4, L6]],"
+            "J[R, P[-37.5, -48.5], L[L6, L7]],"
+            "J[R, P[35.5, -107.5], L[L7]]"
+            "]",
+        'input': [(0, 3)],
+        'Graph': (
+            (0, 1),
+            (0, 4),
+            (0, 5),
+            (1, 2),
+            (1, 3),
+            (2, 4),
+            (3, 5),
+            (3, 7),
+            (4, 6),
+            (6, 7),
+        ),
+        'Placement': {0: None, 1: None},
+        'Target': {10: None},
+        'cus': {10: 7},
+        'same': {2: 1, 4: 3, 7: 6},
     },
-    'same': {2: 1, 4: 3, 7: 6},
-}
 
-_mech_params_ball_lifter = {
-    'Driver': {0: None},
-    'Follower': {1: None, 2: None, 3: None, 4: None},
-    'Target': {13: None, 14: None},
-    'Link_expr':
-        "ground[P0,P1,P2,P3,P4];"
-        "[P0,P5];"
-        "[P5,P7,P8];"
-        "[P10,P5,P9];"
-        "[P1,P7];"
-        "[P11,P13,P8];"
-        "[P11,P2];"
-        "[P3,P9];"
-        "[P10,P12,P14];"
-        "[P12,P4]",
-    'Expression':
-        "PLAP[P0,L0,a0](P5);"
-        "PLLP[P1,L1,L2,P5](P7);"
-        "PLLP[P7,L3,L4,P5](P8);"
-        "PLLP[P5,L5,L6,P3](P9);"
-        "PLLP[P5,L7,L8,P9](P10);"
-        "PLLP[P8,L9,L10,P2](P11);"
-        "PLLP[P4,L11,L12,P10](P12);"
-        "PLLP[P8,L13,L14,P11](P13);"
-        "PLLP[P12,L15,L16,P10](P14)",
-    'Graph': (
-        (0, 1),
-        (0, 4),
-        (0, 9),
-        (0, 6),
-        (0, 7),
-        (1, 2),
-        (1, 3),
-        (2, 4),
-        (2, 5),
-        (3, 8),
-        (3, 7),
-        (5, 6),
-        (8, 9),
-    ),
-    'cus': {13: 5, 14: 8},
-    'pos': {
-        0: (36.5, -59.5),
-        1: (10.0, -94.12),
-        2: (-28.5, -93.5),
-        3: (102.5, -43.5),
-        4: (77.5, -74.5),
-        5: (28.82, -22.35),
-        6: (23.5, 22.5),
-        7: (-18.5, -44.5),
-        8: (-75.5, -59.5),
-        9: (56.5, 29.5),
-        10: (68.5, 71.5),
-        11: (-47.06, -28.24),
-        12: (107.5, 42.5),
-        13: (-109.41, -49.41),
-        14: (44.12, 107.65),
+    "Ball lifter linkage mechanism": {
+        'Expression':
+            "M["
+            "J[R, P[36.5, -59.5], L[ground, L1]],"
+            "J[R, P[10, -94.12], L[ground, L4]],"
+            "J[R, P[-28.5, -93.5], L[ground, L6]],"
+            "J[R, P[102.5, -43.5], L[ground, L7]],"
+            "J[R, P[77.5, -74.5], L[ground, L9]],"
+            "J[R, P[28.82, -22.35], L[L1, L2, L3]],"
+            "J[R, P[-18.5, -44.5], L[L2, L4]],"
+            "J[R, P[-75.5, -59.5], L[L2, L5]],"
+            "J[R, P[56.5, 29.5], L[L3, L7]],"
+            "J[R, P[68.5, 71.5], L[L8, L3]],"
+            "J[R, P[-47.06, -28.24], L[L5, L6]],"
+            "J[R, P[107.5, 42.5], L[L8, L9]],"
+            "J[R, P[-109.41, -49.41], L[L5]],"
+            "J[R, P[44.12, 107.65], L[L8]]"
+            "]",
+        'input': [(0, 5)],
+        'Graph': (
+            (0, 1),
+            (0, 4),
+            (0, 9),
+            (0, 6),
+            (0, 7),
+            (1, 2),
+            (1, 3),
+            (2, 4),
+            (2, 5),
+            (3, 8),
+            (3, 7),
+            (5, 6),
+            (8, 9),
+        ),
+        'Placement': {0: None, 1: None, 2: None, 3: None, 4: None},
+        'Target': {13: None, 14: None},
+        'cus': {13: 5, 14: 8},
+        'same': {6: 5},
     },
-    'same': {6: 5},
 }
 
 
@@ -308,12 +263,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             return
 
         self.__name_loaded = item.text()
-        if self.__name_loaded == "Four bar linkage mechanism":
-            self.__mech_params = deepcopy(_mech_params_4_bar)
-        elif self.__name_loaded == "Eight bar linkage mechanism":
-            self.__mech_params = deepcopy(_mech_params_8_bar)
-        elif self.__name_loaded == "Ball lifter linkage mechanism":
-            self.__mech_params = deepcopy(_mech_params_ball_lifter)
+        self.__mech_params = deepcopy(_examples[self.__name_loaded])
         self.preview_canvas.from_profile(self.__mech_params)
 
     @Slot(str, name='on_collections_list_currentTextChanged')

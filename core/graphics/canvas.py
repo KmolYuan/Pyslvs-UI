@@ -46,6 +46,7 @@ from core.libs import (
     VPoint,
     Graph,
     edges_view,
+    parse_pos,
 )
 from . import color_qt, target_path_style
 
@@ -612,16 +613,19 @@ class PreviewCanvas(BaseCanvas):
         """Simple load by dict object."""
         # Add customize joints.
         graph = Graph(params['Graph'])
-        self.set_graph(graph, params['pos'])
+        expression: str = params['Expression']
+        pos_list = parse_pos(expression)
         self.cus: Dict[int, int] = params['cus']
         self.same: Dict[int, int] = params['same']
+        for node, ref in sorted(self.same.items()):
+            pos_list.insert(node, pos_list[ref])
+        pos: Dict[int, Tuple[float, float]] = dict(enumerate(pos_list))
+        self.set_graph(graph, pos)
 
         # Grounded setting.
-        driver: Set[int] = set(params['Driver'])
-        follower: Set[int] = set(params['Follower'])
+        placement: Set[int] = set(params['Placement'])
         for row, link in enumerate(graph.nodes):
-            points = {n for n, edge in edges_view(graph) if link in edge}
-            if (driver | follower) <= points:
+            if placement <= {n for n, edge in edges_view(graph) if link in edge}:
                 self.set_grounded(row)
                 break
 
