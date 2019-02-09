@@ -39,6 +39,7 @@ from .pyslvs import (
     graph2vpoints,
     PMKSLexer,
     example_list,
+    collection_list,
 )
 from .solvespace_translate import slvs_solve
 
@@ -74,6 +75,7 @@ __all__ = [
     'graph2vpoints',
     'PMKSLexer',
     'example_list',
+    'collection_list',
     'slvs_solve',
     'kernel_list',
 ]
