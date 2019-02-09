@@ -23,6 +23,7 @@ from core.libs import (
     vpoints_configure,
     VJoint,
     VPoint,
+    VLink,
     data_collecting,
     expr_solving,
     vpoint_dof,
@@ -244,12 +245,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + cus
         + same
         """
-        vpoints = self.EntitiesPoint.data_tuple()
+        vpoints: Tuple[VPoint] = self.EntitiesPoint.data_tuple()
         for vpoint in vpoints:
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
 
-        vlinks = self.EntitiesLink.data_tuple()
+        vlinks: Tuple[VLink] = self.EntitiesLink.data_tuple()
         link_names = [vlink.name for vlink in vlinks]
         graph = tuple(self.get_graph())
 
@@ -292,7 +293,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 continue
             mapping[i] = count
             pos[count] = vpoint.c[0]
-            cus[f'P{count}'] = link_names.index(vpoint.links[0])
+            cus[count] = link_names.index(vpoint.links[0])
             count += 1
 
         drivers = {mapping[b] for b, d, a in self.InputsWidget.input_pairs()}

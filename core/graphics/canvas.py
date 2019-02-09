@@ -10,8 +10,9 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
-    Dict,
     Sequence,
+    Set,
+    Dict,
     Any,
     Union,
 )
@@ -441,7 +442,7 @@ class PreviewCanvas(BaseCanvas):
         """
         super(PreviewCanvas, self).__init__(parent)
         self.G = Graph([])
-        self.cus: Dict[str, int] = {}
+        self.cus: Dict[int, int] = {}
         self.same: Dict[int, int] = {}
         self.pos: Dict[int, Tuple[float, float]] = {}
         self.status = {}
@@ -512,7 +513,7 @@ class PreviewCanvas(BaseCanvas):
             # Customize points.
             for name, link_ in self.cus.items():
                 if link == link_:
-                    x, y = self.pos[int(name.replace('P', ''))]
+                    x, y = self.pos[name]
                     points.append((x * self.zoom, y * -self.zoom))
             self.painter.drawPolygon(*convex_hull(points, as_qpoint=True))
 
@@ -585,7 +586,7 @@ class PreviewCanvas(BaseCanvas):
         for n, edge in edges_view(self.G):
             self.status[n] = self.grounded in edge
         for n, link in self.cus.items():
-            self.status[int(n.replace('P', ''))] = self.grounded == link
+            self.status[n] = self.grounded == link
         self.update()
 
     def set_driver(self, nodes: Sequence[int]):
@@ -612,16 +613,15 @@ class PreviewCanvas(BaseCanvas):
         # Add customize joints.
         graph = Graph(params['Graph'])
         self.set_graph(graph, params['pos'])
-        self.cus: Dict[str, int] = params['cus']
+        self.cus: Dict[int, int] = params['cus']
         self.same: Dict[int, int] = params['same']
 
         # Grounded setting.
-        driver = set(params['Driver'])
-        follower = set(params['Follower'])
+        driver: Set[int] = set(params['Driver'])
+        follower: Set[int] = set(params['Follower'])
         for row, link in enumerate(graph.nodes):
-            if (driver | follower) <= {
-                f'P{n}' for n, edge in edges_view(graph) if link in edge
-            }:
+            points = {n for n, edge in edges_view(graph) if link in edge}
+            if (driver | follower) <= points:
                 self.set_grounded(row)
                 break
 

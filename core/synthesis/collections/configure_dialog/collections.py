@@ -28,9 +28,9 @@ from .Ui_collections import Ui_Dialog
 
 
 _mech_params_4_bar = {
-    'Driver': {'P0': None},
-    'Follower': {'P1': None},
-    'Target': {'P4': None},
+    'Driver': {0: None},
+    'Follower': {1: None},
+    'Target': {4: None},
     'Link_expr':
         "ground[P0,P1];"
         "[P0,P2];"
@@ -48,14 +48,14 @@ _mech_params_4_bar = {
         3: (70, 12.5),
         4: (0, 63.5),
     },
-    'cus': {'P4': 3},
+    'cus': {4: 3},
     'same': {},
 }
 
 _mech_params_8_bar = {
-    'Driver': {'P0': None},
-    'Follower': {'P1': None},
-    'Target': {'P10': None},
+    'Driver': {0: None},
+    'Follower': {1: None},
+    'Target': {10: None},
     'Link_expr':
         "ground[P0,P1];"
         "[P0,P3];"
@@ -84,7 +84,7 @@ _mech_params_8_bar = {
         (4, 6),
         (6, 7),
     ),
-    'cus': {'P10': 7},
+    'cus': {10: 7},
     'pos': {
         0: (30.5, 10.5),
         1: (-14.5, 10.5),
@@ -102,9 +102,9 @@ _mech_params_8_bar = {
 }
 
 _mech_params_ball_lifter = {
-    'Driver': {'P0': None},
-    'Follower': {'P1': None, 'P2': None, 'P3': None, 'P4': None},
-    'Target': {'P13': None, 'P14': None},
+    'Driver': {0: None},
+    'Follower': {1: None, 2: None, 3: None, 4: None},
+    'Target': {13: None, 14: None},
     'Link_expr':
         "ground[P0,P1,P2,P3,P4];"
         "[P0,P5];"
@@ -141,7 +141,7 @@ _mech_params_ball_lifter = {
         (5, 6),
         (8, 9),
     ),
-    'cus': {'P13': 5, 'P14': 8},
+    'cus': {13: 5, 14: 8},
     'pos': {
         0: (36.5, -59.5),
         1: (10.0, -94.12),

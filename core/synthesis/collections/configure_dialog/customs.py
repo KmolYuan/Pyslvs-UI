@@ -42,7 +42,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         for row in range(parent.grounded_list.count()):
             self.link_choose.addItem(parent.grounded_list.item(row).text())
         for name, link in self.cus.items():
-            self.custom_list.addItem(f"{name} -> {link}")
+            self.custom_list.addItem(f"P{name} -> {link}")
         self.__reload_quote_choose()
         self.quote_choose.setCurrentIndex(0)
         for s, qs in self.same.items():
@@ -64,12 +64,12 @@ class CustomsDialog(QDialog, Ui_Dialog):
         if not row > -1:
             return
         try:
-            new_num = max(int(c.replace('P', '')) for c in self.cus)
+            new_num = max(self.cus)
         except ValueError:
             new_num = max(self.pos)
         new_num += 1
         new_name = f'P{new_num}'
-        self.cus[new_name] = row
+        self.cus[new_num] = row
         self.pos[new_num] = (0., 0.)
         self.status[new_num] = False
         self.custom_list.addItem(f"{new_name} -> {self.link_choose.itemText(row)}")
@@ -83,7 +83,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
             return
         name = self.custom_list.item(row).text().split(" -> ")[0]
         num = int(name.replace('P', ''))
-        self.cus.pop(name)
+        self.cus.pop(num)
         self.pos.pop(num)
         self.status.pop(num)
         self.custom_list.takeItem(row)

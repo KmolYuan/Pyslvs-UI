@@ -8,9 +8,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    Dict,
+    List,
     Tuple,
     Sequence,
+    Set,
+    Dict,
     Callable,
     Any,
 )
@@ -348,14 +350,14 @@ class ConfigureWidget(QWidget, Ui_Form):
         # Add customize joints.
         graph = Graph(params['Graph'])
         self.set_graph(graph, params['pos'])
-        self.configure_canvas.cus = params['cus']
-        self.configure_canvas.same = params['same']
+        self.configure_canvas.cus: Dict[int, int] = params['cus']
+        self.configure_canvas.same: Dict[int, int] = params['same']
 
         # Grounded setting.
-        drivers = set(params['Driver'])
-        followers = set(params['Follower'])
+        drivers: Set[int] = set(params['Driver'])
+        followers: Set[int] = set(params['Follower'])
         for row, link in enumerate(graph.nodes):
-            points = {f'P{n}' for n, edge in edges_view(graph) if link in edge}
+            points = {n for n, edge in edges_view(graph) if link in edge}
             if (drivers | followers) <= points:
                 self.__set_ground(row)
                 break
@@ -368,7 +370,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             rotator = str_between(expr, '(', ')')
             self.driver_list.addItem(f"({base}, {rotator})")
         _set_warning(self.driver_label, self.driver_list.count() == 0)
-        self.target_list.addItems(list(params['Target']))
+        target_list: List[int] = params['Target']
+        self.target_list.addItems(f"P{n}" for n in target_list)
         _set_warning(self.target_label, self.target_list.count() == 0)
 
         # Expression
@@ -406,7 +409,7 @@ class ConfigureWidget(QWidget, Ui_Form):
                 # Customize joints.
                 for joint, link in self.configure_canvas.cus.items():
                     if row == link:
-                        link_expr.append(joint)
+                        link_expr.append(f"P{joint}")
                 link_expr_str = ','.join(sorted(set(link_expr)))
                 if row == self.grounded_list.currentRow():
                     link_expr_list.insert(0, link_expr_str)
