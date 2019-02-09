@@ -314,16 +314,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             params = ','.join(map_str(i) for i in exprs[1:-1])
             expr_list.append(f'{exprs[0]}[{params}]({map_str(exprs[-1])})')
 
-        link_expr_list = []
-        for vlink in vlinks:
-            points_text = ','.join(f'P{mapping[p]}' for p in vlink.points)
-            link_expr_list.append(f'[{points_text}]')
-
         return {
             'Driver': {f'P{p}': None for p in drivers},
             'Follower': {f'P{p}': None for p in followers},
             'Target': {p: None for p in cus},
-            'Link_expr': ';'.join(link_expr_list),
             'Expression': ';'.join(expr_list),
             'Graph': graph,
             'pos': pos,

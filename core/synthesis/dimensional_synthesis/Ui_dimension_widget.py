@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'dimension_widget.ui'
+# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/synthesis/dimensional_synthesis/dimension_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -83,10 +83,6 @@ class Ui_Form(object):
         self.Link_expr.setReadOnly(True)
         self.Link_expr.setObjectName("Link_expr")
         self.horizontalLayout_18.addWidget(self.Link_expr)
-        self.link_expr_copy = QtWidgets.QPushButton(self.layoutWidget)
-        self.link_expr_copy.setIcon(icon4)
-        self.link_expr_copy.setObjectName("link_expr_copy")
-        self.horizontalLayout_18.addWidget(self.link_expr_copy)
         self.verticalLayout_6.addLayout(self.horizontalLayout_18)
         self.parameter_list = QtWidgets.QTableWidget(self.layoutWidget)
         self.parameter_list.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)

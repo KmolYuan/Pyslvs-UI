@@ -115,14 +115,6 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QPushButton" name="link_expr_copy">
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
             <item>

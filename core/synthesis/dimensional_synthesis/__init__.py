@@ -17,7 +17,6 @@ from typing import (
     Dict,
     Callable,
     Union,
-    Optional,
     Any,
 )
 from math import hypot
@@ -48,6 +47,7 @@ from core.libs import (
     graph2vpoints,
 )
 from core.synthesis import CollectionsDialog
+from core.libs import parse_pos
 from .ds_dialog import (
     GeneticPrams,
     FireflyPrams,
@@ -86,16 +86,16 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.setupUi(self)
 
         self.mech_params: Dict[str, Any] = {}
-        self.path: Dict[str, List[Tuple[float, float]]] = {}
+        self.path: Dict[int, List[Tuple[float, float]]] = {}
 
         # Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.ConfigureWidget.collections
         self.get_collection = parent.get_collection
         self.input_from = parent.input_from
         self.workbook_no_save = parent.workbook_no_save
-        self.mergeResult = parent.merge_result
-        self.updateRanges = parent.MainCanvas.update_ranges
-        self.setSolvingPath = parent.MainCanvas.set_solving_path
+        self.merge_result = parent.merge_result
+        self.update_ranges = parent.MainCanvas.update_ranges
+        self.set_solving_path = parent.MainCanvas.set_solving_path
 
         # Data and functions.
         self.mechanism_data: List[Dict[str, Any]] = []
@@ -141,7 +141,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.parameter_list.setRowCount(0)
         self.target_points.clear()
         self.Expression.clear()
-        self.Link_expr.clear()
         self.update_range()
         self.__able_to_generate()
 
@@ -165,18 +164,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __current_path_changed(self):
         """Call the canvas to update to current target path."""
-        self.setSolvingPath({
-            name: tuple(path) for name, path in self.path.items()
+        self.set_solving_path({
+            f"P{name}": tuple(path) for name, path in self.path.items()
         })
         self.__able_to_generate()
 
     def current_path(self) -> List[Tuple[float, float]]:
         """Return the pointer of current target path."""
         item = self.target_points.currentItem()
-        if item:
-            return self.path[item.text()]
-        else:
+        if item is None:
             return []
+
+        return self.path[int(item.text().replace('P', ''))]
 
     @Slot(str, name='on_target_points_currentTextChanged')
     def __set_target(self, _: str):
@@ -415,14 +414,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     return r
             return -1
 
-        for key in {'Driver', 'Follower'}:
-            for name in mech_params[key]:
-                row = name_in_table(name)
-                mech_params[key][name] = (
-                    self.parameter_list.cellWidget(row, 2).value(),
-                    self.parameter_list.cellWidget(row, 3).value(),
-                    self.parameter_list.cellWidget(row, 4).value(),
-                )
+        placement: Dict[int, Tuple[float, float, float]] = mech_params['Placement']
+        for name in placement:
+            row = name_in_table(f"P{name}")
+            placement[name] = (
+                self.parameter_list.cellWidget(row, 2).value(),
+                self.parameter_list.cellWidget(row, 3).value(),
+                self.parameter_list.cellWidget(row, 4).value(),
+            )
 
         # Start progress dialog.
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
@@ -533,7 +532,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "Merge",
             "Merge this result to your canvas?"
         ) == QMessageBox.Yes:
-            self.mergeResult(row, self.__get_path(row))
+            self.merge_result(row, self.__get_path(row))
 
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
@@ -632,7 +631,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             i += 1
 
         mech_params = deepcopy(self.mech_params)
-        for key in ['Driver', 'Follower', 'Target']:
+        for key in ('Placement', 'Target'):
             for mp in mech_params[key]:
                 mech_params[key][mp] = None
 
@@ -657,10 +656,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.profile_name.setText(profile_name)
         self.mech_params = deepcopy(params)
         self.Expression.setText(self.mech_params['Expression'])
-        self.Link_expr.setText(self.mech_params['Link_expr'])
-        for name in sorted(self.mech_params['Target']):
-            self.target_points.addItem(name)
-            path = self.mech_params['Target'][name]
+        target: Dict[int, List[Tuple[float, float]]] = self.mech_params['Target']
+        for name in sorted(target):
+            self.target_points.addItem(f"P{name}")
+            path = target[name]
             if path:
                 self.path[name] = path.copy()
             else:
@@ -668,10 +667,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if self.target_points.count():
             self.target_points.setCurrentRow(0)
 
-        gj = {}
-        for key in ('Driver', 'Follower'):
-            gj.update(self.mech_params[key])
-
+        # TODO: Number of parameter.
         link_list = set()
         angle_list = set()
         for expr in self.mech_params['Expression'].split(';'):
@@ -684,13 +680,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         angle_count = len(angle_list)
 
         self.parameter_list.setRowCount(0)
-        self.parameter_list.setRowCount(len(gj) + link_count + angle_count)
+        placement: Dict[int, Tuple[float, float, float]] = self.mech_params['Placement']
+        self.parameter_list.setRowCount(len(placement) + link_count + angle_count)
 
         def spinbox(
             v: float,
             *,
-            minimum: float = 0,
-            maximum: float = 1000000.0,
+            minimum: float = 0.,
+            maximum: float = 1000000.,
             prefix: bool = False
         ) -> QDoubleSpinBox:
             double_spinbox = QDoubleSpinBox()
@@ -702,19 +699,23 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 double_spinbox.setPrefix("±")
             return double_spinbox
 
+        # Position.
+        expression: str = self.mech_params['Expression']
+        pos_list = parse_pos(expression)
+        same: Dict[int, int] = self.mech_params['same']
+        for node, ref in sorted(same.items()):
+            pos_list.insert(node, pos_list[ref])
+        pos: Dict[int, Tuple[float, float]] = dict(enumerate(pos_list))
+
         row = 0
-        for name in sorted(gj):
-            coord = gj[name]
-            self.parameter_list.setItem(row, 0, QTableWidgetItem(name))
-            if name in self.mech_params['Driver']:
-                role = 'Driver'
-            else:
-                role = 'Follower'
-            self.parameter_list.setItem(row, 1, QTableWidgetItem(role))
-            x, y = self.mech_params['pos'][int(name.replace('P', ''))]
+        for name in sorted(placement):
+            coord = placement[name]
+            self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{name}"))
+            self.parameter_list.setItem(row, 1, QTableWidgetItem('Placement'))
+            x, y = pos[name]
             for i, s in enumerate([
-                spinbox(coord[0] if coord else x, minimum=-1000000.0),
-                spinbox(coord[1] if coord else y, minimum=-1000000.0),
+                spinbox(coord[0] if coord else x, minimum=-1000000.),
+                spinbox(coord[1] if coord else y, minimum=-1000000.),
                 spinbox(coord[2] if coord else 50., prefix=True),
             ]):
                 s.valueChanged.connect(self.update_range)
@@ -895,22 +896,15 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             else:
                 return self.parameter_list.cellWidget(x, y).value()
 
-        self.updateRanges({
+        self.update_ranges({
             t(row, 0): (t(row, 2), t(row, 3), t(row, 4))
             for row in range(self.parameter_list.rowCount())
-            if t(row, 1) in {'Follower', 'Driver'}
+            if t(row, 1) == 'Placement'
         })
 
     @Slot(name='on_expr_copy_clicked')
     def __copy_expr(self):
         """Copy profile expression."""
         text = self.Expression.text()
-        if text:
-            QApplication.clipboard().setText(text)
-
-    @Slot(name='on_link_expr_copy_clicked')
-    def __copy_link_expr(self):
-        """Copy profile link expression."""
-        text = self.Link_expr.text()
         if text:
             QApplication.clipboard().setText(text)
