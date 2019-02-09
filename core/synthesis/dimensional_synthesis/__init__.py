@@ -31,6 +31,7 @@ from core.QtModules import (
     QModelIndex,
     QApplication,
     QMessageBox,
+    QHeaderView,
     QListWidgetItem,
     QIcon,
     QPixmap,
@@ -45,9 +46,10 @@ from core.libs import (
     VJoint,
     Graph,
     graph2vpoints,
+    parse_pos,
+    parse_vlinks,
 )
 from core.synthesis import CollectionsDialog
-from core.libs import parse_pos
 from .ds_dialog import (
     GeneticPrams,
     FireflyPrams,
@@ -112,11 +114,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.down_splitter.setSizes([20, 80])
 
         # Table widget column width.
-        self.parameter_list.setColumnWidth(0, 75)
-        self.parameter_list.setColumnWidth(1, 75)
-        self.parameter_list.setColumnWidth(2, 70)
-        self.parameter_list.setColumnWidth(3, 70)
-        self.parameter_list.setColumnWidth(4, 80)
+        header = self.parameter_list.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
         self.clear()
 
@@ -140,7 +139,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.type2.setChecked(True)
         self.parameter_list.setRowCount(0)
         self.target_points.clear()
-        self.Expression.clear()
+        self.expression_string.clear()
         self.update_range()
         self.__able_to_generate()
 
@@ -376,7 +375,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         n = (
             bool(self.mech_params) and
             (self.path_list.count() > 1) and
-            bool(self.Expression.text())
+            bool(self.expression_string.text())
         )
         self.path_adjust_button.setEnabled(n)
         self.synthesis_button.setEnabled(n)
@@ -655,7 +654,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__clear_settings()
         self.profile_name.setText(profile_name)
         self.mech_params = deepcopy(params)
-        self.Expression.setText(self.mech_params['Expression'])
+        expression: str = self.mech_params['Expression']
+        self.expression_string.setText(expression)
         target: Dict[int, List[Tuple[float, float]]] = self.mech_params['Target']
         for name in sorted(target):
             self.target_points.addItem(f"P{name}")
@@ -667,16 +667,23 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if self.target_points.count():
             self.target_points.setCurrentRow(0)
 
-        # TODO: Number of parameter.
+        # Parameter of link length and input angle.
         link_list = set()
-        angle_list = set()
-        for expr in self.mech_params['Expression'].split(';'):
-            for e in str_between(expr, '[', ']').split(','):
-                if e.startswith('L'):
-                    link_list.add(e)
-                if e.startswith('a'):
-                    angle_list.add(e)
+        for vlink in parse_vlinks(expression):
+            if len(vlink.points) < 2:
+                continue
+            a = vlink.points[0]
+            b = vlink.points[1]
+            link_list.add(f"P{a}, P{b}")
+            for c in vlink.points[2:]:
+                for d in (a, b):
+                    link_list.add(f"P{c}, P{d}")
         link_count = len(link_list)
+
+        angle_list = set()
+        input_list: List[Tuple[int, int]] = self.mech_params['input']
+        for b, d in input_list:
+            angle_list.add(f"P{b}, P{d}")
         angle_count = len(angle_list)
 
         self.parameter_list.setRowCount(0)
@@ -687,7 +694,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             v: float,
             *,
             minimum: float = 0.,
-            maximum: float = 1000000.,
+            maximum: float = 9999.,
             prefix: bool = False
         ) -> QDoubleSpinBox:
             double_spinbox = QDoubleSpinBox()
@@ -700,7 +707,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return double_spinbox
 
         # Position.
-        expression: str = self.mech_params['Expression']
         pos_list = parse_pos(expression)
         same: Dict[int, int] = self.mech_params['same']
         for node, ref in sorted(same.items()):
@@ -714,13 +720,21 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setItem(row, 1, QTableWidgetItem('Placement'))
             x, y = pos[name]
             for i, s in enumerate([
-                spinbox(coord[0] if coord else x, minimum=-1000000.),
-                spinbox(coord[1] if coord else y, minimum=-1000000.),
+                spinbox(coord[0] if coord else x, minimum=-9999.),
+                spinbox(coord[1] if coord else y, minimum=-9999.),
                 spinbox(coord[2] if coord else 50., prefix=True),
             ]):
                 s.valueChanged.connect(self.update_range)
                 self.parameter_list.setCellWidget(row, i + 2, s)
             row += 1
+
+        # Default value of upper and lower.
+        for name in ('upper', 'lower'):
+            if name not in self.mech_params:
+                self.mech_params[name] = [0.] * (link_count + angle_count)
+
+        upper_list: List[float] = self.mech_params['upper']
+        lower_list: List[float] = self.mech_params['lower']
 
         def set_by_center(
             index: int,
@@ -731,8 +745,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             @Slot(float)
             def func(value: float):
                 half_range = get_range() / 2
-                self.mech_params['upper'][index] = value + half_range
-                self.mech_params['lower'][index] = value - half_range
+                upper_list[index] = value + half_range
+                lower_list[index] = value - half_range
 
             return func
 
@@ -746,29 +760,29 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             def func(value: float):
                 center = get_value()
                 half_range = value / 2
-                self.mech_params['upper'][index] = center + half_range
-                self.mech_params['lower'][index] = center - half_range
+                upper_list[index] = center + half_range
+                lower_list[index] = center - half_range
 
             return func
-
-        for name in ('upper', 'lower'):
-            if name not in self.mech_params:
-                self.mech_params[name] = [0.] * (link_count + angle_count)
 
         for i, name in enumerate(sorted(link_list) + sorted(angle_list)):
             name_item = QTableWidgetItem(name)
             name_item.setToolTip(name)
             self.parameter_list.setItem(row, 0, name_item)
-            self.parameter_list.setItem(row, 1, QTableWidgetItem('Limit'))
+            if name in link_list:
+                type_name = "Link"
+            else:
+                type_name = "Input"
+            self.parameter_list.setItem(row, 1, QTableWidgetItem(type_name))
             # Set values (it will be same if not in the 'mech_params').
-            upper = self.mech_params['upper'][i]
+            upper = upper_list[i]
             if upper == 0:
                 upper = 100. if name in link_list else 360.
-            lower = self.mech_params['lower'][i]
+            lower = lower_list[i]
             if lower == 0 and name in link_list:
                 lower = 5.
-            self.mech_params['upper'][i] = upper
-            self.mech_params['lower'][i] = lower
+            upper_list[i] = upper
+            lower_list[i] = lower
             # Spin box.
             error_range = upper - lower
             default_value = error_range / 2 + lower
@@ -786,18 +800,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.preview_canvas.from_profile(self.mech_params)
         self.update_range()
+
+        # Default value of algorithm option.
         if 'settings' in self.mech_params:
             self.alg_options.update(self.mech_params['settings'])
         else:
             self.__set_algorithm_default()
+
         self.__able_to_generate()
-        if not self.Expression.text():
-            QMessageBox.warning(
-                self,
-                "Profile cannot use",
-                "This profile has no any solutions, "
-                "you can set it in the \"Triangular iteration\" page."
-            )
 
     @Slot(name='on_result_load_settings_clicked')
     def __load_result_settings(self):
@@ -905,6 +915,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_expr_copy_clicked')
     def __copy_expr(self):
         """Copy profile expression."""
-        text = self.Expression.text()
+        text = self.expression_string.text()
         if text:
             QApplication.clipboard().setText(text)

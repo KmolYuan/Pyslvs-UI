@@ -90,7 +90,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_17">
               <item>
-               <widget class="QLineEdit" name="Expression">
+               <widget class="QLineEdit" name="expression_string">
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
@@ -101,17 +101,6 @@
                 <property name="icon">
                  <iconset resource="../../../icons.qrc">
                   <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_18">
-              <item>
-               <widget class="QLineEdit" name="Link_expr">
-                <property name="readOnly">
-                 <bool>true</bool>
                 </property>
                </widget>
               </item>
