@@ -51,7 +51,7 @@ class YamlEditor(QObject):
         # Call to get inputs variables data.
         self.__inputs_data_func = parent.InputsWidget.input_pairs
         # Call to get algorithm data.
-        self.__algorithm_data_func = parent.DimensionalSynthesis.mechanism_data
+        self.__algorithm_data_func = lambda: parent.DimensionalSynthesis.mechanism_data
         # Call to get path data.
         self.__path_data_func = parent.InputsWidget.path_data
 

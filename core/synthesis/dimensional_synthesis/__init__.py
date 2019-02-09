@@ -98,7 +98,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.setSolvingPath = parent.MainCanvas.set_solving_path
 
         # Data and functions.
-        self.__mechanism_data: List[Dict[str, Any]] = []
+        self.mechanism_data: List[Dict[str, Any]] = []
         self.alg_options: Dict[str, Union[int, float]] = {}
         self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
@@ -122,7 +122,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def clear(self):
         """Clear all sub-widgets."""
-        self.__mechanism_data.clear()
+        self.mechanism_data.clear()
         self.result_list.clear()
         self.__clear_settings()
         self.__has_result()
@@ -145,15 +145,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.update_range()
         self.__able_to_generate()
 
-    def mechanism_data(
-        self,
-        index: Optional[int] = None
-    ) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
-        """Return the index of mechanism data."""
-        if index is not None:
-            return self.__mechanism_data[index]
-        return self.__mechanism_data
-
     @Slot(name='on_clear_button_clicked')
     def __user_clear(self):
         if self.profile_name.text() == "No setting":
@@ -169,7 +160,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def load_results(self, mechanism_data: Sequence[Dict[str, Any]]):
         """Append results of workbook database to memory."""
         for e in mechanism_data:
-            self.__mechanism_data.append(e)
+            self.mechanism_data.append(e)
             self.__add_result(e)
 
     def __current_path_changed(self):
@@ -447,7 +438,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 'Algorithm': data['Algorithm'],
             }
             del data['time_fitness']
-            self.__mechanism_data.append(data)
+            self.mechanism_data.append(data)
             self.__add_result(data)
             mechanisms_plot.append(plot)
         self.__set_time(dlg.time_spend)
@@ -502,7 +493,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         ) != QMessageBox.Yes:
             return
 
-        del self.__mechanism_data[row]
+        self.mechanism_data.pop(row)
         self.result_list.takeItem(row)
         self.workbook_no_save()
         self.__has_result()
@@ -526,7 +517,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not row > -1:
             return
 
-        dlg = PreviewDialog(self.__mechanism_data[row], self.__get_path(row), self)
+        dlg = PreviewDialog(self.mechanism_data[row], self.__get_path(row), self)
         dlg.show()
         dlg.exec_()
 
@@ -546,7 +537,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
-        result = self.__mechanism_data[row]
+        result = self.mechanism_data[row]
 
         exprs = []
         for expr in result['Expression'].split(';'):
@@ -620,7 +611,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __copy_result_text(self):
         """Copy pretty print result as text."""
         QApplication.clipboard().setText(
-            pprint.pformat(self.__mechanism_data[self.result_list.currentRow()])
+            pprint.pformat(self.mechanism_data[self.result_list.currentRow()])
         )
 
     @Slot(name='on_save_profile_clicked')
@@ -815,7 +806,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not row > -1:
             return
         self.__clear_settings()
-        result = self.__mechanism_data[row]
+        result = self.mechanism_data[row]
         if result['Algorithm'] == str(AlgorithmType.RGA):
             self.type0.setChecked(True)
         elif result['Algorithm'] == str(AlgorithmType.Firefly):

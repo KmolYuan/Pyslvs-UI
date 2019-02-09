@@ -127,7 +127,7 @@ class MainWindow(IOMethodInterface):
     @Slot(int, tuple)
     def merge_result(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
         """Merge result function of dimensional synthesis."""
-        result = self.DimensionalSynthesis.mechanism_data(row)
+        result = self.DimensionalSynthesis.mechanism_data[row]
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in result['Link_expr'].split(';'):
