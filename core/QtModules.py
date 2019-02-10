@@ -59,6 +59,7 @@ __all__ = [
     'QGraphicsScene',
     'QGraphicsView',
     'QHBoxLayout',
+    'QHeaderView',
     'QIcon',
     'QImage',
     'QInputDialog',

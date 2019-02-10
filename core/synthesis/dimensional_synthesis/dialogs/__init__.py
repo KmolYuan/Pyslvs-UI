@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""'ds_dialog' module contains
+"""'dialogs' module contains
 contains the dialog of this tab.
 """
 

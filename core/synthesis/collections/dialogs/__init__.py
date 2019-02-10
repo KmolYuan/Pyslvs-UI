@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""'configure_dialog' module contains
+"""'dialogs' module contains
 the dialog of this tab.
 """
 

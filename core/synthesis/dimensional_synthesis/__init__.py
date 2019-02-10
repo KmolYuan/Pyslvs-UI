@@ -50,7 +50,7 @@ from core.libs import (
     parse_vlinks,
 )
 from core.synthesis import CollectionsDialog
-from .ds_dialog import (
+from .dialogs import (
     GeneticPrams,
     FireflyPrams,
     defaultSettings,

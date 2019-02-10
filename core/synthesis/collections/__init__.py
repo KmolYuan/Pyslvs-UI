@@ -25,7 +25,7 @@ from core.QtModules import (
 )
 from .structure_widget import StructureWidget
 from .configure_widget import ConfigureWidget
-from .configure_dialog import CollectionsDialog
+from .dialogs import CollectionsDialog
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase

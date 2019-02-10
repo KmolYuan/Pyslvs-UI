@@ -31,6 +31,7 @@ Development
 + Rename "signal" and "slot" introduction of PyQt.
 + Adjust limitation option of algorithm to "max_gen", "min_fit" and "max_time".
 + Recursive import when doing type checking.
++ Rename the dialog resources as "dialogs".
 
 Version 19.01
 ===

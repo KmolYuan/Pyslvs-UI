@@ -35,7 +35,7 @@ from core.libs import (
     graph2vpoints,
     parse_pos,
 )
-from .configure_dialog import (
+from .dialogs import (
     CollectionsDialog,
     CustomsDialog,
     TargetsDialog,
