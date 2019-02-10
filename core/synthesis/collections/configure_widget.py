@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    TYPE_CHECKING,
     List,
     Tuple,
     Sequence,
@@ -42,6 +43,9 @@ from .dialogs import (
     list_texts,
 )
 from .Ui_configure_widget import Ui_Form
+
+if TYPE_CHECKING:
+    from core.widgets.custom import MainWindowBase
 
 
 class _ConfigureCanvas(PreviewCanvas):
@@ -117,13 +121,13 @@ class ConfigureWidget(QWidget, Ui_Form):
     def __init__(
         self,
         add_collection: Callable[[Sequence[Tuple[int, int]]], None],
-        parent: QWidget
+        parent: 'MainWindowBase'
     ):
         """We need some function from structure collections."""
         super(ConfigureWidget, self).__init__(parent)
         self.setupUi(self)
         self.unsave_func = parent.workbook_no_save
-        self.get_collection = parent.get_collection
+        self.get_configure = parent.get_configure
         self.add_collection = add_collection
 
         # Iteration data.
@@ -335,7 +339,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Show up the dialog to load structure data."""
         dlg = CollectionsDialog(
             self.collections,
-            self.get_collection,
+            self.get_configure,
             self
         )
         dlg.show()

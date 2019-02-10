@@ -92,7 +92,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         # Some reference of 'collections'.
         self.collections = parent.CollectionTabPage.ConfigureWidget.collections
-        self.get_collection = parent.get_collection
+        self.get_collection = parent.get_configure
         self.input_from = parent.input_from
         self.workbook_no_save = parent.workbook_no_save
         self.merge_result = parent.merge_result

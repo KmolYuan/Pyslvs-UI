@@ -10,8 +10,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
-    Set,
     Dict,
+    Iterator,
     Union,
     Optional,
 )
@@ -212,7 +212,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 if p in used_point:
                     continue
                 for m, vlink_ in enumerate(vlinks):
-                    if not ((i != m) and (p in vlink_.points)):
+                    if (i == m) or (p not in vlink_.points):
                         continue
                     if vpoints[p].type != VJoint.RP:
                         graph.add_edge(i, m)
@@ -223,13 +223,13 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 used_point.add(p)
         return [edge for n, edge in edges_view(graph)]
 
-    def get_collection(self) -> Dict[str, Union[
-        Dict[str, None],
-        Dict[str, List[Tuple[float, float]]],
+    def get_configure(self) -> Dict[str, Union[
+        Dict[int, None],
+        Dict[int, List[Tuple[float, float]]],
         str,
         Tuple[Tuple[int, int], ...],
         Dict[int, Tuple[float, float]],
-        Dict[str, int]
+        Dict[int, int]
     ]]:
         """Return collection data.
 
@@ -245,85 +245,45 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + cus
         + same
         """
-        vpoints: Tuple[VPoint] = self.EntitiesPoint.data_tuple()
-        for vpoint in vpoints:
-            if vpoint.type in {VJoint.P, VJoint.RP}:
-                raise ValueError("not support for prismatic joint yet")
-
-        vlinks: Tuple[VLink] = self.EntitiesLink.data_tuple()
+        vlinks: Iterator[VLink] = self.EntitiesLink.data()
         link_names = [vlink.name for vlink in vlinks]
         graph = tuple(self.get_graph())
 
-        def find(joint: Set[int]) -> int:
-            """Find the vpoint that is match from joint.
-            Even that is a multi joint.
-            """
-            for order, links in enumerate(graph):
-                if joint <= set(links):
-                    return order
-
-        pos = {}
-        same = {}
-        mapping = {}
-        not_cus = set()
-
-        def has_link(order: int) -> Tuple[bool, Optional[int]]:
-            for key, value in mapping.items():
-                if order == value:
-                    return True, key
-            return False, None
-
-        for i, vpoint in enumerate(vpoints):
-            if len(vpoint.links) < 2:
-                continue
-            j = find({link_names.index(link) for link in vpoint.links})
-            # Set position.
-            pos[j] = vpoint.c[0]
-            ok, index = has_link(j)
-            if ok:
-                same[i] = index
-            else:
-                mapping[i] = j
-            not_cus.add(i)
-
         count = len(graph)
+        vpoint_exprs = []
+        grounded_list = []
+        same = {}
         cus = {}
-        for i, vpoint in enumerate(vpoints):
-            if (i in not_cus) or (not vpoint.links):
-                continue
-            mapping[i] = count
-            pos[count] = vpoint.c[0]
-            cus[count] = link_names.index(vpoint.links[0])
-            count += 1
+        for i, vpoint in enumerate(self.EntitiesPoint.data()):
+            if vpoint.type in {VJoint.P, VJoint.RP}:
+                raise ValueError("not support for prismatic joint yet")
 
-        drivers = {mapping[b] for b, d, a in self.InputsWidget.input_pairs()}
-        followers = {
-            mapping[i] for i, vpoint in enumerate(vpoints)
-            if ('ground' in vpoint.links) and (i not in drivers)
-        }
+            i += len(same)
+            link_count = len(vpoint.links)
+            if link_count > 2:
+                for j in range(1, link_count - 1):
+                    same[i + j] = i
+            elif link_count == 1:
+                cus[count] = link_names.index(vpoint.links[0])
+                count += 1
 
-        def map_str(s: str) -> str:
-            """Replace as mapped index."""
-            if not s.replace('P', '').isdigit():
-                return s
-            node = int(s.replace('P', ''))
-            return f"P{mapping[node]}"
+            vpoint_exprs.append(vpoint.expr)
+            if 'ground' in vpoint.links:
+                grounded_list.append(i - len(same))
 
-        expr_list = []
-        for exprs in self.get_triangle():
-            params = ','.join(map_str(i) for i in exprs[1:-1])
-            expr_list.append(f'{exprs[0]}[{params}]({map_str(exprs[-1])})')
+        vpoint_exprs = ", ".join(vpoint_exprs)
 
-        return {
-            'Driver': {f'P{p}': None for p in drivers},
-            'Follower': {f'P{p}': None for p in followers},
-            'Target': {p: None for p in cus},
-            'Expression': ';'.join(expr_list),
+        params = {
+            'Expression': f"M[{vpoint_exprs}]",
+            'input': [(b, d) for b, d, _ in self.InputsWidget.input_pairs()],
             'Graph': graph,
-            'pos': pos,
+            'Placement': {p: None for p in grounded_list},
+            'Target': {p: None for p in cus},
             'cus': cus,
-            'same': same,
+            'same': same,  # TODO: Still incorrect here.
         }
+        print(params)
+        return params
 
     def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
         """Update triangle expression here.

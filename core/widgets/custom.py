@@ -776,13 +776,13 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def get_collection(self) -> Dict[str, Union[
-        Dict[str, None],
-        Dict[str, List[Tuple[float, float]]],
+    def get_configure(self) -> Dict[str, Union[
+        Dict[int, None],
+        Dict[int, List[Tuple[float, float]]],
         str,
         Tuple[Tuple[int, int], ...],
         Dict[int, Tuple[float, float]],
-        Dict[str, int]
+        Dict[int, int]
     ]]:
         ...
 

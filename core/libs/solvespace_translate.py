@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List
+from typing import Tuple, List, Union
 from math import radians, cos, sin
 from .pyslvs import VJoint, VPoint
 from .python_solvespace import (
@@ -27,6 +27,8 @@ from .python_solvespace import (
     groupNum,
     Slvs_MakeQuaternion,
 )
+
+_Coord = Tuple[float, float]
 
 
 def _2d_system(num: int) -> Tuple[System, Workplane, LineSegment2d]:
@@ -51,7 +53,7 @@ def _2d_system(num: int) -> Tuple[System, Workplane, LineSegment2d]:
     return sys, wp1, h_line
 
 
-def _pos(p: Point2d) -> Tuple[float, float]:
+def _pos(p: Point2d) -> _Coord:
     """Get position of a Point2d instance."""
     return p.u().value, p.v().value
 
@@ -59,7 +61,7 @@ def _pos(p: Point2d) -> Tuple[float, float]:
 def slvs_solve(
     vpoints: Tuple[VPoint],
     inputs: Tuple[Tuple[int, int, float], ...]
-) -> Tuple[List[Tuple[float, float]], int]:
+) -> Tuple[List[Union[_Coord, Tuple[_Coord, _Coord]]], int]:
     """Use element module to convert into solvespace expression."""
     if not vpoints:
         return [], 0
