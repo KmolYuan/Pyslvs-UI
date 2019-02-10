@@ -672,16 +672,16 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 continue
             a = vlink.points[0]
             b = vlink.points[1]
-            link_list.add(f"P{a}, P{b}")
+            link_list.add(f"P{a}<->P{b}")
             for c in vlink.points[2:]:
                 for d in (a, b):
-                    link_list.add(f"P{c}, P{d}")
+                    link_list.add(f"P{c}<->P{d}")
         link_count = len(link_list)
 
         angle_list = set()
         input_list: List[Tuple[int, int]] = self.mech_params['input']
         for b, d in input_list:
-            angle_list.add(f"P{b}, P{d}")
+            angle_list.add(f"P{b}->P{d}")
         angle_count = len(angle_list)
 
         self.parameter_list.setRowCount(0)
