@@ -55,7 +55,7 @@ class WorkerThread(QThread):
         self.mech_params = mech_params
         self.settings = settings
         self.loop = 1
-        self.currentLoop = 0
+        self.current_loop = 0
         self.fun = None
 
     def set_loop(self, loop: int):
@@ -65,10 +65,10 @@ class WorkerThread(QThread):
     def run(self):
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
-            print(f"- [{name}]: {path}")
+            print(f"- [P{name}]: {path}")
         t0 = time()
-        for self.currentLoop in range(self.loop):
-            print(f"Algorithm [{self.currentLoop + 1}]: {self.type_num}")
+        for self.current_loop in range(self.loop):
+            print(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
             if self.is_stop:
                 # Cancel the remaining tasks.
                 print("Canceled.")

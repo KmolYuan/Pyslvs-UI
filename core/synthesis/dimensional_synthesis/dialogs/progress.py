@@ -80,7 +80,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     @Slot(int, str)
     def __set_progress(self, progress: int, fitness: str):
         """Progress bar will always full."""
-        value = progress + self.limit * self.work.currentLoop
+        value = progress + self.limit * self.work.current_loop
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
             self.progressBar.setMaximum(value)
         self.progressBar.setValue(value)

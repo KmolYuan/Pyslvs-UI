@@ -106,7 +106,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
                 self.exist_warning(new_folder, folder=True)
                 return
             qdir.cd(new_folder)
-            del new_folder
+
         try:
             ok = self.do(qdir)
         except PermissionError as error:

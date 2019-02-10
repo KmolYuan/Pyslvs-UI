@@ -330,7 +330,7 @@ class AddPath(QUndoCommand):
     def undo(self):
         """Remove the last item."""
         self.widget.takeItem(self.widget.count()-1)
-        del self.data[self.name]
+        self.data.pop(self.name)
 
 
 class DeletePath(QUndoCommand):
@@ -354,7 +354,7 @@ class DeletePath(QUndoCommand):
     def redo(self):
         """Delete the path."""
         self.widget.takeItem(self.row)
-        del self.data[self.name]
+        self.data.pop(self.name)
 
     def undo(self):
         """Append back the path."""

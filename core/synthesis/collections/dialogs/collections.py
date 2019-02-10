@@ -161,7 +161,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             return
 
         item = self.collections_list.takeItem(row)
-        del self.collections[item.text()]
+        self.collections.pop(item.text())
         self.preview_canvas.clear()
         self.__has_collection()
 

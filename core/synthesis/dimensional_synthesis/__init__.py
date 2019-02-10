@@ -435,14 +435,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 'time_fitness': data['time_fitness'],
                 'Algorithm': data['Algorithm'],
             }
-            del data['time_fitness']
+            data.pop('time_fitness')
             self.mechanism_data.append(data)
             self.__add_result(data)
             mechanisms_plot.append(plot)
         self.__set_time(dlg.time_spend)
         self.workbook_no_save()
-
-        del dlg
 
         dlg = ChartDialog("Convergence Value", mechanisms_plot, self)
         dlg.show()
