@@ -222,15 +222,7 @@ class PointTableWidget(BaseTableWidget):
         exprs = ", ".join(vpoint.expr for vpoint in self.data())
         return f"M[{exprs}]"
 
-    def edit_point(
-        self,
-        row: int,
-        links: str,
-        type_str: str,
-        color: str,
-        x: float,
-        y: float
-    ):
+    def edit_point(self, row: int, links: str, type_str: str, color: str, x: str, y: str):
         """Edit a point."""
         for i, e in enumerate([f'Point{row}', links, type_str, color, x, y, f"({x}, {y})"]):
             item = QTableWidgetItem(str(e))
@@ -249,9 +241,9 @@ class PointTableWidget(BaseTableWidget):
         type_str = self.item(row, 2).text().split(':')
         coords_text = self.item(row, 6).text().replace(';', ',')
         coords = eval(f"[{coords_text}]")
-        if (type_str[0] in ('P', 'RP')) and (len(coords) == 1):
+        if (type_str[0] in {'P', 'RP'}) and len(coords) == 1:
             x, y = coords[0]
-            self.item(row, 6).setText(f"({x}, {y}); ({x}, {y})")
+            self.item(row, 6).setText("; ".join([f"({x:.06f}, {y:.06f})"] * 2))
             coords.append(coords[0])
         return coords
 
@@ -259,7 +251,7 @@ class PointTableWidget(BaseTableWidget):
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
             if type(c[0]) == float:
-                text = f"({c[0]}, {c[1]})"
+                text = f"({c[0]:.06f}, {c[1]:.06f})"
             else:
                 text = "; ".join(f"({x:.06f}, {y:.06f})" for x, y in c)
             item = QTableWidgetItem(text)

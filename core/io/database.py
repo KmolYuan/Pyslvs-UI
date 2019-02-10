@@ -308,7 +308,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.__connect_database(file_name)
         is_error = False
         with _db.atomic():
-            if author_name in (user.name for user in UserModel.select()):
+            if author_name in {user.name for user in UserModel.select()}:
                 author_model = (
                     UserModel
                     .select()
@@ -317,7 +317,7 @@ class DatabaseWidget(QWidget, Ui_Form):
                 )
             else:
                 author_model = UserModel(name=author_name)
-            if branch_name in (branch.name for branch in BranchModel.select()):
+            if branch_name in {branch.name for branch in BranchModel.select()}:
                 branch_model = (
                     BranchModel
                     .select()

@@ -679,7 +679,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         for widget, value in self.__settings():
             name = widget.objectName()
             widget_type = type(widget)
-            if widget_type in (QSpinBox, QDoubleSpinBox):
+            if widget_type in {QSpinBox, QDoubleSpinBox}:
                 self.settings.setValue(name, widget.value())
             elif widget_type == QComboBox:
                 self.settings.setValue(name, widget.currentIndex())
@@ -692,7 +692,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Reset options with default value."""
         for widget, value in self.__settings():
             widget_type = type(widget)
-            if widget_type in (QSpinBox, QDoubleSpinBox):
+            if widget_type in {QSpinBox, QDoubleSpinBox}:
                 widget.setValue(value)
             elif widget_type == QComboBox:
                 widget.setCurrentIndex(value)

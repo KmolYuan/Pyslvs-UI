@@ -110,7 +110,7 @@ class _Selector:
         )
 
     def current_selection(self) -> Tuple[int, ...]:
-        if QApplication.keyboardModifiers() in (Qt.ControlModifier, Qt.ShiftModifier):
+        if QApplication.keyboardModifiers() in {Qt.ControlModifier, Qt.ShiftModifier}:
             return tuple(set(self.selection_old + self.selection_rect))
         else:
             return tuple(self.selection_rect)
