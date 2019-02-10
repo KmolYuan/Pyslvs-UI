@@ -20,8 +20,8 @@
     + [How to Startup](#how-to-startup)
     + [Symbolic](#symbolic)
     + [Kinematics Simulation](#kinematics-simulation)
-    + [Number and Type Synthesis](#number-and-type-synthesis)
-    + [Triangular iteration](#triangular-iteration)
+    + [Structural Synthesis](#structural-synthesis)
+    + [Structural Configuration](#structural-configuration)
     + [Dimensional Synthesis](#dimensional-synthesis)
     + [IO Support](#io-support)
 
@@ -40,7 +40,7 @@
 
 # Introduction
 
-A GUI-based tool use to design 2D linkage mechanism.
+A GUI-based tool used to design 2D linkage mechanism.
 
 + **Planar Linkages Simulation**:
 
@@ -49,7 +49,7 @@ A GUI-based tool use to design 2D linkage mechanism.
 
 + **Mechanical Synthesis**:
 
-    - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
+    - **Number and Type Synthesis**: Cython algorithm used to find out structure possibilities of the mechanism.
     - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
 Previews in Ubuntu with KDE Plasma desktop:
@@ -154,7 +154,7 @@ Some exceptions are not support:
 + Other type of joints.
 + Degree of freedom was lower than 1 but still can moving.
 
-## Number and Type Synthesis
+## Structural Synthesis
 
 Analysis a type of mechanism that exists, and find out other possibilities.
 
@@ -166,25 +166,29 @@ We have a topological algorithm to combine atlas with:
 
 And use a type of mechanism to do grounding combine.
 
-Grounding combine can merge the structure diagram immediately to canvas.
+Grounding combine can merge the structure graph immediately to canvas.
 
 But in the common ways, you can give it to dimensional synthesis to make it more useful.
 
-## Triangular iteration
+## Structural Configuration
 
-Before doing dimensional synthesis, a structure diagram has to configure it's verification formula.
+Before doing dimensional synthesis, a structure graph has same option when mapping to target mechanism.
 
-**PLAP** function is using two known points, a length variable and an angle variable to find out the position of third point.
++ Grounded link: The link is used as mechanism frame.
++ Inputs: Mechanism angle variables decided by joint pairs.
++ Target joints: Several joints that need to match target paths.
 
-**PLLP** function is using two known points and two length variables to find out the position of third point.
+Result variable configuration will have:
 
-When the structure profile is complete, is time to doing dimensional synthesis!
++ Position of grounded joints.
++ Length of links.
++ Inputs angle.
 
 ## Dimensional Synthesis
 
 Generate a mechanism with path requirement by random variables.
 
-+ The structure settings is get from triangular iteration.
++ The structure settings is get from variable configuration.
 + There also have algorithm options, such like constraints or probability.
 
 Contains three algorithms:
@@ -192,14 +196,6 @@ Contains three algorithms:
 + Real-coded Genetic Algorithm
 + Firefly Algorithm
 + Differential Evolution
-
-Specify a path and options to generate a crank rocker.
-
-Three kinds of task target:
-
-+ Stop at the maximum generation.
-+ Get the minimum fitness value.
-+ Stop at the maximum time.
 
 ## IO Support
 
@@ -238,7 +234,7 @@ For the IO method of Solvespace format, you can also refer to two Python scripts
 
 # Modules Requirement
 
-Actual testing platforms:
+Actual testing platforms with CI:
 
 + ![w3.6](https://img.shields.io/badge/Windows%20x64-Python%203.6-blue.svg)
 + ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg)
@@ -273,7 +269,7 @@ pip install -r requirements.txt
 
 PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can install them directly.
 
-Qt tools can use to design the *.ui files, they are not the requirement if you just want to run Pyslvs.
+Qt tools can be used to design the *.ui files, they are not the requirement if you just want to run Pyslvs.
 
 **Mac OS and Ubuntu**:
 
@@ -348,7 +344,7 @@ rd apply patch.diff /s /q
 copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 ```
 
-And it will be useful if Make tool in Msys cannot find Windows command (such like `copy`, `rd` or `del`):
+And it will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
 
 ```makefile
 ifeq ($(OS),Windows_NT)
@@ -419,10 +415,10 @@ On Mac OS, PyInstaller will generate two executable files (refer [here][pinstall
 
 ```bash
 # Run Unix-like executable file.
-# Cannot run it directly in Finder.
+# Can not run it directly in Finder.
 ./executable --use-arguments-here
 
-# Run Mac app file. (Cannot use any arguments)
+# Run Mac app file. (Can not use any arguments)
 # Same as double click it in Finder.
 open ./executable.app
 ```
