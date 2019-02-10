@@ -19,6 +19,7 @@ Features
 + Support the "Categories" key of AppImage desktop file.
 + Enhancement of "link adjust" function.
 + Enhancement of mechanism grammar.
++ Set the table headers to auto resize mode.
 
 Development
 ---

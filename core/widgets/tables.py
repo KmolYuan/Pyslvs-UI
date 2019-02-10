@@ -33,6 +33,7 @@ from core.QtModules import (
     Slot,
     QApplication,
     QTableWidgetSelectionRange,
+    QHeaderView,
     QLabel,
     QWidget,
     QABCMeta,
@@ -44,6 +45,7 @@ if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
 _Data = TypeVar('_Data', VPoint, VLink)
+_Coord = Tuple[float, float]
 
 
 class BaseTableWidget(QTableWidget, metaclass=QABCMeta):
@@ -66,6 +68,9 @@ class BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         self.setColumnCount(len(headers))
         for i, e in enumerate(headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
+
+        # Table widget column width.
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         @Slot()
         def __emit_selection_changed():
@@ -151,7 +156,7 @@ class BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         for row in selections:
             is_selected = (row not in selected_rows) if un_select else True
             self.setRangeSelected(
-                QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
+                QTableWidgetSelectionRange(row, 0, row, self.columnCount() - 1),
                 is_selected
             )
             self.scrollToItem(self.item(row, 0))
@@ -191,13 +196,6 @@ class PointTableWidget(BaseTableWidget):
             'Y',
             'Current',
         ), parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 130)
-        self.setColumnWidth(2, 60)
-        self.setColumnWidth(3, 90)
-        self.setColumnWidth(4, 60)
-        self.setColumnWidth(5, 60)
-        self.setColumnWidth(6, 130)
 
     def item_data(self, row: int) -> VPoint:
         """Return data of VPoint."""
@@ -246,7 +244,7 @@ class PointTableWidget(BaseTableWidget):
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(f'Point{j}'))
 
-    def current_position(self, row: int) -> List[Tuple[float, float]]:
+    def current_position(self, row: int) -> List[_Coord]:
         """Get the current coordinate from a point."""
         type_str = self.item(row, 2).text().split(':')
         coords_text = self.item(row, 6).text().replace(';', ',')
@@ -257,13 +255,13 @@ class PointTableWidget(BaseTableWidget):
             coords.append(coords[0])
         return coords
 
-    def update_current_position(self, coords: Sequence[Tuple[float, float]]):
+    def update_current_position(self, coords: Sequence[Union[_Coord, Tuple[_Coord, _Coord]]]):
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
             if type(c[0]) == float:
                 text = f"({c[0]}, {c[1]})"
             else:
-                text = "; ".join(f"({x}, {y})" for x, y in c)
+                text = "; ".join(f"({x:.06f}, {y:.06f})" for x, y in c)
             item = QTableWidgetItem(text)
             item.setToolTip(text)
             self.setItem(i, 6, item)
@@ -311,9 +309,6 @@ class LinkTableWidget(BaseTableWidget):
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
         self.edit_link(0, 'ground', 'White', '')
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 90)
-        self.setColumnWidth(2, 130)
 
     def item_data(self, row: int) -> VLink:
         """Return data of VLink."""
@@ -388,14 +383,12 @@ class ExprTableWidget(BaseTableWidget):
             'p4',
             'target',
         ), parent)
-        for column in range(self.columnCount()):
-            self.setColumnWidth(column, 80)
         self.expr = []
 
     def set_expr(
         self,
         expr: List[Tuple[str]],
-        data_dict: Dict[str, Union[Tuple[float, float], float]],
+        data_dict: Dict[str, Union[_Coord, float]],
         unsolved: Tuple[int]
     ):
         """Set the table items for new coming expression."""
