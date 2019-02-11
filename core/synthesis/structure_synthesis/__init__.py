@@ -194,7 +194,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         joint_data = self.jointDataFunc()
         link_data = self.linkDataFunc()
         if joint_data and link_data:
-            graph = Graph(self.get_graph())
+            graph, _, _, _, _ = self.get_graph()
             self.edges_text.setText(str(graph.edges))
         else:
             graph = Graph([])
@@ -220,7 +220,10 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         l_a_row = compare_assortment(tuple(l_a(graph)), self.__l_a_synthesis())
         self.l_a_list.setCurrentRow(l_a_row)
-        self.c_l_a_list.setCurrentRow(compare_assortment(tuple(c_l_a(graph)), self.__c_l_a_synthesis(l_a_row)))
+        self.c_l_a_list.setCurrentRow(compare_assortment(
+            tuple(c_l_a(graph)),
+            self.__c_l_a_synthesis(l_a_row)
+        ))
 
     def __adjust_structure_data(self):
         """Update NJ and NL values.

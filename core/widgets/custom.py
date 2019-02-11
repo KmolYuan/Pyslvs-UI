@@ -16,7 +16,6 @@ from typing import (
     List,
     Sequence,
     Dict,
-    Union,
     Any,
 )
 from abc import abstractmethod
@@ -39,7 +38,11 @@ from core.QtModules import (
     QABCMeta,
 )
 from core.info import __version__, ARGUMENTS
-from core.libs import kernel_list, VPoint
+from core.libs import (
+    kernel_list,
+    VPoint,
+    Graph,
+)
 from core.io import YamlEditor, DatabaseWidget
 from core.synthesis import (
     StructureSynthesis,
@@ -773,7 +776,13 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def get_graph(self) -> List[Tuple[int, int]]:
+    def get_graph(self) -> Tuple[
+        Graph,
+        List[int],
+        List[Tuple[int, int]],
+        Dict[int, int],
+        Dict[int, int]
+    ]:
         ...
 
     @abstractmethod

@@ -29,7 +29,6 @@ from core.libs import (
     vpoint_dof,
     vpoint_solving,
     Graph,
-    edges_view,
 )
 from .entities import EntitiesMethodInterface
 
@@ -195,33 +194,78 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                         angles[dp] -= interval
                         dp += 1
 
-    def get_graph(self) -> List[Tuple[int, int]]:
-        """Return edges data for NetworkX graph class.
+    def get_graph(self) -> Tuple[
+        Graph,
+        List[int],
+        List[Tuple[int, int]],
+        Dict[int, int],
+        Dict[int, int]
+    ]:
+        """Return edges data, grounded list, variable list and multiple joints.
 
-        + VLinks will become graph nodes.
+        VLinks will become graph nodes.
         """
-        vpoints = self.EntitiesPoint.data_tuple()
-        vlinks = self.EntitiesLink.data_tuple()
-        graph = Graph([])
+        vpoints: Tuple[VPoint, ...] = self.EntitiesPoint.data_tuple()
+        vlinks: Tuple[VLink, ...] = self.EntitiesLink.data_tuple()
+        link_names = [vlink.name for vlink in vlinks]
+        input_pair = set()
+        for b, d, _ in self.InputsWidget.input_pairs():
+            input_pair.update({b, d})
+
         # links name for RP joint.
         k = len(vlinks)
+
+        graph = Graph([])
+        grounded_list = []
+        same = {}
         used_point = set()
+        mapping = {}
         # Link names will change to index number.
         for i, vlink in enumerate(vlinks):
             for p in vlink.points:
                 if p in used_point:
                     continue
-                for m, vlink_ in enumerate(vlinks):
-                    if (i == m) or (p not in vlink_.points):
+
+                vpoint = vpoints[p]
+                base_num = len(graph.edges)
+                mapping[p] = base_num
+
+                for link_name in vpoint.links:
+                    if vlink.name == link_name:
                         continue
-                    if vpoints[p].type != VJoint.RP:
+
+                    m = link_names.index(link_name)
+                    ref_num = len(graph.edges)
+
+                    if vpoint.type == VJoint.RP:
+                        graph.add_edge(i, k)
+                        grounded_list.append(len(graph.edges))
+                        graph.add_edge(k, m)
+                        k += 1
+                    else:
+                        if ref_num != base_num:
+                            same[ref_num] = base_num
                         graph.add_edge(i, m)
-                        continue
-                    graph.add_edge(i, k)
-                    graph.add_edge(k, m)
-                    k += 1
+
+                    if 'ground' in {vlink.name, link_name}:
+                        if ref_num not in same:
+                            grounded_list.append(ref_num)
+
                 used_point.add(p)
-        return [edge for n, edge in edges_view(graph)]
+
+        input_list = [
+            (mapping[b], mapping[d])
+            for b, d, _ in self.InputsWidget.input_pairs()
+        ]
+
+        counter = len(graph.edges)
+        cus = {}
+        for vpoint in vpoints:
+            if len(vpoint.links) == 1:
+                cus[counter] = link_names.index(vpoint.links[0])
+                counter += 1
+
+        return graph, grounded_list, input_list, cus, same
 
     def get_configure(self) -> Dict[str, Any]:
         """Return collection data.
@@ -234,45 +278,24 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + cus
         + same
         """
-        vlinks: Iterator[VLink] = self.EntitiesLink.data()
-        link_names = [vlink.name for vlink in vlinks]
-        graph = tuple(self.get_graph())
+        graph, grounded_list, input_list, cus, same = self.get_graph()
 
-        count = len(graph)
         vpoint_exprs = []
-        grounded_list = []
-        same = {}
-        cus = {}
         for i, vpoint in enumerate(self.EntitiesPoint.data()):
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
 
-            i += len(same)
-            link_count = len(vpoint.links)
-            if link_count > 2:
-                for j in range(1, link_count - 1):
-                    same[i + j] = i
-            elif link_count == 1:
-                cus[count] = link_names.index(vpoint.links[0])
-                count += 1
-
             vpoint_exprs.append(vpoint.expr)
-            if 'ground' in vpoint.links:
-                grounded_list.append(i - len(same))
 
-        vpoint_exprs = ", ".join(vpoint_exprs)
-
-        params = {
-            'Expression': f"M[{vpoint_exprs}]",
-            'input': [(b, d) for b, d, _ in self.InputsWidget.input_pairs()],
-            'Graph': graph,
+        return {
+            'Expression': "M[" + ", ".join(vpoint_exprs) + "]",
+            'input': input_list,
+            'Graph': graph.edges,
             'Placement': {p: None for p in grounded_list},
             'Target': {p: None for p in cus},
             'cus': cus,
-            'same': same,  # TODO: Still incorrect here.
+            'same': same,
         }
-        print(params)
-        return params
 
     def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str, ...]]:
         """Update triangle expression here.
