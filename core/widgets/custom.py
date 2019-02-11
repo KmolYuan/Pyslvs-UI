@@ -17,6 +17,7 @@ from typing import (
     Sequence,
     Dict,
     Union,
+    Any,
 )
 from abc import abstractmethod
 from core.QtModules import (
@@ -776,14 +777,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def get_configure(self) -> Dict[str, Union[
-        Dict[int, None],
-        Dict[int, List[Tuple[float, float]]],
-        str,
-        Tuple[Tuple[int, int], ...],
-        Dict[int, Tuple[float, float]],
-        Dict[int, int]
-    ]]:
+    def get_configure(self) -> Dict[str, Any]:
         ...
 
     @abstractmethod

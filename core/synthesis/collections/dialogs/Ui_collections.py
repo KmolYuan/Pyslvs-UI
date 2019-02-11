@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'collections.ui'
+# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/synthesis/collections/dialogs/collections.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -43,12 +43,6 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addWidget(self.common_label)
         self.common_list = QtWidgets.QListWidget(self.layoutWidget)
         self.common_list.setObjectName("common_list")
-        item = QtWidgets.QListWidgetItem()
-        self.common_list.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.common_list.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.common_list.addItem(item)
         self.verticalLayout_2.addWidget(self.common_list)
         self.common_load = QtWidgets.QPushButton(self.layoutWidget)
         icon1 = QtGui.QIcon()
@@ -134,15 +128,6 @@ class Ui_Dialog(object):
         self.preview_box.setTitle(_translate("Dialog", "Preview"))
         self.show_solutions.setText(_translate("Dialog", "Show solutions"))
         self.common_label.setText(_translate("Dialog", "Common:"))
-        __sortingEnabled = self.common_list.isSortingEnabled()
-        self.common_list.setSortingEnabled(False)
-        item = self.common_list.item(0)
-        item.setText(_translate("Dialog", "Four bar linkage mechanism"))
-        item = self.common_list.item(1)
-        item.setText(_translate("Dialog", "Eight bar linkage mechanism"))
-        item = self.common_list.item(2)
-        item.setText(_translate("Dialog", "Ball lifter linkage mechanism"))
-        self.common_list.setSortingEnabled(__sortingEnabled)
         self.common_load.setText(_translate("Dialog", "Load common structure"))
         self.Collections_label.setText(_translate("Dialog", "Workbook Collections:"))
         self.workbook_button.setText(_translate("Dialog", "Mechanism"))

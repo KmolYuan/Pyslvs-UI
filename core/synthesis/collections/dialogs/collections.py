@@ -59,8 +59,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
-        for name in self.collections:
-            self.collections_list.addItem(name)
+        self.common_list.addItems(collection_list)
+        self.collections_list.addItems(self.collections)
 
         # Splitter
         self.main_splitter.setSizes([200, 200])

@@ -12,8 +12,8 @@ from typing import (
     List,
     Dict,
     Iterator,
-    Union,
     Optional,
+    Any,
 )
 from abc import ABC, abstractmethod
 from traceback import format_exc
@@ -223,25 +223,14 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 used_point.add(p)
         return [edge for n, edge in edges_view(graph)]
 
-    def get_configure(self) -> Dict[str, Union[
-        Dict[int, None],
-        Dict[int, List[Tuple[float, float]]],
-        str,
-        Tuple[Tuple[int, int], ...],
-        Dict[int, Tuple[float, float]],
-        Dict[int, int]
-    ]]:
+    def get_configure(self) -> Dict[str, Any]:
         """Return collection data.
 
-        + Driver
-        + Follower
-        + Target
-        + Link_expr
         + Expression
-        x constraint
-
+        + input
         + Graph
-        + pos
+        + Placement
+        + Target
         + cus
         + same
         """
@@ -285,7 +274,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         print(params)
         return params
 
-    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
+    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str, ...]]:
         """Update triangle expression here.
 
         Special function for VPoints.
@@ -295,7 +284,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         status = {}
         exprs = vpoints_configure(
             vpoints,
-            tuple((b, d) for b, d, a in self.InputsWidget.input_pairs()),
+            [(b, d) for b, d, _ in self.InputsWidget.input_pairs()],
             status
         )
         data_dict, _ = data_collecting(

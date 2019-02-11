@@ -60,23 +60,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="common_list">
-          <item>
-           <property name="text">
-            <string>Four bar linkage mechanism</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Eight bar linkage mechanism</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Ball lifter linkage mechanism</string>
-           </property>
-          </item>
-         </widget>
+         <widget class="QListWidget" name="common_list"/>
         </item>
         <item>
          <widget class="QPushButton" name="common_load">
