@@ -23,7 +23,7 @@
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
   </property>
-  <widget class="QWidget" name="centralWidget">
+  <widget class="QWidget" name="central_widget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
      <horstretch>0</horstretch>
@@ -32,11 +32,11 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QSplitter" name="MainSplitter">
+     <widget class="QSplitter" name="main_splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QSplitter" name="LaftSplitter">
+      <widget class="QSplitter" name="left_splitter">
        <property name="minimumSize">
         <size>
          <width>450</width>
@@ -46,7 +46,7 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QWidget" name="curveArea" native="true">
+       <widget class="QWidget" name="curve_area" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_31">
          <property name="leftMargin">
           <number>0</number>
@@ -61,7 +61,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QTabWidget" name="Panel">
+          <widget class="QTabWidget" name="main_panel">
            <property name="tabPosition">
             <enum>QTabWidget::West</enum>
            </property>
@@ -87,7 +87,7 @@
               <number>3</number>
              </property>
              <item>
-              <widget class="QSplitter" name="MechanismPanelSplitter">
+              <widget class="QSplitter" name="mechanism_panel_splitter">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -106,7 +106,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QTabWidget" name="EntitiesTab">
+                  <widget class="QTabWidget" name="entities_tab">
                    <widget class="QWidget" name="PointsTab">
                     <attribute name="icon">
                      <iconset resource="../../icons.qrc">
@@ -129,11 +129,11 @@
                       <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="EntitiesPoint_widget" native="true">
+                      <widget class="QWidget" name="entities_point_widget" native="true">
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="EntitiesPoint_layout">
+                       <layout class="QVBoxLayout" name="entities_point_layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -173,11 +173,11 @@
                       <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="EntitiesLink_widget" native="true">
+                      <widget class="QWidget" name="entities_link_widget" native="true">
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="EntitiesLink_layout">
+                       <layout class="QVBoxLayout" name="entities_link_layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -209,7 +209,7 @@
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="EntitiesExpr_layout">
+                       <layout class="QVBoxLayout" name="entities_expr_layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -458,7 +458,7 @@
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
-               <widget class="QTabWidget" name="SynthesisTab">
+               <widget class="QTabWidget" name="synthesis_tab_widget">
                 <property name="currentIndex">
                  <number>-1</number>
                 </property>
@@ -477,7 +477,7 @@
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <layout class="QVBoxLayout" name="UndoRedoLayout">
+              <layout class="QVBoxLayout" name="undo_redo_layout">
                <item>
                 <widget class="QLabel" name="label_8">
                  <property name="sizePolicy">
@@ -520,7 +520,7 @@
               <number>0</number>
              </property>
              <item>
-              <layout class="QVBoxLayout" name="SCMLayout"/>
+              <layout class="QVBoxLayout" name="vc_layout"/>
              </item>
             </layout>
            </widget>
@@ -562,7 +562,7 @@
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QSpinBox" name="linewidth_option">
+                     <widget class="QSpinBox" name="line_width_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -582,7 +582,7 @@
                      </widget>
                     </item>
                     <item row="1" column="1">
-                     <widget class="QSpinBox" name="fontsize_option">
+                     <widget class="QSpinBox" name="font_size_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -602,7 +602,7 @@
                      </widget>
                     </item>
                     <item row="3" column="1">
-                     <widget class="QSpinBox" name="pathwidth_option">
+                     <widget class="QSpinBox" name="path_width_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -639,7 +639,7 @@
                      </widget>
                     </item>
                     <item row="5" column="1">
-                     <widget class="QSpinBox" name="selectionradius_option">
+                     <widget class="QSpinBox" name="selection_radius_option">
                       <property name="minimum">
                        <number>3</number>
                       </property>
@@ -656,7 +656,7 @@
                      </widget>
                     </item>
                     <item row="6" column="1">
-                     <widget class="QSpinBox" name="linktrans_option">
+                     <widget class="QSpinBox" name="link_trans_option">
                       <property name="suffix">
                        <string> %</string>
                       </property>
@@ -676,7 +676,7 @@
                      </widget>
                     </item>
                     <item row="7" column="1">
-                     <widget class="QSpinBox" name="marginfactor_option">
+                     <widget class="QSpinBox" name="margin_factor_option">
                       <property name="suffix">
                        <string>%</string>
                       </property>
@@ -696,7 +696,7 @@
                      </widget>
                     </item>
                     <item row="8" column="1">
-                     <widget class="QSpinBox" name="jointsize_option">
+                     <widget class="QSpinBox" name="joint_size_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -713,7 +713,7 @@
                      </widget>
                     </item>
                     <item row="9" column="1">
-                     <widget class="QComboBox" name="zoomby_option">
+                     <widget class="QComboBox" name="zoom_by_option">
                       <item>
                        <property name="text">
                         <string>Cursor</string>
@@ -849,7 +849,7 @@
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QSpinBox" name="undolimit_option">
+                     <widget class="QSpinBox" name="undo_limit_option">
                       <property name="suffix">
                        <string> times</string>
                       </property>
@@ -875,7 +875,7 @@
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QComboBox" name="planarsolver_option"/>
+                     <widget class="QComboBox" name="planar_solver_option"/>
                     </item>
                     <item row="1" column="0">
                      <widget class="QLabel" name="pathpreview_label">
@@ -885,7 +885,7 @@
                      </widget>
                     </item>
                     <item row="1" column="1">
-                     <widget class="QComboBox" name="pathpreview_option"/>
+                     <widget class="QComboBox" name="path_preview_option"/>
                     </item>
                    </layout>
                   </widget>
@@ -897,14 +897,14 @@
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_7">
                     <item>
-                     <widget class="QCheckBox" name="titlefullpath_option">
+                     <widget class="QCheckBox" name="title_full_path_option">
                       <property name="text">
                        <string>Show full file path on window title.</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="consoleerror_option">
+                     <widget class="QCheckBox" name="console_error_option">
                       <property name="text">
                        <string>Show error messages in the console.</string>
                       </property>
@@ -1027,7 +1027,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSplitter" name="canvasSplitter">
+          <widget class="QSplitter" name="canvas_splitter">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -1055,7 +1055,7 @@
               <number>3</number>
              </property>
              <item>
-              <widget class="QSlider" name="ZoomBar">
+              <widget class="QSlider" name="zoom_bar">
                <property name="statusTip">
                 <string>Adjust the slider to change demo size.</string>
                </property>
@@ -1195,7 +1195,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="ConsoleWidget" native="true">
+           <widget class="QWidget" name="console_widget" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <property name="leftMargin">
               <number>3</number>
@@ -1295,7 +1295,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QTextBrowser" name="consoleWidgetBrowser"/>
+              <widget class="QTextBrowser" name="console_widget_browser"/>
              </item>
             </layout>
            </widget>
@@ -1308,7 +1308,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QMenuBar" name="menu_bar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1317,7 +1317,7 @@
      <height>31</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="menu_file">
     <property name="statusTip">
      <string/>
     </property>
@@ -1368,7 +1368,7 @@
     <addaction name="action_new_window"/>
     <addaction name="action_exit"/>
    </widget>
-   <widget class="QMenu" name="menu_Mechanism">
+   <widget class="QMenu" name="menu_mechanism">
     <property name="title">
      <string>&amp;Mechanism</string>
     </property>
@@ -1383,7 +1383,7 @@
     <addaction name="separator"/>
     <addaction name="action_scale_points"/>
    </widget>
-   <widget class="QMenu" name="menu_Options">
+   <widget class="QMenu" name="menu_options">
     <property name="title">
      <string>&amp;Options</string>
     </property>
@@ -1397,7 +1397,7 @@
     <addaction name="action_exprsion"/>
     <addaction name="action_python_script"/>
    </widget>
-   <widget class="QMenu" name="menu_Help">
+   <widget class="QMenu" name="menu_help">
     <property name="title">
      <string>&amp;Help</string>
     </property>
@@ -1410,16 +1410,16 @@
     <addaction name="action_about_qt"/>
     <addaction name="action_about"/>
    </widget>
-   <widget class="QMenu" name="menu_Edit">
+   <widget class="QMenu" name="menu_edit">
     <property name="title">
      <string>&amp;Edit</string>
     </property>
    </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menu_Edit"/>
-   <addaction name="menu_Mechanism"/>
-   <addaction name="menu_Options"/>
-   <addaction name="menu_Help"/>
+   <addaction name="menu_file"/>
+   <addaction name="menu_edit"/>
+   <addaction name="menu_mechanism"/>
+   <addaction name="menu_options"/>
+   <addaction name="menu_help"/>
   </widget>
   <widget class="QStatusBar" name="status_bar"/>
   <action name="action_new_workbook">
@@ -1989,7 +1989,7 @@
   <connection>
    <sender>action_show_console</sender>
    <signal>toggled(bool)</signal>
-   <receiver>ConsoleWidget</receiver>
+   <receiver>console_widget</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -2005,7 +2005,7 @@
   <connection>
    <sender>clearConsole</sender>
    <signal>clicked()</signal>
-   <receiver>consoleWidgetBrowser</receiver>
+   <receiver>console_widget_browser</receiver>
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">

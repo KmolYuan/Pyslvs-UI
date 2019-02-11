@@ -61,16 +61,16 @@ class InputsWidget(QWidget, Ui_Form):
 
         # parent's function pointer.
         self.free_move_button = parent.free_move_button
-        self.EntitiesPoint = parent.EntitiesPoint
-        self.EntitiesLink = parent.EntitiesLink
-        self.MainCanvas = parent.MainCanvas
+        self.EntitiesPoint = parent.entities_point
+        self.EntitiesLink = parent.entities_link
+        self.MainCanvas = parent.main_canvas
         self.solve = parent.solve
         self.reload_canvas = parent.reload_canvas
         self.output_to = parent.output_to
         self.conflict = parent.conflict
         self.dof = parent.dof
         self.right_input = parent.right_input
-        self.CommandStack = parent.CommandStack
+        self.CommandStack = parent.command_stack
         self.set_coords_as_current = parent.set_coords_as_current
 
         # QDial: Angle panel.
@@ -90,9 +90,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_stop.clicked.connect(self.variable_value_reset)
 
         # Timer for play button.
-        self.inputs_playShaft = QTimer()
-        self.inputs_playShaft.setInterval(10)
-        self.inputs_playShaft.timeout.connect(self.__change_index)
+        self.inputs_play_shaft = QTimer()
+        self.inputs_play_shaft.setInterval(10)
+        self.inputs_play_shaft.timeout.connect(self.__change_index)
 
         # Change the point coordinates with current position.
         self.update_pos.clicked.connect(self.set_coords_as_current)
@@ -341,9 +341,9 @@ class InputsWidget(QWidget, Ui_Form):
 
     def variable_value_reset(self):
         """Reset the value of QDial."""
-        if self.inputs_playShaft.isActive():
+        if self.inputs_play_shaft.isActive():
             self.variable_play.setChecked(False)
-            self.inputs_playShaft.stop()
+            self.inputs_play_shaft.stop()
         self.EntitiesPoint.get_back_position()
         vpoints = self.EntitiesPoint.data_tuple()
         for i, (p0, p1, a) in enumerate(self.input_pairs()):
@@ -361,9 +361,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial.setEnabled(not toggled)
         self.dial_spinbox.setEnabled(not toggled)
         if toggled:
-            self.inputs_playShaft.start()
+            self.inputs_play_shaft.start()
         else:
-            self.inputs_playShaft.stop()
+            self.inputs_play_shaft.stop()
             if self.update_pos_option.isChecked():
                 self.set_coords_as_current()
 

@@ -39,21 +39,21 @@ class YamlEditor(QObject):
         self.__workbook_saved = parent.workbook_saved
 
         # Call to get point expressions.
-        self.__vpoints = parent.EntitiesPoint.data
+        self.__vpoints = parent.entities_point.data
         # Call to get link data.
-        self.__vlinks_color = parent.EntitiesLink.colors
+        self.__vlinks_color = parent.entities_link.colors
         # Call to get storage data.
         self.__storage_data_func = parent.get_storage
         # Call to get collections data.
-        self.__collect_data_func = parent.CollectionTabPage.collect_data
+        self.__collect_data_func = parent.collection_tab_page.collect_data
         # Call to get triangle data.
-        self.__triangle_data_func = parent.CollectionTabPage.triangle_data
+        self.__triangle_data_func = parent.collection_tab_page.triangle_data
         # Call to get inputs variables data.
-        self.__inputs_data_func = parent.InputsWidget.input_pairs
+        self.__inputs_data_func = parent.inputs_widget.input_pairs
         # Call to get algorithm data.
-        self.__algorithm_data_func = lambda: parent.DimensionalSynthesis.mechanism_data
+        self.__algorithm_data_func = lambda: parent.dimensional_synthesis.mechanism_data
         # Call to get path data.
-        self.__path_data_func = parent.InputsWidget.path_data
+        self.__path_data_func = parent.inputs_widget.path_data
 
         # Add empty links function.
         self.__add_links_func = parent.add_empty_links
@@ -61,24 +61,24 @@ class YamlEditor(QObject):
         self.__add_points_func = parent.add_points
 
         # Call to load inputs variables data.
-        self.__load_inputs_func = parent.InputsWidget.add_inputs_variables
+        self.__load_inputs_func = parent.inputs_widget.add_inputs_variables
         # Add storage function.
         self.__add_storage_func = parent.add_multiple_storage
         # Call to load paths.
-        self.__load_path_func = parent.InputsWidget.load_paths
+        self.__load_path_func = parent.inputs_widget.load_paths
         # Call to load collections data.
-        self.__load_collect_func = parent.CollectionTabPage.StructureWidget.add_collections
+        self.__load_collect_func = parent.collection_tab_page.StructureWidget.add_collections
         # Call to load triangle data.
-        self.__load_triangle_func = parent.CollectionTabPage.ConfigureWidget.add_collections
+        self.__load_triangle_func = parent.collection_tab_page.ConfigureWidget.add_collections
         # Call to load algorithm results.
-        self.__load_algorithm_func = parent.DimensionalSynthesis.load_results
+        self.__load_algorithm_func = parent.dimensional_synthesis.load_results
 
         # Clear function for main window.
         self.__clear_func = parent.clear
 
         # File name. (Share with database)
-        self.__set_file_name = parent.DatabaseWidget.set_file_name
-        self.file_name = lambda: parent.DatabaseWidget.file_name
+        self.__set_file_name = parent.database_widget.set_file_name
+        self.file_name = lambda: parent.database_widget.file_name
 
     def save(self, file_name: str = ""):
         """Save YAML file."""

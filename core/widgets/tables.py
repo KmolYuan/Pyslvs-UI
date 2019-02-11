@@ -435,7 +435,7 @@ class SelectionLabel(QLabel):
     def __init__(self, parent: 'MainWindowBase'):
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
-        self.dataTuple = parent.EntitiesPoint.data_tuple
+        self.dataTuple = parent.entities_point.data_tuple
 
     @Slot()
     @Slot(list)

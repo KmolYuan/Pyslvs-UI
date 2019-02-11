@@ -37,13 +37,13 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
 
     def __add_storage(self, name: str, expr: str):
         """Add storage data function."""
-        self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
-        self.CommandStack.push(AddStorage(
+        self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
+        self.command_stack.push(AddStorage(
             name,
             self.mechanism_storage,
             expr
         ))
-        self.CommandStack.endMacro()
+        self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_add_clicked')
     def __add_current_storage(self):
@@ -51,11 +51,11 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             self.mechanism_storage_name_tag.text() or
             self.mechanism_storage_name_tag.placeholderText()
         )
-        self.CommandStack.beginMacro(f"Add {{Mechanism: {name}}}")
-        exprs = ", ".join(vpoint.expr for vpoint in self.EntitiesPoint.data())
+        self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
+        exprs = ", ".join(vpoint.expr for vpoint in self.entities_point.data())
         self.__add_storage(name, f"M[{exprs}]")
-        self.CommandStack.push(ClearStorageName(self.mechanism_storage_name_tag))
-        self.CommandStack.endMacro()
+        self.command_stack.push(ClearStorageName(self.mechanism_storage_name_tag))
+        self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_copy_clicked')
     def __copy_storage(self):
@@ -110,9 +110,9 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         if not row > -1:
             return
         name = self.mechanism_storage.item(row).text()
-        self.CommandStack.beginMacro(f"Delete {{Mechanism: {name}}}")
-        self.CommandStack.push(DeleteStorage(row, self.mechanism_storage))
-        self.CommandStack.endMacro()
+        self.command_stack.beginMacro(f"Delete {{Mechanism: {name}}}")
+        self.command_stack.push(DeleteStorage(row, self.mechanism_storage))
+        self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_restore_clicked')
     @Slot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
@@ -132,20 +132,20 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             return
 
         name = item.text()
-        self.CommandStack.beginMacro(f"Restore from {{Mechanism: {name}}}")
+        self.command_stack.beginMacro(f"Restore from {{Mechanism: {name}}}")
 
         # After saved storage, clean all the item of two table widgets.
-        self.EntitiesPoint.clear()
-        self.EntitiesLink.clear()
-        self.InputsWidget.variable_excluding()
+        self.entities_point.clear()
+        self.entities_link.clear()
+        self.inputs_widget.variable_excluding()
 
         self.parse_expression(item.expr)
-        self.CommandStack.push(DeleteStorage(
+        self.command_stack.push(DeleteStorage(
             self.mechanism_storage.row(item),
             self.mechanism_storage
         ))
-        self.CommandStack.push(AddStorageName(name, self.mechanism_storage_name_tag))
-        self.CommandStack.endMacro()
+        self.command_stack.push(AddStorageName(name, self.mechanism_storage_name_tag))
+        self.command_stack.endMacro()
 
     def get_storage(self) -> Dict[str, str]:
         """Get storage data."""

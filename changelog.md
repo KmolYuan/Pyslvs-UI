@@ -33,6 +33,7 @@ Development
 + Adjust limitation option of algorithm to "max_gen", "min_fit" and "max_time".
 + Recursive import when doing type checking.
 + Rename the dialog resources as "dialogs".
++ Refactor of all widgets names into underscore lowercase.
 
 Version 19.01
 ===

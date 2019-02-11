@@ -46,13 +46,13 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         What ever we have least one point or not,
         need to enable / disable QAction.
         """
-        selection = self.EntitiesPoint.selected_rows()
+        selection = self.entities_point.selected_rows()
         count = len(selection)
         # If connecting with the ground.
         if count:
             self.action_point_context_lock.setChecked(all(
-                'ground' in self.EntitiesPoint.item(row, 1).text()
-                for row in self.EntitiesPoint.selected_rows()
+                'ground' in self.entities_point.item(row, 1).text()
+                for row in self.entities_point.selected_rows()
             ))
         # If no any points selected.
         for action in (
@@ -89,9 +89,9 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
 
     def __enable_link_context(self):
         """Enable / disable link's QAction, same as point table."""
-        selection = self.EntitiesLink.selected_rows()
+        selection = self.entities_link.selected_rows()
         count = len(selection)
-        row = self.EntitiesLink.currentRow()
+        row = self.entities_link.currentRow()
         self.action_link_context_add.setVisible(count == 0)
         selected_one = count == 1
         not_ground = row > 0
@@ -111,7 +111,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             return func
 
         for i, row in enumerate(selection):
-            name = self.EntitiesLink.item(row, 0).text()
+            name = self.entities_link.item(row, 0).text()
             action = QAction(f"Base on \"{name}\"", self)
             action.triggered.connect(ml_func(i))
             self.pop_menu_link_merge.addAction(action)
@@ -123,26 +123,26 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         """
         row = points[index]
         points_text = ", ".join(f'Point{p}' for p in points)
-        self.CommandStack.beginMacro(
+        self.command_stack.beginMacro(
             f"Merge {{{points_text}}} as multiple joint {{Point{row}}}"
         )
-        vpoints = self.EntitiesPoint.data_tuple()
+        vpoints = self.entities_point.data_tuple()
         links = list(vpoints[row].links)
-        args = self.EntitiesPoint.row_text(row)
+        args = self.entities_point.row_text(row)
         for point in sorted(points, reverse=True):
             for link in vpoints[point].links:
                 if link not in links:
                     links.append(link)
             self.delete_point(point)
         args[0] = ','.join(links)
-        self.CommandStack.push(AddTable(self.EntitiesPoint))
-        self.CommandStack.push(EditPointTable(
-            self.EntitiesPoint.rowCount() - 1,
-            self.EntitiesPoint,
-            self.EntitiesLink,
+        self.command_stack.push(AddTable(self.entities_point))
+        self.command_stack.push(EditPointTable(
+            self.entities_point.rowCount() - 1,
+            self.entities_point,
+            self.entities_link,
             args
         ))
-        self.CommandStack.endMacro()
+        self.command_stack.endMacro()
 
     def __merge_link(self, index: int, links: Tuple[int]):
         """Merge links to a base link.
@@ -150,12 +150,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         @index: The index of main joint in the sequence.
         """
         row = links[index]
-        links_text = ", ".join(self.EntitiesLink.item(link, 0).text() for link in links)
-        name = self.EntitiesLink.item(row, 0).text()
-        self.CommandStack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
-        vlinks = self.EntitiesLink.data_tuple()
+        links_text = ", ".join(self.entities_link.item(link, 0).text() for link in links)
+        name = self.entities_link.item(row, 0).text()
+        self.command_stack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
+        vlinks = self.entities_link.data_tuple()
         points = list(vlinks[row].points)
-        args = self.EntitiesLink.row_text(row, has_name=True)
+        args = self.entities_link.row_text(row, has_name=True)
         for link in sorted(links, reverse=True):
             if vlinks[link].name == vlinks[row].name:
                 continue
@@ -164,13 +164,13 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                     points.append(point)
             self.delete_link(link)
         args[2] = ','.join(f'Point{p}' for p in points)
-        self.CommandStack.push(EditLinkTable(
-            [vlink.name for vlink in self.EntitiesLink.data()].index(args[0]),
-            self.EntitiesLink,
-            self.EntitiesPoint,
+        self.command_stack.push(EditLinkTable(
+            [vlink.name for vlink in self.entities_link.data()].index(args[0]),
+            self.entities_link,
+            self.entities_point,
             args
         ))
-        self.CommandStack.endMacro()
+        self.command_stack.endMacro()
 
     @Slot(float, float)
     def set_mouse_pos(self, x: float, y: float):
@@ -182,7 +182,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def point_context_menu(self, point: QPoint):
         """EntitiesPoint context menu."""
         self.__enable_point_context()
-        self.pop_menu_point.exec_(self.EntitiesPoint_widget.mapToGlobal(point))
+        self.pop_menu_point.exec_(self.entities_point_widget.mapToGlobal(point))
         self.action_new_link.setVisible(True)
         self.pop_menu_point_merge.clear()
 
@@ -190,29 +190,30 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def link_context_menu(self, point: QPoint):
         """EntitiesLink context menu."""
         self.__enable_link_context()
-        self.pop_menu_link.exec_(self.EntitiesLink_widget.mapToGlobal(point))
+        self.pop_menu_link.exec_(self.entities_link_widget.mapToGlobal(point))
         self.pop_menu_link_merge.clear()
 
     @Slot(QPoint)
     def canvas_context_menu(self, point: QPoint):
         """MainCanvas context menu."""
-        index = self.EntitiesTab.currentIndex()
+        index = self.entities_tab.currentIndex()
         if index == 0:
             self.__enable_point_context()
-            self.action_canvas_context_path.setVisible(self.SynthesisTab.currentIndex() == 2)
-            self.pop_menu_canvas_p.exec_(self.MainCanvas.mapToGlobal(point))
+            is_synthesis = self.synthesis_tab_widget.currentIndex() == 2
+            self.action_canvas_context_path.setVisible(is_synthesis)
+            self.pop_menu_canvas_p.exec_(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
             self.pop_menu_point_merge.clear()
         elif index == 1:
             self.__enable_link_context()
-            self.pop_menu_canvas_l.exec_(self.MainCanvas.mapToGlobal(point))
+            self.pop_menu_canvas_l.exec_(self.main_canvas.mapToGlobal(point))
             self.pop_menu_link_merge.clear()
 
     @Slot()
     def enable_mechanism_actions(self):
         """Enable / disable 'mechanism' menu."""
-        point_selection = self.EntitiesPoint.selected_rows()
-        link_selection = self.EntitiesLink.selected_rows()
+        point_selection = self.entities_point.selected_rows()
+        link_selection = self.entities_link.selected_rows()
         one_point = len(point_selection) == 1
         one_link = len(link_selection) == 1
         point_selected = bool(point_selection)
@@ -231,15 +232,15 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     @Slot()
     def copy_points_table(self):
         """Copy text from point table."""
-        _copy_table_data(self.EntitiesPoint)
+        _copy_table_data(self.entities_point)
 
     @Slot()
     def copy_links_table(self):
         """Copy text from link table."""
-        _copy_table_data(self.EntitiesLink)
+        _copy_table_data(self.entities_link)
 
     def copy_coord(self):
         """Copy the current coordinate of the point."""
-        pos = self.EntitiesPoint.current_position(self.EntitiesPoint.currentRow())
-        text = str(pos[0] if (len(pos) == 1) else pos)
+        pos = self.entities_point.current_position(self.entities_point.currentRow())
+        text = str(pos[0] if len(pos) == 1 else pos)
         QApplication.clipboard().setText(text)

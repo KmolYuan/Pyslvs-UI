@@ -75,7 +75,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Solvespace edges."""
 
         def func() -> Iterator[Tuple[int, int]]:
-            for vlink in self.EntitiesLink.data():
+            for vlink in self.entities_link.data():
                 if vlink.name == 'ground':
                     continue
                 for i, p in enumerate(vlink.points):
@@ -121,33 +121,33 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if not ok:
             return
         self.clear()
-        self.DatabaseWidget.reset()
+        self.database_widget.reset()
         print(f"Read from group: {group}")
         self.parse_expression(parser.parse(group.split('@')[0]))
 
     def __settings(self) -> Tuple[Tuple[QWidget, Settings], ...]:
         """Give the settings of all option widgets."""
         return (
-            (self.linewidth_option, 3),
-            (self.fontsize_option, 14),
-            (self.pathwidth_option, 3),
+            (self.line_width_option, 3),
+            (self.font_size_option, 14),
+            (self.path_width_option, 3),
             (self.scalefactor_option, 10),
-            (self.selectionradius_option, 10),
-            (self.linktrans_option, 0),
-            (self.marginfactor_option, 5),
-            (self.jointsize_option, 5),
-            (self.zoomby_option, 0),
+            (self.selection_radius_option, 10),
+            (self.link_trans_option, 0),
+            (self.margin_factor_option, 5),
+            (self.joint_size_option, 5),
+            (self.zoom_by_option, 0),
             (self.snap_option, 1),
             (self.background_option, ""),
             (self.background_opacity_option, 1),
             (self.background_scale_option, 1),
             (self.background_offset_x_option, 0),
             (self.background_offset_y_option, 0),
-            (self.undolimit_option, 32),
-            (self.planarsolver_option, 0),
-            (self.pathpreview_option, self.pathpreview_option.count() - 1),
-            (self.titlefullpath_option, False),
-            (self.consoleerror_option, False),
+            (self.undo_limit_option, 32),
+            (self.planar_solver_option, 0),
+            (self.path_preview_option, self.path_preview_option.count() - 1),
+            (self.title_full_path_option, False),
+            (self.console_error_option, False),
             # "Do not save the settings" by default.
             (self.dontsave_option, True),
         )
@@ -170,7 +170,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def workbook_no_save(self):
         """Workbook not saved signal."""
-        self.DatabaseWidget.changed = True
+        self.database_widget.changed = True
         not_yet_saved = " (not yet saved)"
         self.setWindowTitle(
             self.windowTitle().replace(not_yet_saved, '') + not_yet_saved
@@ -178,18 +178,18 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def workbook_saved(self):
         """Workbook saved signal."""
-        self.DatabaseWidget.changed = False
+        self.database_widget.changed = False
         self.__set_window_title_full_path()
 
-    @Slot(name='on_titlefullpath_option_clicked')
+    @Slot(name='on_title_full_path_option_clicked')
     def __set_window_title_full_path(self):
         """Set the option 'window title will show the full path'."""
-        file_name = self.DatabaseWidget.file_name
-        if self.titlefullpath_option.isChecked():
+        file_name = self.database_widget.file_name
+        if self.title_full_path_option.isChecked():
             title = file_name.absoluteFilePath()
         else:
             title = file_name.fileName()
-        saved_text = " (not yet saved)" if self.DatabaseWidget.changed else ''
+        saved_text = " (not yet saved)" if self.database_widget.changed else ''
         self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
 
     @Slot(name='on_action_mde_tw_triggered')
@@ -217,23 +217,17 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg.show()
         dlg.exec_()
 
-    @Slot(name='on_action_Console_triggered')
-    def __show_console(self):
-        """Open GUI console."""
-        self.OptionTab.setCurrentIndex(2)
-        self.History_tab.setCurrentIndex(1)
-
     @Slot(name='on_action_example_triggered')
     def __load_example(self):
         """Load examples from 'DatabaseWidget'. Return true if succeeded."""
-        if self.DatabaseWidget.load_example():
+        if self.database_widget.load_example():
             self.__show_expr()
-            self.MainCanvas.zoom_to_fit()
+            self.main_canvas.zoom_to_fit()
 
     @Slot(name='on_action_import_example_triggered')
     def __import_example(self):
         """Import a example and merge it to canvas."""
-        self.DatabaseWidget.load_example(is_import=True)
+        self.database_widget.load_example(is_import=True)
 
     @Slot(name='on_action_new_workbook_triggered')
     def __new_workbook(self):
@@ -241,7 +235,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if self.check_file_changed():
             return
         self.clear()
-        self.DatabaseWidget.reset()
+        self.database_widget.reset()
         print("Created a new workbook.")
 
     def clear(self):
@@ -249,13 +243,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.free_move_disable.trigger()
         self.mechanism_storage_name_tag.clear()
         self.mechanism_storage.clear()
-        self.CollectionTabPage.clear()
-        self.StructureSynthesis.clear()
-        self.InputsWidget.clear()
-        self.DimensionalSynthesis.clear()
-        self.EntitiesPoint.clear()
-        self.EntitiesLink.clear()
-        self.EntitiesExpr.clear()
+        self.collection_tab_page.clear()
+        self.structure_synthesis.clear()
+        self.inputs_widget.clear()
+        self.dimensional_synthesis.clear()
+        self.entities_point.clear()
+        self.entities_link.clear()
+        self.entities_expr.clear()
         self.solve()
 
     @Slot(name='on_action_import_pmks_url_triggered')
@@ -321,22 +315,22 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             for args in args_list:
                 links = args[0].split(',')
                 link_names = {
-                    vlink.name for vlink in self.EntitiesLink.data()
+                    vlink.name for vlink in self.entities_link.data()
                 }
                 for link_name in links:
                     # If link name not exist.
                     if link_name not in link_names:
                         self.add_link(link_name, 'Blue')
-                row_count = self.EntitiesPoint.rowCount()
-                self.CommandStack.beginMacro(f"Add {{Point{row_count}}}")
-                self.CommandStack.push(AddTable(self.EntitiesPoint))
-                self.CommandStack.push(EditPointTable(
+                row_count = self.entities_point.rowCount()
+                self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
+                self.command_stack.push(AddTable(self.entities_point))
+                self.command_stack.push(EditPointTable(
                     row_count,
-                    self.EntitiesPoint,
-                    self.EntitiesLink,
+                    self.entities_point,
+                    self.entities_link,
                     args
                 ))
-                self.CommandStack.endMacro()
+                self.command_stack.endMacro()
 
     def add_empty_links(self, link_color: Dict[str, str]):
         """Use to add empty link when loading database."""
@@ -361,13 +355,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         suffix = QFileInfo(file_name).completeSuffix()
         if suffix == 'pyslvs.yml':
-            self.YamlEditor.load(file_name)
+            self.yaml_editor.load(file_name)
         elif suffix == 'pyslvs':
-            self.DatabaseWidget.read(file_name)
+            self.database_widget.read(file_name)
         elif suffix == 'slvs':
             self.__read_slvs(file_name)
 
-        self.MainCanvas.zoom_to_fit()
+        self.main_canvas.zoom_to_fit()
 
     @Slot(name='on_action_import_database_triggered')
     def __import_database(self):
@@ -380,13 +374,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         )
         if not file_name:
             return
-        self.DatabaseWidget.import_mechanism(file_name)
+        self.database_widget.import_mechanism(file_name)
 
     @Slot(name='on_action_save_triggered')
     def save(self):
         """Save action. (YAML)"""
-        if self.DatabaseWidget.file_name.completeSuffix() == 'pyslvs.yml':
-            self.YamlEditor.save()
+        if self.database_widget.file_name.completeSuffix() == 'pyslvs.yml':
+            self.yaml_editor.save()
             self.workbook_saved()
         else:
             self.__save_as()
@@ -396,16 +390,16 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Save as action. (YAML)"""
         file_name = self.output_to("YAML profile", ["Pyslvs YAML file (*.pyslvs.yml)"])
         if file_name:
-            self.YamlEditor.save(file_name)
+            self.yaml_editor.save(file_name)
             self.workbook_saved()
             self.save_reply_box("YAML Profile", file_name)
 
     @Slot(name='on_action_commit_triggered')
     def commit(self, is_branch: bool = False):
         """Save action. (Database)"""
-        file_name = self.DatabaseWidget.file_name.absoluteFilePath()
-        if self.DatabaseWidget.file_name.suffix() == 'pyslvs':
-            self.DatabaseWidget.save(file_name, is_branch)
+        file_name = self.database_widget.file_name.absoluteFilePath()
+        if self.database_widget.file_name.suffix() == 'pyslvs':
+            self.database_widget.save(file_name, is_branch)
         else:
             self.__commit_as(is_branch)
 
@@ -414,7 +408,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Save as action. (Database)"""
         file_name = self.output_to("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if file_name:
-            self.DatabaseWidget.save(file_name, is_branch)
+            self.database_widget.save(file_name, is_branch)
             self.save_reply_box("Workbook", file_name)
 
     @Slot(name='on_action_export_slvs_triggered')
@@ -422,8 +416,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Solvespace 2d save function."""
         dlg = SlvsOutputDialog(
             self.env,
-            self.DatabaseWidget.file_name.baseName(),
-            self.EntitiesPoint.data_tuple(),
+            self.database_widget.file_name.baseName(),
+            self.entities_point.data_tuple(),
             self.__v_to_slvs(),
             self
         )
@@ -438,8 +432,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """DXF 2d save function."""
         dlg = DxfOutputDialog(
             self.env,
-            self.DatabaseWidget.file_name.baseName(),
-            self.EntitiesPoint.data_tuple(),
+            self.database_widget.file_name.baseName(),
+            self.entities_point.data_tuple(),
             self.__v_to_slvs(),
             self
         )
@@ -455,7 +449,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         file_name = self.output_to("picture", qt_image_format)
         if not file_name:
             return
-        pixmap = self.MainCanvas.grab()
+        pixmap = self.main_canvas.grab()
         pixmap.save(file_name)
         self.save_reply_box("Picture", file_name)
 
@@ -464,7 +458,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
             f"Save to {format_name}...",
-            self.env + '/' + self.DatabaseWidget.file_name.baseName(),
+            self.env + '/' + self.database_widget.file_name.baseName(),
             ';;'.join(format_choose)
         )
         if file_name:
@@ -520,13 +514,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output to PMKS as URL."""
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         url_table = []
-        for row in range(self.EntitiesPoint.rowCount()):
-            type_and_angle = self.EntitiesPoint.item(row, 2).text().split(':')
+        for row in range(self.entities_point.rowCount()):
+            type_and_angle = self.entities_point.item(row, 2).text().split(':')
             point_data = [
-                self.EntitiesPoint.item(row, 1).text(),
+                self.entities_point.item(row, 1).text(),
                 type_and_angle[0],
-                self.EntitiesPoint.item(row, 4).text(),
-                self.EntitiesPoint.item(row, 5).text(),
+                self.entities_point.item(row, 4).text(),
+                self.entities_point.item(row, 5).text(),
             ]
             if len(type_and_angle) == 2:
                 point_data.append(type_and_angle[1])
@@ -555,7 +549,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_export_image_clipboard_triggered')
     def __save_picture_clipboard(self):
         """Capture the canvas image to clipboard."""
-        QApplication.clipboard().setPixmap(self.MainCanvas.grab())
+        QApplication.clipboard().setPixmap(self.main_canvas.grab())
         QMessageBox.information(
             self,
             "Captured!",
@@ -565,10 +559,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_exprsion_triggered')
     def __show_expr(self):
         """Output as expression."""
-        context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.EntitiesPoint.data())
+        context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.entities_point.data())
         dlg = ScriptDialog(
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
-            f"# Project \"{self.DatabaseWidget.file_name.baseName()}\"\n" +
+            f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             (f"M[\n{context}\n]" if context else "M[]"),
             PMKSLexer(),
             "Pyslvs expression",
@@ -583,10 +577,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
-            f"# Project \"{self.DatabaseWidget.file_name.baseName()}\"\n" +
+            f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             slvs_process_script(
-                tuple(vpoint.expr for vpoint in self.EntitiesPoint.data()),
-                tuple((b, d) for b, d, a in self.InputsWidget.input_pairs())
+                tuple(vpoint.expr for vpoint in self.entities_point.data()),
+                tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
             ),
             Python3Lexer(),
             "Python script",
@@ -626,7 +620,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         Return True if user want to "discard" the operation.
         """
-        if not self.DatabaseWidget.changed:
+        if not self.database_widget.changed:
             return False
 
         reply = QMessageBox.question(
@@ -638,7 +632,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         )
         if reply == QMessageBox.Save:
             self.save()
-            return self.DatabaseWidget.changed
+            return self.database_widget.changed
         elif reply == QMessageBox.Discard:
             return False
         return True
@@ -668,8 +662,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 kernel_name = kernel_list[0]
             else:
                 raise ValueError("no such kernel")
-            self.planarsolver_option.setCurrentText(kernel_name)
-            self.pathpreview_option.setCurrentText(kernel_name)
+            self.planar_solver_option.setCurrentText(kernel_name)
+            self.path_preview_option.setCurrentText(kernel_name)
 
     def save_settings(self):
         """Save Pyslvs settings (auto save when close event)."""
@@ -706,7 +700,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
         suffix = QFileInfo(ARGUMENTS.file).suffix()
         if suffix == 'pyslvs':
-            self.DatabaseWidget.read(ARGUMENTS.file)
+            self.database_widget.read(ARGUMENTS.file)
         elif suffix == 'slvs':
             self.__read_slvs(ARGUMENTS.file)
         else:
@@ -715,20 +709,20 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(int)
     def command_reload(self, index: int):
         """The time of withdrawal and redo action."""
-        if index != self.DatabaseWidget.Stack:
+        if index != self.database_widget.Stack:
             self.workbook_no_save()
         else:
             self.workbook_saved()
-        self.EntitiesPoint.clearSelection()
+        self.entities_point.clearSelection()
 
         # Variable reload for link adjust function.
-        if self.link_free_move_base.count() != self.EntitiesPoint.rowCount():
+        if self.link_free_move_base.count() != self.entities_point.rowCount():
             self.link_free_move_base.clear()
-            for i in range(self.EntitiesPoint.rowCount()):
+            for i in range(self.entities_point.rowCount()):
                 self.link_free_move_base.addItem(f"Point{i}")
 
         # Variable reload for input widget.
-        self.InputsWidget.variable_reload()
+        self.inputs_widget.variable_reload()
 
         # Solve
         self.solve()

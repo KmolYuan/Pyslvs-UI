@@ -127,8 +127,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.input_from = parent.input_from
-        self.jointDataFunc = parent.EntitiesPoint.data_tuple
-        self.linkDataFunc = parent.EntitiesLink.data_tuple
+        self.jointDataFunc = parent.entities_point.data_tuple
+        self.linkDataFunc = parent.entities_link.data_tuple
         self.get_graph = parent.get_graph
 
         # Splitters

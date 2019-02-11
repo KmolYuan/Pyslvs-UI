@@ -40,12 +40,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
     @abstractmethod
     def __init__(self):
         super(SolverMethodInterface, self).__init__()
-        self.DOF = 0
+        self.dof = 0
 
     def solve(self):
         """Resolve coordinates and preview path."""
         self.resolve()
-        self.MainCanvas.update_preview_path()
+        self.main_canvas.update_preview_path()
 
     @Slot()
     def resolve(self):
@@ -55,10 +55,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + Python-Solvespace
         + Sketch Solve
         """
-        vpoints = self.EntitiesPoint.data_tuple()
-        solve_kernel = self.planarsolver_option.currentIndex()
+        vpoints = self.entities_point.data_tuple()
+        solve_kernel = self.planar_solver_option.currentIndex()
 
-        for b, d, a in self.InputsWidget.input_pairs():
+        for b, d, a in self.inputs_widget.input_pairs():
             if b == d:
                 vpoints[b].set_offset(a)
 
@@ -68,24 +68,24 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     self.get_triangle(),
                     {n: f'P{n}' for n in range(len(vpoints))},
                     vpoints,
-                    tuple(a for b, d, a in self.InputsWidget.input_pairs() if b != d)
+                    tuple(a for b, d, a in self.inputs_widget.input_pairs() if b != d)
                 )
             elif solve_kernel == 1:
                 result, _ = slvs_solve(
                     vpoints,
-                    tuple(self.InputsWidget.input_pairs())
+                    tuple(self.inputs_widget.input_pairs())
                     if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
                 result = vpoint_solving(
                     vpoints,
-                    {(b, d): a for b, d, a in self.InputsWidget.input_pairs()}
+                    {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
                 )
             else:
                 raise ValueError("incorrect kernel")
         except ValueError as error:
             # Error: Show warning without update data.
-            if self.consoleerror_option.isChecked():
+            if self.console_error_option.isChecked():
                 print(format_exc())
             error_text = f"Error: {error}"
             self.conflict.setToolTip(error_text)
@@ -94,9 +94,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.DOFview.setVisible(False)
         else:
             # Done: Update coordinate data.
-            self.EntitiesPoint.update_current_position(result)
-            self.DOF = vpoint_dof(vpoints)
-            self.DOFview.setText(f"{self.DOF} ({self.InputsWidget.input_count()})")
+            self.entities_point.update_current_position(result)
+            self.dof = vpoint_dof(vpoints)
+            self.DOFview.setText(f"{self.dof} ({self.inputs_widget.input_count()})")
             self.conflict.setVisible(False)
             self.DOFview.setVisible(True)
         self.reload_canvas()
@@ -116,10 +116,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         vpoints = tuple(vpoint.copy() for vpoint in vpoints)
         vpoint_count = len(vpoints)
 
-        solve_kernel = self.pathpreview_option.currentIndex()
-        if solve_kernel == self.pathpreview_option.count() - 1:
-            solve_kernel = self.planarsolver_option.currentIndex()
-        interval_o = self.InputsWidget.interval()
+        solve_kernel = self.path_preview_option.currentIndex()
+        if solve_kernel == self.path_preview_option.count() - 1:
+            solve_kernel = self.planar_solver_option.currentIndex()
+        interval_o = self.inputs_widget.interval()
 
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
         auto_preview.clear()
@@ -132,12 +132,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         bases = []
         drivers = []
         angles_o = []
-        for b, d, a in self.InputsWidget.input_pairs():
+        for b, d, a in self.inputs_widget.input_pairs():
             bases.append(b)
             drivers.append(d)
             angles_o.append(a)
 
-        i_count = self.InputsWidget.input_count()
+        i_count = self.inputs_widget.input_count()
         # Cumulative angle
         angles_cum = [0.] * i_count
 
@@ -205,11 +205,11 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         VLinks will become graph nodes.
         """
-        vpoints: Tuple[VPoint, ...] = self.EntitiesPoint.data_tuple()
-        vlinks: Tuple[VLink, ...] = self.EntitiesLink.data_tuple()
+        vpoints: Tuple[VPoint, ...] = self.entities_point.data_tuple()
+        vlinks: Tuple[VLink, ...] = self.entities_link.data_tuple()
         link_names = [vlink.name for vlink in vlinks]
         input_pair = set()
-        for b, d, _ in self.InputsWidget.input_pairs():
+        for b, d, _ in self.inputs_widget.input_pairs():
             input_pair.update({b, d})
 
         # links name for RP joint.
@@ -255,7 +255,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         input_list = [
             (mapping[b], mapping[d])
-            for b, d, _ in self.InputsWidget.input_pairs()
+            for b, d, _ in self.inputs_widget.input_pairs()
         ]
 
         counter = len(graph.edges)
@@ -281,7 +281,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         graph, grounded_list, input_list, cus, same = self.get_graph()
 
         vpoint_exprs = []
-        for i, vpoint in enumerate(self.EntitiesPoint.data()):
+        for i, vpoint in enumerate(self.entities_point.data()):
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
 
@@ -303,11 +303,11 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         Special function for VPoints.
         """
         if vpoints is None:
-            vpoints = self.EntitiesPoint.data_tuple()
+            vpoints = self.entities_point.data_tuple()
         status = {}
         exprs = vpoints_configure(
             vpoints,
-            [(b, d) for b, d, _ in self.InputsWidget.input_pairs()],
+            [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             status
         )
         data_dict, _ = data_collecting(
@@ -315,7 +315,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             {n: f'P{n}' for n in range(len(vpoints))},
             vpoints
         )
-        self.EntitiesExpr.set_expr(
+        self.entities_expr.set_expr(
             exprs,
             data_dict,
             tuple(p for p, s in status.items() if not s)
@@ -324,20 +324,20 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
     def right_input(self) -> bool:
         """Is input same as DOF?"""
-        inputs = self.InputsWidget.input_count() == self.DOF
+        inputs = self.inputs_widget.input_count() == self.dof
         if not inputs:
-            self.EntitiesExpr.clear()
+            self.entities_expr.clear()
         return inputs
 
     def reload_canvas(self):
         """Update main canvas data, without resolving."""
-        self.MainCanvas.update_figure(
-            self.EntitiesPoint.data_tuple(),
-            self.EntitiesLink.data_tuple(),
+        self.main_canvas.update_figure(
+            self.entities_point.data_tuple(),
+            self.entities_link.data_tuple(),
             self.get_triangle(),
-            self.InputsWidget.current_path()
+            self.inputs_widget.current_path()
         )
 
     def dof(self) -> int:
         """Return DOF."""
-        return self.DOF
+        return self.dof

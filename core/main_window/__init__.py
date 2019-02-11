@@ -53,7 +53,7 @@ class MainWindow(IOMethodInterface):
         self.restore_settings()
 
         # Console widget.
-        self.consoleerror_option.setChecked(ARGUMENTS.debug_mode)
+        self.console_error_option.setChecked(ARGUMENTS.debug_mode)
         if not ARGUMENTS.debug_mode:
             self.__console_connect()
 
@@ -68,14 +68,14 @@ class MainWindow(IOMethodInterface):
         if self.check_file_changed():
             event.ignore()
             return
-        if self.InputsWidget.inputs_playShaft.isActive():
-            self.InputsWidget.inputs_playShaft.stop()
+        if self.inputs_widget.inputs_play_shaft.isActive():
+            self.inputs_widget.inputs_play_shaft.stop()
         self.save_settings()
         XStream.back()
         print("Exit.")
         event.accept()
 
-    @Slot(int, name='on_ZoomBar_valueChanged')
+    @Slot(int, name='on_zoom_bar_valueChanged')
     def __set_zoom(self, value: int):
         """Reset the text when zoom bar changed."""
         self.zoom_button.setText(f'{value}%')
@@ -87,13 +87,13 @@ class MainWindow(IOMethodInterface):
             self,
             "Zoom",
             "Enter a zoom value:",
-            self.ZoomBar.minimum(),
-            self.ZoomBar.value(),
-            self.ZoomBar.maximum(),
+            self.zoom_bar.minimum(),
+            self.zoom_bar.value(),
+            self.zoom_bar.maximum(),
             10
         )
         if ok:
-            self.ZoomBar.setValue(value)
+            self.zoom_bar.setValue(value)
 
     @Slot(bool, name='on_action_show_dimensions_toggled')
     def __set_show_dimensions(self, toggled: bool):
@@ -110,31 +110,31 @@ class MainWindow(IOMethodInterface):
     @Slot(name='on_action_path_style_triggered')
     def __set_curve_mode(self):
         """Set path style as curve (true) or dots (false)."""
-        self.MainCanvas.set_curve_mode(self.action_path_style.isChecked())
+        self.main_canvas.set_curve_mode(self.action_path_style.isChecked())
 
-    @Slot(int, name='on_Panel_currentChanged')
-    @Slot(int, name='on_SynthesisTab_currentChanged')
+    @Slot(int, name='on_main_panel_currentChanged')
+    @Slot(int, name='on_synthesis_tab_widget_currentChanged')
     def __set_show_target_path(self, _: int):
         """Dimensional synthesis information will show on the canvas."""
-        panel_index = self.Panel.currentIndex()
-        synthesis_index = self.SynthesisTab.currentIndex()
-        self.MainCanvas.set_show_target_path(panel_index == synthesis_index == 2)
+        panel_index = self.main_panel.currentIndex()
+        synthesis_index = self.synthesis_tab_widget.currentIndex()
+        self.main_canvas.set_show_target_path(panel_index == synthesis_index == 2)
 
     def add_target_point(self):
         """Use context menu to add a target path coordinate."""
-        self.DimensionalSynthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
+        self.dimensional_synthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
     @Slot(int, tuple)
     def merge_result(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
         """Merge result function of dimensional synthesis."""
-        result = self.DimensionalSynthesis.mechanism_data[row]
+        result = self.dimensional_synthesis.mechanism_data[row]
         # exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in result['Link_expr'].split(';'):
             for name in str_between(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
-        self.CommandStack.beginMacro(
+        self.command_stack.beginMacro(
             "Merge mechanism kit from {Dimensional Synthesis}"
         )
         tmp_dict = {}
@@ -149,14 +149,14 @@ class MainWindow(IOMethodInterface):
                 tmp_dict[name] for name in str_between(exp, '[', ']').split(',')
             ))
             if i == 0:
-                self.constrain_link(self.EntitiesLink.rowCount() - 1)
-        self.CommandStack.endMacro()
+                self.constrain_link(self.entities_link.rowCount() - 1)
+        self.command_stack.endMacro()
         # Add the path.
         i = 0
-        while f"Algorithm_{i}" in self.InputsWidget.path_data():
+        while f"Algorithm_{i}" in self.inputs_widget.path_data():
             i += 1
-        self.InputsWidget.add_path(f"Algorithm_{i}", path)
-        self.MainCanvas.zoom_to_fit()
+        self.inputs_widget.add_path(f"Algorithm_{i}", path)
+        self.main_canvas.zoom_to_fit()
 
     @Slot(name='on_background_choose_dir_clicked')
     def __set_background(self):
@@ -187,9 +187,9 @@ class MainWindow(IOMethodInterface):
     @Slot(str)
     def __append_to_console(self, log: str):
         """After inserted the text, move cursor to end."""
-        self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
-        self.consoleWidgetBrowser.insertPlainText(log)
-        self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
+        self.console_widget_browser.moveCursor(QTextCursor.End)
+        self.console_widget_browser.insertPlainText(log)
+        self.console_widget_browser.moveCursor(QTextCursor.End)
 
     @Slot(bool, name='on_action_full_screen_toggled')
     def __full_screen(self, full_screen: bool):

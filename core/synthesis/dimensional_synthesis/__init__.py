@@ -91,13 +91,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path: Dict[int, List[Tuple[float, float]]] = {}
 
         # Some reference of 'collections'.
-        self.collections = parent.CollectionTabPage.ConfigureWidget.collections
+        self.collections = parent.collection_tab_page.ConfigureWidget.collections
         self.get_collection = parent.get_configure
         self.input_from = parent.input_from
         self.workbook_no_save = parent.workbook_no_save
         self.merge_result = parent.merge_result
-        self.update_ranges = parent.MainCanvas.update_ranges
-        self.set_solving_path = parent.MainCanvas.set_solving_path
+        self.update_ranges = parent.main_canvas.update_ranges
+        self.set_solving_path = parent.main_canvas.set_solving_path
 
         # Data and functions.
         self.mechanism_data: List[Dict[str, Any]] = []

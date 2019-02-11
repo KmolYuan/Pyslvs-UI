@@ -51,12 +51,12 @@ class DynamicCanvas(DynamicCanvasInterface):
     def __init__(self, parent: 'MainWindowBase'):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
-        self.__set_zoom = parent.ZoomBar.setValue
-        self.__zoom = parent.ZoomBar.value
+        self.__set_zoom = parent.zoom_bar.setValue
+        self.__zoom = parent.zoom_bar.value
         self.__zoom_factor = parent.scalefactor_option.value
         # Dependent functions to set selection mode.
-        self.__set_selection_mode = parent.EntitiesTab.setCurrentIndex
-        self.__selection_mode = parent.EntitiesTab.currentIndex
+        self.__set_selection_mode = parent.entities_tab.setCurrentIndex
+        self.__selection_mode = parent.entities_tab.currentIndex
 
     def update_figure(
         self,
