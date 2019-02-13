@@ -47,6 +47,7 @@ from core.libs import (
     Graph,
     graph2vpoints,
     parse_pos,
+    parse_vpoints,
     parse_vlinks,
 )
 from core.synthesis import CollectionsDialog
@@ -209,7 +210,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_path_paste_clicked')
     def __paste_path(self):
         """Paste path data from clipboard."""
-        self.__read_path_from_csv(char_split("[;,\n]", QApplication.clipboard().text()))
+        self.__read_path_from_csv(char_split(r"[;,\n]", QApplication.clipboard().text()))
 
     @Slot(name='on_import_csv_button_clicked')
     def __import_csv(self):
@@ -404,6 +405,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.DE
         # Deep copy it so the pointer will not the same.
         mech_params = deepcopy(self.mech_params)
+        mech_params['Expression'] = parse_vpoints(mech_params.pop('Expression', []))
         mech_params['Target'] = deepcopy(self.path)
 
         def name_in_table(target_name: str) -> int:
