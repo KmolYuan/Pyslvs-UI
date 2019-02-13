@@ -234,7 +234,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     @Slot(float, float)
     def q_add_normal_point(self, x: float, y: float):
         """Add point group using alt key."""
-        if self.synthesis_tab.currentIndex() == 2:
+        if self.synthesis_tab_widget.currentIndex() == 2:
             self.add_target_point()
         else:
             self.add_point(x, y)
