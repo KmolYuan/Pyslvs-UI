@@ -34,6 +34,7 @@ Development
 + Recursive import when doing type checking.
 + Rename the dialog resources as "dialogs".
 + Refactor of all widgets names into underscore lowercase.
++ Environment of Visual Studio 2017 version 15.9 supported. 
 
 Version 19.01
 ===
