@@ -37,7 +37,7 @@ class WorkerThread(QThread):
     """The QThread class to handle algorithm."""
 
     progress_update = Signal(int, str)
-    result = Signal(dict, float)
+    result = Signal(dict)
     done = Signal()
 
     def __init__(
@@ -73,12 +73,11 @@ class WorkerThread(QThread):
                 # Cancel the remaining tasks.
                 print("Canceled.")
                 continue
-            mechanism, time_spend = self.__algorithm()
-            self.result.emit(mechanism, time_spend)
+            self.result.emit(self.__algorithm())
         print(f"total cost time: {time() - t0:.02f} [s]")
         self.done.emit()
 
-    def __algorithm(self) -> Tuple[Dict[str, Any], float]:
+    def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
         t0 = time()
         params, tf = self.__generate_process()
@@ -102,7 +101,7 @@ class WorkerThread(QThread):
         mechanism.update(self.mech_params)
         mechanism.update(params)
         print(f"cost time: {time_spend:.02f} [s]")
-        return mechanism, time_spend
+        return mechanism
 
     def __generate_process(self) -> Tuple[
         Dict[str, Any],

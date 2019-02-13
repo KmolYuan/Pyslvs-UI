@@ -90,10 +90,11 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __set_time(self):
         """Set time label."""
         self.time += 1
+        t_min = self.time % 3600
         self.time_label.setText(
             f"{self.time // 3600:02d}:"
-            f"{self.time % 3600 // 60:02d}:"
-            f"{self.time % 3600 % 60:02d}"
+            f"{t_min // 60:02d}:"
+            f"{t_min % 60:02d}"
         )
 
     @Slot(name='on_start_button_clicked')
@@ -111,15 +112,11 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.loopTime.setEnabled(False)
         self.interrupt_button.setEnabled(True)
 
-    @Slot(dict, float)
-    def __get_result(
-        self,
-        mechanism: Dict[str, Any],
-        time_spend: float
-    ):
+    @Slot(dict)
+    def __get_result(self, mechanism: Dict[str, Any]):
         """Get the result."""
         self.mechanisms.append(mechanism)
-        self.time_spend += time_spend
+        self.time_spend += mechanism['time']
 
     @Slot()
     def __finish(self):
