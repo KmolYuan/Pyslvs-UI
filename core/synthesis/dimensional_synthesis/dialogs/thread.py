@@ -53,6 +53,7 @@ class WorkerThread(QThread):
         self.is_stop = False
         self.type_num = type_num
         self.mech_params = mech_params
+        self.planar = Planar(self.mech_params)
         self.settings = settings
         self.loop = 1
         self.current_loop = 0
@@ -115,7 +116,7 @@ class WorkerThread(QThread):
         else:
             foo = Differential
         self.fun = foo(
-            Planar(self.mech_params),
+            self.planar,
             self.settings,
             progress_fun=self.progress_update.emit,
             interrupt_fun=self.__is_stop,
