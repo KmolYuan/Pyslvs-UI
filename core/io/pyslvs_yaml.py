@@ -206,4 +206,4 @@ class YamlEditor(QObject):
             algorithm_data
         )
         dlg.show()
-        dlg.exec_()
+        dlg.exec()

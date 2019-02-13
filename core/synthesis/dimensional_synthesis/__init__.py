@@ -285,7 +285,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """
         dlg = PathAdjustDialog(self)
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
         self.__clear_path(ask=False)
         for e in dlg.r_path:
@@ -373,11 +373,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "<p><span style=\"font-size:12pt;"
             f"color:#00aa00;\">{self.path_list.count()}</span></p>"
         )
-        n = (
-            bool(self.mech_params) and
-            (self.path_list.count() > 1) and
-            bool(self.expression_string.text())
-        )
+        n = bool(self.mech_params and (self.path_list.count() > 1) and self.expression_string.text())
         self.path_adjust_button.setEnabled(n)
         self.synthesis_button.setEnabled(n)
 
@@ -427,24 +423,22 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Start progress dialog.
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         mechanisms = dlg.mechanisms
         mechanisms_plot: List[Dict[str, Any]] = []
         for data in mechanisms:
-            plot = {
-                'time_fitness': data['time_fitness'],
+            mechanisms_plot.append({
+                'time_fitness': data.pop('time_fitness'),
                 'Algorithm': data['Algorithm'],
-            }
-            data.pop('time_fitness')
+            })
             self.mechanism_data.append(data)
             self.__add_result(data)
-            mechanisms_plot.append(plot)
         self.__set_time(dlg.time_spend)
         self.workbook_no_save()
 
-        dlg = ChartDialog("Convergence Value", mechanisms_plot, self)
+        dlg = ChartDialog("Convergence Data", mechanisms_plot, self)
         dlg.show()
         print("Finished.")
 
@@ -517,7 +511,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         dlg = PreviewDialog(self.mechanism_data[row], self.__get_path(row), self)
         dlg.show()
-        dlg.exec_()
+        dlg.exec()
 
     @Slot(name='on_merge_button_clicked')
     def __merge_result(self):
@@ -646,7 +640,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if dlg.exec_():
+        if dlg.exec():
             self.__set_profile(dlg.name(), dlg.params())
 
     def __set_profile(self, profile_name: str, params: Dict[str, Any]):
@@ -856,7 +850,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.DE
         dlg = AlgorithmOptionDialog(type_num, self.alg_options, self)
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         self.alg_options['report'] = dlg.report.value()
@@ -899,12 +893,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def update_range(self):
         """Update range values to main canvas."""
 
-        def t(x: int, y: int):
+        def t(x: int, y: int) -> Union[str, float]:
             item = self.parameter_list.item(x, y)
-            if item:
-                return item.text()
-            else:
+            if item is None:
                 return self.parameter_list.cellWidget(x, y).value()
+            else:
+                return item.text()
 
         self.update_ranges({
             t(row, 0): (t(row, 2), t(row, 3), t(row, 4))

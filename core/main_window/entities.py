@@ -97,7 +97,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self
         )
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         row_count = self.entities_point.rowCount()
@@ -138,7 +138,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self
         )
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
         name = dlg.name_edit.text()
         args = [
@@ -376,7 +376,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     def __set_scale(self):
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         factor = dlg.factor()

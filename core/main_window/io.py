@@ -215,7 +215,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Open Pyslvs about."""
         dlg = PyslvsAbout(self)
         dlg.show()
-        dlg.exec_()
+        dlg.exec()
 
     @Slot(name='on_action_example_triggered')
     def __load_example(self):
@@ -422,7 +422,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        if dlg.exec_():
+        if dlg.exec():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
             self.set_locate(path)
             self.save_reply_box("Solvespace sketch", path)
@@ -438,7 +438,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        if dlg.exec_():
+        if dlg.exec():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
             self.set_locate(path)
             self.save_reply_box("Drawing Exchange Format", path)
@@ -570,7 +570,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        dlg.exec_()
+        dlg.exec()
 
     @Slot(name='on_action_python_script_triggered')
     def __show_py_script(self):
@@ -588,7 +588,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        dlg.exec_()
+        dlg.exec()
 
     @Slot(name='on_action_check_update_triggered')
     def __check_update(self):

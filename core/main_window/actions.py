@@ -182,7 +182,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def point_context_menu(self, point: QPoint):
         """EntitiesPoint context menu."""
         self.__enable_point_context()
-        self.pop_menu_point.exec_(self.entities_point_widget.mapToGlobal(point))
+        self.pop_menu_point.exec(self.entities_point_widget.mapToGlobal(point))
         self.action_new_link.setVisible(True)
         self.pop_menu_point_merge.clear()
 
@@ -190,7 +190,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def link_context_menu(self, point: QPoint):
         """EntitiesLink context menu."""
         self.__enable_link_context()
-        self.pop_menu_link.exec_(self.entities_link_widget.mapToGlobal(point))
+        self.pop_menu_link.exec(self.entities_link_widget.mapToGlobal(point))
         self.pop_menu_link_merge.clear()
 
     @Slot(QPoint)
@@ -201,12 +201,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.__enable_point_context()
             is_synthesis = self.synthesis_tab_widget.currentIndex() == 2
             self.action_canvas_context_path.setVisible(is_synthesis)
-            self.pop_menu_canvas_p.exec_(self.main_canvas.mapToGlobal(point))
+            self.pop_menu_canvas_p.exec(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
             self.pop_menu_point_merge.clear()
         elif index == 1:
             self.__enable_link_context()
-            self.pop_menu_canvas_l.exec_(self.main_canvas.mapToGlobal(point))
+            self.pop_menu_canvas_l.exec(self.main_canvas.mapToGlobal(point))
             self.pop_menu_link_merge.clear()
 
     @Slot()

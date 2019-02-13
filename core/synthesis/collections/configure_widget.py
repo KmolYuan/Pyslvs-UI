@@ -299,7 +299,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Show up custom joints dialog."""
         dlg = CustomsDialog(self)
         dlg.show()
-        dlg.exec_()
+        dlg.exec()
         self.configure_canvas.update()
 
     def __get_current_mechanism_params(self) -> Dict[str, Any]:
@@ -343,7 +343,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         self.profile_name = dlg.name()
@@ -385,7 +385,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Show up target joints dialog."""
         dlg = TargetsDialog(self)
         dlg.show()
-        if not dlg.exec_():
+        if not dlg.exec():
             return
         self.target_list.clear()
         for target in list_texts(dlg.targets_list):

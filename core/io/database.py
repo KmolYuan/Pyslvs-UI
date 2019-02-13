@@ -538,7 +538,7 @@ class DatabaseWidget(QWidget, Ui_Form):
             algorithm_data
         )
         dlg.show()
-        dlg.exec_()
+        dlg.exec()
 
     def __import_commit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""
