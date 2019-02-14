@@ -738,9 +738,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
             @Slot(float)
             def func(value: float):
-                half_range = get_range() / 2
-                upper_list[index] = value + half_range
-                lower_list[index] = value - half_range
+                range_value = get_range()
+                upper_list[index] = value + range_value
+                lower_list[index] = value - range_value
 
             return func
 
@@ -753,9 +753,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             @Slot(float)
             def func(value: float):
                 center = get_value()
-                half_range = value / 2
-                upper_list[index] = center + half_range
-                lower_list[index] = center - half_range
+                upper_list[index] = center + value
+                lower_list[index] = center - value
 
             return func
 
@@ -771,15 +770,15 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             # Set values (it will be same if not in the 'mech_params').
             upper = upper_list[i]
             if upper == 0:
-                upper = 100. if name in link_list else 360.
+                upper = 105. if name in link_list else 360.
             lower = lower_list[i]
             if lower == 0 and name in link_list:
                 lower = 5.
             upper_list[i] = upper
             lower_list[i] = lower
             # Spin box.
-            error_range = upper - lower
-            default_value = error_range / 2 + lower
+            error_range = (upper - lower) / 2
+            default_value = error_range + lower
             if name in link_list:
                 s1 = spinbox(default_value)
             else:
