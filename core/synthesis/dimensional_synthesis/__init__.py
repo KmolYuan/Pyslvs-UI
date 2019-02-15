@@ -40,12 +40,9 @@ from core.QtModules import (
     QTableWidgetItem,
 )
 from core.graphics import PreviewCanvas
-from core.io import str_before, str_between
 from core.libs import (
+    vpoints_configure,
     expr_solving,
-    VJoint,
-    Graph,
-    graph2vpoints,
     parse_pos,
     parse_vpoints,
     parse_vlinks,
@@ -530,73 +527,25 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
         result = self.mechanism_data[row]
+        expression: str = result['Expression']
+        input_list: List[Tuple[int, int]] = result['input']
+        vpoints = parse_vpoints(expression)
+        expr = vpoints_configure(vpoints, input_list)
 
-        exprs = []
-        for expr in result['Expression'].split(';'):
-            func = str_before(expr, '[')
-            params = str_between(expr, '[', ']').split(',')
-            target = str_between(expr, '(', ')')
-            params.insert(0, func)
-            params.append(target)
-            exprs.append(tuple(params))
-
-        pos = {}
-        mapping = {}
-        p_count = 0
-        for n in result['pos']:
-            try:
-                pos[n] = result[f'P{n}']
-            except KeyError:
-                pos[n] = result['pos'][n]
-            if n not in result['same']:
-                mapping[p_count] = f'P{n}'
-                p_count += 1
-
-        vpoints = graph2vpoints(
-            Graph(result['Graph']),
-            pos,
-            result['cus'],
-            result['same']
-        )
-        vpoint_count = len(vpoints)
-
-        path = [[] for _ in range(vpoint_count)]
-
-        # Cumulative angle
-        i_count = sum(1 for e in exprs if e[0] == 'PLAP')
-        angles_params = [0.] * i_count
-        nan = float('nan')
-        for interval in (3, -3):
-            # Driver pointer
-            dp = 0
-            angles = [0.] * i_count
-            while dp < i_count:
-                try:
-                    solved_result = expr_solving(exprs, mapping, vpoints, angles)
-                except ValueError:
-                    # Update with error sign.
-                    for i in range(vpoint_count):
-                        path[i].append((nan, nan))
-                    # Back to last feasible solution.
-                    angles[dp] -= interval
-                    dp += 1
+        path = [[] for _ in range(len(vpoints))]
+        for angle in range(360 + 1):
+            result_list = expr_solving(
+                expr,
+                {i: f"P{i}" for i in range(len(vpoints))},
+                vpoints,
+                [angle] * len(input_list)
+            )
+            for i in range(len(vpoints)):
+                coord = result_list[i]
+                if type(coord[0]) == tuple:
+                    path[i].append(coord[1])
                 else:
-                    # Update with result.
-                    for i in range(vpoint_count):
-                        if vpoints[i].type in {VJoint.P, VJoint.RP}:
-                            slot: Tuple[float, float] = solved_result[i][0]
-                            pin: Tuple[float, float] = solved_result[i][1]
-                            path[i].append(solved_result[i][1])
-                            vpoints[i].move(slot, pin)
-                        else:
-                            path[i].append(solved_result[i])
-                            vpoints[i].move(solved_result[i])
-                    angles[dp] += interval
-                    angles[dp] %= 360
-                    angles_params[dp] += abs(interval)
-                    if angles_params[dp] > 360:
-                        angles[dp] -= interval
-                        dp += 1
+                    path[i].append(coord)
         return path
 
     @Slot(name='on_result_clipboard_clicked')
