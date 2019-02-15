@@ -88,7 +88,7 @@ def convex_hull(
     return result
 
 
-class _Path:
+class _PathOption:
 
     """Path option class."""
 
@@ -137,9 +137,9 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.show_point_mark = True
         self.show_dimension = True
         # Path track.
-        self.Path = _Path()
+        self.path = _PathOption()
         # Path solving.
-        self.target_path = {}
+        self.target_path: Dict[str, Sequence[Tuple[float, float]]] = {}
         self.show_target_path = False
         # Background
         self.background = QImage()

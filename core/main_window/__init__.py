@@ -124,33 +124,11 @@ class MainWindow(IOMethodInterface):
         """Use context menu to add a target path coordinate."""
         self.dimensional_synthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
-    @Slot(int, tuple)
-    def merge_result(self, row: int, path: Sequence[Sequence[Tuple[float, float]]]):
+    def merge_result(self, expr: str, path: Sequence[Sequence[Tuple[float, float]]]):
         """Merge result function of dimensional synthesis."""
-        result = self.dimensional_synthesis.mechanism_data[row]
-        # exp_symbol = ['A', 'B', 'C', 'D', 'E']
-        exp_symbol = []
-        for exp in result['Link_expr'].split(';'):
-            for name in str_between(exp, '[', ']').split(','):
-                if name not in exp_symbol:
-                    exp_symbol.append(name)
-        self.command_stack.beginMacro(
-            "Merge mechanism kit from {Dimensional Synthesis}"
-        )
-        tmp_dict = {}
-        for tag in sorted(exp_symbol):
-            tmp_dict[tag] = self.add_point(
-                result[tag][0],
-                result[tag][1],
-                color=("Dark-Orange" if tag in result['Target'] else 'Green')
-            )
-        for i, exp in enumerate(result['Link_expr'].split(';')):
-            self.add_normal_link(tuple(
-                tmp_dict[name] for name in str_between(exp, '[', ']').split(',')
-            ))
-            if i == 0:
-                self.constrain_link(self.entities_link.rowCount() - 1)
-        self.command_stack.endMacro()
+        if not self.ask_add_storage(expr):
+            return
+
         # Add the path.
         i = 0
         while f"Algorithm_{i}" in self.inputs_widget.path_data():

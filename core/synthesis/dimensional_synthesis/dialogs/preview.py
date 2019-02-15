@@ -29,7 +29,13 @@ from core.QtModules import (
 )
 from core.graphics import BaseCanvas, color_qt
 from core.io import str_between
-from core.libs import color_rgb
+from core.libs import (
+    color_rgb,
+    VPoint,
+    VLink,
+    parse_vpoints,
+    parse_vlinks,
+)
 from .Ui_preview import Ui_Dialog
 
 
@@ -41,27 +47,24 @@ class _DynamicCanvas(BaseCanvas):
         self,
         mechanism: Dict[str, Any],
         path: Sequence[Sequence[Tuple[float, float]]],
+        vpoints: List[VPoint],
+        vlinks: List[VLink],
         parent: QWidget
     ):
         """Input link and path data."""
         super(_DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
-        self.Path.path = path
-        self.target_path = self.mechanism['Target']
+        self.path.path = path
+        self.vpoints = vpoints
+        self.vlinks = vlinks
+        target_path: Dict[int, List[Tuple[float, float]]] = self.mechanism['Target']
+        self.target_path: Dict[str, Sequence[Tuple[float, float]]] = {
+            f"L{i}": path for i, path in target_path.items()
+        }
         self.__index = 0
         self.__interval = 1
-        self.__path_count = max(len(path) for path in self.Path.path) - 1
+        self.__path_count = max(len(path) for path in self.path.path) - 1
         self.pos: List[Tuple[float, float]] = []
-
-        # exp_symbol = {'P1', 'P2', 'P3', ...}
-        exp_symbol = set()
-        self.links = []
-        for exp in self.mechanism['Link_expr'].split(';'):
-            names = str_between(exp, '[', ']').split(',')
-            self.links.append(tuple(names))
-            for name in names:
-                exp_symbol.add(name)
-        self.exp_symbol = sorted(exp_symbol, key=lambda e: int(e.replace('P', '')))
 
         # Error
         self.error = False
@@ -79,20 +82,9 @@ class _DynamicCanvas(BaseCanvas):
         x_left = -inf
         y_top = -inf
         y_bottom = inf
-        # Points
-        for name in self.exp_symbol:
-            x, y = self.mechanism[name]
-            if x < x_right:
-                x_right = x
-            if x > x_left:
-                x_left = x
-            if y < y_bottom:
-                y_bottom = y
-            if y > y_top:
-                y_top = y
         # Paths
-        for i, path in enumerate(self.Path.path):
-            if self.Path.show != -1 and self.Path.show != i:
+        for i, path in enumerate(self.path.path):
+            if self.path.show != -1 and self.path.show != i:
                 continue
             for x, y in path:
                 if x < x_right:
@@ -104,7 +96,7 @@ class _DynamicCanvas(BaseCanvas):
                 if y > y_top:
                     y_top = y
         # Solving paths
-        for path in self.target_path.values():
+        for path in self.mechanism['Target'].values():
             for x, y in path:
                 if x < x_right:
                     x_right = x
@@ -135,7 +127,7 @@ class _DynamicCanvas(BaseCanvas):
         super(_DynamicCanvas, self).paintEvent(event)
 
         # First check.
-        for path in self.Path.path:
+        for path in self.path.path:
             if not path:
                 continue
             x, y = path[self.__index]
@@ -146,18 +138,18 @@ class _DynamicCanvas(BaseCanvas):
 
         # Points that in the current angle section.
         self.pos.clear()
-        for i, name in enumerate(self.exp_symbol):
-            if (name in self.mechanism['Driver']) or (name in self.mechanism['Follower']):
-                self.pos.append(self.mechanism[name])
+        for i in range(len(self.vpoints)):
+            if i in self.mechanism['Placement']:
+                self.pos.append(self.vpoints[i].c[0])
             else:
-                x, y = self.Path.path[i][self.__index]
+                x, y = self.path.path[i][self.__index]
                 self.pos.append((x, y))
 
         # Draw links.
-        for i, exp in enumerate(self.links):
-            if i == 0:
+        for vlink in self.vlinks:
+            if vlink.name == 'ground':
                 continue
-            self.__draw_link(f"link_{i}", [self.exp_symbol.index(tag) for tag in exp])
+            self.__draw_link(vlink.name, vlink.points)
 
         # Draw path.
         self.__draw_path()
@@ -166,10 +158,10 @@ class _DynamicCanvas(BaseCanvas):
         self.draw_target_path()
 
         # Draw points.
-        for i, name in enumerate(self.exp_symbol):
+        for i in range(len(self.vpoints)):
             if not self.pos[i]:
                 continue
-            self.__draw_point(i, name)
+            self.__draw_point(i)
 
         self.painter.end()
 
@@ -179,22 +171,23 @@ class _DynamicCanvas(BaseCanvas):
         else:
             self.__no_error = self.__index
 
-    def __draw_point(self, i: int, name: str):
+    def __draw_point(self, i: int):
         """Draw point function."""
+        k = i
+        for j in range(i):
+            if j in self.mechanism['same']:
+                k += 1
         x, y = self.pos[i]
         color = color_rgb('Green')
         fixed = False
-        if name in self.mechanism['Target']:
+        if k in self.mechanism['Target']:
             color = color_rgb('Dark-Orange')
-        elif name in self.mechanism['Driver']:
-            color = color_rgb('Red')
-            fixed = True
-        elif name in self.mechanism['Follower']:
+        elif k in self.mechanism['Placement']:
             color = color_rgb('Blue')
             fixed = True
         self.draw_point(i, x, y, fixed, color)
 
-    def __draw_link(self, name: str, points: List[int]):
+    def __draw_link(self, name: str, points: Sequence[int]):
         """Draw link function.
 
         The link color will be the default color.
@@ -228,9 +221,9 @@ class _DynamicCanvas(BaseCanvas):
         A simple function than main canvas.
         """
         pen = QPen()
-        for i, path in enumerate(self.Path.path):
+        for i, path in enumerate(self.path.path):
             color = color_qt('Green')
-            if self.exp_symbol[i] in self.mechanism['Target']:
+            if i in self.mechanism['Target']:
                 color = color_qt('Dark-Orange')
             pen.setColor(color)
             pen.setWidth(self.path_width)
@@ -269,7 +262,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([400, 150])
         self.splitter.setSizes([100, 100, 100])
-        preview_widget = _DynamicCanvas(mechanism, path, self)
+        vpoints = parse_vpoints(mechanism['Expression'])
+        vlinks = parse_vlinks(mechanism['Expression'])
+        preview_widget = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
         self.left_layout.insertWidget(0, preview_widget)
 
         # Basic information
@@ -280,13 +275,10 @@ class PreviewDialog(QDialog, Ui_Dialog):
                     link_tags.add(p)
 
         labels = []
-        for tag in chain(
-            ('Algorithm', 'time'),
-            mechanism['Driver'],
-            mechanism['Follower'],
-            sorted(link_tags)
+        for tag, data in chain(
+            [('Algorithm', mechanism['Algorithm']), ('time', mechanism['time'])],
+            [(f"P{i}", vpoints[i].c[0]) for i in mechanism['Placement']]
         ):
-            data = mechanism[tag]
             if type(data) == tuple:
                 label = f"({data[0]:.02f}, {data[1]:.02f})"
             elif type(data) == float:

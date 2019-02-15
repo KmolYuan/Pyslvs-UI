@@ -328,7 +328,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     def __draw_path(self):
         """Draw paths. Recording first."""
-        paths = self.path_record or self.Path.path or self.path_preview
+        paths = self.path_record or self.path.path or self.path_preview
         if len(self.vpoints) != len(paths):
             return
         if paths == self.path_preview:
@@ -337,7 +337,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             o_path = enumerate(paths)
         pen = QPen()
         for i, path in o_path:
-            if (self.Path.show != i) and (self.Path.show != -1):
+            if (self.path.show != i) and (self.path.show != -1):
                 continue
             if self.vpoints[i].color is None:
                 color = color_qt('Green')
@@ -346,7 +346,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
-            if self.Path.curve:
+            if self.path.curve:
                 self.draw_curve(path)
             else:
                 self.draw_dot(path)
@@ -478,14 +478,14 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         y_top = -inf
         y_bottom = inf
         # Paths
-        if self.Path.show != -2:
-            paths = self.path_record or self.Path.path or self.path_preview
+        if self.path.show != -2:
+            paths = self.path_record or self.path.path or self.path_preview
             if paths == self.path_preview:
                 o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
             else:
                 o_path = enumerate(paths)
             for i, path in o_path:
-                if (self.Path.show != -1) and (self.Path.show != i):
+                if (self.path.show != -1) and (self.path.show != i):
                     continue
                 for x, y in path:
                     if x < x_right:
@@ -558,7 +558,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.__draw_link(vlink)
 
         # Draw path.
-        if self.Path.show != -2:
+        if self.path.show != -2:
             self.__draw_path()
 
         # Draw solving path.

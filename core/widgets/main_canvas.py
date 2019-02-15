@@ -70,7 +70,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.vlinks = vlinks
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
-        self.Path.path = path
+        self.path.path = path
         self.update()
 
     @Slot()
@@ -106,7 +106,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     @Slot(bool)
     def set_curve_mode(self, curve: bool):
         """Update show as curve mode or not."""
-        self.Path.curve = curve
+        self.path.curve = curve
         self.update()
 
     @Slot(int)
@@ -229,7 +229,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         -1: Show all paths.
         i: Show path i.
         """
-        self.Path.show = p
+        self.path.show = p
         self.update()
 
     def update_ranges(self, ranges: Dict[str, Tuple[float, float, float]]):

@@ -792,7 +792,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     @abstractmethod
     def merge_result(
         self,
-        row: int,
+        expr: str,
         path: Sequence[Sequence[Tuple[float, float]]]
     ) -> None:
         ...

@@ -522,7 +522,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "Merge",
             "Merge this result to your canvas?"
         ) == QMessageBox.Yes:
-            self.merge_result(row, self.__get_path(row))
+            self.merge_result(self.mechanism_data[row]['Expression'], self.__get_path(row))
 
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
@@ -534,18 +534,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         path = [[] for _ in range(len(vpoints))]
         for angle in range(360 + 1):
-            result_list = expr_solving(
-                expr,
-                {i: f"P{i}" for i in range(len(vpoints))},
-                vpoints,
-                [angle] * len(input_list)
-            )
-            for i in range(len(vpoints)):
-                coord = result_list[i]
-                if type(coord[0]) == tuple:
-                    path[i].append(coord[1])
-                else:
-                    path[i].append(coord)
+            try:
+                result_list = expr_solving(
+                    expr,
+                    {i: f"P{i}" for i in range(len(vpoints))},
+                    vpoints,
+                    [angle] * len(input_list)
+                )
+            except ValueError:
+                nan = float('nan')
+                for i in range(len(vpoints)):
+                    path[i].append((nan, nan))
+            else:
+                for i in range(len(vpoints)):
+                    coord = result_list[i]
+                    if type(coord[0]) == tuple:
+                        path[i].append(coord[1])
+                    else:
+                        path[i].append(coord)
         return path
 
     @Slot(name='on_result_clipboard_clicked')

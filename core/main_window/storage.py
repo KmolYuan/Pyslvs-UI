@@ -74,6 +74,9 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         )
         if not ok:
             return
+        self.ask_add_storage(expr)
+
+    def ask_add_storage(self, expr: str) -> bool:
         try:
             # Put the expression into parser to see if it is legal.
             parse_params(expr)
@@ -84,14 +87,14 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
                 "Loading failed",
                 "Your expression is in an incorrect format."
             )
-            return
+            return False
         name, ok = QInputDialog.getText(
             self,
             "Storage",
             "Please input name tag:"
         )
         if not ok:
-            return
+            return False
         name_list = [
             self.mechanism_storage.item(i).text()
             for i in range(self.mechanism_storage.count())
@@ -102,6 +105,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             name = f"Prototype_{i}"
             i += 1
         self.__add_storage(name, expr)
+        return True
 
     @Slot(name='on_mechanism_storage_delete_clicked')
     def __delete_storage(self):
