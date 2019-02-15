@@ -85,7 +85,7 @@ class StructureWidget(QWidget, Ui_Form):
     def clear(self):
         """Clear all sub-widgets."""
         self.grounded_merge.setEnabled(False)
-        self.triangle_button.setEnabled(False)
+        self.configure_button.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
         self.__clear_selection()
@@ -311,7 +311,7 @@ class StructureWidget(QWidget, Ui_Form):
         item: Optional[QListWidgetItem] = self.collection_list.item(row)
         has_item = item is not None
         self.delete_button.setEnabled(has_item)
-        self.triangle_button.setEnabled(has_item)
+        self.configure_button.setEnabled(has_item)
         self.selection_window.clear()
         if item is None:
             return
@@ -341,7 +341,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.contracted_link_assortments_label.setText(str(c_l_a(g)))
 
         # "Link as node" layout cannot do these action.
-        self.triangle_button.setEnabled(not link_is_node)
+        self.configure_button.setEnabled(not link_is_node)
         self.grounded_merge.setEnabled(not link_is_node)
 
         # Automatic ground.
@@ -386,8 +386,8 @@ class StructureWidget(QWidget, Ui_Form):
         del self.collections[row]
         self.unsaveFunc()
 
-    @Slot(name='on_triangle_button_clicked')
-    def __triangulation(self):
+    @Slot(name='on_configure_button_clicked')
+    def __configuration(self):
         """Triangular iteration."""
         self.layout_sender.emit(
             self.collections[self.collection_list.currentRow()],

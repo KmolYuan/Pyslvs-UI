@@ -385,7 +385,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QPushButton" name="triangle_button">
+                <widget class="QPushButton" name="configure_button">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>

@@ -28,8 +28,8 @@ install:
 # Environment variables.
 - set Path=%PYTHON_DIR%;%Path%
 - set Path=%PYTHON_DIR%\Scripts;%Path%
-- set Path=%MSYS_DIR%;%Path%
-- set Path=%MINGW_DIR%;%Path%
+- set Path=%MSYS_DIR%\usr\bin;%Path%
+- set Path=%MINGW_DIR%\mingw64\bin;%Path%
 
 # Show Python.
 - python --version

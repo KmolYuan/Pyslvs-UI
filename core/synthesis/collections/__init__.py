@@ -64,7 +64,7 @@ class Collections(QWidget):
             self.ConfigureWidget.windowIcon(),
             "Configuration"
         )
-        self.StructureWidget.triangle_button.clicked.connect(
+        self.StructureWidget.configure_button.clicked.connect(
             lambda: tab_widget.setCurrentIndex(1)
         )
         self.StructureWidget.layout_sender.connect(

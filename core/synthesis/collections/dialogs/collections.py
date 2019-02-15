@@ -165,7 +165,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.preview_canvas.clear()
         self.__has_collection()
 
-    @Slot(str, name='on_common_list_currentTextChanged')
+    @Slot(QListWidgetItem, name='on_common_list_itemClicked')
     def __choose_common(self, _=None):
         """Update preview canvas for common data."""
         item = self.common_list.currentItem()
@@ -176,7 +176,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__mech_params = deepcopy(collection_list[self.__name_loaded])
         self.preview_canvas.from_profile(self.__mech_params)
 
-    @Slot(str, name='on_collections_list_currentTextChanged')
+    @Slot(QListWidgetItem, name='on_collections_list_itemClicked')
     def __choose_collections(self, _=None):
         """Update preview canvas for a workbook data."""
         item = self.collections_list.currentItem()
