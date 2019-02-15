@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/synthesis/collections/configure_widget.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-UI\core\synthesis\collections\configure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(440, 688)
+        Form.resize(456, 688)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -151,9 +152,6 @@ class Ui_Form(object):
         self.driver_add.setObjectName("driver_add")
         self.verticalLayout_4.addWidget(self.driver_add)
         self.horizontalLayout.addLayout(self.verticalLayout_4)
-        self.label = QtWidgets.QLabel(self.layoutWidget)
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
         self.verticalLayout_15 = QtWidgets.QVBoxLayout()
         self.verticalLayout_15.setObjectName("verticalLayout_15")
         self.grounded_label = QtWidgets.QLabel(self.layoutWidget)
@@ -162,6 +160,10 @@ class Ui_Form(object):
         self.grounded_list = QtWidgets.QListWidget(self.layoutWidget)
         self.grounded_list.setObjectName("grounded_list")
         self.verticalLayout_15.addWidget(self.grounded_list)
+        self.grounded_list_label = QtWidgets.QLabel(self.layoutWidget)
+        self.grounded_list_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.grounded_list_label.setObjectName("grounded_list_label")
+        self.verticalLayout_15.addWidget(self.grounded_list_label)
         self.horizontalLayout.addLayout(self.verticalLayout_15)
         self.verticalLayout_5.addLayout(self.horizontalLayout)
         self.verticalLayout_6.addWidget(self.main_splitter)
@@ -199,10 +201,11 @@ class Ui_Form(object):
         self.follower_label.setText(_translate("Form", "Fixed Joints:"))
         self.follower_list.setStatusTip(_translate("Form", "These joints are on the grounded link, the position of them will generate. So they are don\'t need to have a solution."))
         self.driver_add.setText(_translate("Form", "<<"))
-        self.label.setText(_translate("Form", "<<"))
         self.grounded_label.setText(_translate("Form", "Gounded:"))
         self.grounded_list.setStatusTip(_translate("Form", "Set a link as the ground. Existing solutions will be reset."))
+        self.grounded_list_label.setText(_translate("Form", "<<"))
         self.expression_label.setText(_translate("Form", "Expression:"))
         self.expr_show.setStatusTip(_translate("Form", "Expression of the mechanism"))
+
 
 import icons_rc

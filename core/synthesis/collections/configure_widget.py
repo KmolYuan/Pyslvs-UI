@@ -15,6 +15,7 @@ from typing import (
     Set,
     Dict,
     Callable,
+    Optional,
     Any,
 )
 from math import hypot
@@ -196,28 +197,21 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Set the graph to preview canvas."""
         self.__clear_panel()
         self.configure_canvas.set_graph(graph, pos)
-        ev = dict(edges_view(graph))
-        joints_count = set()
 
-        for l1, l2 in ev.values():
-            joints_count.update({l1, l2})
-
-        links = [[] for _ in range(len(joints_count))]
-
-        for joint, link in ev.items():
+        links: List[List[str]] = [[] for _ in range(len(graph.nodes))]
+        for joint, link in edges_view(graph):
             for node in link:
-                links[node].append(joint)
+                links[node].append(f'P{joint}')
 
         for link in links:
-            points_text = ", ".join(f'P{node}' for node in link)
-            self.grounded_list.addItem(f"({points_text})")
+            self.grounded_list.addItem("(" + ", ".join(link) + ")")
 
         # Point name as (P1, P2, P3, ...).
         for node in pos:
             self.joint_name.addItem(f'P{node}')
 
     @Slot(int, name='on_grounded_list_currentRowChanged')
-    def __set_ground(self, row: int):
+    def __set_grounded(self, row: int):
         """Change current grounded link. Reset all settings."""
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
@@ -227,12 +221,11 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.driver_base.clear()
         self.driver_rotator.clear()
         if has_choose:
-            items = (
-                self.grounded_list.item(row).text()
-                .replace('(', '')
-                .replace(')', '')
-                .split(", ")
-            )
+            item: Optional[QListWidgetItem] = self.grounded_list.item(row)
+            if item is None:
+                return
+
+            items = item.text().replace('(', '').replace(')', '').split(", ")
             self.follower_list.addItems(items)
             self.driver_base.addItems(items)
 
@@ -364,9 +357,14 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         # Grounded setting.
         placement: Set[int] = set(params['Placement'])
-        for row, link in enumerate(graph.nodes):
-            if placement <= {n for n, edge in edges_view(graph) if link in edge}:
-                self.__set_ground(row)
+        links: List[List[int]] = [[] for _ in range(len(graph.nodes))]
+        for joint, link in edges_view(graph):
+            for node in link:
+                links[node].append(joint)
+
+        for row, link in enumerate(links):
+            if placement == set(link):
+                self.__set_grounded(row)
                 break
 
         # Driver, Follower, Target

@@ -13,6 +13,7 @@ from core.QtModules import (
     Qt,
     QDialog,
     QListWidget,
+    QListWidgetItem,
 )
 from .Ui_targets import Ui_Dialog
 
@@ -64,6 +65,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
                 self.targets_list.addItem(self.other_list.takeItem(row))
 
     @Slot(name='on_targets_add_clicked')
+    @Slot(QListWidgetItem, name='on_other_list_itemDoubleClicked')
     def __add(self):
         """Add a new target joint."""
         row = self.other_list.currentRow()
@@ -72,6 +74,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
         self.targets_list.addItem(self.other_list.takeItem(row))
 
     @Slot(name='on_other_add_clicked')
+    @Slot(QListWidgetItem, name='on_targets_list_itemDoubleClicked')
     def __remove(self):
         """Remove a target joint."""
         row = self.targets_list.currentRow()
