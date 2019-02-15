@@ -327,7 +327,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         return {
             'Expression': self.expr_show.text(),
             'input': input_list,
-            'Graph': tuple(self.configure_canvas.G.edges),
+            'Graph': self.configure_canvas.G.edges,
             'Placement': place_list,
             'Target': target_list,
             'cus': self.configure_canvas.cus.copy(),

@@ -81,7 +81,7 @@ class WorkerThread(QThread):
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
         t0 = time()
-        params, tf = self.__generate_process()
+        expression, tf = self.__generate_process()
         time_spend = time() - t0
         cpu = numpy.distutils.cpuinfo.cpu.info[0]
         last_gen = tf[-1][0]
@@ -100,7 +100,7 @@ class WorkerThread(QThread):
             'time_fitness': tf,
         }
         mechanism.update(self.mech_params)
-        mechanism['Expression'] = params
+        mechanism['Expression'] = expression
         print(f"cost time: {time_spend:.02f} [s]")
         return mechanism
 
