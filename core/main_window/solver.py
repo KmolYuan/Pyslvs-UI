@@ -285,7 +285,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
 
-            vpoint_exprs.append(vpoint.expr)
+            vpoint_exprs.append(vpoint.expr())
 
         return {
             'Expression': "M[" + ", ".join(vpoint_exprs) + "]",

@@ -219,7 +219,7 @@ class PointTableWidget(BaseTableWidget):
 
     def expression(self) -> str:
         """Return expression string."""
-        exprs = ", ".join(vpoint.expr for vpoint in self.data())
+        exprs = ", ".join(vpoint.expr() for vpoint in self.data())
         return f"M[{exprs}]"
 
     def edit_point(self, row: int, links: str, type_str: str, color: str, x: str, y: str):

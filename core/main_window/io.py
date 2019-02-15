@@ -559,7 +559,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_exprsion_triggered')
     def __show_expr(self):
         """Output as expression."""
-        context = ",\n".join(" " * 4 + vpoint.expr for vpoint in self.entities_point.data())
+        context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.entities_point.data())
         dlg = ScriptDialog(
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
@@ -579,7 +579,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             slvs_process_script(
-                tuple(vpoint.expr for vpoint in self.entities_point.data()),
+                tuple(vpoint.expr() for vpoint in self.entities_point.data()),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
             ),
             Python3Lexer(),

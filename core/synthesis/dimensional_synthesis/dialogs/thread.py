@@ -100,14 +100,11 @@ class WorkerThread(QThread):
             'time_fitness': tf,
         }
         mechanism.update(self.mech_params)
-        mechanism.update(params)
+        mechanism['Expression'] = params
         print(f"cost time: {time_spend:.02f} [s]")
         return mechanism
 
-    def __generate_process(self) -> Tuple[
-        Dict[str, Any],
-        List[Tuple[int, float, float]]
-    ]:
+    def __generate_process(self) -> Tuple[str, List[Tuple[int, float, float]]]:
         """Re-create function object then execute algorithm."""
         if self.type_num == AlgorithmType.RGA:
             foo = Genetic
@@ -122,8 +119,7 @@ class WorkerThread(QThread):
             interrupt_fun=self.__is_stop,
         )
         params, tf = self.fun.run()
-        # Note: Remove numpy 'scalar' format.
-        return eval(str(params)), tf
+        return params, tf
 
     def __is_stop(self) -> bool:
         """Return stop status for Cython function."""

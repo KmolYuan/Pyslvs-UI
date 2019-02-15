@@ -418,7 +418,7 @@ class ConfigureWidget(QWidget, Ui_Form):
                 else:
                     link_expr_list.append(link_expr_str)
 
-        self.expr_show.setText("M[" + ", ".join(vp.expr for vp in graph2vpoints(
+        self.expr_show.setText("M[" + ", ".join(vp.expr() for vp in graph2vpoints(
             self.configure_canvas.G,
             self.configure_canvas.pos,
             self.configure_canvas.cus,
