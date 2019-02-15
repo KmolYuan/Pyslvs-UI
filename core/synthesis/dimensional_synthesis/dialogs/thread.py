@@ -66,7 +66,7 @@ class WorkerThread(QThread):
     def run(self):
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
-            print(f"- [P{name}]: {path}")
+            print(f"- [P{name}] ({len(path)})")
         t0 = time()
         for self.current_loop in range(self.loop):
             print(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
