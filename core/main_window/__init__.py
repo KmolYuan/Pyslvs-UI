@@ -134,7 +134,6 @@ class MainWindow(IOMethodInterface):
         while f"Algorithm_{i}" in self.inputs_widget.path_data():
             i += 1
         self.inputs_widget.add_path(f"Algorithm_{i}", path)
-        self.main_canvas.zoom_to_fit()
 
     @Slot(name='on_background_choose_dir_clicked')
     def __set_background(self):

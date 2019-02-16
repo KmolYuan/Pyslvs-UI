@@ -520,7 +520,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if QMessageBox.question(
             self,
             "Merge",
-            "Merge this result to your canvas?"
+            "Add the result expression into storage?"
         ) == QMessageBox.Yes:
             self.merge_result(self.mechanism_data[row]['Expression'], self.__get_path(row))
 

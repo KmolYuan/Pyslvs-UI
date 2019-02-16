@@ -20,6 +20,7 @@ Features
 + Enhancement of "link adjust" function.
 + Enhancement of mechanism grammar.
 + Set the table headers to auto resize mode.
++ Change the merge behavior of synthesis result as add to storage.
 
 Development
 ---
