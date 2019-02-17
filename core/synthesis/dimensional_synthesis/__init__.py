@@ -531,6 +531,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         input_list: List[Tuple[int, int]] = result['input']
         vpoints = parse_vpoints(expression)
         expr = vpoints_configure(vpoints, input_list)
+        b, d = input_list[0]
+        base_angle = vpoints[b].slope_angle(vpoints[d])
 
         path = [[] for _ in range(len(vpoints))]
         for angle in range(360 + 1):
@@ -539,7 +541,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     expr,
                     {i: f"P{i}" for i in range(len(vpoints))},
                     vpoints,
-                    [angle] * len(input_list)
+                    [base_angle + angle] + [0] * (len(input_list) - 1)
                 )
             except ValueError:
                 nan = float('nan')
