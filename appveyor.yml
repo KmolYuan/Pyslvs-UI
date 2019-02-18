@@ -7,8 +7,8 @@ platform:
 environment:
   matrix:
 
-  - MINGW_DIR: &mingw C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0\mingw64\bin
-    MSYS_DIR: &msys2 C:\msys64\usr\bin
+  - MINGW_DIR: &mingw C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
+    MSYS_DIR: &msys2 C:\msys64
     PYTHON_DIR: C:\Python36-x64
 
   - MINGW_DIR: *mingw
@@ -38,7 +38,7 @@ install:
 # Set Python compiler to Msys2.
 - pip install setuptools -U
 - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
-- echo compiler = mingw32.exe>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
+- echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
 - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
 - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 
