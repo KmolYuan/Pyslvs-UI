@@ -630,7 +630,7 @@ class PreviewCanvas(BaseCanvas):
                 links[node].append(joint)
 
         for row, link in enumerate(links):
-            if placement == set(link):
+            if placement == set(link) - set(self.same):
                 self.set_grounded(row)
                 break
 
