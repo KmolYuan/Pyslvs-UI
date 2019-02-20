@@ -1,95 +1,96 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'progress.ui'
+# Form implementation generated from reading ui file 'core/synthesis/dimensional_synthesis/dialogs/progress.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from core.QtModules import *
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(514, 135)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icons/dimensional_synthesis.png"), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setModal(True)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout = QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.label_6 = QtWidgets.QLabel(Dialog)
+        self.label_6 = QLabel(Dialog)
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_2.addWidget(self.label_6)
-        self.time_label = QtWidgets.QLabel(Dialog)
+        self.time_label = QLabel(Dialog)
         self.time_label.setObjectName("time_label")
         self.horizontalLayout_2.addWidget(self.time_label)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
-        self.label_4 = QtWidgets.QLabel(Dialog)
+        self.label_4 = QLabel(Dialog)
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_2.addWidget(self.label_4)
-        self.batch_label = QtWidgets.QLabel(Dialog)
+        self.batch_label = QLabel(Dialog)
         self.batch_label.setObjectName("batch_label")
         self.horizontalLayout_2.addWidget(self.batch_label)
-        self.label_7 = QtWidgets.QLabel(Dialog)
+        self.label_7 = QLabel(Dialog)
         self.label_7.setObjectName("label_7")
         self.horizontalLayout_2.addWidget(self.label_7)
-        self.loopTime = QtWidgets.QSpinBox(Dialog)
+        self.loopTime = QSpinBox(Dialog)
         self.loopTime.setMinimum(1)
         self.loopTime.setMaximum(10)
         self.loopTime.setObjectName("loopTime")
         self.horizontalLayout_2.addWidget(self.loopTime)
-        self.label_5 = QtWidgets.QLabel(Dialog)
+        self.label_5 = QLabel(Dialog)
         self.label_5.setObjectName("label_5")
         self.horizontalLayout_2.addWidget(self.label_5)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
-        self.label_2 = QtWidgets.QLabel(Dialog)
+        self.label_2 = QLabel(Dialog)
         self.label_2.setWordWrap(True)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
-        self.progressBar = QtWidgets.QProgressBar(Dialog)
+        self.progressBar = QProgressBar(Dialog)
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout.addWidget(self.progressBar)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setSpacing(6)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label_3 = QtWidgets.QLabel(Dialog)
+        self.label_3 = QLabel(Dialog)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
-        self.fitness_label = QtWidgets.QLabel(Dialog)
+        self.fitness_label = QLabel(Dialog)
         self.fitness_label.setObjectName("fitness_label")
         self.horizontalLayout.addWidget(self.fitness_label)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
-        self.start_button = QtWidgets.QPushButton(Dialog)
+        self.start_button = QPushButton(Dialog)
         self.start_button.setObjectName("start_button")
         self.horizontalLayout.addWidget(self.start_button)
-        self.interrupt_button = QtWidgets.QPushButton(Dialog)
+        self.interrupt_button = QPushButton(Dialog)
         self.interrupt_button.setEnabled(False)
         self.interrupt_button.setObjectName("interrupt_button")
         self.horizontalLayout.addWidget(self.interrupt_button)
-        self.button_box = QtWidgets.QDialogButtonBox(Dialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.button_box = QDialogButtonBox(Dialog)
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.button_box.sizePolicy().hasHeightForWidth())
         self.button_box.setSizePolicy(sizePolicy)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel)
+        self.button_box.setStandardButtons(QDialogButtonBox.Cancel)
         self.button_box.setObjectName("button_box")
         self.horizontalLayout.addWidget(self.button_box)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
         self.button_box.rejected.connect(Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        _translate = QtCore.QCoreApplication.translate
+        _translate = QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
         self.label_6.setText(_translate("Dialog", "Time passed:"))
         self.time_label.setText(_translate("Dialog", "00:00:00"))
@@ -101,5 +102,6 @@ class Ui_Dialog(object):
         self.fitness_label.setText(_translate("Dialog", "N/A"))
         self.start_button.setText(_translate("Dialog", "Start"))
         self.interrupt_button.setText(_translate("Dialog", "Interrupt"))
+
 
 import icons_rc
