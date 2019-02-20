@@ -236,8 +236,8 @@ class DynamicCanvas(DynamicCanvasInterface):
         """Update the ranges of dimensional synthesis."""
         self.ranges.clear()
         self.ranges.update({tag: QRectF(
-            QPointF(values[0] - values[2]/2, values[1] + values[2]/2),
-            QSizeF(values[2], values[2])
+            QPointF(values[0] - values[2], values[1] + values[2]),
+            QSizeF(values[2] * 2, values[2] * 2)
         ) for tag, values in ranges.items()})
         self.update()
 

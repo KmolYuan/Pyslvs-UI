@@ -673,7 +673,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             for i, s in enumerate([
                 spinbox(coord[0] if coord else x, minimum=-9999.),
                 spinbox(coord[1] if coord else y, minimum=-9999.),
-                spinbox(coord[2] if coord else 50., prefix=True),
+                spinbox(coord[2] if coord else 25., prefix=True),
             ]):
                 s.valueChanged.connect(self.update_range)
                 self.parameter_list.setCellWidget(row, i + 2, s)
@@ -726,11 +726,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setItem(row, 1, QTableWidgetItem(type_name))
             # Set values (it will be same if not in the 'mech_params').
             upper = upper_list[i]
-            if upper == 0:
-                upper = 105. if name in link_list else 360.
+            if upper == 0.:
+                upper = 100. if name in link_list else 360.
             lower = lower_list[i]
-            if lower == 0 and name in link_list:
-                lower = 5.
+            if lower == 0. and name in link_list:
+                lower = 0.
             upper_list[i] = upper
             lower_list[i] = lower
             # Spin box.

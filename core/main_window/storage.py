@@ -13,7 +13,7 @@ from typing import (
     Dict,
     Optional,
 )
-from abc import ABC, abstractmethod
+from abc import ABC
 from core.QtModules import (
     Slot,
     QApplication,
@@ -150,6 +150,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         ))
         self.command_stack.push(AddStorageName(name, self.mechanism_storage_name_tag))
         self.command_stack.endMacro()
+        self.main_canvas.zoom_to_fit()
 
     def get_storage(self) -> Dict[str, str]:
         """Get storage data."""

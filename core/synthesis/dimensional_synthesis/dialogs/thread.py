@@ -118,8 +118,7 @@ class WorkerThread(QThread):
             progress_fun=self.progress_update.emit,
             interrupt_fun=self.__is_stop,
         )
-        params, tf = self.fun.run()
-        return params, tf
+        return self.fun.run()
 
     def __is_stop(self) -> bool:
         """Return stop status for Cython function."""

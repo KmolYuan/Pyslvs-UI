@@ -29,7 +29,6 @@ from core.QtModules import (
     QApplication,
     QPolygonF,
     QRectF,
-    QSizeF,
     QPointF,
     QLineF,
     QFont,
@@ -41,7 +40,6 @@ from core.graphics import (
     convex_hull,
     BaseCanvas,
     color_qt,
-    color_num,
 )
 from core.libs import VJoint, VPoint, VLink
 
@@ -174,8 +172,6 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         self.selections: List[int] = []
         # Link transparency.
         self.transparency = 1.
-        # Path solving range.
-        self.ranges = {}
         # Set show_dimension to False.
         self.show_dimension = False
         # Free move mode.
@@ -350,32 +346,6 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 self.draw_curve(path)
             else:
                 self.draw_dot(path)
-
-    def __draw_slvs_ranges(self):
-        """Draw solving range."""
-        pen = QPen()
-        pen.setWidth(5)
-        for i, (tag, rect) in enumerate(self.ranges.items()):
-            range_color = QColor(color_num(i + 1))
-            range_color.setAlpha(30)
-            self.painter.setBrush(range_color)
-            range_color.setAlpha(255)
-            pen.setColor(range_color)
-            self.painter.setPen(pen)
-            cx = rect.x() * self.zoom
-            cy = rect.y() * -self.zoom
-            if rect.width():
-                self.painter.drawRect(QRectF(
-                    QPointF(cx, cy),
-                    QSizeF(rect.width(), rect.height()) * self.zoom
-                ))
-            else:
-                self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
-            range_color.setAlpha(255)
-            pen.setColor(range_color)
-            self.painter.setPen(pen)
-            self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
-            self.painter.setBrush(Qt.NoBrush)
 
     def __emit_free_move(self, targets: List[int]):
         """Emit free move targets to edit."""
@@ -564,7 +534,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Draw solving path.
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
-            self.__draw_slvs_ranges()
+            self.draw_slvs_ranges()
             self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
 
