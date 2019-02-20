@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>456</width>
-    <height>688</height>
+    <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -193,6 +193,31 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QComboBox" name="driver_base"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="driver_arrow_label">
+               <property name="text">
+                <string>-&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="driver_rotator"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="driver_add">
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QLabel" name="driver_label">
              <property name="text">
               <string>Inputs:</string>
@@ -208,39 +233,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="driver_del">
-             <property name="text">
-              <string>&gt;&gt;</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QComboBox" name="driver_base"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="driver_rotator"/>
-           </item>
-           <item>
-            <widget class="QLabel" name="follower_label">
-             <property name="text">
-              <string>Fixed Joints:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="follower_list">
-             <property name="statusTip">
-              <string>These joints are on the grounded link, the position of them will generate. So they are don't need to have a solution.</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="driver_add">
-             <property name="text">
-              <string>&lt;&lt;</string>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
              </property>
             </widget>
            </item>
@@ -259,16 +254,6 @@
             <widget class="QListWidget" name="grounded_list">
              <property name="statusTip">
               <string>Set a link as the ground. Existing solutions will be reset.</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="grounded_list_label">
-             <property name="text">
-              <string>&lt;&lt;</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>

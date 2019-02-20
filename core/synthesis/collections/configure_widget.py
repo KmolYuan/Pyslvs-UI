@@ -160,28 +160,31 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.joint_name.clear()
         self.grounded_list.clear()
         self.driver_list.clear()
-        self.follower_list.clear()
         self.target_list.clear()
         self.expr_show.clear()
         for label in [
             self.grounded_label,
             self.driver_label,
-            self.follower_label,
             self.target_label,
         ]:
             _set_warning(label, True)
 
     @Slot(name='on_clear_button_clicked')
-    def __user_clear(self):
+    def __user_clear(self) -> bool:
         """Ask user before clear."""
+        if not self.configure_canvas.G.nodes:
+            return True
+
         if QMessageBox.question(
             self,
             "New profile",
-            "Triangular iteration should be added structure diagrams "
-            "from structure collections.\n"
-            "Do you want to create a new profile?"
+            "Do you want to create a new profile?\n"
+            "Unsaved changes will be cleared!"
         ) == QMessageBox.Yes:
             self.__clear_panel()
+            return True
+
+        return False
 
     @Slot(name='on_add_collection_button_clicked')
     def __add_collection(self):
@@ -195,7 +198,9 @@ class ConfigureWidget(QWidget, Ui_Form):
         pos: Dict[int, Tuple[float, float]]
     ):
         """Set the graph to preview canvas."""
-        self.__clear_panel()
+        if not self.__user_clear():
+            return
+
         self.configure_canvas.set_graph(graph, pos)
 
         links: List[List[str]] = [[] for _ in range(len(graph.nodes))]
@@ -216,7 +221,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
         self.configure_canvas.set_grounded(row)
-        self.follower_list.clear()
         self.driver_list.clear()
         self.driver_base.clear()
         self.driver_rotator.clear()
@@ -226,10 +230,8 @@ class ConfigureWidget(QWidget, Ui_Form):
                 return
 
             items = item.text().replace('(', '').replace(')', '').split(", ")
-            self.follower_list.addItems(items)
             self.driver_base.addItems(items)
 
-        _set_warning(self.follower_label, not has_choose)
         _set_warning(self.driver_label, True)
         if row == self.grounded_list.currentRow():
             return
@@ -252,7 +254,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             for node_, link_ in ev.items():
                 if node_ == node:
                     continue
-                if set(link_) & link:
+                inter = set(link_) & link
+                if inter and inter.pop() != self.configure_canvas.grounded:
                     tmp_list.append(f'P{node_}')
             return tmp_list
 
@@ -307,8 +310,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             input_list.append(pair)
 
         place_list = {}
-        for s in list_texts(self.follower_list):
-            joint = int(s.replace('P', ''))
+        for i in range(self.driver_base.count()):
+            joint = int(self.driver_base.itemText(i).replace('P', ''))
             if joint in self.configure_canvas.same:
                 continue
             place_list[joint] = None

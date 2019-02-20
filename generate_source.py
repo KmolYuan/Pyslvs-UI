@@ -46,4 +46,4 @@ def gen_qrc():
 
 if __name__ == '__main__':
     gen_ui()
-    gen_qrc()
+    # gen_qrc()

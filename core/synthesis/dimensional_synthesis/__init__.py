@@ -597,13 +597,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if dlg.exec():
-            self.__set_profile(dlg.name(), dlg.params())
+        if not dlg.exec():
+            return
+
+        params = dlg.params()
+        # Check the profile.
+        if not (params['Target'] and params['input'] and params['Placement']):
+            QMessageBox.warning(
+                self,
+                "Invalid profile",
+                "The profile is not configured yet."
+            )
+            return
+
+        self.__set_profile(dlg.name(), params)
 
     def __set_profile(self, profile_name: str, params: Dict[str, Any]):
         """Set profile to sub-widgets."""
         self.__clear_settings()
-        self.profile_name.setText(profile_name)
         self.mech_params = deepcopy(params)
         expression: str = self.mech_params['Expression']
         self.expression_string.setText(expression)
@@ -750,6 +761,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.preview_canvas.from_profile(self.mech_params)
         self.update_range()
+
+        self.profile_name.setText(profile_name)
 
         # Default value of algorithm option.
         if 'settings' in self.mech_params:
