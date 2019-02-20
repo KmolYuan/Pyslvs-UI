@@ -292,7 +292,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
     @Slot(name='on_add_customization_clicked')
     def __add_cus(self):
-        """Show up custom joints dialog."""
+        """Show up custom points dialog."""
         dlg = CustomsDialog(self)
         dlg.show()
         dlg.exec()

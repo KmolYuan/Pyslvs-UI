@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""The option dialog to set
-the custom joints and the multiple joints.
-"""
+"""The option dialog to set the custom points and the multiple joints."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
@@ -59,7 +57,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_add_button_clicked')
     def __add_cus(self):
-        """Add a custom joint by dependents."""
+        """Add a custom point by dependents."""
         row = self.link_choose.currentIndex()
         if not row > -1:
             return
@@ -77,7 +75,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_delete_button_clicked')
     def __delete_cus(self):
-        """Remove a custom joint."""
+        """Remove a custom point."""
         row = self.custom_list.currentRow()
         if not row > -1:
             return

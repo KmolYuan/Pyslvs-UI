@@ -102,7 +102,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Custom joints"))
+        Dialog.setWindowTitle(_translate("Dialog", "Custom points"))
         self.new_group.setTitle(_translate("Dialog", "New joints"))
         self.link_choose_label.setText(_translate("Dialog", "Belong with the link of:"))
         self.add_button.setText(_translate("Dialog", "Add"))
