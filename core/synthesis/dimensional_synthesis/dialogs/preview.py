@@ -30,13 +30,12 @@ from core.QtModules import (
     QWidget,
 )
 from core.graphics import BaseCanvas, color_qt
-from core.io import str_between
 from core.libs import (
     color_rgb,
+    get_vlinks,
     VPoint,
     VLink,
     parse_vpoints,
-    parse_vlinks,
 )
 from .Ui_preview import Ui_Dialog
 
@@ -271,16 +270,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.main_splitter.setSizes([400, 150])
         self.splitter.setSizes([100, 100, 100])
         vpoints = parse_vpoints(mechanism['Expression'])
-        vlinks = parse_vlinks(mechanism['Expression'])
+        vlinks = get_vlinks(vpoints)
         preview_widget = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
         self.left_layout.insertWidget(0, preview_widget)
-
-        # Basic information
-        link_tags = set()
-        for expr in mechanism['Expression'].split(';'):
-            for p in str_between(expr, '[', ']').split(','):
-                if ('L' in p) and (p not in link_tags):
-                    link_tags.add(p)
 
         labels = []
         for tag, data in chain(

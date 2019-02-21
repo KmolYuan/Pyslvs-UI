@@ -56,6 +56,7 @@ class _ConfigureCanvas(PreviewCanvas):
     Emit signal call to change current point when pressed a dot.
     """
 
+    edit_size = 1000
     set_joint_number = Signal(int)
 
     def __init__(self, parent: QWidget):
@@ -93,14 +94,26 @@ class _ConfigureCanvas(PreviewCanvas):
 
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
-        if -120 <= mx <= 120:
+        hv = _ConfigureCanvas.edit_size / 2
+
+        if -hv <= mx <= hv:
             self.pos[row] = (mx, self.pos[row][1])
         else:
-            self.pos[row] = (120 if -120 <= mx else -120, self.pos[row][1])
-        if -120 <= my <= 120:
+            if -hv <= mx:
+                x = hv
+            else:
+                x = -hv
+            self.pos[row] = (x, self.pos[row][1])
+
+        if -hv <= my <= hv:
             self.pos[row] = (self.pos[row][0], my)
         else:
-            self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
+            if -hv <= my:
+                y = hv
+            else:
+                y = -hv
+            self.pos[row] = (self.pos[row][0], y)
+
         self.update()
 
 

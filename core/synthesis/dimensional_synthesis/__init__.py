@@ -522,7 +522,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "Merge",
             "Add the result expression into storage?"
         ) == QMessageBox.Yes:
-            self.merge_result(self.mechanism_data[row]['Expression'], self.__get_path(row))
+            expression: str = self.mechanism_data[row]['Expression']
+            self.merge_result(expression, self.__get_path(row))
 
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""

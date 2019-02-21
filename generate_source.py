@@ -18,10 +18,9 @@ def gen_ui():
             with open(join(root, target_name), 'w+', encoding='utf-8') as f:
                 compileUi(join(root, file).replace('\\', '/'), f)
                 f.seek(0)
-                script_new = re.sub(r"((?:QtCore|QtGui|QtWidgets)\.)", r"", f.read())
-                script_new = script_new.replace(
+                script_new = f.read().replace(
                     "from PyQt5 import QtCore, QtGui, QtWidgets",
-                    "from core.QtModules import *"
+                    "from core.QtModules import QtCore, QtGui, QtWidgets"
                 )
                 f.seek(0)
                 f.truncate()

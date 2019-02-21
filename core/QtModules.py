@@ -13,7 +13,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import Tuple
 from abc import ABCMeta
 from PyQt5.sip import wrappertype
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import (
     pyqtSignal as Signal,
     pyqtSlot as Slot,
@@ -28,6 +28,8 @@ from PyQt5.QtChart import *
 __all__ = [
     'Qt',
     'QtCore',
+    'QtGui',
+    'QtWidgets',
     'wrappertype',
     'Signal',
     'Slot',
@@ -93,6 +95,7 @@ __all__ = [
     'QPoint',
     'QPointF',
     'QPolygonF',
+    'QProgressBar',
     'QProgressDialog',
     'QPushButton',
     'QRadioButton',
@@ -123,6 +126,7 @@ __all__ = [
     'QThread',
     'QTimer',
     'QToolButton',
+    'QToolBox',
     'QToolTip',
     'QUndoCommand',
     'QUndoStack',
