@@ -655,13 +655,13 @@ class PreviewCanvas(BaseCanvas):
 
         # Grounded setting.
         placement: Set[int] = set(params['Placement'])
-        links: List[List[int]] = [[] for _ in range(len(graph.nodes))]
+        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
         for joint, link in edges_view(graph):
             for node in link:
-                links[node].append(joint)
+                links[node].add(joint)
 
         for row, link in enumerate(links):
-            if placement == set(link) - set(self.same):
+            if placement == link - set(self.same):
                 self.set_grounded(row)
                 break
 

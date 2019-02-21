@@ -772,6 +772,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         Graph,
         List[int],
         List[Tuple[int, int]],
+        Dict[int, Tuple[float, float]],
         Dict[int, int],
         Dict[int, int]
     ]:

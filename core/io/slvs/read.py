@@ -124,5 +124,4 @@ class SlvsParser:
             links = [name for name, link in vlinks.items() if (num in link)]
             exprs.append(f"J[R, color[Green], P[{x}, {y}], L[{', '.join(links)}]]")
 
-        exprs_text = ", ".join(exprs)
-        return f"M[{exprs_text}]"
+        return "M[" + ", ".join(exprs) + "]"

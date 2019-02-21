@@ -10,8 +10,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
+    Set,
     Dict,
-    Iterator,
     Optional,
     Any,
 )
@@ -20,6 +20,8 @@ from traceback import format_exc
 from core.QtModules import Slot
 from core.libs import (
     slvs_solve,
+    edges_view,
+    graph2vpoints,
     vpoints_configure,
     VJoint,
     VPoint,
@@ -198,6 +200,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         Graph,
         List[int],
         List[Tuple[int, int]],
+        Dict[int, Tuple[float, float]],
         Dict[int, int],
         Dict[int, int]
     ]:
@@ -205,8 +208,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         VLinks will become graph nodes.
         """
-        vpoints: Tuple[VPoint, ...] = self.entities_point.data_tuple()
-        vlinks: Tuple[VLink, ...] = self.entities_link.data_tuple()
+        vpoints: List[VPoint] = [vpoint for vpoint in self.entities_point.data()]
+        vlinks: List[VLink] = [vlink for vlink in self.entities_link.data()]
         link_names = [vlink.name for vlink in vlinks]
         input_pair = set()
         for b, d, _ in self.inputs_widget.input_pairs():
@@ -217,6 +220,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         graph = Graph([])
         grounded_list = []
+        pos = {}
         same = {}
         used_point = set()
         mapping = {}
@@ -229,6 +233,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 vpoint = vpoints[p]
                 base_num = len(graph.edges)
                 mapping[p] = base_num
+                pos[base_num] = (vpoint.x, vpoint.y)
 
                 for link_name in vpoint.links:
                     if vlink.name == link_name:
@@ -236,6 +241,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
                     m = link_names.index(link_name)
                     ref_num = len(graph.edges)
+                    if ref_num != base_num:
+                        pos[ref_num] = (vpoint.x, vpoint.y)
 
                     if vpoint.type == VJoint.RP:
                         graph.add_edge(i, k)
@@ -253,11 +260,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
                 used_point.add(p)
 
-        input_list = [
-            (mapping[b], mapping[d])
-            for b, d, _ in self.inputs_widget.input_pairs()
-        ]
-
         counter = len(graph.edges)
         cus = {}
         for vpoint in vpoints:
@@ -265,7 +267,14 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 cus[counter] = link_names.index(vpoint.links[0])
                 counter += 1
 
-        return graph, grounded_list, input_list, cus, same
+        return (
+            graph,
+            grounded_list,
+            [(mapping[b], mapping[d]) for b, d, _ in self.inputs_widget.input_pairs()],
+            pos,
+            cus,
+            same,
+        )
 
     def get_configure(self) -> Dict[str, Any]:
         """Return collection data.
@@ -278,14 +287,29 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + cus
         + same
         """
-        graph, grounded_list, input_list, cus, same = self.get_graph()
-
-        vpoint_exprs = []
-        for i, vpoint in enumerate(self.entities_point.data()):
+        for vpoint in self.entities_point.data():
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
 
-            vpoint_exprs.append(vpoint.expr())
+        graph, grounded_list, input_list, pos, cus, same = self.get_graph()
+
+        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
+        for joint, link in edges_view(graph):
+            for node in link:
+                links[node].add(joint)
+
+        placement = set(grounded_list)
+        for row, link in enumerate(links):
+            if placement == link - set(same):
+                grounded = row
+                break
+        else:
+            raise ValueError("no grounded link")
+
+        vpoint_exprs = [
+            vpoint.expr()
+            for vpoint in graph2vpoints(graph, pos, cus, same, grounded)
+        ]
 
         return {
             'Expression': "M[" + ", ".join(vpoint_exprs) + "]",

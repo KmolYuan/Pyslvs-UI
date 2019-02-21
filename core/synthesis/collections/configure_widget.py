@@ -373,13 +373,13 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         # Grounded setting.
         placement: Set[int] = set(params['Placement'])
-        links: List[List[int]] = [[] for _ in range(len(graph.nodes))]
+        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
         for joint, link in edges_view(graph):
             for node in link:
-                links[node].append(joint)
+                links[node].add(joint)
 
         for row, link in enumerate(links):
-            if placement == set(link):
+            if placement == link - set(same):
                 self.__set_grounded(row)
                 break
 
@@ -432,13 +432,15 @@ class ConfigureWidget(QWidget, Ui_Form):
                 else:
                     link_expr_list.append(link_expr_str)
 
-        self.expr_show.setText("M[" + ", ".join(vp.expr() for vp in graph2vpoints(
+        vpoint_exprs = [vpoint.expr() for vpoint in graph2vpoints(
             self.configure_canvas.G,
             self.configure_canvas.pos,
             self.configure_canvas.cus,
             self.configure_canvas.same,
             self.grounded_list.currentRow()
-        )) + "]")
+        )]
+
+        self.expr_show.setText("M[" + ", ".join(vpoint_exprs) + "]")
 
     @Slot(name='on_save_button_clicked')
     def __save(self):
