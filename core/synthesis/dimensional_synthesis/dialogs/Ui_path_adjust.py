@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'path_adjust.ui'
+# Form implementation generated from reading ui file 'core/synthesis/dimensional_synthesis/dialogs/path_adjust.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from core.QtModules import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -227,5 +228,6 @@ class Ui_Dialog(object):
         self.label_6.setText(_translate("Dialog", "Reduced to: "))
         self.match_button.setText(_translate("Dialog", "Match"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.curve_fitting), _translate("Dialog", "Curve Fitting"))
+
 
 import icons_rc

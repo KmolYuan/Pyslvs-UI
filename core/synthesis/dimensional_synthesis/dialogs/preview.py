@@ -24,17 +24,18 @@ from core.QtModules import (
     QColor,
     QPointF,
     QFont,
+    QRectF,
+    QSizeF,
     QDialog,
     QWidget,
 )
 from core.graphics import BaseCanvas, color_qt
-from core.io import str_between
 from core.libs import (
     color_rgb,
+    get_vlinks,
     VPoint,
     VLink,
     parse_vpoints,
-    parse_vlinks,
 )
 from .Ui_preview import Ui_Dialog
 
@@ -57,10 +58,15 @@ class _DynamicCanvas(BaseCanvas):
         self.path.path = path
         self.vpoints = vpoints
         self.vlinks = vlinks
+        ranges: Dict[int, Tuple[float, float, float]] = self.mechanism['Placement']
+        self.ranges.update({f"P{i}": QRectF(
+            QPointF(values[0] - values[2], values[1] + values[2]),
+            QSizeF(values[2] * 2, values[2] * 2)
+        ) for i, values in ranges.items()})
         target_path: Dict[int, List[Tuple[float, float]]] = self.mechanism['Target']
-        self.target_path: Dict[str, Sequence[Tuple[float, float]]] = {
+        self.target_path.update({
             f"L{i}": path for i, path in target_path.items()
-        }
+        })
         self.__index = 0
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.path.path) - 1
@@ -156,6 +162,7 @@ class _DynamicCanvas(BaseCanvas):
 
         # Draw solving path.
         self.draw_target_path()
+        self.draw_slvs_ranges()
 
         # Draw points.
         for i in range(len(self.vpoints)):
@@ -263,16 +270,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.main_splitter.setSizes([400, 150])
         self.splitter.setSizes([100, 100, 100])
         vpoints = parse_vpoints(mechanism['Expression'])
-        vlinks = parse_vlinks(mechanism['Expression'])
+        vlinks = get_vlinks(vpoints)
         preview_widget = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
         self.left_layout.insertWidget(0, preview_widget)
-
-        # Basic information
-        link_tags = set()
-        for expr in mechanism['Expression'].split(';'):
-            for p in str_between(expr, '[', ']').split(','):
-                if ('L' in p) and (p not in link_tags):
-                    link_tags.add(p)
 
         labels = []
         for tag, data in chain(

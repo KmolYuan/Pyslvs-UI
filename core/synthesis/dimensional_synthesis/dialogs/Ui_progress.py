@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'progress.ui'
+# Form implementation generated from reading ui file 'core/synthesis/dimensional_synthesis/dialogs/progress.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from core.QtModules import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -101,5 +102,6 @@ class Ui_Dialog(object):
         self.fitness_label.setText(_translate("Dialog", "N/A"))
         self.start_button.setText(_translate("Dialog", "Start"))
         self.interrupt_button.setText(_translate("Dialog", "Interrupt"))
+
 
 import icons_rc

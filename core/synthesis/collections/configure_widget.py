@@ -56,6 +56,7 @@ class _ConfigureCanvas(PreviewCanvas):
     Emit signal call to change current point when pressed a dot.
     """
 
+    edit_size = 1000
     set_joint_number = Signal(int)
 
     def __init__(self, parent: QWidget):
@@ -93,14 +94,26 @@ class _ConfigureCanvas(PreviewCanvas):
 
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
-        if -120 <= mx <= 120:
+        hv = _ConfigureCanvas.edit_size / 2
+
+        if -hv <= mx <= hv:
             self.pos[row] = (mx, self.pos[row][1])
         else:
-            self.pos[row] = (120 if -120 <= mx else -120, self.pos[row][1])
-        if -120 <= my <= 120:
+            if -hv <= mx:
+                x = hv
+            else:
+                x = -hv
+            self.pos[row] = (x, self.pos[row][1])
+
+        if -hv <= my <= hv:
             self.pos[row] = (self.pos[row][0], my)
         else:
-            self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
+            if -hv <= my:
+                y = hv
+            else:
+                y = -hv
+            self.pos[row] = (self.pos[row][0], y)
+
         self.update()
 
 
@@ -160,28 +173,31 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.joint_name.clear()
         self.grounded_list.clear()
         self.driver_list.clear()
-        self.follower_list.clear()
         self.target_list.clear()
         self.expr_show.clear()
         for label in [
             self.grounded_label,
             self.driver_label,
-            self.follower_label,
             self.target_label,
         ]:
             _set_warning(label, True)
 
     @Slot(name='on_clear_button_clicked')
-    def __user_clear(self):
+    def __user_clear(self) -> bool:
         """Ask user before clear."""
+        if not self.configure_canvas.G.nodes:
+            return True
+
         if QMessageBox.question(
             self,
             "New profile",
-            "Triangular iteration should be added structure diagrams "
-            "from structure collections.\n"
-            "Do you want to create a new profile?"
+            "Do you want to create a new profile?\n"
+            "Unsaved changes will be cleared!"
         ) == QMessageBox.Yes:
             self.__clear_panel()
+            return True
+
+        return False
 
     @Slot(name='on_add_collection_button_clicked')
     def __add_collection(self):
@@ -195,7 +211,9 @@ class ConfigureWidget(QWidget, Ui_Form):
         pos: Dict[int, Tuple[float, float]]
     ):
         """Set the graph to preview canvas."""
-        self.__clear_panel()
+        if not self.__user_clear():
+            return
+
         self.configure_canvas.set_graph(graph, pos)
 
         links: List[List[str]] = [[] for _ in range(len(graph.nodes))]
@@ -216,7 +234,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
         self.configure_canvas.set_grounded(row)
-        self.follower_list.clear()
         self.driver_list.clear()
         self.driver_base.clear()
         self.driver_rotator.clear()
@@ -226,10 +243,8 @@ class ConfigureWidget(QWidget, Ui_Form):
                 return
 
             items = item.text().replace('(', '').replace(')', '').split(", ")
-            self.follower_list.addItems(items)
             self.driver_base.addItems(items)
 
-        _set_warning(self.follower_label, not has_choose)
         _set_warning(self.driver_label, True)
         if row == self.grounded_list.currentRow():
             return
@@ -252,7 +267,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             for node_, link_ in ev.items():
                 if node_ == node:
                     continue
-                if set(link_) & link:
+                inter = set(link_) & link
+                if inter and inter.pop() != self.configure_canvas.grounded:
                     tmp_list.append(f'P{node_}')
             return tmp_list
 
@@ -289,7 +305,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
     @Slot(name='on_add_customization_clicked')
     def __add_cus(self):
-        """Show up custom joints dialog."""
+        """Show up custom points dialog."""
         dlg = CustomsDialog(self)
         dlg.show()
         dlg.exec()
@@ -307,8 +323,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             input_list.append(pair)
 
         place_list = {}
-        for s in list_texts(self.follower_list):
-            joint = int(s.replace('P', ''))
+        for i in range(self.driver_base.count()):
+            joint = int(self.driver_base.itemText(i).replace('P', ''))
             if joint in self.configure_canvas.same:
                 continue
             place_list[joint] = None
@@ -357,13 +373,13 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         # Grounded setting.
         placement: Set[int] = set(params['Placement'])
-        links: List[List[int]] = [[] for _ in range(len(graph.nodes))]
+        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
         for joint, link in edges_view(graph):
             for node in link:
-                links[node].append(joint)
+                links[node].add(joint)
 
         for row, link in enumerate(links):
-            if placement == set(link):
+            if placement == link - set(same):
                 self.__set_grounded(row)
                 break
 
@@ -416,13 +432,15 @@ class ConfigureWidget(QWidget, Ui_Form):
                 else:
                     link_expr_list.append(link_expr_str)
 
-        self.expr_show.setText("M[" + ", ".join(vp.expr() for vp in graph2vpoints(
+        vpoint_exprs = [vpoint.expr() for vpoint in graph2vpoints(
             self.configure_canvas.G,
             self.configure_canvas.pos,
             self.configure_canvas.cus,
             self.configure_canvas.same,
             self.grounded_list.currentRow()
-        )) + "]")
+        )]
+
+        self.expr_show.setText("M[" + ", ".join(vpoint_exprs) + "]")
 
     @Slot(name='on_save_button_clicked')
     def __save(self):

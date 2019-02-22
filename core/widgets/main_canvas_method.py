@@ -29,19 +29,17 @@ from core.QtModules import (
     QApplication,
     QPolygonF,
     QRectF,
-    QSizeF,
+    QPoint,
     QPointF,
     QLineF,
     QFont,
     QPen,
     QColor,
-    QToolTip,
 )
 from core.graphics import (
     convex_hull,
     BaseCanvas,
     color_qt,
-    color_num,
 )
 from core.libs import VJoint, VPoint, VLink
 
@@ -147,6 +145,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)
+    selected_tips = Signal(QPoint, str)
+    selected_tips_hide = Signal()
     free_moved = Signal(tuple)
     noselected = Signal()
     alt_add = Signal(float, float)
@@ -174,8 +174,6 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         self.selections: List[int] = []
         # Link transparency.
         self.transparency = 1.
-        # Path solving range.
-        self.ranges = {}
         # Set show_dimension to False.
         self.show_dimension = False
         # Free move mode.
@@ -350,32 +348,6 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 self.draw_curve(path)
             else:
                 self.draw_dot(path)
-
-    def __draw_slvs_ranges(self):
-        """Draw solving range."""
-        pen = QPen()
-        pen.setWidth(5)
-        for i, (tag, rect) in enumerate(self.ranges.items()):
-            range_color = QColor(color_num(i + 1))
-            range_color.setAlpha(30)
-            self.painter.setBrush(range_color)
-            range_color.setAlpha(255)
-            pen.setColor(range_color)
-            self.painter.setPen(pen)
-            cx = rect.x() * self.zoom
-            cy = rect.y() * -self.zoom
-            if rect.width():
-                self.painter.drawRect(QRectF(
-                    QPointF(cx, cy),
-                    QSizeF(rect.width(), rect.height()) * self.zoom
-                ))
-            else:
-                self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
-            range_color.setAlpha(255)
-            pen.setColor(range_color)
-            self.painter.setPen(pen)
-            self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
-            self.painter.setBrush(Qt.NoBrush)
 
     def __emit_free_move(self, targets: List[int]):
         """Emit free move targets to edit."""
@@ -564,7 +536,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Draw solving path.
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
-            self.__draw_slvs_ranges()
+            self.draw_slvs_ranges()
             self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
 
@@ -683,6 +655,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     km != Qt.ShiftModifier
                 ):
                     self.noselected.emit()
+        self.selected_tips_hide.emit()
         self.selector.release()
         self.update()
 
@@ -715,12 +688,11 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 else:
                     self.noselected.emit()
 
-                QToolTip.showText(
+                self.selected_tips.emit(
                     event.globalPos(),
                     f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
                     f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
-                    f"{len(selection)} {_selection_unit[self.select_mode]}(s)",
-                    self
+                    f"{len(selection)} {_selection_unit[self.select_mode]}(s)"
                 )
 
             elif self.select_mode == SelectMode.Joint:
@@ -728,10 +700,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     # Free move translate function.
                     mouse_x = self.__snap(x - self.selector.x, is_zoom=False)
                     mouse_y = self.__snap(y - self.selector.y, is_zoom=False)
-                    QToolTip.showText(
+                    self.selected_tips.emit(
                         event.globalPos(),
-                        f"{mouse_x:+.02f}, {mouse_y:+.02f}",
-                        self
+                        f"{mouse_x:+.02f}, {mouse_y:+.02f}"
                     )
                     for num in self.selections:
                         vpoint = self.vpoints[num]
@@ -740,10 +711,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 elif self.free_move == FreeMode.Rotate:
                     # Free move rotate function.
                     alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
-                    QToolTip.showText(
+                    self.selected_tips.emit(
                         event.globalPos(),
-                        f"{degrees(alpha):+.02f}°",
-                        self
+                        f"{degrees(alpha):+.02f}°"
                     )
                     for num in self.selections:
                         vpoint = self.vpoints[num]
@@ -757,7 +727,10 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
                     fy = 1 if y > 0 else -1
-                    QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)
+                    self.selected_tips.emit(
+                        event.globalPos(),
+                        f"{fx:+d}, {fy:+d}"
+                    )
                     for num in self.selections:
                         vpoint = self.vpoints[num]
                         if vpoint.type == VJoint.R:

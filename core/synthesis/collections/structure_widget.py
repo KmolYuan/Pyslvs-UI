@@ -391,7 +391,7 @@ class StructureWidget(QWidget, Ui_Form):
         """Triangular iteration."""
         self.layout_sender.emit(
             self.collections[self.collection_list.currentRow()],
-            self.ground_engine
+            self.ground_engine.copy()
         )
 
     def __grounded(self):

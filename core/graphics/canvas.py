@@ -48,7 +48,11 @@ from core.libs import (
     edges_view,
     parse_pos,
 )
-from . import color_qt, target_path_style
+from .color import (
+    color_num,
+    color_qt,
+    target_path_style,
+)
 
 
 def convex_hull(
@@ -139,6 +143,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         # Path track.
         self.path = _PathOption()
         # Path solving.
+        self.ranges: Dict[str, QRectF] = {}
         self.target_path: Dict[str, Sequence[Tuple[float, float]]] = {}
         self.show_target_path = False
         # Background
@@ -238,6 +243,32 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         if self.show_dimension:
             text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
+
+    def draw_slvs_ranges(self):
+        """Draw solving range."""
+        pen = QPen()
+        pen.setWidth(5)
+        for i, (tag, rect) in enumerate(self.ranges.items()):
+            range_color = QColor(color_num(i + 1))
+            range_color.setAlpha(30)
+            self.painter.setBrush(range_color)
+            range_color.setAlpha(255)
+            pen.setColor(range_color)
+            self.painter.setPen(pen)
+            cx = rect.x() * self.zoom
+            cy = rect.y() * -self.zoom
+            if rect.width():
+                self.painter.drawRect(QRectF(
+                    QPointF(cx, cy),
+                    QSizeF(rect.width(), rect.height()) * self.zoom
+                ))
+            else:
+                self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
+            range_color.setAlpha(255)
+            pen.setColor(range_color)
+            self.painter.setPen(pen)
+            self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
+            self.painter.setBrush(Qt.NoBrush)
 
     def draw_target_path(self):
         """Draw solving path."""
@@ -624,13 +655,13 @@ class PreviewCanvas(BaseCanvas):
 
         # Grounded setting.
         placement: Set[int] = set(params['Placement'])
-        links: List[List[int]] = [[] for _ in range(len(graph.nodes))]
+        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
         for joint, link in edges_view(graph):
             for node in link:
-                links[node].append(joint)
+                links[node].add(joint)
 
         for row, link in enumerate(links):
-            if placement == set(link) - set(self.same):
+            if placement == link - set(self.same):
                 self.set_grounded(row)
                 break
 

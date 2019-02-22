@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/synthesis/collections/structure_widget.ui'
+# Form implementation generated from reading ui file 'core/synthesis/collections/structure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from core.QtModules import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(507, 639)
+        Form.resize(401, 639)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/structure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -178,23 +179,20 @@ class Ui_Form(object):
         self.contracted_link_assortments_label = QtWidgets.QLabel(self.verticalLayoutWidget)
         self.contracted_link_assortments_label.setObjectName("contracted_link_assortments_label")
         self.verticalLayout_4.addWidget(self.contracted_link_assortments_label)
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.configure_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.configure_button.setEnabled(False)
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.configure_button.setIcon(icon8)
         self.configure_button.setObjectName("configure_button")
-        self.horizontalLayout_5.addWidget(self.configure_button)
+        self.verticalLayout_4.addWidget(self.configure_button)
         self.grounded_merge = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.grounded_merge.setEnabled(False)
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap(":/icons/merge.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.grounded_merge.setIcon(icon9)
         self.grounded_merge.setObjectName("grounded_merge")
-        self.horizontalLayout_5.addWidget(self.grounded_merge)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_4.addWidget(self.grounded_merge)
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
         self.horizontalLayout_2.addLayout(self.verticalLayout_5)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -249,5 +247,6 @@ class Ui_Form(object):
         self.configure_button.setText(_translate("Form", "Configure"))
         self.grounded_merge.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.grounded_merge.setText(_translate("Form", "Merge"))
+
 
 import icons_rc

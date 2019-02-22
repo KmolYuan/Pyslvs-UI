@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Custom joints</string>
+   <string>Custom points</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../../icons.qrc">

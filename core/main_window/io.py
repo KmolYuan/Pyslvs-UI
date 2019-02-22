@@ -276,6 +276,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                     break
             else:
                 raise ValueError
+
             text_list = [s for s in expr if s not in ('', " ", '\n')]
             expr.clear()
             while text_list:
@@ -291,7 +292,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 type_text = f"{item[0]}:{item[-1]}" if item[0] != 'R' else 'R'
                 links_text = ", ".join(links)
                 expr.append(f"J[{type_text}, P[{item[1]}, {item[2]}], L[{links_text}]]")
-            expr = f'M[{", ".join(expr)}]'
+            expr = "M[" + ", ".join(expr) + "]"
         except (ValueError, IndexError):
             QMessageBox.warning(
                 self,

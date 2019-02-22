@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\Pyslvs-PyQt5\core\entities\edit_point.ui'
+# Form implementation generated from reading ui file 'core/entities/edit_point.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from core.QtModules import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -142,14 +143,5 @@ class Ui_Dialog(object):
         self.links_label.setText(_translate("Dialog", "Links:"))
         self.label_4.setText(_translate("Dialog", ">>"))
 
+
 import icons_rc
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
-

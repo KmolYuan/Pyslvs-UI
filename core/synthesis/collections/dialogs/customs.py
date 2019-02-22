@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
-"""The option dialog to set
-the custom joints and the multiple joints.
-"""
+"""The option dialog to set the custom points and the multiple joints."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 from core.QtModules import Slot, Qt, QDialog
 from .Ui_customs import Ui_Dialog
 
@@ -59,16 +57,17 @@ class CustomsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_add_button_clicked')
     def __add_cus(self):
-        """Add a custom joint by dependents."""
+        """Add a custom point by dependents."""
         row = self.link_choose.currentIndex()
         if not row > -1:
             return
+
         try:
             new_num = max(self.cus)
         except ValueError:
             new_num = max(self.pos)
         new_num += 1
-        new_name = f'P{new_num}'
+        new_name = f"P{new_num}"
         self.cus[new_num] = row
         self.pos[new_num] = (0., 0.)
         self.status[new_num] = False
@@ -77,10 +76,11 @@ class CustomsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_delete_button_clicked')
     def __delete_cus(self):
-        """Remove a custom joint."""
+        """Remove a custom point."""
         row = self.custom_list.currentRow()
         if not row > -1:
             return
+
         name = self.custom_list.item(row).text().split(" -> ")[0]
         num = int(name.replace('P', ''))
         self.cus.pop(num)
@@ -95,6 +95,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.quote_link_choose.clear()
         if not s:
             return
+
         for row in range(self.link_choose.count()):
             link_text = self.link_choose.itemText(row)
             if s in link_text.replace('(', '').replace(')', '').split(", "):
@@ -106,6 +107,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.joint_choose.clear()
         if not s:
             return
+
         for joint in s.replace('(', '').replace(')', '').split(", "):
             if joint == self.quote_choose.currentText():
                 continue
@@ -119,10 +121,11 @@ class CustomsDialog(QDialog, Ui_Dialog):
         s = self.joint_choose.currentText()
         if not s:
             return
+
         joint = int(s.replace('P', ''))
         qs = self.quote_choose.currentText()
         self.same[joint] = int(qs.replace('P', ''))
-        self.multiple_list.addItem(f"P{s} -> P{qs}")
+        self.multiple_list.addItem(f"{s} -> {qs}")
         self.__reload_quote_choose()
 
     @Slot(name='on_delete_mj_button_clicked')
@@ -131,6 +134,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         row = self.multiple_list.currentRow()
         if not row > -1:
             return
+
         name = self.multiple_list.item(row).text().split(" -> ")[0]
         joint = int(name.replace('P', ''))
         self.same.pop(joint)

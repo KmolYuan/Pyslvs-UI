@@ -146,12 +146,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.__structure_list_context_menu
         )
 
-        """Context menu
-
-        + Add to collections
-        + Copy edges
-        + Copy image
-        """
+        # Context menu
         self.pop_menu_topo = QMenu(self)
         self.add_collection = QAction(
             QIcon(QPixmap(":/icons/collections.png")),
@@ -194,7 +189,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         joint_data = self.jointDataFunc()
         link_data = self.linkDataFunc()
         if joint_data and link_data:
-            graph, _, _, _, _ = self.get_graph()
+            graph, _, _, _, _, _ = self.get_graph()
             self.edges_text.setText(str(graph.edges))
         else:
             graph = Graph([])

@@ -522,7 +522,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "Merge",
             "Add the result expression into storage?"
         ) == QMessageBox.Yes:
-            self.merge_result(self.mechanism_data[row]['Expression'], self.__get_path(row))
+            expression: str = self.mechanism_data[row]['Expression']
+            self.merge_result(expression, self.__get_path(row))
 
     def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
         """Using result data to generate paths of mechanism."""
@@ -597,13 +598,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if dlg.exec():
-            self.__set_profile(dlg.name(), dlg.params())
+        if not dlg.exec():
+            return
+
+        params = dlg.params()
+        # Check the profile.
+        if not (params['Target'] and params['input'] and params['Placement']):
+            QMessageBox.warning(
+                self,
+                "Invalid profile",
+                "The profile is not configured yet."
+            )
+            return
+
+        self.__set_profile(dlg.name(), params)
 
     def __set_profile(self, profile_name: str, params: Dict[str, Any]):
         """Set profile to sub-widgets."""
         self.__clear_settings()
-        self.profile_name.setText(profile_name)
         self.mech_params = deepcopy(params)
         expression: str = self.mech_params['Expression']
         self.expression_string.setText(expression)
@@ -673,7 +685,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             for i, s in enumerate([
                 spinbox(coord[0] if coord else x, minimum=-9999.),
                 spinbox(coord[1] if coord else y, minimum=-9999.),
-                spinbox(coord[2] if coord else 50., prefix=True),
+                spinbox(coord[2] if coord else 25., prefix=True),
             ]):
                 s.valueChanged.connect(self.update_range)
                 self.parameter_list.setCellWidget(row, i + 2, s)
@@ -726,11 +738,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setItem(row, 1, QTableWidgetItem(type_name))
             # Set values (it will be same if not in the 'mech_params').
             upper = upper_list[i]
-            if upper == 0:
-                upper = 105. if name in link_list else 360.
+            if upper == 0.:
+                upper = 100. if name in link_list else 360.
             lower = lower_list[i]
-            if lower == 0 and name in link_list:
-                lower = 5.
+            if lower == 0. and name in link_list:
+                lower = 0.
             upper_list[i] = upper
             lower_list[i] = lower
             # Spin box.
@@ -750,6 +762,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.preview_canvas.from_profile(self.mech_params)
         self.update_range()
+
+        self.profile_name.setText(profile_name)
 
         # Default value of algorithm option.
         if 'settings' in self.mech_params:

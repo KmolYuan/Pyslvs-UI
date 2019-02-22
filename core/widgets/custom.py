@@ -28,6 +28,7 @@ from core.QtModules import (
     QIcon,
     QPixmap,
     QPoint,
+    QLabel,
     QPushButton,
     QKeySequence,
     QStandardPaths,
@@ -180,7 +181,17 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
         # QPainter canvas window
         self.main_canvas = DynamicCanvas(self)
+        select_tips = QLabel(self, Qt.ToolTip)
         self.entities_tab.currentChanged.connect(self.main_canvas.set_selection_mode)
+
+        @Slot(QPoint, str)
+        def show_select_tips(pos: QPoint, text: str):
+            select_tips.setText(text)
+            select_tips.move(pos - QPoint(0, select_tips.height()))
+            select_tips.show()
+
+        self.main_canvas.selected_tips.connect(show_select_tips)
+        self.main_canvas.selected_tips_hide.connect(select_tips.hide)
 
         @Slot(tuple, bool)
         def table_set_selection(selections: Tuple[int], key_detect: bool):
@@ -772,6 +783,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         Graph,
         List[int],
         List[Tuple[int, int]],
+        Dict[int, Tuple[float, float]],
         Dict[int, int],
         Dict[int, int]
     ]:

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
+    <width>401</width>
     <height>639</height>
    </rect>
   </property>
@@ -383,42 +383,38 @@
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QPushButton" name="configure_button">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="statusTip">
-                  <string>Use trangular formula to do dimentional synthesis.</string>
-                 </property>
-                 <property name="text">
-                  <string>Configure</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="grounded_merge">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="statusTip">
-                  <string>Merge the specified chain to canvas with current layout.</string>
-                 </property>
-                 <property name="text">
-                  <string>Merge</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QPushButton" name="configure_button">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="statusTip">
+                <string>Use trangular formula to do dimentional synthesis.</string>
+               </property>
+               <property name="text">
+                <string>Configure</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="grounded_merge">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="statusTip">
+                <string>Merge the specified chain to canvas with current layout.</string>
+               </property>
+               <property name="text">
+                <string>Merge</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>

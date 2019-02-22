@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/foxy/Desktop/Pyslvs-UI/core/widgets/main.ui'
+# Form implementation generated from reading ui file 'core/widgets/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from core.QtModules import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1035,5 +1036,6 @@ class Ui_MainWindow(object):
         self.action_save_as.setText(_translate("MainWindow", "Save &as ..."))
         self.action_save_as.setStatusTip(_translate("MainWindow", "Save to another YAML file."))
         self.action_save_as.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
+
 
 import icons_rc
