@@ -21,6 +21,7 @@ Features
 + Enhancement of mechanism grammar.
 + Set the table headers to auto resize mode.
 + Change the merge behavior of synthesis result as add to storage.
++ New style selection tip widget instead of QToolTip.
 
 Development
 ---

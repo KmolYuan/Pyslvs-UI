@@ -29,12 +29,12 @@ from core.QtModules import (
     QApplication,
     QPolygonF,
     QRectF,
+    QPoint,
     QPointF,
     QLineF,
     QFont,
     QPen,
     QColor,
-    QToolTip,
 )
 from core.graphics import (
     convex_hull,
@@ -145,6 +145,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)
+    selected_tips = Signal(QPoint, str)
+    selected_tips_hide = Signal()
     free_moved = Signal(tuple)
     noselected = Signal()
     alt_add = Signal(float, float)
@@ -653,6 +655,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     km != Qt.ShiftModifier
                 ):
                     self.noselected.emit()
+        self.selected_tips_hide.emit()
         self.selector.release()
         self.update()
 
@@ -685,12 +688,11 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 else:
                     self.noselected.emit()
 
-                QToolTip.showText(
+                self.selected_tips.emit(
                     event.globalPos(),
                     f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
                     f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
-                    f"{len(selection)} {_selection_unit[self.select_mode]}(s)",
-                    self
+                    f"{len(selection)} {_selection_unit[self.select_mode]}(s)"
                 )
 
             elif self.select_mode == SelectMode.Joint:
@@ -698,10 +700,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     # Free move translate function.
                     mouse_x = self.__snap(x - self.selector.x, is_zoom=False)
                     mouse_y = self.__snap(y - self.selector.y, is_zoom=False)
-                    QToolTip.showText(
+                    self.selected_tips.emit(
                         event.globalPos(),
-                        f"{mouse_x:+.02f}, {mouse_y:+.02f}",
-                        self
+                        f"{mouse_x:+.02f}, {mouse_y:+.02f}"
                     )
                     for num in self.selections:
                         vpoint = self.vpoints[num]
@@ -710,10 +711,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 elif self.free_move == FreeMode.Rotate:
                     # Free move rotate function.
                     alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
-                    QToolTip.showText(
+                    self.selected_tips.emit(
                         event.globalPos(),
-                        f"{degrees(alpha):+.02f}°",
-                        self
+                        f"{degrees(alpha):+.02f}°"
                     )
                     for num in self.selections:
                         vpoint = self.vpoints[num]
@@ -727,7 +727,10 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
                     fy = 1 if y > 0 else -1
-                    QToolTip.showText(event.globalPos(), f"{fx:+d}, {fy:+d}", self)
+                    self.selected_tips.emit(
+                        event.globalPos(),
+                        f"{fx:+d}, {fy:+d}"
+                    )
                     for num in self.selections:
                         vpoint = self.vpoints[num]
                         if vpoint.type == VJoint.R:
