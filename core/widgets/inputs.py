@@ -155,7 +155,7 @@ class InputsWidget(QWidget, Ui_Form):
             return
         p0 = _variable_int(item.text())
 
-        vpoints: Tuple[VPoint, ...] = self.EntitiesPoint.data_tuple()
+        vpoints = self.EntitiesPoint.data_tuple()
         type_int = vpoints[p0].type
         if type_int == VJoint.R:
             for i, vpoint in enumerate(vpoints):

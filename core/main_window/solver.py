@@ -208,8 +208,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         VLinks will become graph nodes.
         """
-        vpoints: List[VPoint] = [vpoint for vpoint in self.entities_point.data()]
-        vlinks: List[VLink] = [vlink for vlink in self.entities_link.data()]
+        vpoints = list(self.entities_point.data())
+        vlinks = list(self.entities_link.data())
         link_names = [vlink.name for vlink in vlinks]
         input_pair = set()
         for b, d, _ in self.inputs_widget.input_pairs():

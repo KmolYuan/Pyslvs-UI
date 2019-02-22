@@ -434,7 +434,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             return
 
         self.link_free_move_other.clear()
-        vlinks: Tuple[VLink, ...] = self.entities_link.data_tuple()
+        vlinks = self.entities_link.data_tuple()
         for link in self.entities_point.item_data(base).links:
             if link == 'ground':
                 continue

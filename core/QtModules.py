@@ -12,7 +12,6 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple
 from abc import ABCMeta
-from PyQt5.sip import wrappertype
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import (
     pyqtSignal as Signal,
@@ -30,7 +29,6 @@ __all__ = [
     'QtCore',
     'QtGui',
     'QtWidgets',
-    'wrappertype',
     'Signal',
     'Slot',
     'qt_image_format',
@@ -151,7 +149,7 @@ qt_image_format: Tuple[str, ...] = (
 )
 
 
-class QABCMeta(wrappertype, ABCMeta):
+class QABCMeta(type(QObject), ABCMeta):
     """Qt ABCMeta class.
 
     Usage:

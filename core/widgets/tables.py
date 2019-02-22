@@ -21,6 +21,7 @@ from typing import (
     Union,
     Optional,
     TypeVar,
+    Generic,
 )
 from core.QtModules import (
     Signal,
@@ -48,7 +49,7 @@ _Data = TypeVar('_Data', VPoint, VLink)
 _Coord = Tuple[float, float]
 
 
-class BaseTableWidget(QTableWidget, metaclass=QABCMeta):
+class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
 
     """Two tables has some shared function."""
 
@@ -180,7 +181,7 @@ class BaseTableWidget(QTableWidget, metaclass=QABCMeta):
         self.row_selection_changed.emit([])
 
 
-class PointTableWidget(BaseTableWidget):
+class PointTableWidget(BaseTableWidget[VPoint]):
 
     """Custom table widget for points."""
 
@@ -291,7 +292,7 @@ class PointTableWidget(BaseTableWidget):
         self.selectionLabelUpdate.emit([])
 
 
-class LinkTableWidget(BaseTableWidget):
+class LinkTableWidget(BaseTableWidget[VLink]):
 
     """Custom table widget for link."""
 
@@ -357,7 +358,7 @@ class LinkTableWidget(BaseTableWidget):
         self.edit_link(0, 'ground', 'White', '')
 
 
-class ExprTableWidget(BaseTableWidget):
+class ExprTableWidget(BaseTableWidget[None]):
 
     """Expression table.
 
