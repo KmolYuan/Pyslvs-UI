@@ -529,7 +529,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Using result data to generate paths of mechanism."""
         result = self.mechanism_data[row]
         expression: str = result['Expression']
-        input_list: List[Tuple[int, int]] = result['input']
+        same: Dict[int: int] = result['same']
+        inputs: List[Tuple[int, int]] = result['input']
+        input_list = []
+        for b, d in inputs:
+            for i in range(b):
+                if i in same:
+                    b -= 1
+            for i in range(d):
+                if i in same:
+                    d -= 1
+            input_list.append((b, d))
+
         vpoints = parse_vpoints(expression)
         expr = vpoints_configure(vpoints, input_list)
         b, d = input_list[0]

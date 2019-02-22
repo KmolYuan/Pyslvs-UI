@@ -102,7 +102,7 @@ class _DynamicCanvas(BaseCanvas):
                 if y > y_top:
                     y_top = y
         # Solving paths
-        for path in self.mechanism['Target'].values():
+        for path in self.target_path.values():
             for x, y in path:
                 if x < x_right:
                     x_right = x
@@ -112,6 +112,16 @@ class _DynamicCanvas(BaseCanvas):
                     y_bottom = y
                 if y > y_top:
                     y_top = y
+        # Ranges
+        for rect in self.ranges.values():
+            if rect.right() < x_right:
+                x_right = rect.right()
+            if rect.left() > x_left:
+                x_left = rect.left()
+            if rect.bottom() < y_bottom:
+                y_bottom = rect.bottom()
+            if rect.top() > y_top:
+                y_top = rect.top()
         return x_right, x_left, y_top, y_bottom
 
     def paintEvent(self, event):

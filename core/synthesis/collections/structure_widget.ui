@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>639</height>
+    <width>507</width>
+    <height>662</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -284,8 +284,11 @@
             <layout class="QFormLayout" name="formLayout">
              <item row="1" column="0">
               <widget class="QLabel" name="nl_text">
+               <property name="toolTip">
+                <string>Number of links</string>
+               </property>
                <property name="text">
-                <string>Number of links:</string>
+                <string>NL: (?)</string>
                </property>
               </widget>
              </item>
@@ -301,8 +304,11 @@
              </item>
              <item row="2" column="0">
               <widget class="QLabel" name="nj_text">
+               <property name="toolTip">
+                <string>Number of joints</string>
+               </property>
                <property name="text">
-                <string>Number of joints:</string>
+                <string>NJ: (?)</string>
                </property>
               </widget>
              </item>
@@ -318,8 +324,11 @@
              </item>
              <item row="3" column="0">
               <widget class="QLabel" name="dof_text">
+               <property name="toolTip">
+                <string>Degrees of freedom</string>
+               </property>
                <property name="text">
-                <string>Degrees of freedom:</string>
+                <string>DOF: (?)</string>
                </property>
               </widget>
              </item>
@@ -356,8 +365,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QLabel" name="link_assortments_text">
+               <property name="toolTip">
+                <string>Link assortments</string>
+               </property>
                <property name="text">
-                <string>Link assortments:</string>
+                <string>LA: (?)</string>
                </property>
               </widget>
              </item>
@@ -370,8 +382,11 @@
              </item>
              <item>
               <widget class="QLabel" name="contracted_link_assortments_text">
+               <property name="toolTip">
+                <string>Contracted link assortments</string>
+               </property>
                <property name="text">
-                <string>Contracted link assortments:</string>
+                <string>CLA: (?)</string>
                </property>
               </widget>
              </item>
