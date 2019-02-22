@@ -63,10 +63,13 @@ class _DynamicCanvas(BaseCanvas):
             QPointF(values[0] - values[2], values[1] + values[2]),
             QSizeF(values[2] * 2, values[2] * 2)
         ) for i, values in ranges.items()})
+        same: Dict[int, int] = self.mechanism['same']
         target_path: Dict[int, List[Tuple[float, float]]] = self.mechanism['Target']
-        self.target_path.update({
-            f"L{i}": path for i, path in target_path.items()
-        })
+        for i, path in target_path.items():
+            for j in range(i):
+                if j in same:
+                    i -= 1
+            self.target_path[f"P{i}"] = path
         self.__index = 0
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.path.path) - 1
@@ -129,15 +132,12 @@ class _DynamicCanvas(BaseCanvas):
         width = self.width()
         height = self.height()
         x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
-        x_diff = x_left - x_right
-        y_diff = y_top - y_bottom
-        x_diff = x_diff if x_diff else 1
-        y_diff = y_diff if y_diff else 1
+        x_diff = x_left - x_right or 1.
+        y_diff = y_top - y_bottom or 1.
         if width / x_diff < height / y_diff:
-            factor = width / x_diff
+            self.zoom = width / x_diff * 0.95
         else:
-            factor = height / y_diff
-        self.zoom = factor * 0.95
+            self.zoom = height / y_diff * 0.95
         self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
         self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         super(_DynamicCanvas, self).paintEvent(event)
@@ -147,10 +147,11 @@ class _DynamicCanvas(BaseCanvas):
             if not path:
                 continue
             x, y = path[self.__index]
-            if isnan(x):
-                self.__index, self.__no_error = self.__no_error, self.__index
-                self.error = True
-                self.__interval = -self.__interval
+            if not isnan(x):
+                continue
+            self.__index, self.__no_error = self.__no_error, self.__index
+            self.error = True
+            self.__interval = -self.__interval
 
         # Points that in the current angle section.
         self.pos.clear()
@@ -197,7 +198,7 @@ class _DynamicCanvas(BaseCanvas):
         x, y = self.pos[i]
         color = color_rgb('Green')
         fixed = False
-        if k in self.mechanism['Target']:
+        if f"P{i}" in self.target_path:
             color = color_rgb('Dark-Orange')
         elif k in self.mechanism['Placement']:
             color = color_rgb('Blue')
@@ -240,7 +241,7 @@ class _DynamicCanvas(BaseCanvas):
         pen = QPen()
         for i, path in enumerate(self.path.path):
             color = color_qt('Green')
-            if i in self.mechanism['Target']:
+            if f"P{i}" in self.target_path:
                 color = color_qt('Dark-Orange')
             pen.setColor(color)
             pen.setWidth(self.path_width)
