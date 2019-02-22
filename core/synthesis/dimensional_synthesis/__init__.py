@@ -606,6 +606,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = CollectionsDialog(
             self.collections,
             self.get_collection,
+            self.workbook_no_save,
             self
         )
         dlg.show()

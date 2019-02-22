@@ -349,6 +349,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg = CollectionsDialog(
             self.collections,
             self.get_configure,
+            self.unsave_func,
             self
         )
         dlg.show()
