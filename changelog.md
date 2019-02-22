@@ -22,11 +22,12 @@ Features
 + Set the table headers to auto resize mode.
 + Change the merge behavior of synthesis result as add to storage.
 + New style selection tip widget instead of QToolTip.
++ Solve the memory leak of Qt dialogs.
++ Unified the IO encoding of text-based files.
 
 Development
 ---
 
-+ Unified the IO encoding of text-based files.
 + Change the name of all most camelcase methods to lowercase.
 + Re-design the inherit method of main window classes.
 + Simplified Qt module introduction.

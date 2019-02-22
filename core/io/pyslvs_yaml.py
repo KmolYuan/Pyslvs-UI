@@ -207,3 +207,4 @@ class YamlEditor(QObject):
         )
         dlg.show()
         dlg.exec()
+        dlg.deleteLater()

@@ -98,6 +98,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         )
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
 
         row_count = self.entities_point.rowCount()
@@ -121,6 +122,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         else:
             row = dlg.name_box.currentIndex()
             self.command_stack.beginMacro(f"Edit {{Point{row}}}")
+
+        dlg.deleteLater()
+
         self.command_stack.push(EditPointTable(
             row,
             self.entities_point,
@@ -139,7 +143,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         )
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
+
         name = dlg.name_edit.text()
         args = [
             name,
@@ -156,6 +162,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         else:
             row = dlg.name_box.currentIndex()
             self.command_stack.beginMacro(f"Edit {{Link: {name}}}")
+
+        dlg.deleteLater()
+
         self.command_stack.push(EditLinkTable(
             row,
             self.entities_link,
@@ -377,9 +386,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
         if not dlg.exec():
+            dlg.deleteLater()
             return
 
         factor = dlg.factor()
+        dlg.deleteLater()
+
         self.command_stack.beginMacro(f"Scale mechanism: {factor}")
         for row in range(self.entities_point.rowCount()):
             args = self.entities_point.row_text(row)

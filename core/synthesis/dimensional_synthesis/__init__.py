@@ -283,10 +283,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = PathAdjustDialog(self)
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
+
         self.__clear_path(ask=False)
         for e in dlg.r_path:
             self.add_point(e[0], e[1])
+
+        dlg.deleteLater()
         self.__current_path_changed()
 
     def add_point(self, x: float, y: float):
@@ -421,6 +425,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
 
         mechanisms = dlg.mechanisms
@@ -434,9 +439,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.__add_result(data)
         self.__set_time(dlg.time_spend)
         self.workbook_no_save()
+        dlg.deleteLater()
 
         dlg = ChartDialog("Convergence Data", mechanisms_plot, self)
         dlg.show()
+        dlg.deleteLater()
         print("Finished.")
 
     def __set_time(self, time: float):
@@ -509,6 +516,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = PreviewDialog(self.mechanism_data[row], self.__get_path(row), self)
         dlg.show()
         dlg.exec()
+        dlg.deleteLater()
 
     @Slot(name='on_merge_button_clicked')
     def __merge_result(self):
@@ -611,9 +619,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
 
         params = dlg.params()
+        name = dlg.name()
+        dlg.deleteLater()
+
         # Check the profile.
         if not (params['Target'] and params['input'] and params['Placement']):
             QMessageBox.warning(
@@ -623,7 +635,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             )
             return
 
-        self.__set_profile(dlg.name(), params)
+        self.__set_profile(name, params)
 
     def __set_profile(self, profile_name: str, params: Dict[str, Any]):
         """Set profile to sub-widgets."""
@@ -833,6 +845,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = AlgorithmOptionDialog(type_num, self.alg_options, self)
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
 
         self.alg_options['report'] = dlg.report.value()
@@ -870,6 +883,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.alg_options['NP'] = pop_size
             for i, tag in enumerate(('strategy', 'F', 'CR')):
                 self.alg_options[tag] = from_table(i)
+
+        dlg.deleteLater()
 
     @Slot()
     def update_range(self):

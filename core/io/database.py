@@ -539,6 +539,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         )
         dlg.show()
         dlg.exec()
+        dlg.deleteLater()
 
     def __import_commit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""

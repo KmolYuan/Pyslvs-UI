@@ -158,7 +158,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.pop_menu_topo.addActions([
             self.add_collection,
             self.copy_edges,
-            self.copy_image
+            self.copy_image,
         ])
 
         self.NL_input_old_value = 0
@@ -167,7 +167,6 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     def clear(self):
         """Clear all sub-widgets."""
-        self.answer.clear()
         self.edges_text.clear()
         self.l_a_list.clear()
         self.__clear_structure_list()
@@ -180,6 +179,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @Slot(name='on_structure_list_clear_button_clicked')
     def __clear_structure_list(self):
         """Clear the structure list."""
+        self.answer.clear()
         self.structure_list.clear()
         self.time_label.setText("")
 
@@ -288,6 +288,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             item = QListWidgetItem(str(error))
             self.l_a_list.addItem(item)
             dlg.next()
+            dlg.deleteLater()
             return []
         else:
             for result in results:
@@ -296,6 +297,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 )))
             self.l_a_list.setCurrentRow(0)
             dlg.next()
+            dlg.deleteLater()
             return results
 
     @Slot(int, name='on_l_a_list_currentRowChanged')
@@ -321,6 +323,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             )))
         self.c_l_a_list.setCurrentRow(0)
         dlg.next()
+        dlg.deleteLater()
         return results
 
     def __set_time_count(self, t: float, count: int):
@@ -433,6 +436,8 @@ class StructureSynthesis(QWidget, Ui_Form):
                 break_point = True
                 break
 
+        dlg.deleteLater()
+
         if not answers:
             return
 
@@ -481,6 +486,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 break
         self.__set_paint_time(time() - t0)
         dlg.setValue(dlg.maximum())
+        dlg.deleteLater()
         scroll_bar.setSliderPosition(scroll_pos)
         self.structure_list.setCurrentRow(index)
 

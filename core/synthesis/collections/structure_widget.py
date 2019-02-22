@@ -135,7 +135,9 @@ class StructureWidget(QWidget, Ui_Form):
         for i, g in enumerate(self.collections):
             QCoreApplication.processEvents()
             if progress_dlg.wasCanceled():
+                progress_dlg.deleteLater()
                 return
+
             item = QListWidgetItem(f"No. {i + 1}")
             engine = engine_picker(g, engine_str, self.graph_link_as_node.isChecked())
             item.setIcon(to_graph(
@@ -150,6 +152,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.collection_list.addItem(item)
             progress_dlg.setValue(i + 1)
 
+        progress_dlg.deleteLater()
         self.collection_list.setCurrentRow(current_pos)
 
     def add_collection(self, edges: Sequence[Tuple[int, int]]):

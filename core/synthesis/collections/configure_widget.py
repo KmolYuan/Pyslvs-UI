@@ -309,6 +309,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg = CustomsDialog(self)
         dlg.show()
         dlg.exec()
+        dlg.deleteLater()
         self.configure_canvas.update()
 
     def __get_current_mechanism_params(self) -> Dict[str, Any]:
@@ -354,10 +355,12 @@ class ConfigureWidget(QWidget, Ui_Form):
         )
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
 
         self.profile_name = dlg.name()
         params = dlg.params()
+        dlg.deleteLater()
 
         # Add customize joints.
         graph = Graph(params['Graph'])
@@ -401,10 +404,14 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg = TargetsDialog(self)
         dlg.show()
         if not dlg.exec():
+            dlg.deleteLater()
             return
+
         self.target_list.clear()
         for target in list_texts(dlg.targets_list):
             self.target_list.addItem(target)
+
+        dlg.deleteLater()
         _set_warning(self.target_label, self.target_list.count() == 0)
 
     @Slot(QListWidgetItem)
