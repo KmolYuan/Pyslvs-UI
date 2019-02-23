@@ -28,6 +28,7 @@ Features
 Development
 ---
 
++ Stop support Python 3.6 or below.
 + Change the name of all most camelcase methods to lowercase.
 + Re-design the inherit method of main window classes.
 + Simplified Qt module introduction.
@@ -38,7 +39,7 @@ Development
 + Rename the dialog resources as "dialogs".
 + Refactor of all widgets names into underscore lowercase.
 + Add generate source function with "generate_source.py".
-+ Environment of Visual Studio 2017 version 15.9 supported. 
++ Environment of Visual Studio 2017 version 15.9 supported.
 
 Version 19.01
 ===

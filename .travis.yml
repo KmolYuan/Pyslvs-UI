@@ -3,10 +3,6 @@ language: python
 
 matrix:
   include:
-  - os: linux
-    sudo: required
-    python: "3.6"
-    dist: trusty
 
   - os: linux
     sudo: required
@@ -21,10 +17,6 @@ matrix:
       skip_cleanup: true
       on:
         tags: true
-
-  - os: osx
-    language: generic
-    env: PYTHON=36
 
   - os: osx
     language: generic

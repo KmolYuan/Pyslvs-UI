@@ -237,11 +237,8 @@ For the IO method of Solvespace format, you can also refer to two Python scripts
 
 Actual testing platforms with CI:
 
-+ ![w3.6](https://img.shields.io/badge/Windows%20x64-Python%203.6-blue.svg)
 + ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg)
-+ ![mac3.6](https://img.shields.io/badge/macOS%20Sierra-Python%203.6-ff69b4.svg)
-+ ![mac3.7](https://img.shields.io/badge/macOS%20Sierra-Python%203.7-ff69b4.svg)
-+ ![u3.6](https://img.shields.io/badge/Ubuntu%20x64-Python%203.6-orange.svg)
++ ![m3.7](https://img.shields.io/badge/macOS%20Sierra-Python%203.7-ff69b4.svg)
 + ![u3.7](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
 
 **Please note that the other platforms may be available but I have not tested before.**
