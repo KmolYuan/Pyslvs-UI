@@ -87,18 +87,16 @@ class _DynamicCanvas(BaseCanvas):
     def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
-        x_right = inf
-        x_left = -inf
+        x_right = -inf
+        x_left = inf
         y_top = -inf
         y_bottom = inf
         # Paths
         for i, path in enumerate(self.path.path):
-            if self.path.show != -1 and self.path.show != i:
-                continue
             for x, y in path:
-                if x < x_right:
+                if x > x_right:
                     x_right = x
-                if x > x_left:
+                if x < x_left:
                     x_left = x
                 if y < y_bottom:
                     y_bottom = y
@@ -107,9 +105,9 @@ class _DynamicCanvas(BaseCanvas):
         # Solving paths
         for path in self.target_path.values():
             for x, y in path:
-                if x < x_right:
+                if x > x_right:
                     x_right = x
-                if x > x_left:
+                if x < x_left:
                     x_left = x
                 if y < y_bottom:
                     y_bottom = y
@@ -117,9 +115,9 @@ class _DynamicCanvas(BaseCanvas):
                     y_top = y
         # Ranges
         for rect in self.ranges.values():
-            if rect.right() < x_right:
+            if rect.right() > x_right:
                 x_right = rect.right()
-            if rect.left() > x_left:
+            if rect.left() < x_left:
                 x_left = rect.left()
             if rect.bottom() < y_bottom:
                 y_bottom = rect.bottom()
@@ -132,7 +130,7 @@ class _DynamicCanvas(BaseCanvas):
         width = self.width()
         height = self.height()
         x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
-        x_diff = x_left - x_right or 1.
+        x_diff = x_right - x_left or 1.
         y_diff = y_top - y_bottom or 1.
         if width / x_diff < height / y_diff:
             self.zoom = width / x_diff * 0.95
