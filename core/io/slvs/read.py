@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List
+from typing import Tuple, List, Dict
 
 
 class SlvsParser:
@@ -16,10 +16,10 @@ class SlvsParser:
 
     def __init__(self, file_name: str):
         """Open the file when initialize."""
-        self.groups = []
-        self.requests = []
-        self.entities = []
-        self.constraints = []
+        self.groups: List[Dict[str, str]] = []
+        self.requests: List[Dict[str, str]] = []
+        self.entities: List[Dict[str, str]] = []
+        self.constraints: List[Dict[str, str]] = []
         dataset = {
             'AddGroup': self.groups,
             'AddParam': [],
@@ -27,24 +27,25 @@ class SlvsParser:
             'AddEntity': self.entities,
             'AddConstraint': self.constraints,
         }
-        args = {}
+        args: Dict[str, str] = {}
         with open(file_name, 'r', encoding="iso-8859-15") as f:
             if f.readline() != "±²³SolveSpaceREVa\n":
                 return
+
             for line in f:
                 if line == '\n':
-                    args.clear()
+                    args = {}
                 elif '=' in line:
                     attribute, data = line[:-1].split('=')
                     args[attribute] = data
                 elif line[:-1] in dataset:
-                    dataset[line[:-1]].append(args.copy())
+                    dataset[line[:-1]].append(args)
 
-    def isValid(self) -> bool:
+    def is_valid(self) -> bool:
         """Simple check whether if file is valid."""
         return bool(self.groups)
 
-    def getGroups(self) -> List[str]:
+    def get_groups(self) -> List[Tuple[str, str]]:
         """Read and return group names."""
         groups = []
         for group in self.groups:
@@ -65,9 +66,9 @@ class SlvsParser:
         + Entities: Get positions.
         """
 
-        def int16(num: str) -> int:
+        def int16(n: str) -> int:
             """Generate 16 bit interger."""
-            return int(num, 16)
+            return int(n, 16)
 
         # Requests: Get all links.
         requests = []

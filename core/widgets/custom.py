@@ -61,7 +61,9 @@ from .tables import (
     FPSLabel,
 )
 from .inputs import InputsWidget
+
 _major, _minor, _build, _label = __version__
+_Coord = Tuple[float, float]
 
 
 class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
@@ -739,8 +741,8 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     @abstractmethod
     def preview_path(
         self,
-        auto_preview: List[List[Tuple[float, float]]],
-        slider_auto_preview: Dict[int, List[Tuple[float, float]]],
+        auto_preview: List[List[_Coord]],
+        slider_auto_preview: Dict[int, List[_Coord]],
         vpoints: Tuple[VPoint, ...]
     ) -> None:
         ...
@@ -783,7 +785,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         Graph,
         List[int],
         List[Tuple[int, int]],
-        Dict[int, Tuple[float, float]],
+        Dict[int, _Coord],
         Dict[int, int],
         Dict[int, int]
     ]:
@@ -805,7 +807,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def merge_result(
         self,
         expr: str,
-        path: Sequence[Sequence[Tuple[float, float]]]
+        path: Sequence[Sequence[_Coord]]
     ) -> None:
         ...
 

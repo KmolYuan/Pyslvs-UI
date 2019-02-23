@@ -4,6 +4,8 @@
 dimensional synthesis functional interfaces.
 """
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -66,6 +68,7 @@ if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
 __all__ = ['DimensionalSynthesis']
+_Coord = Tuple[float, float]
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
@@ -75,7 +78,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     User can run the dimensional synthesis here.
     """
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         """Reference names:
 
         + Iteration collections.
@@ -86,7 +89,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.setupUi(self)
 
         self.mech_params: Dict[str, Any] = {}
-        self.path: Dict[int, List[Tuple[float, float]]] = {}
+        self.path: Dict[int, List[_Coord]] = {}
 
         # Some reference of 'collections'.
         self.collections = parent.collection_tab_page.ConfigureWidget.collections
@@ -166,7 +169,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         })
         self.__able_to_generate()
 
-    def current_path(self) -> List[Tuple[float, float]]:
+    def current_path(self) -> List[_Coord]:
         """Return the pointer of current target path."""
         item = self.target_points.currentItem()
         if item is None:
@@ -533,7 +536,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             expression: str = self.mechanism_data[row]['Expression']
             self.merge_result(expression, self.__get_path(row))
 
-    def __get_path(self, row: int) -> List[List[Tuple[float, float]]]:
+    def __get_path(self, row: int) -> List[List[_Coord]]:
         """Using result data to generate paths of mechanism."""
         result = self.mechanism_data[row]
         expression: str = result['Expression']
@@ -643,7 +646,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mech_params = deepcopy(params)
         expression: str = self.mech_params['Expression']
         self.expression_string.setText(expression)
-        target: Dict[int, List[Tuple[float, float]]] = self.mech_params['Target']
+        target: Dict[int, List[_Coord]] = self.mech_params['Target']
         for name in sorted(target):
             self.target_points.addItem(f"P{name}")
             path = target[name]
@@ -698,7 +701,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         same: Dict[int, int] = self.mech_params['same']
         for node, ref in sorted(same.items()):
             pos_list.insert(node, pos_list[ref])
-        pos: Dict[int, Tuple[float, float]] = dict(enumerate(pos_list))
+        pos: Dict[int, _Coord] = dict(enumerate(pos_list))
 
         row = 0
         for name in sorted(placement):

@@ -4,6 +4,8 @@
 Also contains selection status label.
 """
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -432,7 +434,7 @@ class SelectionLabel(QLabel):
 
     """This QLabel can show distance in status bar."""
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
         self.dataTuple = parent.entities_point.data_tuple

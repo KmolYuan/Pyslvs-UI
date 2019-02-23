@@ -40,6 +40,8 @@ from core.QtModules import (
 )
 from .tables import PointTableWidget, LinkTableWidget
 
+_Coord = Tuple[float, float]
+
 
 def _no_empty_string(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
     """Filter to exclude empty string."""
@@ -311,8 +313,8 @@ class AddPath(QUndoCommand):
         self,
         widget: QListWidget,
         name: str,
-        data: Dict[str, Sequence[Tuple[float, float]]],
-        path: Sequence[Tuple[float, float]]
+        data: Dict[str, Sequence[_Coord]],
+        path: Sequence[_Coord]
     ):
         super(AddPath, self).__init__()
         self.widget = widget
@@ -341,7 +343,7 @@ class DeletePath(QUndoCommand):
         self,
         row: int,
         widget: QListWidget,
-        data: Dict[str, Sequence[Tuple[float, float]]]
+        data: Dict[str, Sequence[_Coord]]
     ):
         super(DeletePath, self).__init__()
         self.row = row

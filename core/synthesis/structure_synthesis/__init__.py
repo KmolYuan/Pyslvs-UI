@@ -4,6 +4,8 @@
 number and type synthesis functional interfaces.
 """
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -113,7 +115,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     Calculate the combinations of mechanism family and show the atlas.
     """
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         """Reference names:
 
         + IO functions from main window.

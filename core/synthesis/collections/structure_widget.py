@@ -2,6 +2,8 @@
 
 """The widget of 'Structure' tab."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -64,7 +66,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     layout_sender = Signal(Graph, dict)
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)

@@ -2,6 +2,8 @@
 
 """The option dialog use to adjust target path."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -28,7 +30,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
 
-    def __init__(self, parent: 'DimensionalSynthesis'):
+    def __init__(self, parent: DimensionalSynthesis):
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)

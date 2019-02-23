@@ -29,13 +29,16 @@ Development
 ---
 
 + Stop support Python 3.6 or below.
++ Since become 3.7:
+    + Follow the literal type annotation style instead of strings.
+    + Recursive import when doing type checking.
+    + Generic typing with Qt object is allowed.
 + Change the name of all most camelcase methods to lowercase.
 + Re-design the inherit method of main window classes.
-+ Simplified Qt module introduction.
-+ Enhancement of enum types.
++ Simplified Qt module introduction when imported.
 + Rename "signal" and "slot" introduction of PyQt.
++ Enhancement of enum types.
 + Adjust limitation option of algorithm to "max_gen", "min_fit" and "max_time".
-+ Recursive import when doing type checking.
 + Rename the dialog resources as "dialogs".
 + Refactor of all widgets names into underscore lowercase.
 + Add generate source function with "generate_source.py".

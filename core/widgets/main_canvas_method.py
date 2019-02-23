@@ -2,6 +2,8 @@
 
 """This module contain the functions that main canvas needed."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -46,6 +48,8 @@ from core.libs import VJoint, VPoint, VLink
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
+
+_Coord = Tuple[float, float]
 
 
 @dataclass(repr=False, eq=False)
@@ -148,7 +152,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
     set_target_point = Signal(float, float)
 
     @abstractmethod
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
@@ -171,8 +175,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Free move mode.
         self.free_move = FreeMode.NoFreeMove
         # Path preview.
-        self.path_preview: List[List[Tuple[float, float]]] = []
-        self.slider_path_preview: Dict[int, List[Tuple[float, float]]] = {}
+        self.path_preview: List[List[_Coord]] = []
+        self.slider_path_preview: Dict[int, List[_Coord]] = {}
         self.preview_path = parent.preview_path
         # Path record.
         self.path_record = []
@@ -262,7 +266,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 24, 24
             )
 
-    def __points_pos(self, vlink: VLink) -> List[Tuple[float, float]]:
+    def __points_pos(self, vlink: VLink) -> List[_Coord]:
         """Get geometry of the vlink."""
         points = []
         for i in vlink.points:

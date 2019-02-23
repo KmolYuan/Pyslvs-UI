@@ -94,14 +94,14 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         + Read the entities of the group.
         """
         parser = SlvsParser(file_name)
-        if not parser.isValid():
+        if not parser.is_valid():
             QMessageBox.warning(
                 self,
                 "Format error",
                 "The format is not support."
             )
             return
-        groups = parser.getGroups()
+        groups = parser.get_groups()
         if not groups:
             QMessageBox.warning(
                 self,

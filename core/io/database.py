@@ -2,6 +2,8 @@
 
 """SQL database output function."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -159,7 +161,7 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     load_id = Signal(int)
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         super(DatabaseWidget, self).__init__(parent)
         self.setupUi(self)
 

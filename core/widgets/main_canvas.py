@@ -2,6 +2,8 @@
 
 """The canvas of main window."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -36,6 +38,8 @@ from .main_canvas_method import (
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
+_Coord = Tuple[float, float]
+
 
 class DynamicCanvas(DynamicCanvasInterface):
 
@@ -48,7 +52,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     + Zoom to fit function.
     """
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
         self.__set_zoom = parent.zoom_bar.setValue
@@ -63,7 +67,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         vpoints: Sequence[VPoint],
         vlinks: Sequence[VLink],
         exprs: List[Tuple[str, ...]],
-        path: List[Tuple[float, float]]
+        path: List[_Coord]
     ):
         """Update with Point and Links data."""
         self.vpoints = vpoints
@@ -216,7 +220,7 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def set_solving_path(
         self,
-        target_path: Dict[str, Tuple[Tuple[float, float]]]
+        target_path: Dict[str, Tuple[_Coord]]
     ):
         """Update target path."""
         self.target_path = target_path
@@ -252,7 +256,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         for i, vpoint in enumerate(self.vpoints):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
 
-    def get_record_path(self) -> Tuple[Tuple[Tuple[float, float], ...], ...]:
+    def get_record_path(self) -> Tuple[Tuple[_Coord, ...], ...]:
         """Return paths."""
         paths = tuple(
             tuple(path) if len(set(path)) > 1 else ()
@@ -263,7 +267,7 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def adjust_link(
         self,
-        coords: Sequence[Union[Tuple[Tuple[float, float], ...], Tuple[float, float]]]
+        coords: Sequence[Union[Tuple[_Coord, ...], _Coord]]
     ):
         """Change points coordinates."""
         for i, c in enumerate(coords):

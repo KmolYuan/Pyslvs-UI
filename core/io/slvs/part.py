@@ -23,13 +23,14 @@ from core.libs import VPoint, Coordinate
 from core.graphics import convex_hull
 from .write import SlvsWriter
 
-CoordinatePair = Tuple[Coordinate, Coordinate]
+_Coord = Tuple[float, float]
+_CoordsPair = Tuple[Coordinate, Coordinate]
 
 
 def boundaryloop(
-    boundary: Sequence[Tuple[float, float]],
+    boundary: Sequence[_Coord],
     radius: float
-) -> List[CoordinatePair]:
+) -> List[_CoordsPair]:
     """Create boundary edges by pairs of coordinates."""
     boundary_tmp = []
     for i in range(len(boundary)):
@@ -52,7 +53,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     min_y = min(vpoint.cy for vpoint in vpoints)
     centers = [(vpoint.cx - min_x, vpoint.cy - min_y) for vpoint in vpoints]
     # Synchronous the point coordinates after using convex hull.
-    centers_ch: List[Tuple[float, float]] = convex_hull(centers)
+    centers_ch: List[_Coord] = convex_hull(centers)
     _boundary = centers_ch.copy()
     for c in centers:
         if c not in centers_ch:
@@ -61,7 +62,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     del vpoints, min_x, min_y
 
     # Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
-    frame: List[CoordinatePair] = [tuple(Coordinate(*c) for c in centers[:2])]
+    frame: List[_CoordsPair] = [tuple(Coordinate(*c) for c in centers[:2])]
     for c in centers[2:]:
         frame.append((frame[0][0], Coordinate(*c)))
         frame.append((frame[0][1], Coordinate(*c)))
@@ -76,7 +77,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     writer.group_normal(0x3, "boundary")
 
     # Add "Param".
-    def add_param(edges: Sequence[CoordinatePair]):
+    def add_param(edges: Sequence[_CoordsPair]):
         """Add param by pair of coordinates."""
         for edge in edges:
             writer.param_num += 0x10
@@ -91,7 +92,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
         index: int,
         _cx: float,
         _cy: float
-    ) -> Iterator[Tuple[float, float]]:
+    ) -> Iterator[_Coord]:
         yield from (
             (_cx, _cy),
             (boundary[index - 1][1].x, boundary[index - 1][1].y),
@@ -129,7 +130,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     # The number of same lines.
     line_num = [[] for _ in range(len(frame))]
 
-    def segment_processing(edges: Sequence[CoordinatePair]):
+    def segment_processing(edges: Sequence[_CoordsPair]):
         """Add edges to workplane. (No any constraint.)"""
         # Add "Request".
         for _ in range(len(edges)):

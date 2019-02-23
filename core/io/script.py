@@ -2,6 +2,8 @@
 
 """Python script output function."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -95,7 +97,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         lexer: RegexLexer,
         filename: str,
         file_format: List[str],
-        parent: 'MainWindowBase'
+        parent: MainWindowBase
     ):
         """Input parameters:
 

@@ -55,27 +55,30 @@ from .color import (
     target_path_style,
 )
 
+_Coord = Tuple[float, float]
+
 
 def convex_hull(
-    points: List[Tuple[float, float]],
+    points: List[_Coord],
     *,
     as_qpoint: bool = False
-) -> Union[List[Tuple[float, float]], List[QPointF]]:
+) -> Union[List[_Coord], List[QPointF]]:
     """Returns points on convex hull in counterclockwise order
     according to Graham's scan algorithm.
     """
-    coordinate: type = Tuple[float, float]
-
     def cmp(a: float, b: float) -> int:
         return (a > b) - (a < b)
 
-    def turn(p: coordinate, q: coordinate, r: coordinate) -> int:
-        return cmp((q[0] - p[0])*(r[1] - p[1]) - (r[0] - p[0])*(q[1] - p[1]), 0)
+    def turn(p: _Coord, q: _Coord, r: _Coord) -> int:
+        px, py = p
+        qx, qy = q
+        rx, ry = r
+        return cmp((qx - px) * (ry - py) - (rx - px) * (qy - py), 0)
 
-    def keep_left(hull: List[coordinate], r: coordinate) -> List[coordinate]:
-        while (len(hull) > 1) and (turn(hull[-2], hull[-1], r) != 1):
+    def keep_left(hull: List[_Coord], r: _Coord) -> List[_Coord]:
+        while len(hull) > 1 and turn(hull[-2], hull[-1], r) != 1:
             hull.pop()
-        if not len(hull) or hull[-1] != r:
+        if not hull or hull[-1] != r:
             hull.append(r)
         return hull
 
@@ -107,7 +110,7 @@ class _PathOption:
         + The path will be the curve, otherwise using the points.
     """
 
-    path: Tuple[Tuple[Tuple[float, float], ...], ...] = ()
+    path: Tuple[Tuple[_Coord, ...], ...] = ()
     show: int = -1
     curve: bool = True
 
@@ -144,7 +147,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.path = _PathOption()
         # Path solving.
         self.ranges: Dict[str, QRectF] = {}
-        self.target_path: Dict[str, Sequence[Tuple[float, float]]] = {}
+        self.target_path: Dict[str, Sequence[_Coord]] = {}
         self.show_target_path = False
         # Background
         self.background = QImage()
@@ -355,7 +358,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         self.painter.setFont(font_copy)
 
-    def draw_curve(self, path: Sequence[Tuple[float, float]]):
+    def draw_curve(self, path: Sequence[_Coord]):
         """Draw path as curve."""
         if len(set(path)) <= 2:
             return
@@ -380,7 +383,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                     painter_path.lineTo(x, y)
         self.painter.drawPath(painter_path)
 
-    def draw_dot(self, path: Sequence[Tuple[float, float]]):
+    def draw_dot(self, path: Sequence[_Coord]):
         """Draw path as dots."""
         if len(set(path)) <= 2:
             return
@@ -394,7 +397,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         func: str,
         args: Sequence[str],
         target: str,
-        pos: Union[Tuple[VPoint, ...], Dict[int, Tuple[float, float]]]
+        pos: Union[Tuple[VPoint, ...], Dict[int, _Coord]]
     ) -> Tuple[List[QPointF], QColor]:
         """Get solution polygon."""
         if func == 'PLLP':
@@ -427,7 +430,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         func: str,
         args: Sequence[str],
         target: str,
-        pos: Union[Tuple[VPoint, ...], Dict[int, Tuple[float, float]]]
+        pos: Union[Tuple[VPoint, ...], Dict[int, _Coord]]
     ):
         """Draw the solution triangle."""
         points, color = self.solution_polygon(func, args, target, pos)
@@ -476,7 +479,7 @@ class PreviewCanvas(BaseCanvas):
         self.G = Graph([])
         self.cus: Dict[int, int] = {}
         self.same: Dict[int, int] = {}
-        self.pos: Dict[int, Tuple[float, float]] = {}
+        self.pos: Dict[int, _Coord] = {}
         self.status = {}
 
         # Additional attributes.
@@ -605,7 +608,7 @@ class PreviewCanvas(BaseCanvas):
                 y_top = y
         return x_right, x_left, y_top, y_bottom
 
-    def set_graph(self, graph: Graph, pos: Dict[int, Tuple[float, float]]):
+    def set_graph(self, graph: Graph, pos: Dict[int, _Coord]):
         """Set the graph from NetworkX graph type."""
         self.G = graph
         self.pos = pos
@@ -650,7 +653,7 @@ class PreviewCanvas(BaseCanvas):
         self.same: Dict[int, int] = params['same']
         for node, ref in sorted(self.same.items()):
             pos_list.insert(node, pos_list[ref])
-        pos: Dict[int, Tuple[float, float]] = dict(enumerate(pos_list))
+        pos: Dict[int, _Coord] = dict(enumerate(pos_list))
         self.set_graph(graph, pos)
 
         # Grounded setting.

@@ -2,6 +2,8 @@
 
 """The widget of 'Triangular iteration' tab."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -47,6 +49,8 @@ from .Ui_configure_widget import Ui_Form
 
 if TYPE_CHECKING:
     from core.widgets.custom import MainWindowBase
+
+_Coord = Tuple[float, float]
 
 
 class _ConfigureCanvas(PreviewCanvas):
@@ -135,7 +139,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     def __init__(
         self,
         add_collection: Callable[[Sequence[Tuple[int, int]]], None],
-        parent: 'MainWindowBase'
+        parent: MainWindowBase
     ):
         """We need some function from structure collections."""
         super(ConfigureWidget, self).__init__(parent)
@@ -208,7 +212,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     def set_graph(
         self,
         graph: Graph,
-        pos: Dict[int, Tuple[float, float]]
+        pos: Dict[int, _Coord]
     ):
         """Set the graph to preview canvas."""
         if not self.__user_clear():
@@ -370,7 +374,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         same: Dict[int, int] = params['same']
         for node, ref in sorted(same.items()):
             pos_list.insert(node, pos_list[ref])
-        pos: Dict[int, Tuple[float, float]] = dict(enumerate(pos_list))
+        pos: Dict[int, _Coord] = dict(enumerate(pos_list))
         self.set_graph(graph, pos)
         self.configure_canvas.cus = cus
         self.configure_canvas.same = same

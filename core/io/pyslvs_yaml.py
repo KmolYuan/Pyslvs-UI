@@ -2,6 +2,8 @@
 
 """YAML format processing function."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -30,7 +32,7 @@ class YamlEditor(QObject):
 
     """YAML reader and writer."""
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         super(YamlEditor, self).__init__(parent)
 
         # Check file changed function.

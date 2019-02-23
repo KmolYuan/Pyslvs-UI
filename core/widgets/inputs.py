@@ -2,6 +2,13 @@
 
 """The widget of 'Inputs' tab."""
 
+from __future__ import annotations
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2019"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
+
 import csv
 from typing import (
     TYPE_CHECKING,
@@ -26,7 +33,7 @@ from core.QtModules import (
     QShortcut,
     QKeySequence,
 )
-from core.libs import VJoint, VPoint
+from core.libs import VJoint
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 from .undo_redo import (
@@ -38,6 +45,8 @@ from .undo_redo import (
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
+
+_Coord = Tuple[float, float]
 
 
 def _variable_int(text: str) -> int:
@@ -55,7 +64,7 @@ class InputsWidget(QWidget, Ui_Form):
 
     about_to_resolve = Signal()
 
-    def __init__(self, parent: 'MainWindowBase'):
+    def __init__(self, parent: MainWindowBase):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
 
@@ -73,7 +82,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack = parent.command_stack
         self.set_coords_as_current = parent.set_coords_as_current
 
-        # QDial: Angle panel.
+        # Angle panel
         self.dial = QDial()
         self.dial.setStatusTip("Input widget of rotatable joint.")
         self.dial.setEnabled(False)
@@ -81,7 +90,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.valueChanged.connect(self.__set_var)
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
 
-        # QDial ok check.
+        # Angle panel available check
         self.variable_list.currentRowChanged.connect(self.__dial_ok)
 
         # Play button.
@@ -97,17 +106,12 @@ class InputsWidget(QWidget, Ui_Form):
         # Change the point coordinates with current position.
         self.update_pos.clicked.connect(self.set_coords_as_current)
 
-        """Inputs record context menu
-        
-        + Copy data from Point0
-        + Copy data from Point1
-        + ...
-        """
+        # Inputs record context menu
         self.pop_menu_record_list = QMenu(self)
         self.record_list.customContextMenuRequested.connect(
             self.__record_list_context_menu
         )
-        self.__path_data: Dict[str, Sequence[Tuple[float, float]]] = {}
+        self.__path_data: Dict[str, Sequence[_Coord]] = {}
 
     def clear(self):
         """Clear function to reset widget status."""
@@ -409,7 +413,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.add_path(name, path)
 
-    def add_path(self, name: str, path: Sequence[Tuple[float, float]]):
+    def add_path(self, name: str, path: Sequence[_Coord]):
         """Add path function."""
         self.CommandStack.beginMacro(f"Add {{Path: {name}}}")
         self.CommandStack.push(AddPath(
@@ -421,7 +425,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
-    def load_paths(self, paths: Dict[str, Sequence[Tuple[float, float]]]):
+    def load_paths(self, paths: Dict[str, Sequence[_Coord]]):
         """Add multiple path."""
         for name, path in paths.items():
             self.add_path(name, path)
