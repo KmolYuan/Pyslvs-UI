@@ -15,6 +15,7 @@ from typing import (
 )
 from abc import ABC, abstractmethod
 from enum import IntEnum, auto, unique
+from dataclasses import dataclass, field
 from math import (
     degrees,
     sin,
@@ -47,39 +48,30 @@ if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
 
+@dataclass(repr=False, eq=False)
 class _Selector:
 
-    """Use to record mouse clicked point."""
+    """Use to record mouse clicked point.
 
-    __slots__ = (
-        'x', 'y', 'sx', 'sy',
-        'selection',
-        'selection_rect',
-        'selection_old',
-        'middle_dragged',
-        'left_dragged',
-        'picking',
-    )
+    Attributes:
 
-    def __init__(self):
-        """Attributes:
+    + x, y, sx, sy: Four coordinates of selection rectangle.
+    + selection_rect: The selection of mouse dragging.
+    + selection_old: The selection before mouse dragging.
+    + middle_dragged: Is dragged by middle button.
+    + left_dragged: Is dragged by left button.
+    + picking: Is selecting (for drawing function).
+    """
 
-        + x, y, sx, sy: Four coordinates of selection rectangle.
-        + selection_rect: The selection of mouse dragging.
-        + selection_old: The selection before mouse dragging.
-        + middle_dragged: Is dragged by middle button.
-        + left_dragged: Is dragged by left button.
-        + picking: Is selecting (for drawing function).
-        """
-        self.x = 0.
-        self.y = 0.
-        self.sx = 0.
-        self.sy = 0.
-        self.selection_rect: List[int] = []
-        self.selection_old: List[int] = []
-        self.middle_dragged = False
-        self.left_dragged = False
-        self.picking = False
+    x = 0.
+    y = 0.
+    sx = 0.
+    sy = 0.
+    selection_rect: List[int] = field(default_factory=list)
+    selection_old: List[int] = field(default_factory=list)
+    middle_dragged = False
+    left_dragged = False
+    picking = False
 
     def release(self):
         """Release the dragging status."""
@@ -425,10 +417,12 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                         Qt.WindingFill
                     )
 
+            selection_rect = set()
             for i, expr in enumerate(self.exprs):
                 if catch(expr):
-                    if i not in self.selector.selection_rect:
-                        self.selector.selection_rect.append(i)
+                    if i not in selection_rect:
+                        selection_rect.add(i)
+            self.selector.selection_rect = tuple(selection_rect)
 
     def __snap(self, num: float, *, is_zoom: bool = True) -> float:
         """Close to a multiple of coefficient."""

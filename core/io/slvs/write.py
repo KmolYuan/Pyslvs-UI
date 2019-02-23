@@ -101,7 +101,7 @@ def _shift16(num: int) -> int:
     Usage:
     >>> a = 0x20009
     >>> hex(_shift16(a))
-    '0x30000'
+    0x30000
     """
     ten = 1 << 16
     return num + ten - (num % ten)

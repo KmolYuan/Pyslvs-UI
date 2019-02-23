@@ -17,6 +17,7 @@ from typing import (
     Union,
 )
 from abc import abstractmethod
+from dataclasses import dataclass
 from math import (
     radians,
     sin,
@@ -92,24 +93,23 @@ def convex_hull(
     return result
 
 
+@dataclass(repr=False, eq=False)
 class _PathOption:
 
-    """Path option class."""
+    """Path option class.
 
-    __slots__ = ('path', 'show', 'curve')
+    Attributes:
 
-    def __init__(self):
-        """Attributes:
+    + Preview path data
+    + Path data
+    + Display mode:
+        + Show mode parameter.
+        + The path will be the curve, otherwise using the points.
+    """
 
-        + Preview path data
-        + Path data
-        + Display mode:
-            + Show mode parameter.
-            + The path will be the curve, otherwise using the points.
-        """
-        self.path: Tuple[Tuple[Tuple[float, float], ...], ...] = ()
-        self.show: int = -1
-        self.curve: bool = True
+    path: Tuple[Tuple[Tuple[float, float], ...], ...] = ()
+    show: int = -1
+    curve: bool = True
 
 
 class BaseCanvas(QWidget, metaclass=QABCMeta):
