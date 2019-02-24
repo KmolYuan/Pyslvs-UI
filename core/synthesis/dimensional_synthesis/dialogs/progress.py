@@ -77,6 +77,10 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
         # Worker thread.
         self.work = WorkerThread(type_num, mech_params, setting)
+        if self.work.is_two_kernel():
+            self.fast_kernel_label.hide()
+        else:
+            self.full_kernel_label.hide()
         self.work.progress_update.connect(self.__set_progress)
         self.work.result.connect(self.__get_result)
         self.work.done.connect(self.__finish)
@@ -86,8 +90,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
         """Progress bar will always full."""
         value = progress + self.limit * self.work.current_loop
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
-            self.progressBar.setMaximum(value)
-        self.progressBar.setValue(value)
+            self.progress_bar.setMaximum(value)
+        self.progress_bar.setValue(value)
         self.fitness_label.setText(fitness)
 
     @Slot()
@@ -105,10 +109,10 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __start(self):
         """Start the process."""
         loop = self.loopTime.value()
-        self.progressBar.setMaximum(self.limit * loop)
+        self.progress_bar.setMaximum(self.limit * loop)
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
             # Progress bar will show generations instead of percent.
-            self.progressBar.setFormat("%v generations")
+            self.progress_bar.setFormat("%v generations")
         self.work.set_loop(loop)
         self.timer.start()
         self.work.start()

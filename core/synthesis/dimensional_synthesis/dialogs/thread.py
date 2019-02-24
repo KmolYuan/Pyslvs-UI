@@ -59,6 +59,9 @@ class WorkerThread(QThread):
         self.current_loop = 0
         self.fun = None
 
+    def is_two_kernel(self) -> bool:
+        return self.planar.is_two_kernel()
+
     def set_loop(self, loop: int):
         """Set the loop times."""
         self.loop = loop

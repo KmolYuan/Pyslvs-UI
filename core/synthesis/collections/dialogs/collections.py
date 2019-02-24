@@ -40,7 +40,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self,
         collections: Dict[str, Any],
         get_collection: Callable[[], Dict[str, Any]],
-            unsave_func: Callable[[], None],
+        unsave_func: Callable[[], None],
         parent: QWidget
     ):
         """We put the 'collections' (from iteration widget) reference here."""
@@ -209,6 +209,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections[name] = collection.copy()
         self.collections_list.addItem(name)
         self.unsave_func()
+        self.__has_collection()
 
     @Slot(name='on_common_load_clicked')
     @Slot(QListWidgetItem, name='on_common_list_itemDoubleClicked')
