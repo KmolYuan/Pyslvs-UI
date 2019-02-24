@@ -292,24 +292,29 @@ class ConfigureWidget(QWidget, Ui_Form):
                 return
 
         self.driver_list.addItem(d1_d2)
-        self.configure_canvas.set_driver([
-            eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
-        ])
+        self.__update_driver()
         _set_warning(self.driver_label, False)
 
     @Slot(name='on_driver_del_clicked')
-    def __add_follower(self):
+    def __del_driver(self):
         """Remove a input pair."""
         row = self.driver_list.currentRow()
         if not row > -1:
             return
 
         self.driver_list.takeItem(row)
+        self.__update_driver()
         _set_warning(self.driver_label, self.driver_list.count() == 0)
 
+    def __update_driver(self):
+        """Update driver for canvas."""
+        self.configure_canvas.set_driver([
+            eval(s.replace('P', '')) for s in list_texts(self.driver_list)
+        ])
+
     @Slot(name='on_add_customization_clicked')
-    def __add_cus(self):
-        """Show up custom points dialog."""
+    def __set_cus_same(self):
+        """Custom points and multiple joints option."""
         dlg = CustomsDialog(self)
         dlg.show()
         dlg.exec()
@@ -349,7 +354,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         }
 
     @Slot(name='on_load_button_clicked')
-    def __load_data_base(self):
+    def __from_profile(self):
         """Show up the dialog to load structure data."""
         dlg = CollectionsDialog(
             self.collections,
@@ -391,11 +396,13 @@ class ConfigureWidget(QWidget, Ui_Form):
                 self.__set_grounded(row)
                 break
 
-        # Driver, Follower, Target
-        inputs: List[Tuple[int, int]] = params['input']
-        self.driver_list.addItems(f"(P{b}, P{d})" for b, d in inputs)
+        # Driver, Target
+        input_list: List[Tuple[int, int]] = params['input']
+        self.driver_list.addItems(f"(P{b}, P{d})" for b, d in input_list)
+        self.configure_canvas.set_driver(input_list)
         _set_warning(self.driver_label, self.driver_list.count() == 0)
-        target_list: List[int] = params['Target']
+        target_list: Dict[int, Sequence[_Coord]] = params['Target']
+        self.configure_canvas.set_target(target_list)
         self.target_list.addItems(f"P{n}" for n in target_list)
         _set_warning(self.target_label, self.target_list.count() == 0)
 
@@ -412,8 +419,11 @@ class ConfigureWidget(QWidget, Ui_Form):
             return
 
         self.target_list.clear()
+        target_list = []
         for target in list_texts(dlg.targets_list):
+            target_list.append(int(target.replace('P', "")))
             self.target_list.addItem(target)
+        self.configure_canvas.set_target(target_list)
 
         dlg.deleteLater()
         _set_warning(self.target_label, self.target_list.count() == 0)

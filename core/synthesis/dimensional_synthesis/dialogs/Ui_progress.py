@@ -92,7 +92,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
-        self.label_6.setText(_translate("Dialog", "Time passed:"))
+        self.label_6.setText(_translate("Dialog", "Time spent:"))
         self.time_label.setText(_translate("Dialog", "00:00:00"))
         self.label_4.setText(_translate("Dialog", "Batch execution:"))
         self.label_7.setText(_translate("Dialog", "with"))

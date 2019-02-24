@@ -26,7 +26,7 @@
      <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Time passed:</string>
+        <string>Time spent:</string>
        </property>
       </widget>
      </item>

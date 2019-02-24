@@ -62,6 +62,10 @@ class ProgressDialog(QDialog, Ui_Dialog):
                 f"{self.limit % 3600 % 60:02d}"
             )
             self.limit_mode = 'max_time'
+        else:
+            self.limit = 0
+            self.batch_label.setText('∞')
+            self.limit_mode = 'max_gen'
         self.loopTime.setEnabled(self.limit > 0)
 
         # Timer.

@@ -484,8 +484,8 @@ class PreviewCanvas(BaseCanvas):
 
         # Additional attributes.
         self.grounded = -1
-        self.driver = set()
-        self.target = set()
+        self.driver: Set[int] = set()
+        self.target: Set[int] = set()
 
         self.clear()
 
@@ -497,8 +497,8 @@ class PreviewCanvas(BaseCanvas):
         self.pos.clear()
         self.status.clear()
         self.grounded = -1
-        self.driver = set()
-        self.target = set()
+        self.driver.clear()
+        self.target.clear()
         self.update()
 
     def paintEvent(self, event):
@@ -558,14 +558,11 @@ class PreviewCanvas(BaseCanvas):
                 continue
             x *= self.zoom
             y *= -self.zoom
-            if node in (self.driver | self.target):
-                if node in self.driver:
-                    pen.setColor(color_qt('Red'))
-                elif node in self.target:
-                    pen.setColor(color_qt('Yellow'))
-                self.painter.setPen(pen)
-                self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
-            if self.get_status(node):
+            if node in self.driver:
+                color = color_qt('Red')
+            elif node in self.target:
+                color = color_qt('Orange')
+            elif self.get_status(node):
                 color = color_qt('Green')
             else:
                 color = color_qt('Blue')
@@ -624,14 +621,16 @@ class PreviewCanvas(BaseCanvas):
             self.status[n] = self.grounded == link
         self.update()
 
-    def set_driver(self, nodes: Sequence[int]):
+    def set_driver(self, input_list: List[Tuple[int, int]]):
         """Set driver nodes."""
-        self.driver = set(nodes)
+        self.driver.clear()
+        self.driver.update(pair[0] for pair in input_list)
         self.update()
 
     def set_target(self, nodes: Sequence[int]):
         """Set target nodes."""
-        self.target = set(nodes)
+        self.target.clear()
+        self.target.update(nodes)
         self.update()
 
     def set_status(self, point: str, status: bool):
@@ -645,7 +644,7 @@ class PreviewCanvas(BaseCanvas):
 
     def from_profile(self, params: Dict[str, Any]):
         """Simple load by dict object."""
-        # Add customize joints.
+        # Customize points and multiple joints
         graph = Graph(params['Graph'])
         expression: str = params['Expression']
         pos_list = parse_pos(expression)
@@ -656,7 +655,7 @@ class PreviewCanvas(BaseCanvas):
         pos: Dict[int, _Coord] = dict(enumerate(pos_list))
         self.set_graph(graph, pos)
 
-        # Grounded setting.
+        # Grounded setting
         placement: Set[int] = set(params['Placement'])
         links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
         for joint, link in edges_view(graph):
@@ -667,6 +666,16 @@ class PreviewCanvas(BaseCanvas):
             if placement == link - set(self.same):
                 self.set_grounded(row)
                 break
+
+        # Driver setting
+        input_list: List[Tuple[int, int]] = params['input']
+        self.driver.clear()
+        self.driver.update(pair[0] for pair in input_list)
+
+        # Target setting
+        target: Dict[int, Sequence[_Coord]] = params['Target']
+        self.target.clear()
+        self.target.update(target)
 
         self.update()
 
