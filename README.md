@@ -43,15 +43,23 @@
 
 A GUI-based tool used to design 2D linkage mechanism.
 
-+ **Planar Linkages Simulation**:
++ **Planar Linkages Simulation**
 
     - [Python-Solvespace]: Kernel from [Solvespace] with Python bundle (SWIG).
     - [Pyslvs]: Kernel from [Sketch Solve] with Cython.
 
-+ **Mechanical Synthesis**:
++ **Mechanical Synthesis**
 
-    - **Number and Type Synthesis**: Cython algorithm used to find out structure possibilities of the mechanism.
-    - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
+    - **Number Synthesis**: Combine the attributes of mechanism.
+    - **Structural Synthesis**: Cython algorithm used to find out structural possibilities of the mechanism.
+    - **Dimensional Synthesis**: Kernel from the three Cython algorithms (rewrite).
+
++ **Others**
+
+    - Cross three platforms.
+    - CAD-like user interface.
+    - Auto layout of generalized chain.
+    - The code complies with PEP8.
 
 Previews in Ubuntu with KDE Plasma desktop:
 
