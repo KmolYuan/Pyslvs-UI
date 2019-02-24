@@ -9,7 +9,12 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, Iterator
+from typing import (
+    TYPE_CHECKING,
+    Tuple,
+    Iterator,
+    Optional,
+)
 from core.QtModules import (
     Slot,
     Qt,
@@ -42,29 +47,9 @@ class TargetsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
-        current_item = parent.grounded_list.currentItem()
-
-        if current_item:
-
-            def combo_texts(widget) -> Iterator[str]:
-                """Generator to get the text from combobox widget."""
-                for index in range(widget.count()):
-                    yield widget.itemText(index)
-
-            for text in combo_texts(parent.joint_name):
-                num = int(text.replace('P', ''))
-                if (num not in parent.configure_canvas.same) and (text not in (
-                    current_item.text()
-                    .replace('(', '')
-                    .replace(')', '')
-                    .split(", ")
-                )):
-                    self.other_list.addItem(text)
-
-        target_list = [text for text in list_texts(parent.target_list)]
-        for row, text in enumerate(list_texts(self.other_list)):
-            if text in target_list:
-                self.targets_list.addItem(self.other_list.takeItem(row))
+        canvas = parent.configure_canvas
+        self.other_list.addItems(f"P{i}" for i in set(canvas.pos) - canvas.target)
+        self.targets_list.addItems(f"P{i}" for i in canvas.target)
 
     @Slot(name='on_targets_add_clicked')
     @Slot(QListWidgetItem, name='on_other_list_itemDoubleClicked')

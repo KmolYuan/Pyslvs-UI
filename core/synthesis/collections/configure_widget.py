@@ -213,10 +213,10 @@ class ConfigureWidget(QWidget, Ui_Form):
         self,
         graph: Graph,
         pos: Dict[int, _Coord]
-    ):
+    ) -> bool:
         """Set the graph to preview canvas."""
         if not self.__user_clear():
-            return
+            return False
 
         self.configure_canvas.set_graph(graph, pos)
 
@@ -231,6 +231,8 @@ class ConfigureWidget(QWidget, Ui_Form):
         # Point name as (P1, P2, P3, ...).
         for node in pos:
             self.joint_name.addItem(f'P{node}')
+
+        return True
 
     @Slot(int, name='on_grounded_list_currentRowChanged')
     def __set_grounded(self, row: int):
@@ -367,11 +369,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             dlg.deleteLater()
             return
 
-        self.profile_name = dlg.name()
-        params = dlg.params()
-        dlg.deleteLater()
-
         # Add customize joints.
+        params = dlg.params()
         graph = Graph(params['Graph'])
         expression: str = params['Expression']
         pos_list = parse_pos(expression)
@@ -380,7 +379,12 @@ class ConfigureWidget(QWidget, Ui_Form):
         for node, ref in sorted(same.items()):
             pos_list.insert(node, pos_list[ref])
         pos: Dict[int, _Coord] = dict(enumerate(pos_list))
-        self.set_graph(graph, pos)
+        if not self.set_graph(graph, pos):
+            dlg.deleteLater()
+            return
+
+        self.profile_name = dlg.name()
+        dlg.deleteLater()
         self.configure_canvas.cus = cus
         self.configure_canvas.same = same
 
