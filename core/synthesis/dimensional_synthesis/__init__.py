@@ -446,6 +446,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         dlg = ChartDialog("Convergence Data", mechanisms_plot, self)
         dlg.show()
+        dlg.exec()
         dlg.deleteLater()
         print("Finished.")
 

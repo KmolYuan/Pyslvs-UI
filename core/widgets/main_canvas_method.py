@@ -421,12 +421,10 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                         Qt.WindingFill
                     )
 
-            selection_rect = set()
             for i, expr in enumerate(self.exprs):
                 if catch(expr):
-                    if i not in selection_rect:
-                        selection_rect.add(i)
-            self.selector.selection_rect = tuple(selection_rect)
+                    if i not in self.selector.selection_rect:
+                        self.selector.selection_rect.append(i)
 
     def __snap(self, num: float, *, is_zoom: bool = True) -> float:
         """Close to a multiple of coefficient."""
