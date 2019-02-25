@@ -39,6 +39,9 @@ Development
 + Rename "signal" and "slot" introduction of PyQt.
 + Enhancement of enum types.
 + Adjust limitation option of algorithm to "max_gen", "min_fit" and "max_time".
++ BFGS solver:
+    + Fix memory leaked.
+    + Reformat the wrapper for more readability.
 + Rename the dialog resources as "dialogs".
 + Refactor of all widgets names into underscore lowercase.
 + Add generate source function with "generate_source.py".
