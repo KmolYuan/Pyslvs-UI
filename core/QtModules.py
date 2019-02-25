@@ -16,7 +16,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import (
     pyqtSignal as Signal,
     pyqtSlot as Slot,
-    qVersion,
+    QT_VERSION_STR,
     PYQT_VERSION_STR,
 )
 from PyQt5.QtCore import *
@@ -32,7 +32,7 @@ __all__ = [
     'Signal',
     'Slot',
     'qt_image_format',
-    'qVersion',
+    'QT_VERSION_STR',
     'PYQT_VERSION_STR',
     'QABCMeta',
     'QAbstractItemView',

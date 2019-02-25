@@ -25,7 +25,7 @@ import requests
 from core.QtModules import (
     QCoreApplication,
     QProgressDialog,
-    qVersion,
+    QT_VERSION_STR,
     PYQT_VERSION_STR,
 )
 from core.libs import __version__
@@ -37,8 +37,8 @@ INFO: Tuple[str, ...] = (
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
-    f"Qt Version: {qVersion().strip()}",
-    f"PyQt Version: {PYQT_VERSION_STR.strip()}",
+    f"Qt Version: {QT_VERSION_STR}",
+    f"PyQt Version: {PYQT_VERSION_STR}",
 )
 
 _POWERED_BY = ", ".join((
