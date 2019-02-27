@@ -28,12 +28,11 @@ from core.QtModules import (
     QT_VERSION_STR,
     PYQT_VERSION_STR,
 )
-from core.libs import __version__
+from core.libs import __version__, __version_str__
 
-_major, _minor, _build, _label = __version__
 
 INFO: Tuple[str, ...] = (
-    f"Pyslvs {_major}.{_minor}.{_build}({_label})",
+    f"Pyslvs {__version_str__}",
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",

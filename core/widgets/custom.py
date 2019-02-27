@@ -38,7 +38,7 @@ from core.QtModules import (
     QUndoView,
     QABCMeta,
 )
-from core.info import __version__, ARGUMENTS
+from core.info import __version_str__, ARGUMENTS
 from core.libs import (
     kernel_list,
     VPoint,
@@ -62,7 +62,6 @@ from .tables import (
 )
 from .inputs import InputsWidget
 
-_major, _minor, _build, _label = __version__
 _Coord = Tuple[float, float]
 
 
@@ -139,7 +138,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def __appearance(self):
         """Start up and initialize custom widgets."""
         # Version label
-        self.version_label.setText(f"v{_major}.{_minor}.{_build} ({_label})")
+        self.version_label.setText(__version_str__)
 
         # Entities tables.
         self.entities_tab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")

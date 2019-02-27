@@ -14,9 +14,8 @@ from core.QtModules import (
     QPixmap,
     QWidget,
 )
-from .info import __version__, INFO, ARGUMENTS
+from .info import __version_str__, INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
-_major, _minor, _build, _label = __version__
 
 
 def html(s: str) -> str:
@@ -47,7 +46,7 @@ class Splash(QSplashScreen):
     def __init__(self):
         super(Splash, self).__init__(QPixmap(":/icons/splash.png"))
         self.showMessage(
-            f"Version {_major}.{_minor}.{_build}({_label})",
+            f"Version {__version_str__}",
             Qt.AlignBottom | Qt.AlignRight
         )
 
@@ -62,7 +61,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Title.setText(html(_title("Pyslvs") + _content(
-            f"Version {_major}.{_minor}.{_build}({_label}) 2016-2019"
+            f"Version {__version_str__} 2016-2019"
         )))
         self.description_text.setText(html(_content(
             "A GUI-based tool use to solving 2D linkage subject.",

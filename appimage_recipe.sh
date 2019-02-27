@@ -122,7 +122,7 @@ find . -type f -name '*.ui' -delete
 get_apprun
 
 cd ../..
-VERSION=$(python3 -c "from core.info.info import __version__; print(\"{}.{:02}.{}\".format(*__version__))")
+VERSION=$(python3 -c "from core.info.info import __version_str__; print(__version_str__)")
 echo "${VERSION}"
 cd ENV/${APP}.AppDir/
 

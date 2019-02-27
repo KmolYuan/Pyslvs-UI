@@ -38,7 +38,7 @@ from core.QtModules import (
     QLineEdit,
 )
 from core.info import (
-    __version__,
+    __version_str__,
     ARGUMENTS,
     PyslvsAbout,
     check_update,
@@ -58,7 +58,6 @@ from core.libs import (
     PMKSLexer,
 )
 from .actions import ActionMethodInterface
-_major, _minor, _build, _label = __version__
 Settings: type = Union[int, float, bool, str]
 
 
@@ -567,7 +566,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output as expression."""
         context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.entities_point.data())
         dlg = ScriptDialog(
-            f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
+            f"# Generate by Pyslvs {__version_str__}\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             (f"M[\n{context}\n]" if context else "M[]"),
             PMKSLexer(),
@@ -583,7 +582,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def __show_py_script(self):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
-            f"# Generate by Pyslvs v{_major}.{_minor}.{_build} ({_label})\n"
+            f"# Generate by Pyslvs {__version_str__}\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.entities_point.data()),

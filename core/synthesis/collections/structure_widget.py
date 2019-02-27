@@ -52,11 +52,6 @@ if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
 
-class _TestError(Exception):
-    """Error raise while add a graphs."""
-    pass
-
-
 class StructureWidget(QWidget, Ui_Form):
 
     """Structure widget.
@@ -157,21 +152,27 @@ class StructureWidget(QWidget, Ui_Form):
         progress_dlg.deleteLater()
         self.collection_list.setCurrentRow(current_pos)
 
+    def __test_graph(self, graph: Graph) -> bool:
+        """Test graph and return True if it is valid."""
+        error = ""
+        if not graph.edges:
+            error = "is an empty graph"
+        if not graph.is_connected():
+            error = "is not a close chain"
+        if not is_planar(graph):
+            error = "is not a planar chain"
+        for graph_ in self.collections:
+            if graph.is_isomorphic(graph_):
+                error = f"is isomorphic with: {graph_.edges}"
+        if error:
+            QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
+            return False
+        return True
+
     def add_collection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
         graph = Graph(edges)
-        try:
-            if not edges:
-                raise _TestError("is an empty graph")
-            if not graph.is_connected():
-                raise _TestError("is not a close chain")
-            if not is_planar(graph):
-                raise _TestError("is not a planar chain")
-            for graph_ in self.collections:
-                if graph.is_isomorphic(graph_):
-                    raise _TestError(f"is isomorphic with: {graph_.edges}")
-        except _TestError as error:
-            QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
+        if not self.__test_graph(graph):
             return
         self.collections.append(graph)
         self.unsaveFunc()
@@ -382,13 +383,13 @@ class StructureWidget(QWidget, Ui_Form):
         if QMessageBox.question(
             self,
             "Delete",
-            f"Sure to remove # {row} from your collections?"
+            f"Sure to remove #{row} from your collections?"
         ) != QMessageBox.Yes:
             return
 
-        self.__clear_selection()
         self.collection_list.takeItem(row)
         del self.collections[row]
+        self.__clear_selection()
         self.unsaveFunc()
 
     @Slot(name='on_configure_button_clicked')
