@@ -311,7 +311,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not self.edit_target_point_button.isChecked():
             return
         for i, (cx, cy) in enumerate(self.current_path()):
-            if hypot(x - cx, y - cy) < 3:
+            if hypot(x - cx, y - cy) < 5:
                 index = i
                 self.path_list.setCurrentRow(index)
                 break

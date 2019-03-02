@@ -597,10 +597,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.browse_tracking.emit(self.selector.x, self.selector.y)
         elif button == Qt.LeftButton:
             self.selector.left_dragged = True
-            if not self.show_target_path:
-                self.__select_func()
-                if self.selector.selection_rect:
-                    self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
+            self.__select_func()
+            if self.selector.selection_rect:
+                self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
 
     def mouseDoubleClickEvent(self, event):
         """Mouse double click.
@@ -631,8 +630,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.selector.selection_old = list(self.selections)
             if (
                 (self.select_mode == SelectMode.Joint) and
-                (self.free_move != FreeMode.NoFreeMove) and
-                (not self.show_target_path)
+                (self.free_move != FreeMode.NoFreeMove)
             ):
                 # Edit point coordinates.
                 self.__emit_free_move(self.selections)
@@ -646,7 +644,6 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     )
                 elif (
                     (not self.selector.selection_rect) and
-                    (not self.show_target_path) and
                     km != Qt.ControlModifier and
                     km != Qt.ShiftModifier
                 ):
@@ -668,29 +665,28 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.oy = event.y() + self.selector.y * self.zoom
             self.update()
         elif self.selector.left_dragged:
-            if self.show_target_path:
-                self.set_target_point.emit(x, y)
-
-            elif self.free_move == FreeMode.NoFreeMove:
-                # Rectangular selection.
-                self.selector.picking = True
-                self.selector.sx = self.__snap(x, is_zoom=False)
-                self.selector.sy = self.__snap(y, is_zoom=False)
-                self.__select_func(rect=True)
-
-                selection = self.selector.current_selection()
-                if selection:
-                    self.selected.emit(selection, False)
+            if self.free_move == FreeMode.NoFreeMove:
+                if self.show_target_path:
+                    self.set_target_point.emit(x, y)
                 else:
-                    self.noselected.emit()
+                    # Rectangular selection.
+                    self.selector.picking = True
+                    self.selector.sx = self.__snap(x, is_zoom=False)
+                    self.selector.sy = self.__snap(y, is_zoom=False)
+                    self.__select_func(rect=True)
 
-                self.selected_tips.emit(
-                    event.globalPos(),
-                    f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
-                    f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
-                    f"{len(selection)} {_selection_unit[self.select_mode]}(s)"
-                )
+                    selection = self.selector.current_selection()
+                    if selection:
+                        self.selected.emit(selection, False)
+                    else:
+                        self.noselected.emit()
 
+                    self.selected_tips.emit(
+                        event.globalPos(),
+                        f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
+                        f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
+                        f"{len(selection)} {_selection_unit[self.select_mode]}(s)"
+                    )
             elif self.select_mode == SelectMode.Joint:
                 if self.free_move == FreeMode.Translate:
                     # Free move translate function.
@@ -736,7 +732,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                             if (x > 0) != (y > 0):
                                 vpoint.rotate(180 - self.vangles[num])
 
-                if self.free_move != FreeMode.NoFreeMove:
+                if self.free_move != FreeMode.NoFreeMove and self.selections:
                     self.update_preview_path()
 
             self.update()

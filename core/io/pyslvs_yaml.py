@@ -105,7 +105,7 @@ class YamlEditor(QObject):
 
             'input': [{'base': b, 'drive': d} for b, d, a in self.__inputs_data_func()],
 
-            'storage': list(self.__storage_data_func()),
+            'storage': list(self.__storage_data_func().items()),
 
             'collection': self.__collect_data_func(),
 
