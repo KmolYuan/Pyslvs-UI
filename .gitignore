@@ -110,10 +110,6 @@ out/
 # mypy
 .mypy_cache/
 
-# Eric cache
-.eric6project/
-_eric6project/
-
 #PyCharm cache
 .idea/
 

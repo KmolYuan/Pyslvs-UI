@@ -41,8 +41,7 @@ INFO: Tuple[str, ...] = (
 )
 
 _POWERED_BY = ", ".join((
-    "Python IDE Eric 6",
-    "PyQt 5",
+    "PyQt5",
     "ezdxf",
     "Cython",
     "openpyxl",

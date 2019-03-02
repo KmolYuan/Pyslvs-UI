@@ -14,6 +14,7 @@ Development
 
 + Update new Cython wrapper of Python-Solvespace.
     + Removed SWIG requirement.
++ Removed the support of Eric IDE.
 
 Version 19.02
 ===

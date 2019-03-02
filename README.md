@@ -417,7 +417,7 @@ open ./executable.app
 
 # Powered By
 
-Made by [Qt5] and Python IDE [Eric 6].
+Made by [Qt5].
 
 If there is no special reason, please install the newest version of the kits.
 
@@ -456,8 +456,6 @@ Kernel repository:
 [MinGW]: https://sourceforge.net/projects/mingw-w64/files/
 
 [AppImage]: https://github.com/AppImage/AppImages
-
-[Eric 6]: http://eric-ide.python-projects.org/
 
 [numpy]: http://www.numpy.org/
 [ezdxf]: https://ezdxf.readthedocs.io/en/latest/index.html
