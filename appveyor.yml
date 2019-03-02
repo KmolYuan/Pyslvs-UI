@@ -11,16 +11,7 @@ environment:
     MSYS_DIR: &msys2 C:\msys64
     PYTHON_DIR: C:\Python37-x64
 
-cache:
-# swig.exe
-- C:\ProgramData\chocolatey\bin -> appveyor.yml
-# supporting swig Lib files.
-- C:\ProgramData\chocolatey\lib -> appveyor.yml
-
 install:
-# Install SWIG.
-- choco install swig --yes --limit-output
-
 # Environment variables.
 - set Path=%PYTHON_DIR%;%Path%
 - set Path=%PYTHON_DIR%\Scripts;%Path%
@@ -46,7 +37,6 @@ install:
 - pyinstaller --version
 - gcc --version
 - mingw32-make --version
-- swig -version
 
 before_build:
 # Clone submodules.

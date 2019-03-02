@@ -65,8 +65,7 @@ build: $(LAUNCHSCRIPT).py build-kernel
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYVER)--
-	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs \
---add-binary="core/libs/python_solvespace/libslvs.so;."
+	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs
 	rename .\dist\Pyslvs.exe $(EXENAME).exe
 else ifeq ($(shell uname),Darwin)
 	@echo --Python Version $(PYVER)--

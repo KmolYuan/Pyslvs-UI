@@ -39,7 +39,6 @@ before_install:
   fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  yes | sudo port install swig-python;
   yes | sudo port install python$PYTHON;
   yes | sudo port install py$PYTHON-pip;
   sudo port select --set python3 python$PYTHON;

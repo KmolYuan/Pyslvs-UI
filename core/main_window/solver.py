@@ -75,7 +75,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             elif solve_kernel == 1:
                 result, _ = slvs_solve(
                     vpoints,
-                    tuple(self.inputs_widget.input_pairs())
+                    {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
                     if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
@@ -159,9 +159,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                         )
                     elif solve_kernel == 1:
                         if self.free_move_button.isChecked():
-                            inputs = ()
+                            inputs = {}
                         else:
-                            inputs = tuple((bases[i], drivers[i], angles[i]) for i in range(i_count))
+                            inputs = {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
                         result, _ = slvs_solve(vpoints, inputs)
                     elif solve_kernel == 2:
                         result = vpoint_solving(

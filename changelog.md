@@ -4,7 +4,16 @@ Change Log
 Version 19.03
 ===
 
-+ None.
+Features
+---
+
++ CAD kernel corrections.
+
+Development
+---
+
++ Update new Cython wrapper of Python-Solvespace.
+    + Removed SWIG requirement.
 
 Version 19.02
 ===
