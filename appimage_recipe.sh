@@ -110,10 +110,18 @@ rm -fr usr/bin/core/libs/pyslvs/build
 rm -fr usr/bin/core/libs/pyslvs/platform
 rm -fr usr/bin/core/libs/pyslvs/src
 rm -fr usr/bin/core/libs/pyslvs/Adesign
-rm -fr usr/bin/core/libs/python_solvespace/obj
+rm -fr usr/bin/core/libs/python_solvespace/build
+rm -fr usr/bin/core/libs/python_solvespace/platform
 rm -fr usr/bin/core/libs/python_solvespace/include
 rm -fr usr/bin/core/libs/python_solvespace/src
+rm -fr usr/bin/core/libs/python_solvespace/Cython
+rm -fr usr/bin/core/libs/python_solvespace/example
 find . -type f -name '*.ui' -delete
+find . -type f -name 'test_*.py' -delete
+find . -type f -name '*.pyi' -delete
+find . -type f -name '*.yml' -delete
+find . -type f -name '*.md' -delete
+find . -type f -name 'Makefile' -delete
 
 ########################################################################
 # Finalize the AppDir
