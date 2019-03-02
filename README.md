@@ -45,7 +45,7 @@ A GUI-based tool used to design 2D linkage mechanism.
 
 + **Planar Linkages Simulation**
 
-    - [Python-Solvespace]: Kernel from [Solvespace] with Python bundle (SWIG).
+    - [Python-Solvespace]: Kernel from [Solvespace] with Cython bundle.
     - [Pyslvs]: Kernel from [Sketch Solve] with Cython.
 
 + **Mechanical Synthesis**
@@ -369,21 +369,7 @@ Make command:
 make build-solvespace
 ```
 
-**Mac OS and Ubuntu**:
-
-Install SWIG and Python development kit. This tool kit can make a Python bundle with C/C++ library.
-
-```bash
-# Using Homebrew
-brew install swig
-
-# Using APT
-sudo apt install swig python3-dev
-```
-
-**Windows**:
-
-Download and install [SWIG](http://www.swig.org/download.html).
+The compile steps of this kernel has same way as Pyslvs kernel.
 
 # Stand-alone Executable File
 
