@@ -40,6 +40,7 @@ from core.QtModules import (
     QWidget,
     Slot,
     QInputDialog,
+    QProgressDialog,
     QLineEdit,
     QMessageBox,
     QTableWidgetItem,
@@ -495,38 +496,64 @@ class DatabaseWidget(QWidget, Ui_Form):
         """Load the commit pointer."""
         if self.__check_file_changed():
             return
-        # Reset the main window status.
+
+        # Clear first
         self.__clear_func()
+
         # Load the commit to widgets.
-        print(f"Loading commit # {commit.id}.")
+        dlg = QProgressDialog(f"Loading commit # {commit.id}.", "Cancel", 0, 8, self)
+        dlg.setLabelText(f"Setting commit ...")
+        dlg.show()
         self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
-        # Load the expression.
+
+        # Expression
+        dlg.setValue(1)
+        dlg.setLabelText("Loading mechanism ...")
         self.__add_links_func(_decompress(commit.linkcolor))
         self.__parse_func(_decompress(commit.mechanism))
-        # Load inputs data.
+
+        # Inputs data
+        dlg.setValue(2)
+        dlg.setLabelText("Loading input data ...")
         input_data: Sequence[Tuple[int, int]] = _decompress(commit.inputsdata)
         self.__load_inputs_func(input_data)
-        # Load the storage.
+
+        # Storage
+        dlg.setValue(3)
+        dlg.setLabelText("Loading storage ...")
         storage_data: List[Tuple[str, str]] = _decompress(commit.storage)
         self.__add_storage_func(storage_data)
-        # Load path data.
+
+        # Path data
+        dlg.setValue(4)
+        dlg.setLabelText("Loading paths ...")
         path_data: Dict[str, Sequence[Tuple[float, float]]] = _decompress(commit.pathdata)
         self.__load_path_func(path_data)
-        # Load collection data.
+
+        # Collection data
+        dlg.setValue(5)
+        dlg.setLabelText("Loading graph collections ...")
         collection_data: List[Tuple[Tuple[int, int], ...]] = _decompress(commit.collectiondata)
         self.__load_collect_func(collection_data)
-        # Load triangle data.
-        triangle_data: Dict[str, Dict[str, Any]] = _decompress(commit.triangledata)
-        self.__load_triangle_func(triangle_data)
-        # Load algorithm data.
+
+        # Configuration data
+        dlg.setValue(6)
+        dlg.setLabelText("Loading synthesis configurations ...")
+        config_data: Dict[str, Dict[str, Any]] = _decompress(commit.triangledata)
+        self.__load_triangle_func(config_data)
+
+        # Algorithm data
+        dlg.setValue(7)
+        dlg.setLabelText("Loading synthesis configurations ...")
         algorithm_data: List[Dict[str, Any]] = _decompress(commit.algorithmdata)
         self.__load_algorithm_func(algorithm_data)
 
-        # Workbook loaded.
+        # Workbook loaded
+        dlg.setValue(8)
+        dlg.deleteLater()
         self.__workbook_saved()
-        print("The specified phase has been loaded.")
 
         # Show overview dialog.
         dlg = OverviewDialog(
@@ -536,7 +563,7 @@ class DatabaseWidget(QWidget, Ui_Form):
             input_data,
             path_data,
             collection_data,
-            triangle_data,
+            config_data,
             algorithm_data
         )
         dlg.show()

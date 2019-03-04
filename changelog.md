@@ -7,6 +7,7 @@ Version 19.03
 Features
 ---
 
++ Show a progress dialog when loading file or database.
 + CAD kernel corrections.
 
 Development

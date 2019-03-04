@@ -37,7 +37,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         input_data: Sequence[Tuple[int, int]],
         path_data: Dict[str, Sequence[Tuple[float, float]]],
         collection_data: List[Tuple[Tuple[int, int], ...]],
-        triangle_data: Dict[str, Dict[str, Any]],
+        config_data: Dict[str, Dict[str, Any]],
         algorithm_data: List[Dict[str, Any]]
     ):
         """Data come from commit."""
@@ -68,11 +68,11 @@ class OverviewDialog(QDialog, Ui_Dialog):
         # Structure collections and Triangle collections.
         for edges in collection_data:
             self.structures_list.addItem(str(edges))
-        for name, data in triangle_data.items():
+        for name, data in config_data.items():
             item = QListWidgetItem(name)
             item.setToolTip(data['Expression'])
             self.triangular_iteration_list.addItem(item)
-        self.__set_item_text(2, len(collection_data), len(triangle_data))
+        self.__set_item_text(2, len(collection_data), len(config_data))
 
         # Dimensional synthesis.
         for data in algorithm_data:
