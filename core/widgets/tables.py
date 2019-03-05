@@ -42,7 +42,13 @@ from core.QtModules import (
     QABCMeta,
 )
 from core.graphics import color_icon
-from core.libs import VJoint, VPoint, VLink, color_rgb
+from core.libs import (
+    ExpressionStack,
+    VJoint,
+    VPoint,
+    VLink,
+    color_rgb,
+)
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
@@ -377,20 +383,21 @@ class ExprTableWidget(BaseTableWidget[None]):
             'p4',
             'target',
         ), parent)
-        self.expr = []
+        self.exprs = []
 
     def set_expr(
         self,
-        expr: List[Tuple[str]],
+        exprs: ExpressionStack,
         data_dict: Dict[str, Union[_Coord, float]],
         unsolved: Tuple[int]
     ):
         """Set the table items for new coming expression."""
-        if expr != self.expr:
+        exprs = exprs.as_list()
+        if exprs != self.exprs:
             self.clear()
-            self.setRowCount(len(expr) + len(unsolved))
+            self.setRowCount(len(exprs) + len(unsolved))
         row = 0
-        for expr in expr:
+        for expr in exprs:
             # Target
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(expr[-1]))
             # Parameters
@@ -415,7 +422,7 @@ class ExprTableWidget(BaseTableWidget[None]):
             # Target
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(f"P{p}"))
             row += 1
-        self.expr = expr
+        self.exprs = exprs
 
     def item_data(self, _: int) -> None:
         """Not used generator."""

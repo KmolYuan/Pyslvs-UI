@@ -25,11 +25,11 @@ from core.libs import (
     vpoints_configure,
     VJoint,
     VPoint,
-    VLink,
     data_collecting,
     expr_solving,
     vpoint_dof,
     vpoint_solving,
+    ExpressionStack,
     Graph,
 )
 from .entities import EntitiesMethodInterface
@@ -321,7 +321,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             'same': same,
         }
 
-    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str, ...]]:
+    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> ExpressionStack:
         """Update triangle expression here.
 
         Special function for VPoints.
@@ -358,7 +358,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         self.main_canvas.update_figure(
             self.entities_point.data_tuple(),
             self.entities_link.data_tuple(),
-            self.get_triangle(),
+            self.get_triangle().as_list(),
             self.inputs_widget.current_path()
         )
 
