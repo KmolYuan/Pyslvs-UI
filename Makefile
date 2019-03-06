@@ -63,19 +63,17 @@ build-kernel: build-pyslvs build-solvespace
 build: $(LAUNCHSCRIPT).py build-kernel
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
-ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYVER)--
+ifeq ($(OS),Windows_NT)
 	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs
 	rename .\dist\Pyslvs.exe $(EXENAME).exe
 else ifeq ($(shell uname),Darwin)
-	@echo --Python Version $(PYVER)--
 	pyinstaller -w -F $< -i ./icons/main.icns -n Pyslvs
 	mv dist/Pyslvs dist/$(EXENAME)
 	chmod +x dist/$(EXENAME)
 	mv dist/Pyslvs.app dist/$(EXENAME).app
 	zip -r dist/$(EXENAME).app.zip dist/$(EXENAME).app
 else
-	@echo --Python Version $(PYVER)--
 	bash ./appimage_recipe.sh
 endif
 	@echo ---Done---
