@@ -18,6 +18,7 @@ from typing import (
 from abc import ABC, abstractmethod
 from traceback import format_exc
 from core.QtModules import Slot
+from core.info import logger
 from core.libs import (
     slvs_solve,
     edges_view,
@@ -88,7 +89,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         except ValueError as error:
             # Error: Show warning without update data.
             if self.console_error_option.isChecked():
-                print(format_exc())
+                logger.warn(format_exc())
             error_text = f"Error: {error}"
             self.conflict.setToolTip(error_text)
             self.conflict.setStatusTip(error_text)

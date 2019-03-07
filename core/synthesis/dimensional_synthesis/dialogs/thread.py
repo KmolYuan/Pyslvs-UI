@@ -23,6 +23,7 @@ from psutil import virtual_memory
 import numpy
 import numpy.distutils.cpuinfo
 from core.QtModules import Signal, QThread
+from core.info import logger
 from core.libs import (
     Genetic,
     Firefly,
@@ -69,16 +70,16 @@ class WorkerThread(QThread):
     def run(self):
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
-            print(f"- [P{name}] ({len(path)})")
+            logger.debug(f"- [P{name}] ({len(path)})")
         t0 = time()
         for self.current_loop in range(self.loop):
-            print(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
+            logger.info(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
             if self.is_stop:
                 # Cancel the remaining tasks.
-                print("Canceled.")
+                logger.info("Canceled.")
                 continue
             self.result.emit(self.__algorithm())
-        print(f"total cost time: {time() - t0:.02f} [s]")
+        logger.info(f"total cost time: {time() - t0:.02f} [s]")
         self.done.emit()
 
     def __algorithm(self) -> Dict[str, Any]:
@@ -104,7 +105,7 @@ class WorkerThread(QThread):
         }
         mechanism.update(self.mech_params)
         mechanism['Expression'] = expression
-        print(f"cost time: {time_spend:.02f} [s]")
+        logger.info(f"cost time: {time_spend:.02f} [s]")
         return mechanism
 
     def __generate_process(self) -> Tuple[str, List[Tuple[int, float, float]]]:

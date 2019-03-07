@@ -448,7 +448,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.show()
         dlg.exec()
         dlg.deleteLater()
-        print("Finished.")
 
     def __set_time(self, time: float):
         """Set the time label."""

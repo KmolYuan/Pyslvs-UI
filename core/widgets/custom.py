@@ -38,7 +38,11 @@ from core.QtModules import (
     QUndoView,
     QABCMeta,
 )
-from core.info import __version_str__, ARGUMENTS
+from core.info import (
+    __version_str__,
+    ARGUMENTS,
+    logger,
+)
 from core.libs import (
     kernel_list,
     VPoint,
@@ -105,7 +109,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             return
 
         self.env = locate
-        print(f"~Set workplace to: [\"{self.env}\"]")
+        logger.debug(f"~Set workplace to: [\"{self.env}\"]")
 
     def __undo_redo(self):
         """Undo list settings.

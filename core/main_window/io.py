@@ -40,6 +40,7 @@ from core.QtModules import (
 from core.info import (
     __version_str__,
     ARGUMENTS,
+    logger,
     PyslvsAbout,
     check_update,
 )
@@ -121,7 +122,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
         self.clear()
         self.database_widget.reset()
-        print(f"Read from group: {group}")
+        logger.debug(f"Read from group: {group}")
         self.parse_expression(parser.parse(group.split('@')[0]))
 
     def __settings(self) -> Tuple[Tuple[QWidget, Settings], ...]:
@@ -236,7 +237,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
         self.clear()
         self.database_widget.reset()
-        print("Created a new workbook.")
+        logger.info("Created a new workbook.")
 
     def clear(self):
         """Clear to create commit stage."""
@@ -468,7 +469,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         )
         if file_name:
             suffix = str_between(suffix, '(', ')').split('*')[-1]
-            print(f"Format: {suffix}")
+            logger.debug(f"Format: {suffix}")
             if QFileInfo(file_name).completeSuffix() != suffix[1:]:
                 file_name += suffix
             self.set_locate(QFileInfo(file_name).absolutePath())
@@ -477,7 +478,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def save_reply_box(self, title: str, file_name: str):
         """Show message when successfully saved."""
         size = QFileInfo(file_name).size()
-        print("Size: " + (
+        logger.debug("Size: " + (
             f"{size / 1024 / 1024:.02f} MB"
             if size / 1024 // 1024 else
             f"{size / 1024:.02f} KB"
@@ -487,7 +488,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             f"Initial Saved: {title}",
             f"Successfully saved:\n{file_name}"
         )
-        print(f"Initial saved: [\"{file_name}\"]")
+        logger.info(f"Initial saved: [\"{file_name}\"]")
 
     def input_from(
         self,
@@ -507,7 +508,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             file_name_s, suffix = QFileDialog.getOpenFileName(self, *args)
         if file_name_s:
             suffix = str_between(suffix, '(', ')').split('*')[-1]
-            print(f"Format: {suffix}")
+            logger.debug(f"Format: {suffix}")
             if type(file_name_s) == str:
                 self.set_locate(QFileInfo(file_name_s).absolutePath())
             else:
@@ -712,7 +713,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         elif suffix == 'slvs':
             self.__read_slvs(ARGUMENTS.file)
         else:
-            print("Unsupported format has been ignore when startup.")
+            logger.critical("Unsupported format has been ignore when startup.")
 
     @Slot(int)
     def command_reload(self, index: int):

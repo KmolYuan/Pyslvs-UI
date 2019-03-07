@@ -9,7 +9,6 @@ __email__ = "pyslvs@gmail.com"
 
 from .script import ScriptDialog, slvs_process_script
 from .slvs import SlvsParser
-from .logging_handler import XStream
 from .output_option import SlvsOutputDialog, DxfOutputDialog
 from .database import DatabaseWidget
 from .pyslvs_yaml import YamlEditor
@@ -20,7 +19,6 @@ __all__ = [
     'SlvsParser',
     'SlvsOutputDialog',
     'DxfOutputDialog',
-    'XStream',
     'DatabaseWidget',
     'YamlEditor',
     'str_between',

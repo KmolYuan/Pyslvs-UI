@@ -24,8 +24,7 @@ from core.QtModules import (
     QInputDialog,
     QTextCursor,
 )
-from core.info import ARGUMENTS
-from core.io import XStream, str_between
+from core.info import ARGUMENTS, XStream, logger
 from .io import IOMethodInterface
 
 __all__ = ['MainWindow']
@@ -72,7 +71,7 @@ class MainWindow(IOMethodInterface):
             self.inputs_widget.inputs_play_shaft.stop()
         self.save_settings()
         XStream.back()
-        print("Exit.")
+        logger.info("Exit.")
         event.accept()
 
     @Slot(int, name='on_zoom_bar_valueChanged')
@@ -145,21 +144,20 @@ class MainWindow(IOMethodInterface):
     @Slot(name='on_console_connect_button_clicked')
     def __console_connect(self):
         """Turn the OS command line (stdout) log to console."""
-        print("Connect to GUI console.")
-        XStream.stdout().messageWritten.connect(self.__append_to_console)
-        XStream.stderr().messageWritten.connect(self.__append_to_console)
+        logger.info("Connect to GUI console.")
+        XStream.stdout().message_written.connect(self.__append_to_console)
         self.console_connect_button.setEnabled(False)
         self.console_disconnect_button.setEnabled(True)
-        print("Connect to GUI console.")
+        logger.info("Connect to GUI console.")
 
     @Slot(name='on_console_disconnect_button_clicked')
     def __console_disconnect(self):
         """Turn the console log to OS command line (stdout)."""
-        print("Disconnect from GUI console.")
+        logger.info("Disconnect from GUI console.")
         XStream.back()
         self.console_connect_button.setEnabled(True)
         self.console_disconnect_button.setEnabled(False)
-        print("Disconnect from GUI console.")
+        logger.info("Disconnect from GUI console.")
 
     @Slot(str)
     def __append_to_console(self, log: str):

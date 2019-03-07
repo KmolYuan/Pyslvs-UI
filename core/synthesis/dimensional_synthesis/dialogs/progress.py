@@ -14,6 +14,7 @@ from core.QtModules import (
     QTimer,
     Slot,
 )
+from core.info import logger
 from .Ui_progress import Ui_Dialog
 from .thread import WorkerThread
 from .options import AlgorithmType
@@ -137,11 +138,11 @@ class ProgressDialog(QDialog, Ui_Dialog):
         """Interrupt the process."""
         if self.work.isRunning():
             self.work.stop()
-            print("The thread has been interrupted.")
+            logger.info("The thread has been interrupted.")
 
     @Slot()
     def __close_work(self):
         """Close the thread."""
         if self.work.isRunning():
             self.work.stop()
-            print("The thread has been canceled.")
+            logger.info("The thread has been canceled.")

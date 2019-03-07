@@ -19,6 +19,7 @@ from .about import (
     PyslvsAbout,
     html
 )
+from .logging_handler import logger, XStream
 
 __all__ = [
     'INFO',
@@ -28,5 +29,7 @@ __all__ = [
     'check_update',
     'Splash',
     'PyslvsAbout',
-    'html'
+    'html',
+    'logger',
+    'XStream',
 ]

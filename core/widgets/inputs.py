@@ -34,6 +34,7 @@ from core.QtModules import (
     QKeySequence,
 )
 from core.libs import VJoint
+from core.info import logger
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 from .undo_redo import (
@@ -479,7 +480,7 @@ class InputsWidget(QWidget, Ui_Form):
                 for coordinate in point:
                     writer.writerow(coordinate)
                 writer.writerow(())
-        print(f"Output path data: {file_name}")
+        logger.info(f"Output path data: {file_name}")
 
     @Slot(QPoint)
     def __record_list_context_menu(self, point):

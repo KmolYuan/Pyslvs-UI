@@ -16,6 +16,9 @@ Development
 + Update new Cython wrapper of Python-Solvespace.
     + Removed SWIG requirement.
 + Removed the support of Eric IDE.
++ Basic logging method instead of "print" function.
+    + Now Pyslvs will create a log file beside executable.
+    + The log file will be delete after generally closed Pyslvs.
 
 Version 19.02
 ===

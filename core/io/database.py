@@ -46,6 +46,7 @@ from core.QtModules import (
     QTableWidgetItem,
 )
 from core.libs import example_list
+from core.info import logger
 from .overview import OverviewDialog
 from .Ui_database import Ui_Form
 nan = float('nan')
@@ -307,7 +308,7 @@ class DatabaseWidget(QWidget, Ui_Form):
                 return
         if (file_name != self.file_name.absoluteFilePath()) and isfile(file_name):
             os_remove(file_name)
-            print("The original file has been overwritten.")
+            logger.debug("The original file has been overwritten.")
         self.__connect_database(file_name)
         is_error = False
         with _db.atomic():
@@ -357,19 +358,19 @@ class DatabaseWidget(QWidget, Ui_Form):
                 branch_model.save()
                 new_commit.save()
             except Exception as error:
-                print(error)
+                logger.error(error)
                 _db.rollback()
                 is_error = True
             else:
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
         if is_error:
             os_remove(file_name)
-            print("The file was removed.")
+            logger.critical("The file was removed.")
             return
         self.read(file_name)
-        print(f"Saving \"{file_name}\" successful.")
+        logger.debug(f"Saving \"{file_name}\" successful.")
         size = QFileInfo(file_name).size()
-        print("Size: " + (
+        logger.debug("Size: " + (
             f"{size / 1024 / 1024:.02f} MB"
             if size / 1024 // 1024 else
             f"{size / 1024:.02f} KB"
@@ -392,7 +393,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.history_commit = history_commit
         for commit in self.history_commit:
             self.__add_commit(commit)
-        print(f"{commit_count} commit(s) was find in database.")
+        logger.debug(f"{commit_count} commit(s) was find in database.")
         self.__load_commit(self.history_commit.order_by(-CommitModel.id).get())
         self.file_name = QFileInfo(file_name)
         self.__workbook_saved()
@@ -573,7 +574,7 @@ class DatabaseWidget(QWidget, Ui_Form):
     def __import_commit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""
         self.__parse_func(_decompress(commit.mechanism))
-        print("The specified phase has been merged.")
+        logger.info("The specified phase has been merged.")
 
     @Slot(name='on_commit_stash_clicked')
     def stash(self):
@@ -605,7 +606,7 @@ class DatabaseWidget(QWidget, Ui_Form):
             self.__load_inputs_func(inputs)
         self.file_name = QFileInfo(example_name)
         self.__workbook_saved()
-        print(f"Example \"{example_name}\" has been loaded.")
+        logger.info(f"Example \"{example_name}\" has been loaded.")
         return True
 
     @Slot(str, name='on_commit_search_text_textEdited')
@@ -666,6 +667,6 @@ class DatabaseWidget(QWidget, Ui_Form):
             )).execute()
             BranchModel.delete().where(BranchModel.name == branch_name).execute()
         _db.close()
-        print(f"Branch {branch_name} was deleted.")
+        logger.info(f"Branch {branch_name} was deleted.")
         # Reload database.
         self.read(file_name)

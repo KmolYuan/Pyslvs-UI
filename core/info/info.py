@@ -96,7 +96,10 @@ _parser.add_argument(
     '-d',
     '--debug-mode',
     action='store_true',
-    help="do not connect to GUI console when opening"
+    help=(
+        "do not connect to GUI console when opening, "
+        "and change the logger from INFO into DEBUG level"
+    )
 )
 _parser.add_argument(
     '--test',

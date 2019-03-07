@@ -27,6 +27,7 @@ from core.widgets import (
     AddStorageName,
     ClearStorageName,
 )
+from core.info import logger
 from core.libs import parse_params
 from .solver import SolverMethodInterface
 
@@ -81,7 +82,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             # Put the expression into parser to see if it is legal.
             parse_params(expr)
         except Exception as error:
-            print(error)
+            logger.warn(error)
             QMessageBox.warning(
                 self,
                 "Loading failed",

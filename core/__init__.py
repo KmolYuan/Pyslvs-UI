@@ -11,7 +11,7 @@ from sys import argv, exit
 from platform import system
 from .QtModules import QApplication
 from core.main_window import MainWindow
-from .info import ARGUMENTS, INFO, Splash
+from .info import ARGUMENTS, INFO, Splash, logger
 
 __all__ = ['main']
 
@@ -19,12 +19,12 @@ __all__ = ['main']
 def main():
     """Startup function."""
     for info_str in INFO:
-        print(info_str)
+        logger.info(info_str)
 
-    print('-' * 7)
+    logger.info('-' * 7)
 
     if ARGUMENTS.test:
-        print("All module loaded successfully.")
+        logger.info("All module loaded successfully.")
         exit(0)
 
     app = QApplication(argv)
