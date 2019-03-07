@@ -17,6 +17,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence
+import logging
 from core.QtModules import (
     Slot,
     qt_image_format,
@@ -71,7 +72,7 @@ class MainWindow(IOMethodInterface):
             self.inputs_widget.inputs_play_shaft.stop()
         self.save_settings()
         XStream.back()
-        logger.info("Exit.")
+        logging.shutdown()
         event.accept()
 
     @Slot(int, name='on_zoom_bar_valueChanged')

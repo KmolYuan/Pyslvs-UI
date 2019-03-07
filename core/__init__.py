@@ -10,8 +10,8 @@ __email__ = "pyslvs@gmail.com"
 from sys import argv, exit
 from platform import system
 from .QtModules import QApplication
-from core.main_window import MainWindow
 from .info import ARGUMENTS, INFO, Splash, logger
+from .main_window import MainWindow
 
 __all__ = ['main']
 
@@ -29,7 +29,7 @@ def main():
 
     app = QApplication(argv)
 
-    # Force fusion style on Mac OS.
+    # Force enable fusion style on Mac OS.
     if system() == 'Darwin':
         ARGUMENTS.fusion = True
 
@@ -43,5 +43,6 @@ def main():
     run = MainWindow()
     run.show()
     splash.finish(run)
+    splash.deleteLater()
 
     exit(app.exec())

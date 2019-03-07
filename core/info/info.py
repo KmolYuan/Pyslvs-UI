@@ -125,7 +125,7 @@ _parser.add_argument(
     nargs='?',
     type=str,
     help="startup Pyslvs with specified Qt platform plugins, "
-         "such as WebGL (webgl:[port])."
+         "such as WebGL (webgl:[port])"
 )
 
 ARGUMENTS = _parser.parse_args()

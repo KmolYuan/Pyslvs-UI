@@ -20,22 +20,8 @@ from logging import (
     Handler,
     StreamHandler,
 )
-from .info import ARGUMENTS
 from core.QtModules import QObject, Signal
-
-
-class _QtHandler(Handler):
-
-    """Logging handle."""
-
-    def __init__(self):
-        super(_QtHandler, self).__init__()
-
-    def emit(self, record: str):
-        """Output to the other side."""
-        record = self.format(record)
-        if record:
-            XStream.stdout().write(record + '\n')
+from .info import ARGUMENTS
 
 
 _SYS_STDOUT = sys.stdout
@@ -48,24 +34,39 @@ basicConfig(
     format="[%(asctime)s] [%(funcName)s]:%(levelname)s: %(message)s",
 )
 logger = getLogger()
-logger.addHandler(_QtHandler())
-logger.setLevel(DEBUG)
 _std_handler = StreamHandler(_SYS_STDOUT)
 logger.addHandler(_std_handler)
+
+
+class _QtHandler(Handler):
+
+    """Logging handle."""
+
+    def __init__(self):
+        super(_QtHandler, self).__init__()
+
+    def emit(self, record: str):
+        """Output to the other side."""
+        record = self.format(record)
+        if record and XStream.replaced():
+            XStream.stdout().write(record + '\n')
+
+    def close(self):
+        """Remove log file if exit."""
+        super(_QtHandler, self).close()
+        os.remove(_log_file_name)
+
+
+logger.addHandler(_QtHandler())
 
 
 class XStream(QObject):
 
     """Stream object to imitate Python output."""
 
-    _stdout: Optional[XStream] = None
-    _stderr: Optional[XStream] = None
+    __stdout: Optional[XStream] = None
+    __stderr: Optional[XStream] = None
     message_written = Signal(str)
-
-    @staticmethod
-    def flush():
-        """Remove log file if exit."""
-        os.remove(_log_file_name)
 
     def write(self, msg: str):
         """Output the message."""
@@ -73,19 +74,23 @@ class XStream(QObject):
             self.message_written.emit(msg)
 
     @staticmethod
+    def replaced() -> bool:
+        return XStream.__stdout is not None
+
+    @staticmethod
     def stdout() -> XStream:
         """Replace stdout."""
-        if not XStream._stdout:
-            XStream._stdout = XStream()
-            sys.stdout = XStream._stdout
+        if not XStream.replaced():
+            XStream.__stdout = XStream()
+            sys.stdout = XStream.__stdout
             logger.removeHandler(_std_handler)
-        return XStream._stdout
+        return XStream.__stdout
 
     @staticmethod
     def back():
         """Disconnect from Qt widget."""
         sys.stdout = _SYS_STDOUT
         sys.stderr = _SYS_STDERR
-        XStream._stdout = None
-        XStream._stderr = None
+        XStream.__stdout = None
+        XStream.__stderr = None
         logger.addHandler(_std_handler)
