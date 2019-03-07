@@ -18,6 +18,17 @@ from .info import __version_str__, INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
 
 
+LICENSE_STRING = (
+    "This program is free software; "
+    "you can redistribute it and/or modify it under the terms of the "
+    "Affero General Public License (AGPL) as published by Affero, Inc. version 3. "
+    "This program is distributed in the hope that it will be useful, "
+    "but WITHOUT ANY WARRANTY; "
+    "without even the implied warranty of "
+    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+)
+
+
 def html(s: str) -> str:
     """Turn simple string to html format."""
     s = s.replace('\n', '<br/>')
@@ -60,7 +71,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.Title.setText(html(_title("Pyslvs") + _content(
+        self.title_label.setText(html(_title("Pyslvs") + _content(
             f"Version {__version_str__} 2016-2019"
         )))
         self.description_text.setText(html(_content(
@@ -69,6 +80,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
             f"Email: {__email__}",
             "If you want to know more, see to our website or contact the email.",
         )))
+        self.license_text.setText(LICENSE_STRING)
         self.ver_text.setText(html(_order_list(*INFO)))
         self.args_text.setText(html(_content("Startup arguments are as follows:") + _order_list(
             f"Open with: {ARGUMENTS.file}",

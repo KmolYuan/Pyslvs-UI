@@ -77,14 +77,17 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLabel" name="Title">
+        <widget class="QLabel" name="title_label">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTabWidget" name="tabWidget">
+        <widget class="QTabWidget" name="tab_widget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
          <widget class="QWidget" name="AboutTab">
           <attribute name="title">
            <string>About</string>
@@ -111,34 +114,9 @@
           <attribute name="title">
            <string>LICENSE</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
-           <property name="leftMargin">
-            <number>6</number>
-           </property>
-           <property name="topMargin">
-            <number>6</number>
-           </property>
-           <property name="rightMargin">
-            <number>6</number>
-           </property>
-           <property name="bottomMargin">
-            <number>6</number>
-           </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="textFormat">
-              <enum>Qt::RichText</enum>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
+            <widget class="QTextBrowser" name="license_text"/>
            </item>
           </layout>
          </widget>
