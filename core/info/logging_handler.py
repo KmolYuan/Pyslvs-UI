@@ -12,6 +12,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import Optional
 import sys
 import os
+from platform import system
 from logging import (
     DEBUG,
     INFO,
@@ -26,11 +27,14 @@ from .info import ARGUMENTS
 
 _SYS_STDOUT = sys.stdout
 _SYS_STDERR = sys.stderr
-_log_file_name = "./pyslvs.log"
+_log_path = "pyslvs.log"
+if system() not in {'Windows', 'Darwin'}:
+    # Cause of AppImages can't use related path
+    _log_path = os.path.join(os.path.expanduser("~"), _log_path)
 
 basicConfig(
     level=DEBUG if ARGUMENTS.debug_mode else INFO,
-    filename=_log_file_name,
+    filename=_log_path,
     format="[%(asctime)s] [%(funcName)s]:%(levelname)s: %(message)s",
 )
 logger = getLogger()
@@ -54,7 +58,7 @@ class _QtHandler(Handler):
     def close(self):
         """Remove log file if exit."""
         super(_QtHandler, self).close()
-        os.remove(_log_file_name)
+        os.remove(_log_path)
 
 
 logger.addHandler(_QtHandler())

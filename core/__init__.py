@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from sys import argv, exit
+import logging
 from platform import system
 from .QtModules import QApplication
 from .info import ARGUMENTS, INFO, Splash, logger
@@ -25,6 +26,7 @@ def main():
 
     if ARGUMENTS.test:
         logger.info("All module loaded successfully.")
+        logging.shutdown()
         exit(0)
 
     app = QApplication(argv)
@@ -45,4 +47,5 @@ def main():
     splash.finish(run)
     splash.deleteLater()
 
+    logging.shutdown()
     exit(app.exec())
