@@ -327,7 +327,19 @@ There's two options to choose SDK:
 [msys]: http://www.msys2.org/
 [mingw64]: https://sourceforge.net/projects/mingw-w64/
 
-When using MinGW for Python compiler, following command might be helpful:
+When using Msys2, following command might be helpful:
+
+```bash
+# Install tools for Msys.
+# Open the "mingw64.exe" shell.
+pacman -S mingw-w64-x86_64-gcc
+pacman -S mingw-w64-x86_64-toolchain
+# A list of tools will shown, choose "mingw-w64-x86_64-make".
+# The "make" command is named as "mingw32-make".
+pacman -S patch
+```
+
+Setup Python compiler as gcc / g++ of MinGW64:
 
 ```bash
 # Where %PYTHON_DIR% is the directory of your Python installation.
@@ -340,11 +352,6 @@ echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
 # Apply the patch of "cygwinccompiler.py".
 # Unix "patch" command of Msys.
 patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
-# Also can use "git apply".
-copy platform\patch.diff %PYTHON_DIR%\lib\distutils
-cd %PYTHON_DIR%\lib\distutils
-git apply patch.diff
-rd apply patch.diff /s /q
 
 # Copy "vcruntime140.dll" to "libs".
 copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
