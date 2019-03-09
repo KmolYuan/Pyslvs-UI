@@ -7,27 +7,18 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.libs import __version__
 from .info import (
-    INFO,
+    SYS_INFO,
     ARGUMENTS,
-    __version_str__,
-    check_update
+    check_update,
 )
-from .about import (
-    Splash,
-    PyslvsAbout,
-    html
-)
+from .about import PyslvsAbout, html
 from .logging_handler import logger, XStream
 
 __all__ = [
-    'INFO',
+    'SYS_INFO',
     'ARGUMENTS',
-    '__version__',
-    '__version_str__',
     'check_update',
-    'Splash',
     'PyslvsAbout',
     'html',
     'logger',

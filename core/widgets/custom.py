@@ -38,12 +38,9 @@ from core.QtModules import (
     QUndoView,
     QABCMeta,
 )
-from core.info import (
-    __version_str__,
-    ARGUMENTS,
-    logger,
-)
+from core.info import ARGUMENTS, logger
 from core.libs import (
+    __version_str__,
     kernel_list,
     VPoint,
     Graph,

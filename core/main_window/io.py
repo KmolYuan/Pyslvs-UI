@@ -38,7 +38,6 @@ from core.QtModules import (
     QLineEdit,
 )
 from core.info import (
-    __version_str__,
     ARGUMENTS,
     logger,
     PyslvsAbout,
@@ -54,6 +53,7 @@ from core.io import (
 )
 from core.widgets import AddTable, EditPointTable
 from core.libs import (
+    __version_str__,
     kernel_list,
     parse_params,
     PMKSLexer,

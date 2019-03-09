@@ -7,14 +7,9 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import (
-    Qt,
-    QDialog,
-    QSplashScreen,
-    QPixmap,
-    QWidget,
-)
-from .info import __version_str__, INFO, ARGUMENTS
+from core.QtModules import Qt, QDialog, QWidget
+from core.libs import __version_str__
+from .info import SYS_INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
 
 
@@ -50,18 +45,6 @@ def _order_list(*s: str) -> str:
     return f'<ul><li>{"</li><li>".join(s)}</li></ul>'
 
 
-class Splash(QSplashScreen):
-
-    """Qt splash show up when startup."""
-
-    def __init__(self):
-        super(Splash, self).__init__(QPixmap(":/icons/splash.png"))
-        self.showMessage(
-            f"Version {__version_str__}",
-            Qt.AlignBottom | Qt.AlignRight
-        )
-
-
 class PyslvsAbout(QDialog, Ui_Dialog):
 
     """Pyslvs about dialog."""
@@ -81,7 +64,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
             "If you want to know more, see to our website or contact the email.",
         )))
         self.license_text.setText(LICENSE_STRING)
-        self.ver_text.setText(html(_order_list(*INFO)))
+        self.ver_text.setText(html(_order_list(*SYS_INFO)))
         self.args_text.setText(html(_content("Startup arguments are as follows:") + _order_list(
             f"Open with: {ARGUMENTS.file}",
             f"Start Path: {ARGUMENTS.c}",

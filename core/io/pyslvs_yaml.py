@@ -24,8 +24,7 @@ from core.QtModules import (
     QProgressDialog,
     QCoreApplication,
 )
-from core.libs import VJoint
-from core.info import __version_str__
+from core.libs import __version_str__, VJoint
 from .overview import OverviewDialog
 
 if TYPE_CHECKING:

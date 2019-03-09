@@ -31,7 +31,7 @@ from core.QtModules import (
 from core.libs import __version__, __version_str__
 
 
-INFO: Tuple[str, ...] = (
+SYS_INFO: Tuple[str, ...] = (
     f"Pyslvs {__version_str__}",
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
@@ -64,7 +64,7 @@ _parser.add_argument(
     '-v',
     '--version',
     action='version',
-    version=INFO[0]
+    version=SYS_INFO[0]
 )
 _parser.add_argument(
     'file',

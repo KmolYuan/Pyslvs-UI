@@ -6,30 +6,32 @@ __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
-
-from sys import argv, exit
-import logging
-from platform import system
-from .QtModules import QApplication
-from .info import ARGUMENTS, INFO, Splash, logger
-from .main_window import MainWindow
-
 __all__ = ['main']
 
 
 def main():
     """Startup function."""
-    for info_str in INFO:
-        logger.info(info_str)
+    from sys import argv, exit
+    from logging import shutdown
+    from platform import system
 
-    logger.info('-' * 7)
-
+    from .info import ARGUMENTS, logger
     if ARGUMENTS.test:
         logger.info("All module loaded successfully.")
-        logging.shutdown()
+        shutdown()
         exit(0)
 
+    from .QtModules import (
+        Qt,
+        QApplication,
+        QPixmap,
+        QSplashScreen,
+    )
+    import preview_rc
     app = QApplication(argv)
+    splash = QSplashScreen(QPixmap(":/icons/splash.png"))
+    splash.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
+    splash.show()
 
     # Force enable fusion style on Mac OS.
     if system() == 'Darwin':
@@ -39,13 +41,13 @@ def main():
     if ARGUMENTS.fusion:
         app.setStyle('fusion')
 
-    splash = Splash()
-    splash.show()
-
+    from .main_window import MainWindow
+    del preview_rc
     run = MainWindow()
     run.show()
     splash.finish(run)
     splash.deleteLater()
 
-    logging.shutdown()
-    exit(app.exec())
+    qt_exit_code = app.exec()
+    shutdown()
+    exit(qt_exit_code)

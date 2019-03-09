@@ -13,6 +13,8 @@ Features
 Development
 ---
 
++ Remove related import at "core" (root module) to speed up the compile time.
++ Remove customized splash class that is used once.
 + Update new Cython wrapper of Python-Solvespace.
     + Removed SWIG requirement.
 + Removed the support of Eric IDE.

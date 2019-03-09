@@ -22,24 +22,30 @@ from logging import (
     StreamHandler,
 )
 from core.QtModules import QObject, Signal
-from .info import ARGUMENTS
+from .info import ARGUMENTS, SYS_INFO
 
 
+logger = getLogger()
 _SYS_STDOUT = sys.stdout
 _SYS_STDERR = sys.stderr
+_std_handler = StreamHandler(_SYS_STDOUT)
 _log_path = "pyslvs.log"
 if system() not in {'Windows', 'Darwin'}:
     # Cause of AppImages can't use related path
     _log_path = os.path.join(os.path.expanduser("~"), _log_path)
 
-basicConfig(
-    level=DEBUG if ARGUMENTS.debug_mode else INFO,
-    filename=_log_path,
-    format="[%(asctime)s] [%(funcName)s]:%(levelname)s: %(message)s",
-)
-logger = getLogger()
-_std_handler = StreamHandler(_SYS_STDOUT)
-logger.addHandler(_std_handler)
+
+def _sign_in_logger():
+    basicConfig(
+        level=DEBUG if ARGUMENTS.debug_mode else INFO,
+        filename=_log_path,
+        format="[%(asctime)s] [%(funcName)s]:%(levelname)s: %(message)s",
+    )
+    logger.addHandler(_std_handler)
+    for info_str in SYS_INFO:
+        logger.info(info_str)
+    logger.info('-' * 7)
+    logger.addHandler(_QtHandler())
 
 
 class _QtHandler(Handler):
@@ -59,9 +65,6 @@ class _QtHandler(Handler):
         """Remove log file if exit."""
         super(_QtHandler, self).close()
         os.remove(_log_path)
-
-
-logger.addHandler(_QtHandler())
 
 
 class XStream(QObject):
@@ -98,3 +101,7 @@ class XStream(QObject):
         XStream.__stdout = None
         XStream.__stderr = None
         logger.addHandler(_std_handler)
+
+
+_sign_in_logger()
+del _sign_in_logger
