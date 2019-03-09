@@ -32,12 +32,9 @@ def main():
 
     app = QApplication(argv)
     import preview_rc
-    if not ARGUMENTS.test:
-        splash = QSplashScreen(QPixmap(":/icons/splash.png"))
-        splash.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
-        splash.show()
-    else:
-        splash = None
+    splash = QSplashScreen(QPixmap(":/icons/splash.png"))
+    splash.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
+    splash.show()
 
     # Force enable fusion style on Mac OS
     if system() == 'Darwin':
@@ -50,9 +47,8 @@ def main():
     from .main_window import MainWindow
     run = MainWindow()
     run.show()
-    if not ARGUMENTS.test:
-        splash.finish(run)
-        splash.deleteLater()
+    splash.finish(run)
+    splash.deleteLater()
     logger.debug(f"Startup with: {time() - t0:.02f}s")
     del preview_rc, splash, t0
 
