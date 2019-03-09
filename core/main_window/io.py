@@ -679,6 +679,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if self.dontsave_option.isChecked():
             self.settings.clear()
             return
+
+        self.settings.setValue("ENV", self.env)
         for widget, value in self.__settings():
             name = widget.objectName()
             widget_type = type(widget)

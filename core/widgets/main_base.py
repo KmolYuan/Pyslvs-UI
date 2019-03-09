@@ -76,15 +76,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.setupUi(self)
         self.setAttribute(Qt.WA_DeleteOnClose)
 
-        self.env = ""
-
-        self.set_locate(
-            QFileInfo(ARGUMENTS.c).canonicalFilePath()
-            if ARGUMENTS.c else
-            QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-        )
-
-        # Initialize custom UI.
+        # Initialize custom UI
         self.__undo_redo()
         self.__appearance()
         self.__free_move()
@@ -93,6 +85,14 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__point_context_menu()
         self.__link_context_menu()
         self.__canvas_context_menu()
+
+        # Environment path
+        self.env = ""
+        if ARGUMENTS.c:
+            self.set_locate(QFileInfo(ARGUMENTS.c).canonicalFilePath())
+        else:
+            desktop = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+            self.set_locate(self.settings.value("ENV", desktop, type=str))
 
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""

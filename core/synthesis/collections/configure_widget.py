@@ -48,7 +48,7 @@ from .dialogs import (
 from .Ui_configure_widget import Ui_Form
 
 if TYPE_CHECKING:
-    from core.widgets.custom import MainWindowBase
+    from core.widgets.main_base import MainWindowBase
 
 _Coord = Tuple[float, float]
 
