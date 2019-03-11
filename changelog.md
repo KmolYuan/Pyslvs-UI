@@ -8,7 +8,7 @@ Features
 ---
 
 + Show a progress dialog when loading file or database.
-+ CAD kernel corrections.
++ CAD kernels improvements.
 
 Development
 ---
@@ -22,6 +22,7 @@ Development
     + Now Pyslvs will create a log file beside executable.
     + The log file will be delete after generally closed Pyslvs.
 + Add startup time record.
++ Test the kernels when packing executable.
 
 Version 19.02
 ===

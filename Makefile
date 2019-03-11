@@ -25,6 +25,11 @@ else
 endif
 EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 
+.PHONY: help \
+    build build-kernel build-pyslvs build-solvespace \
+    test test-kernel test-pyslvs test-solvespace \
+    clean clean-kernel clean-pyslvs clean-solvespace clean-all
+
 all: test
 
 help:
@@ -44,23 +49,19 @@ help:
 	@echo - clean-all: clean every binary files and executable file.
 	@echo --------------------------
 
-.PHONY: help \
-    build build-kernel build-pyslvs build-solvespace \
-    clean clean-kernel clean-pyslvs clean-solvespace clean-all
-
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
-	$(MAKE) -C core/libs/pyslvs build
+	$(MAKE) -C core/libs/pyslvs
 	@echo ---Done---
 
 build-solvespace:
-	@echo ---Python solvespace Build---
+	@echo ---Python Solvespace Build---
 	$(MAKE) -C core/libs/python_solvespace
 	@echo ---Done---
 
 build-kernel: build-pyslvs build-solvespace
 
-build: $(LAUNCHSCRIPT).py build-kernel
+build: $(LAUNCHSCRIPT).py build-kernel test-kernel
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
 	@echo --Python Version $(PYVER)--
@@ -77,6 +78,18 @@ else
 	bash ./appimage_recipe.sh
 endif
 	@echo ---Done---
+
+test-pyslvs:
+	@echo ---Pyslvs libraries Test---
+	$(MAKE) -C core/libs/pyslvs test
+	@echo ---Done---
+
+test-solvespace:
+	@echo ---Python Solvespace Test---
+	$(MAKE) -C core/libs/python_solvespace test
+	@echo ---Done---
+
+test-kernel: test-pyslvs test-solvespace
 
 test: build
 ifeq ($(OS),Windows_NT)
