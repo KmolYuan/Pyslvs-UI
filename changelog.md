@@ -23,6 +23,7 @@ Development
     + The log file will be delete after generally closed Pyslvs.
 + Add startup time record.
 + Test the kernels when packing executable.
++ Performance improvement if dimensional synthesis algorithm.
 
 Version 19.02
 ===

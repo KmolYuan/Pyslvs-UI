@@ -51,7 +51,7 @@ DifferentialPrams = {
     'CR': 0.9,
 }
 
-defaultSettings = {'max_gen': 1000, 'report': 10}
+defaultSettings = {'max_gen': 1000, 'report': 50}
 
 
 @unique

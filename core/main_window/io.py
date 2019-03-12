@@ -509,7 +509,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if file_name_s:
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             logger.debug(f"Format: {suffix}")
-            if type(file_name_s) == str:
+            if type(file_name_s) is str:
                 self.set_locate(QFileInfo(file_name_s).absolutePath())
             else:
                 self.set_locate(QFileInfo(file_name_s[0]).absolutePath())

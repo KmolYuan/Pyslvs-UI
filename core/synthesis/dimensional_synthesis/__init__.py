@@ -238,8 +238,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             QMessageBox.warning(
                 self,
                 "File error",
-                "Wrong format.\nIt should be look like this:"
-                "\n0.0,0.0[\\n]" * 3
+                "Wrong format.\nIt should be look like this:" +
+                ("\n0.0,0.0[\\n]" * 3)
             )
         else:
             for x, y in data:

@@ -288,9 +288,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
             [('Algorithm', mechanism['Algorithm']), ('time', mechanism['time'])],
             [(f"P{i}", vpoints[i].c[0]) for i in mechanism['Placement']]
         ):
-            if type(data) == tuple:
+            if type(data) is tuple:
                 label = f"({data[0]:.02f}, {data[1]:.02f})"
-            elif type(data) == float:
+            elif type(data) is float:
                 label = f"{data:.02f}"
             else:
                 label = f"{data}"

@@ -242,7 +242,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         pen.setColor(Qt.darkGray)
         pen.setWidth(2)
         self.painter.setPen(pen)
-        text = f"[{i}]" if type(i) == str else f"[Point{i}]"
+        text = f"[{i}]" if type(i) is str else f"[Point{i}]"
         if self.show_dimension:
             text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
