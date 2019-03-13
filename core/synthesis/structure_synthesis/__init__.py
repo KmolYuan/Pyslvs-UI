@@ -321,7 +321,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         results = contracted_link(job_l_a, dlg.stop_func)
         for c_j in results:
             self.c_l_a_list.addItem(QListWidgetItem(", ".join(
-                f"Nc{i + 1} = {c_j[i]}" for i in range(len(c_j))
+                f"NC{i + 1} = {c_j[i]}" for i in range(len(c_j))
             )))
         self.c_l_a_list.setCurrentRow(0)
         dlg.next()
