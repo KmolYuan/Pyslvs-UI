@@ -39,7 +39,7 @@ GeneticPrams = {
 FireflyPrams = {
     'n': 80,
     'alpha': 0.01,
-    'betaMin': 0.2,
+    'beta_min': 0.2,
     'gamma': 1.,
     'beta0': 1.,
 }
@@ -138,7 +138,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 floats=[
                     ("Alpha value", 'alpha', html(
                         "Alpha value is the step size of the firefly.")),
-                    ("Minimum Beta value", 'betaMin', html(
+                    ("Minimum Beta value", 'beta_min', html(
                         "The minimal attraction, must not less than this.")),
                     ("Gamma value", 'gamma', html(
                         "Beta will multiplied by exponential power value "
@@ -183,7 +183,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
         elif self.__algorithm == AlgorithmType.Firefly:
             self.pop_size.setValue(settings['n'])
-            for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']):
+            for i, tag in enumerate(['alpha', 'beta_min', 'gamma', 'beta0']):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
         elif self.__algorithm == AlgorithmType.DE:
             self.pop_size.setValue(settings['NP'])

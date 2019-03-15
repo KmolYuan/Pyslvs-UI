@@ -880,7 +880,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.alg_options[tag] = from_table(i)
         elif type_num == AlgorithmType.Firefly:
             self.alg_options['n'] = pop_size
-            for i, tag in enumerate(('alpha', 'betaMin', 'gamma', 'beta0')):
+            for i, tag in enumerate(('alpha', 'beta_min', 'gamma', 'beta0')):
                 self.alg_options[tag] = from_table(i)
         elif type_num == AlgorithmType.DE:
             self.alg_options['NP'] = pop_size
