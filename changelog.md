@@ -9,6 +9,7 @@ Features
 
 + Show a progress dialog when loading file or database.
 + CAD kernels improvements.
++ Performance improvement of algorithms.
 
 Development
 ---
@@ -24,6 +25,7 @@ Development
 + Add startup time record.
 + Test the kernels when packing executable.
 + Performance improvement if dimensional synthesis algorithm.
++ Add code of conduct.
 
 Version 19.02
 ===
