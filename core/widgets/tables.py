@@ -44,6 +44,7 @@ from core.QtModules import (
 from core.graphics import color_icon
 from core.libs import (
     ExpressionStack,
+    Coordinate,
     VJoint,
     VPoint,
     VLink,
@@ -388,8 +389,8 @@ class ExprTableWidget(BaseTableWidget[None]):
     def set_expr(
         self,
         exprs: ExpressionStack,
-        data_dict: Dict[str, Union[_Coord, float]],
-        unsolved: Tuple[int]
+        data_dict: Dict[str, Union[Coordinate, float]],
+        unsolved: Tuple[int, ...]
     ):
         """Set the table items for new coming expression."""
         exprs = exprs.as_list()
@@ -408,7 +409,8 @@ class ExprTableWidget(BaseTableWidget[None]):
                         text = f"{e}:{data_dict[e]:.02f}"
                     else:
                         # Coordinate
-                        text = f"{e}:({data_dict[e][0]:.02f}, {data_dict[e][1]:.02f})"
+                        c = data_dict[e]
+                        text = f"{e}:({c.x:.02f}, {c.y:.02f})"
                 else:
                     # Function name
                     text = e
