@@ -205,8 +205,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         Dict[int, int],
         Dict[int, int]
     ]:
-        """Return edges data, grounded list, variable list and multiple joints.
+        """Generalization Algorithm
 
+        Return edges data, grounded list, variable list and multiple joints.
         VLinks will become graph nodes.
         """
         vpoints = list(self.entities_point.data())
@@ -241,13 +242,15 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                         continue
 
                     m = link_names.index(link_name)
+                    grounded = 'ground' in {vlink.name, link_name}
                     ref_num = len(graph.edges)
                     if ref_num != base_num:
                         pos[ref_num] = (vpoint.x, vpoint.y)
 
                     if vpoint.type == VJoint.RP:
                         graph.add_edge(i, k)
-                        grounded_list.append(len(graph.edges))
+                        if grounded:
+                            grounded_list.append(len(graph.edges))
                         graph.add_edge(k, m)
                         k += 1
                     else:
@@ -255,9 +258,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             same[ref_num] = base_num
                         graph.add_edge(i, m)
 
-                    if 'ground' in {vlink.name, link_name}:
-                        if ref_num not in same:
-                            grounded_list.append(ref_num)
+                    if grounded and ref_num not in same:
+                        grounded_list.append(ref_num)
 
                 used_point.add(p)
 
