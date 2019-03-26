@@ -27,6 +27,7 @@ from math import (
 )
 from functools import reduce
 from core.QtModules import (
+    Slot,
     Qt,
     QABCMeta,
     QPointF,
@@ -154,6 +155,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.background_opacity = 1.
         self.background_scale = 1
         self.background_offset = QPointF(0, 0)
+        # Monochrome mode
+        self.monochrome = False
 
     @abstractmethod
     def paintEvent(self, event):
@@ -197,6 +200,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             """Draw tick."""
             return int(v / self.zoom - v / self.zoom % 5)
 
+        # Draw tick
         for x in range(indexing(x_l), indexing(x_r) + 1, 5):
             self.painter.drawLine(
                 QPointF(x, 0) * self.zoom,
@@ -218,7 +222,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         color: Tuple[int, int, int]
     ):
         """Draw a joint."""
-        pen = QPen(QColor(*color))
+        pen = QPen(Qt.black if self.monochrome else QColor(*color))
         pen.setWidth(2)
         self.painter.setPen(pen)
         x = cx * self.zoom
@@ -458,6 +462,11 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.drawPolygon(QPolygonF(points))
         self.painter.setBrush(Qt.NoBrush)
 
+    @Slot(bool)
+    def set_monochrome_mode(self, monochrome: bool):
+        self.monochrome = monochrome
+        self.update()
+
 
 class PreviewCanvas(BaseCanvas):
 
@@ -531,7 +540,12 @@ class PreviewCanvas(BaseCanvas):
         pen = QPen()
         pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
-        self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+        if self.monochrome:
+            color = QColor(Qt.darkGray)
+        else:
+            color = QColor(226, 219, 190)
+        color.setAlpha(150)
+        self.painter.setBrush(QBrush(color))
 
         # Links
         for link in self.G.nodes:
@@ -558,7 +572,9 @@ class PreviewCanvas(BaseCanvas):
                 continue
             x *= self.zoom
             y *= -self.zoom
-            if node in self.driver:
+            if self.monochrome:
+                color = Qt.black
+            elif node in self.driver:
                 color = color_qt('Red')
             elif node in self.target:
                 color = color_qt('Orange')
@@ -570,7 +586,7 @@ class PreviewCanvas(BaseCanvas):
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
             self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
-            pen.setColor(color_qt('Black'))
+            pen.setColor(Qt.black)
             self.painter.setPen(pen)
 
         # Text of node.

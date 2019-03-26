@@ -214,9 +214,9 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Call to load paths.
         self.__load_path_func = parent.inputs_widget.load_paths
         # Call to load collections data.
-        self.__load_collect_func = parent.collection_tab_page.StructureWidget.add_collections
+        self.__load_collect_func = parent.collection_tab_page.structure_widget.add_collections
         # Call to load triangle data.
-        self.__load_triangle_func = parent.collection_tab_page.ConfigureWidget.add_collections
+        self.__load_triangle_func = parent.collection_tab_page.configure_widget.add_collections
         # Call to load algorithm results.
         self.__load_algorithm_func = parent.dimensional_synthesis.load_results
 

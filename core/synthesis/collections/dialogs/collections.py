@@ -41,6 +41,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         collections: Dict[str, Any],
         get_collection: Callable[[], Dict[str, Any]],
         unsave_func: Callable[[], None],
+        monochrome: bool,
         parent: QWidget
     ):
         """We put the 'collections' (from iteration widget) reference here."""
@@ -61,6 +62,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
+        self.preview_canvas.set_monochrome_mode(monochrome)
         self.common_list.addItems(collection_list)
         self.collections_list.addItems(self.collections)
 

@@ -148,6 +148,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             (self.path_preview_option, self.path_preview_option.count() - 1),
             (self.title_full_path_option, False),
             (self.console_error_option, False),
+            (self.monochrome_option, False),
             # "Do not save the settings" by default.
             (self.dontsave_option, True),
         )

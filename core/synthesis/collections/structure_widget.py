@@ -157,13 +157,14 @@ class StructureWidget(QWidget, Ui_Form):
         error = ""
         if not graph.edges:
             error = "is an empty graph"
-        if not graph.is_connected():
-            error = "is not a close chain"
-        if not is_planar(graph):
-            error = "is not a planar chain"
-        for graph_ in self.collections:
-            if graph.is_isomorphic(graph_):
-                error = f"is isomorphic with: {graph_.edges}"
+        else:
+            if not graph.is_connected():
+                error = "is not a close chain"
+            if not is_planar(graph):
+                error = "is not a planar chain"
+            for graph_ in self.collections:
+                if graph.is_isomorphic(graph_):
+                    error = f"is isomorphic with: {graph_.edges}"
         if error:
             QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
             return False

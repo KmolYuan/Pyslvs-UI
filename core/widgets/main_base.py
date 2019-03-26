@@ -282,7 +282,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             "Collections"
         )
         self.structure_synthesis.addCollection = (
-            self.collection_tab_page.StructureWidget.add_collection
+            self.collection_tab_page.structure_widget.add_collection
         )
 
         # Dimensional synthesis
@@ -386,6 +386,12 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.background_scale_option.valueChanged.connect(self.main_canvas.set_background_scale)
         self.background_offset_x_option.valueChanged.connect(self.main_canvas.set_background_offset_x)
         self.background_offset_y_option.valueChanged.connect(self.main_canvas.set_background_offset_y)
+        self.monochrome_option.toggled.connect(self.main_canvas.set_monochrome_mode)
+        self.monochrome_option.toggled.connect(
+            self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode
+        )
+        self.monochrome_option.toggled.connect(self.dimensional_synthesis.preview_canvas.set_monochrome_mode)
+
         # Resolve after change current kernel.
         self.planar_solver_option.addItems(kernel_list)
         self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))

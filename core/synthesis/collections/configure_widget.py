@@ -148,10 +148,10 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.get_configure = parent.get_configure
         self.add_collection = add_collection
 
-        # Iteration data.
+        # Iteration data
         self.collections: Dict[str, Dict[str, Any]] = {}
 
-        # Customized preview canvas.
+        # Customized preview canvas
         self.configure_canvas = _ConfigureCanvas(self)
         self.configure_canvas.set_joint_number.connect(
             self.joint_name.setCurrentIndex
@@ -362,6 +362,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.collections,
             self.get_configure,
             self.unsave_func,
+            self.configure_canvas.monochrome,
             self
         )
         dlg.show()

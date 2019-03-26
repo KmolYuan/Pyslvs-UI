@@ -10,6 +10,7 @@ Features
 + Show a progress dialog when loading file or database.
 + CAD kernels improvements.
 + Performance improvement of algorithms.
++ Monochrome mode for mechanism. (Excluding indicators)
 
 Development
 ---

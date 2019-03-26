@@ -156,39 +156,39 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
-        # The current mouse coordinates.
+        # The current mouse coordinates
         self.selector = _Selector()
-        # Entities.
+        # Entities
         self.vpoints: Tuple[VPoint, ...] = ()
         self.vlinks: Tuple[VLink, ...] = ()
         self.vangles: Tuple[float, ...] = ()
-        # Solution.
+        # Solution
         self.exprs: List[Tuple[str, ...]] = []
-        # Select function.
+        # Select function
         self.select_mode = SelectMode.Joint
         self.sr = 10
         self.selections: List[int] = []
-        # Link transparency.
+        # Link transparency
         self.transparency = 1.
-        # Set show_dimension to False.
+        # Show dimension
         self.show_dimension = False
-        # Free move mode.
+        # Free move mode
         self.free_move = FreeMode.NoFreeMove
-        # Path preview.
+        # Path preview
         self.path_preview: List[List[_Coord]] = []
         self.slider_path_preview: Dict[int, List[_Coord]] = {}
         self.preview_path = parent.preview_path
-        # Path record.
+        # Path record
         self.path_record = []
-        # Zooming center.
-        # 0: By cursor.
-        # 1: By canvas center.
+        # Zooming center
+        # 0: By cursor
+        # 1: By canvas center
         self.zoomby = 0
-        # Mouse snapping value.
+        # Mouse snapping value
         self.snap = 5.
-        # Default margin factor.
+        # Default margin factor
         self.margin_factor = 0.95
-        # Widget size.
+        # Widget size
         self.width_old = None
         self.height_old = None
 
@@ -217,7 +217,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     grounded = vpoint.links[j] == 'ground'
                 # Slot point.
                 if j == 0 or vpoint.type == VJoint.P:
-                    pen.setColor(QColor(*vpoint.color))
+                    pen.setColor(Qt.black if self.monochrome else QColor(*vpoint.color))
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
                     jr = self.joint_size * (2 if j == 0 else 1)
@@ -296,13 +296,13 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             (self.vlinks.index(vlink) in self.selections)
         ):
             pen.setWidth(self.link_width + 6)
-            pen.setColor(QColor(161, 16, 239))
+            pen.setColor(Qt.black if self.monochrome else QColor(161, 16, 239))
             self.painter.setPen(pen)
             self.painter.drawPolygon(*qpoints)
         pen.setWidth(self.link_width)
-        pen.setColor(QColor(*vlink.color))
+        pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
         self.painter.setPen(pen)
-        brush = QColor(226, 219, 190)
+        brush = QColor(Qt.darkGray) if self.monochrome else QColor(226, 219, 190)
         brush.setAlphaF(self.transparency)
         self.painter.setBrush(brush)
         self.painter.drawPolygon(*qpoints)
@@ -333,7 +333,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         for i, path in o_path:
             if (self.path.show != i) and (self.path.show != -1):
                 continue
-            if self.vpoints[i].color is None:
+            if self.monochrome:
+                color = Qt.gray
+            elif self.vpoints[i].color is None:
                 color = color_qt('Green')
             else:
                 color = QColor(*self.vpoints[i].color)

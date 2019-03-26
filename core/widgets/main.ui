@@ -543,8 +543,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>561</width>
-                  <height>1042</height>
+                  <width>401</width>
+                  <height>733</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -907,6 +907,13 @@
                      <widget class="QCheckBox" name="console_error_option">
                       <property name="text">
                        <string>Show error messages in the console.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="monochrome_option">
+                      <property name="text">
+                       <string>Monochrome mode for mechanism. (Excluding indicators)</string>
                       </property>
                      </widget>
                     </item>
@@ -1314,7 +1321,7 @@
      <x>0</x>
      <y>0</y>
      <width>882</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">

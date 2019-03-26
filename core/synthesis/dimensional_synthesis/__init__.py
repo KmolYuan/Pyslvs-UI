@@ -92,7 +92,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path: Dict[int, List[_Coord]] = {}
 
         # Some reference of 'collections'.
-        self.collections = parent.collection_tab_page.ConfigureWidget.collections
+        self.collections = parent.collection_tab_page.configure_widget.collections
         self.get_collection = parent.get_configure
         self.input_from = parent.input_from
         self.workbook_no_save = parent.workbook_no_save
@@ -618,6 +618,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.collections,
             self.get_collection,
             self.workbook_no_save,
+            self.preview_canvas.monochrome,
             self
         )
         dlg.show()

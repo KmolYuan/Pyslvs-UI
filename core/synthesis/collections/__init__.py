@@ -51,37 +51,37 @@ class Collections(QWidget):
         tab_widget = QTabWidget(self)
         layout.addWidget(tab_widget)
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
-        self.StructureWidget = StructureWidget(parent)
-        self.ConfigureWidget = ConfigureWidget(
-            self.StructureWidget.add_collection,
+        self.structure_widget = StructureWidget(parent)
+        self.configure_widget = ConfigureWidget(
+            self.structure_widget.add_collection,
             parent
         )
         tab_widget.addTab(
-            self.StructureWidget,
-            self.StructureWidget.windowIcon(),
+            self.structure_widget,
+            self.structure_widget.windowIcon(),
             "Structures"
         )
         tab_widget.addTab(
-            self.ConfigureWidget,
-            self.ConfigureWidget.windowIcon(),
+            self.configure_widget,
+            self.configure_widget.windowIcon(),
             "Configuration"
         )
-        self.StructureWidget.configure_button.clicked.connect(
+        self.structure_widget.configure_button.clicked.connect(
             lambda: tab_widget.setCurrentIndex(1)
         )
-        self.StructureWidget.layout_sender.connect(
-            self.ConfigureWidget.set_graph
+        self.structure_widget.layout_sender.connect(
+            self.configure_widget.set_graph
         )
 
     def clear(self):
         """Clear the sub-widgets."""
-        self.StructureWidget.clear()
-        self.ConfigureWidget.clear()
+        self.structure_widget.clear()
+        self.configure_widget.clear()
 
     def collect_data(self) -> List[Tuple[Tuple[int, int], ...]]:
         """Return collections to database."""
-        return [tuple(G.edges) for G in self.StructureWidget.collections]
+        return [tuple(G.edges) for G in self.structure_widget.collections]
 
     def triangle_data(self) -> Dict[str, Dict[str, Any]]:
         """Return profiles to database."""
-        return self.ConfigureWidget.collections
+        return self.configure_widget.collections
