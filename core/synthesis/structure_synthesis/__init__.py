@@ -52,10 +52,7 @@ from core.libs import (
     link_assortments as l_a,
     contracted_link_assortments as c_l_a,
 )
-from core.graphics import (
-    to_graph,
-    engines,
-)
+from core.graphics import to_graph, engines
 from .Ui_structure_widget import Ui_Form
 
 if TYPE_CHECKING:
@@ -132,6 +129,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.jointDataFunc = parent.entities_point.data_tuple
         self.linkDataFunc = parent.entities_link.data_tuple
         self.get_graph = parent.get_graph
+        self.is_monochrome = parent.monochrome_option.isChecked
 
         # Splitters
         self.splitter.setStretchFactor(0, 2)
@@ -500,7 +498,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.structure_list.iconSize().width(),
             self.graph_engine.currentText(),
             self.graph_link_as_node.isChecked(),
-            self.graph_show_label.isChecked()
+            self.graph_show_label.isChecked(),
+            self.is_monochrome()
         ))
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"

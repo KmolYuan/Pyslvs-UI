@@ -86,6 +86,7 @@ def to_graph(
     engine: Union[str, Pos],
     node_mode: bool,
     show_label: bool,
+    monochrome: bool,
     *,
     except_node: Optional[int] = None
 ) -> QIcon:
@@ -126,7 +127,12 @@ def to_graph(
                 QPointF(pos[l2][0], -pos[l2][1])
             )
     else:
-        painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+        if monochrome:
+            color = QColor(Qt.darkGray)
+        else:
+            color = QColor(226, 219, 190)
+        color.setAlpha(150)
+        painter.setBrush(QBrush(color))
         for link in g.nodes:
             if link == except_node:
                 pen.setColor(Qt.gray)
@@ -146,7 +152,9 @@ def to_graph(
             if k == except_node:
                 color.setAlpha(150)
         else:
-            if except_node in dict(edges_view(g))[k]:
+            if monochrome:
+                color = Qt.black
+            elif except_node in dict(edges_view(g))[k]:
                 color = color_qt('Green')
             else:
                 color = color_qt('Blue')
@@ -160,5 +168,4 @@ def to_graph(
             painter.setPen(pen)
             painter.drawText(point, str(k))
     painter.end()
-    icon = QIcon(QPixmap.fromImage(image).scaledToWidth(width))
-    return icon
+    return QIcon(QPixmap.fromImage(image).scaledToWidth(width))
