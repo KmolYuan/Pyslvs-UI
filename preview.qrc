@@ -3,12 +3,5 @@
     <qresource>
     <!--Splash-->
     <file>icons/splash.png</file>
-    <!--Preview pictures-->
-    <file>icons/preview/PLAP.png</file>
-    <file>icons/preview/PLLP.png</file>
-    <file>icons/preview/PLPP.png</file>
-    <file>icons/preview/PLAP_icon.png</file>
-    <file>icons/preview/PLLP_icon.png</file>
-    <file>icons/preview/PLPP_icon.png</file>
     </qresource>
 </RCC>
