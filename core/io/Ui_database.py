@@ -145,7 +145,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.CommitTable_text.setText(_translate("Form", "Commits:"))
-        self.label_2.setText(_translate("Form", "<html><head/><body><p><img src=\":/icons/sql.png\" width=\"15\"/>Power by SQLite data base</p></body></html>"))
+        self.label_2.setText(_translate("Form", "<html><head/><body><p><img src=\":/icons/sql.png\" width=\"15\"/>Powered by SQLite data base</p></body></html>"))
         self.commit_current_id.setPrefix(_translate("Form", "#"))
         self.commit_search_text.setPlaceholderText(_translate("Form", "Filter: Enter a keyword about the commit description."))
         item = self.CommitTable.horizontalHeaderItem(0)
