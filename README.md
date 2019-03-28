@@ -83,7 +83,7 @@ Three-steps design flow:
 + Dimensional Synthesis
 + Kinematic Simulation
 
-Including sequential processes and inverse analysis.
+Including sequential processes and backward analysis.
 
 [computer_aid_design_method]: images/computer_aid_design_method_watermark.png
 
