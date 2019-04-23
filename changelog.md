@@ -1,6 +1,19 @@
 Change Log
 ===
 
+Version 19.04
+===
+
+Features
+---
+
++ None
+
+Development
+---
+
++ None
+
 Version 19.03
 ===
 
