@@ -7,13 +7,13 @@ Version 19.04
 Features
 ---
 
-+ Contracted graph enumeration algorithm:
-    + Speed up performance for searching between link assortment.
++ Add Readthedocs and MkDocs project for user manual.
 
 Development
 ---
 
-+ None
++ Contracted graph enumeration algorithm:
+    + Speed up performance for searching between link assortment.
 
 Version 19.03
 ===
