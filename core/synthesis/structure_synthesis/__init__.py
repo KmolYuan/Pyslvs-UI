@@ -47,6 +47,7 @@ from core.libs import (
     number_synthesis,
     contracted_link,
     topo,
+    contracted_graph,
     VJoint,
     Graph,
     link_assortments as l_a,
@@ -420,14 +421,22 @@ class StructureSynthesis(QWidget, Ui_Form):
         break_point = False
         t0 = 0.
         c0 = 0
+        job_l_a_last = None
+        cg_list = None
         for job_l_a, job_c_l_a in jobs:
+            if job_l_a_last != job_l_a:
+                cg_list = contracted_graph(job_l_a, dlg.stop_func)
+
             answer, t1 = topo(
-                job_l_a,
+                cg_list,
                 job_c_l_a,
                 self.graph_degenerate.currentIndex(),
                 dlg.stop_func
             )
+
+            job_l_a_last = job_l_a
             dlg.next()
+
             if answer is not None:
                 answers.extend(answer)
                 t0 += t1
@@ -436,9 +445,8 @@ class StructureSynthesis(QWidget, Ui_Form):
                 break_point = True
                 break
 
-        dlg.deleteLater()
-
         if not answers:
+            dlg.deleteLater()
             return
 
         if break_point:
@@ -447,9 +455,11 @@ class StructureSynthesis(QWidget, Ui_Form):
                 "Type synthesis - abort",
                 "Do you want to keep the results?"
             ) != QMessageBox.Yes:
+                dlg.deleteLater()
                 return
 
-        # Save the answer list.
+        # Save
+        dlg.deleteLater()
         self.answer = answers
         self.__set_time_count(t0, c0)
         self.__reload_atlas()
