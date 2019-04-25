@@ -7,7 +7,8 @@ Version 19.04
 Features
 ---
 
-+ None
++ Contracted graph enumeration algorithm:
+    + Speed up performance for searching between link assortment.
 
 Development
 ---
