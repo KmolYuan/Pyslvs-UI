@@ -1,4 +1,9 @@
 site_name: Pyslvs
 theme: readthedocs
 pages:
-  - Main Page: index.md
+  - Getting Start:
+    - Introduction: index.md
+    - Environment: environment.md
+  - About:
+    - License: license.md
+    - Releated Modules: releated.md
