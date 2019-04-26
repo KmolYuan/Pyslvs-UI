@@ -7,3 +7,4 @@ pages:
   - About:
     - License: license.md
     - Releated Modules: releated.md
+    - Change Log: changelog.md

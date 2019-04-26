@@ -1,16 +1,11 @@
-Change Log
-===
-
 Version 19.04
 ===
 
-Features
----
+**Features**:
 
 + Add Readthedocs and MkDocs project for user manual.
 
-Development
----
+**Development**:
 
 + Contracted graph enumeration algorithm:
     + Speed up performance for searching between link assortment.
@@ -18,16 +13,14 @@ Development
 Version 19.03
 ===
 
-Features
----
+**Features**:
 
 + Show a progress dialog when loading file or database.
 + CAD kernels improvements.
 + Performance improvement of algorithms.
 + Monochrome mode for mechanism. (Excluding indicators)
 
-Development
----
+**Development**:
 
 + Remove related import at "core" (root module) to speed up the compile time.
 + Remove customized splash class that is used once.
@@ -45,8 +38,7 @@ Development
 Version 19.02
 ===
 
-Features
----
+**Features**:
 
 + Add single graph saving function for synthesis collection panel.
 + UI description improvements.
@@ -66,8 +58,7 @@ Features
 + Solve the memory leak of Qt dialogs.
 + Unified the IO encoding of text-based files.
 
-Development
----
+**Development**:
 
 + Stop support Python 3.6 or below.
 + Since become 3.7:
@@ -91,16 +82,14 @@ Development
 Version 19.01
 ===
 
-Development
----
+**Development**:
 
 + This version has been skipped.
 
 Version 18.12
 ===
 
-Features
----
+**Features**:
 
 + "External loop" layout for atlas of structural synthesis.
 + Other layout functions are removed from option.
@@ -109,8 +98,7 @@ Features
 + Fix the bug of number synthesis when import from mechanism.
 + Image background color fixed for structural synthesis atlas.
 
-Development
----
+**Development**:
 
 + Methods and function naming corrections of Cython libraries.
 + Removed NetworkX requirement.
@@ -123,8 +111,7 @@ Development
 Version 18.11
 ===
 
-Features
----
+**Features**:
 
 + UI improvement of structural synthesis and collection panel.
     + Record inspected information.
@@ -136,8 +123,7 @@ Features
 + Fix EOF error when loading edge set data from text file.
 + Removed unnecessary layout engine option.
 
-Development
----
+**Development**:
 
 + Replaced all most NetworkX graph type to Pyslvs graph type.
 + Removed PyDot requirement.
@@ -147,8 +133,7 @@ Development
 Version 18.10
 ===
 
-Features
----
+**Features**:
 
 + UI adjustments of "Synthesis" tab pages.
 + Adjust options of structural synthesis.
@@ -156,8 +141,7 @@ Features
 + Chart dialog only shows after the algorithm completed.
 + Fixed bug in batch function of algorithm tasks.
 
-Development
----
+**Development**:
 
 + Improvements of "Adesign" kernel.
 + Fixed an error caused by DE strategy option.
@@ -166,16 +150,14 @@ Development
 Version 18.09.1
 ===
 
-Features
----
+**Features**:
 
 + Fix "Save as" error on Qt slot.
 + New YAML-based file format:
     + Suffix: `.pyslvs.yml`
     + New text-based format to support version control.
 
-Development
----
+**Development**:
 
 + Module of important widgets are be moved to `__init__.py`.
 + Fix compiler option error caused by Python (`cygwinccompiler.py`).
@@ -185,8 +167,7 @@ Development
 Version 18.09
 ===
 
-Features
----
+**Features**:
 
 + Appearance adjustments of main canvas.
 + Add scale mechanism option.
@@ -204,8 +185,7 @@ Features
     + Support slider joint.
     + Add filter for variable list.
 
-Development
----
+**Development**:
 
 + Using abstract class to implement partial methods.
 + Redefine solver function of Python-Solvespace.
@@ -215,8 +195,7 @@ Development
 Version 18.08
 ===
 
-Features
----
+**Features**:
 
 + Important: File format was changed.
 + Add new examples:
@@ -235,8 +214,7 @@ Features
 + Add command line option to choose specified solver when startup.
 + Adjust interface of about dialog.
 
-Development
----
+**Development**:
 
 + Database module "peewee" rename to "database".
 + Database function improvements.
@@ -246,8 +224,7 @@ Development
 Version 18.07
 ===
 
-Features
----
+**Features**:
 
 + Dimensional synthesis data settings and UI has been changed.
 + Input variable settings and UI has been changed.
@@ -257,8 +234,7 @@ Features
     + "Stephenson III"
 + Adjust ask saving message box in "FileWidget" class.
 
-Development
----
+**Development**:
 
 + Add "Python-Solvespace" kernel as submodule.
 + Merge "-w" flag to "-d" flag.
@@ -269,8 +245,7 @@ Development
 Version 18.06
 ===
 
-Features
----
+**Features**:
 
 + Free move mode:
     + Linkage editing is supported in expression table.
@@ -280,8 +255,8 @@ Features
 + Dimensional synthesis function:
     + Re-designed user interface.
 
-Development
----
+**Development**:
+
 
 + Update module "dxfwrite" to "ezdxf".
 + Change "Pyslvs" kernel into submodule, including changelog.
@@ -290,8 +265,7 @@ Development
 Version 18.05
 ===
 
-Features
----
+**Features**:
 
 + Linkage selection mode:
     + New linkage selection function for both of table widget and main canvas.
@@ -317,8 +291,7 @@ Features
 + Add "merge linkages" function in link context menu.
 + Add virtual model option to change linkages appearance.
 
-Development
----
+**Development**:
 
 + Expression grammar:
     + New highlight module Pygments, use to support Python and PMKS expression.
@@ -343,8 +316,7 @@ Development
 Version 18.04
 ===
 
-Features
----
+**Features**:
 
 + Auto preview path will be shown when input joint has been set.
 + Triangular solutions can be show in main canvas when switch to "Expression" table.
@@ -353,8 +325,7 @@ Features
 + 'New link' functional behavior improvement.
 + Pyslvs will save the settings in local, if user let it to do this.
 
-Development
----
+**Development**:
 
 + Several functional corrections and optimizations.
 + PLPP function has been optimized.
@@ -365,8 +336,7 @@ Development
 
 Version 18.03:
 
-Features
----
+**Features**:
 
 + Fix an error caused by wrong grounded linkage.
 + Auto configuration function in triangular iteration.
@@ -374,8 +344,7 @@ Features
 + Database will saving the inputs variables settings.
 + Inputs variables settings can be support undo function.
 
-Development
----
+**Development**:
 
 + Script annotations for functions and classes.
 + Separate 'Inputs' tab widget.
@@ -386,8 +355,7 @@ Development
 Version 18.02
 ===
 
-Features
----
+**Features**:
 
 + Dimensional synthesis function has been associated with triangular iteration function.
 + Related function about dimensional synthesis has been improved.
@@ -401,8 +369,7 @@ Features
 + "Mechanism storage" function improvement.
 + Check for updates function.
 
-Development
----
+**Development**:
 
 + Some improvements about functions and objects.
 + Dimensional synthesis dialog move to a new name space.
@@ -413,17 +380,22 @@ Development
 Version 18.01
 ===
 
-Features
----
+**Features**:
 
 + Triangular iteration function.
 + Collections IO improvements.
 + Dimensional synthesis function improvements.
 + Some options and interface adjustments.
 
-Development
----
+**Development**:
 
 + Use `__init__.py` modules to manage classes and functions.
 + Cython kernel of Number synthesis.
 + Adjust some modules and classified.
+
+Older Version
+===
+
+Version 0.1.0 to 0.9.0.
+
+Prototype stage was not recorded.
