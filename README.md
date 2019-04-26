@@ -38,15 +38,15 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
 Previews in Ubuntu with KDE Plasma desktop:
 
-![main](docs/images/main_plasma.png)
+![main](docs/img/main_plasma.png)
 
 Previews in Windows 10 theme:
 
-![main](docs/images/main_win.png)
+![main](docs/img/main_win.png)
 
 Previews in macOS Sierra with fusion theme:
 
-![main](docs/images/main_mac.png)
+![main](docs/img/main_mac.png)
 
 # Documentation
 

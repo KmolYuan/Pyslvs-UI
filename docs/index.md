@@ -1,6 +1,6 @@
 # Pyslvs Manual
 
-Pyslvs is an open source planar linkage mechanism simulation and mechanical synthesis system.
+Pyslvs is an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.
 
 The project is maintained on GitHub: <https://github.com/KmolYuan/Pyslvs-UI>
 
@@ -60,15 +60,15 @@ A GUI-based tool used to design 2D linkage mechanism.
 
 Previews in Ubuntu with KDE Plasma desktop:
 
-![main](images/main_plasma.png)
+![main](img/main_plasma.png)
 
 Previews in Windows 10 theme:
 
-![main](images/main_win.png)
+![main](img/main_win.png)
 
 Previews in macOS Sierra with fusion theme:
 
-![main](images/main_mac.png)
+![main](img/main_mac.png)
 
 ## Design Method
 
@@ -80,7 +80,7 @@ Three-steps design flow:
 
 Including sequential processes and backward analysis.
 
-![computer_aid_design_method](images/computer_aid_design_method_watermark.png)
+![computer_aid_design_method](img/computer_aid_design_method_watermark.png)
 
 ## Symbolic
 
@@ -92,7 +92,7 @@ A joint between two links will get two name labels, and so on.
 
 The "ground" label is a default name, this link will be the absolute coordinate in the system, might be a frame of your mechanism.
 
-![PMKS example](images/PMKS_example.png)
+![PMKS example](img/PMKS_example.png)
 
 Pyslvs was translate the PMKS expression as a string, likes below:
 
@@ -199,13 +199,13 @@ Pyslvs can support for following format.
 
 The workbook mechanism will generate the sketch frame as \*.slvs format like follow:
 
-![](images/IO_slvs_origin.png)
+![](img/IO_slvs_origin.png)
 
-![](images/IO_slvs_frame.png)
+![](img/IO_slvs_frame.png)
 
 A part file will split the sketch and boundary with two groups.
 
-![](images/IO_slvs_part.png)
+![](img/IO_slvs_part.png)
 
 The part files can be import to assemble with main sketch file. However, the 3D features still can not be generated from external program yet, so user need to do it by self.
 

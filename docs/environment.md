@@ -7,12 +7,14 @@ the programming script can be compiled as an executable file.
 In development state, Pyslvs including several dynamic libraries,
 which are need to be compiled first.
 
-## Download
+!!! Note
 
-Download Pyslvs from github release page:
-<https://github.com/KmolYuan/Pyslvs-UI/releases>
+    Download Pyslvs from GitHub release page:
+    <https://github.com/KmolYuan/Pyslvs-UI/releases>
+    
+    If you want an open source version, clone it from GitHub.
 
-# Modules Requirement
+# Dependency
 
 Actual testing platforms with CI:
 
@@ -149,7 +151,7 @@ make build-solvespace
 
 The compile steps of this kernel has same way as Pyslvs kernel.
 
-# Stand-alone Executable File
+## Stand-alone Executable File
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
