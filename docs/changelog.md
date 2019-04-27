@@ -3,7 +3,7 @@ Version 19.04
 
 **Features**:
 
-+ Add Readthedocs and MkDocs project for user manual.
++ Add basic Readthedocs and MkDocs project for user manual.
 
 **Development**:
 

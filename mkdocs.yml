@@ -3,13 +3,16 @@ theme: readthedocs
 repo_url: https://github.com/KmolYuan/Pyslvs-UI
 copyright: Copyright © 2016-2019 Yuan Chang
 site_favicon: favicon.ico
+
 markdown_extensions:
     - toc:
         permalink: True
     - admonition
+
 nav:
+    - Home: index.md
     - Getting Start:
-        - Introduction: index.md
+        - Introduction: introduction.md
         - Environment: environment.md
     - About:
         - License: license.md

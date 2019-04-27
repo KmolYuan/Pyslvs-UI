@@ -36,18 +36,6 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
     - Auto layout of generalized chain.
     - The code complies with PEP8.
 
-Previews in Ubuntu with KDE Plasma desktop:
-
-![main](docs/img/main_plasma.png)
-
-Previews in Windows 10 theme:
-
-![main](docs/img/main_win.png)
-
-Previews in macOS Sierra with fusion theme:
-
-![main](docs/img/main_mac.png)
-
 # Documentation
 
 The documentation of Pyslvs is on [Readthedocs](https://pyslvs-ui.readthedocs.io/en/latest/).
