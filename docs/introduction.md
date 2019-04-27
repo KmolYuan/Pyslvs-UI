@@ -147,6 +147,7 @@ Pyslvs can support for following format.
 
 **Output formats**:
 
++ Pyslvs [YAML] based workbook (*.pyslvs.yml).
 + Pyslvs workbook database (*.pyslvs).
 + Expression (just a string).
 + [Solvespace] format (*.slvs).
@@ -157,6 +158,7 @@ Pyslvs can support for following format.
 
 **Input formats**:
 
++ Pyslvs [YAML] based workbook (*.pyslvs.yml).
 + Pyslvs workbook database (*.pyslvs).
 + Expression (just a string).
 + [Solvespace] format (*.slvs, only supports very few of constraints).
@@ -176,30 +178,9 @@ The part files can be import to assemble with main sketch file. However, the 3D 
 For the IO method of Solvespace format, you can also refer to two Python scripts 'read' and 'write' in Pyslvs IO module.
 
 [Solvespace]: https://github.com/solvespace/solvespace
-[PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
-[PyQtChart]: https://www.riverbankcomputing.com/software/pyqtchart/download
-[Qt5]: https://www.qt.io/download/
-[SIP]: https://riverbankcomputing.com/software/sip/download
-
-[Official Python]: https://www.python.org/
-[MinGW]: https://sourceforge.net/projects/mingw-w64/files/
-
-[AppImage]: https://github.com/AppImage/AppImages
-
-[numpy]: http://www.numpy.org/
-[ezdxf]: https://ezdxf.readthedocs.io/en/latest/index.html
 [Cython]: http://cython.org/
-[openpyxl]: http://openpyxl.readthedocs.io/
-[psutil]: https://github.com/giampaolo/psutil
-[peewee]: http://docs.peewee-orm.com/en/latest/
-[Lark-parser]: https://github.com/erezsh/lark
-[NetworkX]: https://networkx.github.io/
-[Pygments]: http://pygments.org/
-[PyYAML]: https://pyyaml.org/
+[YAML]: https://yaml.org/
 
 [Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
-
-[GNU Affero General Public License v3]: https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE
-
