@@ -419,7 +419,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         answers = []
         break_point = False
-        t0 = 0.
+        t0 = time()
         c0 = 0
         job_l_a_last = None
         cg_list = None
@@ -427,7 +427,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             if job_l_a_last != job_l_a:
                 cg_list = contracted_graph(job_l_a, dlg.stop_func)
 
-            answer, t1 = topo(
+            answer, _ = topo(
                 cg_list,
                 job_c_l_a,
                 self.graph_degenerate.currentIndex(),
@@ -439,7 +439,6 @@ class StructureSynthesis(QWidget, Ui_Form):
 
             if answer is not None:
                 answers.extend(answer)
-                t0 += t1
                 c0 += len(answer)
             else:
                 break_point = True
@@ -461,7 +460,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Save
         dlg.deleteLater()
         self.answer = answers
-        self.__set_time_count(t0, c0)
+        self.__set_time_count(time() - t0, c0)
         self.__reload_atlas()
 
     @Slot(name='on_graph_link_as_node_clicked')
