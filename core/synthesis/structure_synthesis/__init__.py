@@ -427,7 +427,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             if job_l_a_last != job_l_a:
                 cg_list = contracted_graph(job_l_a, dlg.stop_func)
 
-            answer, _ = topo(
+            answer = topo(
                 cg_list,
                 job_c_l_a,
                 self.graph_degenerate.currentIndex(),
