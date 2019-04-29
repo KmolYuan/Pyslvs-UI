@@ -1,3 +1,14 @@
+Version 19.05
+===
+
+**Features**:
+
++ None
+
+**Development**:
+
++ None
+
 Version 19.04
 ===
 
