@@ -367,7 +367,11 @@ class StructureSynthesis(QWidget, Ui_Form):
         except ValueError:
             return
 
-        jobs = contracted_link(job_l_a)
+        dlg = SynthesisProgressDialog("Contracted Link Synthesis", "", 0, self)
+        dlg.show()
+        jobs = contracted_link(job_l_a, dlg.stop_func)
+        dlg.close()
+        dlg.deleteLater()
 
         def jobs_iterator(
             _l_a: Sequence[int],
@@ -390,14 +394,20 @@ class StructureSynthesis(QWidget, Ui_Form):
         except ValueError:
             return
 
+        dlg = SynthesisProgressDialog("Contracted Link Synthesis", "", 0, self)
+        dlg.show()
+
         job_count = 0
         jobs = []
         for row in range(self.l_a_list.count()):
             item: QListWidgetItem = self.l_a_list.item(row)
             job_l_a = _link_assortments(item.text())
-            job_c_l_as = contracted_link(job_l_a)
+            job_c_l_as = contracted_link(job_l_a, dlg.stop_func)
             job_count += len(job_c_l_as)
             jobs.append((job_l_a, job_c_l_as))
+
+        dlg.close()
+        dlg.deleteLater()
 
         def jobs_iterator(
             _jobs: Sequence[Tuple[Sequence[int], Sequence[Sequence[int]]]]
