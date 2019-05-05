@@ -21,6 +21,9 @@ nav:
         - Synthesis: synthesis.md
         - Version Control: version-control.md
         - Settings: settings.md
+    - Libraries:
+        - Pyslvs Libraries: pyslvs-lib.md
+        - Python-Solvespace Library: python-solvespace-lib.md
     - About:
         - License: license.md
         - Releated Modules: releated.md
