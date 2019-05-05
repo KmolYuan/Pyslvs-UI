@@ -9,7 +9,8 @@ Version 19.05
 
 **Development**:
 
-+ None
++ Speed up performance of Cartesian product function.
++ Add libraries doc for development.
 
 Version 19.04
 ===
