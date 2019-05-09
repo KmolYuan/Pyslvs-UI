@@ -39,6 +39,7 @@ from core.libs import (
     expr_solving,
     Graph,
     edges_view,
+    ExpressionStack,
 )
 from core.widgets import (
     AddTable,
@@ -633,5 +634,5 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
 
     @abstractmethod
-    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> List[Tuple[str]]:
+    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> ExpressionStack:
         ...
