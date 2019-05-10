@@ -196,7 +196,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.main_canvas.selected_tips_hide.connect(select_tips.hide)
 
         @Slot(tuple, bool)
-        def table_set_selection(selections: Tuple[int], key_detect: bool):
+        def table_set_selection(selections: Sequence[int], key_detect: bool):
             """Distinguish table by tab index."""
             tables: List[BaseTableWidget] = [
                 self.entities_point,
@@ -256,7 +256,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.inputs_widget.about_to_resolve.connect(self.resolve)
 
         @Slot(tuple, bool)
-        def inputs_set_selection(selections: Tuple[int], _: bool):
+        def inputs_set_selection(selections: Sequence[int], _: bool):
             """Distinguish table by tab index."""
             self.inputs_widget.clear_selection()
             if self.entities_tab.currentIndex() == 0:
@@ -749,7 +749,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self,
         auto_preview: List[List[_Coord]],
         slider_auto_preview: Dict[int, List[_Coord]],
-        vpoints: Tuple[VPoint, ...]
+        vpoints: Sequence[VPoint]
     ) -> None:
         ...
 

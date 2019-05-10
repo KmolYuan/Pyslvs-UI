@@ -10,6 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
+    Sequence,
     Set,
     Dict,
     Optional,
@@ -108,7 +109,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         self,
         auto_preview: List[List[Tuple[float, float]]],
         slider_auto_preview: Dict[int, List[Tuple[float, float]]],
-        vpoints: Tuple[VPoint, ...]
+        vpoints: Sequence[VPoint]
     ):
         """Resolve auto preview path."""
         if not self.right_input():

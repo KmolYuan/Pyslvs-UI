@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Callable
+from typing import Sequence, Callable
 from abc import ABC, abstractmethod
 from core.QtModules import (
     Slot,
@@ -116,7 +116,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             action.triggered.connect(ml_func(i))
             self.pop_menu_link_merge.addAction(action)
 
-    def __to_multiple_joint(self, index: int, points: Tuple[int]):
+    def __to_multiple_joint(self, index: int, points: Sequence[int]):
         """Merge points into a multiple joint.
 
         @index: The index of main joint in the sequence.
@@ -144,7 +144,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         ))
         self.command_stack.endMacro()
 
-    def __merge_link(self, index: int, links: Tuple[int]):
+    def __merge_link(self, index: int, links: Sequence[int]):
         """Merge links to a base link.
 
         @index: The index of main joint in the sequence.

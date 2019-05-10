@@ -140,7 +140,7 @@ class InputsWidget(QWidget, Ui_Form):
         return self.__path_data
 
     @Slot(tuple)
-    def set_selection(self, selections: Tuple[int]):
+    def set_selection(self, selections: Sequence[int]):
         """Set one selection from canvas."""
         self.joint_list.setCurrentRow(selections[0])
 

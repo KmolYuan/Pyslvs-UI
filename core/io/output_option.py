@@ -69,7 +69,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         frame_description: str,
         env: str,
         file_name: str,
-        vpoints: Tuple[VPoint],
+        vpoints: Sequence[VPoint],
         v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
         parent: QWidget
     ):
