@@ -3,6 +3,7 @@ Version 19.05
 
 **Features**:
 
++ Correction of loop chains.
 + Add "Six bar linkage mechanism" configuration.
 + Add progress dialog on contracted link assortment enumeration.
 + Nested do loop method for contracted graph enumeration.
@@ -10,6 +11,7 @@ Version 19.05
 
 **Development**:
 
++ Speed up performance of number synthesis.
 + Speed up performance of Cartesian product function.
 + Add libraries doc for development.
 
