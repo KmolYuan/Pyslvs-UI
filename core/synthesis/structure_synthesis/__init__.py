@@ -16,7 +16,7 @@ from typing import (
     Tuple,
     List,
     Sequence,
-    Iterator,
+    Dict,
     Iterable,
     Optional,
 )
@@ -50,8 +50,8 @@ from core.libs import (
     contracted_graph,
     VJoint,
     Graph,
-    link_assortments as l_a,
-    contracted_link_assortments as c_l_a,
+    link_assortment as l_a,
+    contracted_link_assortment as c_l_a,
 )
 from core.graphics import to_graph, engines
 from .Ui_structure_widget import Ui_Form
@@ -61,10 +61,12 @@ if TYPE_CHECKING:
 
 __all__ = ['StructureSynthesis']
 
+Assortment = Sequence[int]
 
-def _link_assortments(links_expr: str) -> List[int]:
+
+def _link_assortment(links_expr: str) -> Assortment:
     """Return link assortment from expr."""
-    return [int(n.split('=')[-1]) for n in links_expr.split(", ")]
+    return tuple(int(n.split('=')[-1]) for n in links_expr.split(", "))
 
 
 def compare_assortment(first: Tuple[int, ...], second: Sequence[Tuple[int, ...]]) -> int:
@@ -136,7 +138,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
 
-        # Answer list.
+        # Answer list
+        self.assortment: Dict[Assortment, List[Assortment]] = {}
         self.answer: List[Graph] = []
 
         # Signals
@@ -210,16 +213,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         ))
         self.keep_dof.setChecked(keep_dof_checked)
 
-        # Auto synthesis.
+        # Auto synthesis
         if not graph.edges:
             return
-
-        l_a_row = compare_assortment(tuple(l_a(graph)), self.__l_a_synthesis())
-        self.l_a_list.setCurrentRow(l_a_row)
-        self.c_l_a_list.setCurrentRow(compare_assortment(
-            tuple(c_l_a(graph)),
-            self.__c_l_a_synthesis(l_a_row)
-        ))
+        self.__l_a_synthesis()
 
     def __adjust_structure_data(self):
         """Update NJ and NL values.
@@ -256,7 +253,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         while not n1.is_integer():
             n2 += 1 if is_above else -1
             n1 = nl_func()
-            if (n1 == 0) or (n2 == 0):
+            if n1 == 0 or n2 == 0:
                 break
 
         # Return the result values.
@@ -274,14 +271,15 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.NL_input_old_value = n1
 
     @Slot(name='on_number_synthesis_button_clicked')
-    def __l_a_synthesis(self) -> List[Tuple[int, ...]]:
-        """Synthesis of link assortments."""
+    def __l_a_synthesis(self):
+        """Synthesis of link assortment."""
         self.l_a_list.clear()
         self.c_l_a_list.clear()
+        self.assortment.clear()
 
         nl = self.NL_input.value()
         nj = self.NJ_input.value()
-        dlg = SynthesisProgressDialog("Link assortments", f"({nl}, {nj})", 1, self)
+        dlg = SynthesisProgressDialog("Link assortment", f"({nl}, {nj})", 1, self)
         dlg.show()
         try:
             results = number_synthesis(nl, nj, dlg.stop_func)
@@ -290,42 +288,33 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.l_a_list.addItem(item)
             dlg.next()
             dlg.deleteLater()
-            return []
-        else:
-            for result in results:
-                self.l_a_list.addItem(QListWidgetItem(", ".join(
-                    f"NL{i + 2} = {result[i]}" for i in range(len(result))
-                )))
-            self.l_a_list.setCurrentRow(0)
+            return
+
+        dlg.setMaximum(len(results))
+        for result in results:
+            self.l_a_list.addItem(QListWidgetItem(", ".join(
+                f"NL{i + 2} = {result[i]}" for i in range(len(result))
+            )))
+            self.assortment[result] = contracted_link(result, dlg.stop_func)
             dlg.next()
-            dlg.deleteLater()
-            return results
+        self.l_a_list.setCurrentRow(0)
+        dlg.next()
+        dlg.deleteLater()
+        self.__c_l_a_synthesis()
 
     @Slot(int, name='on_l_a_list_currentRowChanged')
-    def __c_l_a_synthesis(self, l_a_row: int = 0) -> List[Tuple[int, ...]]:
-        """Synthesis of contracted link assortments."""
+    def __c_l_a_synthesis(self, l_a_row: int = 0):
+        """Synthesis of contracted link assortment."""
         self.c_l_a_list.clear()
         item = self.l_a_list.item(l_a_row)
         if item is None:
-            return []
+            return
 
-        job_l_a = _link_assortments(item.text())
-        dlg = SynthesisProgressDialog(
-            "Contracted link assortments",
-            str(job_l_a),
-            1,
-            self
-        )
-        dlg.show()
-        results = contracted_link(job_l_a, dlg.stop_func)
-        for c_j in results:
+        for c_j in self.assortment[_link_assortment(item.text())]:
             self.c_l_a_list.addItem(QListWidgetItem(", ".join(
                 f"NC{i + 1} = {c_j[i]}" for i in range(len(c_j))
             )))
         self.c_l_a_list.setCurrentRow(0)
-        dlg.next()
-        dlg.deleteLater()
-        return results
 
     def __set_time_count(self, t: float, count: int):
         """Set time and count digit to label."""
@@ -339,92 +328,59 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __structure_synthesis(self):
         """Structural synthesis - find by contracted links."""
         self.__clear_structure_list()
-        row = self.l_a_list.currentRow()
-        if row == -1:
+        item1 = self.l_a_list.currentItem()
+        if item1 is None:
             self.__l_a_synthesis()
+            item1 = self.l_a_list.currentItem()
+        item2 = self.c_l_a_list.currentItem()
+        if item2 is None:
             self.__c_l_a_synthesis()
-        item_l_a: QListWidgetItem = self.l_a_list.currentItem()
-        item_c_l_a: QListWidgetItem = self.c_l_a_list.currentItem()
+            item2 = self.c_l_a_list.currentItem()
+
         try:
-            job_l_a = _link_assortments(item_l_a.text())
-            job_c_l_a = _link_assortments(item_c_l_a.text())
+            job_l_a = _link_assortment(item1.text())
+            job_c_l_a = _link_assortment(item2.text())
         except ValueError:
             return
 
-        self.__structural_combine([(job_l_a, job_c_l_a)], 1)
+        self.__structural_combine(((job_l_a, job_c_l_a),), 1)
 
     @Slot(name='on_structure_synthesis_links_button_clicked')
     def __structure_synthesis_links(self):
         """Structural synthesis - find by links."""
         self.__clear_structure_list()
-        row = self.l_a_list.currentRow()
-        if row == -1:
+        item = self.l_a_list.currentItem()
+        if item is None:
             self.__l_a_synthesis()
-            self.__c_l_a_synthesis()
-        item_l_a: QListWidgetItem = self.l_a_list.currentItem()
-        try:
-            job_l_a = _link_assortments(item_l_a.text())
-        except ValueError:
-            return
+            item = self.l_a_list.currentItem()
 
-        dlg = SynthesisProgressDialog("Contracted Link Synthesis", "", 0, self)
-        dlg.show()
-        jobs = contracted_link(job_l_a, dlg.stop_func)
-        dlg.close()
-        dlg.deleteLater()
+        _l_a = _link_assortment(item.text())
 
-        def jobs_iterator(
-            _l_a: Sequence[int],
-            _jobs: Sequence[Sequence[int]]
-        ) -> Iterator[Tuple[Sequence[int], Sequence[int]]]:
-            for _c_l_a in _jobs:
-                yield _l_a, _c_l_a
+        def iterator():
+            for _c_l_a in self.assortment[_l_a]:
+                yield (_l_a, _c_l_a)
 
-        self.__structural_combine(jobs_iterator(job_l_a, jobs), len(jobs))
+        self.__structural_combine(iterator(), len(self.assortment[_l_a]))
 
     @Slot(name='on_structure_synthesis_all_button_clicked')
     def __structure_synthesis_all(self):
         """Structural synthesis - find all."""
         self.__clear_structure_list()
-        if self.l_a_list.currentRow() == -1:
-            self.__l_a_synthesis()
-        item: QListWidgetItem = self.c_l_a_list.currentItem()
-        try:
-            _link_assortments(item.text())
-        except ValueError:
-            return
 
-        dlg = SynthesisProgressDialog("Contracted Link Synthesis", "", 0, self)
-        dlg.show()
+        def iterator():
+            for k, v in self.assortment.items():
+                for s in v:
+                    yield (k, s)
 
-        job_count = 0
-        jobs = []
-        for row in range(self.l_a_list.count()):
-            item: QListWidgetItem = self.l_a_list.item(row)
-            job_l_a = _link_assortments(item.text())
-            job_c_l_as = contracted_link(job_l_a, dlg.stop_func)
-            job_count += len(job_c_l_as)
-            jobs.append((job_l_a, job_c_l_as))
-
-        dlg.close()
-        dlg.deleteLater()
-
-        def jobs_iterator(
-            _jobs: Sequence[Tuple[Sequence[int], Sequence[Sequence[int]]]]
-        ) -> Iterator[Tuple[Sequence[int], Sequence[int]]]:
-            for _l_a, _c_l_as in _jobs:
-                for _c_l_a in _c_l_as:
-                    yield _l_a, _c_l_a
-
-        self.__structural_combine(jobs_iterator(jobs), job_count)
+        self.__structural_combine(iterator(), sum(len(l) for l in self.assortment.values()))
 
     def __structural_combine(
         self,
-        jobs: Iterable[Tuple[Sequence[int], Sequence[int]]],
-        job_count: int
+        jobs: Iterable[Tuple[Assortment, Assortment]],
+        count: int
     ):
         """Structural combine by iterator."""
-        dlg = SynthesisProgressDialog("Structural Synthesis", "", job_count, self)
+        dlg = SynthesisProgressDialog("Structural Synthesis", "", count, self)
         dlg.show()
 
         answers = []
@@ -522,8 +478,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         ))
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"
-            f"Link Assortments: {l_a(g)}\n"
-            f"Contracted Link Assortments: {c_l_a(g)}"
+            f"Link assortment: {l_a(g)}\n"
+            f"Contracted Link assortment: {c_l_a(g)}"
         )
         self.structure_list.addItem(item)
         return True

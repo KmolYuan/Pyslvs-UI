@@ -364,9 +364,9 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <widget class="QLabel" name="link_assortments_text">
+              <widget class="QLabel" name="link_assortment_text">
                <property name="toolTip">
-                <string>Link assortments</string>
+                <string>Link assortment</string>
                </property>
                <property name="text">
                 <string>LA: (?)</string>
@@ -374,16 +374,16 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="link_assortments_label">
+              <widget class="QLabel" name="link_assortment_label">
                <property name="text">
                 <string>N/A</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="contracted_link_assortments_text">
+              <widget class="QLabel" name="contracted_link_assortment_text">
                <property name="toolTip">
-                <string>Contracted link assortments</string>
+                <string>Contracted link assortment</string>
                </property>
                <property name="text">
                 <string>CLA: (?)</string>
@@ -391,7 +391,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="contracted_link_assortments_label">
+              <widget class="QLabel" name="contracted_link_assortment_label">
                <property name="text">
                 <string>N/A</string>
                </property>

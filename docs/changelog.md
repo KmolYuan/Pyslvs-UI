@@ -133,8 +133,8 @@ Version 18.11
     + Show more attributes of the graph.
     + Add "Find by links" and "Find by contracted links" buttons.
     + Add "Link as node" option in structural collection panel, but the layout is readonly.
-    Auto match graph assortments that came from "mechanism" page.
-+ Add independent option of contracted link assortments.
+    Auto match graph assortment that came from "mechanism" page.
++ Add independent option of contracted link assortment.
 + Fix EOF error when loading edge set data from text file.
 + Removed unnecessary layout engine option.
 

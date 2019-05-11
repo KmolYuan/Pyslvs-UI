@@ -215,9 +215,9 @@
          <widget class="QWidget" name="verticalLayoutWidget_3">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QLabel" name="link_assortments_label">
+            <widget class="QLabel" name="link_assortment_label">
              <property name="text">
-              <string>Link assortments:</string>
+              <string>Link assortment:</string>
              </property>
             </widget>
            </item>
@@ -229,9 +229,9 @@
          <widget class="QWidget" name="verticalLayoutWidget_4">
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
-            <widget class="QLabel" name="contracted_link_assortments_label">
+            <widget class="QLabel" name="contracted_link_assortment_label">
              <property name="text">
-              <string>Contracted link assortments:</string>
+              <string>Contracted link assortment:</string>
              </property>
             </widget>
            </item>

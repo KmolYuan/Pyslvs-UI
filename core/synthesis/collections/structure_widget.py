@@ -42,8 +42,8 @@ from core.graphics import (
 )
 from core.libs import (
     Graph,
-    link_assortments as l_a,
-    contracted_link_assortments as c_l_a,
+    link_assortment as l_a,
+    contracted_link_assortment as c_l_a,
     labeled_enumerate,
     is_planar,
 )
@@ -348,8 +348,8 @@ class StructureWidget(QWidget, Ui_Form):
         self.nj_label.setText(str(len(g.edges)))
         self.dof_label.setText(str(g.dof()))
         self.is_degenerate_label.setText(str(g.is_degenerate()))
-        self.link_assortments_label.setText(str(l_a(g)))
-        self.contracted_link_assortments_label.setText(str(c_l_a(g)))
+        self.link_assortment_label.setText(str(l_a(g)))
+        self.contracted_link_assortment_label.setText(str(c_l_a(g)))
 
         # "Link as node" layout cannot do these action.
         self.configure_button.setEnabled(not link_is_node)
@@ -367,8 +367,8 @@ class StructureWidget(QWidget, Ui_Form):
         self.nj_label.setText('0')
         self.dof_label.setText('0')
         self.is_degenerate_label.setText("N/A")
-        self.link_assortments_label.setText("N/A")
-        self.contracted_link_assortments_label.setText("N/A")
+        self.link_assortment_label.setText("N/A")
+        self.contracted_link_assortment_label.setText("N/A")
 
     @Slot(name='on_expr_copy_clicked')
     def __copy_expr(self):
