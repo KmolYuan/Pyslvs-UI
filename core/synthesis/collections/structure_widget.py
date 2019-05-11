@@ -44,6 +44,7 @@ from core.libs import (
     Graph,
     link_assortments as l_a,
     contracted_link_assortments as c_l_a,
+    labeled_enumerate,
     is_planar,
 )
 from .Ui_structure_widget import Ui_Form
@@ -423,16 +424,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections_grounded.append(g)
         self.grounded_list.addItem(item)
 
-        def isomorphic(graph: Graph, graph_list: List[Graph]) -> bool:
-            for h in graph_list:
-                if graph.is_isomorphic(h):
-                    return True
-            return False
-
-        for node in g.nodes:
-            graph_ = Graph([e for e in g.edges if node not in e])
-            if isomorphic(graph_, self.collections_grounded):
-                continue
+        for node, graph_ in labeled_enumerate(g):
             item = QListWidgetItem(f"link_{node}")
             icon = to_graph(
                 g,
