@@ -7,8 +7,10 @@ site_description: The manual of Pyslvs, Open Source Planar Linkage Mechanism Sim
 
 markdown_extensions:
     - toc:
-        permalink: True
+        permalink: true
     - admonition
+    - smarty
+    - attr_list
 
 nav:
     - Home: index.md
@@ -24,6 +26,7 @@ nav:
     - Libraries:
         - Pyslvs Libraries: pyslvs-lib.md
         - Python-Solvespace Library: python-solvespace-lib.md
+        - Python-Solvespace API: python-solvespace-api.md
     - About:
         - License: license.md
         - Releated Modules: releated.md
