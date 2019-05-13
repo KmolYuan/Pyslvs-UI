@@ -54,6 +54,7 @@ The handles of entities.
 ### Entity.FREE_IN_3D: Entity {#entity-free_in_3d}
 
 **\[Class attribute]** The entity represented a spacial work plane object.
+If any 2D entity object in the constraint, the work plane must be input.
 
 ### Entity.NONE: Entity {#entity-none}
 
@@ -361,7 +362,34 @@ Equal orientation constraint between two 3d normals (`e1` and `e2`).
 Degrees angle (`value`) constraint between two 2d lines (`e1` and `e2`)
 on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
-# TODO:
+### SolverSystem.perpendicular(self, e1: Entity, e2: Entity, wp: Entity, inverse: bool = False) -> None {#solversystem-perpendicular}
+
+Perpendicular constraint between two 2d lines (`e1` and `e2`)
+on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with `inverse` option.
+
+### SolverSystem.parallel(self, e1: Entity, e2: Entity, wp: Entity = Entity.FREE_IN_3D) -> None {#solversystem-parallel}
+
+Parallel constraint between two lines (`e1` and `e2`) on the work plane (`wp`).
+
+### SolverSystem.tangent(self, e1: Entity, e2: Entity, wp: Entity = Entity.FREE_IN_3D) -> None {#solversystem-tangent}
+
+Parallel constraint between two entities (`e1` and `e2`) on the work plane (`wp`).
+
+| Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
+|:---------------:|:---------------:|:-----------------:|
+| [is_arc] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
+| [is_cubic] | [is_line_3d] | [Entity.FREE_IN_3D] |
+| [is_arc] | [is_cubic] | Is not [Entity.FREE_IN_3D] |
+| [is_arc] | [is_arc] | Is not [Entity.FREE_IN_3D] |
+| [is_cubic] | [is_cubic] | Optional |
+
+### SolverSystem.distance_proj(self, e1: Entity, e2: Entity, value: float) -> None {#solversystem-distance_proj}
+
+Projected distance (`value`) constraint between two 3d points (`e1` and `e2`).
+
+### SolverSystem.dragged(self, e1: Entity, wp: Entity = Entity.FREE_IN_3D) -> None {#solversystem-dragged}
+
+Dragged constraint of a point (`e1`) on the work plane (`wp`).
 
 [Entity.FREE_IN_3D]: #entity-free_in_3d
 
@@ -371,5 +399,7 @@ on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 [is_work_plane]: #entity-is_work_plane
 [is_line]: #entity-is_line
 [is_line_2d]: #entity-is_line_2d
+[is_line_3d]: #entity-is_line_3d
 [is_arc]: #entity-is_arc
+[is_cubic]: #entity-is_cubic
 [is_circle]: #entity-is_circle
