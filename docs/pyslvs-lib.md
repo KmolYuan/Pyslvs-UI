@@ -3,6 +3,8 @@
 A no-GUI module of mechanism synthesis system and
 a 2D geometric constraint solver.
 
+The submodule is located at `pyslvs/core/libs/pyslvs`.
+
 ## Build and Test
 
 Enter directory and execute the Makefile. Then, run the unit test script after compiling.
