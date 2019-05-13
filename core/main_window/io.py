@@ -453,10 +453,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_export_image_triggered')
     def __export_image(self):
         """Picture save function."""
+        pixmap = self.main_canvas.grab()
         file_name = self.output_to("picture", qt_image_format)
         if not file_name:
             return
-        pixmap = self.main_canvas.grab()
         pixmap.save(file_name)
         self.save_reply_box("Picture", file_name)
 
