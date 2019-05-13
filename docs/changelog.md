@@ -4,6 +4,7 @@ Version 19.05
 **Features**:
 
 + Correction of loop chains.
++ API documentation of Python-Solvespace.
 + Add "Six bar linkage mechanism" configuration.
 + Add progress dialog on contracted link assortment enumeration.
 + Nested do loop method for contracted graph enumeration.
