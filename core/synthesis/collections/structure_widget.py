@@ -165,6 +165,8 @@ class StructureWidget(QWidget, Ui_Form):
                 error = "is not a close chain"
             if not is_planar(graph):
                 error = "is not a planar chain"
+            if graph.has_cut_link():
+                error = "has cut link"
             for graph_ in self.collections:
                 if graph.is_isomorphic(graph_):
                     error = f"is isomorphic with: {graph_.edges}"

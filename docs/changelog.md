@@ -6,6 +6,7 @@ Version 19.05
 + Correction of loop chains.
 + Capture image of main canvas before choosing path instead of after chosen.
 + API documentation of Python-Solvespace.
++ Check cut-links for collections.
 + Add "Six bar linkage mechanism" configuration.
 + Add progress dialog on contracted link assortment enumeration.
 + Nested do loop method for contracted graph enumeration.
