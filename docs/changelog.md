@@ -11,6 +11,7 @@ Version 19.05
 + Add progress dialog on contracted link assortment enumeration.
 + Nested do loop method for contracted graph enumeration.
     + Speed up performance of searching contracted graphs.
++ Optimized user experience of free move mode.
 
 **Development**:
 

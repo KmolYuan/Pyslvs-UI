@@ -13,6 +13,7 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
     List,
+    Sequence,
     Dict,
 )
 from abc import ABC, abstractmethod
@@ -292,8 +293,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Rearrange: Put the nearest point to the next position.
         qpoints = convex_hull(points, as_qpoint=True)
         if (
-            (self.select_mode == SelectMode.Link) and
-            (self.vlinks.index(vlink) in self.selections)
+            self.select_mode == SelectMode.Link and
+            self.vlinks.index(vlink) in self.selections
         ):
             pen.setWidth(self.link_width + 6)
             pen.setColor(Qt.black if self.monochrome else QColor(161, 16, 239))
@@ -325,13 +326,13 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         paths = self.path_record or self.path.path or self.path_preview
         if len(self.vpoints) != len(paths):
             return
-        if paths == self.path_preview:
+        if paths is self.path_preview:
             o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
         else:
             o_path = enumerate(paths)
         pen = QPen()
         for i, path in o_path:
-            if (self.path.show != i) and (self.path.show != -1):
+            if self.path.show != i and self.path.show != -1:
                 continue
             if self.monochrome:
                 color = Qt.gray
@@ -347,7 +348,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             else:
                 self.draw_dot(path)
 
-    def __emit_free_move(self, targets: List[int]):
+    def __emit_free_move(self, targets: Sequence[int]):
         """Emit free move targets to edit."""
         self.free_moved.emit(tuple((num, (
             self.vpoints[num].cx,
@@ -368,9 +369,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     return self.selector.is_close(x, y, self.sr / self.zoom)
 
             for i, vpoint in enumerate(self.vpoints):
-                if catch(vpoint.cx, vpoint.cy):
-                    if i not in self.selector.selection_rect:
-                        self.selector.selection_rect.append(i)
+                if catch(vpoint.cx, vpoint.cy) and i not in self.selector.selection_rect:
+                    self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.Link:
 
@@ -398,15 +398,12 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     )
 
             for i, vlink in enumerate(self.vlinks):
-                if i == 0:
-                    continue
-                if catch(vlink):
-                    if i not in self.selector.selection_rect:
-                        self.selector.selection_rect.append(i)
+                if i != 0 and catch(vlink) and i not in self.selector.selection_rect:
+                    self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.Solution:
 
-            def catch(exprs: Tuple[str, ...]) -> bool:
+            def catch(exprs: Sequence[str]) -> bool:
                 """Detection function for solution polygons."""
                 points, _ = self.solution_polygon(
                     exprs[0],
@@ -424,9 +421,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     )
 
             for i, expr in enumerate(self.exprs):
-                if catch(expr):
-                    if i not in self.selector.selection_rect:
-                        self.selector.selection_rect.append(i)
+                if catch(expr) and i not in self.selector.selection_rect:
+                    self.selector.selection_rect.append(i)
 
     def __snap(self, num: float, *, is_zoom: bool = True) -> float:
         """Close to a multiple of coefficient."""
@@ -434,11 +430,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         if not snap_val:
             return num
         times = num // snap_val
-        remainder = num % snap_val
-        if remainder < (snap_val / 2):
-            return snap_val * times
-        else:
-            return snap_val * (times + 1)
+        if num % snap_val >= snap_val / 2:
+            times += 1
+        return snap_val * times
 
     def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
@@ -450,12 +444,12 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Paths
         if self.path.show != -2:
             paths = self.path_record or self.path.path or self.path_preview
-            if paths == self.path_preview:
+            if paths is self.path_preview:
                 o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
             else:
                 o_path = enumerate(paths)
             for i, path in o_path:
-                if (self.path.show != -1) and (self.path.show != i):
+                if self.path.show != -1 and self.path.show != i:
                     continue
                 for x, y in path:
                     if x < x_right:
@@ -506,7 +500,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     def emit_free_move_all(self):
         """Edit all points to edit."""
-        self.__emit_free_move(list(range(len(self.vpoints))))
+        self.__emit_free_move(range(len(self.vpoints)))
 
     def paintEvent(self, event):
         """Drawing functions."""
@@ -516,7 +510,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.width_old = width
         if self.height_old is None:
             self.height_old = height
-        if (self.width_old != width) or (self.height_old != height):
+        if self.width_old != width or self.height_old != height:
             self.ox += (width - self.width_old) / 2
             self.oy += (height - self.height_old) / 2
 
@@ -585,14 +579,17 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         self.width_old = width
         self.height_old = height
 
+    def __mouse_pos(self, event) -> Tuple[float, float]:
+        """Return the mouse position mapping to main canvas."""
+        return (event.x() - self.ox) / self.zoom, (event.y() - self.oy) / -self.zoom
+
     def mousePressEvent(self, event):
         """Press event.
 
         Middle button: Move canvas of view.
         Left button: Select the point (only first point will be catch).
         """
-        self.selector.x = (event.x() - self.ox) / self.zoom
-        self.selector.y = (event.y() - self.oy) / -self.zoom
+        self.selector.x, self.selector.y = self.__mouse_pos(event)
         button = event.buttons()
         if button == Qt.MiddleButton:
             self.selector.middle_dragged = True
@@ -612,9 +609,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         button = event.buttons()
         if button == Qt.MidButton:
             self.zoom_to_fit()
-        elif (button == Qt.LeftButton) and (not self.show_target_path):
-            self.selector.x = (event.x() - self.ox) / self.zoom
-            self.selector.y = (event.y() - self.oy) / -self.zoom
+        elif button == Qt.LeftButton and (not self.show_target_path):
+            self.selector.x, self.selector.y = self.__mouse_pos(event)
             self.__select_func()
             if self.selector.selection_rect:
                 self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
@@ -629,15 +625,23 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         + Free move mode: Edit the point(s) coordinate.
         """
         if self.selector.left_dragged:
+            km = QApplication.keyboardModifiers()
             self.selector.selection_old = list(self.selections)
             if (
-                (self.select_mode == SelectMode.Joint) and
-                (self.free_move != FreeMode.NoFreeMove)
+                self.select_mode == SelectMode.Joint and
+                self.free_move != FreeMode.NoFreeMove
             ):
-                # Edit point coordinates.
-                self.__emit_free_move(self.selections)
+                x, y = self.__mouse_pos(event)
+                if self.selector.x != x and self.selector.y != y:
+                    # Edit point coordinates.
+                    self.__emit_free_move(self.selections)
+                elif (
+                    (not self.selector.selection_rect) and
+                    km != Qt.ControlModifier and
+                    km != Qt.ShiftModifier
+                ):
+                    self.noselected.emit()
             else:
-                km = QApplication.keyboardModifiers()
                 if km == Qt.AltModifier:
                     # Add Point
                     self.alt_add.emit(
@@ -660,8 +664,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         + Middle button: Translate canvas view.
         + Left button: Free move mode / Rectangular selection.
         """
-        x = (event.x() - self.ox) / self.zoom
-        y = (event.y() - self.oy) / -self.zoom
+        x, y = self.__mouse_pos(event)
         if self.selector.middle_dragged:
             self.ox = event.x() - self.selector.x * self.zoom
             self.oy = event.y() + self.selector.y * self.zoom
@@ -758,7 +761,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         y_diff = y_top - y_bottom
         x_diff = x_diff if x_diff else 1
         y_diff = y_diff if y_diff else 1
-        if (width / x_diff) < (height / y_diff):
+        if width / x_diff < height / y_diff:
             factor = width / x_diff
         else:
             factor = height / y_diff
