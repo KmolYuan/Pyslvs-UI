@@ -46,6 +46,7 @@ from core.libs import (
     contracted_link_assortment as c_l_a,
     labeled_enumerate,
     is_planar,
+    external_loop_layout,
 )
 from .Ui_structure_widget import Ui_Form
 
@@ -155,30 +156,33 @@ class StructureWidget(QWidget, Ui_Form):
         progress_dlg.deleteLater()
         self.collection_list.setCurrentRow(current_pos)
 
-    def __test_graph(self, graph: Graph) -> bool:
+    def __is_valid_graph(self, g: Graph) -> str:
         """Test graph and return True if it is valid."""
-        error = ""
-        if not graph.edges:
-            error = "is an empty graph"
-        else:
-            if not graph.is_connected():
-                error = "is not a close chain"
-            if not is_planar(graph):
-                error = "is not a planar chain"
-            if graph.has_cut_link():
-                error = "has cut link"
-            for graph_ in self.collections:
-                if graph.is_isomorphic(graph_):
-                    error = f"is isomorphic with: {graph_.edges}"
-        if error:
-            QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
-            return False
-        return True
+        if not g.edges:
+            return "is an empty graph"
+
+        if not g.is_connected():
+            return "is not a close chain"
+        if not is_planar(g):
+            return "is not a planar chain"
+        if g.has_cut_link():
+            return "has cut link"
+
+        try:
+            external_loop_layout(g, True)
+        except ValueError as error:
+            return str(error)
+
+        for h in self.collections:
+            if g.is_isomorphic(h):
+                return f"is isomorphic with: {h.edges}"
 
     def add_collection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
         graph = Graph(edges)
-        if not self.__test_graph(graph):
+        error = self.__is_valid_graph(graph)
+        if error:
+            QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
             return
         self.collections.append(graph)
         self.unsaveFunc()

@@ -54,8 +54,8 @@ def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[s
     if engine == "external loop":
         try:
             layout: Pos = external_loop_layout(g, node_mode, scale=30)
-        except ValueError as e:
-            logger.warn(e)
+        except ValueError as error:
+            logger.warn(error)
             return {}
     else:
         raise ValueError(f"engine {engine} is not exist")
