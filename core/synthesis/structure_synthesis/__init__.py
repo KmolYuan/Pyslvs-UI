@@ -180,6 +180,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.NJ_input_old_value = 0
         self.DOF.setValue(1)
 
+    @Slot(name='on_assortment_clear_button_clicked')
+    def __clear_assortment(self):
+        """Clear the number synthesis list."""
+        self.c_l_a_list.clear()
+        self.l_a_list.clear()
+        self.assortment.clear()
+
     @Slot(name='on_structure_list_clear_button_clicked')
     def __clear_structure_list(self):
         """Clear the structure list."""
@@ -204,12 +211,12 @@ class StructureSynthesis(QWidget, Ui_Form):
             sum(len(vlink.points) > 1 for vlink in link_data) +
             sum(
                 len(vpoint.links) - 2 for vpoint in joint_data
-                if (vpoint.type == VJoint.RP) and (len(vpoint.links) > 1)
+                if vpoint.type == VJoint.RP and len(vpoint.links) > 1
             )
         )
         self.NJ_input.setValue(sum(
             (len(vpoint.links) - 1 + int(vpoint.type == VJoint.RP))
-            for vpoint in joint_data if (len(vpoint.links) > 1)
+            for vpoint in joint_data if len(vpoint.links) > 1
         ))
         self.keep_dof.setChecked(keep_dof_checked)
 

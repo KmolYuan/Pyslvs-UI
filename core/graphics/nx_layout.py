@@ -31,6 +31,7 @@ from core.libs import (
     external_loop_layout,
     edges_view,
 )
+from core.info import logger
 from .color import color_qt, color_num
 from .canvas import convex_hull
 
@@ -47,11 +48,15 @@ _font.setStyleHint(QFont.TypeWriter)
 
 def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[str, Pos]:
     """Generate a position dict."""
-    if type(engine) != str:
+    if type(engine) is not str:
         return engine
 
     if engine == "external loop":
-        layout: Pos = external_loop_layout(g, node_mode, scale=30)
+        try:
+            layout: Pos = external_loop_layout(g, node_mode, scale=30)
+        except ValueError as e:
+            logger.warn(e)
+            return {}
     else:
         raise ValueError(f"engine {engine} is not exist")
 
@@ -92,6 +97,9 @@ def to_graph(
 ) -> QIcon:
     """Draw a generalized chain graph."""
     pos: Pos = engine_picker(g, engine, node_mode)
+    if not pos:
+        return QIcon()
+
     width_bound = -float('inf')
     for x, y in pos.values():
         if abs(x) > width_bound:
@@ -107,8 +115,8 @@ def to_graph(
     painter = QPainter(image)
     painter.translate(image.width() / 2, image.height() / 2)
     pen = QPen()
-    r = width_bound / 50
-    pen.setWidth(int(r))
+    r = int(width_bound / 50)
+    pen.setWidth(r)
     painter.setPen(pen)
     _font.setPixelSize(r * 6)
     painter.setFont(_font)

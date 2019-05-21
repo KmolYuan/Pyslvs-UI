@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>397</width>
-    <height>639</height>
+    <width>494</width>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/number.png</normaloff>:/icons/number.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -195,17 +195,35 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="number_synthesis_button">
-         <property name="statusTip">
-          <string>Find the possible number of different joints.</string>
-         </property>
-         <property name="text">
-          <string>Number Synthesis</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="assortment_clear_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="number_synthesis_button">
+           <property name="statusTip">
+            <string>Find the possible number of different joints.</string>
+           </property>
+           <property name="text">
+            <string>Number Synthesis</string>
+           </property>
+           <property name="autoDefault">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QSplitter" name="splitter_2">
@@ -247,135 +265,130 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <layout class="QHBoxLayout" name="horizontalLayout_7"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QLabel" name="graph_engine_text">
-               <property name="text">
-                <string>Engine: </string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="graph_engine">
-               <property name="statusTip">
-                <string>Layout engine from NetworkX.</string>
-               </property>
-               <property name="currentIndex">
-                <number>-1</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="reload_atlas">
-               <property name="toolTip">
-                <string>Re-layout</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="graph_link_as_node">
-               <property name="statusTip">
-                <string>Show the edges as nodes.</string>
-               </property>
-               <property name="text">
-                <string>Link as node</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="graph_show_label">
-               <property name="text">
-                <string>Show labels</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QPushButton" name="structure_list_clear_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="structure_synthesis_all_button">
-               <property name="maximumSize">
-                <size>
-                 <width>100</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="statusTip">
-                <string>Find the structure of mechanism from all numbers.</string>
-               </property>
-               <property name="text">
-                <string>Find All</string>
-               </property>
-               <property name="autoDefault">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="structure_synthesis_links_button">
-               <property name="text">
-                <string>Find by Links</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="structure_synthesis_button">
-               <property name="statusTip">
-                <string>Find the structure of mechanism from specified numbers.</string>
-               </property>
-               <property name="text">
-                <string>Find by Contracted Links</string>
-               </property>
-               <property name="autoDefault">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
+          <widget class="QLabel" name="graph_engine_text">
+           <property name="text">
+            <string>Engine: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="graph_engine">
+           <property name="statusTip">
+            <string>Layout engine from NetworkX.</string>
+           </property>
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="reload_atlas">
+           <property name="toolTip">
+            <string>Re-layout</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="graph_link_as_node">
+           <property name="statusTip">
+            <string>Show the edges as nodes.</string>
+           </property>
+           <property name="text">
+            <string>Link as node</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="graph_show_label">
+           <property name="text">
+            <string>Show labels</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QPushButton" name="structure_list_clear_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="structure_synthesis_all_button">
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="statusTip">
+            <string>Find the structure of mechanism from all numbers.</string>
+           </property>
+           <property name="text">
+            <string>Find All</string>
+           </property>
+           <property name="autoDefault">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="structure_synthesis_links_button">
+           <property name="text">
+            <string>Find by Links</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="structure_synthesis_button">
+           <property name="statusTip">
+            <string>Find the structure of mechanism from specified numbers.</string>
+           </property>
+           <property name="text">
+            <string>Find by Contracted Links</string>
+           </property>
+           <property name="autoDefault">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
