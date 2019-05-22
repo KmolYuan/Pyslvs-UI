@@ -1,9 +1,8 @@
 # Settings
 
 The Pyslvs settings are saved by Qt settings mechanism.
-On Windows it will be saved into system registry;
-on MacOS it will be saved into property list files;
-on Linux it will be saved into an `ini` file of user home path.
+It will be saved into "~/.pyslvs.ini" on any platform,
+where "~" is the user home path.
 
 ## Auto Save
 

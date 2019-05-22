@@ -54,6 +54,7 @@ __all__ = [
     'QDialogButtonBox',
     'QDir',
     'QDoubleSpinBox',
+    'QFile',
     'QFileDialog',
     'QFileInfo',
     'QFont',

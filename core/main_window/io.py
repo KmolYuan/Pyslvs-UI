@@ -28,6 +28,7 @@ from core.QtModules import (
     QDesktopServices,
     QUrl,
     QInputDialog,
+    QFile,
     QFileInfo,
     QFileDialog,
     QProgressDialog,
@@ -680,7 +681,9 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def save_settings(self):
         """Save Pyslvs settings (auto save when close event)."""
         if self.dontsave_option.isChecked():
-            self.settings.clear()
+            f = QFile(self.settings.fileName())
+            if f.exists():
+                f.remove()
             return
 
         self.settings.setValue("ENV", self.env)

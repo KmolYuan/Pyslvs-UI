@@ -368,7 +368,11 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         + Check boxes
         """
         # While value change, update the canvas widget.
-        self.settings = QSettings('Kmol', 'Pyslvs')
+        self.settings = QSettings(
+            QStandardPaths.writableLocation(QStandardPaths.HomeLocation) + '/.pyslvs.ini',
+            QSettings.IniFormat,
+            self
+        )
         self.zoom_bar.valueChanged.connect(self.main_canvas.set_zoom)
         self.line_width_option.valueChanged.connect(self.main_canvas.set_link_width)
         self.path_width_option.valueChanged.connect(self.main_canvas.set_path_width)
