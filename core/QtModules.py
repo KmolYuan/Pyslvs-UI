@@ -10,19 +10,19 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
 from abc import ABCMeta
+from typing import Tuple
+
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import (
-    pyqtSignal as Signal,
-    pyqtSlot as Slot,
-    QT_VERSION_STR,
-    PYQT_VERSION_STR,
-)
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtChart import *
+
+Signal = QtCore.pyqtSignal
+Slot = QtCore.pyqtSlot
+QT_VERSION_STR = QtCore.QT_VERSION_STR
+PYQT_VERSION_STR = QtCore.PYQT_VERSION_STR
 
 __all__ = [
     'Qt',
