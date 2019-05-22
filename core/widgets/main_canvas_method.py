@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contain the functions that main canvas needed."""
+"""This module contains the functions that main canvas needed."""
 
 from __future__ import annotations
 

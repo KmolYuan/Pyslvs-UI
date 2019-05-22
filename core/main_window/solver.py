@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contain the functions that main window needed."""
+"""This module contains the functions that main window needed."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contain all the Qt objects we needed.
+"""This module contains all the Qt objects we needed.
 
 Customized class will define below.
 """
