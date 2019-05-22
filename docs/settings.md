@@ -136,6 +136,14 @@ The solver of path preview function.
 
 Default is Same as solver kernel.
 
+### FreeCAD executable path (file path)
+
+The file path of FreeCAD main program.
+This option is required by some export features.
+The portable version is also applicable.
+
+Default is empty.
+
 ## Misc
 
 ### Show full file path on window title.
