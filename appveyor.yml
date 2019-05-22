@@ -1,4 +1,4 @@
-# AppVeyor for Pyslvs-PyQt5
+# AppVeyor for Pyslvs-UI
 image: Visual Studio 2017
 
 platform:

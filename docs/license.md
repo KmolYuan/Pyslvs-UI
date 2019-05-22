@@ -1,6 +1,6 @@
 # License
 
-Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
+Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-UI/blob/master/LICENSE).
 
 # Cite
 

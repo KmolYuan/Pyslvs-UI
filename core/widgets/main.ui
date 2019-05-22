@@ -543,8 +543,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>401</width>
-                  <height>733</height>
+                  <width>358</width>
+                  <height>692</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1338,18 +1338,15 @@
      <property name="title">
       <string>E&amp;xport</string>
      </property>
-     <addaction name="action_title_slvs"/>
-     <addaction name="action_export_slvs"/>
-     <addaction name="separator"/>
-     <addaction name="action_title_dxf"/>
      <addaction name="action_export_dxf"/>
+     <addaction name="action_export_slvs"/>
+     <addaction name="action_export_pmks_url"/>
+     <addaction name="action_python_script"/>
      <addaction name="separator"/>
-     <addaction name="action_title_other"/>
      <addaction name="action_export_image"/>
      <addaction name="action_export_image_clipboard"/>
-     <addaction name="action_export_pmks_url"/>
     </widget>
-    <widget class="QMenu" name="menuImport">
+    <widget class="QMenu" name="menu_import">
      <property name="title">
       <string>&amp;Import</string>
      </property>
@@ -1360,7 +1357,7 @@
     <addaction name="action_new_workbook"/>
     <addaction name="action_load_file"/>
     <addaction name="action_example"/>
-    <addaction name="menuImport"/>
+    <addaction name="menu_import"/>
     <addaction name="separator"/>
     <addaction name="action_save"/>
     <addaction name="action_save_as"/>
@@ -1402,7 +1399,6 @@
     <addaction name="action_path_style"/>
     <addaction name="separator"/>
     <addaction name="action_exprsion"/>
-    <addaction name="action_python_script"/>
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
@@ -1410,6 +1406,7 @@
     </property>
     <addaction name="action_pyslvs_com"/>
     <addaction name="action_github_repository"/>
+    <addaction name="action_documentation"/>
     <addaction name="action_mde_tw"/>
     <addaction name="separator"/>
     <addaction name="action_check_update"/>
@@ -1596,7 +1593,7 @@
   </action>
   <action name="action_delete_point">
    <property name="text">
-    <string>Delete the Point</string>
+    <string>Delete Point</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing point.</string>
@@ -1604,7 +1601,7 @@
   </action>
   <action name="action_delete_link">
    <property name="text">
-    <string>Delete the Link</string>
+    <string>Delete Link</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing link.</string>
@@ -1612,7 +1609,7 @@
   </action>
   <action name="action_edit_point">
    <property name="text">
-    <string>Edit the Point</string>
+    <string>Edit Point</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing point.</string>
@@ -1620,7 +1617,7 @@
   </action>
   <action name="action_edit_link">
    <property name="text">
-    <string>Edit the Link</string>
+    <string>Edit Link</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing link.</string>
@@ -1663,7 +1660,7 @@
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>2D Sketch</string>
+    <string>&amp;DXF</string>
    </property>
    <property name="statusTip">
     <string>Output to Drawing Exchange sketch.</string>
@@ -1675,7 +1672,7 @@
      <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
-    <string>Commit as ...</string>
+    <string>Commit As ...</string>
    </property>
    <property name="statusTip">
     <string>Save to another workbook.</string>
@@ -1687,7 +1684,7 @@
      <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>&amp;2D Sketch</string>
+    <string>Solvespace Parts</string>
    </property>
    <property name="statusTip">
     <string>Output to Solvespace 2D sketch.</string>
@@ -1779,7 +1776,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show in Solid Path Style</string>
+    <string>Solid Style Path</string>
    </property>
    <property name="statusTip">
     <string>Show path in solid line style, otherwise will be isolated dots.</string>
@@ -1860,7 +1857,7 @@
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
-    <string>Get Expression</string>
+    <string>Mechanism Expression</string>
    </property>
    <property name="statusTip">
     <string>Get the Pyslvs expression.</string>
@@ -1908,10 +1905,13 @@
      <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
    </property>
    <property name="text">
-    <string>Image with Clipboard</string>
+    <string>&amp;Capture to Clipboard</string>
    </property>
    <property name="statusTip">
     <string>Capture and output to clipboard.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+P</string>
    </property>
   </action>
   <action name="action_check_update">
@@ -1963,13 +1963,25 @@
      <normaloff>:/icons/yaml.png</normaloff>:/icons/yaml.png</iconset>
    </property>
    <property name="text">
-    <string>Save &amp;as ...</string>
+    <string>Save &amp;As ...</string>
    </property>
    <property name="statusTip">
     <string>Save to another YAML file.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="action_documentation">
+   <property name="icon">
+    <iconset resource="../../icons.qrc">
+     <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+   </property>
+   <property name="text">
+    <string>Documentation</string>
+   </property>
+   <property name="statusTip">
+    <string>See the documentation on Readthedocs.</string>
    </property>
   </action>
  </widget>

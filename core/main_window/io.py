@@ -62,11 +62,6 @@ from .actions import ActionMethodInterface
 Settings: type = Union[int, float, bool, str]
 
 
-def _open_url(url: str):
-    """Use to open link."""
-    QDesktopServices.openUrl(QUrl(url))
-
-
 class IOMethodInterface(ActionMethodInterface, ABC):
 
     """Abstract class for action methods."""
@@ -193,26 +188,33 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         saved_text = " (not yet saved)" if self.database_widget.changed else ''
         self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
 
+    def __open_url(self, url: str):
+        """Use to open link."""
+        QDesktopServices.openUrl(QUrl(url))
+        self.showMinimized()
+
     @Slot(name='on_action_mde_tw_triggered')
     def __show_help(self):
         """Open website: mde.tw"""
-        _open_url("http://mde.tw")
-        self.showMinimized()
+        self.__open_url("http://mde.tw")
 
     @Slot(name='on_action_pyslvs_com_triggered')
     def __show_dot_com(self):
         """Open website: pyslvs.com"""
-        _open_url("http://www.pyslvs.com/blog/index.html")
-        self.showMinimized()
+        self.__open_url("http://www.pyslvs.com/blog/index.html")
 
     @Slot(name='on_action_github_repository_triggered')
     def __show_github(self):
-        """Open website: Github repository."""
-        _open_url("https://github.com/KmolYuan/Pyslvs-PyQt5")
-        self.showMinimized()
+        """Open website: Github repository"""
+        self.__open_url("https://github.com/KmolYuan/Pyslvs-UI")
+
+    @Slot(name='on_action_documentation_triggered')
+    def __show_doc(self):
+        """Open website: Readthedocs"""
+        self.__open_url("https://pyslvs-ui.readthedocs.io")
 
     @Slot(name='on_action_about_triggered')
-    def about(self):
+    def __about(self):
         """Open Pyslvs about."""
         dlg = PyslvsAbout(self)
         dlg.show()
@@ -549,7 +551,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             QMessageBox.Save
         )
         if reply == QMessageBox.Open:
-            _open_url(url)
+            self.__open_url(url)
         elif reply == QMessageBox.Save:
             QApplication.clipboard().setText(url)
 
@@ -623,7 +625,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             "Pyslvs has update",
             "Do you want to get it from Github?"
         ) == QMessageBox.Yes:
-            _open_url(url)
+            self.__open_url(url)
 
     def check_file_changed(self) -> bool:
         """If the user has not saved the change.

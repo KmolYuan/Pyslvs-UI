@@ -141,7 +141,7 @@ def check_update(dlg: QProgressDialog) -> str:
         next_ver = list(__version__[:m])
         next_ver[i] += 1
         url = (
-            "https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/"
+            "https://github.com/KmolYuan/Pyslvs-UI/releases/tag/"
             f"v{next_ver[0]}.{next_ver[1]:02}.{next_ver[2]}"
         )
         request = requests.get(url)

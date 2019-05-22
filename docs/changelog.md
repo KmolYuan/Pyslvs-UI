@@ -3,6 +3,7 @@ Version 19.05
 
 **Features**:
 
++ Interface adjustment of menu bar.
 + Correction of loop chains.
 + Capture image of main canvas before choosing path instead of after chosen.
 + API documentation of Python-Solvespace.
