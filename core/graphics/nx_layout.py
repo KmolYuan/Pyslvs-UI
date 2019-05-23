@@ -98,7 +98,9 @@ def to_graph(
     """Draw a generalized chain graph."""
     pos: Pos = engine_picker(g, engine, node_mode)
     if not pos:
-        return QIcon()
+        pixmap = QPixmap(width, width)
+        pixmap.fill(Qt.transparent)
+        return QIcon(pixmap)
 
     width_bound = -float('inf')
     for x, y in pos.values():
