@@ -44,16 +44,13 @@ from core.QtModules import (
     QScrollBar,
 )
 from core.libs import (
-    link_synthesis,
-    contracted_link_synthesis,
-    contracted_graph,
-    conventional_graph,
     VJoint,
     Graph,
     link_assortment as l_a,
     contracted_link_assortment as c_l_a,
 )
 from core.graphics import to_graph, engines
+from .thread import LinkSynthesisThread, GraphEnumerateThread
 from .Ui_structure_widget import Ui_Form
 
 if TYPE_CHECKING:
@@ -95,10 +92,6 @@ class SynthesisProgressDialog(QProgressDialog):
         self.resize(400, self.height())
         self.setModal(True)
         self.setValue(0)
-
-    def next(self):
-        """Increase value of progress bar."""
-        self.setValue(self.value() + 1)
 
     def stop_func(self) -> bool:
         """Return dialog status."""
@@ -286,28 +279,31 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         nl = self.NL_input.value()
         nj = self.NJ_input.value()
-        dlg = SynthesisProgressDialog("Link assortment", f"({nl}, {nj})", 1, self)
-        dlg.show()
-        try:
-            results = link_synthesis(nl, nj, dlg.stop_func)
-        except Exception as error:
-            item = QListWidgetItem(str(error))
-            self.l_a_list.addItem(item)
-            dlg.next()
-            dlg.deleteLater()
-            return
+        dlg = SynthesisProgressDialog(
+            "Link assortment",
+            f"Number of links: {nl}\n"
+            f"Number of joints: {nj}",
+            1,
+            self
+        )
 
-        dlg.setMaximum(len(results))
-        for result in results:
-            self.l_a_list.addItem(QListWidgetItem(", ".join(
-                f"NL{i + 2} = {result[i]}" for i in range(len(result))
-            )))
-            self.assortment[result] = contracted_link_synthesis(result, dlg.stop_func)
-            dlg.next()
-        self.l_a_list.setCurrentRow(0)
-        dlg.next()
-        dlg.deleteLater()
-        self.__c_l_a_synthesis()
+        @Slot(dict)
+        def update_result(assortment: Dict[Assortment, List[Assortment]]):
+            """Update results."""
+            self.assortment.update(assortment)
+            for la, cla in assortment.items():
+                self.l_a_list.addItem(QListWidgetItem(", ".join(
+                    f"NL{i + 2} = {la[i]}" for i in range(len(la))
+                )))
+            self.l_a_list.setCurrentRow(0)
+            dlg.deleteLater()
+
+        work = LinkSynthesisThread(nl, nj, dlg)
+        work.progress_update.connect(dlg.setValue)
+        work.size_update.connect(dlg.setMaximum)
+        work.result.connect(update_result)
+        dlg.show()
+        work.start()
 
     @Slot(int, name='on_l_a_list_currentRowChanged')
     def __c_l_a_synthesis(self, l_a_row: int = 0):
@@ -387,60 +383,32 @@ class StructureSynthesis(QWidget, Ui_Form):
         count: int
     ):
         """Structural combine by iterator."""
-        dlg = SynthesisProgressDialog("Structural Synthesis", "", count, self)
-        dlg.show()
-
-        answers = []
-        break_point = False
         t0 = time()
-        c0 = 0
-        job_l_a_last = None
-        cg_list = None
-        for job_l_a, job_c_l_a in jobs:
-            if job_l_a_last != job_l_a:
-                cg_list = contracted_graph(job_l_a, dlg.stop_func)
+        dlg = SynthesisProgressDialog(
+            "Structural Synthesis",
+            f"Number of cases: {count}",
+            count,
+            self
+        )
 
-            answer = conventional_graph(
-                cg_list,
-                job_c_l_a,
-                self.graph_degenerate.currentIndex(),
-                dlg.stop_func
-            )
-
-            job_l_a_last = job_l_a
-            dlg.next()
-
-            if answer is not None:
-                answers.extend(answer)
-                c0 += len(answer)
-            else:
-                break_point = True
-                break
-
-        if not answers:
+        @Slot(list)
+        def update_result(answer: List[Graph]):
+            self.answer = answer
             dlg.deleteLater()
-            return
+            self.__set_time_count(time() - t0, len(self.answer))
+            self.__reload_atlas()
 
-        if break_point:
-            if QMessageBox.question(
-                self,
-                "Type synthesis - abort",
-                "Do you want to keep the results?"
-            ) != QMessageBox.Yes:
-                dlg.deleteLater()
-                return
-
-        # Save
-        dlg.deleteLater()
-        self.answer = answers
-        self.__set_time_count(time() - t0, c0)
-        self.__reload_atlas()
+        work = GraphEnumerateThread(jobs, self.graph_degenerate.currentIndex(), dlg)
+        work.progress_update.connect(dlg.setValue)
+        work.result.connect(update_result)
+        dlg.show()
+        work.start()
 
     @Slot(name='on_graph_link_as_node_clicked')
     @Slot(name='on_graph_show_label_clicked')
     @Slot(name='on_reload_atlas_clicked')
     @Slot(int, name='on_graph_engine_currentIndexChanged')
-    def __reload_atlas(self, *_: int):
+    def __reload_atlas(self, *_):
         """Reload the atlas."""
         scroll_bar: QScrollBar = self.structure_list.verticalScrollBar()
         scroll_pos = scroll_bar.sliderPosition()
@@ -451,8 +419,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             return
 
         dlg = SynthesisProgressDialog(
-            "Type synthesis",
-            "Drawing atlas...",
+            "Structural Synthesis",
+            f"Drawing atlas ({len(self.answer)}) ...",
             len(self.answer),
             self
         )

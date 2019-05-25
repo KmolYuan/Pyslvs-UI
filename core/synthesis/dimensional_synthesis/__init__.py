@@ -498,7 +498,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__has_result()
 
     @Slot(QModelIndex, name='on_result_list_clicked')
-    def __has_result(self, *_: QModelIndex):
+    def __has_result(self, *_):
         """Set enable if there has any result."""
         enable = self.result_list.currentRow() > -1
         for button in (

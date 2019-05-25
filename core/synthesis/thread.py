@@ -9,10 +9,10 @@ __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
 from core.QtModules import (
-    Signal,
     Slot,
     QABCMeta,
     QThread,
+    QWidget,
 )
 
 
@@ -20,12 +20,10 @@ class BaseThread(QThread, metaclass=QABCMeta):
 
     """Base thread of Cython functions."""
 
-    progress_update = Signal(int, str)
-    done = Signal()
-
     @abstractmethod
-    def __init__(self):
-        super(BaseThread, self).__init__()
+    def __init__(self, parent: QWidget):
+        super(BaseThread, self).__init__(parent)
+        self.finished.connect(self.deleteLater)
         self.is_stop = False
 
     @Slot()

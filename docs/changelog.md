@@ -20,6 +20,7 @@ Version 19.05
 + Save user settings to "~/.pyslvs.ini", let it can be backup more easily.
 + Speed up performance of number synthesis.
 + Speed up performance of Cartesian product function.
++ Switch synthesis functions into QThreads.
 + Add libraries doc for development.
 
 Version 19.04

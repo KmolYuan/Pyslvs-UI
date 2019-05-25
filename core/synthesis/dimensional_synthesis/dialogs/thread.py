@@ -22,7 +22,7 @@ from platform import (
 from psutil import virtual_memory
 import numpy
 import numpy.distutils.cpuinfo
-from core.QtModules import Signal
+from core.QtModules import Signal, QWidget
 from core.info import logger
 from core.libs import (
     Genetic,
@@ -38,15 +38,17 @@ class WorkerThread(BaseThread):
 
     """The QThread class to handle algorithm."""
 
+    progress_update = Signal(int, str)
     result = Signal(dict)
 
     def __init__(
         self,
         type_num: AlgorithmType,
         mech_params: Dict[str, Any],
-        settings: Dict[str, Any]
+        settings: Dict[str, Any],
+        parent: QWidget
     ):
-        super(WorkerThread, self).__init__()
+        super(WorkerThread, self).__init__(parent)
         self.type_num = type_num
         self.mech_params = mech_params
         self.planar = Planar(self.mech_params)
@@ -75,7 +77,7 @@ class WorkerThread(BaseThread):
                 continue
             self.result.emit(self.__algorithm())
         logger.info(f"total cost time: {time() - t0:.02f} [s]")
-        self.done.emit()
+        self.finished.emit()
 
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""

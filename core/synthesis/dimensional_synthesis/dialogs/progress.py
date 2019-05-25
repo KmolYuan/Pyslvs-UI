@@ -79,7 +79,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.time_spend = 0.
 
         # Worker thread.
-        self.work = WorkerThread(type_num, mech_params, setting)
+        self.work = WorkerThread(type_num, mech_params, setting, self)
         self.stop_signal.connect(self.work.stop)
         if self.work.is_two_kernel():
             self.fast_kernel_label.hide()
@@ -87,7 +87,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
             self.full_kernel_label.hide()
         self.work.progress_update.connect(self.__set_progress)
         self.work.result.connect(self.__get_result)
-        self.work.done.connect(self.__finish)
+        self.work.finished.connect(self.__finish)
 
     @Slot(int, str)
     def __set_progress(self, progress: int, fitness: str):
