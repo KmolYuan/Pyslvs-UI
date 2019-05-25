@@ -601,7 +601,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.command_stack.endMacro()
 
-    def delete_points(self):
+    @Slot()
+    def delete_selected_points(self):
         """Delete the selected points.
         Be sure that the points will has new position after deleted.
         """
@@ -613,7 +614,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 row = p
             self.delete_point(row)
 
-    def delete_links(self):
+    @Slot()
+    def delete_selected_links(self):
         """Delete the selected links.
         Be sure that the links will has new position after deleted.
         """

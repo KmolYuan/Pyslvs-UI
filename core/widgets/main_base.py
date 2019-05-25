@@ -146,12 +146,12 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
         self.entities_point = PointTableWidget(self.entities_point_widget)
         self.entities_point.cellDoubleClicked.connect(self.edit_point)
-        self.entities_point.delete_request.connect(self.delete_points)
+        self.entities_point.delete_request.connect(self.delete_selected_points)
         self.entities_point_layout.addWidget(self.entities_point)
 
         self.entities_link = LinkTableWidget(self.entities_link_widget)
         self.entities_link.cellDoubleClicked.connect(self.edit_link)
-        self.entities_link.delete_request.connect(self.delete_links)
+        self.entities_link.delete_request.connect(self.delete_selected_links)
         self.entities_link_layout.addWidget(self.entities_link)
 
         self.entities_expr = ExprTableWidget(self.EntitiesExpr_widget)
@@ -482,7 +482,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.pop_menu_point.addAction(self.action_point_context_copyPoint)
         self.pop_menu_point.addSeparator()
         self.action_point_context_delete = QAction("&Delete", self)
-        self.action_point_context_delete.triggered.connect(self.delete_points)
+        self.action_point_context_delete.triggered.connect(self.delete_selected_points)
         self.pop_menu_point.addAction(self.action_point_context_delete)
 
     def __link_context_menu(self):
@@ -524,7 +524,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.pop_menu_link.addAction(self.action_link_context_constrain)
         self.pop_menu_link.addSeparator()
         self.action_link_context_delete = QAction("&Delete", self)
-        self.action_link_context_delete.triggered.connect(self.delete_links)
+        self.action_link_context_delete.triggered.connect(self.delete_selected_links)
         self.pop_menu_link.addAction(self.action_link_context_delete)
 
     def __canvas_context_menu(self):
@@ -653,7 +653,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def delete_points(self) -> None:
+    def delete_selected_points(self) -> None:
         ...
 
     @abstractmethod
@@ -669,7 +669,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def delete_links(self) -> None:
+    def delete_selected_links(self) -> None:
         ...
 
     @abstractmethod

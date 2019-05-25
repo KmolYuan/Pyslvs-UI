@@ -15,6 +15,7 @@ Version 19.05
 + Add clear assortment button.
 + Optimized user experience of free move mode.
 + Allow empty links in mechanism expression grammar.
++ Fix the crash of restoring a mechanism expression.
 
 **Development**:
 

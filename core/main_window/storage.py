@@ -139,10 +139,11 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         name = item.text()
         self.command_stack.beginMacro(f"Restore from {{Mechanism: {name}}}")
 
-        # After saved storage, clean all the item of two table widgets.
-        self.entities_point.clear()
-        self.entities_link.clear()
-        self.inputs_widget.variable_excluding()
+        # Clean all the item of two table widgets.
+        for i in range(self.entities_point.rowCount()):
+            self.delete_point(0)
+        for i in range(self.entities_link.rowCount() - 1):
+            self.delete_link(1)
 
         self.parse_expression(item.expr)
         self.command_stack.push(DeleteStorage(
