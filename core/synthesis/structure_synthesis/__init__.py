@@ -44,10 +44,10 @@ from core.QtModules import (
     QScrollBar,
 )
 from core.libs import (
-    number_synthesis,
-    contracted_link,
-    topo,
+    link_synthesis,
+    contracted_link_synthesis,
     contracted_graph,
+    conventional_graph,
     VJoint,
     Graph,
     link_assortment as l_a,
@@ -289,7 +289,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         dlg = SynthesisProgressDialog("Link assortment", f"({nl}, {nj})", 1, self)
         dlg.show()
         try:
-            results = number_synthesis(nl, nj, dlg.stop_func)
+            results = link_synthesis(nl, nj, dlg.stop_func)
         except Exception as error:
             item = QListWidgetItem(str(error))
             self.l_a_list.addItem(item)
@@ -302,7 +302,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.l_a_list.addItem(QListWidgetItem(", ".join(
                 f"NL{i + 2} = {result[i]}" for i in range(len(result))
             )))
-            self.assortment[result] = contracted_link(result, dlg.stop_func)
+            self.assortment[result] = contracted_link_synthesis(result, dlg.stop_func)
             dlg.next()
         self.l_a_list.setCurrentRow(0)
         dlg.next()
@@ -400,7 +400,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             if job_l_a_last != job_l_a:
                 cg_list = contracted_graph(job_l_a, dlg.stop_func)
 
-            answer = topo(
+            answer = conventional_graph(
                 cg_list,
                 job_c_l_a,
                 self.graph_degenerate.currentIndex(),
