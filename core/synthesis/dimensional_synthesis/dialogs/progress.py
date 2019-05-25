@@ -12,6 +12,7 @@ from core.QtModules import (
     QDialog,
     Qt,
     QTimer,
+    Signal,
     Slot,
 )
 from core.info import logger
@@ -28,6 +29,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
     + Interrupt function.
     """
 
+    stop_signal = Signal()
+
     def __init__(
         self,
         type_num: AlgorithmType,
@@ -35,7 +38,6 @@ class ProgressDialog(QDialog, Ui_Dialog):
         setting: Dict[str, Any],
         parent
     ):
-        """Input the algorithm settings."""
         super(ProgressDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
@@ -78,6 +80,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
         # Worker thread.
         self.work = WorkerThread(type_num, mech_params, setting)
+        self.stop_signal.connect(self.work.stop)
         if self.work.is_two_kernel():
             self.fast_kernel_label.hide()
         else:
@@ -137,12 +140,12 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __interrupt(self):
         """Interrupt the process."""
         if self.work.isRunning():
-            self.work.stop()
+            self.stop_signal.emit()
             logger.info("The thread has been interrupted.")
 
     @Slot()
     def __close_work(self):
         """Close the thread."""
         if self.work.isRunning():
-            self.work.stop()
+            self.stop_signal.emit()
             logger.info("The thread has been canceled.")

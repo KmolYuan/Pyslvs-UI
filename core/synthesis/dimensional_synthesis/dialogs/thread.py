@@ -22,7 +22,7 @@ from platform import (
 from psutil import virtual_memory
 import numpy
 import numpy.distutils.cpuinfo
-from core.QtModules import Signal, QThread
+from core.QtModules import Signal
 from core.info import logger
 from core.libs import (
     Genetic,
@@ -30,16 +30,15 @@ from core.libs import (
     Differential,
     Planar,
 )
+from core.synthesis.thread import BaseThread
 from .options import AlgorithmType
 
 
-class WorkerThread(QThread):
+class WorkerThread(BaseThread):
 
     """The QThread class to handle algorithm."""
 
-    progress_update = Signal(int, str)
     result = Signal(dict)
-    done = Signal()
 
     def __init__(
         self,
@@ -47,11 +46,7 @@ class WorkerThread(QThread):
         mech_params: Dict[str, Any],
         settings: Dict[str, Any]
     ):
-        """Input settings from dialog, then call public method 'start'
-        to start the algorithm.
-        """
         super(WorkerThread, self).__init__()
-        self.is_stop = False
         self.type_num = type_num
         self.mech_params = mech_params
         self.planar = Planar(self.mech_params)
@@ -120,14 +115,6 @@ class WorkerThread(QThread):
             self.planar,
             self.settings,
             progress_fun=self.progress_update.emit,
-            interrupt_fun=self.__is_stop,
+            interrupt_fun=lambda: self.is_stop,
         )
         return self.fun.run()
-
-    def __is_stop(self) -> bool:
-        """Return stop status for Cython function."""
-        return self.is_stop
-
-    def stop(self):
-        """Stop the algorithm."""
-        self.is_stop = True
