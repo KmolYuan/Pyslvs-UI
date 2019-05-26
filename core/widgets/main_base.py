@@ -40,7 +40,7 @@ from core.QtModules import (
 )
 from core.info import ARGUMENTS, logger
 from core.libs import (
-    __version_str__,
+    __version__,
     kernel_list,
     VPoint,
     Graph,
@@ -139,7 +139,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def __appearance(self):
         """Start up and initialize custom widgets."""
         # Version label
-        self.version_label.setText(__version_str__)
+        self.version_label.setText(__version__)
 
         # Entities tables.
         self.entities_tab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")

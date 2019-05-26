@@ -24,6 +24,7 @@ Version 19.05
 + Speed up performance of Cartesian product function.
 + Switch synthesis functions into QThreads.
 + Add libraries doc for development.
++ Type of `__version__` is changed to string.
 
 Version 19.04
 ===

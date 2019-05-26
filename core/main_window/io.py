@@ -54,7 +54,7 @@ from core.io import (
 )
 from core.widgets import AddTable, EditPointTable
 from core.libs import (
-    __version_str__,
+    __version__,
     kernel_list,
     parse_params,
     PMKSLexer,
@@ -572,7 +572,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output as expression."""
         context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.entities_point.data())
         dlg = ScriptDialog(
-            f"# Generate by Pyslvs {__version_str__}\n"
+            f"# Generate by Pyslvs {__version__}\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             (f"M[\n{context}\n]" if context else "M[]"),
             PMKSLexer(),
@@ -588,7 +588,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def __show_py_script(self):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
-            f"# Generate by Pyslvs {__version_str__}\n"
+            f"# Generate by Pyslvs {__version__}\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.entities_point.data()),

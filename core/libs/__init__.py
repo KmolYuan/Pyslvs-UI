@@ -9,7 +9,6 @@ __email__ = "pyslvs@gmail.com"
 
 from .pyslvs import (
     __version__,
-    __version_str__,
     Genetic,
     Firefly,
     Differential,
@@ -51,7 +50,6 @@ from .solvespace_translate import slvs_solve
 
 __all__ = [
     '__version__',
-    '__version_str__',
     'Genetic',
     'Firefly',
     'Differential',

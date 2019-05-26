@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import Qt, QDialog, QWidget
-from core.libs import __version_str__
+from core.libs import __version__
 from .info import SYS_INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
 
@@ -55,7 +55,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.title_label.setText(html(_title("Pyslvs") + _content(
-            f"Version {__version_str__} 2016-2019"
+            f"Version {__version__} 2016-2019"
         )))
         self.description_text.setText(html(_content(
             "A GUI-based tool use to solving 2D linkage subject.",

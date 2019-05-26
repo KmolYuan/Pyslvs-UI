@@ -28,11 +28,11 @@ from core.QtModules import (
     QT_VERSION_STR,
     PYQT_VERSION_STR,
 )
-from core.libs import __version__, __version_str__
+from core.libs import __version__
 
 
 SYS_INFO: Tuple[str, ...] = (
-    f"Pyslvs {__version_str__}",
+    f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
@@ -133,12 +133,20 @@ ARGUMENTS = _parser.parse_args()
 
 def check_update(dlg: QProgressDialog) -> str:
     """Check for update."""
-    m = dlg.maximum()
+    ver_list = [int(v) for v in __version__.split('.') if v.isdigit()]
+    m = len(ver_list)
     for i in range(m):
+        if i == 0:
+            text = "major"
+        elif i == 1:
+            text = "minor"
+        else:
+            text = "build"
+        dlg.setLabelText(f"Checking for {text}...")
         QCoreApplication.processEvents()
         if dlg.wasCanceled():
             return ""
-        next_ver = list(__version__[:m])
+        next_ver = ver_list[:m]
         next_ver[i] += 1
         url = (
             "https://github.com/KmolYuan/Pyslvs-UI/releases/tag/"
