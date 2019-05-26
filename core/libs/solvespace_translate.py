@@ -15,7 +15,7 @@ from typing import (
     Union,
 )
 from math import radians, cos, sin
-from .pyslvs import (
+from pyslvs import (
     get_vlinks,
     VJoint,
     VPoint,

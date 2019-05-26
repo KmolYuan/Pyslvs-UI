@@ -44,16 +44,20 @@ before_install:
 
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         python3 --version;
-        pip --version;
+        python3 -m pip --version;
         pyinstaller --version;
         fi
 
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        pip install -r requirements.txt --user;
+        python3 -m pip install -r requirements.txt --user;
         fi
 
 script:
-    - make
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        make USER_MODE=1;
+        else
+        make;
+        fi
 
 before_cache:
     - rm -rf $HOME/.cache/pip/log

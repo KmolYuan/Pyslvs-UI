@@ -106,10 +106,6 @@ chmod a+x usr/bin/${LOWERAPP}
 cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
 cp -r ../../core usr/bin
-rm -fr usr/bin/core/libs/pyslvs/build
-rm -fr usr/bin/core/libs/pyslvs/platform
-rm -fr usr/bin/core/libs/pyslvs/src
-rm -fr usr/bin/core/libs/pyslvs/Adesign
 rm -fr usr/bin/core/libs/python_solvespace/build
 rm -fr usr/bin/core/libs/python_solvespace/platform
 rm -fr usr/bin/core/libs/python_solvespace/include

@@ -6,6 +6,13 @@
 # email: pyslvs@gmail.com
 
 LAUNCHSCRIPT = launch_pyslvs
+USER_MODE ?= 0
+
+ifeq ($(OS),Windows_NT)
+    PY = python
+else
+    PY = python3
+endif
 
 PYVER_COMAND = "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))"
 PYSLVSVER_COMAND = "from core.libs import __version__; print(__version__)"
@@ -13,15 +20,15 @@ COMPILERVER_COMAND = "import platform; print(''.join(platform.python_compiler().
 SYSVER_COMAND = "import platform; print(platform.machine().lower())"
 ifeq ($(OS),Windows_NT)
     SHELL = cmd
-    PYVER = $(shell python -c $(PYVER_COMAND))
-    PYSLVSVER = $(shell python -c $(PYSLVSVER_COMAND))
-    COMPILERVER = $(shell python -c $(COMPILERVER_COMAND))
-    SYSVER = $(shell python -c $(SYSVER_COMAND))
+    PYVER = $(shell $(PY) -c $(PYVER_COMAND))
+    PYSLVSVER = $(shell $(PY) -c $(PYSLVSVER_COMAND))
+    COMPILERVER = $(shell $(PY) -c $(COMPILERVER_COMAND))
+    SYSVER = $(shell $(PY) -c $(SYSVER_COMAND))
 else
-    PYVER = $(shell python3 -c $(PYVER_COMAND))
-    PYSLVSVER = $(shell python3 -c $(PYSLVSVER_COMAND))
-    COMPILERVER = $(shell python3 -c $(COMPILERVER_COMAND))
-    SYSVER = $(shell python3 -c $(SYSVER_COMAND))
+    PYVER = $(shell $(PY) -c $(PYVER_COMAND))
+    PYSLVSVER = $(shell $(PY) -c $(PYSLVSVER_COMAND))
+    COMPILERVER = $(shell $(PY) -c $(COMPILERVER_COMAND))
+    SYSVER = $(shell $(PY) -c $(SYSVER_COMAND))
 endif
 EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 
@@ -51,7 +58,12 @@ help:
 
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
-	$(MAKE) -C core/libs/pyslvs
+	$(eval CMD = cd depend/pyslvs && $(PY) setup.py install)
+ifeq ($(USER_MODE),1)
+	$(CMD) --user
+else
+	$(CMD)
+endif
 	@echo ---Done---
 
 build-solvespace:
@@ -81,7 +93,7 @@ endif
 
 test-pyslvs:
 	@echo ---Pyslvs libraries Test---
-	$(MAKE) -C core/libs/pyslvs test
+	cd depend/pyslvs && $(PY) tests/test_pyslvs.py
 	@echo ---Done---
 
 test-solvespace:
@@ -97,8 +109,7 @@ ifeq ($(OS),Windows_NT)
 else ifeq ($(shell uname),Darwin)
 	./dist/$(EXENAME) --test
 else
-	$(eval APPIMAGE = $(shell ls -1 out))
-	./out/$(APPIMAGE) --test
+	$(wildcard out/*.AppImage) --test
 endif
 
 clean:
