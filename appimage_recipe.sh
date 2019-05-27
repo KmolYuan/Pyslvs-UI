@@ -40,7 +40,9 @@ pip --version
 
 # Install python dependencies into the virtualenv.
 pip install -r ../../requirements.txt
-
+cd ../../depend/pyslvs
+python setup.py install
+cd ${MY_APPDIR}
 
 # Copy all built-in scripts.
 PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))")
@@ -65,6 +67,7 @@ for f in *; do
     echo "Create '${MY_PYDIR}/${f}'"
     mkdir -p ${MY_PYDIR}/${f}
     cp -n -v ${f}/*.py ${MY_PYDIR}/${f}
+    cp -n -v ${f}/*.so ${MY_PYDIR}/${f}
 
     cd ${f}
 
@@ -80,6 +83,7 @@ for f in *; do
         echo "Create '${MY_PYDIR}/${f}/${sub_f}'"
         mkdir -p ${MY_PYDIR}/${f}/${sub_f}
         cp -n -v ${sub_f}/*.py ${MY_PYDIR}/${f}/${sub_f}
+        cp -n -v ${sub_f}/*.so ${MY_PYDIR}/${f}/${sub_f}
     done
 
     cd ..
@@ -87,7 +91,7 @@ done
 cd ${MY_APPDIR}
 
 
-# Python libraries.
+# Python libraries
 SCRIPTDIR=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")
 for f in ${SCRIPTDIR}/libpython3*.so*; do
     cp -n -v ${f} ./usr/lib
