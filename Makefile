@@ -40,26 +40,30 @@ EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 all: test
 
 help:
-	@echo ---Pyslvs Makefile Help---
+	@echo Pyslvs Makefile Help
+	@echo
+	@echo parameters:
+	@echo - USER_MODE: install submodule as --user option if not 0,
+	@echo              default has sudo required.
+	@echo
 	@echo make target:
 	@echo - help: show this help message.
 	@echo - all: build Pyslvs and test binary.
 	@echo - build: build Pyslvs executable file.
-	@echo - build-kernel: build kernel only.
-	@echo - build-pyslvs: build pyslvs kernel only.
-	@echo - build-solvespace: build solvespace kernel only.
+	@echo - build-kernel: build kernels.
+	@echo - build-pyslvs: build and install pyslvs kernel.
+	@echo - build-solvespace: build solvespace kernel.
 	@echo - clean: clean up executable file and PyInstaller items,
 	@echo          but not to delete kernel binary files.
 	@echo - clean-kernel: clean up kernel binary files.
-	@echo - clean-pyslvs: clean up kernel binary files of pyslvs.
+	@echo - clean-pyslvs: clean up and uninstall pyslvs.
 	@echo - clean-solvespace: clean up kernel binary files of solvespace.
 	@echo - clean-all: clean every binary files and executable file.
-	@echo --------------------------
 
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
 	$(eval CMD = cd depend/pyslvs && $(PY) setup.py install)
-ifeq ($(USER_MODE),1)
+ifneq ($(USER_MODE),0)
 	$(CMD) --user
 else
 	$(CMD)
@@ -127,7 +131,8 @@ else
 endif
 
 clean-pyslvs:
-	$(MAKE) -C core/libs/pyslvs clean
+	- $(PY) -m pip uninstall pyslvs
+	cd depend/pyslvs && $(PY) setup.py clean --all
 
 clean-solvespace:
 	$(MAKE) -C core/libs/python_solvespace clean
