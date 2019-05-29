@@ -38,7 +38,7 @@ before_install:
         yes | sudo port install py$PYTHON-pip;
         sudo port select --set python3 python$PYTHON;
         sudo port select --set pip pip$PYTHON;
-        pip install pyinstaller --user --no-use-pep517;
+        python3 -m pip install pyinstaller --user --no-use-pep517;
         export PATH=$PATH:$(python3 -c "import site; print(site.USER_BASE)")/bin;
         fi
 
