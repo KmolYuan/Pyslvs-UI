@@ -104,12 +104,12 @@ endif
 
 test-pyslvs:
 	@echo ---Pyslvs libraries Test---
-	cd $(PYSLVS_PATH) && $(PY) tests/test_pyslvs.py
+	cd $(PYSLVS_PATH) && $(PY) tests
 	@echo ---Done---
 
 test-solvespace:
 	@echo ---Python Solvespace Test---
-	cd $(PYTHON_SLVS_PATH) && $(PY) tests/test_slvs.py
+	cd $(PYTHON_SLVS_PATH) && $(PY) tests
 	@echo ---Done---
 
 test-kernel: test-pyslvs test-solvespace
