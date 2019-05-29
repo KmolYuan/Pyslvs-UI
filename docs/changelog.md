@@ -25,7 +25,7 @@ Version 19.05
 + Switch synthesis functions into QThreads.
 + Add libraries doc for development.
 + Type of `__version__` is changed to string.
-+ Core kernel `pyslvs` has been changed to PyPA package.
++ Core kernels `pyslvs`, `python-solvespace` have been changed to PyPA package.
 
 Version 19.04
 ===

@@ -19,37 +19,57 @@ See the Ubuntu and MacOS platform testing on Travis CI:
 
 ## How to Startup
 
-Here's some command line options for Pyslvs executable file.
+Here's some command line options for Pyslvs executable `pyslvs`.
 
 ```bash
-# Open GUI directly:
+# Open GUI directly
 pyslvs
 
-# Open GUI with Fusion style:
+# Open GUI with Fusion style
 pyslvs --fusion
 
-# See the help:
+# See the help
 pyslvs --help
 ```
 
-Here's some command line options for Pyslvs repository.
+Some options for Pyslvs repository.
 
 ```bash
-# Download / update submodule:
+# Download / update submodule
 git submodule update --init --recursive
 
-# After following compile steps:
+# Compile and install submodules
 make build-kernel
+# Install submodules with --user option
+make build-kernel USER_MODE=1
 
-# Open GUI by Python:
+# Open GUI by Python
 python launch_pyslvs.py
 
-# Open GUI with Fusion style:
+# Open GUI with Fusion style
 python launch_pyslvs.py --fusion
 
 # See the help:
 python launch_pyslvs.py --help
 
-# Pack into stand-alone executable file:
+# Pack into stand-alone executable file
 make
+# With --user option
+make USER_MODE=1
+```
+
+Some options for AppImage release `pyslvs.AppImage` for Ubuntu platform.
+
+```bash
+# Run it as a normal executable
+chomod +x pyslvs.AppImage
+./pyslvs.AppImage
+
+# Unzip the package to "squashfs-root"
+# There is including the source code of Pyslvs
+./pyslvs.AppImage --appimage-extract
+
+# Using other AppImage options
+# https://docs.appimage.org/user-guide/run-appimages.html
+./pyslvs.AppImage --appimage-mount
 ```
