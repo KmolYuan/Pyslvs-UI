@@ -144,7 +144,7 @@ EOF
 
 # Make the AppImage ask to "install" itself into the menu
 get_desktopintegration ${LOWERAPP}
-cp ../../icons/main_big.png ${LOWERAPP}.png
+cp ../../icons/main.png ${LOWERAPP}.png
 
 ########################################################################
 # Bundle dependencies

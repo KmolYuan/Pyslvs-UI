@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
+    <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
   </property>
   <widget class="QWidget" name="central_widget">
    <property name="sizePolicy">
@@ -1806,7 +1806,7 @@
   <action name="action_pyslvs_com">
    <property name="icon">
     <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
+     <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Pyslvs.com</string>

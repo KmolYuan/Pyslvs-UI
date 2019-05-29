@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'core/info/about.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -110,7 +110,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "About Pyslvs"))
         self.iconLabel.setWhatsThis(_translate("Dialog", "Pyslvs Icon!"))
-        self.iconLabel.setText(_translate("Dialog", "<html><head/><body><p><img width=\"80\" src=\":/icons/main_big.png\"/></p></body></html>"))
+        self.iconLabel.setText(_translate("Dialog", "<html><head/><body><p><img width=\"80\" src=\":/icons/main.png\"/></p></body></html>"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.AboutTab), _translate("Dialog", "About"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.LicenseTab), _translate("Dialog", "LICENSE"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.VersionsTab), _translate("Dialog", "Versions"))
