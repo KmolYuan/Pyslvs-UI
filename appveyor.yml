@@ -23,7 +23,6 @@ install:
     - pip --version
 
     # Set Python compiler to Msys2.
-    - pip install setuptools -U
     - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
     - echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
     - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
