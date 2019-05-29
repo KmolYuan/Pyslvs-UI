@@ -6,10 +6,6 @@ __pycache__/
 # C extensions
 *.so
 *.o*
-core/libs/pyslvs/*.c
-core/libs/pyslvs/*.h
-core/libs/python_solvespace/slvs.py
-core/libs/python_solvespace/obj*
 *.cxx
 *.def
 *.lib

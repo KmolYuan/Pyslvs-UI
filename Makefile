@@ -7,6 +7,8 @@
 
 LAUNCHSCRIPT = launch_pyslvs
 USER_MODE ?= 0
+PYSLVS_PATH = depend/pyslvs
+PYTHON_SLVS_PATH = depend/solvespace/cython
 
 ifeq ($(OS),Windows_NT)
     PY = python
@@ -62,7 +64,7 @@ help:
 
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
-	$(eval CMD = cd depend/pyslvs && $(PY) setup.py install)
+	$(eval CMD = cd $(PYSLVS_PATH) && $(PY) setup.py install)
 ifneq ($(USER_MODE),0)
 	$(CMD) --user
 else
@@ -72,7 +74,12 @@ endif
 
 build-solvespace:
 	@echo ---Python Solvespace Build---
-	$(MAKE) -C core/libs/python_solvespace
+	$(eval CMD = cd $(PYTHON_SLVS_PATH) && $(PY) setup.py install)
+ifneq ($(USER_MODE),0)
+	$(CMD) --user
+else
+	$(CMD)
+endif
 	@echo ---Done---
 
 build-kernel: build-pyslvs build-solvespace
@@ -97,12 +104,12 @@ endif
 
 test-pyslvs:
 	@echo ---Pyslvs libraries Test---
-	cd depend/pyslvs && $(PY) tests/test_pyslvs.py
+	cd $(PYSLVS_PATH) && $(PY) tests/test_pyslvs.py
 	@echo ---Done---
 
 test-solvespace:
 	@echo ---Python Solvespace Test---
-	$(MAKE) -C core/libs/python_solvespace test
+	cd $(PYTHON_SLVS_PATH) && $(PY) tests/test_slvs.py
 	@echo ---Done---
 
 test-kernel: test-pyslvs test-solvespace
@@ -132,10 +139,11 @@ endif
 
 clean-pyslvs:
 	- $(PY) -m pip uninstall pyslvs
-	cd depend/pyslvs && $(PY) setup.py clean --all
+	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
 
 clean-solvespace:
-	$(MAKE) -C core/libs/python_solvespace clean
+	- $(PY) -m pip uninstall python_solvespace
+	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py clean --all
 
 clean-kernel: clean-pyslvs clean-solvespace
 

@@ -21,7 +21,7 @@ from pyslvs import (
     VPoint,
     VLink,
 )
-from .python_solvespace import ResultFlag, Entity, SolverSystem
+from python_solvespace import ResultFlag, Entity, SolverSystem
 
 _Coord = Tuple[float, float]
 

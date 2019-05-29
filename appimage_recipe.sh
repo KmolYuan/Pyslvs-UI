@@ -43,6 +43,9 @@ pip install -r ../../requirements.txt
 cd ../../depend/pyslvs
 python setup.py install
 cd ${MY_APPDIR}
+cd ../../depend/solvespace/cython
+python setup.py install
+cd ${MY_APPDIR}
 
 # Copy all built-in scripts.
 PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))")
@@ -110,12 +113,6 @@ chmod a+x usr/bin/${LOWERAPP}
 cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
 cp -r ../../core usr/bin
-rm -fr usr/bin/core/libs/python_solvespace/build
-rm -fr usr/bin/core/libs/python_solvespace/platform
-rm -fr usr/bin/core/libs/python_solvespace/include
-rm -fr usr/bin/core/libs/python_solvespace/src
-rm -fr usr/bin/core/libs/python_solvespace/Cython
-rm -fr usr/bin/core/libs/python_solvespace/example
 find . -type f -name '*.ui' -delete
 find . -type f -name 'test_*.py' -delete
 find . -type f -name '*.pyi' -delete

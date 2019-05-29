@@ -1,6 +1,6 @@
 [submodule "core/libs/pyslvs"]
 	path = depend/pyslvs
 	url = https://github.com/KmolYuan/pyslvs.git
-[submodule "core/libs/python_solvespace"]
-	path = core/libs/python_solvespace
-	url = https://github.com/KmolYuan/python-solvespace.git
+[submodule "depend/solvespace"]
+	path = depend/solvespace
+	url = https://github.com/KmolYuan/solvespace.git
