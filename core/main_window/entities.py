@@ -35,7 +35,6 @@ from core.entities import (
 from core.libs import (
     VJoint,
     VPoint,
-    VLink,
     expr_solving,
     Graph,
     edges_view,
@@ -186,12 +185,14 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         return f"link_{i}"
 
     @Slot(name='on_action_delete_link_triggered')
-    def delete_link(self, row: int):
+    def delete_link(self, row: Optional[int] = None):
         """Push delete link command to stack.
 
         Remove link will not remove the points.
         """
-        if not row > 0:
+        if row is None:
+            row = self.entities_link.currentRow()
+        if row < 1:
             return
         args = self.entities_link.row_text(row, has_name=True)
         args[2] = ''
@@ -211,8 +212,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_action_delete_point_triggered')
-    def delete_point(self, row: int):
+    def delete_point(self, row: Optional[int] = None):
         """Push delete point command to stack."""
+        if row is None:
+            row = self.entities_point.currentRow()
+        if row < 0:
+            return
         args = self.entities_point.row_text(row)
         args[0] = ''
         self.command_stack.beginMacro(f"Delete {{Point{row}}}")

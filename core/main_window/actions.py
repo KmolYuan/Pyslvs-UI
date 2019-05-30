@@ -217,11 +217,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         one_point = len(point_selection) == 1
         one_link = len(link_selection) == 1
         point_selected = bool(point_selection)
-        link_selected = (
-            bool(link_selection) and
-            (0 not in link_selection) and
-            (not one_link)
-        )
+        link_selected = bool(link_selection and 0 not in link_selection)
         # Edit
         self.action_edit_point.setEnabled(one_point)
         self.action_edit_link.setEnabled(one_link)
