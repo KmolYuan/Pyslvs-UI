@@ -21,7 +21,7 @@ nav:
         - Mechanism: mechanism.md
         - Inputs: inputs.md
         - Synthesis: synthesis.md
-        - Version Control: version-control.md
+        - IO: io.md
         - Settings: settings.md
     - Libraries:
         - Pyslvs Libraries: pyslvs-lib.md
