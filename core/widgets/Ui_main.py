@@ -962,7 +962,7 @@ class Ui_MainWindow(object):
         self.action_new_point.setText(_translate("MainWindow", "New &Point"))
         self.action_new_point.setStatusTip(_translate("MainWindow", "Add a new point representative of a node on a machine."))
         self.action_new_point.setShortcut(_translate("MainWindow", "P"))
-        self.action_new_link.setText(_translate("MainWindow", "New &Linkage"))
+        self.action_new_link.setText(_translate("MainWindow", "New &Link"))
         self.action_new_link.setStatusTip(_translate("MainWindow", "Add  a link between two points."))
         self.action_new_link.setShortcut(_translate("MainWindow", "L"))
         self.action_exit.setText(_translate("MainWindow", "&Quit"))

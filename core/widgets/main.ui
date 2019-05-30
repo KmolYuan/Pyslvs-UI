@@ -543,8 +543,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>401</width>
-                  <height>733</height>
+                  <width>358</width>
+                  <height>720</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1486,7 +1486,7 @@
      <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
    </property>
    <property name="text">
-    <string>New &amp;Linkage</string>
+    <string>New &amp;Link</string>
    </property>
    <property name="statusTip">
     <string>Add  a link between two points.</string>
