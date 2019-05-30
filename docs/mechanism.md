@@ -1,10 +1,19 @@
 # Build a Planar Linkage Mechanism
 
-The mechanism expression is based on [hypergraph], where
-"points" and "links" is corresponded to "edges" and "vertices" respectively.
+The mechanism expression is based on [hypergraph](https://en.wikipedia.org/wiki/Hypergraph),
+where "points" and "links" is corresponded to "edges" and "vertices" respectively.
 A point will be called "joint" if it's connected between two or more links.
 
-[hypergraph]: https://en.wikipedia.org/wiki/Hypergraph
+The adjacency is decided by "Links" attribute of the points and
+"Points" attribute of the links.
+And the dimensions (link lengths) of the mechanism is decided by
+"X" and "Y" attributes of the points as its initial position.
+
+There also has "Type" attribute to represent the joint type of a point.
+
++ "R" means revolute (rotatable) joint.
++ "P" means prismatic joint.
++ "RP" means revolute-prismatic joint.
 
 ## Main Canvas
 
@@ -44,7 +53,7 @@ they will appear when needed.
 + Shared:
     + Copy table data: Copy the cell information of the table.
 
-The operations are fully support undo and redo action.
+The operations are fully support with the undo and redo action.
 And the adjacency will be updated automatically,
 even if there has only one entity edited.
 
@@ -97,7 +106,7 @@ the list of storage, which is under the selection table.
 Enter a name, then press "add" button to save them;
 they also can be removed by "delete" button.
 When "restore" an expression, the current expression will be cleared first.
-All those operations are supported with undo and redo system.
+All those operations are supported with the undo and redo system.
 
 There have "copy" and "paste" button support with the system clipboard.
 The literal string can be add to storage list or
