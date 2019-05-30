@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'core/widgets/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -426,18 +426,6 @@ class Ui_MainWindow(object):
         self.path_preview_option = QtWidgets.QComboBox(self.settings_kernels_groupBox)
         self.path_preview_option.setObjectName("path_preview_option")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.path_preview_option)
-        self.label = QtWidgets.QLabel(self.settings_kernels_groupBox)
-        self.label.setObjectName("label")
-        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.freecad_option = QtWidgets.QLineEdit(self.settings_kernels_groupBox)
-        self.freecad_option.setObjectName("freecad_option")
-        self.horizontalLayout_3.addWidget(self.freecad_option)
-        self.freecad_choose_dir = QtWidgets.QToolButton(self.settings_kernels_groupBox)
-        self.freecad_choose_dir.setObjectName("freecad_choose_dir")
-        self.horizontalLayout_3.addWidget(self.freecad_choose_dir)
-        self.formLayout_3.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_3)
         self.verticalLayout_3.addWidget(self.settings_kernels_groupBox)
         self.settings_misc_groupBox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_misc_groupBox.setObjectName("settings_misc_groupBox")
@@ -927,8 +915,6 @@ class Ui_MainWindow(object):
         self.settings_kernels_groupBox.setTitle(_translate("MainWindow", "Kernels"))
         self.planarsolver_label.setText(_translate("MainWindow", "Planar solving:"))
         self.pathpreview_label.setText(_translate("MainWindow", "Path preview:"))
-        self.label.setText(_translate("MainWindow", "FreeCAD executable path:"))
-        self.freecad_choose_dir.setText(_translate("MainWindow", "..."))
         self.settings_misc_groupBox.setTitle(_translate("MainWindow", "Misc"))
         self.title_full_path_option.setText(_translate("MainWindow", "Show full file path on window title."))
         self.console_error_option.setText(_translate("MainWindow", "Show error messages in the console."))

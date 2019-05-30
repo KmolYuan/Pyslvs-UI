@@ -142,7 +142,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             (self.undo_limit_option, 32),
             (self.planar_solver_option, 0),
             (self.path_preview_option, self.path_preview_option.count() - 1),
-            (self.freecad_option, ""),
             (self.title_full_path_option, False),
             (self.console_error_option, False),
             (self.monochrome_option, False),

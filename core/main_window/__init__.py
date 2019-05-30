@@ -141,16 +141,6 @@ class MainWindow(IOMethodInterface):
         if file_name:
             self.background_option.setText(file_name)
 
-    @Slot(name='on_freecad_choose_dir_clicked')
-    def __set_freecad(self):
-        """Show up dialog to set the background file path."""
-        file_name = self.input_from(
-            "FreeCAD executable",
-            ("FreeCAD (freecad FreeCAD FreeCAD.exe)",)
-        )
-        if file_name:
-            self.freecad_option.setText(file_name)
-
     @Slot(name='on_console_connect_button_clicked')
     def __console_connect(self):
         """Turn the OS command line (stdout) log to console."""
