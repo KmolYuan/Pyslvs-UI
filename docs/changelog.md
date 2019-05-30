@@ -297,7 +297,7 @@ Version 18.05
 **Features**:
 
 + Linkage selection mode:
-    + New linkage selection function for both of table widget and main canvas.
+    + New link selection function for both of table widget and main canvas.
     + Using ctrl + mouse wheel can adjust the tab of entities table widget.
 + Main canvas:
     + Add cursor tooltips when dragging on main canvas.
