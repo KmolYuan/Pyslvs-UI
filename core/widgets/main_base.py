@@ -447,6 +447,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             - Point1
             - ...
         + Copy table data
+        + Copy coordinate
         + Clone
         -------
         + Delete
@@ -474,12 +475,12 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_point_context_copydata = QAction("&Copy table data", self)
         self.action_point_context_copydata.triggered.connect(self.copy_points_table)
         self.pop_menu_point.addAction(self.action_point_context_copydata)
-        self.action_point_context_copyCoord = QAction("&Copy coordinate", self)
-        self.action_point_context_copyCoord.triggered.connect(self.copy_coord)
-        self.pop_menu_point.addAction(self.action_point_context_copyCoord)
-        self.action_point_context_copyPoint = QAction("C&lone", self)
-        self.action_point_context_copyPoint.triggered.connect(self.clone_point)
-        self.pop_menu_point.addAction(self.action_point_context_copyPoint)
+        self.action_point_context_copy_coord = QAction("&Copy coordinate", self)
+        self.action_point_context_copy_coord.triggered.connect(self.copy_coord)
+        self.pop_menu_point.addAction(self.action_point_context_copy_coord)
+        self.action_point_context_clone = QAction("C&lone", self)
+        self.action_point_context_clone.triggered.connect(self.clone_point)
+        self.pop_menu_point.addAction(self.action_point_context_clone)
         self.pop_menu_point.addSeparator()
         self.action_point_context_delete = QAction("&Delete", self)
         self.action_point_context_delete.triggered.connect(self.delete_selected_points)
@@ -495,7 +496,8 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             - Link1
             - ...
         + Copy table data
-        + Release / Constrain
+        + Release
+        + Constrain
         -------
         + Delete
         """
@@ -573,8 +575,8 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.pop_menu_canvas_p.addAction(self.action_point_context_edit)
         self.pop_menu_canvas_p.addAction(self.action_point_context_lock)
         self.pop_menu_canvas_p.addMenu(self.pop_menu_point_merge)
-        self.pop_menu_canvas_p.addAction(self.action_point_context_copyCoord)
-        self.pop_menu_canvas_p.addAction(self.action_point_context_copyPoint)
+        self.pop_menu_canvas_p.addAction(self.action_point_context_copy_coord)
+        self.pop_menu_canvas_p.addAction(self.action_point_context_clone)
         self.pop_menu_canvas_p.addSeparator()
         self.pop_menu_canvas_p.addAction(self.action_point_context_delete)
         """

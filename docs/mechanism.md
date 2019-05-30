@@ -26,11 +26,27 @@ The following are the operation of mechanism expression in "Mechanism" menu:
 + New / Edit / Delete link
 + Scale mechanism
 
-The operations are fully support undo and redo action.
-And the adjacency will be updated automatically if only edited one entity.
-
 The "edit" operation can be triggered by double clicking the position
 on the main canvas; and "delete" operation can be triggered by "delete" key.
+
+There are some convenient commands for editing entities in context menu,
+they will appear when needed.
+
++ Points:
+    + Grounded: Add / remove ground link to the link list of the point(s).
+    + Multiple joint: Merge the point(s) into a specific point.
+    + Copy coordinate: Copy the current coordinate to system clipboard.
+    + Clone: Copy the point(s) as new point(s).
++ Links:
+    + Merge links: Merge the link(s) together.
+    + Release: Make the ground link as a new link.
+    + Constrain: Merge the link(s) into ground link.
++ Shared:
+    + Copy table data: Copy the cell information of the table.
+
+The operations are fully support undo and redo action.
+And the adjacency will be updated automatically,
+even if there has only one entity edited.
 
 ## Selection
 

@@ -66,9 +66,9 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         # If a point selected.
         for action in (
             self.action_point_context_edit,
-            self.action_point_context_copyPoint,
+            self.action_point_context_clone,
             self.action_point_context_copydata,
-            self.action_point_context_copyCoord,
+            self.action_point_context_copy_coord,
         ):
             action.setVisible(count == 1)
         # If two or more points selected.
