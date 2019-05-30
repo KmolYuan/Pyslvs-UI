@@ -10,7 +10,7 @@ Enter directory and execute the Makefile. Then, run the unit test script after c
 
 ```bash
 make
-python test_slvs.py
+python tests
 ```
 
 ## Module part

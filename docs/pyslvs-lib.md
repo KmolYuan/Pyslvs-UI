@@ -5,13 +5,26 @@ a 2D geometric constraint solver.
 
 The submodule is located at `pyslvs/core/libs/pyslvs`.
 
+Pyslvs is now available on
+[![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs/),
+you can install it by pip individually:
+
+```bash
+pip install pyslvs
+```
+
+!!!warning
+
+    Pyslvs-UI is using global `pyslvs` as kernel.
+    Please make sure the version is same with it.
+
 ## Build and Test
 
 Enter directory and execute the Makefile. Then, run the unit test script after compiling.
 
 ```bash
 make
-python test_pyslvs.py
+python tests
 ```
 
 ## Module parts
