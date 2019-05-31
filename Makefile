@@ -6,7 +6,7 @@
 # email: pyslvs@gmail.com
 
 LAUNCHSCRIPT = launch_pyslvs
-USER_MODE ?= 0
+USER_MODE ?= true
 PYSLVS_PATH = depend/pyslvs
 PYTHON_SLVS_PATH = depend/solvespace/cython
 
@@ -45,8 +45,9 @@ help:
 	@echo Pyslvs Makefile Help
 	@echo
 	@echo parameters:
-	@echo - USER_MODE: install submodule as --user option if not 0,
-	@echo              default has sudo required.
+	@echo - USER_MODE: install submodule as --user option if not false,
+	@echo              set it as USER_MODE=false to disable it.
+	@echo              default has no sudo required.
 	@echo
 	@echo make target:
 	@echo - help: show this help message.
@@ -65,7 +66,7 @@ help:
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
 	$(eval CMD = cd $(PYSLVS_PATH) && $(PY) setup.py install)
-ifneq ($(USER_MODE),0)
+ifneq ($(USER_MODE),false)
 	$(CMD) --user
 else
 	$(CMD)
@@ -75,7 +76,7 @@ endif
 build-solvespace:
 	@echo ---Python Solvespace Build---
 	$(eval CMD = cd $(PYTHON_SLVS_PATH) && $(PY) setup.py install)
-ifneq ($(USER_MODE),0)
+ifneq ($(USER_MODE),false)
 	$(CMD) --user
 else
 	$(CMD)
