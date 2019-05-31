@@ -43,8 +43,6 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 ### Solver
 
-In Pyslvs, expression is mainly to [PMKS](http://designengrlab.github.io/PMKS/), which is more 
-
 + **parser** module:
 
     Analysis expression from strings, turn into symbols object. There also including highlighting function with [Pygments](http://pygments.org/).

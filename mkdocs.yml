@@ -25,6 +25,7 @@ nav:
         - Settings: settings.md
     - Libraries:
         - Pyslvs Libraries: pyslvs-lib.md
+        - Pyslvs API: pyslvs-api.md
         - Python-Solvespace Library: python-solvespace-lib.md
         - Python-Solvespace API: python-solvespace-api.md
     - About:
