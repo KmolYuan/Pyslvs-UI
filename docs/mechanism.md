@@ -35,8 +35,11 @@ The following are the operation of mechanism expression in "Mechanism" menu:
 + New / Edit / Delete link
 + Scale mechanism
 
-The "edit" operation can be triggered by double clicking the position
-on the main canvas; and "delete" operation can be triggered by "delete" key.
+"New point" operation can be triggered by Alt key + left button to create
+a new point on mouse position;
+"edit" operation can be triggered by double clicking the position on
+the main canvas;
+and "delete" operation can be triggered by "delete" key.
 
 There are some convenient commands for editing entities in context menu,
 they will appear when needed.

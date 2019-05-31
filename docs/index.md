@@ -19,7 +19,7 @@ See the Ubuntu and MacOS platform testing on Travis CI:
 
 ## How to Startup
 
-Here's some command line options for Pyslvs executable `pyslvs`.
+Here's some command line options for Pyslvs executable `pyslvs` or `pyslvs.exe`.
 
 ```bash
 # Open GUI directly
@@ -40,8 +40,8 @@ git submodule update --init --recursive
 
 # Compile and install submodules
 make build-kernel
-# Install submodules with --user option
-make build-kernel USER_MODE=1
+# Install submodules without --user option
+make build-kernel USER_MODE=false
 
 # Open GUI by Python
 python launch_pyslvs.py
@@ -54,11 +54,16 @@ python launch_pyslvs.py --help
 
 # Pack into stand-alone executable file
 make
-# With --user option
-make USER_MODE=1
+# Without --user option
+make USER_MODE=false
 ```
 
-Some options for AppImage release `pyslvs.AppImage` for Ubuntu platform.
+Python libraries has some dependencies with the compile environment,
+so the sources need to packed the Python installation and its libraries.
+But the source code is presented as plain text, which causes
+the size of AppImage is larger than other platforms.
+
+Here's some options for AppImage release `pyslvs.AppImage` for Ubuntu platform.
 
 ```bash
 # Run it as a normal executable

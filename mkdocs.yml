@@ -28,6 +28,6 @@ nav:
         - Python-Solvespace Library: python-solvespace-lib.md
         - Python-Solvespace API: python-solvespace-api.md
     - About:
-        - License: license.md
+        - References: license.md
         - Releated Modules: releated.md
         - Change Log: changelog.md

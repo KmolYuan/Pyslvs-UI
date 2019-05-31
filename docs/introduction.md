@@ -177,6 +177,20 @@ The part files can be import to assemble with main sketch file. However, the 3D 
 
 For the IO method of Solvespace format, you can also refer to two Python scripts 'read' and 'write' in Pyslvs IO module.
 
+## Theory
+
+The theory of Pyslvs is at [here](license.md#cite).
+This manual **will not mention any principle of these concepts.**
+
+Here's the concepts that will shown in this manual:
+
++ Mechanism Expresion
++ Graph Theory
++ Creative Design Methodology of Mechanism
++ Structural Synthesis
++ Dimensional Synthesis
++ Metaheuristic Random Algorithm
+
 [Solvespace]: https://github.com/solvespace/solvespace
 [Cython]: http://cython.org/
 [YAML]: https://yaml.org/

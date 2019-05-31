@@ -176,6 +176,7 @@ class StructureWidget(QWidget, Ui_Form):
         for h in self.collections:
             if g.is_isomorphic(h):
                 return f"is isomorphic with: {h.edges}"
+        return ""
 
     def add_collection(self, edges: Sequence[Tuple[int, int]]):
         """Add collection by in put edges."""
