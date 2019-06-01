@@ -1,5 +1,14 @@
-Version 19.05
-===
+# Version 19.06
+
+**Features**:
+
++ None
+
+**Development**:
+
++ None
+
+# Version 19.05
 
 **Features**:
 
@@ -29,8 +38,7 @@ Version 19.05
 + Type of `__version__` is changed to string.
 + Core kernels `pyslvs`, `python-solvespace` have been changed to PyPA package.
 
-Version 19.04
-===
+# Version 19.04
 
 **Features**:
 
@@ -41,8 +49,7 @@ Version 19.04
 + Contracted graph enumeration algorithm:
     + Speed up performance for searching between link assortment.
 
-Version 19.03
-===
+# Version 19.03
 
 **Features**:
 
@@ -66,8 +73,7 @@ Version 19.03
 + Performance improvement if dimensional synthesis algorithm.
 + Add code of conduct.
 
-Version 19.02
-===
+# Version 19.02
 
 **Features**:
 
@@ -110,15 +116,13 @@ Version 19.02
 + Add generate source function with "generate_source.py".
 + Environment of Visual Studio 2017 version 15.9 supported.
 
-Version 19.01
-===
+# Version 19.01
 
 **Development**:
 
 + This version has been skipped.
 
-Version 18.12
-===
+# Version 18.12
 
 **Features**:
 
@@ -139,8 +143,7 @@ Version 18.12
 + Update SHELL variable of Makefile on Windows platform.
 + Environment of Visual Studio 2017 version 15.8 supported. (`_MSC_VER == 1915`)
 
-Version 18.11
-===
+# Version 18.11
 
 **Features**:
 
@@ -161,8 +164,7 @@ Version 18.11
 + Add planar graph checking of atlas algorithm.
 + Performance improvements of atlas algorithm (Object creation and function calling).
 
-Version 18.10
-===
+# Version 18.10
 
 **Features**:
 
@@ -178,8 +180,7 @@ Version 18.10
 + Fixed an error caused by DE strategy option.
 + High performance improvements of atlas algorithm.
 
-Version 18.09.1
-===
+# Version 18.09.1
 
 **Features**:
 
@@ -195,8 +196,7 @@ Version 18.09.1
 + Adjust all functions and "private" methods name with PEP 8.
 + New deploy options of Github releases.
 
-Version 18.09
-===
+# Version 18.09
 
 **Features**:
 
@@ -223,8 +223,7 @@ Version 18.09
 + Modules are renamed to lower case.
 + Add AppVeyor CI support.
 
-Version 18.08
-===
+# Version 18.08
 
 **Features**:
 
@@ -252,8 +251,7 @@ Version 18.08
 + All PyQt slots renaming to short names.
 + Python version should upgrade to 3.6 or above to support formatted string.
 
-Version 18.07
-===
+# Version 18.07
 
 **Features**:
 
@@ -273,8 +271,7 @@ Version 18.07
 + Example list has been move to "pyslvs" core kernel.
 + Change behavior of auto path preview function.
 
-Version 18.06
-===
+# Version 18.06
 
 **Features**:
 
@@ -293,8 +290,7 @@ Version 18.06
 + Change "Pyslvs" kernel into submodule, including changelog.
 
 
-Version 18.05
-===
+# Version 18.05
 
 **Features**:
 
@@ -344,8 +340,7 @@ Version 18.05
 + PyQt version should upgrade to 5.10 or above to support Qt graph methods.
 
 
-Version 18.04
-===
+# Version 18.04
 
 **Features**:
 
@@ -383,8 +378,7 @@ Version 18.03:
 + Windows executable file was compiled by Mysys 2.
 
 
-Version 18.02
-===
+# Version 18.02
 
 **Features**:
 
@@ -408,8 +402,7 @@ Version 18.02
 + More errors fixed.
 
 
-Version 18.01
-===
+# Version 18.01
 
 **Features**:
 
@@ -424,8 +417,7 @@ Version 18.01
 + Cython kernel of Number synthesis.
 + Adjust some modules and classified.
 
-Older Version
-===
+# Older Version
 
 Version 0.1.0 to 0.9.0.
 
