@@ -138,9 +138,9 @@ class YamlEditor(QObject):
         dlg.show()
         with open(file_name, encoding='utf-8') as f:
             yaml_script = f.read()
-        data: Dict[str, Any] = yaml.load(yaml_script)
+        data: Dict[str, Any] = yaml.load(yaml_script, Loader=yaml.FullLoader)
 
-        # Links data.
+        # Links data
         dlg.setValue(1)
         dlg.setLabelText("Loading mechanism ...")
         if dlg.wasCanceled():
@@ -148,7 +148,7 @@ class YamlEditor(QObject):
         links_data: Dict[str, str] = data.get('links', {})
         self.__add_links_func(links_data)
 
-        # Mechanism data.
+        # Mechanism data
         mechanism_data: List[Dict[str, Any]] = data.get('mechanism', [])
         p_attr = []
         nan = float("nan")
