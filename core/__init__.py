@@ -11,6 +11,7 @@ __all__ = ['main']
 
 def main():
     """Startup function."""
+    global app
     from time import time
     t0 = time()
 
