@@ -2,11 +2,12 @@
 
 **Features**:
 
-+ None
++ Add slides links in documentation.
 
 **Development**:
 
-+ None
++ Disable warning about YAML loader.
++ Avoid PyQt crashes on exit.
 
 # Version 19.05
 
