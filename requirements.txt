@@ -1,8 +1,8 @@
 setuptools
 wheel
 requests
-pyqt5>=5.10
-pyqtchart>=5.10
+pyqt5<=5.12.2
+pyqtchart<=5.12.2
 ezdxf==0.8.8
 numpy
 cython
