@@ -21,24 +21,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="add_collection_button">
-       <property name="statusTip">
-        <string>Turn this structure diagram back to structure collections.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_5">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="load_button">
        <property name="statusTip">
         <string>Triangular iteration data and common structure data collections.</string>
@@ -46,17 +28,6 @@
        <property name="icon">
         <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="clear_button">
-       <property name="statusTip">
-        <string>Create a new iteration profile.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
        </property>
       </widget>
      </item>
@@ -72,6 +43,42 @@
       </widget>
      </item>
      <item>
+      <widget class="QLineEdit" name="profile_name">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clear_button">
+       <property name="statusTip">
+        <string>Create a new iteration profile.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_5">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="add_collection_button">
+       <property name="statusTip">
+        <string>Turn this structure diagram back to structure collections.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="clipboard_button">
        <property name="statusTip">
         <string>Save this iteration profile to clipboard as a string.</string>
@@ -81,19 +88,6 @@
          <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>

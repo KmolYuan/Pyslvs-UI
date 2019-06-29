@@ -172,7 +172,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
     def __clear_panel(self):
         """Clear the settings of sub-widgets."""
-        self.profile_name = ""
+        self.profile_name.clear()
         self.configure_canvas.clear()
         self.joint_name.clear()
         self.grounded_list.clear()
@@ -214,7 +214,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         graph: Graph,
         pos: Dict[int, _Coord]
     ) -> bool:
-        """Set the graph to preview canvas."""
+        """Set the graph to preview canvas, return False if no clear."""
         if not self.__user_clear():
             return False
 
@@ -370,8 +370,8 @@ class ConfigureWidget(QWidget, Ui_Form):
             dlg.deleteLater()
             return
 
-        # Add customize joints.
-        params = dlg.params()
+        # Add customize joints
+        params = dlg.params
         graph = Graph(params['Graph'])
         expression: str = params['Expression']
         pos_list = parse_pos(expression)
@@ -384,12 +384,13 @@ class ConfigureWidget(QWidget, Ui_Form):
             dlg.deleteLater()
             return
 
-        self.profile_name = dlg.name()
+        self.profile_name.setText(dlg.name)
         dlg.deleteLater()
+        del dlg
         self.configure_canvas.cus = cus
         self.configure_canvas.same = same
 
-        # Grounded setting.
+        # Grounded setting
         placement: Set[int] = set(params['Placement'])
         links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
         for joint, link in edges_view(graph):
@@ -472,8 +473,8 @@ class ConfigureWidget(QWidget, Ui_Form):
     @Slot(name='on_save_button_clicked')
     def __save(self):
         """Save the profile to database."""
-        if self.profile_name:
-            name = self.profile_name
+        if self.profile_name.text():
+            name = self.profile_name.text()
             ok = True
         else:
             name, ok = QInputDialog.getText(
@@ -487,7 +488,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         while (name not in self.collections) and (not name):
             name = f"Structure_{i}"
         self.collections[name] = self.__get_current_mechanism_params()
-        self.profile_name = name
+        self.profile_name.setText(name)
         self.unsave_func()
 
     @Slot(name='on_clipboard_button_clicked')

@@ -2,6 +2,7 @@
 
 **Features**:
 
++ UI improvement of synthesis pages.
 + Add slides links in documentation.
 
 **Development**:

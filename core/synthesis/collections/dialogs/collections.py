@@ -57,8 +57,9 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.get_collection = get_collection
         self.unsave_func = unsave_func
 
-        # Current profile name.
-        self.__name_loaded = ""
+        # Current profile name
+        self.name = ""
+        self.params: Dict[str, Any] = {}
 
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
@@ -89,12 +90,6 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.delete_button
         ]:
             button.setEnabled(has_collection)
-
-    def name(self) -> str:
-        return self.__name_loaded
-
-    def params(self) -> Dict[str, Any]:
-        return self.__mech_params
 
     @Slot(name='on_rename_button_clicked')
     def __rename(self):
@@ -179,9 +174,9 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if not item:
             return
 
-        self.__name_loaded = item.text()
-        self.__mech_params = deepcopy(collection_list[self.__name_loaded])
-        self.preview_canvas.from_profile(self.__mech_params)
+        self.name = item.text()
+        self.params = deepcopy(collection_list[self.name])
+        self.preview_canvas.from_profile(self.params)
 
     @Slot(QListWidgetItem, name='on_collections_list_itemClicked')
     def __choose_collections(self, _=None):
@@ -190,9 +185,9 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if not item:
             return
 
-        self.__name_loaded = item.text()
-        self.__mech_params = deepcopy(self.collections[self.__name_loaded])
-        self.preview_canvas.from_profile(self.__mech_params)
+        self.name = item.text()
+        self.params = deepcopy(self.collections[self.name])
+        self.preview_canvas.from_profile(self.params)
 
     @Slot(name='on_workbook_button_clicked')
     def __from_canvas(self):

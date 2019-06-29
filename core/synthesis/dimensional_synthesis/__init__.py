@@ -91,7 +91,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mech_params: Dict[str, Any] = {}
         self.path: Dict[int, List[_Coord]] = {}
 
-        # Some reference of 'collections'.
+        # Some reference of 'collections'
         self.collections = parent.collection_tab_page.configure_widget.collections
         self.get_collection = parent.get_configure
         self.input_from = parent.input_from
@@ -100,7 +100,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.update_ranges = parent.main_canvas.update_ranges
         self.set_solving_path = parent.main_canvas.set_solving_path
 
-        # Data and functions.
+        # Data and functions
         self.mechanism_data: List[Dict[str, Any]] = []
         self.alg_options: Dict[str, Union[int, float]] = {}
         self.alg_options.update(defaultSettings)
@@ -111,10 +111,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.preview_layout.addWidget(self.preview_canvas)
 
         # Splitter
+        self.main_splitter.setStretchFactor(0, 100)
+        self.main_splitter.setStretchFactor(1, 10)
         self.up_splitter.setSizes([80, 100])
         self.down_splitter.setSizes([20, 80])
 
-        # Table widget column width.
+        # Table widget column width
         header = self.parameter_list.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
@@ -136,7 +138,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.clear()
         self.alg_options.update(defaultSettings)
         self.alg_options.update(DifferentialPrams)
-        self.profile_name.setText("No setting")
+        self.profile_name.clear()
         self.type2.setChecked(True)
         self.parameter_list.setRowCount(0)
         self.target_points.clear()
@@ -146,7 +148,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     @Slot(name='on_clear_button_clicked')
     def __user_clear(self):
-        if self.profile_name.text() == "No setting":
+        if not self.profile_name.text():
             return
 
         if QMessageBox.question(
@@ -626,11 +628,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             dlg.deleteLater()
             return
 
-        params = dlg.params()
-        name = dlg.name()
+        params = dlg.params
+        name = dlg.name
         dlg.deleteLater()
+        del dlg
 
-        # Check the profile.
+        # Check the profile
         if not (params['Target'] and params['input'] and params['Placement']):
             QMessageBox.warning(
                 self,

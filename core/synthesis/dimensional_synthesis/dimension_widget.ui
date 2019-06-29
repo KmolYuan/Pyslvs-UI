@@ -29,11 +29,74 @@
        <attribute name="title">
         <string>Structure</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QPushButton" name="load_profile">
+            <property name="statusTip">
+             <string>Load profile from triangular iteration database.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="save_profile">
+            <property name="statusTip">
+             <string>Save the structure profile back to the database.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="profile_name">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clear_button">
+            <property name="statusTip">
+             <string>Clear the current profile and settings.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <widget class="QLineEdit" name="expression_string">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="expr_copy">
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
         <item>
          <widget class="QSplitter" name="up_splitter">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -41,113 +104,44 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="QWidget" name="layoutWidget">
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
-              <item>
-               <widget class="QPushButton" name="load_profile">
-                <property name="statusTip">
-                 <string>Load profile from triangular iteration database.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="save_profile">
-                <property name="statusTip">
-                 <string>Save the structure profile back to the database.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="profile_name">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="clear_button">
-                <property name="statusTip">
-                 <string>Clear the current profile and settings.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_17">
-              <item>
-               <widget class="QLineEdit" name="expression_string">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="expr_copy">
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QTableWidget" name="parameter_list">
-              <property name="statusTip">
-               <string>All the joints of grounded link will show here.</string>
-              </property>
-              <property name="selectionBehavior">
-               <enum>QAbstractItemView::SelectRows</enum>
-              </property>
-              <property name="verticalScrollMode">
-               <enum>QAbstractItemView::ScrollPerPixel</enum>
-              </property>
-              <property name="horizontalScrollMode">
-               <enum>QAbstractItemView::ScrollPerPixel</enum>
-              </property>
-              <column>
-               <property name="text">
-                <string>Name</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Role</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>p0</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>p1</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Range</string>
-               </property>
-              </column>
-             </widget>
-            </item>
-           </layout>
+          <widget class="QTableWidget" name="parameter_list">
+           <property name="statusTip">
+            <string>All the joints of grounded link will show here.</string>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="verticalScrollMode">
+            <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+           <property name="horizontalScrollMode">
+            <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Role</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>p0</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>p1</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Range</string>
+            </property>
+           </column>
           </widget>
           <widget class="QGroupBox" name="preview_box">
            <property name="title">
@@ -199,45 +193,12 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
-               <widget class="QPushButton" name="path_clear">
-                <property name="statusTip">
-                 <string>Clear all points.</string>
+               <widget class="QLabel" name="pointNum">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-                </property>
-                <property name="autoDefault">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="Line" name="line">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="path_copy">
-                <property name="statusTip">
-                 <string>Copy the path data as a string.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="path_paste">
-                <property name="statusTip">
-                 <string>Past path data from string format.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                 </property>
                </widget>
               </item>
@@ -255,12 +216,38 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="pointNum">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <widget class="QPushButton" name="path_paste">
+                <property name="statusTip">
+                 <string>Past path data from string format.</string>
                 </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="path_copy">
+                <property name="statusTip">
+                 <string>Copy the path data as a string.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="path_clear">
+                <property name="statusTip">
+                 <string>Clear all points.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
