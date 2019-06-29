@@ -124,6 +124,7 @@ __all__ = [
     'QTextEdit',
     'QThread',
     'QTimer',
+    'QTreeWidgetItem',
     'QToolButton',
     'QToolBox',
     'QToolTip',

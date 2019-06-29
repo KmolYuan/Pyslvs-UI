@@ -2,6 +2,7 @@
 
 **Features**:
 
++ Change the list widget of graph atlas into tree widget.
 + UI improvement of synthesis pages.
 + Add slides links in documentation.
 

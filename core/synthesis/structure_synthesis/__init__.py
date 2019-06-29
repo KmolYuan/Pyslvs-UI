@@ -30,7 +30,6 @@ from core.QtModules import (
     QAction,
     QIcon,
     QPixmap,
-    QListWidgetItem,
     QProgressDialog,
     QSize,
     QCoreApplication,
@@ -42,6 +41,8 @@ from core.QtModules import (
     QPointF,
     QInputDialog,
     QScrollBar,
+    QListWidgetItem,
+    QTreeWidgetItem,
 )
 from core.libs import (
     VJoint,
@@ -127,9 +128,9 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.get_graph = parent.get_graph
         self.is_monochrome = parent.monochrome_option.isChecked
 
-        # Splitters
-        self.splitter.setStretchFactor(0, 2)
-        self.splitter.setStretchFactor(1, 15)
+        # Main splitter
+        self.main_splitter.setStretchFactor(0, 20)
+        self.main_splitter.setStretchFactor(1, 15)
 
         # Answer list
         self.assortment: Dict[Assortment, List[Assortment]] = {}
@@ -165,7 +166,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     def clear(self):
         """Clear all sub-widgets."""
         self.edges_text.clear()
-        self.l_a_list.clear()
+        self.__clear_assortment()
         self.__clear_structure_list()
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
@@ -176,8 +177,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @Slot(name='on_assortment_clear_button_clicked')
     def __clear_assortment(self):
         """Clear the number synthesis list."""
-        self.c_l_a_list.clear()
-        self.l_a_list.clear()
+        self.link_assortment_list.clear()
         self.assortment.clear()
 
     @Slot(name='on_structure_list_clear_button_clicked')
@@ -216,7 +216,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Auto synthesis
         if not graph.edges:
             return
-        self.__l_a_synthesis()
+        self.__number_synthesis()
 
     def __adjust_structure_data(self):
         """Update NJ and NL values.
@@ -231,15 +231,14 @@ class StructureSynthesis(QWidget, Ui_Form):
             )
             return
 
-        # Prepare the input value.
-        # + N2: Get the user's adjusted value.
-        # + NL_func: Get the another value of parameters (N1) by degrees of freedom formula.
-        # + is_above: Is value increase or decrease?
-        if self.sender() == self.NJ_input:
+        # N2: Get the user's adjusted value.
+        # NL_func: Get the another value of parameters (N1) by degrees of freedom formula.
+        # is_above: Is value increase or decrease?
+        if self.sender() is self.NJ_input:
             n2 = self.NJ_input.value()
 
             def nl_func() -> float:
-                return ((self.DOF.value() + 2 * n2) / 3) + 1
+                return (self.DOF.value() + 2 * n2) / 3 + 1
 
             is_above = n2 > self.NJ_input_old_value
         else:
@@ -259,7 +258,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Return the result values.
         # + Value of widgets.
         # + Setting old value record.
-        if self.sender() == self.NL_input:
+        if self.sender() is self.NL_input:
             self.NJ_input.setValue(n1)
             self.NL_input.setValue(n2)
             self.NJ_input_old_value = n1
@@ -271,12 +270,9 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.NL_input_old_value = n1
 
     @Slot(name='on_number_synthesis_button_clicked')
-    def __l_a_synthesis(self):
+    def __number_synthesis(self):
         """Synthesis of link assortment."""
-        self.l_a_list.clear()
-        self.c_l_a_list.clear()
-        self.assortment.clear()
-
+        self.__clear_assortment()
         nl = self.NL_input.value()
         nj = self.NJ_input.value()
         dlg = SynthesisProgressDialog(
@@ -291,11 +287,18 @@ class StructureSynthesis(QWidget, Ui_Form):
         def update_result(assortment: Dict[Assortment, List[Assortment]]):
             """Update results."""
             self.assortment.update(assortment)
-            for la, cla in assortment.items():
-                self.l_a_list.addItem(QListWidgetItem(", ".join(
-                    f"NL{i + 2} = {la[i]}" for i in range(len(la))
-                )))
-            self.l_a_list.setCurrentRow(0)
+            for la, cla_list in assortment.items():
+                la_item = QTreeWidgetItem([", ".join(
+                    f"NL{i + 2} = {a}" for i, a in enumerate(la)
+                )])
+                for cla in cla_list:
+                    la_item.addChild(QTreeWidgetItem([", ".join(
+                        f"NC{i + 1} = {a}" for i, a in enumerate(cla)
+                    )]))
+                self.link_assortment_list.addTopLevelItem(la_item)
+                la_item.setExpanded(True)
+            first_item = self.link_assortment_list.topLevelItem(0)
+            self.link_assortment_list.setCurrentItem(first_item)
             dlg.deleteLater()
 
         work = LinkSynthesisThread(nl, nj, dlg)
@@ -304,20 +307,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         work.result.connect(update_result)
         dlg.show()
         work.start()
-
-    @Slot(int, name='on_l_a_list_currentRowChanged')
-    def __c_l_a_synthesis(self, l_a_row: int = 0):
-        """Synthesis of contracted link assortment."""
-        self.c_l_a_list.clear()
-        item = self.l_a_list.item(l_a_row)
-        if item is None:
-            return
-
-        for c_j in self.assortment[_link_assortment(item.text())]:
-            self.c_l_a_list.addItem(QListWidgetItem(", ".join(
-                f"NC{i + 1} = {c_j[i]}" for i in range(len(c_j))
-            )))
-        self.c_l_a_list.setCurrentRow(0)
 
     def __set_time_count(self, t: float, count: int):
         """Set time and count digit to label."""
@@ -331,39 +320,27 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __structure_synthesis(self):
         """Structural synthesis - find by contracted links."""
         self.__clear_structure_list()
-        item1 = self.l_a_list.currentItem()
-        if item1 is None:
-            self.__l_a_synthesis()
-            item1 = self.l_a_list.currentItem()
-        item2 = self.c_l_a_list.currentItem()
-        if item2 is None:
-            self.__c_l_a_synthesis()
-            item2 = self.c_l_a_list.currentItem()
-
-        try:
-            job_l_a = _link_assortment(item1.text())
-            job_c_l_a = _link_assortment(item2.text())
-        except ValueError:
-            return
-
-        self.__structural_combine(((job_l_a, job_c_l_a),), 1)
-
-    @Slot(name='on_structure_synthesis_links_button_clicked')
-    def __structure_synthesis_links(self):
-        """Structural synthesis - find by links."""
-        self.__clear_structure_list()
-        item = self.l_a_list.currentItem()
+        item = self.link_assortment_list.currentItem()
         if item is None:
-            self.__l_a_synthesis()
-            item = self.l_a_list.currentItem()
+            self.__number_synthesis()
+            item: QTreeWidgetItem = self.link_assortment_list.currentItem()
 
-        _l_a = _link_assortment(item.text())
-
-        def iterator():
-            for _c_l_a in self.assortment[_l_a]:
-                yield (_l_a, _c_l_a)
-
-        self.__structural_combine(iterator(), len(self.assortment[_l_a]))
+        root = item.parent()
+        if root is None:
+            # Find by link assortment
+            _l_a = _link_assortment(item.text(0))
+            self.__structural_combine(
+                ((_l_a, _c_l_a) for _c_l_a in self.assortment[_l_a]),
+                len(self.assortment[_l_a])
+            )
+        else:
+            # Find by contracted link assortment
+            try:
+                _l_a = _link_assortment(root.text(0))
+                _c_l_a = _link_assortment(item.text(0))
+            except ValueError:
+                return
+            self.__structural_combine(((_l_a, _c_l_a),), 1)
 
     @Slot(name='on_structure_synthesis_all_button_clicked')
     def __structure_synthesis_all(self):

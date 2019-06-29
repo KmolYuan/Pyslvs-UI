@@ -86,7 +86,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="main_splitter">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -226,38 +226,25 @@
         </layout>
        </item>
        <item>
-        <widget class="QSplitter" name="splitter_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QLabel" name="link_assortment_label">
+         <property name="text">
+          <string>Link assortment and Contracted link assortment:</string>
          </property>
-         <widget class="QWidget" name="verticalLayoutWidget_3">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="link_assortment_label">
-             <property name="text">
-              <string>Link assortment:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="l_a_list"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="verticalLayoutWidget_4">
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <widget class="QLabel" name="contracted_link_assortment_label">
-             <property name="text">
-              <string>Contracted link assortment:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="c_l_a_list"/>
-           </item>
-          </layout>
-         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="link_assortment_list">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="indentation">
+          <number>10</number>
+         </property>
+         <column>
+          <property name="text">
+           <string>Assortment</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>
@@ -357,22 +344,9 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="structure_synthesis_links_button">
-           <property name="text">
-            <string>Find by Links</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="structure_synthesis_button">
-           <property name="statusTip">
-            <string>Find the structure of mechanism from specified numbers.</string>
-           </property>
            <property name="text">
-            <string>Find by Contracted Links</string>
-           </property>
-           <property name="autoDefault">
-            <bool>true</bool>
+            <string>Find by Assortment</string>
            </property>
           </widget>
          </item>
@@ -402,9 +376,6 @@
            <width>200</width>
            <height>200</height>
           </size>
-         </property>
-         <property name="movement">
-          <enum>QListView::Static</enum>
          </property>
          <property name="resizeMode">
           <enum>QListView::Adjust</enum>
