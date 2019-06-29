@@ -95,7 +95,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="1">
-          <widget class="QLabel" name="NJ_text">
+          <widget class="QLabel" name="nj_label">
            <property name="toolTip">
             <string>Number of joints</string>
            </property>
@@ -105,7 +105,7 @@
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="NL_text">
+          <widget class="QLabel" name="nl_label">
            <property name="toolTip">
             <string>Number of links</string>
            </property>
@@ -115,21 +115,21 @@
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QSpinBox" name="NL_input">
+          <widget class="QSpinBox" name="nl_input">
            <property name="minimum">
             <number>4</number>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QSpinBox" name="NJ_input">
+          <widget class="QSpinBox" name="nj_input">
            <property name="minimum">
             <number>4</number>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLabel" name="DOF_text">
+          <widget class="QLabel" name="dof_label">
            <property name="toolTip">
             <string>Degree of freedom</string>
            </property>
@@ -139,7 +139,7 @@
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="QSpinBox" name="DOF">
+          <widget class="QSpinBox" name="dof">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -226,13 +226,6 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="link_assortment_label">
-         <property name="text">
-          <string>Link assortment and Contracted link assortment:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QTreeWidget" name="link_assortment_list">
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
@@ -242,7 +235,7 @@
          </property>
          <column>
           <property name="text">
-           <string>Assortment</string>
+           <string>Link Assortment / Contracted Link Assortment</string>
           </property>
          </column>
         </widget>

@@ -128,17 +128,13 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.get_graph = parent.get_graph
         self.is_monochrome = parent.monochrome_option.isChecked
 
-        # Main splitter
-        self.main_splitter.setStretchFactor(0, 20)
-        self.main_splitter.setStretchFactor(1, 15)
-
         # Answer list
         self.assortment: Dict[Assortment, List[Assortment]] = {}
         self.answer: List[Graph] = []
 
         # Signals
-        self.NL_input.valueChanged.connect(self.__adjust_structure_data)
-        self.NJ_input.valueChanged.connect(self.__adjust_structure_data)
+        self.nl_input.valueChanged.connect(self.__adjust_structure_data)
+        self.nj_input.valueChanged.connect(self.__adjust_structure_data)
         self.graph_engine.addItems(engines)
         self.structure_list.customContextMenuRequested.connect(
             self.__structure_list_context_menu
@@ -159,8 +155,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.copy_image,
         ])
 
-        self.NL_input_old_value = 0
-        self.NJ_input_old_value = 0
+        self.nl_input_old_value = 0
+        self.nj_input_old_value = 0
         self.clear()
 
     def clear(self):
@@ -168,11 +164,11 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.edges_text.clear()
         self.__clear_assortment()
         self.__clear_structure_list()
-        self.NL_input.setValue(0)
-        self.NJ_input.setValue(0)
-        self.NL_input_old_value = 0
-        self.NJ_input_old_value = 0
-        self.DOF.setValue(1)
+        self.nl_input.setValue(0)
+        self.nj_input.setValue(0)
+        self.nl_input_old_value = 0
+        self.nj_input_old_value = 0
+        self.dof.setValue(1)
 
     @Slot(name='on_assortment_clear_button_clicked')
     def __clear_assortment(self):
@@ -200,14 +196,14 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.edges_text.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
-        self.NL_input.setValue(
+        self.nl_input.setValue(
             sum(len(vlink.points) > 1 for vlink in link_data) +
             sum(
                 len(vpoint.links) - 2 for vpoint in joint_data
                 if vpoint.type == VJoint.RP and len(vpoint.links) > 1
             )
         )
-        self.NJ_input.setValue(sum(
+        self.nj_input.setValue(sum(
             (len(vpoint.links) - 1 + int(vpoint.type == VJoint.RP))
             for vpoint in joint_data if len(vpoint.links) > 1
         ))
@@ -225,29 +221,29 @@ class StructureSynthesis(QWidget, Ui_Form):
         Change the DOF then exit.
         """
         if not self.keep_dof.isChecked():
-            self.DOF.setValue(
-                3 * (self.NL_input.value() - 1) -
-                2 * self.NJ_input.value()
+            self.dof.setValue(
+                3 * (self.nl_input.value() - 1) -
+                2 * self.nj_input.value()
             )
             return
 
         # N2: Get the user's adjusted value.
         # NL_func: Get the another value of parameters (N1) by degrees of freedom formula.
         # is_above: Is value increase or decrease?
-        if self.sender() is self.NJ_input:
-            n2 = self.NJ_input.value()
+        if self.sender() is self.nj_input:
+            n2 = self.nj_input.value()
 
             def nl_func() -> float:
-                return (self.DOF.value() + 2 * n2) / 3 + 1
+                return (self.dof.value() + 2 * n2) / 3 + 1
 
-            is_above = n2 > self.NJ_input_old_value
+            is_above = n2 > self.nj_input_old_value
         else:
-            n2 = self.NL_input.value()
+            n2 = self.nl_input.value()
 
             def nl_func() -> float:
-                return (3 * (n2 - 1) - self.DOF.value()) / 2
+                return (3 * (n2 - 1) - self.dof.value()) / 2
 
-            is_above = n2 > self.NL_input_old_value
+            is_above = n2 > self.nl_input_old_value
         n1 = nl_func()
         while not n1.is_integer():
             n2 += 1 if is_above else -1
@@ -258,23 +254,23 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Return the result values.
         # + Value of widgets.
         # + Setting old value record.
-        if self.sender() is self.NL_input:
-            self.NJ_input.setValue(n1)
-            self.NL_input.setValue(n2)
-            self.NJ_input_old_value = n1
-            self.NL_input_old_value = n2
+        if self.sender() is self.nl_input:
+            self.nj_input.setValue(n1)
+            self.nl_input.setValue(n2)
+            self.nj_input_old_value = n1
+            self.nl_input_old_value = n2
         else:
-            self.NJ_input.setValue(n2)
-            self.NL_input.setValue(n1)
-            self.NJ_input_old_value = n2
-            self.NL_input_old_value = n1
+            self.nj_input.setValue(n2)
+            self.nl_input.setValue(n1)
+            self.nj_input_old_value = n2
+            self.nl_input_old_value = n1
 
     @Slot(name='on_number_synthesis_button_clicked')
     def __number_synthesis(self):
         """Synthesis of link assortment."""
         self.__clear_assortment()
-        nl = self.NL_input.value()
-        nj = self.NJ_input.value()
+        nl = self.nl_input.value()
+        nj = self.nj_input.value()
         dlg = SynthesisProgressDialog(
             "Link assortment",
             f"Number of links: {nl}\n"
@@ -296,7 +292,6 @@ class StructureSynthesis(QWidget, Ui_Form):
                         f"NC{i + 1} = {a}" for i, a in enumerate(cla)
                     )]))
                 self.link_assortment_list.addTopLevelItem(la_item)
-                la_item.setExpanded(True)
             first_item = self.link_assortment_list.topLevelItem(0)
             self.link_assortment_list.setCurrentItem(first_item)
             dlg.deleteLater()
