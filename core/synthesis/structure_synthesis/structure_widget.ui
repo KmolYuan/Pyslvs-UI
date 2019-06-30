@@ -238,6 +238,11 @@
            <string>Link Assortment / Contracted Link Assortment</string>
           </property>
          </column>
+         <column>
+          <property name="text">
+           <string>Count</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>

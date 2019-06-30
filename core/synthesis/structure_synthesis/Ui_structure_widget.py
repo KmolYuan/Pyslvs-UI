@@ -251,6 +251,7 @@ class Ui_Form(object):
         self.number_synthesis_button.setStatusTip(_translate("Form", "Find the possible number of different joints."))
         self.number_synthesis_button.setText(_translate("Form", "Number Synthesis"))
         self.link_assortment_list.headerItem().setText(0, _translate("Form", "Link Assortment / Contracted Link Assortment"))
+        self.link_assortment_list.headerItem().setText(1, _translate("Form", "Count"))
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
         self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX."))
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))

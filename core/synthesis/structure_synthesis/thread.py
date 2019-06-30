@@ -7,9 +7,9 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence, Iterable
+from typing import Sequence
 from core.synthesis.thread import BaseThread
-from core.QtModules import Signal, QWidget
+from core.QtModules import Signal, QWidget, QTreeWidgetItem
 from core.libs import (
     link_synthesis,
     contracted_link_synthesis,
@@ -18,6 +18,11 @@ from core.libs import (
 )
 
 Assortment = Sequence[int]
+
+
+def assortment_eval(links_expr: str) -> Assortment:
+    """Return link assortment from expr."""
+    return tuple(int(n.split('=')[-1]) for n in links_expr.split(", "))
 
 
 class LinkSynthesisThread(BaseThread):
@@ -59,14 +64,10 @@ class GraphEnumerateThread(BaseThread):
     """Graphs enumeration thread."""
 
     progress_update = Signal(int)
+    count_update = Signal(QTreeWidgetItem, int)
     result = Signal(list)
 
-    def __init__(
-        self,
-        jobs: Iterable[Tuple[Assortment, Assortment]],
-        degenerate: int,
-        parent: QWidget
-    ):
+    def __init__(self, jobs: Sequence[QTreeWidgetItem], degenerate: int, parent: QWidget):
         super(GraphEnumerateThread, self).__init__(parent)
         self.jobs = jobs
         self.degenerate = degenerate
@@ -75,20 +76,24 @@ class GraphEnumerateThread(BaseThread):
         """Run and return conventional graph."""
         cg_list = {}
         answers = []
-        for i, (la, cla) in enumerate(self.jobs):
+        for i, item in enumerate(self.jobs):
             if self.is_stop:
                 break
 
+            root = item.parent()
+            la = assortment_eval(root.text(0))
+            cla = assortment_eval(item.text(0))
             if la not in cg_list:
                 cg_list[la] = contracted_graph(la, lambda: self.is_stop)
 
-            answers.extend(conventional_graph(
+            answer = conventional_graph(
                 cg_list[la],
                 cla,
                 self.degenerate,
                 lambda: self.is_stop
-            ))
-
+            )
+            self.count_update.emit(item, len(answer))
+            answers.extend(answer)
             self.progress_update.emit(1 + i)
 
         self.result.emit(answers)

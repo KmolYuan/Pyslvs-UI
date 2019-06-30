@@ -13,11 +13,9 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     TYPE_CHECKING,
-    Tuple,
     List,
     Sequence,
     Dict,
-    Iterable,
     Optional,
 )
 from time import time
@@ -43,15 +41,20 @@ from core.QtModules import (
     QScrollBar,
     QListWidgetItem,
     QTreeWidgetItem,
+    QHeaderView,
 )
 from core.libs import (
     VJoint,
     Graph,
-    link_assortment as l_a,
-    contracted_link_assortment as c_l_a,
+    link_assortment,
+    contracted_link_assortment,
 )
 from core.graphics import to_graph, engines
-from .thread import LinkSynthesisThread, GraphEnumerateThread
+from .thread import (
+    assortment_eval,
+    LinkSynthesisThread,
+    GraphEnumerateThread,
+)
 from .Ui_structure_widget import Ui_Form
 
 if TYPE_CHECKING:
@@ -60,20 +63,6 @@ if TYPE_CHECKING:
 __all__ = ['StructureSynthesis']
 
 Assortment = Sequence[int]
-
-
-def _link_assortment(links_expr: str) -> Assortment:
-    """Return link assortment from expr."""
-    return tuple(int(n.split('=')[-1]) for n in links_expr.split(", "))
-
-
-def compare_assortment(first: Tuple[int, ...], second: Sequence[Tuple[int, ...]]) -> int:
-    """Compare assortment."""
-    my_len = len(first)
-    for i, job in enumerate(second):
-        if job == first + (0,) * (len(job) - my_len):
-            return i
-    return -1
 
 
 class SynthesisProgressDialog(QProgressDialog):
@@ -118,6 +107,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         super(StructureSynthesis, self).__init__(parent)
         self.setupUi(self)
+        self.link_assortment_list.header().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         # Function references
         self.output_to = parent.output_to
@@ -286,11 +276,11 @@ class StructureSynthesis(QWidget, Ui_Form):
             for la, cla_list in assortment.items():
                 la_item = QTreeWidgetItem([", ".join(
                     f"NL{i + 2} = {a}" for i, a in enumerate(la)
-                )])
+                ), "N/A"])
                 for cla in cla_list:
                     la_item.addChild(QTreeWidgetItem([", ".join(
                         f"NC{i + 1} = {a}" for i, a in enumerate(cla)
-                    )]))
+                    ), "N/A"]))
                 self.link_assortment_list.addTopLevelItem(la_item)
             first_item = self.link_assortment_list.topLevelItem(0)
             self.link_assortment_list.setCurrentItem(first_item)
@@ -323,54 +313,64 @@ class StructureSynthesis(QWidget, Ui_Form):
         root = item.parent()
         if root is None:
             # Find by link assortment
-            _l_a = _link_assortment(item.text(0))
-            self.__structural_combine(
-                ((_l_a, _c_l_a) for _c_l_a in self.assortment[_l_a]),
-                len(self.assortment[_l_a])
-            )
-        else:
-            # Find by contracted link assortment
             try:
-                _l_a = _link_assortment(root.text(0))
-                _c_l_a = _link_assortment(item.text(0))
+                # Test
+                assortment_eval(item.text(0))
             except ValueError:
                 return
-            self.__structural_combine(((_l_a, _c_l_a),), 1)
+            jobs = [item.child(i) for i in range(item.childCount())]
+            self.__structural_combine(jobs)
+        else:
+            # Find by contracted link assortment
+            jobs = [item]
+        self.__structural_combine(jobs)
 
     @Slot(name='on_structure_synthesis_all_button_clicked')
     def __structure_synthesis_all(self):
         """Structural synthesis - find all."""
         self.__clear_structure_list()
+        jobs = []
+        for i in range(self.link_assortment_list.topLevelItemCount()):
+            root: QTreeWidgetItem = self.link_assortment_list.topLevelItem(i)
+            for j in range(root.childCount()):
+                jobs.append(root.child(j))
+        self.__structural_combine(jobs)
 
-        def iterator():
-            for k, v in self.assortment.items():
-                for s in v:
-                    yield (k, s)
-
-        self.__structural_combine(iterator(), sum(len(l) for l in self.assortment.values()))
-
-    def __structural_combine(
-        self,
-        jobs: Iterable[Tuple[Assortment, Assortment]],
-        count: int
-    ):
+    def __structural_combine(self, jobs: Sequence[QTreeWidgetItem]):
         """Structural combine by iterator."""
         t0 = time()
         dlg = SynthesisProgressDialog(
             "Structural Synthesis",
-            f"Number of cases: {count}",
-            count,
+            f"Number of cases: {len(jobs)}",
+            len(jobs),
             self
         )
 
+        @Slot(QTreeWidgetItem, int)
+        def update_count(item: QTreeWidgetItem, count: int):
+            """Update the number of graphs."""
+            item.setText(1, f"{count}")
+
         @Slot(list)
         def update_result(answer: List[Graph]):
+            """Update the result of atlas."""
             self.answer = answer
             dlg.deleteLater()
+            for i in range(self.link_assortment_list.topLevelItemCount()):
+                root: QTreeWidgetItem = self.link_assortment_list.topLevelItem(i)
+                count = 0
+                for j in range(root.childCount()):
+                    item = root.child(j)
+                    try:
+                        count += int(item.text(1))
+                    except ValueError:
+                        pass
+                root.setText(1, f"{count}")
             self.__set_time_count(time() - t0, len(self.answer))
             self.__reload_atlas()
 
         work = GraphEnumerateThread(jobs, self.graph_degenerate.currentIndex(), dlg)
+        work.count_update.connect(update_count)
         work.progress_update.connect(dlg.setValue)
         work.result.connect(update_result)
         dlg.show()
@@ -425,8 +425,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         ))
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"
-            f"Link assortment: {l_a(g)}\n"
-            f"Contracted Link assortment: {c_l_a(g)}"
+            f"Link assortment: {link_assortment(g)}\n"
+            f"Contracted Link assortment: {contracted_link_assortment(g)}"
         )
         self.structure_list.addItem(item)
         return True
