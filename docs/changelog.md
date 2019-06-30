@@ -3,6 +3,7 @@
 **Features**:
 
 + Change the list widget of graph atlas into tree widget.
++ Add step progress bar at synthesis page.
 + UI improvement of synthesis pages.
 + Add slides links in documentation.
 

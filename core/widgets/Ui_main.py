@@ -211,15 +211,25 @@ class Ui_MainWindow(object):
         self.main_panel.addTab(self.inputs_tab, icon12, "")
         self.synthesis_tab = QtWidgets.QWidget()
         self.synthesis_tab.setObjectName("synthesis_tab")
-        self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.synthesis_tab)
-        self.verticalLayout_14.setContentsMargins(3, 3, 3, 3)
-        self.verticalLayout_14.setObjectName("verticalLayout_14")
-        self.synthesis_splitter = QtWidgets.QSplitter(self.synthesis_tab)
-        self.synthesis_splitter.setOrientation(QtCore.Qt.Vertical)
-        self.synthesis_splitter.setObjectName("synthesis_splitter")
-        self.synthesis_tab_widget = QtWidgets.QTabWidget(self.synthesis_splitter)
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.synthesis_tab)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.synthesis_tab_widget = QtWidgets.QTabWidget(self.synthesis_tab)
         self.synthesis_tab_widget.setObjectName("synthesis_tab_widget")
-        self.verticalLayout_14.addWidget(self.synthesis_splitter)
+        self.verticalLayout_10.addWidget(self.synthesis_tab_widget)
+        self.synthesis_progress = QtWidgets.QProgressBar(self.synthesis_tab)
+        self.synthesis_progress.setStyleSheet("QProgressBar {\n"
+"    border: 2px solid grey;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"\n"
+"QProgressBar::chunk {\n"
+"    background-color: #05B8CC;\n"
+"    width: 20px;\n"
+"}")
+        self.synthesis_progress.setMaximum(3)
+        self.synthesis_progress.setTextVisible(False)
+        self.synthesis_progress.setObjectName("synthesis_progress")
+        self.verticalLayout_10.addWidget(self.synthesis_progress)
         icon13 = QtGui.QIcon()
         icon13.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.main_panel.addTab(self.synthesis_tab, icon13, "")
@@ -261,7 +271,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 401, 733))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 358, 692))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")

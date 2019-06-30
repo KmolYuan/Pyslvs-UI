@@ -141,8 +141,10 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         # Version label
         self.version_label.setText(__version__)
 
-        # Entities tables.
-        self.entities_tab.tabBar().setStatusTip("Switch the tabs to change to another view mode.")
+        # Entities tables
+        self.entities_tab.tabBar().setStatusTip(
+            "Switch the tabs to change to another view mode."
+        )
 
         self.entities_point = PointTableWidget(self.entities_point_widget)
         self.entities_point.cellDoubleClicked.connect(self.edit_point)
@@ -234,7 +236,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.canvas_splitter.insertWidget(0, self.main_canvas)
         self.canvas_splitter.setSizes([600, 10, 30])
 
-        # Selection label on status bar right side.
+        # Selection label on status bar right side
         selection_label = SelectionLabel(self)
         self.entities_point.selectionLabelUpdate.connect(
             selection_label.update_select_point
@@ -244,12 +246,12 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         )
         self.status_bar.addPermanentWidget(selection_label)
 
-        # FPS label on status bar right side.
+        # FPS label on status bar right side
         fps_label = FPSLabel(self)
         self.main_canvas.fps_updated.connect(fps_label.update_text)
         self.status_bar.addPermanentWidget(fps_label)
 
-        # Inputs widget.
+        # Inputs widget
         self.inputs_widget = InputsWidget(self)
         self.inputs_tab_layout.addWidget(self.inputs_widget)
         self.free_move_button.toggled.connect(self.inputs_widget.variable_value_reset)
@@ -266,7 +268,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.main_canvas.noselected.connect(self.inputs_widget.clear_selection)
         self.inputs_widget.update_preview_button.clicked.connect(self.main_canvas.update_preview_path)
 
-        # Number and type synthesis.
+        # Number and type synthesis
         self.structure_synthesis = StructureSynthesis(self)
         self.synthesis_tab_widget.addTab(
             self.structure_synthesis,
@@ -294,35 +296,46 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             "Dimensional"
         )
 
-        # File widget settings.
+        @Slot()
+        def set_design_progress():
+            """Synthesis progress bar."""
+            pos = self.synthesis_tab_widget.currentIndex()
+            if pos == 1:
+                pos += self.collection_tab_page.tab_widget.currentIndex()
+            elif pos == 2:
+                pos += 1
+            self.synthesis_progress.setValue(pos)
+
+        self.synthesis_tab_widget.currentChanged.connect(set_design_progress)
+        self.collection_tab_page.tab_widget.currentChanged.connect(set_design_progress)
+
+        # File widget settings
         self.database_widget = DatabaseWidget(self)
         self.vc_layout.addWidget(self.database_widget)
         self.database_widget.commit_add.clicked.connect(self.commit)
         self.database_widget.branch_add.clicked.connect(self.commit_branch)
         self.action_stash.triggered.connect(self.database_widget.stash)
 
-        # YAML editor.
+        # YAML editor
         self.yaml_editor = YamlEditor(self)
 
-        # Console dock will hide when startup.
+        # Console dock will hide when startup
         self.console_widget.hide()
-
-        # Connect to GUI button switching.
+        # Connect to GUI button
         self.console_disconnect_button.setEnabled(not ARGUMENTS.debug_mode)
         self.console_connect_button.setEnabled(ARGUMENTS.debug_mode)
 
-        # Splitter stretch factor.
+        # Splitter stretch factor
         self.main_splitter.setStretchFactor(0, 4)
         self.main_splitter.setStretchFactor(1, 15)
         self.mechanism_panel_splitter.setSizes([500, 200])
-        self.synthesis_splitter.setSizes([100, 500])
 
         # Enable mechanism menu actions when shows.
         self.menu_mechanism.aboutToShow.connect(self.enable_mechanism_actions)
 
-        # Start a new window.
         @Slot()
         def new_main_window():
+            """Start a new window."""
             run = self.__class__()
             run.show()
 

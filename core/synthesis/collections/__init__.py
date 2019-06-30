@@ -48,26 +48,26 @@ class Collections(QWidget):
         """Create two widget page and using main window to make their parent."""
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)
-        tab_widget = QTabWidget(self)
-        layout.addWidget(tab_widget)
+        self.tab_widget = QTabWidget(self)
+        layout.addWidget(self.tab_widget)
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
         self.structure_widget = StructureWidget(parent)
         self.configure_widget = ConfigureWidget(
             self.structure_widget.add_collection,
             parent
         )
-        tab_widget.addTab(
+        self.tab_widget.addTab(
             self.structure_widget,
             self.structure_widget.windowIcon(),
             "Structures"
         )
-        tab_widget.addTab(
+        self.tab_widget.addTab(
             self.configure_widget,
             self.configure_widget.windowIcon(),
             "Configuration"
         )
         self.structure_widget.configure_button.clicked.connect(
-            lambda: tab_widget.setCurrentIndex(1)
+            lambda: self.tab_widget.setCurrentIndex(1)
         )
         self.structure_widget.layout_sender.connect(
             self.configure_widget.set_graph
