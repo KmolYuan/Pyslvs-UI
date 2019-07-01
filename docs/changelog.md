@@ -1,3 +1,13 @@
+# Version 19.07
+
+**Features**:
+
++ None
+
+**Development**:
+
++ None
+
 # Version 19.06
 
 **Features**:
