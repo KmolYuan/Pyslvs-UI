@@ -2,7 +2,7 @@
 
 **Features**:
 
-+ None
++ Correction of link length range in dimensional synthesis page.
 
 **Development**:
 

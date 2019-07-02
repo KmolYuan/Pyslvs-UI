@@ -23,6 +23,7 @@ from math import (
     sin,
     cos,
     atan2,
+    hypot,
     isnan,
 )
 from functools import reduce
@@ -701,3 +702,9 @@ class PreviewCanvas(BaseCanvas):
             if not status and node not in self.same:
                 return False
         return True
+
+    def distance(self, n1: int, n2: int) -> float:
+        """Return the distance of two point."""
+        x1, y1 = self.pos[n1]
+        x2, y2 = self.pos[n2]
+        return hypot(x1 - x2, y1 - y2)

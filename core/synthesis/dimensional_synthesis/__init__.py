@@ -454,9 +454,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __set_time(self, time: float):
         """Set the time label."""
         self.timeShow.setText(
-            "<html><head/><body><p><span style=\"font-size:16pt\">"
+            f"<html><head/><body><p><span style=\"font-size:16pt\">"
             f"{time // 60}[min] {time % 60:.02f}[s]"
-            "</span></p></body></html>"
+            f"</span></p></body></html>"
         )
 
     def __add_result(self, result: Dict[str, Any]):
@@ -664,7 +664,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Parameter of link length and input angle.
         link_list = set()
         for vlink in parse_vlinks(expression):
-            if len(vlink.points) < 2:
+            if len(vlink.points) < 2 or vlink.name == "ground":
                 continue
             a = vlink.points[0]
             b = vlink.points[1]
@@ -700,19 +700,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 double_spinbox.setPrefix("±")
             return double_spinbox
 
-        # Position.
+        # Position
+        self.preview_canvas.from_profile(self.mech_params)
         pos_list = parse_pos(expression)
-        same: Dict[int, int] = self.mech_params['same']
-        for node, ref in sorted(same.items()):
+        for node, ref in sorted(self.preview_canvas.same.items()):
             pos_list.insert(node, pos_list[ref])
-        pos: Dict[int, _Coord] = dict(enumerate(pos_list))
 
         row = 0
         for name in sorted(placement):
             coord = placement[name]
             self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{name}"))
             self.parameter_list.setItem(row, 1, QTableWidgetItem('Placement'))
-            x, y = pos[name]
+            x, y = self.preview_canvas.pos[name]
             for i, s in enumerate([
                 spinbox(coord[0] if coord else x, minimum=-9999.),
                 spinbox(coord[1] if coord else y, minimum=-9999.),
@@ -722,7 +721,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.parameter_list.setCellWidget(row, i + 2, s)
             row += 1
 
-        # Default value of upper and lower.
+        # Default value of upper and lower
         for name in ('upper', 'lower'):
             if name not in self.mech_params:
                 self.mech_params[name] = [0.] * (link_count + angle_count)
@@ -762,21 +761,26 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             name_item = QTableWidgetItem(name)
             name_item.setToolTip(name)
             self.parameter_list.setItem(row, 0, name_item)
+            upper = upper_list[i]
+            lower = lower_list[i]
             if name in link_list:
                 type_name = "Link"
+                n1, n2 = (int(n.replace('P', '')) for n in name.split('<->'))
+                link_length = self.preview_canvas.distance(n1, n2)
+                if upper == 0.:
+                    upper = link_length + 50
+                if lower <= 0.:
+                    lower = link_length - 50
+                    lower = 0. if lower < 0 else lower
             else:
                 type_name = "Input"
+                if upper == 0.:
+                    upper = 360.
             self.parameter_list.setItem(row, 1, QTableWidgetItem(type_name))
-            # Set values (it will be same if not in the 'mech_params').
-            upper = upper_list[i]
-            if upper == 0.:
-                upper = 100. if name in link_list else 360.
-            lower = lower_list[i]
-            if lower == 0. and name in link_list:
-                lower = 0.
+            # Set values
             upper_list[i] = upper
             lower_list[i] = lower
-            # Spin box.
+            # Spin box
             error_range = (upper - lower) / 2
             default_value = error_range + lower
             if name in link_list:
@@ -786,12 +790,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.parameter_list.setCellWidget(row, 2, s1)
             s2 = spinbox(error_range, prefix=True)
             self.parameter_list.setCellWidget(row, 4, s2)
-            # Signal connections.
+            # Signals
             s1.valueChanged.connect(set_by_center(i, s2.value))
             s2.valueChanged.connect(set_by_range(i, s1.value))
             row += 1
 
-        self.preview_canvas.from_profile(self.mech_params)
         self.update_range()
 
         self.profile_name.setText(profile_name)
