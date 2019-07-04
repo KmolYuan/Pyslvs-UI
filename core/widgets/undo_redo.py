@@ -43,7 +43,7 @@ from .tables import PointTableWidget, LinkTableWidget
 _Coord = Tuple[float, float]
 
 
-def _no_empty_string(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
+def _no_empty(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
     """Filter to exclude empty string."""
     return (s for s in str_list if s)
 
@@ -211,7 +211,7 @@ class EditPointTable(QUndoCommand):
             self.__set_cell(row, new_points)
 
     def __set_cell(self, row: int, points: List[str]):
-        item = QTableWidgetItem(','.join(_no_empty_string(points)))
+        item = QTableWidgetItem(','.join(_no_empty(points)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.link_table.setItem(row, 2, item)
 
@@ -241,11 +241,11 @@ class EditLinkTable(QUndoCommand):
         old_points = self.old_args[2].split(',')
         new_points = set(
             int(index.replace('Point', ''))
-            for index in _no_empty_string(new_points)
+            for index in _no_empty(new_points)
         )
         old_points = set(
             int(index.replace('Point', ''))
-            for index in _no_empty_string(old_points)
+            for index in _no_empty(old_points)
         )
         self.new_point_items = tuple(new_points - old_points)
         self.old_point_items = tuple(old_points - new_points)
@@ -268,10 +268,10 @@ class EditLinkTable(QUndoCommand):
         """
         if arg2[0] == arg1[0]:
             return
-        for index in _no_empty_string(arg2[2].split(',')):
+        for index in _no_empty(arg2[2].split(',')):
             row = int(index.replace('Point', ''))
             new_links = self.point_table.item(row, 1).text().split(',')
-            item = QTableWidgetItem(','.join(_no_empty_string(
+            item = QTableWidgetItem(','.join(_no_empty(
                 w.replace(arg2[0], arg1[0])
                 for w in new_links
             )))
@@ -300,7 +300,7 @@ class EditLinkTable(QUndoCommand):
             self.__set_cell(row, new_links)
 
     def __set_cell(self, row: int, links: List[str]):
-        item = QTableWidgetItem(','.join(_no_empty_string(links)))
+        item = QTableWidgetItem(','.join(_no_empty(links)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.point_table.setItem(row, 1, item)
 
@@ -446,12 +446,12 @@ class ClearStorageName(QUndoCommand):
         self.widget.setText(self.name)
 
 
-class AddVariable(QUndoCommand):
+class AddInput(QUndoCommand):
 
     """Add a variable to list widget."""
 
     def __init__(self, text: str, widget: QListWidget):
-        super(AddVariable, self).__init__()
+        super(AddInput, self).__init__()
         self.item = QListWidgetItem(text)
         self.item.setToolTip(text)
         self.widget = widget
@@ -465,12 +465,12 @@ class AddVariable(QUndoCommand):
         self.widget.takeItem(self.widget.row(self.item))
 
 
-class DeleteVariable(QUndoCommand):
+class DeleteInput(QUndoCommand):
 
     """Remove the variable item."""
 
     def __init__(self, row: int, widget: QListWidget):
-        super(DeleteVariable, self).__init__()
+        super(DeleteInput, self).__init__()
         self.item = widget.item(row)
         self.widget = widget
 

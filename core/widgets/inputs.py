@@ -38,8 +38,8 @@ from core.info import logger
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
 from .undo_redo import (
-    AddVariable,
-    DeleteVariable,
+    AddInput,
+    DeleteInput,
     AddPath,
     DeletePath,
 )
@@ -230,7 +230,7 @@ class InputsWidget(QWidget, Ui_Form):
         else:
             # Two joints by angle.
             value = vpoints[p0].slope_angle(vpoints[p1])
-        self.CommandStack.push(AddVariable('->'.join((
+        self.CommandStack.push(AddInput('->'.join((
             name,
             f'Point{p1}',
             f"{value:.02f}",
@@ -278,7 +278,7 @@ class InputsWidget(QWidget, Ui_Form):
             if one_row and (row != b):
                 continue
             self.CommandStack.beginMacro(f"Remove variable of Point{row}")
-            self.CommandStack.push(DeleteVariable(i, self.variable_list))
+            self.CommandStack.push(DeleteInput(i, self.variable_list))
             self.CommandStack.endMacro()
 
     @Slot(name='on_variable_remove_clicked')
@@ -290,7 +290,7 @@ class InputsWidget(QWidget, Ui_Form):
             return
         self.variable_stop.click()
         self.CommandStack.beginMacro(f"Remove variable of Point{row}")
-        self.CommandStack.push(DeleteVariable(row, self.variable_list))
+        self.CommandStack.push(DeleteInput(row, self.variable_list))
         self.CommandStack.endMacro()
         self.EntitiesPoint.get_back_position()
         self.solve()
