@@ -128,7 +128,7 @@ clean:
 ifeq ($(OS),Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
-	-del *.spec
+	-del *.spec /q
 else ifeq ($(shell uname),Darwin)
 	-rm -f -r build
 	-rm -f -r dist
@@ -141,10 +141,30 @@ endif
 clean-pyslvs:
 	- $(PY) -m pip uninstall pyslvs
 	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
+ifeq ($(OS),Windows_NT)
+	-rd "$(PYSLVS_PATH)/dist" /s /q
+	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
+	-cd $(PYSLVS_PATH)/pyslvs && del *.cpp /q
+	-cd $(PYSLVS_PATH)/pyslvs && del Adesign\*.cpp /q
+else
+	-rm -fr $(PYSLVS_PATH)/dist
+	-rm -fr $(PYSLVS_PATH)/pyslvs.egg-info
+	-rm -f $(PYSLVS_PATH)/pyslvs/*.cpp
+	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.cpp
+endif
 
 clean-solvespace:
 	- $(PY) -m pip uninstall python_solvespace
 	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py clean --all
+ifeq ($(OS),Windows_NT)
+	-rd "$(PYTHON_SLVS_PATH)/dist" /s /q
+	-rd "$(PYTHON_SLVS_PATH)/python_solvespace.egg-info" /s /q
+	-cd $(PYTHON_SLVS_PATH)/python_solvespace && del *.cpp /q
+else
+	-rm -fr $(PYTHON_SLVS_PATH)/dist
+	-rm -fr $(PYTHON_SLVS_PATH)/python_solvespace.egg-info
+	-rm -f $(PYTHON_SLVS_PATH)/python_solvespace/*.cpp
+endif
 
 clean-kernel: clean-pyslvs clean-solvespace
 
