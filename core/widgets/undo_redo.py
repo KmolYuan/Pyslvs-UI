@@ -248,11 +248,10 @@ class EditPointTable(_EditFusedTable):
         old_links = set(self.old_args[0].split(','))
         new_link_items = []
         old_link_items = []
-        for row in range(self.link_table.rowCount()):
-            link_name = self.link_table.item(row, 0).text()
-            if link_name in (new_links - old_links):
+        for row, vlink in enumerate(self.vlink_list):
+            if vlink.name in (new_links - old_links):
                 new_link_items.append(row)
-            if link_name in (old_links - new_links):
+            if vlink.name in (old_links - new_links):
                 old_link_items.append(row)
         self.new_link_items = tuple(new_link_items)
         self.old_link_items = tuple(old_link_items)
@@ -275,21 +274,20 @@ class EditPointTable(_EditFusedTable):
         + Append the point that relate with these links.
         + Remove the point that irrelevant with these links.
         """
-        point_name = f'Point{self.row}'
         for row in add:
-            new_points = self.link_table.item(row, 2).text().split(',')
-            new_points.append(point_name)
+            new_points = list(self.vlink_list[row].points)
+            new_points.append(self.row)
             self.__set_cell(row, new_points)
         for row in sub:
-            new_points = self.link_table.item(row, 2).text().split(',')
-            new_points.remove(point_name)
+            new_points = list(self.vlink_list[row].points)
+            new_points.remove(self.row)
             self.__set_cell(row, new_points)
 
-    def __set_cell(self, row: int, points: List[str]):
-        item = QTableWidgetItem(','.join(_no_empty(points)))
+    def __set_cell(self, row: int, points: List[int]):
+        item = QTableWidgetItem(','.join(f'Point{p}' for p in points))
         item.setFlags(_ITEM_FLAGS)
         self.link_table.setItem(row, 2, item)
-        self.vlink_list[row].set_points(int(p.replace('Point', '')) for p in _no_empty(points))
+        self.vlink_list[row].set_points(points)
 
 
 class EditLinkTable(_EditFusedTable):
@@ -318,29 +316,29 @@ class EditLinkTable(_EditFusedTable):
         """Write arguments then rewrite the dependents."""
         self.vlink_list[self.row] = _args2vlink(self.args)
         self.link_table.edit_link(self.row, *self.args)
-        self.__rename(self.args, self.old_args)
+        self.__rename(self.args[0], self.old_args)
         self.__write_points(self.args[0], self.new_point_items, self.old_point_items)
 
     def undo(self):
         """Rewrite the dependents then write arguments."""
         self.__write_points(self.old_args[0], self.old_point_items, self.new_point_items)
-        self.__rename(self.old_args, self.args)
+        self.__rename(self.old_args[0], self.args)
         self.link_table.edit_link(self.row, *self.old_args)
         self.vlink_list[self.row] = _args2vlink(self.old_args)
 
-    def __rename(self, arg1: Sequence[str], arg2: Sequence[str]):
+    def __rename(self, new_name: str, args: Sequence[str]):
         """Adjust link name in all dependents, if link name are changed."""
-        if arg2[0] == arg1[0]:
+        if args[0] == new_name:
             return
-        for index in _no_empty(arg2[2].split(',')):
+        for index in _no_empty(args[2].split(',')):
             row = int(index.replace('Point', ''))
-            new_links = self.point_table.item(row, 1).text().split(',')
-            item = QTableWidgetItem(','.join(_no_empty(
-                w.replace(arg2[0], arg1[0]) for w in new_links
-            )))
+            item = QTableWidgetItem(','.join(
+                link.replace(args[0], new_name)
+                for link in self.vpoint_list[row].links
+            ))
             item.setFlags(_ITEM_FLAGS)
             self.point_table.setItem(row, 1, item)
-            self.vpoint_list[row].replace_link(arg2[0], arg1[0])
+            self.vpoint_list[row].replace_link(args[0], new_name)
 
     def __write_points(self, name: str, add: Sequence[int], sub: Sequence[int]):
         """Write table function.
@@ -349,20 +347,20 @@ class EditLinkTable(_EditFusedTable):
         + Remove the link that irrelevant with these points.
         """
         for row in add:
-            new_links = self.point_table.item(row, 1).text().split(',')
+            new_links = list(self.vpoint_list[row].links)
             new_links.append(name)
             self.__set_cell(row, new_links)
         for row in sub:
-            new_links = self.point_table.item(row, 1).text().split(',')
+            new_links = list(self.vpoint_list[row].links)
             if name:
                 new_links.remove(name)
             self.__set_cell(row, new_links)
 
     def __set_cell(self, row: int, links: List[str]):
-        item = QTableWidgetItem(','.join(_no_empty(links)))
+        item = QTableWidgetItem(','.join(links))
         item.setFlags(_ITEM_FLAGS)
         self.point_table.setItem(row, 1, item)
-        self.vpoint_list[row].set_links(_no_empty(links))
+        self.vpoint_list[row].set_links(links)
 
 
 class AddPath(QUndoCommand):
