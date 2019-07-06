@@ -97,8 +97,13 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.conflict.setVisible(True)
             self.DOFview.setVisible(False)
         else:
-            # Done: Update coordinate data.
             self.entities_point.update_current_position(result)
+            for i, c in enumerate(result):
+                if type(c[0]) is float:
+                    self.vpoint_list[i].move(c)
+                else:
+                    c1, c2 = c
+                    self.vpoint_list[i].move(c1, c2)
             self.dof = vpoint_dof(vpoints)
             self.DOFview.setText(f"{self.dof} ({self.inputs_widget.input_count()})")
             self.conflict.setVisible(False)
@@ -186,11 +191,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             auto_preview[i].append(result[i])
                             vpoints[i].move(result[i])
                         elif vpoints[i].type in {VJoint.P, VJoint.RP}:
+                            slot, pin = result[i]
                             # Pin path
-                            auto_preview[i].append(result[i][1])
+                            auto_preview[i].append(pin)
                             # Slot path
-                            slider_auto_preview[i].append(result[i][0])
-                            vpoints[i].move(result[i][0], result[i][1])
+                            slider_auto_preview[i].append(slot)
+                            vpoints[i].move(slot, pin)
                     angles[dp] += interval
                     angles[dp] %= 360
                     angles_cum[dp] += abs(interval)

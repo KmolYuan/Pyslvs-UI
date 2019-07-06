@@ -6,7 +6,7 @@
 
 **Development**:
 
-+ None
++ Add backend data instead of UI table items.
 
 # Version 19.06
 

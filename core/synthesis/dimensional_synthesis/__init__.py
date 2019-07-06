@@ -575,7 +575,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             else:
                 for i in range(len(vpoints)):
                     coord = result_list[i]
-                    if type(coord[0]) == tuple:
+                    if type(coord[0]) is tuple:
                         path[i].append(coord[1])
                     else:
                         path[i].append(coord)

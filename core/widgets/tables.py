@@ -266,7 +266,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
     def update_current_position(self, coords: Sequence[Union[_Coord, Tuple[_Coord, _Coord]]]):
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
-            if type(c[0]) == float:
+            if type(c[0]) is float:
                 text = f"({c[0]:.06f}, {c[1]:.06f})"
             else:
                 text = "; ".join(f"({x:.06f}, {y:.06f})" for x, y in c)
@@ -415,7 +415,7 @@ class ExprTableWidget(BaseTableWidget[None]):
             # Parameters
             for column, e in enumerate(expr[:-1]):
                 if e in data_dict:
-                    if type(data_dict[e]) == float:
+                    if type(data_dict[e]) is float:
                         # Pure digit
                         text = f"{e}:{data_dict[e]:.02f}"
                     else:

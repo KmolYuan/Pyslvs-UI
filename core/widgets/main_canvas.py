@@ -271,7 +271,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     ):
         """Change points coordinates."""
         for i, c in enumerate(coords):
-            if type(c[0]) == float:
+            if type(c[0]) is float:
                 self.vpoints[i].move(c)
             else:
                 self.vpoints[i].move(*c)
