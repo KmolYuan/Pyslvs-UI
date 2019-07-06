@@ -254,6 +254,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.dimensional_synthesis.clear()
         self.entities_point.clear()
         self.entities_link.clear()
+        self.vpoint_list.clear()
+        self.vlink_list[1:] = []
         self.entities_expr.clear()
         self.solve()
 
@@ -425,7 +427,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg = SlvsOutputDialog(
             self.env,
             self.database_widget.file_name.baseName(),
-            self.entities_point.data_tuple(),
+            self.vpoint_list,
             self.__v_to_slvs(),
             self
         )
@@ -443,7 +445,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg = DxfOutputDialog(
             self.env,
             self.database_widget.file_name.baseName(),
-            self.entities_point.data_tuple(),
+            self.vpoint_list,
             self.__v_to_slvs(),
             self
         )

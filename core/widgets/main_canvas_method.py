@@ -160,8 +160,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # The current mouse coordinates
         self.selector = _Selector()
         # Entities
-        self.vpoints: Tuple[VPoint, ...] = ()
-        self.vlinks: Tuple[VLink, ...] = ()
+        self.vpoints = parent.vpoint_list
+        self.vlinks = parent.vlink_list
         self.vangles: Tuple[float, ...] = ()
         # Solution
         self.exprs: List[Tuple[str, ...]] = []

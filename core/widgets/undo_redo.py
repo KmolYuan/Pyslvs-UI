@@ -242,16 +242,17 @@ class EditPointTable(_EditFusedTable):
 
     def __init__(self, row: int, *args):
         super(EditPointTable, self).__init__(row, *args)
-        self.old_args: str = self.point_table.row_data(row)
+        self.old_args = self.point_table.row_data(row)
         # Links: Set[str]
         new_links = set(self.args[0].split(','))
         old_links = set(self.old_args[0].split(','))
         new_link_items = []
         old_link_items = []
         for row, vlink in enumerate(self.vlink_list):
-            if vlink.name in (new_links - old_links):
+            name = '' if vlink is None else vlink.name
+            if name in (new_links - old_links):
                 new_link_items.append(row)
-            if vlink.name in (old_links - new_links):
+            if name in (old_links - new_links):
                 old_link_items.append(row)
         self.new_link_items = tuple(new_link_items)
         self.old_link_items = tuple(old_link_items)

@@ -90,12 +90,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     def __edit_point(self, row: Union[int, bool] = False):
         """Edit point function."""
-        dlg = EditPointDialog(
-            self.entities_point.data_tuple(),
-            self.entities_link.data_tuple(),
-            row,
-            self
-        )
+        dlg = EditPointDialog(self.vpoint_list, self.vlink_list, row, self)
         dlg.show()
         if not dlg.exec():
             dlg.deleteLater()
@@ -137,12 +132,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     def __edit_link(self, row: Union[int, bool] = False):
         """Edit link function."""
-        dlg = EditLinkDialog(
-            self.entities_point.data_tuple(),
-            self.entities_link.data_tuple(),
-            row,
-            self
-        )
+        dlg = EditLinkDialog(self.vpoint_list, self.vlink_list, row, self)
         dlg.show()
         if not dlg.exec():
             dlg.deleteLater()
@@ -466,13 +456,11 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Set the base and other option."""
         if base == -1:
             return
-
         self.link_free_move_other.clear()
-        vlinks = self.entities_link.data_tuple()
         for link in self.entities_point.item_data(base).links:
             if link == 'ground':
                 continue
-            for i in vlinks[self.entities_link.find_name(link)].points:
+            for i in self.vlink_list[self.entities_link.find_name(link)].points:
                 if i == base:
                     continue
                 self.link_free_move_other.addItem(f"Point{i}")
@@ -506,14 +494,13 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if -1 in {base, other}:
             return
 
-        vpoints = self.entities_point.data_tuple()
-        mapping = {n: f'P{n}' for n in range(len(vpoints))}
+        mapping = {n: f'P{n}' for n in range(len(self.vpoint_list))}
         mapping[base, other] = value
         try:
             result = expr_solving(
                 self.get_triangle(),
                 mapping,
-                vpoints,
+                self.vpoint_list,
                 tuple(v[-1] for v in self.inputs_widget.input_pairs())
             )
         except ValueError:
@@ -673,10 +660,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     def set_coords_as_current(self):
         """Update points position as current coordinate."""
-        vpoints = self.entities_point.data_tuple()
         self.set_free_move(tuple(
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))
-            for row, vpoint in enumerate(vpoints)
+            for row, vpoint in enumerate(self.vpoint_list)
         ))
 
     @abstractmethod

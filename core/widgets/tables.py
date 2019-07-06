@@ -457,7 +457,7 @@ class SelectionLabel(QLabel):
     def __init__(self, parent: MainWindowBase):
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
-        self.dataTuple = parent.entities_point.data_tuple
+        self.data_tuple = parent.entities_point.data_tuple
 
     @Slot()
     @Slot(list)
@@ -469,10 +469,9 @@ class SelectionLabel(QLabel):
         if not p_count:
             self.setText("No selection.")
             return
-        text = ""
-        text += "Selected: "
+        text = "Selected: "
         text += " - ".join(str(p) for p in points)
-        vpoints = self.dataTuple()
+        vpoints = self.data_tuple()
         if p_count > 1:
             distances = []
             angles = []

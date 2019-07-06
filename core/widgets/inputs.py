@@ -73,6 +73,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.free_move_button = parent.free_move_button
         self.EntitiesPoint = parent.entities_point
         self.EntitiesLink = parent.entities_link
+        self.vpoints = parent.vpoint_list
+        self.vlinks = parent.vlink_list
         self.MainCanvas = parent.main_canvas
         self.solve = parent.solve
         self.reload_canvas = parent.reload_canvas
@@ -159,19 +161,18 @@ class InputsWidget(QWidget, Ui_Form):
         if item is None:
             return
         p0 = _variable_int(item.text())
-
-        vpoints = self.EntitiesPoint.data_tuple()
-        type_int = vpoints[p0].type
+        base_point = self.vpoints[p0]
+        type_int = base_point.type
         if type_int == VJoint.R:
-            for i, vpoint in enumerate(vpoints):
+            for i, vpoint in enumerate(self.vpoints):
                 if i == p0:
                     continue
-                if vpoints[p0].same_link(vpoint):
-                    if vpoints[p0].grounded() and vpoint.grounded():
+                if base_point.same_link(vpoint):
+                    if base_point.grounded() and vpoint.grounded():
                         continue
                     self.driver_list.addItem(f"[{vpoint.type_str}] Point{i}")
         elif type_int in {VJoint.P, VJoint.RP}:
-            self.driver_list.addItem(f"[{vpoints[p0].type_str}] Point{p0}")
+            self.driver_list.addItem(f"[{base_point.type_str}] Point{p0}")
 
     @Slot(int, name='on_driver_list_currentRowChanged')
     def __set_add_var_enabled(self, _: int):
@@ -193,7 +194,7 @@ class InputsWidget(QWidget, Ui_Form):
                 return
             p1 = _variable_int(item.text())
 
-        # Check DOF.
+        # Check DOF
         if self.dof() <= self.input_count():
             QMessageBox.warning(
                 self,
@@ -202,9 +203,8 @@ class InputsWidget(QWidget, Ui_Form):
             )
             return
 
-        # Check same link.
-        vpoints = self.EntitiesPoint.data_tuple()
-        if not vpoints[p0].same_link(vpoints[p1]):
+        # Check same link
+        if not self.vpoints[p0].same_link(self.vpoints[p1]):
             QMessageBox.warning(
                 self,
                 "Wrong pair",
@@ -212,9 +212,9 @@ class InputsWidget(QWidget, Ui_Form):
             )
             return
 
-        # Check repeated pairs.
+        # Check repeated pairs
         for p0_, p1_, a in self.input_pairs():
-            if {p0, p1} == {p0_, p1_} and vpoints[p0].type == VJoint.R:
+            if {p0, p1} == {p0_, p1_} and self.vpoints[p0].type == VJoint.R:
                 QMessageBox.warning(
                     self,
                     "Wrong pair",
@@ -226,13 +226,13 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.beginMacro(f"Add variable of {name}")
         if p0 == p1:
             # One joint by offset.
-            value = vpoints[p0].true_offset()
+            value = self.vpoints[p0].true_offset()
         else:
             # Two joints by angle.
-            value = vpoints[p0].slope_angle(vpoints[p1])
+            value = self.vpoints[p0].slope_angle(self.vpoints[p1])
         self.CommandStack.push(AddInput('->'.join((
             name,
-            f'Point{p1}',
+            f"Point{p1}",
             f"{value:.02f}",
         )), self.variable_list))
         self.CommandStack.endMacro()
@@ -350,12 +350,11 @@ class InputsWidget(QWidget, Ui_Form):
             self.variable_play.setChecked(False)
             self.inputs_play_shaft.stop()
         self.EntitiesPoint.get_back_position()
-        vpoints = self.EntitiesPoint.data_tuple()
         for i, (p0, p1, a) in enumerate(self.input_pairs()):
             self.variable_list.item(i).setText('->'.join([
                 f'Point{p0}',
                 f'Point{p1}',
-                f"{vpoints[p0].slope_angle(vpoints[p1]):.02f}",
+                f"{self.vpoints[p0].slope_angle(self.vpoints[p1]):.02f}",
             ]))
         self.__dial_ok()
         self.solve()

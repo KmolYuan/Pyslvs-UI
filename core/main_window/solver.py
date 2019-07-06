@@ -59,30 +59,28 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + Python-Solvespace
         + Sketch Solve
         """
-        vpoints = self.entities_point.data_tuple()
-        solve_kernel = self.planar_solver_option.currentIndex()
-
         for b, d, a in self.inputs_widget.input_pairs():
             if b == d:
-                vpoints[b].set_offset(a)
+                self.vpoint_list[b].set_offset(a)
 
+        solve_kernel = self.planar_solver_option.currentIndex()
         try:
             if solve_kernel == 0:
                 result = expr_solving(
                     self.get_triangle(),
-                    {n: f'P{n}' for n in range(len(vpoints))},
-                    vpoints,
+                    {n: f'P{n}' for n in range(len(self.vpoint_list))},
+                    self.vpoint_list,
                     tuple(a for b, d, a in self.inputs_widget.input_pairs() if b != d)
                 )
             elif solve_kernel == 1:
                 result, _ = slvs_solve(
-                    vpoints,
+                    self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
                     if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
                 result = vpoint_solving(
-                    vpoints,
+                    self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
                 )
             else:
@@ -104,7 +102,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 else:
                     c1, c2 = c
                     self.vpoint_list[i].move(c1, c2)
-            self.dof = vpoint_dof(vpoints)
+            self.dof = vpoint_dof(self.vpoint_list)
             self.DOFview.setText(f"{self.dof} ({self.inputs_widget.input_count()})")
             self.conflict.setVisible(False)
             self.DOFview.setVisible(True)
@@ -337,7 +335,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         Special function for VPoints.
         """
         if vpoints is None:
-            vpoints = self.entities_point.data_tuple()
+            vpoints = self.vpoint_list
         status = {}
         exprs = vpoints_configure(
             vpoints,
@@ -366,8 +364,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
     def reload_canvas(self):
         """Update main canvas data, without resolving."""
         self.main_canvas.update_figure(
-            self.entities_point.data_tuple(),
-            self.entities_link.data_tuple(),
             self.get_triangle().as_list(),
             self.inputs_widget.current_path()
         )

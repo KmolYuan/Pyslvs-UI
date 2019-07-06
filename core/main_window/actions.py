@@ -126,11 +126,10 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.command_stack.beginMacro(
             f"Merge {{{points_text}}} as multiple joint {{Point{row}}}"
         )
-        vpoints = self.entities_point.data_tuple()
-        links = list(vpoints[row].links)
+        links = list(self.vpoint_list[row].links)
         args = self.entities_point.row_data(row)
         for point in sorted(points, reverse=True):
-            for link in vpoints[point].links:
+            for link in self.vpoint_list[point].links:
                 if link not in links:
                     links.append(link)
             self.delete_point(point)
@@ -155,13 +154,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         links_text = ", ".join(self.entities_link.item(link, 0).text() for link in links)
         name = self.entities_link.item(row, 0).text()
         self.command_stack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
-        vlinks = self.entities_link.data_tuple()
-        points = list(vlinks[row].points)
+        points = list(self.vlink_list[row].points)
         args = self.entities_link.row_data(row)
         for link in sorted(links, reverse=True):
-            if vlinks[link].name == vlinks[row].name:
+            if self.vlink_list[link].name == self.vlink_list[row].name:
                 continue
-            for point in vlinks[link].points:
+            for point in self.vlink_list[link].points:
                 if point not in points:
                     points.append(point)
             self.delete_link(link)

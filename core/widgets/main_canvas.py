@@ -62,16 +62,8 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.__set_selection_mode = parent.entities_tab.setCurrentIndex
         self.__selection_mode = parent.entities_tab.currentIndex
 
-    def update_figure(
-        self,
-        vpoints: Sequence[VPoint],
-        vlinks: Sequence[VLink],
-        exprs: List[Tuple[str, ...]],
-        path: List[_Coord]
-    ):
+    def update_figure(self, exprs: List[Tuple[str, ...]], path: List[_Coord]):
         """Update with Point and Links data."""
-        self.vpoints = vpoints
-        self.vlinks = vlinks
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
         self.path.path = path
