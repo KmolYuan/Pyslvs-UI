@@ -88,7 +88,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
 
         self.itemSelectionChanged.connect(__emit_selection_changed)
 
-    def row_text(self, row: int, *, has_name: bool = False) -> List[str]:
+    def row_text(self, row: int, *, has_name: bool) -> List[str]:
         """Get the whole row of texts.
 
         + Edit point: has_name = False
@@ -231,7 +231,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
         """Return expression string."""
         return "M[" + ", ".join(vpoint.expr() for vpoint in self.data()) + "]"
 
-    def edit_point(self, row: int, links: str, type_str: str, color: str, x: str, y: str):
+    def edit_point(self, row: int, links: str, type_str: str, color: str, x: float, y: float):
         """Edit a point."""
         for i, e in enumerate([f'Point{row}', links, type_str, color, x, y, f"({x}, {y})"]):
             item = QTableWidgetItem(str(e))
@@ -239,6 +239,13 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             if i == 3:
                 item.setIcon(color_icon(e))
             self.setItem(row, i, item)
+
+    def row_data(self, row: int) -> List[Union[str, float]]:
+        """Return row data for 'edit_point' method."""
+        row_text: List[Union[str, float]] = self.row_text(row, has_name=False)
+        for i in (3, 4):
+            row_text[i] = float(row_text[i]) if row_text[i] else 0.
+        return row_text
 
     def rename(self, row: int):
         """When index changed, the points need to rename."""
@@ -339,6 +346,10 @@ class LinkTableWidget(BaseTableWidget[VLink]):
             if i == 1:
                 item.setIcon(color_icon(e))
             self.setItem(row, i, item)
+
+    def row_data(self, row: int) -> List[str]:
+        """Return row data for 'edit_link' method."""
+        return self.row_text(row, has_name=True)
 
     def find_name(self, name: str) -> int:
         """Return row index by input name."""

@@ -43,6 +43,7 @@ from core.libs import (
     __version__,
     kernel_list,
     VPoint,
+    VLink,
     Graph,
 )
 from core.io import YamlEditor, DatabaseWidget
@@ -85,6 +86,10 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__point_context_menu()
         self.__link_context_menu()
         self.__canvas_context_menu()
+
+        # Entities list
+        self.vpoint_list: List[VPoint] = []
+        self.vlink_list = [VLink('ground', '', ())]
 
         # Environment path
         self.env = ""

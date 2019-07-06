@@ -329,9 +329,11 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                         self.add_link(link_name, 'Blue')
                 row_count = self.entities_point.rowCount()
                 self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
-                self.command_stack.push(AddTable(self.entities_point))
+                self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
                 self.command_stack.push(EditPointTable(
                     row_count,
+                    self.vpoint_list,
+                    self.vlink_list,
                     self.entities_point,
                     self.entities_link,
                     args

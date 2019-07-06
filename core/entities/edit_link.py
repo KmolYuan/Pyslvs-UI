@@ -58,9 +58,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         for i, e in enumerate(color_names):
             self.color_box.insertItem(i, color_icon(e), e)
         for i in range(len(self.vpoints)):
-            self.noSelected.addItem(
-                QListWidgetItem(self.point_icon, f'Point{i}')
-            )
+            self.noSelected.addItem(QListWidgetItem(self.point_icon, f'Point{i}'))
         if row is False:
             self.name_box.addItem(icon, "New link")
             self.name_box.setEnabled(False)
@@ -81,10 +79,10 @@ class EditLinkDialog(QDialog, Ui_Dialog):
 
     def __legal_name(self, name: str) -> bool:
         """Return this name is usable or not."""
-        if not match("^[A-Za-z0-9_-]*$", name):
+        if not match("^[A-Za-z0-9_-]+$", name):
             return False
         for i, vlink in enumerate(self.vlinks):
-            if (i != self.name_box.currentIndex()) and (name == vlink.name):
+            if i != self.name_box.currentIndex() and name == vlink.name:
                 return False
         return True
 
@@ -106,15 +104,11 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             self.noSelected.clear()
             self.selected.clear()
             for p in vlink.points:
-                self.selected.addItem(
-                    QListWidgetItem(self.point_icon, f'Point{p}')
-                )
+                self.selected.addItem(QListWidgetItem(self.point_icon, f'Point{p}'))
             for p in range(len(self.vpoints)):
                 if p in vlink.points:
                     continue
-                self.noSelected.addItem(
-                    QListWidgetItem(self.point_icon, f'Point{p}')
-                )
+                self.noSelected.addItem(QListWidgetItem(self.point_icon, f'Point{p}'))
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.color_pick_button):
             widget.setEnabled(not_ground)
@@ -129,10 +123,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @Slot(name='on_color_pick_button_clicked')
     def __set_rgb(self):
         """Add a custom color from current color."""
-        color = QColorDialog.getColor(
-            color_qt(self.color_box.currentText()),
-            self
-        )
+        color = QColorDialog.getColor(color_qt(self.color_box.currentText()), self)
         if not color.isValid():
             return
         rgb_str = str((color.red(), color.green(), color.blue()))

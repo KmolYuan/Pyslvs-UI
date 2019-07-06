@@ -128,16 +128,18 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         )
         vpoints = self.entities_point.data_tuple()
         links = list(vpoints[row].links)
-        args = self.entities_point.row_text(row)
+        args = self.entities_point.row_data(row)
         for point in sorted(points, reverse=True):
             for link in vpoints[point].links:
                 if link not in links:
                     links.append(link)
             self.delete_point(point)
         args[0] = ','.join(links)
-        self.command_stack.push(AddTable(self.entities_point))
+        self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
         self.command_stack.push(EditPointTable(
             self.entities_point.rowCount() - 1,
+            self.vpoint_list,
+            self.vlink_list,
             self.entities_point,
             self.entities_link,
             args
@@ -155,7 +157,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.command_stack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
         vlinks = self.entities_link.data_tuple()
         points = list(vlinks[row].points)
-        args = self.entities_link.row_text(row, has_name=True)
+        args = self.entities_link.row_data(row)
         for link in sorted(links, reverse=True):
             if vlinks[link].name == vlinks[row].name:
                 continue
@@ -164,10 +166,13 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                     points.append(point)
             self.delete_link(link)
         args[2] = ','.join(f'Point{p}' for p in points)
+        row = [vlink.name for vlink in self.entities_link.data()].index(args[0])
         self.command_stack.push(EditLinkTable(
-            [vlink.name for vlink in self.entities_link.data()].index(args[0]),
-            self.entities_link,
+            row,
+            self.vpoint_list,
+            self.vlink_list,
             self.entities_point,
+            self.entities_link,
             args
         ))
         self.command_stack.endMacro()
