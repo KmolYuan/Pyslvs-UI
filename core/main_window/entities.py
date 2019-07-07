@@ -247,9 +247,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(float, float)
-    def q_add_normal_point(self, x: float, y: float):
+    def add_point_by_pos(self, x: float, y: float):
         """Add point group using alt key."""
-        if self.synthesis_tab_widget.currentIndex() == 2:
+        if self.main_panel.currentIndex() == self.synthesis_tab_widget.currentIndex() == 2:
             self.add_target_point()
         else:
             self.add_point(x, y)

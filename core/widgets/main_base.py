@@ -235,7 +235,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.addAction(clean_selection_action)
 
         self.main_canvas.free_moved.connect(self.set_free_move)
-        self.main_canvas.alt_add.connect(self.q_add_normal_point)
+        self.main_canvas.alt_add.connect(self.add_point_by_pos)
         self.main_canvas.doubleclick_edit.connect(self.edit_point)
         self.main_canvas.zoom_changed.connect(self.zoom_bar.setValue)
         self.main_canvas.tracking.connect(self.set_mouse_pos)
@@ -710,7 +710,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def q_add_normal_point(self, x: float, y: float) -> None:
+    def add_point_by_pos(self, x: float, y: float) -> None:
         ...
 
     @abstractmethod

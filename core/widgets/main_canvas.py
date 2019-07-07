@@ -28,7 +28,6 @@ from core.QtModules import (
     QCursor,
     QToolTip,
 )
-from core.libs import VPoint, VLink
 from .main_canvas_method import (
     DynamicCanvasInterface,
     FreeMode,
@@ -55,12 +54,12 @@ class DynamicCanvas(DynamicCanvasInterface):
     def __init__(self, parent: MainWindowBase):
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
-        self.__set_zoom = parent.zoom_bar.setValue
-        self.__zoom = parent.zoom_bar.value
-        self.__zoom_factor = parent.scalefactor_option.value
+        self.set_zoom_bar = parent.zoom_bar.setValue
+        self.zoom_value = parent.zoom_bar.value
+        self.zoom_factor = parent.scalefactor_option.value
         # Dependent functions to set selection mode.
-        self.__set_selection_mode = parent.entities_tab.setCurrentIndex
-        self.__selection_mode = parent.entities_tab.currentIndex
+        self.set_selection_mode = parent.entities_tab.setCurrentIndex
+        self.selection_mode = parent.entities_tab.currentIndex
 
     def update_figure(self, exprs: List[Tuple[str, ...]], path: List[_Coord]):
         """Update with Point and Links data."""
@@ -116,13 +115,13 @@ class DynamicCanvas(DynamicCanvasInterface):
         """Update zoom factor."""
         zoom_old = self.zoom
         self.zoom = zoom / 100 * self.rate
-        dz = zoom_old - self.zoom
+        zoom_old -= self.zoom
         if self.zoomby == 0:
             pos = self.mapFromGlobal(QCursor.pos())
         else:
             pos = QPointF(self.width() / 2, self.height() / 2)
-        self.ox += (pos.x() - self.ox) / self.zoom * dz
-        self.oy += (pos.y() - self.oy) / self.zoom * dz
+        self.ox += (pos.x() - self.ox) / self.zoom * zoom_old
+        self.oy += (pos.y() - self.oy) / self.zoom * zoom_old
         self.update()
 
     def set_show_target_path(self, show_target_path: bool):
@@ -277,13 +276,13 @@ class DynamicCanvas(DynamicCanvasInterface):
         """
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            self.__set_selection_mode(self.__selection_mode() + (-1 if value > 0 else 1))
-            i = self.__selection_mode()
+            self.set_selection_mode(self.selection_mode() + (-1 if value > 0 else 1))
+            i = self.selection_mode()
             icons = ''.join(
                 f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"
                 for j, icon in enumerate(('bearing', 'link', 'configure'))
             )
             QToolTip.showText(event.globalPos(), f"<p style=\"background-color: # 77abff\">{icons}</p>", self)
         else:
-            self.__set_zoom(self.__zoom() + self.__zoom_factor() * (1 if value > 0 else -1))
+            self.set_zoom_bar(self.zoom_value() + self.zoom_factor() * (1 if value > 0 else -1))
         event.accept()
