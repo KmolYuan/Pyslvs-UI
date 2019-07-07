@@ -186,9 +186,9 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.__workbook_saved = parent.workbook_saved
 
         # Call to get point expressions.
-        self.__point_expr_func = parent.entities_point.expression
+        self.__point_expr_func = lambda: "M[" + ", ".join(p.expr() for p in parent.vpoint_list) + "]"
         # Call to get link data.
-        self.__link_expr_func = parent.entities_link.colors
+        self.__link_color_func = lambda: {l.name: l.color_str for l in parent.vlink_list}
         # Call to get storage data.
         self.__storage_data_func = parent.get_storage
         # Call to get collections data.
@@ -334,7 +334,7 @@ class DatabaseWidget(QWidget, Ui_Form):
                 'author': author_model,
                 'description': commit_text,
                 'mechanism': _compress(self.__point_expr_func()),
-                'linkcolor': _compress(self.__link_expr_func()),
+                'linkcolor': _compress(self.__link_color_func()),
                 'storage': _compress(list(self.__storage_data_func())),
                 'pathdata': _compress(self.__path_data_func()),
                 'collectiondata': _compress(self.__collect_data_func()),

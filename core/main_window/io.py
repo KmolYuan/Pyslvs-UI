@@ -71,7 +71,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Solvespace edges."""
 
         def func() -> Iterator[Tuple[int, int]]:
-            for vlink in self.entities_link.data():
+            for vlink in self.vlink_list:
                 if vlink.name == 'ground':
                     continue
                 for i, p in enumerate(vlink.points):
@@ -322,9 +322,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         else:
             for args in args_list:
                 links = args[0].split(',')
-                link_names = {
-                    vlink.name for vlink in self.entities_link.data()
-                }
+                link_names = {vlink.name for vlink in self.vlink_list}
                 for link_name in links:
                     # If link name not exist.
                     if link_name not in link_names:
@@ -573,7 +571,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_exprsion_triggered')
     def __show_expr(self):
         """Output as expression."""
-        context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.entities_point.data())
+        context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.vpoint_list)
         dlg = ScriptDialog(
             f"# Generate by Pyslvs {__version__}\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
@@ -594,7 +592,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             f"# Generate by Pyslvs {__version__}\n"
             f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
             slvs_process_script(
-                tuple(vpoint.expr() for vpoint in self.entities_point.data()),
+                tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
             ),
             Python3Lexer(),

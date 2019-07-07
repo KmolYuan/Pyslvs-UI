@@ -457,7 +457,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if base == -1:
             return
         self.link_free_move_other.clear()
-        for link in self.entities_point.item_data(base).links:
+        for link in self.vpoint_list[base].links:
             if link == 'ground':
                 continue
             for i in self.vlink_list[self.entities_link.find_name(link)].points:
@@ -473,8 +473,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if not p:
             return
 
-        vpoint1 = self.entities_point.item_data(self.link_free_move_base.currentIndex())
-        vpoint2 = self.entities_point.item_data(int(p.replace("Point", "")))
+        vpoint1 = self.vpoint_list[self.link_free_move_base.currentIndex()]
+        vpoint2 = self.vpoint_list[int(p.replace("Point", ""))]
         distance = hypot(vpoint2.cx - vpoint1.cx, vpoint2.cy - vpoint1.cy)
         self.link_free_move_spinbox.blockSignals(True)
         self.link_free_move_spinbox.setValue(distance)

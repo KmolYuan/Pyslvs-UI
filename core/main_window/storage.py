@@ -53,7 +53,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             self.mechanism_storage_name_tag.placeholderText()
         )
         self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
-        exprs = ", ".join(vpoint.expr() for vpoint in self.entities_point.data())
+        exprs = ", ".join(vpoint.expr() for vpoint in self.vpoint_list)
         self.__add_storage(name, f"M[{exprs}]")
         self.command_stack.push(ClearStorageName(self.mechanism_storage_name_tag))
         self.command_stack.endMacro()

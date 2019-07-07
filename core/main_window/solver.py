@@ -215,15 +215,13 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         Return edges data, grounded list, variable list and multiple joints.
         VLinks will become graph nodes.
         """
-        vpoints = list(self.entities_point.data())
-        vlinks = list(self.entities_link.data())
-        link_names = [vlink.name for vlink in vlinks]
+        link_names = [vlink.name for vlink in self.vlink_list]
         input_pair = set()
         for b, d, _ in self.inputs_widget.input_pairs():
             input_pair.update({b, d})
 
         # links name for RP joint.
-        k = len(vlinks)
+        k = len(self.vlink_list)
 
         graph = Graph([])
         grounded_list = []
@@ -232,12 +230,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         used_point = set()
         mapping = {}
         # Link names will change to index number.
-        for i, vlink in enumerate(vlinks):
+        for i, vlink in enumerate(self.vlink_list):
             for p in vlink.points:
                 if p in used_point:
                     continue
 
-                vpoint = vpoints[p]
+                vpoint = self.vpoint_list[p]
                 base_num = len(graph.edges)
                 mapping[p] = base_num
                 pos[base_num] = (vpoint.x, vpoint.y)
@@ -270,7 +268,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         counter = len(graph.edges)
         cus = {}
-        for vpoint in vpoints:
+        for vpoint in self.vpoint_list:
             if len(vpoint.links) == 1:
                 cus[counter] = link_names.index(vpoint.links[0])
                 counter += 1
@@ -295,7 +293,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         + cus
         + same
         """
-        for vpoint in self.entities_point.data():
+        for vpoint in self.vpoint_list:
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
 

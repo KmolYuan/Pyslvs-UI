@@ -113,8 +113,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.input_from = parent.input_from
-        self.jointDataFunc = parent.entities_point.data_tuple
-        self.linkDataFunc = parent.entities_link.data_tuple
+        self.vpoints = parent.vpoint_list
+        self.vlinks = parent.vlink_list
         self.get_graph = parent.get_graph
         self.is_monochrome = parent.monochrome_option.isChecked
 
@@ -176,9 +176,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     @Slot(name='on_from_mechanism_button_clicked')
     def __from_mechanism(self):
         """Reload button: Auto-combine the mechanism from the workbook."""
-        joint_data = self.jointDataFunc()
-        link_data = self.linkDataFunc()
-        if joint_data and link_data:
+        if self.vpoints and self.vlinks:
             graph, _, _, _, _, _ = self.get_graph()
             self.edges_text.setText(str(graph.edges))
         else:
@@ -187,15 +185,15 @@ class StructureSynthesis(QWidget, Ui_Form):
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.nl_input.setValue(
-            sum(len(vlink.points) > 1 for vlink in link_data) +
+            sum(len(vlink.points) > 1 for vlink in self.vlinks) +
             sum(
-                len(vpoint.links) - 2 for vpoint in joint_data
+                len(vpoint.links) - 2 for vpoint in self.vpoints
                 if vpoint.type == VJoint.RP and len(vpoint.links) > 1
             )
         )
         self.nj_input.setValue(sum(
             (len(vpoint.links) - 1 + int(vpoint.type == VJoint.RP))
-            for vpoint in joint_data if len(vpoint.links) > 1
+            for vpoint in self.vpoints if len(vpoint.links) > 1
         ))
         self.keep_dof.setChecked(keep_dof_checked)
 

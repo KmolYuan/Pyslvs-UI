@@ -108,19 +108,6 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         """Return valid column range for row text."""
         ...
 
-    @abstractmethod
-    def item_data(self, row: int) -> _Data:
-        """Return a table data by row index."""
-        ...
-
-    def data(self) -> Iterator[_Data]:
-        """Return table data in subclass."""
-        yield from (self.item_data(row) for row in range(self.rowCount()))
-
-    def data_tuple(self) -> Tuple[_Data, ...]:
-        """Return data set as a container."""
-        return tuple(self.data())
-
     def selected_rows(self) -> List[int]:
         """Get what row is been selected."""
         return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
@@ -206,30 +193,6 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             'Y',
             'Current',
         ), parent)
-
-    def item_data(self, row: int) -> VPoint:
-        """Return data of VPoint."""
-        links = self.item(row, 1).text()
-        color = self.item(row, 3).text()
-        x = float(self.item(row, 4).text())
-        y = float(self.item(row, 5).text())
-        # p_type = (type: str, angle: float)
-        p_type = self.item(row, 2).text().split(':')
-        if p_type[0] == 'R':
-            j_type = VJoint.R
-            angle = 0.
-        else:
-            angle = float(p_type[1])
-            j_type = VJoint.P if p_type[0] == 'P' else VJoint.RP
-        vpoint = VPoint([
-            link for link in links.replace(" ", '').split(',') if link
-        ], j_type, angle, color, x, y, color_rgb)
-        vpoint.move(*self.current_position(row))
-        return vpoint
-
-    def expression(self) -> str:
-        """Return expression string."""
-        return "M[" + ", ".join(vpoint.expr() for vpoint in self.data()) + "]"
 
     def edit_point(self, row: int, links: str, type_str: str, color: str, x: float, y: float):
         """Edit a point."""
@@ -317,20 +280,6 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
         self.edit_link(0, 'ground', 'White', '')
-
-    def item_data(self, row: int) -> VLink:
-        """Return data of VLink."""
-        name = self.item(row, 0).text()
-        color = self.item(row, 1).text()
-        points = []
-        for p in self.item(row, 2).text().split(','):
-            if p:
-                points.append(int(p.replace('Point', '')))
-        return VLink(name, color, tuple(points), color_rgb)
-
-    def colors(self) -> Dict[str, str]:
-        """Return name and color as a dict."""
-        return {vlink.name: vlink.color_str for vlink in self.data()}
 
     def edit_link(
         self,
@@ -457,7 +406,7 @@ class SelectionLabel(QLabel):
     def __init__(self, parent: MainWindowBase):
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
-        self.data_tuple = parent.entities_point.data_tuple
+        self.vpoints = parent.vpoint_list
 
     @Slot()
     @Slot(list)
@@ -471,16 +420,16 @@ class SelectionLabel(QLabel):
             return
         text = "Selected: "
         text += " - ".join(str(p) for p in points)
-        vpoints = self.data_tuple()
         if p_count > 1:
             distances = []
             angles = []
             for i in range(min(p_count, 3)):
-                if i != 0:
-                    vpoint0 = vpoints[points[i - 1]]
-                    vpoint1 = vpoints[points[i]]
-                    distances.append(f"{vpoint1.distance(vpoint0):.04}")
-                    angles.append(f"{vpoint0.slope_angle(vpoint1):.04}°")
+                if i == 0:
+                    continue
+                vpoint0 = self.vpoints[points[i - 1]]
+                vpoint1 = self.vpoints[points[i]]
+                distances.append(f"{vpoint1.distance(vpoint0):.04}")
+                angles.append(f"{vpoint0.slope_angle(vpoint1):.04}°")
             ds_t = ", ".join(distances)
             as_t = ", ".join(angles)
             text += f" | {ds_t} | {as_t}"
