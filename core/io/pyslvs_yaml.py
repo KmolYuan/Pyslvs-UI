@@ -39,9 +39,9 @@ class YamlEditor(QObject):
         super(YamlEditor, self).__init__(parent)
 
         # Check file changed function
-        self.__check_file_changed = parent.check_file_changed
+        self.check_file_changed = parent.check_file_changed
         # Check workbook saved function
-        self.__workbook_saved = parent.workbook_saved
+        self.workbook_saved = parent.workbook_saved
 
         # Call to get point expressions
         self.vpoints = parent.vpoint_list
@@ -80,10 +80,9 @@ class YamlEditor(QObject):
 
         # Clear function for main window
         self.clear_func = parent.clear
-
         # File name (Share with database)
         self.set_file_name = parent.database_widget.set_file_name
-        self.file_name = lambda: parent.database_widget.file_name
+        self.file_name = parent.database_widget.file_name
 
     def save(self, file_name: str = ""):
         """Save YAML file."""
@@ -119,7 +118,7 @@ class YamlEditor(QObject):
 
     def load(self, file_name: str):
         """Load YAML file."""
-        if self.__check_file_changed():
+        if self.check_file_changed():
             return
 
         # Clear first
@@ -215,7 +214,7 @@ class YamlEditor(QObject):
         dlg.setValue(8)
         dlg.deleteLater()
         self.set_file_name(file_name)
-        self.__workbook_saved()
+        self.workbook_saved()
 
         # Show overview dialog
         dlg = OverviewDialog(

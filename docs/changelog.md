@@ -7,6 +7,7 @@
 **Development**:
 
 + Add backend data instead of UI table items.
++ Attributes refactor of file system.
 
 # Version 19.06
 

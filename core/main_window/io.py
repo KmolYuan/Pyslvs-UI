@@ -181,7 +181,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_title_full_path_option_clicked')
     def __set_window_title_full_path(self):
         """Set the option 'window title will show the full path'."""
-        file_name = self.database_widget.file_name
+        file_name = self.database_widget.file_name()
         if self.title_full_path_option.isChecked():
             title = file_name.absoluteFilePath()
         else:
@@ -387,7 +387,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_save_triggered')
     def save(self):
         """Save action. (YAML)"""
-        if self.database_widget.file_name.completeSuffix() == 'pyslvs.yml':
+        if self.database_widget.file_name().completeSuffix() == 'pyslvs.yml':
             self.yaml_editor.save()
             self.workbook_saved()
         else:
@@ -405,8 +405,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_commit_triggered')
     def commit(self, is_branch: bool = False):
         """Save action. (Database)"""
-        file_name = self.database_widget.file_name.absoluteFilePath()
-        if self.database_widget.file_name.suffix() == 'pyslvs':
+        file_name = self.database_widget.file_name().absoluteFilePath()
+        if self.database_widget.file_name().suffix() == 'pyslvs':
             self.database_widget.save(file_name, is_branch)
         else:
             self.__commit_as(is_branch)
@@ -424,7 +424,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Solvespace 2d save function."""
         dlg = SlvsOutputDialog(
             self.env,
-            self.database_widget.file_name.baseName(),
+            self.database_widget.file_name().baseName(),
             self.vpoint_list,
             self.__v_to_slvs(),
             self
@@ -442,7 +442,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """DXF 2d save function."""
         dlg = DxfOutputDialog(
             self.env,
-            self.database_widget.file_name.baseName(),
+            self.database_widget.file_name().baseName(),
             self.vpoint_list,
             self.__v_to_slvs(),
             self
@@ -470,7 +470,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
             f"Save to {format_name}...",
-            self.env + '/' + self.database_widget.file_name.baseName(),
+            self.env + '/' + self.database_widget.file_name().baseName(),
             ';;'.join(format_choose)
         )
         if file_name:
@@ -574,7 +574,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.vpoint_list)
         dlg = ScriptDialog(
             f"# Generate by Pyslvs {__version__}\n"
-            f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
+            f"# Project \"{self.database_widget.file_name().baseName()}\"\n" +
             (f"M[\n{context}\n]" if context else "M[]"),
             PMKSLexer(),
             "Pyslvs expression",
@@ -590,7 +590,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
             f"# Generate by Pyslvs {__version__}\n"
-            f"# Project \"{self.database_widget.file_name.baseName()}\"\n" +
+            f"# Project \"{self.database_widget.file_name().baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
@@ -728,10 +728,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(int)
     def command_reload(self, index: int):
         """The time of withdrawal and redo action."""
-        if index != self.database_widget.Stack:
-            self.workbook_no_save()
-        else:
-            self.workbook_saved()
+        self.workbook_no_save()
         self.entities_point.clearSelection()
 
         # Variable reload for link adjust function.

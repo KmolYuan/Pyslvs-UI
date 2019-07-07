@@ -21,7 +21,7 @@ from typing import (
     Optional,
     Any,
 )
-import datetime
+from datetime import datetime
 from zlib import compress, decompress
 from peewee import (
     SqliteDatabase,
@@ -108,7 +108,7 @@ class CommitModel(Model):
     previous = ForeignKeyField('self', related_name='next', null=True)
     branch = ForeignKeyField(BranchModel, null=True)
 
-    date = DateTimeField(default=datetime.datetime.now)
+    date = DateTimeField(default=datetime.now)
 
     author = ForeignKeyField(UserModel, null=True)
     description = CharField()
@@ -166,84 +166,74 @@ class DatabaseWidget(QWidget, Ui_Form):
     def __init__(self, parent: MainWindowBase):
         super(DatabaseWidget, self).__init__(parent)
         self.setupUi(self)
+        self.CommitTable.setColumnWidth(0, 70)  # ID
+        self.CommitTable.setColumnWidth(1, 70)  # Date
+        self.CommitTable.setColumnWidth(2, 130)  # Description
+        self.CommitTable.setColumnWidth(3, 70)  # Author
+        self.CommitTable.setColumnWidth(4, 70)  # Previous
+        self.CommitTable.setColumnWidth(5, 70)  # Branch
 
-        # ID
-        self.CommitTable.setColumnWidth(0, 70)
-        # Date
-        self.CommitTable.setColumnWidth(1, 70)
-        # Description
-        self.CommitTable.setColumnWidth(2, 130)
-        # Author
-        self.CommitTable.setColumnWidth(3, 70)
-        # Previous
-        self.CommitTable.setColumnWidth(4, 70)
-        # Branch
-        self.CommitTable.setColumnWidth(5, 70)
+        # Check file changed function
+        self.check_file_changed = parent.check_file_changed
+        # Check workbook saved function
+        self.workbook_saved = parent.workbook_saved
 
-        # Check file changed function.
-        self.__check_file_changed = parent.check_file_changed
-        # Check workbook saved function.
-        self.__workbook_saved = parent.workbook_saved
+        # Call to get point expressions
+        self.point_expr_func = lambda: "M[" + ", ".join(p.expr() for p in parent.vpoint_list) + "]"
+        # Call to get link data
+        self.link_color_func = lambda: {l.name: l.color_str for l in parent.vlink_list}
+        # Call to get storage data
+        self.storage_data_func = parent.get_storage
+        # Call to get collections data
+        self.collect_data_func = parent.collection_tab_page.collect_data
+        # Call to get triangle data
+        self.triangle_data_func = parent.collection_tab_page.triangle_data
+        # Call to get inputs variables data
+        self.inputs_data_func = parent.inputs_widget.input_pairs
+        # Call to get algorithm data
+        self.algorithm_data_func = lambda: parent.dimensional_synthesis.mechanism_data
+        # Call to get path data
+        self.path_data_func = parent.inputs_widget.path_data
 
-        # Call to get point expressions.
-        self.__point_expr_func = lambda: "M[" + ", ".join(p.expr() for p in parent.vpoint_list) + "]"
-        # Call to get link data.
-        self.__link_color_func = lambda: {l.name: l.color_str for l in parent.vlink_list}
-        # Call to get storage data.
-        self.__storage_data_func = parent.get_storage
-        # Call to get collections data.
-        self.__collect_data_func = parent.collection_tab_page.collect_data
-        # Call to get triangle data.
-        self.__triangle_data_func = parent.collection_tab_page.triangle_data
-        # Call to get inputs variables data.
-        self.__inputs_data_func = parent.inputs_widget.input_pairs
-        # Call to get algorithm data.
-        self.__algorithm_data_func = lambda: parent.dimensional_synthesis.mechanism_data
-        # Call to get path data.
-        self.__path_data_func = parent.inputs_widget.path_data
+        # Add empty links function
+        self.add_links_func = parent.add_empty_links
+        # Parse function
+        self.parse_func = parent.parse_expression
 
-        # Add empty links function.
-        self.__add_links_func = parent.add_empty_links
-        # Parse function.
-        self.__parse_func = parent.parse_expression
+        # Call to load inputs variables data
+        self.load_inputs_func = parent.inputs_widget.add_inputs_variables
+        # Add storage function
+        self.add_storage_func = parent.add_multiple_storage
+        # Call to load paths
+        self.load_path_func = parent.inputs_widget.load_paths
+        # Call to load collections data
+        self.load_collect_func = parent.collection_tab_page.structure_widget.add_collections
+        # Call to load triangle data
+        self.load_triangle_func = parent.collection_tab_page.configure_widget.add_collections
+        # Call to load algorithm results
+        self.load_algorithm_func = parent.dimensional_synthesis.load_results
 
-        # Call to load inputs variables data.
-        self.__load_inputs_func = parent.inputs_widget.add_inputs_variables
-        # Add storage function.
-        self.__add_storage_func = parent.add_multiple_storage
-        # Call to load paths.
-        self.__load_path_func = parent.inputs_widget.load_paths
-        # Call to load collections data.
-        self.__load_collect_func = parent.collection_tab_page.structure_widget.add_collections
-        # Call to load triangle data.
-        self.__load_triangle_func = parent.collection_tab_page.configure_widget.add_collections
-        # Call to load algorithm results.
-        self.__load_algorithm_func = parent.dimensional_synthesis.load_results
-
-        # Clear function for main window.
-        self.__clear_func = parent.clear
+        # Clear function for main window
+        self.clear_func = parent.clear
 
         # Close database when destroyed.
         self.destroyed.connect(self.__close_database)
         # Undo Stack
-        self.__command_clear = parent.command_stack.clear
-
+        self.command_clear = parent.command_stack.clear
         # Reset
         self.history_commit = None
-        self.file_name = QFileInfo("Untitled")
-        self.last_time = datetime.datetime.now()
+        self.__file_name = QFileInfo("Untitled")
+        self.last_time = datetime.now()
         self.changed = False
-        self.Stack = 0
         self.reset()
 
     def reset(self):
         """Clear all the things that dependent on database."""
         self.history_commit: Optional[CommitModel] = None
-        self.file_name = QFileInfo("Untitled")
-        self.last_time = datetime.datetime.now()
+        self.__file_name = QFileInfo("Untitled")
+        self.last_time = datetime.now()
         self.changed = False
-        self.Stack = 0
-        self.__command_clear()
+        self.command_clear()
         for row in range(self.CommitTable.rowCount()):
             self.CommitTable.removeRow(0)
         self.BranchList.clear()
@@ -257,7 +247,11 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     def set_file_name(self, file_name: str):
         """Set file name."""
-        self.file_name = QFileInfo(file_name)
+        self.__file_name = QFileInfo(file_name)
+
+    def file_name(self) -> QFileInfo:
+        """Expose file name."""
+        return self.__file_name
 
     def __connect_database(self, file_name: str):
         """Connect database."""
@@ -306,7 +300,7 @@ class DatabaseWidget(QWidget, Ui_Form):
             )
             if not ok:
                 return
-        if (file_name != self.file_name.absoluteFilePath()) and isfile(file_name):
+        if (file_name != self.__file_name.absoluteFilePath()) and isfile(file_name):
             os_remove(file_name)
             logger.debug("The original file has been overwritten.")
         self.__connect_database(file_name)
@@ -333,14 +327,14 @@ class DatabaseWidget(QWidget, Ui_Form):
             args = {
                 'author': author_model,
                 'description': commit_text,
-                'mechanism': _compress(self.__point_expr_func()),
-                'linkcolor': _compress(self.__link_color_func()),
-                'storage': _compress(list(self.__storage_data_func())),
-                'pathdata': _compress(self.__path_data_func()),
-                'collectiondata': _compress(self.__collect_data_func()),
-                'triangledata': _compress(self.__triangle_data_func()),
-                'inputsdata': _compress(tuple((b, d) for b, d, a in self.__inputs_data_func())),
-                'algorithmdata': _compress(self.__algorithm_data_func()),
+                'mechanism': _compress(self.point_expr_func()),
+                'linkcolor': _compress(self.link_color_func()),
+                'storage': _compress(list(self.storage_data_func())),
+                'pathdata': _compress(self.path_data_func()),
+                'collectiondata': _compress(self.collect_data_func()),
+                'triangledata': _compress(self.triangle_data_func()),
+                'inputsdata': _compress(tuple((b, d) for b, d, a in self.inputs_data_func())),
+                'algorithmdata': _compress(self.algorithm_data_func()),
                 'branch': branch_model,
             }
             try:
@@ -388,15 +382,15 @@ class DatabaseWidget(QWidget, Ui_Form):
                 "This file is a non-committed database."
             )
             return
-        self.__clear_func()
+        self.clear_func()
         self.reset()
         self.history_commit = history_commit
         for commit in self.history_commit:
             self.__add_commit(commit)
         logger.debug(f"{commit_count} commit(s) was find in database.")
         self.__load_commit(self.history_commit.order_by(-CommitModel.id).get())
-        self.file_name = QFileInfo(file_name)
-        self.__workbook_saved()
+        self.__file_name = QFileInfo(file_name)
+        self.workbook_saved()
 
     def import_mechanism(self, file_name: str):
         """Pick and import the latest mechanism from a branch."""
@@ -404,7 +398,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         commit_all = CommitModel.select().join(BranchModel)
         branch_all = BranchModel.select().order_by(BranchModel.name)
         if self.history_commit:
-            self.__connect_database(self.file_name.absoluteFilePath())
+            self.__connect_database(self.__file_name.absoluteFilePath())
         else:
             self.__close_database()
         branch_name, ok = QInputDialog.getItem(
@@ -495,11 +489,11 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     def __load_commit(self, commit: CommitModel):
         """Load the commit pointer."""
-        if self.__check_file_changed():
+        if self.check_file_changed():
             return
 
         # Clear first
-        self.__clear_func()
+        self.clear_func()
 
         # Load the commit to widgets.
         dlg = QProgressDialog(f"Loading commit # {commit.id}.", "Cancel", 0, 8, self)
@@ -512,49 +506,49 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Expression
         dlg.setValue(1)
         dlg.setLabelText("Loading mechanism ...")
-        self.__add_links_func(_decompress(commit.linkcolor))
-        self.__parse_func(_decompress(commit.mechanism))
+        self.add_links_func(_decompress(commit.linkcolor))
+        self.parse_func(_decompress(commit.mechanism))
 
         # Inputs data
         dlg.setValue(2)
         dlg.setLabelText("Loading input data ...")
         input_data: Sequence[Tuple[int, int]] = _decompress(commit.inputsdata)
-        self.__load_inputs_func(input_data)
+        self.load_inputs_func(input_data)
 
         # Storage
         dlg.setValue(3)
         dlg.setLabelText("Loading storage ...")
         storage_data: List[Tuple[str, str]] = _decompress(commit.storage)
-        self.__add_storage_func(storage_data)
+        self.add_storage_func(storage_data)
 
         # Path data
         dlg.setValue(4)
         dlg.setLabelText("Loading paths ...")
         path_data: Dict[str, Sequence[Tuple[float, float]]] = _decompress(commit.pathdata)
-        self.__load_path_func(path_data)
+        self.load_path_func(path_data)
 
         # Collection data
         dlg.setValue(5)
         dlg.setLabelText("Loading graph collections ...")
         collection_data: List[Tuple[Tuple[int, int], ...]] = _decompress(commit.collectiondata)
-        self.__load_collect_func(collection_data)
+        self.load_collect_func(collection_data)
 
         # Configuration data
         dlg.setValue(6)
         dlg.setLabelText("Loading synthesis configurations ...")
         config_data: Dict[str, Dict[str, Any]] = _decompress(commit.triangledata)
-        self.__load_triangle_func(config_data)
+        self.load_triangle_func(config_data)
 
         # Algorithm data
         dlg.setValue(7)
         dlg.setLabelText("Loading synthesis configurations ...")
         algorithm_data: List[Dict[str, Any]] = _decompress(commit.algorithmdata)
-        self.__load_algorithm_func(algorithm_data)
+        self.load_algorithm_func(algorithm_data)
 
         # Workbook loaded
         dlg.setValue(8)
         dlg.deleteLater()
-        self.__workbook_saved()
+        self.workbook_saved()
 
         # Show overview dialog.
         dlg = OverviewDialog(
@@ -573,7 +567,7 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     def __import_commit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""
-        self.__parse_func(_decompress(commit.mechanism))
+        self.parse_func(_decompress(commit.mechanism))
         logger.info("The specified phase has been merged.")
 
     @Slot(name='on_commit_stash_clicked')
@@ -583,7 +577,7 @@ class DatabaseWidget(QWidget, Ui_Form):
 
     def load_example(self, is_import: bool = False) -> bool:
         """Load example to new workbook."""
-        if self.__check_file_changed():
+        if self.check_file_changed():
             return False
         # load example by expression.
         example_name, ok = QInputDialog.getItem(
@@ -599,13 +593,13 @@ class DatabaseWidget(QWidget, Ui_Form):
         expr, inputs = example_list[example_name]
         if not is_import:
             self.reset()
-            self.__clear_func()
-        self.__parse_func(expr)
+            self.clear_func()
+        self.parse_func(expr)
         if not is_import:
             # Import without input data.
-            self.__load_inputs_func(inputs)
-        self.file_name = QFileInfo(example_name)
-        self.__workbook_saved()
+            self.load_inputs_func(inputs)
+        self.__file_name = QFileInfo(example_name)
+        self.workbook_saved()
         logger.info(f"Example \"{example_name}\" has been loaded.")
         return True
 
@@ -657,7 +651,7 @@ class DatabaseWidget(QWidget, Ui_Form):
                 "Cannot delete current branch."
             )
             return
-        file_name = self.file_name.absoluteFilePath()
+        file_name = self.__file_name.absoluteFilePath()
         # Connect on database to remove all the commit in this branch.
         with _db.atomic():
             CommitModel.delete().where(CommitModel.branch.in_(
