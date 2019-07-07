@@ -418,19 +418,19 @@ class ConfigureWidget(QWidget, Ui_Form):
     @Slot(name='on_target_button_clicked')
     def __set_target(self):
         """Show up target joints dialog."""
-        dlg = TargetsDialog(self)
+        dlg = TargetsDialog(
+            set(self.configure_canvas.pos) - self.configure_canvas.target,
+            self.configure_canvas.target,
+            self
+        )
         dlg.show()
         if not dlg.exec():
             dlg.deleteLater()
             return
 
         self.target_list.clear()
-        target_list = []
-        for target in list_texts(dlg.targets_list):
-            target_list.append(int(target.replace('P', "")))
-            self.target_list.addItem(target)
-        self.configure_canvas.set_target(target_list)
-
+        self.target_list.addItems(list_texts(dlg.targets_list))
+        self.configure_canvas.set_target(dlg.targets())
         dlg.deleteLater()
         _set_warning(self.target_label, self.target_list.count() == 0)
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
+    <width>438</width>
     <height>662</height>
    </rect>
   </property>
@@ -216,6 +216,36 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLineEdit" name="edges_text">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="expr_copy">
+           <property name="statusTip">
+            <string>Copy expression.</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="capture_graph">
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QListWidget" name="selection_window">
@@ -250,36 +280,6 @@
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLineEdit" name="edges_text">
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="expr_copy">
-               <property name="statusTip">
-                <string>Copy expression.</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="capture_graph">
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item>
             <layout class="QFormLayout" name="formLayout">
              <item row="1" column="0">
@@ -398,6 +398,20 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="symmetric_button">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Make Symmetric</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/reflect.png</normaloff>:/icons/reflect.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="configure_button">
                <property name="enabled">
                 <bool>false</bool>
@@ -415,7 +429,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="grounded_merge">
+              <widget class="QPushButton" name="merge_button">
                <property name="enabled">
                 <bool>false</bool>
                </property>

@@ -48,6 +48,7 @@ from core.libs import (
     is_planar,
     external_loop_layout,
 )
+from .dialogs.targets import TargetsDialog
 from .Ui_structure_widget import Ui_Form
 
 if TYPE_CHECKING:
@@ -84,8 +85,12 @@ class StructureWidget(QWidget, Ui_Form):
 
     def clear(self):
         """Clear all sub-widgets."""
-        self.grounded_merge.setEnabled(False)
-        self.configure_button.setEnabled(False)
+        for button in (
+            self.merge_button,
+            self.configure_button,
+            self.symmetric_button,
+        ):
+            button.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
         self.__clear_selection()
@@ -326,9 +331,12 @@ class StructureWidget(QWidget, Ui_Form):
         will be in same appearance.
         """
         item: Optional[QListWidgetItem] = self.collection_list.item(row)
-        has_item = item is not None
-        self.delete_button.setEnabled(has_item)
-        self.configure_button.setEnabled(has_item)
+        for button in (
+            self.delete_button,
+            self.configure_button,
+            self.symmetric_button,
+        ):
+            button.setEnabled(item is not None)
         self.selection_window.clear()
         if item is None:
             return
@@ -358,11 +366,10 @@ class StructureWidget(QWidget, Ui_Form):
         self.link_assortment_label.setText(str(l_a(g)))
         self.contracted_link_assortment_label.setText(str(c_l_a(g)))
 
-        # "Link as node" layout cannot do these action.
+        self.symmetric_button.setEnabled(link_is_node)
         self.configure_button.setEnabled(not link_is_node)
-        self.grounded_merge.setEnabled(not link_is_node)
+        self.merge_button.setEnabled(not link_is_node)
 
-        # Automatic ground.
         self.__grounded()
 
     def __clear_selection(self):
@@ -403,6 +410,25 @@ class StructureWidget(QWidget, Ui_Form):
         del self.collections[row]
         self.__clear_selection()
         self.unsaveFunc()
+
+    @Slot(name='on_symmetric_button_clicked')
+    def __make_symmetric(self):
+        """Make current graph symmetric."""
+        row = self.collection_list.currentRow()
+        if not row > -1:
+            return
+
+        graph = self.collections[row]
+        dlg = TargetsDialog(graph.nodes, (), self)
+        dlg.show()
+        if not dlg.exec():
+            dlg.deleteLater()
+            return
+
+        targets = dlg.targets()
+        dlg.deleteLater()
+        new_graph = graph.make_symmetric(targets)
+        self.add_collection(new_graph.edges)
 
     @Slot(name='on_configure_button_clicked')
     def __configuration(self):
@@ -446,7 +472,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.collections_grounded.append(graph_)
             self.grounded_list.addItem(item)
 
-    @Slot(name='on_grounded_merge_clicked')
+    @Slot(name='on_merge_button_clicked')
     def __grounded_merge(self):
         """Merge the grounded result."""
         item = self.grounded_list.currentItem()

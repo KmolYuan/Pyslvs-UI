@@ -9,23 +9,16 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    Tuple,
-    Iterator,
-    Optional,
-)
+from typing import List, Iterable, Iterator
 from core.QtModules import (
     Slot,
     Qt,
+    QWidget,
     QDialog,
     QListWidget,
     QListWidgetItem,
 )
 from .Ui_targets import Ui_Dialog
-
-if TYPE_CHECKING:
-    from core.synthesis.collections import ConfigureWidget
 
 
 def list_texts(widget: QListWidget) -> Iterator[str]:
@@ -41,15 +34,13 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
 
-    def __init__(self, parent: ConfigureWidget):
+    def __init__(self, not_target: Iterable[int], target: Iterable[int], parent: QWidget):
         """Filter and show the target option (just like movable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-
-        canvas = parent.configure_canvas
-        self.other_list.addItems(f"P{i}" for i in set(canvas.pos) - canvas.target)
-        self.targets_list.addItems(f"P{i}" for i in canvas.target)
+        self.other_list.addItems(f"P{i}" for i in not_target)
+        self.targets_list.addItems(f"P{i}" for i in target)
 
     @Slot(name='on_targets_add_clicked')
     @Slot(QListWidgetItem, name='on_other_list_itemDoubleClicked')
@@ -68,3 +59,10 @@ class TargetsDialog(QDialog, Ui_Dialog):
         if not row > -1:
             return
         self.other_list.addItem(self.targets_list.takeItem(row))
+
+    def targets(self) -> List[int]:
+        """Return a list of targets."""
+        target_list = []
+        for target in list_texts(self.targets_list):
+            target_list.append(int(target.replace('P', "")))
+        return target_list
