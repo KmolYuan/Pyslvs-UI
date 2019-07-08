@@ -407,7 +407,7 @@ class StructureWidget(QWidget, Ui_Form):
             return
 
         self.collection_list.takeItem(row)
-        del self.collections[row]
+        self.collections.pop(row)
         self.__clear_selection()
         self.unsaveFunc()
 
@@ -419,7 +419,7 @@ class StructureWidget(QWidget, Ui_Form):
             return
 
         graph = self.collections[row]
-        dlg = TargetsDialog("Select the nodes you want to copy.", graph.nodes, (), self)
+        dlg = TargetsDialog("Select the nodes you want to copy.", "", graph.nodes, (), self)
         dlg.show()
         if not dlg.exec():
             dlg.deleteLater()

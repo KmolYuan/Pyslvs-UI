@@ -37,6 +37,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     def __init__(
         self,
         description: str,
+        prefix: str,
         not_target: Iterable[int],
         target: Iterable[int],
         parent: QWidget
@@ -46,8 +47,9 @@ class TargetsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.main_label.setText(description)
-        self.other_list.addItems(f"P{i}" for i in not_target)
-        self.targets_list.addItems(f"P{i}" for i in target)
+        self.prefix = prefix
+        self.other_list.addItems(f"{self.prefix}{i}" for i in not_target)
+        self.targets_list.addItems(f"{self.prefix}{i}" for i in target)
 
     @Slot(name='on_targets_add_clicked')
     @Slot(QListWidgetItem, name='on_other_list_itemDoubleClicked')
@@ -71,5 +73,5 @@ class TargetsDialog(QDialog, Ui_Dialog):
         """Return a list of targets."""
         target_list = []
         for target in list_texts(self.targets_list):
-            target_list.append(int(target.replace('P', "")))
+            target_list.append(int(target.replace(self.prefix, "")))
         return target_list

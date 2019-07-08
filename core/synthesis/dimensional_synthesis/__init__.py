@@ -338,7 +338,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         path = self.current_path()
         path.insert(row - 1, (path[row][0], path[row][1]))
-        del path[row + 1]
+        path.pop(row + 1)
         x, y = self.path_list.currentItem().text()[1:-1].split(", ")
         self.path_list.insertItem(row - 1, f"({x}, {y})")
         self.path_list.takeItem(row + 1)
@@ -356,7 +356,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         path = self.current_path()
         path.insert(row + 2, (path[row][0], path[row][1]))
-        del path[row]
+        path.pop(row)
         x, y = self.path_list.currentItem().text()[1:-1].split(", ")
         self.path_list.insertItem(row + 2, f"({x}, {y})")
         self.path_list.takeItem(row)
@@ -369,7 +369,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.path_list.currentRow()
         if not row > -1:
             return
-        del self.current_path()[row]
+        self.current_path().pop(row)
         self.path_list.takeItem(row)
         self.__current_path_changed()
 
