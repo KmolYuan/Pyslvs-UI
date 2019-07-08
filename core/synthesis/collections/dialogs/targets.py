@@ -34,11 +34,18 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
 
-    def __init__(self, not_target: Iterable[int], target: Iterable[int], parent: QWidget):
+    def __init__(
+        self,
+        description: str,
+        not_target: Iterable[int],
+        target: Iterable[int],
+        parent: QWidget
+    ):
         """Filter and show the target option (just like movable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        self.main_label.setText(description)
         self.other_list.addItems(f"P{i}" for i in not_target)
         self.targets_list.addItems(f"P{i}" for i in target)
 

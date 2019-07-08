@@ -419,6 +419,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     def __set_target(self):
         """Show up target joints dialog."""
         dlg = TargetsDialog(
+            "Choose the target points.",
             set(self.configure_canvas.pos) - self.configure_canvas.target,
             self.configure_canvas.target,
             self

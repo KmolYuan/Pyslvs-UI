@@ -13,9 +13,6 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(346, 309)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/configure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(Dialog)
@@ -60,7 +57,7 @@ class Ui_Dialog(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.button_box = QtWidgets.QDialogButtonBox(Dialog)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.button_box.setObjectName("button_box")
         self.horizontalLayout_2.addWidget(self.button_box)
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
@@ -72,8 +69,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.main_label.setText(_translate("Dialog", "Choose the target point(s) to verify with path(s)."))
+        Dialog.setWindowTitle(_translate("Dialog", "Select Option"))
         self.other_label.setText(_translate("Dialog", "To be selected:"))
         self.targets_add.setText(_translate("Dialog", ">>"))
         self.other_add.setText(_translate("Dialog", "<<"))

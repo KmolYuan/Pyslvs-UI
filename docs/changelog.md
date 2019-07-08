@@ -4,7 +4,7 @@
 
 + Correction of link length range in dimensional synthesis page.
 + Change the behavior of adding points on main canvas.
-+ Add symmetry function for graph collections page.
++ Add duplicate function for graph collections page.
 
 **Development**:
 

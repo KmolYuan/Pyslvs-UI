@@ -88,7 +88,7 @@ class StructureWidget(QWidget, Ui_Form):
         for button in (
             self.merge_button,
             self.configure_button,
-            self.symmetric_button,
+            self.duplicate_button,
         ):
             button.setEnabled(False)
         self.collections.clear()
@@ -334,7 +334,7 @@ class StructureWidget(QWidget, Ui_Form):
         for button in (
             self.delete_button,
             self.configure_button,
-            self.symmetric_button,
+            self.duplicate_button,
         ):
             button.setEnabled(item is not None)
         self.selection_window.clear()
@@ -366,7 +366,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.link_assortment_label.setText(str(l_a(g)))
         self.contracted_link_assortment_label.setText(str(c_l_a(g)))
 
-        self.symmetric_button.setEnabled(link_is_node)
+        self.duplicate_button.setEnabled(link_is_node)
         self.configure_button.setEnabled(not link_is_node)
         self.merge_button.setEnabled(not link_is_node)
 
@@ -411,15 +411,15 @@ class StructureWidget(QWidget, Ui_Form):
         self.__clear_selection()
         self.unsaveFunc()
 
-    @Slot(name='on_symmetric_button_clicked')
-    def __make_symmetric(self):
+    @Slot(name='on_duplicate_button_clicked')
+    def __make_duplicate(self):
         """Make current graph symmetric."""
         row = self.collection_list.currentRow()
         if not row > -1:
             return
 
         graph = self.collections[row]
-        dlg = TargetsDialog(graph.nodes, (), self)
+        dlg = TargetsDialog("Select the nodes you want to copy.", graph.nodes, (), self)
         dlg.show()
         if not dlg.exec():
             dlg.deleteLater()
@@ -427,7 +427,7 @@ class StructureWidget(QWidget, Ui_Form):
 
         targets = dlg.targets()
         dlg.deleteLater()
-        new_graph = graph.make_symmetric(targets)
+        new_graph = graph.duplicate(targets, 1)
         self.add_collection(new_graph.edges)
 
     @Slot(name='on_configure_button_clicked')

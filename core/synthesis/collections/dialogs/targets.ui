@@ -11,11 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="../../../../icons.qrc">
-    <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
+   <string>Select Option</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -25,11 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QLabel" name="main_label">
-     <property name="text">
-      <string>Choose the target point(s) to verify with path(s).</string>
-     </property>
-    </widget>
+    <widget class="QLabel" name="main_label"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -111,7 +103,7 @@
      <item>
       <widget class="QDialogButtonBox" name="button_box">
        <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
        </property>
       </widget>
      </item>
