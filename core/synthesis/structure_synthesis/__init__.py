@@ -520,8 +520,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self,
             "Atlas",
             "The number of lateral:",
-            5,
-            1
+            5, 1
         )
         if not ok:
             return 0

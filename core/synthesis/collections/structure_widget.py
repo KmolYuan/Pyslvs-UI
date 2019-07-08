@@ -280,8 +280,7 @@ class StructureWidget(QWidget, Ui_Form):
             self,
             "Atlas",
             "The number of lateral:",
-            5,
-            1
+            5, 1
         )
         if not ok:
             return
@@ -419,7 +418,14 @@ class StructureWidget(QWidget, Ui_Form):
             return
 
         graph = self.collections[row]
-        dlg = TargetsDialog("Select the nodes you want to copy.", "", graph.nodes, (), self)
+        dlg = TargetsDialog(
+            "Select the nodes (links) you want to copy.\n"
+            "The duplication will keep adjacency",
+            "",
+            graph.nodes,
+            (),
+            self
+        )
         dlg.show()
         if not dlg.exec():
             dlg.deleteLater()
@@ -427,7 +433,15 @@ class StructureWidget(QWidget, Ui_Form):
 
         targets = dlg.targets()
         dlg.deleteLater()
-        new_graph = graph.duplicate(targets, 1)
+        times, ok = QInputDialog.getInt(
+            self,
+            "Make duplicate",
+            "The count of duplication:",
+            1, 1
+        )
+        if not ok:
+            return
+        new_graph = graph.duplicate(targets, times)
         self.add_collection(new_graph.edges)
 
     @Slot(name='on_configure_button_clicked')

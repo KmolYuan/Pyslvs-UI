@@ -31,7 +31,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
 
     """Option dialog.
 
-    Only edit the settings after closed.
+    Select the targets from a group of options.
     """
 
     def __init__(
@@ -73,5 +73,5 @@ class TargetsDialog(QDialog, Ui_Dialog):
         """Return a list of targets."""
         target_list = []
         for target in list_texts(self.targets_list):
-            target_list.append(int(target.replace(self.prefix, "")))
+            target_list.append(int(target[len(self.prefix):]))
         return target_list
