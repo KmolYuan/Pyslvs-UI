@@ -15,7 +15,6 @@ from typing import (
     Tuple,
     Sequence,
     Dict,
-    Optional,
 )
 from core.QtModules import (
     Signal,
@@ -322,14 +321,13 @@ class StructureWidget(QWidget, Ui_Form):
             f.write('\n'.join(str(G.edges) for G in self.collections))
         self.save_reply_box("edges expression", file_name)
 
-    @Slot(int, name='on_collection_list_currentRowChanged')
-    def __set_selection(self, row: int):
+    @Slot(QListWidgetItem, name='on_collection_list_itemClicked')
+    def __set_selection(self, item: QListWidgetItem):
         """Show the data of collection.
 
         Save the layout position to keep the graphs
         will be in same appearance.
         """
-        item: Optional[QListWidgetItem] = self.collection_list.item(row)
         for button in (
             self.delete_button,
             self.configure_button,
@@ -340,7 +338,7 @@ class StructureWidget(QWidget, Ui_Form):
         if item is None:
             return
 
-        # Preview item.
+        # Preview item
         link_is_node = self.graph_link_as_node.isChecked()
         item_preview = QListWidgetItem(item.text())
         row = self.collection_list.row(item)
@@ -407,6 +405,7 @@ class StructureWidget(QWidget, Ui_Form):
 
         self.collection_list.takeItem(row)
         self.collections.pop(row)
+        self.collections_layouts.pop(row)
         self.__clear_selection()
         self.unsaveFunc()
 

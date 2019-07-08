@@ -5,6 +5,7 @@
 + Correction of link length range in dimensional synthesis page.
 + Change the behavior of adding points on main canvas.
 + Add duplicate function for graph collections page.
++ Fix the error of switching structure collections.
 
 **Development**:
 
