@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-UI/total.svg)](https://github.com/KmolYuan/Pyslvs-UI/releases)
 
 [![Qt](https://img.shields.io/badge/qt%20version-&ge;5.10-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
-[![kernel](https://img.shields.io/badge/kernel-python%20solvespace-orange.svg)](https://github.com/KmolYuan/python-solvespace)
+[![kernel](https://img.shields.io/badge/kernel-python%20solvespace-orange.svg)](https://github.com/KmolYuan/solvespace)
 [![kernel](https://img.shields.io/badge/kernel-pyslvs-orange.svg)](https://github.com/KmolYuan/pyslvs)
 [![sourceforge](https://img.shields.io/badge/site-sourceforge-green.svg)](https://sourceforge.net/projects/pyslvs/)
 [![Blog](https://img.shields.io/badge/info-blog-blue.svg)](http://www.pyslvs.com/blog/index.html)
@@ -44,6 +44,6 @@ If you have any question, please post on GitHub issue or contact <pyslvs@gmail.c
 
 [PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
 [Solvespace]: http://solvespace.com
-[Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
+[Python-Solvespace]: https://github.com/KmolYuan/solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/

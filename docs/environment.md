@@ -196,5 +196,5 @@ open ./executable.app
 
 [AppImage]: https://github.com/AppImage/AppImages
 
-[Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
+[Python-Solvespace]: https://github.com/KmolYuan/solvespace/tree/python
 [Pyslvs]: https://github.com/KmolYuan/pyslvs

@@ -44,5 +44,5 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 [NetworkX]: https://networkx.github.io/
 [PMKS]: http://designengrlab.github.io/PMKS/
 
-[Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
+[Python-Solvespace]: https://github.com/KmolYuan/solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs

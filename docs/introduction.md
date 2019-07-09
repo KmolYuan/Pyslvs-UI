@@ -195,6 +195,6 @@ Here's the concepts that will shown in this manual:
 [Cython]: http://cython.org/
 [YAML]: https://yaml.org/
 
-[Python-Solvespace]: https://github.com/KmolYuan/python-solvespace
+[Python-Solvespace]: https://github.com/KmolYuan/solvespace/tree/python
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
