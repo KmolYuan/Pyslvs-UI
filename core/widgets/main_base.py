@@ -76,11 +76,12 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def __init__(self):
         super(MainWindowBase, self).__init__()
         self.setupUi(self)
-        self.setAttribute(Qt.WA_DeleteOnClose)
 
         # Entities list
         self.vpoint_list: List[VPoint] = []
         self.vlink_list = [VLink('ground', 'White', (), color_rgb)]
+        # Environment path
+        self.env = ""
 
         # Initialize custom UI
         self.__undo_redo()
@@ -92,8 +93,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__link_context_menu()
         self.__canvas_context_menu()
 
-        # Environment path
-        self.env = ""
+        # Open file from command line
         if ARGUMENTS.c:
             self.set_locate(QFileInfo(ARGUMENTS.c).canonicalFilePath())
         else:
@@ -314,6 +314,16 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
         self.synthesis_tab_widget.currentChanged.connect(set_design_progress)
         self.collection_tab_page.tab_widget.currentChanged.connect(set_design_progress)
+
+        # Same options of structure previews
+        as_node1 = self.collection_tab_page.structure_widget.graph_link_as_node
+        as_node2 = self.structure_synthesis.graph_link_as_node
+        as_node1.toggled.connect(as_node2.setChecked)
+        as_node2.toggled.connect(as_node1.setChecked)
+        show_label1 = self.collection_tab_page.structure_widget.graph_show_label
+        show_label2 = self.structure_synthesis.graph_show_label
+        show_label1.toggled.connect(show_label2.setChecked)
+        show_label2.toggled.connect(show_label1.setChecked)
 
         # File widget settings
         self.database_widget = DatabaseWidget(self)

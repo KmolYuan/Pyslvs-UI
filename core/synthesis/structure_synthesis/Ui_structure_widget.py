@@ -233,7 +233,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.edges_label.setText(_translate("Form", "Edge set:"))
+        self.edges_label.setText(_translate("Form", "Edge Set:"))
         self.expr_copy.setStatusTip(_translate("Form", "Copy expression."))
         self.expr_add_collection.setStatusTip(_translate("Form", "Add to collection."))
         self.from_mechanism_button.setStatusTip(_translate("Form", "Analyze current mechanism from canvas."))

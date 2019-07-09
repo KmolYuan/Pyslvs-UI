@@ -36,7 +36,7 @@ from core.QtModules import (
     QApplication,
 )
 from core.graphics import (
-    to_graph,
+    graph2icon,
     engine_picker,
     engines,
 )
@@ -106,13 +106,12 @@ class StructureWidget(QWidget, Ui_Form):
             "Sure to remove all your collections?"
         ) != QMessageBox.Yes:
             return
-
         self.clear()
         self.unsaveFunc()
 
-    @Slot(name='on_graph_link_as_node_clicked')
-    @Slot(name='on_graph_show_label_clicked')
     @Slot(name='on_reload_atlas_clicked')
+    @Slot(bool, name='on_graph_link_as_node_toggled')
+    @Slot(bool, name='on_graph_show_label_toggled')
     @Slot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self):
         """Reload atlas with the engine."""
@@ -120,32 +119,30 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections_layouts.clear()
         self.collection_list.clear()
         self.__clear_selection()
-
         if not self.collections:
             return
 
-        progress_dlg = QProgressDialog(
+        dlg = QProgressDialog(
             "Drawing atlas...",
             "Cancel",
             0,
             len(self.collections),
             self
         )
-        progress_dlg.setAttribute(Qt.WA_DeleteOnClose, True)
-        progress_dlg.setWindowTitle("Type synthesis")
-        progress_dlg.resize(400, progress_dlg.height())
-        progress_dlg.setModal(True)
-        progress_dlg.show()
+        dlg.setWindowTitle("Type synthesis")
+        dlg.resize(400, dlg.height())
+        dlg.setModal(True)
+        dlg.show()
         engine_str = self.graph_engine.currentText()
         for i, g in enumerate(self.collections):
             QCoreApplication.processEvents()
-            if progress_dlg.wasCanceled():
-                progress_dlg.deleteLater()
+            if dlg.wasCanceled():
+                dlg.deleteLater()
                 return
 
             item = QListWidgetItem(f"No. {i + 1}")
             engine = engine_picker(g, engine_str, self.graph_link_as_node.isChecked())
-            item.setIcon(to_graph(
+            item.setIcon(graph2icon(
                 g,
                 self.collection_list.iconSize().width(),
                 engine,
@@ -156,10 +153,12 @@ class StructureWidget(QWidget, Ui_Form):
             self.collections_layouts.append(engine)
             item.setToolTip(f"{g.edges}")
             self.collection_list.addItem(item)
-            progress_dlg.setValue(i + 1)
+            dlg.setValue(i + 1)
 
-        progress_dlg.deleteLater()
-        self.collection_list.setCurrentRow(current_pos)
+        dlg.deleteLater()
+        if current_pos > -1:
+            self.collection_list.setCurrentRow(current_pos)
+            self.__set_selection(self.collection_list.currentItem())
 
     def __is_valid_graph(self, edges: Iterable[Tuple[int, int]]) -> str:
         """Test graph and return True if it is valid."""
@@ -346,7 +345,7 @@ class StructureWidget(QWidget, Ui_Form):
         row = self.collection_list.row(item)
         g = self.collections[row]
         self.ground_engine = self.collections_layouts[row]
-        item_preview.setIcon(to_graph(
+        item_preview.setIcon(graph2icon(
             g,
             self.selection_window.iconSize().width(),
             self.ground_engine,
@@ -460,7 +459,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.grounded_list.clear()
         g = self.collections[self.collection_list.row(current_item)]
         item = QListWidgetItem("Released")
-        icon = to_graph(
+        icon = graph2icon(
             g,
             self.grounded_list.iconSize().width(),
             self.ground_engine,
@@ -474,7 +473,7 @@ class StructureWidget(QWidget, Ui_Form):
 
         for node, graph_ in labeled_enumerate(g):
             item = QListWidgetItem(f"link_{node}")
-            icon = to_graph(
+            icon = graph2icon(
                 g,
                 self.grounded_list.iconSize().width(),
                 self.ground_engine,

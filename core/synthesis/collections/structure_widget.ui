@@ -91,17 +91,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="clear_button">
-       <property name="statusTip">
-        <string>Delete all of structures.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="delete_button">
        <property name="enabled">
         <bool>false</bool>
@@ -112,6 +101,17 @@
        <property name="icon">
         <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clear_button">
+       <property name="statusTip">
+        <string>Delete all of structures.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
        </property>
       </widget>
      </item>

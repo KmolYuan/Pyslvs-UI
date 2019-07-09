@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>456</width>
+    <width>358</width>
     <height>422</height>
    </rect>
   </property>
@@ -50,24 +50,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="clear_button">
-       <property name="statusTip">
-        <string>Create a new iteration profile.</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_5">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="add_collection_button">
        <property name="statusTip">
         <string>Turn this structure diagram back to structure collections.</string>
@@ -86,6 +68,24 @@
        <property name="icon">
         <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_5">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clear_button">
+       <property name="statusTip">
+        <string>Create a new iteration profile.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
        </property>
       </widget>
      </item>

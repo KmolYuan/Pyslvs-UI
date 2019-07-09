@@ -48,7 +48,7 @@ from core.libs import (
     link_assortment,
     contracted_link_assortment,
 )
-from core.graphics import to_graph, engines
+from core.graphics import graph2icon, engines
 from .thread import (
     assortment_eval,
     LinkSynthesisThread,
@@ -77,7 +77,6 @@ class SynthesisProgressDialog(QProgressDialog):
             parent
         )
         self.setWindowTitle(title)
-        self.setAttribute(Qt.WA_DeleteOnClose)
         self.resize(400, self.height())
         self.setModal(True)
         self.setValue(0)
@@ -371,9 +370,9 @@ class StructureSynthesis(QWidget, Ui_Form):
         dlg.show()
         work.start()
 
-    @Slot(name='on_graph_link_as_node_clicked')
-    @Slot(name='on_graph_show_label_clicked')
     @Slot(name='on_reload_atlas_clicked')
+    @Slot(bool, name='on_graph_link_as_node_toggled')
+    @Slot(bool, name='on_graph_show_label_toggled')
     @Slot(int, name='on_graph_engine_currentIndexChanged')
     def __reload_atlas(self, *_):
         """Reload the atlas."""
@@ -410,7 +409,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __draw_atlas(self, i: int, g: Graph) -> bool:
         """Draw atlas and return True if done."""
         item = QListWidgetItem(f"No. {i + 1}")
-        item.setIcon(to_graph(
+        item.setIcon(graph2icon(
             g,
             self.structure_list.iconSize().width(),
             self.graph_engine.currentText(),

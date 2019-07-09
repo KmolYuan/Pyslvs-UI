@@ -23,7 +23,7 @@
      <item>
       <widget class="QLabel" name="edges_label">
        <property name="text">
-        <string>Edge set:</string>
+        <string>Edge Set:</string>
        </property>
       </widget>
      </item>

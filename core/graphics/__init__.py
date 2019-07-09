@@ -21,7 +21,7 @@ from .canvas import (
     convex_hull,
 )
 from .nx_layout import (
-    to_graph,
+    graph2icon,
     engine_picker,
     engines,
 )
@@ -36,7 +36,7 @@ __all__ = [
     'BaseCanvas',
     'PreviewCanvas',
     'convex_hull',
-    'to_graph',
+    'graph2icon',
     'engine_picker',
     'engines',
 ]

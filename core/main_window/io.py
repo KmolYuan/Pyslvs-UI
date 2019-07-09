@@ -19,7 +19,6 @@ from abc import ABC
 from pygments.lexers.python import Python3Lexer
 from lark.exceptions import LarkError
 from core.QtModules import (
-    Qt,
     Slot,
     qt_image_format,
     QApplication,
@@ -607,28 +606,26 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_check_update_triggered')
     def __check_update(self):
         """Check for update."""
-        progress_dlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
-        progress_dlg.setAttribute(Qt.WA_DeleteOnClose)
-        progress_dlg.setWindowTitle("Check for update")
-        progress_dlg.resize(400, progress_dlg.height())
-        progress_dlg.setModal(True)
-        progress_dlg.show()
-        url = check_update(progress_dlg)
-        progress_dlg.deleteLater()
-        if not url:
+        dlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
+        dlg.setWindowTitle("Check for update")
+        dlg.resize(400, dlg.height())
+        dlg.setModal(True)
+        dlg.show()
+        url = check_update(dlg)
+        dlg.deleteLater()
+        if url:
+            if QMessageBox.question(
+                self,
+                "Pyslvs has update",
+                "Do you want to get it from Github?"
+            ) == QMessageBox.Yes:
+                self.__open_url(url)
+        else:
             QMessageBox.information(
                 self,
                 "Pyslvs is up to date",
                 "You are using the latest version of Pyslvs."
             )
-            return
-
-        if QMessageBox.question(
-            self,
-            "Pyslvs has update",
-            "Do you want to get it from Github?"
-        ) == QMessageBox.Yes:
-            self.__open_url(url)
 
     def check_file_changed(self) -> bool:
         """If the user has not saved the change.

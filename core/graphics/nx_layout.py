@@ -85,7 +85,7 @@ def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[s
     return pos
 
 
-def to_graph(
+def graph2icon(
     g: Graph,
     width: int,
     engine: Union[str, Pos],
