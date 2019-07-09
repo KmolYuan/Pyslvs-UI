@@ -15,6 +15,7 @@ from typing import (
     Tuple,
     Sequence,
     Dict,
+    Iterable,
 )
 from core.QtModules import (
     Signal,
@@ -160,11 +161,14 @@ class StructureWidget(QWidget, Ui_Form):
         progress_dlg.deleteLater()
         self.collection_list.setCurrentRow(current_pos)
 
-    def __is_valid_graph(self, g: Graph) -> str:
+    def __is_valid_graph(self, edges: Iterable[Tuple[int, int]]) -> str:
         """Test graph and return True if it is valid."""
+        try:
+            g = Graph(edges)
+        except (TypeError, ValueError):
+            return "wrong format"
         if not g.edges:
             return "is an empty graph"
-
         if not g.is_connected():
             return "is not a close chain"
         if not is_planar(g):
@@ -182,21 +186,21 @@ class StructureWidget(QWidget, Ui_Form):
                 return f"is isomorphic with: {h.edges}"
         return ""
 
-    def add_collection(self, edges: Sequence[Tuple[int, int]]):
+    def add_collection(self, edges: Iterable[Tuple[int, int]], *, reload: bool = True):
         """Add collection by in put edges."""
-        graph = Graph(edges)
-        error = self.__is_valid_graph(graph)
+        error = self.__is_valid_graph(edges)
         if error:
             QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
             return
-        self.collections.append(graph)
+        self.collections.append(Graph(edges))
         self.unsaveFunc()
-        self.__reload_atlas()
+        if reload:
+            self.__reload_atlas()
 
     def add_collections(self, collections: Sequence[Sequence[Tuple[int, int]]]):
         """Add collections."""
-        for c in collections:
-            self.add_collection(c)
+        for edges in collections:
+            self.add_collection(edges)
 
     @Slot(name='on_add_by_edges_button_clicked')
     def __add_from_edges(self):
@@ -238,20 +242,18 @@ class StructureWidget(QWidget, Ui_Form):
                 for line in f:
                     read_data.append(line)
 
-        collections = []
-        for edges in read_data:
+        errors = []
+        for edges_str in read_data:
             try:
-                collections.append(Graph(eval(edges)))
-            except (SyntaxError, TypeError):
-                QMessageBox.warning(
-                    self,
-                    "Wrong format",
-                    "Please check the edges text format."
-                )
-                return
-        if not collections:
-            return
-        self.collections += collections
+                edges = eval(edges_str)
+                if any(len(edge) != 2 for edge in edges):
+                    raise ValueError("wrong format")
+            except (SyntaxError, ValueError) as error:
+                errors.append(str(error))
+            else:
+                self.add_collection(edges, reload=False)
+        if errors:
+            QMessageBox.warning(self, "Loaded Error", "Error:" + '\n'.join(errors))
         self.__reload_atlas()
 
     @Slot(name='on_capture_graph_clicked')
