@@ -6,7 +6,7 @@ The modules are:
 
 + `slvs`
 
-# slvs
+# Module `slvs`
 
 ## quaternion_u()
 

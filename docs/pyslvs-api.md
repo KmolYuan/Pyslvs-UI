@@ -20,7 +20,7 @@ The modules are:
 + `triangulation`
 + `verify`
 
-# atlas
+# Module `atlas`
 
 ## conventional_graph()
 
@@ -53,7 +53,7 @@ Generate contracted graphs by link assortment `link_num`.
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-# bfgs
+# Module `bfgs`
 
 ## vpoint_solving()
 
@@ -82,7 +82,7 @@ The joint position will returned by its index correspondingly.
 + Revolut joints: Tuple[float, float]
 + Slider joints: Tuple[Tuple[float, float], Tuple[float, float]]
 
-# collection
+# Module `collection`
 
 ## collection_list
 
@@ -109,7 +109,7 @@ The format of each configuration is:
 + `same`: The multiple joints setting.
     + type: Dict[int, int]
 
-# example
+# Module `example`
 
 ## example_list
 
@@ -126,7 +126,7 @@ The format of each mechanism is:
 + `[1]`: [Input pairs].
     + type: Tuple[Tuple[int, int], ...]]
 
-# expression
+# Module `expression`
 
 ## get_vlinks()
 
@@ -207,7 +207,7 @@ Mechanism expression class.
 | c | numpy.ndarray | Current coordinates of the joint. |
 | type | [VJoint] | The type of the joint. |
 | type_str | str | The type string of the joint. |
-| color | Tuple[int, int, int] | The RGB color data of the joint. |
+| color | Optional[Tuple[int, int, int]] | The RGB color data of the joint. |
 | color_str | str | The color string of the joint. |
 | x | float | The original x value of the joint. |
 | y | float | The original y value of the joint. |
@@ -463,6 +463,163 @@ Mechanism expression class in link's view.
 
 | name | type | description |
 |:----:|:----:|:------------|
+| name | str | The name tag of the link. |
+| color | Optional[Tuple[int, int, int]] | The RGB color data of the joint. |
+| color_str | str | The color string of the joint. |
+| points | Tuple[int, ...] | The points of the link. |
+
+### VLink.\_\_init__()
+
+| self | name | color_str | points | color_func | return |
+|:----:|:----:|:---------:|:------:|:----------:|:------:|
+| | str | str | Iterable[int] | Optional[Callable[[str], Tuple[int, int, int]]] | None |
+| | | | | None | |
+
+The attributes will match to the object attributes of [VLink] objects.
+
+Where the color function `color_func` needs to transform the color string `color_str` into RGB format.
+If color information is not needed, the `color_func` can be `None`.
+
+### VLink.set_points()
+
+| self | points | return |
+|:----:|:------:|:------:|
+| | Iterable[int] | None |
+
+The update function of points attribute.
+
+### VLink.\_\_contains__()
+
+| self | point | return |
+|:----:|:-----:|:------:|
+| | int | bool |
+
+Implement `point in self` in Python script.
+Return `True` if `point` is in the points attribute.
+
+### VLink.\_\_repr__()
+
+| self | return |
+|:----:|:------:|
+| | str |
+
+Over loaded method to print the objects.
+
+# Module `expression_parser`
+
+## color_names
+
+| type |
+|:----:|
+| Tuple[str, ...] |
+
+The object contains all of supported colors in string format.
+
+## color_rgb()
+
+| name | return |
+|:----:|:------:|
+| str | Tuple[int, int, int] |
+
+Get RGB color data by name, return `(0, 0, 0)` if it is invalid.
+
+Also support `"(R, G, B)"` string format.
+
+## parse_params()
+
+| expr | return |
+|:----:|:------:|
+| str | List[List[Union[str, float]]] |
+
+Parse mechanism expression into [VPoint] constructor arguments.
+
+## parse_pos()
+
+| expr | return |
+|:----:|:------:|
+| str | List[Tuple[float, float]] |
+
+Parse mechanism expression into coordinates.
+
+## parse_vpoints()
+
+| expr | return |
+|:----:|:------:|
+| str | List\[[VPoint]] |
+
+Parse mechanism expression into [VPoint] objects.
+
+## parse_vlinks()
+
+| expr | return |
+|:----:|:------:|
+| str | List\[[VLink]] |
+
+Parse mechanism expression into [VLink] objects.
+
+## edges_view()
+
+| graph | return |
+|:-----:|:------:|
+| [Graph] | Iterator[Tuple[int, Tuple[int, int]]] |
+
+The iterator will yield the sorted edges from `graph`.
+
+## graph2vpoints()
+
+| graph | pos | cus | same | grounded | return |
+|:-----:|:---:|:---:|:----:|:--------:|:------:|
+| [Graph] | Dict[int, Tuple[float, float]] | Optional[Dict[int, int]] | Optional[Dict[int, int]] | Optional[int] | List\[[VPoint]] |
+| | | None | None | None | |
+
+Transform `graph` into [VPoint] objects. The vertices are mapped to links.
+
++ `pos`: Position for each vertices.
++ `cus`: Extra points on the specific links.
++ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
++ `grounded`: The ground link of vertices.
+
+## PMKSLexer
+
+| type | inherit |
+|:----:|:-------:|
+| type | pygments.lexer.RegexLexer |
+
+The lexer class for [Pygments](http://pygments.org/) module.
+
+# Module `graph`
+
+## link_assortment()
+
+| g | return |
+|:---:|:----:|
+| [Graph] | List[int] |
+
+Return link assortment of the graph.
+
+## contracted_link_assortment()
+
+| g | return |
+|:---:|:----:|
+| [Graph] | List[int] |
+
+Return contracted link assortment of the graph.
+
+## labeled_enumerate()
+
+| g | return |
+|:---:|:----:|
+| [Graph] | List[Tuple[int, Graph]] |
+
+Enumerate each node with labeled except isomorphism.
+
+## Graph
+
+| type | inherit |
+|:----:|:-------:|
+| type | object |
+
+The undirected graph class, support multigraph.
 
 Under planning.
 
