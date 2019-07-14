@@ -89,30 +89,18 @@ Over loaded method to print the objects.
 
 The handles of entities.                 
 
-### Entity.FREE_IN_3D
+### Class attributes of Entity
 
-| type |
-|:----:|
-| Entity |
+| name | type | description |
+|:----:|:----:|:------------|
+| FREE_IN_3D | [Entity] | The entity represented a spacial work plane object. If any 2D entity object in the constraint, the work plane must be input. |
+| NONE | [Entity] | The entity represented a empty input of [Entity] object. |
 
-**\[Class attribute]** The entity represented a spacial work plane object.
-If any 2D entity object in the constraint, the work plane must be input.
+### Object attributes of Entity
 
-### Entity.NONE
-
-| type |
-|:----:|
-| Entity |
-
-**\[Class attribute]** The entity represented a empty input of [`Entity`](#entity) object.
-
-### Entity.params
-
-| type |
-|:----:|
-| Params |
-
-**\[Object attribute]** The parameter of this entity.
+| name | type | description |
+|:----:|:----:|:------------|
+| params | [Params] | The parameter of the entity. |
 
 ### Entity.is_3d()
 
@@ -120,7 +108,7 @@ If any 2D entity object in the constraint, the work plane must be input.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 3D entity.
+Return `True` if this is a 3D entity.
 
 ### Entity.is_none()
 
@@ -128,7 +116,7 @@ Return True if this is a 3D entity.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a empty entity.
+Return `True` if this is a empty entity.
 
 ### Entity.is_point_2d()
 
@@ -136,7 +124,7 @@ Return True if this is a empty entity.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 2D point.
+Return `True` if this is a 2D point.
 
 ### Entity.is_point_3d()
 
@@ -144,7 +132,7 @@ Return True if this is a 2D point.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 3D point.
+Return `True` if this is a 3D point.
 
 ### Entity.is_point()
 
@@ -152,7 +140,7 @@ Return True if this is a 3D point.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a point.
+Return `True` if this is a point.
 
 ### Entity.is_normal_2d()
 
@@ -160,7 +148,7 @@ Return True if this is a point.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 2D normal.
+Return `True` if this is a 2D normal.
 
 ### Entity.is_normal_3d()
 
@@ -168,7 +156,7 @@ Return True if this is a 2D normal.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 3D normal.
+Return `True` if this is a 3D normal.
 
 ### Entity.is_normal()
 
@@ -176,7 +164,7 @@ Return True if this is a 3D normal.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a normal.
+Return `True` if this is a normal.
 
 ### Entity.is_distance()
 
@@ -184,7 +172,7 @@ Return True if this is a normal.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a distance.
+Return `True` if this is a distance.
 
 ### Entity.is_work_plane()
 
@@ -192,7 +180,7 @@ Return True if this is a distance.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a work plane.
+Return `True` if this is a work plane.
 
 ### Entity.is_line_2d()
 
@@ -200,7 +188,7 @@ Return True if this is a work plane.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 2D line.
+Return `True` if this is a 2D line.
 
 ### Entity.is_line_3d()
 
@@ -208,7 +196,7 @@ Return True if this is a 2D line.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a 3D line.
+Return `True` if this is a 3D line.
 
 ### Entity.is_line()
 
@@ -216,7 +204,7 @@ Return True if this is a 3D line.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a line.
+Return `True` if this is a line.
 
 ### Entity.is_cubic()
 
@@ -224,7 +212,7 @@ Return True if this is a line.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a cubic.
+Return `True` if this is a cubic.
 
 ### Entity.is_circle()
 
@@ -232,7 +220,7 @@ Return True if this is a cubic.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a circle.
+Return `True` if this is a circle.
 
 ### Entity.is_arc()
 
@@ -240,7 +228,7 @@ Return True if this is a circle.
 |:----:|:------:|
 | | bool |
 
-Return True if this is a arc.
+Return `True` if this is a arc.
 
 ### Entity.\_\_repr__()
 
@@ -692,8 +680,10 @@ Projected distance (`value`) constraint between two 3d points (`e1` and `e2`).
 
 Dragged constraint of a point (`e1`) on the work plane (`wp`).
 
-[Entity.NONE]: #entitynone
-[Entity.FREE_IN_3D]: #entityfree_in_3d
+[Params]: #params
+[Entity]: #entity
+[Entity.NONE]: #class-attributes-of-entity
+[Entity.FREE_IN_3D]: #class-attributes-of-entity
 
 [is_point]: #entityis_point
 [is_point_2d]: #entityis_point_2d
