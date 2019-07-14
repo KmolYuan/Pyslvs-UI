@@ -4,21 +4,20 @@ The namespace of Pyslvs is `pyslvs`.
 
 The modules are:
 
-+ `atlas`
-+ `bfgs`
-+ `collection`
-+ `example`
-+ `expression`
-+ `expression_parser`
-+ `graph`
-+ `graph_layout`
-+ `number`
-+ `planar_check`
-+ `planar_linkage`
-+ `sketch_solve`
-+ `tinycadlib`
-+ `triangulation`
-+ `verify`
++ [`atlas`](#module-atlas)
++ [`bfgs`](#module-bfgs)
++ [`collection`](#module-collection)
++ [`example`](#module-example)
++ [`expression`](#module-expression)
++ [`expression_parser`](#module-expression_parser)
++ [`graph`](#module-graph)
++ [`graph_layout`](#module-graph_layout)
++ [`number`](#module-number)
++ [`planar_check`](#module-planar_check)
++ [`planar_linkage`](#module-planar_check)
++ [`tinycadlib`](#module-tinycadlib)
++ [`triangulation`](#module-triangulation)
++ [`verify`](#module-verify)
 
 # Module `atlas`
 
@@ -100,7 +99,7 @@ The format of each configuration is:
     + type: Sequence[Tuple[int, int]]
 + `Graph`: The generalized chain graph in edge set.
     + type: Sequence[Tuple[int, int]]
-+ `Placement`: The grounded joints settings.
++ `Placement`: The grounded joints setting. (`x`, `y`, `r`)
     + type: Dict[int, Optional[Tuple[float, float, float]]]
 + `Target`: The target joints settings.
     + type: Dict[int, Optional[Sequence[Tuple[float, float]]]]
@@ -621,6 +620,213 @@ Enumerate each node with labeled except isomorphism.
 
 The undirected graph class, support multigraph.
 
+### Object attributes of Graph
+
+| name | type | description |
+|:----:|:----:|:------------|
+| edges | Tuple[Tuple[int, int], ...] | The edges of graph. |
+| nodes | Tuple[int, ...] | The nodes of graph. |
+
+### Graph.\_\_init__()
+
+| self | edges | return |
+|:----:|:-----:|:------:|
+| | Iterable[Tuple[int, int]] | None |
+
+Input edges of the graph. The vertices symbols are positive continuously integer.
+
+### Graph.add_edge()
+
+| self | n1 | n2 | return |
+|:----:|:---:|:---:|:----:|
+| | int | int | None |
+
+Add edge `n1` to `n2`.
+
+### Graph.add_nodes()
+
+| self | nodes | return |
+|:----:|:-----:|:----:|
+| | Iterable[int] | None |
+
+Add nodes from iterable object `nodes`.
+
+### Graph.dof()
+
+| self | return |
+|:----:|:------:|
+| | int |
+
+Return DOF of the graph.
+
+### Graph.neighbors()
+
+| self | n | return |
+|:----:|:---:|:----:|
+| | int | Tuple[int, ...] |
+
+Return the neighbors of the vertex `n`.
+
+### Graph.is_connected()
+
+| self | without | return |
+|:----:|:--------:|:------:|
+| | int | bool |
+| | -1 | |
+
+Return `True` if the graph is connected.
+Set the argument `without` to ignore one vertex.
+
+### Graph.has_cut_link()
+
+| self | return |
+|:----:|:------:|
+| | bool |
+
+Return `True` if the graph has cut-link.
+
+### Graph.is_degenerate()
+
+| self | return |
+|:----:|:------:|
+| | bool |
+
+Return `True` if the graph is degenerate.
+
+### Graph.is_isomorphic()
+
+| self | graph | return |
+|:----:|:-----:|:------:|
+| | [Graph] | bool |
+
+Return `True` if the graph is isomorphic to `graph`.
+
+### Graph.duplicate()
+
+| self | nodes | return |
+|:----:|:-----:|:----:|
+| | Iterable[int] | [Graph] |
+
+Make the graph duplicate specific nodes (from `nodes`). Return a new graph.
+
+### Graph.copy()
+
+| self | return |
+|:----:|:------:|
+| | [Graph] |
+
+The copy method of the [Graph] object.
+
+# Module `graph_layout`
+
+## external_loop_layout()
+
+| graph | node_mode | scale | return |
+|:-----:|:---------:|:-----:|:------:|
+| [Graph] | bool | float | Dict[int, Tuple[float, float]] |
+| | | 1. | |
+
+Return the layout position decided by external loop.
+
+Argument `node_mode` will transform edges into vertices.
+
+Argument `scale` will resize the position by scale factor.
+
+# Module `number`
+
+## link_synthesis()
+
+| nl | nj | stop_func | return |
+|:---:|:---:|:-------:|:------:|
+| int | int | Optional[Callable[[], bool]] | List[Tuple[int, ...]] |
+| | | None | |
+
+Return link assortment by number of links `nl` and number of joints `nj`.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+## contracted_link_synthesis()
+
+| link_num_list | stop_func | return |
+|:-------------:|:---------:|:------:|
+| Sequence[int] | Optional[Callable[[], bool]] | List[Tuple[int, ...]] |
+| | None | |
+
+Return contracted link assortment by link assortment `link_num_list`.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+# Module `planar_check`
+
+## is_planar()
+
+| g | return |
+|:---:|:----:|
+| [Graph] | bool |
+
+Return `True` if graph `g` is a planar graph.
+
+# Module `planar_linkage`
+
+## Planar
+
+| type | inherit |
+|:----:|:-------:|
+| type | [Verification] |
+
+### Planar.\_\_init__()
+
+| self | mech_params | return |
+|:----:|:-----------:|:------:|
+| | Dict[str, Any] | None |
+
+The constructor of verification object.
+
+Options of `mech_params`:
+
++ `Expression`: The mechanism expression of the structure.
+    + type: List\[[VPoint]]
++ `input`: [Input pairs].
+    + type: List[Tuple[int, int]]
++ `Placement`: The grounded joints setting. (`x`, `y`, `r`)
+    + type: Dict[int, Tuple[float, float, float]]
++ `Target`: The target path.
+    + type: Dict[int, Sequence[Tuple[float, float]]]
++ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
+    + type: Dict[int, int]
++ `upper`: The upper setting of variables, the length must same as variable array.
+    + type: List[float]
++ `lower`: The lower setting of variables, the length must same as variable array.
+    + type: List[float]
+
+Variable array:
+
+| | Placement | Link length | Inputs |
+|:---:|:-----:|:-----------:|:------:|
+| `v =` | `x0`, `y0`, ... | `l0`, `l1`, ... | `a00`, `a01`, ..., `a10`, `a11`, ... |
+
+In 1D array: `v = [x0, y0, ..., l0, l1, ..., a00, a01, ..., a10, a11, ...]`
+
+### Planar.is_two_kernel()
+
+| self | return |
+|:----:|:------:|
+| | bool |
+
+Return `True` if the solving method is two kernel.
+
+### Planar.result()
+
+| self | v | return |
+|:----:|:---:|:----:|
+| | numpy.ndarray | str |
+
+Input a generic data (variable array), return the mechanism expression.
+
+# Module `tinycadlib`
+
 Under planning.
 
 [input pairs]: #vpoint_solving
@@ -629,3 +835,4 @@ Under planning.
 [VPoint]: #vpoint
 [VLink]: #vlink
 [Graph]: #graph
+[Verification]: #verification

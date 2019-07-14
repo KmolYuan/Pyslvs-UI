@@ -4,7 +4,7 @@ The namespace of Python-Solvespace is `python_solvespace`.
 
 The modules are:
 
-+ `slvs`
++ [`slvs`](#module-slvs)
 
 # Module `slvs`
 
