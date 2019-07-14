@@ -280,13 +280,22 @@ Set the current group (`g`).
 
 Return the current group.
 
+### SolverSystem.set_params()
+
+| self | p | params | return |
+|:----:|:---:|:----:|:------:|
+| | [Params] | Sequence[float] | None |
+
+Set the parameters from a [Params] handle (`p`) belong to this system.
+The values is come from `params`, length must be equal to the handle.
+
 ### SolverSystem.params()
 
 | self | p | return |
 |:----:|:---:|:------:|
-| | Params | Tuple[float, ...] |
+| | [Params] | Tuple[float, ...] |
 
-Get the parameters from a [`Params`](#params) handle (`p`) belong to this system.
+Get the parameters from a [Params] handle (`p`) belong to this system.
 The length of tuple is decided by handle.
 
 ### SolverSystem.dof()
@@ -326,7 +335,7 @@ Start the solving, return the result flag.
 
 | self | return |
 |:----:|:------:|
-| | Entity |
+| | [Entity] |
 
 Create a 2D system on current group, return the handle of work plane.
 
@@ -334,7 +343,7 @@ Create a 2D system on current group, return the handle of work plane.
 
 | self | u | v | wp | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | float | float | Entity | Entity |
+| | float | float | [Entity] | [Entity] |
 
 Add a 2D point to specific work plane (`wp`) then return the handle.
 
@@ -344,7 +353,7 @@ Where `u`, `v` are corresponded to the value of U, V axis on the work plane.
 
 | self | x | y | z | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | float | float | float | Entity |
+| | float | float | float | [Entity] |
 
 Add a 3D point then return the handle.
 
@@ -354,7 +363,7 @@ Where `x`, `y`, `z` are corresponded to the value of X, Y, Z axis.
 
 | self | wp | return |
 |:----:|:---:|:------:|
-| | Entity | Entity |
+| | [Entity] | [Entity] |
 
 Add a 2D normal orthogonal to specific work plane (`wp`) then return the handle.
 
@@ -362,7 +371,7 @@ Add a 2D normal orthogonal to specific work plane (`wp`) then return the handle.
 
 | self | qw | qx | qy | qz | return |
 |:----:|:---:|:---:|:---:|:---:|:------:|
-| | float | float | float | float | Entity |
+| | float | float | float | float | [Entity] |
 
 Add a 3D normal from quaternion then return the handle.
 
@@ -372,7 +381,7 @@ Where `qw`, `qx`, `qy`, `qz` are corresponded to the W, X, Y, Z value of quatern
 
 | self | d | wp | return |
 |:----:|:---:|:---:|:------:|
-| | float | Entity | Entity |
+| | float | [Entity] | [Entity] |
 
 Add a distance to specific work plane (`wp`) then return the handle.
 
@@ -382,7 +391,7 @@ Where `d` is distance value.
 
 | self | p1 | p2 | wp | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | Entity | Entity |
+| | [Entity] | [Entity] | [Entity] | [Entity] |
 
 Add a 2D line to specific work plane (`wp`) then return the handle.
 
@@ -393,7 +402,7 @@ Where `p1` is the start point;
 
 | self | p1 | p2 | return |
 |:----:|:---:|:---:|:------:|
-| | Entity | Entity | Entity |
+| | [Entity] | [Entity] | [Entity] |
 
 Add a 3D line then return the handle.
 
@@ -404,7 +413,7 @@ Where `p1` is the start point;
 
 | self | p1 | p2 | p3 | p4 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | Entity | Entity | Entity | Entity |
+| | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] |
 
 Add a cubic curve to specific work plane (`wp`) then return the handle.
 
@@ -414,7 +423,7 @@ Where `p1` to `p4` is the control points.
 
 | self | nm | ct | start | end | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | Entity | Entity | Entity | Entity |
+| | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] |
 
 Add an arc to specific work plane (`wp`) then return the handle.
 
@@ -427,7 +436,7 @@ Where `nm` is the orthogonal normal;
 
 | self | nm | ct | radius | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | Entity | Entity | Entity |
+| | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] |
 
 Add an circle to specific work plane (`wp`) then return the handle.
 
@@ -439,7 +448,7 @@ Where `nm` is the orthogonal normal;
 
 | self | origin | nm | return |
 |:----:|:------:|:---:|:------:|
-| | Entity | Entity | Entity |
+| | [Entity] | [Entity] | [Entity] |
 
 Add a work plane then return the handle.
 
@@ -450,7 +459,7 @@ Where `origin` is the origin point of the plane;
 
 | self | c_type | wp | v | p1 | p2 | e1 | e2 | e3 | e4 | other | other2 | return |
 |:----:|:------:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:------:|
-| | Constraint | Entity | float | Entity | Entity | Entity | Entity | Entity | Entity | int | int | None |
+| | Constraint | [Entity] | float | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] | int | int | None |
 | | | | | | | | | [Entity.NONE] | [Entity.NONE] | 0 | 0 | |
 
 Add a constraint by type code `c_type`.
@@ -464,7 +473,7 @@ Where `wp` represents work plane; `v` represents constraint value;
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 | | | | [Entity.FREE_IN_3D] | |
 
 Coincident two entities.
@@ -480,7 +489,7 @@ Coincident two entities.
 
 | self | e1 | e2 | value | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:-----:|
-| | Entity | Entity | float | Entity | None |
+| | [Entity] | [Entity] | float | [Entity] | None |
 | | | | | [Entity.FREE_IN_3D] | |
 
 Distance constraint between two entities.
@@ -497,7 +506,7 @@ If `value` is equal to zero, then turn into [coincident](#solversystemcoincident
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 | | | | [Entity.FREE_IN_3D] | |
 
 Equal constraint between two entities.
@@ -516,7 +525,7 @@ Equal constraint between two entities.
 
 | self | e1 | e2 | e3 | e4 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] | None |
 
 Constraint that 2D line 1 (`e1`) and line 2 (`e2`), line 3 (`e3`) and line 4 (`e4`)
 must have same included angle on work plane `wp`.
@@ -525,7 +534,7 @@ must have same included angle on work plane `wp`.
 
 | self | e1 | e2 | e3 | e4 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | [Entity] | [Entity] | None |
 
 Constraint that point 1 (`e1`) and line 1 (`e2`), point 2 (`e3`) and line 2  (`e4`)
 must have same distance on work plane `wp`.
@@ -534,7 +543,7 @@ must have same distance on work plane `wp`.
 
 | self | e1 | e2 | value | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:-----:|
-| | Entity | Entity | float | Entity | None |
+| | [Entity] | [Entity] | float | [Entity] | None |
 
 The ratio (`value`) constraint between two 2D lines (`e1` and `e2`).
 
@@ -542,7 +551,7 @@ The ratio (`value`) constraint between two 2D lines (`e1` and `e2`).
 
 | self | e1 | e2 | e3 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | [Entity] | None |
 | | | | [Entity.NONE] | [Entity.FREE_IN_3D] | |
 
 Symmetric constraint between two points.
@@ -557,7 +566,7 @@ Symmetric constraint between two points.
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 
 Symmetric constraint between two 2D points (`e1` and `e2`)
 with horizontal line on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
@@ -566,7 +575,7 @@ with horizontal line on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 
 Symmetric constraint between two 2D points (`e1` and `e2`)
 with vertical line on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
@@ -575,7 +584,7 @@ with vertical line on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 | | | | [Entity.FREE_IN_3D] | |
 
 Midpoint constraint between a point (`e1`) and a line (`e2`) on work plane (`wp`).
@@ -584,7 +593,7 @@ Midpoint constraint between a point (`e1`) and a line (`e2`) on work plane (`wp`
 
 | self | e1 | wp | return |
 |:----:|:---:|:---:|:---:|
-| | Entity | Entity | None |
+| | [Entity] | [Entity] | None |
 
 Horizontal constraint of a 2d point (`e1`) on work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
@@ -592,7 +601,7 @@ Horizontal constraint of a 2d point (`e1`) on work plane (`wp` can not be [Entit
 
 | self | e1 | wp | return |
 |:----:|:---:|:---:|:----:|
-| | Entity | Entity | None |
+| | [Entity] | [Entity] | None |
 
 Vertical constraint of a 2d point (`e1`) on work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
@@ -600,7 +609,7 @@ Vertical constraint of a 2d point (`e1`) on work plane (`wp` can not be [Entity.
 
 | self | e1 | value | wp | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | Entity | float | Entity | None |
+| | [Entity] | float | [Entity] | None |
 
 Diameter (`value`) constraint of a circular entities.
 
@@ -613,7 +622,7 @@ Diameter (`value`) constraint of a circular entities.
 
 | self | e1 | e2 | return |
 |:----:|:---:|:---:|:----:|
-| | Entity | Entity | None |
+| | [Entity] | [Entity] | None |
 
 Equal orientation constraint between two 3d normals (`e1` and `e2`).
 
@@ -621,7 +630,7 @@ Equal orientation constraint between two 3d normals (`e1` and `e2`).
 
 | self | e1 | e2 | value | wp | inverse | return |
 |:----:|:---:|:---:|:---:|:---:|:------:|:------:|
-| | Entity | Entity | float | Entity | bool | None |
+| | [Entity] | [Entity] | float | [Entity] | bool | None |
 | | | | | | False | |
 
 Degrees angle (`value`) constraint between two 2d lines (`e1` and `e2`)
@@ -631,7 +640,7 @@ on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 | self | e1 | e2 | wp | inverse | return |
 |:----:|:---:|:---:|:---:|:------:|:------:|
-| | Entity | Entity | Entity | bool | None |
+| | [Entity] | [Entity] | [Entity] | bool | None |
 | | | | | False | |
 
 Perpendicular constraint between two 2d lines (`e1` and `e2`)
@@ -641,7 +650,7 @@ on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with `inverse` option.
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 | | | | [Entity.FREE_IN_3D] | |
 
 Parallel constraint between two lines (`e1` and `e2`) on the work plane (`wp`).
@@ -650,7 +659,7 @@ Parallel constraint between two lines (`e1` and `e2`) on the work plane (`wp`).
 
 | self | e1 | e2 | wp | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | Entity | None |
+| | [Entity] | [Entity] | [Entity] | None |
 | | | | [Entity.FREE_IN_3D] | |
 
 Parallel constraint between two entities (`e1` and `e2`) on the work plane (`wp`).
@@ -667,7 +676,7 @@ Parallel constraint between two entities (`e1` and `e2`) on the work plane (`wp`
 
 | self | e1 | e2 | value | return |
 |:----:|:---:|:---:|:---:|:------:|
-| | Entity | Entity | float | None |
+| | [Entity] | [Entity] | float | None |
 
 Projected distance (`value`) constraint between two 3d points (`e1` and `e2`).
 
@@ -675,7 +684,7 @@ Projected distance (`value`) constraint between two 3d points (`e1` and `e2`).
 
 | self | e1 | wp | return |
 |:----:|:---:|:---:|:------:|
-| | Entity | Entity | None |
+| | [Entity] | [Entity] | None |
 | | | [Entity.FREE_IN_3D] | |
 
 Dragged constraint of a point (`e1`) on the work plane (`wp`).
