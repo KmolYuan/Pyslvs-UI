@@ -7,6 +7,7 @@
 + Add duplicate function for graph collections page.
 + Fix the error of switching structure collections.
 + Showing attributes instead doing number synthesis after generalization.
++ Update the documentation of APIs.
 
 **Development**:
 
