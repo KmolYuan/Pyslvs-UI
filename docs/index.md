@@ -11,7 +11,7 @@ See the Windows platform testing on AppVeyor:
 See the Ubuntu and MacOS platform testing on Travis CI:
 [![Build status](https://img.shields.io/travis/KmolYuan/Pyslvs-UI.svg?logo=travis)](https://travis-ci.org/KmolYuan/Pyslvs-UI)
 
-!!! Note
+!!! note
 
     Download Pyslvs from GitHub [release page](https://github.com/KmolYuan/Pyslvs-UI/releases),
     which can be executed directly without Python interpreter.

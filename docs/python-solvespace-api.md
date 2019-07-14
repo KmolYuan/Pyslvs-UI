@@ -1,8 +1,12 @@
 # Namespace
 
-The namespace of Python-Solvespace is `slvs`.
+The namespace of Python-Solvespace is `python_solvespace`.
 
-# Functions
+The modules are:
+
++ `slvs`
+
+# slvs
 
 ## quaternion_u()
 
@@ -44,8 +48,6 @@ Input two unit vector, return quaternion.
 
 Where `ux`, `uy`, `uz` are corresponded to the value of U vector;
 `vx`, `vy`, `vz` are corresponded to the value of V vector.
-
-# Classes
 
 ## Constraint
 
