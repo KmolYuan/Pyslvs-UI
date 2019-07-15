@@ -65,7 +65,7 @@ help:
 
 build-pyslvs:
 	@echo ---Pyslvs libraries Build---
-	-$(PY) -m pip uninstall pyslvs
+	-$(PY) -m pip uninstall pyslvs -y
 	$(eval CMD = cd $(PYSLVS_PATH) && $(PY) setup.py install)
 ifneq ($(USER_MODE),false)
 	$(CMD) --user
@@ -76,7 +76,7 @@ endif
 
 build-solvespace:
 	@echo ---Python Solvespace Build---
-	-$(PY) -m pip uninstall python_solvespace
+	-$(PY) -m pip uninstall python_solvespace -y
 	$(eval CMD = cd $(PYTHON_SLVS_PATH) && $(PY) setup.py install)
 ifneq ($(USER_MODE),false)
 	$(CMD) --user
@@ -141,7 +141,7 @@ else
 endif
 
 clean-pyslvs:
-	-$(PY) -m pip uninstall pyslvs
+	-$(PY) -m pip uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
 ifeq ($(OS),Windows_NT)
 	-rd "$(PYSLVS_PATH)/dist" /s /q
@@ -156,7 +156,7 @@ else
 endif
 
 clean-solvespace:
-	-$(PY) -m pip uninstall python_solvespace
+	-$(PY) -m pip uninstall python_solvespace -y
 	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py clean --all
 ifeq ($(OS),Windows_NT)
 	-rd "$(PYTHON_SLVS_PATH)/dist" /s /q
