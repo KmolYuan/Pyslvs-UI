@@ -5,6 +5,9 @@ copyright: Copyright © 2016-2019 Yuan Chang
 site_favicon: favicon.ico
 site_description: The manual of Pyslvs, Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.
 
+theme:
+    name: rtd-dropdown
+
 markdown_extensions:
     - toc:
         permalink: true

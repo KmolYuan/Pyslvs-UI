@@ -8,6 +8,7 @@
 + Fix the error of switching structure collections.
 + Showing attributes instead doing number synthesis after generalization.
 + Update the documentation of APIs.
++ Change documentation them to "rtd-dropdown".
 
 **Development**:
 
