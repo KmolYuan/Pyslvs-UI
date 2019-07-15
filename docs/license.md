@@ -1,8 +1,10 @@
-# License
+# References
+
+## License
 
 Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-UI/blob/master/LICENSE).
 
-# Slides
+## Slides
 
 The slides of Pyslvs:
 
@@ -10,6 +12,6 @@ The slides of Pyslvs:
 
 <https://kmolyuan.github.io/pyslvs-slide/>
 
-# Cite
+## Cite
 
 The paper reference of Pyslvs is not yet prepared.

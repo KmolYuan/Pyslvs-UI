@@ -1,4 +1,6 @@
-# Namespace
+# Pyslvs API
+
+## Namespace
 
 The namespace of Pyslvs is `pyslvs`.
 
@@ -19,9 +21,9 @@ The modules are:
 + [`triangulation`](#module-triangulation)
 + [`verify`](#module-verify)
 
-# Module `atlas`
+## Module `atlas`
 
-## conventional_graph()
+### conventional_graph()
 
 | cg_list | c_j_list | no_degenerate | stop_func | return |
 |:-------:|:--------:|:-------------:|:---------:|:------:|
@@ -40,7 +42,7 @@ The degenerate setting `no_degenerate` has following option:
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-## contracted_graph()
+### contracted_graph()
 
 | link_num | stop_func | return |
 |:--------:|:---------:|:------:|
@@ -52,9 +54,9 @@ Generate contracted graphs by link assortment `link_num`.
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-# Module `bfgs`
+## Module `bfgs`
 
-## vpoint_solving()
+### vpoint_solving()
 
 | vpoints | inputs | data_dict | return |
 |:-------:|:------:|:---------:|:------:|
@@ -81,9 +83,9 @@ The joint position will returned by its index correspondingly.
 + Revolut joints: Tuple[float, float]
 + Slider joints: Tuple[Tuple[float, float], Tuple[float, float]]
 
-# Module `collection`
+## Module `collection`
 
-## collection_list
+### collection_list
 
 | type |
 |:----:|
@@ -108,9 +110,9 @@ The format of each configuration is:
 + `same`: The multiple joints setting.
     + type: Dict[int, int]
 
-# Module `example`
+## Module `example`
 
-## example_list
+### example_list
 
 | type |
 |:----:|
@@ -125,9 +127,9 @@ The format of each mechanism is:
 + `[1]`: [Input pairs].
     + type: Tuple[Tuple[int, int], ...]]
 
-# Module `expression`
+## Module `expression`
 
-## get_vlinks()
+### get_vlinks()
 
 | vpoints | return |
 |:-------:|:------:|
@@ -135,7 +137,7 @@ The format of each mechanism is:
 
 Get VLinks from a list of VPoint `vpoints`.
 
-## Coordinate
+### Coordinate
 
 | type | inherit |
 |:----:|:-------:|
@@ -143,14 +145,14 @@ Get VLinks from a list of VPoint `vpoints`.
 
 A data class used to store coordinates.
 
-### Object attributes of Coordinate
+#### Object attributes of Coordinate
 
 | name | type | description |
 |:----:|:----:|:------------|
 | x | float | The x value of [Coordinate] class. |
 | y | float | The y value of [Coordinate] class. |
 
-### Coordinate.\_\_init__()
+#### Coordinate.\_\_init__()
 
 | self | x | y |
 |:----:|:---:|:---:|
@@ -158,7 +160,7 @@ A data class used to store coordinates.
 
 The constructor of [Coordinate] class.
 
-### Coordinate.distance()
+#### Coordinate.distance()
 
 | self | p | return |
 |:----:|:---:|:----:|
@@ -166,7 +168,7 @@ The constructor of [Coordinate] class.
 
 Return the distance between two [Coordinate] objects.
 
-### Coordinate.is_nan()
+#### Coordinate.is_nan()
 
 | self | return |
 |:----:|:------:|
@@ -174,7 +176,7 @@ Return the distance between two [Coordinate] objects.
 
 Return `True` if the coordinate value is not a number.
 
-### Coordinate.\_\_repr__()
+#### Coordinate.\_\_repr__()
 
 | self | return |
 |:----:|:------:|
@@ -182,7 +184,7 @@ Return `True` if the coordinate value is not a number.
 
 Over loaded method to print the objects.
 
-## VJoint
+### VJoint
 
 | type | inherit |
 |:----:|:-------:|
@@ -190,7 +192,7 @@ Over loaded method to print the objects.
 
 Enumeration values of Joint types.
 
-## VPoint
+### VPoint
 
 | type | inherit |
 |:----:|:-------:|
@@ -198,7 +200,7 @@ Enumeration values of Joint types.
 
 Mechanism expression class.
 
-### Object attributes of VPoint
+#### Object attributes of VPoint
 
 | name | type | description |
 |:----:|:----:|:------------|
@@ -212,7 +214,7 @@ Mechanism expression class.
 | y | float | The original y value of the joint. |
 | angle | float | The slider slot angle value of the joint. |
 
-### VPoint.\_\_init__()
+#### VPoint.\_\_init__()
 
 | self | links | type_int | angle | color_str | x | y | color_func | return |
 |:----:|:-----:|:--------:|:-----:|:---------:|:---:|:---:|:------:|:------:|
@@ -228,7 +230,7 @@ If color information is not needed, the `color_func` can be `None`.
 
     Some of the attributes are not work in some of the joint types.
 
-### VPoint.r_joint()
+#### VPoint.r_joint()
 
 `@staticmethod`
 
@@ -238,7 +240,7 @@ If color information is not needed, the `color_func` can be `None`.
 
 A fast constructor of revolut joints.
 
-### VPoint.slider_joint()
+#### VPoint.slider_joint()
 
 `@staticmethod`
 
@@ -248,7 +250,7 @@ A fast constructor of revolut joints.
 
 A fast constructor of slider joints.
 
-### VPoint.copy()
+#### VPoint.copy()
 
 | self | return |
 |:----:|:------:|
@@ -256,7 +258,7 @@ A fast constructor of slider joints.
 
 The copy method of the [VPoint] object.
 
-### VPoint.cx()
+#### VPoint.cx()
 
 `@property`
 
@@ -267,7 +269,7 @@ The copy method of the [VPoint] object.
 X value of current coordinate.
 If it's slider, the pin coordinate will be returned.
 
-### VPoint.cy()
+#### VPoint.cy()
 
 `@property`
 
@@ -278,7 +280,7 @@ If it's slider, the pin coordinate will be returned.
 Y value of current coordinate.
 If it's slider, the pin coordinate will be returned.
 
-### VPoint.set_links()
+#### VPoint.set_links()
 
 | self | links | return |
 |:----:|:-----:|:------:|
@@ -286,7 +288,7 @@ If it's slider, the pin coordinate will be returned.
 
 The update function of links attribute.
 
-### VPoint.replace_link()
+#### VPoint.replace_link()
 
 | self | link1 | link2 | return |
 |:----:|:-----:|:-----:|:------:|
@@ -294,7 +296,7 @@ The update function of links attribute.
 
 Replace the value in links attribute.
 
-### VPoint.move()
+#### VPoint.move()
 
 | self | c1 | c2 | return |
 |:----:|:---:|:---:|:----:|
@@ -307,7 +309,7 @@ The 2nd placement is the pin coordinate of slider joints.
 If there is only one argument for a slider joint,
 the slot and pin coordinates will be set to the same position.
 
-### VPoint.locate()
+#### VPoint.locate()
 
 | self | x | y | return |
 |:----:|:---:|:---:|:----:|
@@ -316,7 +318,7 @@ the slot and pin coordinates will be set to the same position.
 The update function of original coordinate.
 It will call `self.move((x, y))` after set the position.
 
-### VPoint.rotate()
+#### VPoint.rotate()
 
 | self | angle | return |
 |:----:|:-----:|:----:|
@@ -324,7 +326,7 @@ It will call `self.move((x, y))` after set the position.
 
 The update function of angle attribute.
 
-### VPoint.set_offset()
+#### VPoint.set_offset()
 
 | self | offset | return |
 |:----:|:-----:|:----:|
@@ -333,7 +335,7 @@ The update function of angle attribute.
 The update function of slider offset.
 It will also enable offset value after called.
 
-### VPoint.disable_offset()
+#### VPoint.disable_offset()
 
 | self | return |
 |:----:|:------:|
@@ -341,7 +343,7 @@ It will also enable offset value after called.
 
 Disable offset setting of the joint.
 
-### VPoint.distance()
+#### VPoint.distance()
 
 | self | p | return |
 |:----:|:---:|:----:|
@@ -349,7 +351,7 @@ Disable offset setting of the joint.
 
 Return the distance between two [VPoint] objects.
 
-### VPoint.has_offset()
+#### VPoint.has_offset()
 
 | self | return |
 |:----:|:------:|
@@ -357,7 +359,7 @@ Return the distance between two [VPoint] objects.
 
 Return `True` if the offset setting is enabled.
 
-### VPoint.offset()
+#### VPoint.offset()
 
 | self | return |
 |:----:|:------:|
@@ -365,7 +367,7 @@ Return `True` if the offset setting is enabled.
 
 Return the offset constraint value of the joint.
 
-### VPoint.true_offset()
+#### VPoint.true_offset()
 
 | self | return |
 |:----:|:------:|
@@ -373,7 +375,7 @@ Return the offset constraint value of the joint.
 
 Return the current offset value of the joint.
 
-### VPoint.slope_angle()
+#### VPoint.slope_angle()
 
 | self | p | num1 | num2 | return |
 |:----:|:---:|:---:|:---:|:------:|
@@ -386,7 +388,7 @@ and `p_x`, `p_y` is the value of `p`.
 
 The option `num1` and `num2` is the position of current coordinate attribute.
 
-### VPoint.grounded()
+#### VPoint.grounded()
 
 | self | return |
 |:----:|:------:|
@@ -394,7 +396,7 @@ The option `num1` and `num2` is the position of current coordinate attribute.
 
 Return `True` if the joint is connected to ground link.
 
-### VPoint.pin_grounded()
+#### VPoint.pin_grounded()
 
 | self | return |
 |:----:|:------:|
@@ -402,7 +404,7 @@ Return `True` if the joint is connected to ground link.
 
 Return `True` if the joint pin is connected to ground link.
 
-### VPoint.same_link()
+#### VPoint.same_link()
 
 | self | return |
 |:----:|:------:|
@@ -410,7 +412,7 @@ Return `True` if the joint pin is connected to ground link.
 
 Return `True` if the point is at the same link.
 
-### VPoint.no_link()
+#### VPoint.no_link()
 
 | self | return |
 |:----:|:------:|
@@ -418,7 +420,7 @@ Return `True` if the point is at the same link.
 
 Return `True` if there is no any link in links attribute.
 
-### VPoint.is_slot_link()
+#### VPoint.is_slot_link()
 
 | self | link_name | return |
 |:----:|:---------:|:------:|
@@ -426,7 +428,7 @@ Return `True` if there is no any link in links attribute.
 
 Return `True` if the slot is on the link `link_name`.
 
-### VPoint.expr()
+#### VPoint.expr()
 
 | self | return |
 |:----:|:------:|
@@ -434,7 +436,7 @@ Return `True` if the slot is on the link `link_name`.
 
 Return the literal mechanism expression of the joint.
 
-### VPoint.\_\_getitem__()
+#### VPoint.\_\_getitem__()
 
 | self | i | return |
 |:----:|:---:|:------:|
@@ -442,7 +444,7 @@ Return the literal mechanism expression of the joint.
 
 Implement `x, y = self` or `x = self[0]` in Python script.
 
-### VPoint.\_\_repr__()
+#### VPoint.\_\_repr__()
 
 | self | return |
 |:----:|:------:|
@@ -450,7 +452,7 @@ Implement `x, y = self` or `x = self[0]` in Python script.
 
 Over loaded method to print the objects.
 
-## VLink
+### VLink
 
 | type | inherit |
 |:----:|:-------:|
@@ -458,7 +460,7 @@ Over loaded method to print the objects.
 
 Mechanism expression class in link's view.
 
-### Object attributes of VLink
+#### Object attributes of VLink
 
 | name | type | description |
 |:----:|:----:|:------------|
@@ -467,7 +469,7 @@ Mechanism expression class in link's view.
 | color_str | str | The color string of the joint. |
 | points | Tuple[int, ...] | The points of the link. |
 
-### VLink.\_\_init__()
+#### VLink.\_\_init__()
 
 | self | name | color_str | points | color_func | return |
 |:----:|:----:|:---------:|:------:|:----------:|:------:|
@@ -479,7 +481,7 @@ The attributes will match to the object attributes of [VLink] objects.
 Where the color function `color_func` needs to transform the color string `color_str` into RGB format.
 If color information is not needed, the `color_func` can be `None`.
 
-### VLink.set_points()
+#### VLink.set_points()
 
 | self | points | return |
 |:----:|:------:|:------:|
@@ -487,7 +489,7 @@ If color information is not needed, the `color_func` can be `None`.
 
 The update function of points attribute.
 
-### VLink.\_\_contains__()
+#### VLink.\_\_contains__()
 
 | self | point | return |
 |:----:|:-----:|:------:|
@@ -496,7 +498,7 @@ The update function of points attribute.
 Implement `point in self` in Python script.
 Return `True` if `point` is in the points attribute.
 
-### VLink.\_\_repr__()
+#### VLink.\_\_repr__()
 
 | self | return |
 |:----:|:------:|
@@ -504,9 +506,9 @@ Return `True` if `point` is in the points attribute.
 
 Over loaded method to print the objects.
 
-# Module `expression_parser`
+## Module `expression_parser`
 
-## color_names
+### color_names
 
 | type |
 |:----:|
@@ -514,7 +516,7 @@ Over loaded method to print the objects.
 
 The object contains all of supported colors in string format.
 
-## color_rgb()
+### color_rgb()
 
 | name | return |
 |:----:|:------:|
@@ -524,7 +526,7 @@ Get RGB color data by name, return `(0, 0, 0)` if it is invalid.
 
 Also support `"(R, G, B)"` string format.
 
-## parse_params()
+### parse_params()
 
 | expr | return |
 |:----:|:------:|
@@ -532,7 +534,7 @@ Also support `"(R, G, B)"` string format.
 
 Parse mechanism expression into [VPoint] constructor arguments.
 
-## parse_pos()
+### parse_pos()
 
 | expr | return |
 |:----:|:------:|
@@ -540,7 +542,7 @@ Parse mechanism expression into [VPoint] constructor arguments.
 
 Parse mechanism expression into coordinates.
 
-## parse_vpoints()
+### parse_vpoints()
 
 | expr | return |
 |:----:|:------:|
@@ -548,7 +550,7 @@ Parse mechanism expression into coordinates.
 
 Parse mechanism expression into [VPoint] objects.
 
-## parse_vlinks()
+### parse_vlinks()
 
 | expr | return |
 |:----:|:------:|
@@ -556,7 +558,7 @@ Parse mechanism expression into [VPoint] objects.
 
 Parse mechanism expression into [VLink] objects.
 
-## edges_view()
+### edges_view()
 
 | graph | return |
 |:-----:|:------:|
@@ -564,7 +566,7 @@ Parse mechanism expression into [VLink] objects.
 
 The iterator will yield the sorted edges from `graph`.
 
-## graph2vpoints()
+### graph2vpoints()
 
 | graph | pos | cus | same | grounded | return |
 |:-----:|:---:|:---:|:----:|:--------:|:------:|
@@ -578,7 +580,7 @@ Transform `graph` into [VPoint] objects. The vertices are mapped to links.
 + `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
 + `grounded`: The ground link of vertices.
 
-## PMKSLexer
+### PMKSLexer
 
 | type | inherit |
 |:----:|:-------:|
@@ -586,9 +588,9 @@ Transform `graph` into [VPoint] objects. The vertices are mapped to links.
 
 The lexer class for [Pygments](http://pygments.org/) module.
 
-# Module `graph`
+## Module `graph`
 
-## link_assortment()
+### link_assortment()
 
 | g | return |
 |:---:|:----:|
@@ -596,7 +598,7 @@ The lexer class for [Pygments](http://pygments.org/) module.
 
 Return link assortment of the graph.
 
-## contracted_link_assortment()
+### contracted_link_assortment()
 
 | g | return |
 |:---:|:----:|
@@ -604,7 +606,7 @@ Return link assortment of the graph.
 
 Return contracted link assortment of the graph.
 
-## labeled_enumerate()
+### labeled_enumerate()
 
 | g | return |
 |:---:|:----:|
@@ -612,7 +614,7 @@ Return contracted link assortment of the graph.
 
 Enumerate each node with labeled except isomorphism.
 
-## Graph
+### Graph
 
 | type | inherit |
 |:----:|:-------:|
@@ -620,14 +622,14 @@ Enumerate each node with labeled except isomorphism.
 
 The undirected graph class, support multigraph.
 
-### Object attributes of Graph
+#### Object attributes of Graph
 
 | name | type | description |
 |:----:|:----:|:------------|
 | edges | Tuple[Tuple[int, int], ...] | The edges of graph. |
 | nodes | Tuple[int, ...] | The nodes of graph. |
 
-### Graph.\_\_init__()
+#### Graph.\_\_init__()
 
 | self | edges | return |
 |:----:|:-----:|:------:|
@@ -635,7 +637,7 @@ The undirected graph class, support multigraph.
 
 Input edges of the graph. The vertices symbols are positive continuously integer.
 
-### Graph.add_edge()
+#### Graph.add_edge()
 
 | self | n1 | n2 | return |
 |:----:|:---:|:---:|:----:|
@@ -643,7 +645,7 @@ Input edges of the graph. The vertices symbols are positive continuously integer
 
 Add edge `n1` to `n2`.
 
-### Graph.add_nodes()
+#### Graph.add_nodes()
 
 | self | nodes | return |
 |:----:|:-----:|:----:|
@@ -651,7 +653,7 @@ Add edge `n1` to `n2`.
 
 Add nodes from iterable object `nodes`.
 
-### Graph.dof()
+#### Graph.dof()
 
 | self | return |
 |:----:|:------:|
@@ -659,7 +661,7 @@ Add nodes from iterable object `nodes`.
 
 Return DOF of the graph.
 
-### Graph.neighbors()
+#### Graph.neighbors()
 
 | self | n | return |
 |:----:|:---:|:----:|
@@ -667,7 +669,7 @@ Return DOF of the graph.
 
 Return the neighbors of the vertex `n`.
 
-### Graph.is_connected()
+#### Graph.is_connected()
 
 | self | without | return |
 |:----:|:--------:|:------:|
@@ -677,7 +679,7 @@ Return the neighbors of the vertex `n`.
 Return `True` if the graph is connected.
 Set the argument `without` to ignore one vertex.
 
-### Graph.has_cut_link()
+#### Graph.has_cut_link()
 
 | self | return |
 |:----:|:------:|
@@ -685,7 +687,7 @@ Set the argument `without` to ignore one vertex.
 
 Return `True` if the graph has cut-link.
 
-### Graph.is_degenerate()
+#### Graph.is_degenerate()
 
 | self | return |
 |:----:|:------:|
@@ -693,7 +695,7 @@ Return `True` if the graph has cut-link.
 
 Return `True` if the graph is degenerate.
 
-### Graph.is_isomorphic()
+#### Graph.is_isomorphic()
 
 | self | graph | return |
 |:----:|:-----:|:------:|
@@ -701,7 +703,7 @@ Return `True` if the graph is degenerate.
 
 Return `True` if the graph is isomorphic to `graph`.
 
-### Graph.duplicate()
+#### Graph.duplicate()
 
 | self | nodes | return |
 |:----:|:-----:|:----:|
@@ -709,7 +711,7 @@ Return `True` if the graph is isomorphic to `graph`.
 
 Make the graph duplicate specific nodes (from `nodes`). Return a new graph.
 
-### Graph.copy()
+#### Graph.copy()
 
 | self | return |
 |:----:|:------:|
@@ -717,9 +719,9 @@ Make the graph duplicate specific nodes (from `nodes`). Return a new graph.
 
 The copy method of the [Graph] object.
 
-# Module `graph_layout`
+## Module `graph_layout`
 
-## external_loop_layout()
+### external_loop_layout()
 
 | graph | node_mode | scale | return |
 |:-----:|:---------:|:-----:|:------:|
@@ -732,9 +734,9 @@ Argument `node_mode` will transform edges into vertices.
 
 Argument `scale` will resize the position by scale factor.
 
-# Module `number`
+## Module `number`
 
-## link_synthesis()
+### link_synthesis()
 
 | nl | nj | stop_func | return |
 |:---:|:---:|:-------:|:------:|
@@ -746,7 +748,7 @@ Return link assortment by number of links `nl` and number of joints `nj`.
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-## contracted_link_synthesis()
+### contracted_link_synthesis()
 
 | link_num_list | stop_func | return |
 |:-------------:|:---------:|:------:|
@@ -758,9 +760,9 @@ Return contracted link assortment by link assortment `link_num_list`.
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-# Module `planar_check`
+## Module `planar_check`
 
-## is_planar()
+### is_planar()
 
 | g | return |
 |:---:|:----:|
@@ -768,15 +770,15 @@ return `True` to terminate this function.
 
 Return `True` if graph `g` is a planar graph.
 
-# Module `planar_linkage`
+## Module `planar_linkage`
 
-## Planar
+### Planar
 
 | type | inherit |
 |:----:|:-------:|
 | type | [Verification] |
 
-### Planar.\_\_init__()
+#### Planar.\_\_init__()
 
 | self | mech_params | return |
 |:----:|:-----------:|:------:|
@@ -809,7 +811,7 @@ Variable array:
 
 In 1D array: `v = [x0, y0, ..., l0, l1, ..., a00, a01, ..., a10, a11, ...]`
 
-### Planar.is_two_kernel()
+#### Planar.is_two_kernel()
 
 | self | return |
 |:----:|:------:|
@@ -817,7 +819,7 @@ In 1D array: `v = [x0, y0, ..., l0, l1, ..., a00, a01, ..., a10, a11, ...]`
 
 Return `True` if the solving method is two kernel.
 
-### Planar.result()
+#### Planar.result()
 
 | self | v | return |
 |:----:|:---:|:----:|
@@ -825,7 +827,7 @@ Return `True` if the solving method is two kernel.
 
 Input a generic data (variable array), return the mechanism expression.
 
-# Module `tinycadlib`
+## Module `tinycadlib`
 
 Under planning.
 

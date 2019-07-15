@@ -16,15 +16,15 @@ markdown_extensions:
     - attr_list
 
 nav:
-    - Home: index.md
+    - Pyslvs Manual: index.md
     - Getting Start:
         - Introduction: introduction.md
         - Environment: environment.md
     - User Interface:
-        - Mechanism: mechanism.md
-        - Inputs: inputs.md
-        - Synthesis: synthesis.md
-        - IO: io.md
+        - Build a Planar Linkage Mechanism: mechanism.md
+        - Mechanism Variables: inputs.md
+        - Mechanism Synthesis: synthesis.md
+        - File Format of Pyslvs: io.md
         - Settings: settings.md
     - Libraries:
         - Pyslvs Libraries: pyslvs-lib.md

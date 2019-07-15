@@ -1,4 +1,6 @@
-# Architecture
+# Environment
+
+## Architecture
 
 Pyslvs is a Graphical User Interface (GUI) program written in Python.
 After installed Python launcher on your platform,
@@ -7,7 +9,7 @@ the programming script can be compiled as an executable file.
 In development state, Pyslvs including several dynamic libraries,
 which are need to be compiled first.
 
-# Dependency
+## Dependency
 
 Actual testing platforms with CI:
 
@@ -37,7 +39,7 @@ Makefile tool: [MinGW] or [Msys 2][msys].
 pip install -r requirements.txt
 ```
 
-## PyQt Stuff (Development)
+### PyQt Stuff (Development)
 
 PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can install them directly.
 
@@ -55,7 +57,7 @@ Windows user can get Qt tools by pip (maybe not newest version), without to inst
 pip install pyqt5-tools
 ```
 
-# Kernels Requirement
+## Kernels Requirement
 
 About the development tools, please see [Modules Requirement](#modules-requirement).
 
@@ -67,7 +69,7 @@ make build-kernel
 
 This project including two kernels should build.
 
-## Pyslvs Kernel
+### Pyslvs Kernel
 
 [Pyslvs]: Core libraries of this project.
 
@@ -77,11 +79,11 @@ Make command:
 make build-pyslvs
 ```
 
-### Mac OS and Ubuntu
+#### Mac OS and Ubuntu
 
 User can compile the kernel by [Cython](http://cython.org/) directly.
 
-### Windows
+#### Windows
 
 There's two options to choose SDK:
 
@@ -132,7 +134,7 @@ ifeq ($(OS),Windows_NT)
 endif
 ```
 
-## Python-Solvespace Kernel
+### Python-Solvespace Kernel
 
 [Python-Solvespace]: Python bundle of [Solvespace] library.
 
@@ -144,11 +146,11 @@ make build-solvespace
 
 The compile steps of this kernel has same way as Pyslvs kernel.
 
-## Stand-alone Executable File
+### Stand-alone Executable File
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
-### Ubuntu
+#### Ubuntu
 
 Use shell command to build as [AppImage].
 
@@ -161,7 +163,7 @@ sudo pip3 install virtualenv
 make
 ```
 
-### Mac OS and Windows
+#### Mac OS and Windows
 
 Use PyInstaller to build.
 

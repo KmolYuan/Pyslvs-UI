@@ -1,4 +1,6 @@
-# Features
+# Introduction
+
+## Features
 
 A GUI-based tool used to design 2D linkage mechanism.
 
