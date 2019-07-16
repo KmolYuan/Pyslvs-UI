@@ -661,6 +661,12 @@ Add nodes from iterable object `nodes`.
 
 Return DOF of the graph.
 
+!!! Note
+
+    DOF is the Degree of Freedoms to a mechanism.
+
+    In the [Graph] objects, all vertices will assumed as revolut joints (1 DOF).
+
 #### Graph.neighbors()
 
 | self | n | return |
@@ -829,6 +835,120 @@ Input a generic data (variable array), return the mechanism expression.
 
 ## Module `tinycadlib`
 
+### plap()
+
+| c1 | d0 | a0 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:---:|:------:|
+| [Coordinate] | float | float | Optional\[[Coordinate]] | bool | [Coordinate] |
+| | | | None | False | |
+
+The PLAP function requires two points, one distance and one angle, obtained the position of thrid point.
+The unit of `a0` is degree.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B", `d0` correspond to "L0",
+`a0` correspond to "beta", `return` correspond to "C". If `c2` is not given, "alpha" will be set to zero.
+
+![PLAP](img/PLAP.png)
+
+Set `inverse` option to `True` can make `a0` value as negative.
+
+### pllp()
+
+| c1 | d0 | d1 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:---:|:------:|
+| [Coordinate] | float | float | [Coordinate] | bool | [Coordinate] |
+| | | | | False | |
+
+The PLLP function requires two points and two distances, obtained the position of thrid point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B", `d0` correspond to "L0",
+`d1` correspond to "L1", `return` correspond to "C".
+
+![PLLP](img/PLLP.png)
+
+Set `inverse` option to `True` can make the result upside down.
+
+### plpp()
+
+| c1 | d0 | c2 | c3 | inverse | return |
+|:---:|:---:|:---:|:---:|:---:|:------:|
+| [Coordinate] | float | [Coordinate] | [Coordinate] | bool | [Coordinate] |
+| | | | | False | |
+
+The PLLP function requires three points and one distance, obtained the position of fourth point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B", `c3` correspond to "C",
+`d0` correspond to "L0", `return` correspond to "D".
+
+![PLPP](img/PLPP.png)
+
+Set `inverse` option to `True` can make the result to the another side between `c1` and line `c2` `c3`.
+
+### pxy()
+
+| c1 | d0 | d1 | return |
+|:---:|:---:|:---:|:---:|
+| [Coordinate] | float | float | [Coordinate] |
+
+The PXY function requires one point and offset values, obtained the position of second point.
+
+In the following picture, `c1` correspond to "A", `d0` correspond to "X",
+`d1` correspond to "Y", `return` correspond to "B", the sign of value are correspond to coordinate system.
+
+![PXY](img/PXY.png)
+
+### vpoint_dof()
+
+| vpoints | return |
+|:-------:|:------:|
+| Sequence\[[VPoint]] | int |
+
+Return the DOF of the mechanism expression `vpoints`.
+
+### expr_parser()
+
+| exprs | data_dict | return |
+|:-----:|:---------:|:------:|
+| Sequence[Tuple[str, ...]] | Dict[str, float] | None |
+
+Solve and update information of the triangle expression `exprs` to `data_dict`.
+The argument `exprs` can be obtained by [`vpoints_configure`](#vpoints_configure) and [`ExpressionStack.as_list()`](#expressionstackas_list) method.
+
+This function is already included in [`expr_solving`](#expr_solving), not recommended for direct use.
+
+### data_collecting()
+
+| exprs | mapping | vpoints_ | return |
+|:-----:|:-------:|:--------:|:------:|
+| [ExpressionStack] | Dict[int, str] | Sequence\[[VPoint]] | Tuple\[Dict\[str, Union\[[Coordinate], float]], int] |
+
+Data transform function of Triangular method.
+
+The triangle expression stack `expr` is generated from [`vpoints_configure`](#vpoints_configure).
+
+The information data `mapping` map the symbols to the indicator of `vpoints_`.
+
+This function is already included in [`expr_solving`](#expr_solving), not recommended for direct use.
+
+### expr_solving()
+
+| exprs | mapping | vpoints | angles | return |
+|:-----:|:-------:|:-------:|:------:|:------:|
+| [ExpressionStack] | Dict[Union[int, Tuple[int, int]], Union[str, float]] | Sequence\[[VPoint]] | Optional[Sequence[float]] | List[Union[Tuple[float, float], Tuple[Tuple[float, float], Tuple[float, float]]]] |
+| | | | None | |
+
+Solver function of Triangular method and BFGS method, for mechanism expression `vpoints`.
+
+The triangle expression stack `expr` is generated from [`vpoints_configure`](#vpoints_configure).
+
+The information data `mapping` map the symbols to the indicator of `vpoints`,
+additionally has a same format as argument `data_dict` in [`vpoint_solving`](#vpoint_solving).
+
+Solver function will not handle slider input pairs in argument `angles`, which is only support revolut joints.
+In another way, the slider input pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
+
+## Module `triangulation`
+
 Under planning.
 
 [input pairs]: #vpoint_solving
@@ -838,3 +958,4 @@ Under planning.
 [VLink]: #vlink
 [Graph]: #graph
 [Verification]: #verification
+[ExpressionStack]: #expressionstack
