@@ -989,7 +989,38 @@ The argument `status` will track the configuration of each point, which is optio
 
 ## Module `verify`
 
-Under planning.
+### Verification
+
+| type | inherit |
+|:----:|:-------:|
+| type | object |
+
+Verification function class base.
+It is used to build the verification function for Metaheuristic Ramdom Algorithms.
+See the sections of [Adesign API](adesign-api.md).
+
+#### Verification.fitness()
+
+**Cython `cdef` method**
+
+`@abstractmethod`
+
+| self | v | return |
+|:----:|:---:|:----:|
+| | numpy.ndarray | double |
+
+Return the fitness from the variable list `v`.
+This function will be directly called in the algorithms.
+
+#### Verification.result()
+
+`@abstractmethod`
+
+| self | v | return |
+|:----:|:---:|:----:|
+| | numpy.ndarray | Any |
+
+Return the result from the variable list `v`.
 
 [input pairs]: #vpoint_solving
 [Coordinate]: #coordinate
