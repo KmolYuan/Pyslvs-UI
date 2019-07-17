@@ -949,6 +949,46 @@ In another way, the slider input pairs can be set by [`VPoint.disable_offset()`]
 
 ## Module `triangulation`
 
+### ExpressionStack
+
+| type | inherit |
+|:----:|:-------:|
+| type | object |
+
+Triangle solution stack, generated from [`vpoints_configure`](#vpoints_configure).
+It is pointless to call the constructor.
+
+#### ExpressionStack.as_list()
+
+| self | return |
+|:----:|:------:|
+| | List[Tuple[str, ...]] |
+
+Copy the dataset as list object.
+
+#### ExpressionStack.\_\_repr__()
+
+| self | return |
+|:----:|:------:|
+| | str |
+
+Over loaded method to print the objects.
+
+### vpoints_configure()
+
+| vpoints_ | inputs | status | return |
+|:--------:|:------:|:------:|:------:|
+| Sequence\[[VPoint]] | Sequence[Tuple[int, int]] | Optional[Dict[int, bool]] | ExpressionStack |
+| | | None | |
+
+Generate the Triangle solution stack by mechanism expression `vpoints_`.
+
+The argument `inputs` is a list of [input pairs].
+
+The argument `status` will track the configuration of each point, which is optional.
+
+## Module `verify`
+
 Under planning.
 
 [input pairs]: #vpoint_solving
