@@ -19,6 +19,11 @@ from typing import (
     Optional,
 )
 from time import time
+from pyslvs import (
+    Graph,
+    link_assortment,
+    contracted_link_assortment,
+)
 from core.QtModules import (
     Slot,
     qt_image_format,
@@ -42,11 +47,6 @@ from core.QtModules import (
     QListWidgetItem,
     QTreeWidgetItem,
     QHeaderView,
-)
-from core.libs import (
-    Graph,
-    link_assortment,
-    contracted_link_assortment,
 )
 from core.graphics import graph2icon, engines
 from .thread import (

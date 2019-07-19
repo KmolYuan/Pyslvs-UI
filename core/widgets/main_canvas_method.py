@@ -27,6 +27,7 @@ from math import (
     hypot,
 )
 from itertools import chain
+from pyslvs import VJoint, VPoint, VLink
 from core.QtModules import (
     Signal,
     Qt,
@@ -45,7 +46,6 @@ from core.graphics import (
     BaseCanvas,
     color_qt,
 )
-from core.libs import VJoint, VPoint, VLink
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase

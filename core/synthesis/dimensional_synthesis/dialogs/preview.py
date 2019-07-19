@@ -16,6 +16,13 @@ from typing import (
     Sequence,
     Any,
 )
+from pyslvs import (
+    color_rgb,
+    get_vlinks,
+    VPoint,
+    VLink,
+    parse_vpoints,
+)
 from core.QtModules import (
     Slot,
     Qt,
@@ -30,13 +37,6 @@ from core.QtModules import (
     QWidget,
 )
 from core.graphics import BaseCanvas, color_qt
-from core.libs import (
-    color_rgb,
-    get_vlinks,
-    VPoint,
-    VLink,
-    parse_vpoints,
-)
 from .Ui_preview import Ui_Dialog
 
 

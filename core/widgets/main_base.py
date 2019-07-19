@@ -19,6 +19,13 @@ from typing import (
     Any,
 )
 from abc import abstractmethod
+from pyslvs import (
+    __version__,
+    VPoint,
+    VLink,
+    Graph,
+    color_rgb,
+)
 from core.QtModules import (
     Slot,
     Qt,
@@ -38,15 +45,7 @@ from core.QtModules import (
     QUndoView,
     QABCMeta,
 )
-from core.info import ARGUMENTS, logger
-from core.libs import (
-    __version__,
-    kernel_list,
-    VPoint,
-    VLink,
-    Graph,
-    color_rgb,
-)
+from core.info import ARGUMENTS, logger, kernel_list
 from core.io import YamlEditor, DatabaseWidget
 from core.synthesis import (
     StructureSynthesis,

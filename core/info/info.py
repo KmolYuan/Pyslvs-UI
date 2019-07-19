@@ -22,13 +22,13 @@ from platform import (
 )
 from argparse import ArgumentParser
 import requests
+from pyslvs import __version__
 from core.QtModules import (
     QCoreApplication,
     QProgressDialog,
     QT_VERSION_STR,
     PYQT_VERSION_STR,
 )
-from core.libs import __version__
 
 
 SYS_INFO: Tuple[str, ...] = (

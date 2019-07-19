@@ -8,11 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from copy import deepcopy
-from typing import (
-    Dict,
-    Callable,
-    Any,
-)
+from typing import Dict, Callable, Any
+from pyslvs import collection_list
 from core.QtModules import (
     Qt,
     QDialog,
@@ -24,7 +21,6 @@ from core.QtModules import (
     QWidget,
 )
 from core.graphics import PreviewCanvas
-from core.libs import collection_list
 from .Ui_collections import Ui_Dialog
 
 

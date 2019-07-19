@@ -22,6 +22,12 @@ from typing import (
 )
 from math import hypot
 import pprint
+from pyslvs import (
+    Graph,
+    edges_view,
+    graph2vpoints,
+    parse_pos,
+)
 from core.QtModules import (
     Signal,
     QWidget,
@@ -33,12 +39,6 @@ from core.QtModules import (
     QApplication,
 )
 from core.graphics import PreviewCanvas
-from core.libs import (
-    Graph,
-    edges_view,
-    graph2vpoints,
-    parse_pos,
-)
 from .dialogs import (
     CollectionsDialog,
     CustomsDialog,

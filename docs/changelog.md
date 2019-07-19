@@ -17,6 +17,7 @@
 + Improve Makefile build and clean command of submodules.
 + Add backend data instead of UI table items.
 + Attributes refactor of file system.
++ Submodule import from namespace directly, instead of `core.libs` module.
 
 ## Version 19.06
 

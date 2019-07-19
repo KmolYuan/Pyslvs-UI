@@ -7,13 +7,13 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from pyslvs import color_names, color_rgb
 from core.QtModules import (
     QColor,
     QIcon,
     QPixmap,
     QSize,
 )
-from core.libs import color_names, color_rgb
 
 
 def color_qt(name: str) -> QColor:

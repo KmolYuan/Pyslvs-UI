@@ -29,6 +29,7 @@ from typing import (
     Optional,
 )
 from abc import abstractmethod
+from pyslvs import VJoint, VPoint, VLink, color_rgb
 from core.QtModules import (
     Qt,
     QABCMeta,
@@ -40,7 +41,6 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
-from core.libs import VJoint, VPoint, VLink, color_rgb
 from .tables import (
     BaseTableWidget,
     PointTableWidget,

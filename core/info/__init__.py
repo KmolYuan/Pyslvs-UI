@@ -23,4 +23,7 @@ __all__ = [
     'html',
     'logger',
     'XStream',
+    'kernel_list',
 ]
+
+kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")

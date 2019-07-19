@@ -127,7 +127,7 @@ find . -type f -name 'Makefile' -delete
 get_apprun
 
 cd ../..
-VERSION=$(python3 -c "from core.libs import __version__; print(__version__)")
+VERSION=$(python3 -c "from pyslvs import __version__; print(__version__)")
 echo "${VERSION}"
 cd ENV/${APP}.AppDir/
 

@@ -17,6 +17,14 @@ from typing import (
     Dict,
     Iterable,
 )
+from pyslvs import (
+    Graph,
+    link_assortment,
+    contracted_link_assortment,
+    labeled_enumerate,
+    is_planar,
+    external_loop_layout,
+)
 from core.QtModules import (
     Signal,
     Slot,
@@ -39,14 +47,6 @@ from core.graphics import (
     graph2icon,
     engine_picker,
     engines,
-)
-from core.libs import (
-    Graph,
-    link_assortment as l_a,
-    contracted_link_assortment as c_l_a,
-    labeled_enumerate,
-    is_planar,
-    external_loop_layout,
 )
 from .dialogs.targets import TargetsDialog
 from .Ui_structure_widget import Ui_Form
@@ -71,16 +71,16 @@ class StructureWidget(QWidget, Ui_Form):
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.input_from = parent.input_from
-        self.addPointsByGraph = parent.add_points_by_graph
-        self.unsaveFunc = parent.workbook_no_save
+        self.add_points_by_graph = parent.add_points_by_graph
+        self.workbook_no_save = parent.workbook_no_save
         self.is_monochrome = parent.monochrome_option.isChecked
 
-        # Data structures.
+        # Data structures
         self.collections: List[Graph] = []
         self.collections_layouts: List[Dict[int, Tuple[float, float]]] = []
         self.collections_grounded: List[Graph] = []
 
-        # Engine list.
+        # Engine list
         self.graph_engine.addItems(engines)
 
     def clear(self):
@@ -107,7 +107,7 @@ class StructureWidget(QWidget, Ui_Form):
         ) != QMessageBox.Yes:
             return
         self.clear()
-        self.unsaveFunc()
+        self.workbook_no_save()
 
     @Slot(name='on_reload_atlas_clicked')
     @Slot(bool, name='on_graph_link_as_node_toggled')
@@ -192,7 +192,7 @@ class StructureWidget(QWidget, Ui_Form):
             QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
             return
         self.collections.append(Graph(edges))
-        self.unsaveFunc()
+        self.workbook_no_save()
         if reload:
             self.__reload_atlas()
 
@@ -361,8 +361,8 @@ class StructureWidget(QWidget, Ui_Form):
         self.nj_label.setText(str(len(g.edges)))
         self.dof_label.setText(str(g.dof()))
         self.is_degenerate_label.setText(str(g.is_degenerate()))
-        self.link_assortment_label.setText(str(l_a(g)))
-        self.contracted_link_assortment_label.setText(str(c_l_a(g)))
+        self.link_assortment_label.setText(str(link_assortment(g)))
+        self.contracted_link_assortment_label.setText(str(contracted_link_assortment(g)))
 
         self.duplicate_button.setEnabled(link_is_node)
         self.configure_button.setEnabled(not link_is_node)
@@ -408,7 +408,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections.pop(row)
         self.collections_layouts.pop(row)
         self.__clear_selection()
-        self.unsaveFunc()
+        self.workbook_no_save()
 
     @Slot(name='on_duplicate_button_clicked')
     def __make_duplicate(self):
@@ -504,7 +504,7 @@ class StructureWidget(QWidget, Ui_Form):
             "Message",
             f"Merge \"{text}\" chain to your canvas?"
         ) == QMessageBox.Yes:
-            self.addPointsByGraph(
+            self.add_points_by_graph(
                 graph,
                 self.ground_engine,
                 ground_link

@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from pyslvs import __version__
 from core.QtModules import Qt, QDialog, QWidget
-from core.libs import __version__
 from .info import SYS_INFO, ARGUMENTS
 from .Ui_about import Ui_Dialog
 

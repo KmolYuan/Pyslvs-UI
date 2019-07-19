@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List
+from pyslvs import VPoint, VLink
 from core.QtModules import (
     Slot,
     Qt,
@@ -18,12 +19,7 @@ from core.QtModules import (
     QColorDialog,
     QWidget,
 )
-from core.graphics import (
-    color_names,
-    color_qt,
-    color_icon,
-)
-from core.libs import VPoint, VLink
+from core.graphics import color_names, color_qt, color_icon
 from .Ui_edit_point import Ui_Dialog
 
 

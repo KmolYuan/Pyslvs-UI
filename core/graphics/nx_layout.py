@@ -13,6 +13,11 @@ from typing import (
     Union,
     Optional,
 )
+from pyslvs import (
+    Graph,
+    external_loop_layout,
+    edges_view,
+)
 from core.QtModules import (
     Qt,
     QImage,
@@ -25,11 +30,6 @@ from core.QtModules import (
     QIcon,
     QPixmap,
     QFont,
-)
-from core.libs import (
-    Graph,
-    external_loop_layout,
-    edges_view,
 )
 from core.info import logger
 from .color import color_qt, color_num

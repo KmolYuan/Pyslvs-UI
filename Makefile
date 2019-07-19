@@ -17,7 +17,7 @@ else
 endif
 
 PYVER_COMAND = "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))"
-PYSLVSVER_COMAND = "from core.libs import __version__; print(__version__)"
+PYSLVSVER_COMAND = "from pyslvs import __version__; print(__version__)"
 COMPILERVER_COMAND = "import platform; print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())"
 SYSVER_COMAND = "import platform; print(platform.machine().lower())"
 ifeq ($(OS),Windows_NT)

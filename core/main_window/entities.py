@@ -18,6 +18,14 @@ from typing import (
 from abc import ABC, abstractmethod
 from math import hypot
 from itertools import chain
+from pyslvs import (
+    VJoint,
+    VPoint,
+    expr_solving,
+    Graph,
+    edges_view,
+    ExpressionStack,
+)
 from core.QtModules import (
     Slot,
     QDialogButtonBox,
@@ -28,18 +36,7 @@ from core.QtModules import (
     QVBoxLayout,
     QWidget,
 )
-from core.entities import (
-    EditPointDialog,
-    EditLinkDialog,
-)
-from core.libs import (
-    VJoint,
-    VPoint,
-    expr_solving,
-    Graph,
-    edges_view,
-    ExpressionStack,
-)
+from core.entities import EditPointDialog, EditLinkDialog
 from core.widgets import (
     AddTable,
     DeleteTable,

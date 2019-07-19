@@ -27,6 +27,13 @@ import pprint
 from copy import deepcopy
 from re import split as char_split
 from openpyxl import load_workbook
+from pyslvs import (
+    vpoints_configure,
+    expr_solving,
+    parse_pos,
+    parse_vpoints,
+    parse_vlinks,
+)
 from core.QtModules import (
     Slot,
     QWidget,
@@ -42,13 +49,6 @@ from core.QtModules import (
     QTableWidgetItem,
 )
 from core.graphics import PreviewCanvas
-from core.libs import (
-    vpoints_configure,
-    expr_solving,
-    parse_pos,
-    parse_vpoints,
-    parse_vlinks,
-)
 from core.synthesis import CollectionsDialog
 from .dialogs import (
     GeneticPrams,

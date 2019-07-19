@@ -25,6 +25,14 @@ from typing import (
     TypeVar,
     Generic,
 )
+from pyslvs import (
+    ExpressionStack,
+    Coordinate,
+    VJoint,
+    VPoint,
+    VLink,
+    color_rgb,
+)
 from core.QtModules import (
     Signal,
     Qt,
@@ -42,14 +50,6 @@ from core.QtModules import (
     QABCMeta,
 )
 from core.graphics import color_icon
-from core.libs import (
-    ExpressionStack,
-    Coordinate,
-    VJoint,
-    VPoint,
-    VLink,
-    color_rgb,
-)
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase

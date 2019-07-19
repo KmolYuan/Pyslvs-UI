@@ -9,6 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from re import match
 from typing import List, Union
+from pyslvs import VPoint, VLink
 from core.QtModules import (
     Slot,
     Qt,
@@ -20,12 +21,7 @@ from core.QtModules import (
     QColorDialog,
     QWidget,
 )
-from core.graphics import (
-    color_names,
-    color_qt,
-    color_icon,
-)
-from core.libs import VPoint, VLink
+from core.graphics import color_names, color_qt, color_icon
 from .Ui_edit_link import Ui_Dialog
 
 

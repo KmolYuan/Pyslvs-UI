@@ -14,6 +14,7 @@ from typing import (
     Optional,
 )
 from abc import ABC
+from pyslvs import parse_params
 from core.QtModules import (
     Slot,
     QApplication,
@@ -28,7 +29,6 @@ from core.widgets import (
     ClearStorageName,
 )
 from core.info import logger
-from core.libs import parse_params
 from .solver import SolverMethodInterface
 
 

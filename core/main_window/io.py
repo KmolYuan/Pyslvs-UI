@@ -18,6 +18,7 @@ from typing import (
 from abc import ABC
 from pygments.lexers.python import Python3Lexer
 from lark.exceptions import LarkError
+from pyslvs import __version__, parse_params, PMKSLexer
 from core.QtModules import (
     Slot,
     qt_image_format,
@@ -42,6 +43,7 @@ from core.info import (
     logger,
     PyslvsAbout,
     check_update,
+    kernel_list,
 )
 from core.io import (
     ScriptDialog,
@@ -52,12 +54,6 @@ from core.io import (
     str_between,
 )
 from core.widgets import AddTable, EditPointTable
-from core.libs import (
-    __version__,
-    kernel_list,
-    parse_params,
-    PMKSLexer,
-)
 from .actions import ActionMethodInterface
 Settings: type = Union[int, float, bool, str]
 

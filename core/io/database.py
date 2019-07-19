@@ -31,6 +31,7 @@ from peewee import (
     ForeignKeyField,
     DateTimeField,
 )
+from pyslvs import example_list
 from core.QtModules import (
     QPushButton,
     Signal,
@@ -45,7 +46,6 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-from core.libs import example_list
 from core.info import logger
 from .overview import OverviewDialog
 from .Ui_database import Ui_Form

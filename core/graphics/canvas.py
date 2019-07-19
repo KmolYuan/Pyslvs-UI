@@ -27,6 +27,12 @@ from math import (
     isnan,
 )
 from functools import reduce
+from pyslvs import (
+    VPoint,
+    Graph,
+    edges_view,
+    parse_pos,
+)
 from core.QtModules import (
     Slot,
     Qt,
@@ -44,12 +50,6 @@ from core.QtModules import (
     QFont,
     QPainterPath,
     QImage,
-)
-from core.libs import (
-    VPoint,
-    Graph,
-    edges_view,
-    parse_pos,
 )
 from .color import (
     color_num,

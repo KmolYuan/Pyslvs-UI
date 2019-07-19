@@ -18,13 +18,13 @@ from typing import (
     Any,
 )
 import yaml
+from pyslvs import __version__, VJoint
 from core.QtModules import (
     QObject,
     QFileInfo,
     QProgressDialog,
     QCoreApplication,
 )
-from core.libs import __version__, VJoint
 from .overview import OverviewDialog
 
 if TYPE_CHECKING:

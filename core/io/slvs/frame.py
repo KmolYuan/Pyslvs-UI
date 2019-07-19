@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence, Callable
-from core.libs import VPoint
+from pyslvs import VPoint
 from .write import SlvsWriter
 
 

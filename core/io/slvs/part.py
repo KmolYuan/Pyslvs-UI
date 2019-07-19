@@ -19,7 +19,7 @@ from math import (
     cos,
     atan2,
 )
-from core.libs import VPoint, Coordinate
+from pyslvs import VPoint, Coordinate
 from core.graphics import convex_hull
 from .write import SlvsWriter
 

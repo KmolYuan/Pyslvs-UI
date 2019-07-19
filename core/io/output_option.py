@@ -17,6 +17,7 @@ from typing import (
 from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
+from pyslvs import VPoint
 from core.QtModules import (
     Slot,
     Qt,
@@ -37,7 +38,6 @@ from core.QtModules import (
     QPixmap,
     QABCMeta,
 )
-from core.libs import VPoint
 from .slvs import slvs_frame, slvs_part
 from .dxf import (
     DXF_VERSIONS,

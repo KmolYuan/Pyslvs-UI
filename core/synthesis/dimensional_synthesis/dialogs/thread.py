@@ -22,14 +22,14 @@ from platform import (
 from psutil import virtual_memory
 import numpy
 import numpy.distutils.cpuinfo
-from core.QtModules import Signal, QWidget
-from core.info import logger
-from core.libs import (
+from pyslvs import (
     Genetic,
     Firefly,
     Differential,
     Planar,
 )
+from core.QtModules import Signal, QWidget
+from core.info import logger
 from core.synthesis.thread import BaseThread
 from .options import AlgorithmType
 

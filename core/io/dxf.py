@@ -19,11 +19,8 @@ from typing import (
 )
 from math import degrees, atan2
 import ezdxf
-from ezdxf.lldxf.const import (
-    versions_supported_by_new,
-    acad_release,
-)
-from core.libs import VPoint
+from ezdxf.lldxf.const import versions_supported_by_new, acad_release
+from pyslvs import VPoint
 from core.graphics import convex_hull
 from .slvs import boundaryloop
 

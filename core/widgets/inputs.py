@@ -18,6 +18,7 @@ from typing import (
     Iterator,
     Optional,
 )
+from pyslvs import VJoint
 from core.QtModules import (
     Signal,
     Slot,
@@ -33,7 +34,6 @@ from core.QtModules import (
     QShortcut,
     QKeySequence,
 )
-from core.libs import VJoint
 from core.info import logger
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
