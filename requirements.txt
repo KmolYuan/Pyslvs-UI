@@ -1,9 +1,11 @@
 setuptools
 wheel
 requests
-pyqt5<=5.12.2
-pyqtchart<=5.12.2
-ezdxf==0.8.8
+pyqt5; sys_platform != 'win32'
+pyqtchart; sys_platform != 'win32'
+pyqt5<=5.12.2; sys_platform == 'win32'
+pyqtchart<=5.12.2; sys_platform == 'win32'
+ezdxf
 numpy
 cython
 openpyxl
