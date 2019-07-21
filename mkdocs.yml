@@ -1,12 +1,17 @@
-site_name: Pyslvs
+# Pyslvs Documentation Configuration
+
+site_name: Pyslvs Documentation
 theme: readthedocs
 repo_url: https://github.com/KmolYuan/Pyslvs-UI
 copyright: Copyright © 2016-2019 Yuan Chang
-site_favicon: favicon.ico
-site_description: The manual of Pyslvs, Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.
+site_description: The manual of Pyslvs, an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.
 
 theme:
-    name: rtd-dropdown
+    name: material
+    favicon: img/favicon.ico
+    logo: img/favicon.ico
+    feature:
+        tabs: true
 
 markdown_extensions:
     - toc:
@@ -14,9 +19,10 @@ markdown_extensions:
     - admonition
     - smarty
     - attr_list
+    - codehilite
 
 nav:
-    - Pyslvs Manual: index.md
+    - What is Pyslvs?: index.md
     - Getting Start:
         - Introduction: introduction.md
         - Environment: environment.md
@@ -36,3 +42,6 @@ nav:
         - References: license.md
         - Releated Modules: releated.md
         - Change Log: changelog.md
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML

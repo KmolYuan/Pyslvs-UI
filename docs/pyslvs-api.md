@@ -667,6 +667,10 @@ Return DOF of the graph.
 
     In the [Graph] objects, all vertices will assumed as revolut joints (1 DOF).
 
+    $$
+    F = 3(N_L - 1) - 2N_J
+    $$
+
 #### Graph.neighbors()
 
 | self | n | return |

@@ -62,7 +62,7 @@ The "ground" label is a default name, this link will be the absolute coordinate 
 
 Pyslvs was translate the PMKS expression as a string, likes below:
 
-```pmks
+```python
 # Single line annotation.
 M[
     J[R, color[Green], P[0.0, 0.0], L[ground, link_0]],

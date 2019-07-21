@@ -1,1 +1,2 @@
-mkdocs-rtd-dropdown
+pygments
+mkdocs-material
