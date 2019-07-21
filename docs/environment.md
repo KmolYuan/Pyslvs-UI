@@ -190,6 +190,26 @@ On Mac OS, PyInstaller will generate two executable files (refer [here][pinstall
 open ./executable.app
 ```
 
+## Documentation
+
+This documentation is built by [MkDocs](https://www.mkdocs.org/).
+
+If you want to demo the site in localhost, install MkDocs and the documentation requirements.
+
+```bash
+pip install mkdocs
+pip install -r doc-requirements.txt
+```
+
+Start the local server:
+
+```bash
+mkdocs serve
+```
+
+The file `mkdocs.yml` and the contents of directory `docs` is a MkDocs project.
+The markdown files are the resources of those pages.
+
 [Solvespace]: http://solvespace.com
 [Qt5]: https://www.qt.io/download/
 
