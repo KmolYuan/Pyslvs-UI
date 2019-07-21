@@ -14,4 +14,26 @@ The slides of Pyslvs:
 
 ## Cite
 
-The paper reference of Pyslvs is not yet prepared.
+Refer link: <https://hdl.handle.net/11296/ku37fd>
+
+Bibtex:
+
+```bibtex
+@mastersthesis{mastersthesis,
+  author = {Chang, Yuan},
+  title = {Synthesis and Application of Planar Multi-link Mechanism},
+  school = {National Formosa University},
+  year = {2019},
+  month = 7,
+}
+```
+
+```bibtex
+@mastersthesis{mastersthesis,
+  author = {張元},
+  title = {平面多連桿機構之合成與應用},
+  school = {國立虎尾科技大學},
+  year = {2019},
+  month = 7,
+}
+```
