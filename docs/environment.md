@@ -208,7 +208,7 @@ mkdocs serve
 ```
 
 The file `mkdocs.yml` and the contents of directory `docs` is a MkDocs project.
-The markdown files are the resources of those pages.
+The markdown files are the resources of this site.
 
 [Solvespace]: http://solvespace.com
 [Qt5]: https://www.qt.io/download/
