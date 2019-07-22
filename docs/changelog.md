@@ -11,6 +11,7 @@
 + Showing attributes instead doing number synthesis after generalization.
 + Update the documentation of APIs.
 + Change documentation theme to "material".
++ Adjust "zoom to fit" action during dimensional synthesis page.
 
 **Development**:
 

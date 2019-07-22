@@ -41,11 +41,7 @@ from core.QtModules import (
     QPen,
     QColor,
 )
-from core.graphics import (
-    convex_hull,
-    BaseCanvas,
-    color_qt,
-)
+from core.graphics import convex_hull, BaseCanvas, color_qt
 
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
@@ -441,11 +437,15 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         x_left = -inf
         y_top = -inf
         y_bottom = inf
+
         # Paths
         if self.path.show != -2:
             paths = self.path_record or self.path.path or self.path_preview
             if paths is self.path_preview:
-                o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
+                o_path = chain(
+                    enumerate(self.path_preview),
+                    self.slider_path_preview.items()
+                )
             else:
                 o_path = enumerate(paths)
             for i, path in o_path:
@@ -460,6 +460,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                         y_bottom = y
                     if y > y_top:
                         y_top = y
+
         # Points
         for vpoint in self.vpoints:
             if vpoint.cx < x_right:
@@ -470,8 +471,10 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 y_bottom = vpoint.cy
             if vpoint.cy > y_top:
                 y_top = vpoint.cy
-        # Solving paths
+
+        # Synthesis page
         if self.show_target_path:
+            # Solving paths
             for path in self.target_path.values():
                 for x, y in path:
                     if x < x_right:
@@ -482,20 +485,21 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                         y_bottom = y
                     if y > y_top:
                         y_top = y
-        # Ranges
-        for rect in self.ranges.values():
-            x_r = rect.x()
-            x_l = rect.x() + rect.width()
-            y_t = rect.y()
-            y_b = rect.y() - rect.height()
-            if x_r < x_right:
-                x_right = x_r
-            if x_l > x_left:
-                x_left = x_l
-            if y_b < y_bottom:
-                y_bottom = y_b
-            if y_t > y_top:
-                y_top = y_t
+            # Ranges
+            for rect in self.ranges.values():
+                x_r = rect.x()
+                x_l = rect.x() + rect.width()
+                y_t = rect.y()
+                y_b = rect.y() - rect.height()
+                if x_r < x_right:
+                    x_right = x_r
+                if x_l > x_left:
+                    x_left = x_l
+                if y_b < y_bottom:
+                    y_bottom = y_b
+                if y_t > y_top:
+                    y_top = y_t
+
         return x_right, x_left, y_top, y_bottom
 
     def emit_free_move_all(self):
@@ -517,26 +521,26 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # 'self' is the instance of 'DynamicCanvas'.
         BaseCanvas.paintEvent(self, event)
 
-        # Draw links except ground.
+        # Draw links except ground
         for vlink in self.vlinks[1:]:
             self.__draw_link(vlink)
 
-        # Draw path.
+        # Draw path
         if self.path.show != -2:
             self.__draw_path()
 
-        # Draw solving path.
+        # Draw solving path
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
             self.draw_slvs_ranges()
             self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
 
-        # Draw points.
+        # Draw points
         for i, vpoint in enumerate(self.vpoints):
             self.__draw_point(i, vpoint)
 
-        # Draw solutions.
+        # Draw solutions
         if self.select_mode == SelectMode.Solution:
             for i, expr in enumerate(self.exprs):
                 func = expr[0]
@@ -551,7 +555,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     self.painter.setPen(pen)
                     self.painter.drawPolygon(QPolygonF(pos))
 
-        # Draw a colored frame for free move mode.
+        # Draw a colored frame for free move mode
         if self.free_move != FreeMode.NoFreeMove:
             pen = QPen()
             if self.free_move == FreeMode.Translate:

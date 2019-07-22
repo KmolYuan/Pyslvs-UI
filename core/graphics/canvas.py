@@ -402,7 +402,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         func: str,
         args: Sequence[str],
         target: str,
-        pos: Union[Tuple[VPoint, ...], Dict[int, _Coord]]
+        pos: Sequence[VPoint]
     ) -> Tuple[List[QPointF], QColor]:
         """Get solution polygon."""
         if func == 'PLLP':
@@ -426,8 +426,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             except ValueError:
                 continue
             else:
-                x, y = pos[index]
-                tmp_list.append(QPointF(x, -y) * self.zoom)
+                vpoint = pos[index]
+                tmp_list.append(QPointF(vpoint.cx, -vpoint.cy) * self.zoom)
         return tmp_list, color
 
     def draw_solution(
@@ -435,11 +435,10 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         func: str,
         args: Sequence[str],
         target: str,
-        pos: Union[Tuple[VPoint, ...], Dict[int, _Coord]]
+        pos: Sequence[VPoint]
     ):
         """Draw the solution triangle."""
         points, color = self.solution_polygon(func, args, target, pos)
-
         color.setAlpha(150)
         pen = QPen(color)
         pen.setWidth(self.joint_size)
