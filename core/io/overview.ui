@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>424</width>
-        <height>329</height>
+        <width>420</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -53,8 +53,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>171</width>
-        <height>121</height>
+        <width>420</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -100,8 +100,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>259</width>
-        <height>121</height>
+        <width>237</width>
+        <height>136</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -147,13 +147,13 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>98</width>
-        <height>119</height>
+        <width>420</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
        <iconset resource="../../icons.qrc">
-        <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+        <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
       </attribute>
       <attribute name="label">
        <string>Dimensional Synthesis</string>
