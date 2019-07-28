@@ -56,12 +56,20 @@ return `True` to terminate this function.
 
 ## Module `bfgs`
 
-### vpoint_solving()
+### SolverSystem
 
-| vpoints | inputs | data_dict | return |
-|:-------:|:------:|:---------:|:------:|
-| Sequence\[[VPoint]] | Optional[Dict[Tuple[int, int], float]] | Optional\[Dict\[Union[int, Tuple[int, int]], Union\[[Coordinate], float]]] | List[Union[Tuple[float, float] Tuple[Tuple[float, float], Tuple[float, float]]]] |
-| | None | None | |
+| type | inherit |
+|:----:|:-------:|
+| type | object |
+
+Sketch Solve solver.
+
+### SolverSystem.\_\_init__()
+
+| self | vpoints | inputs | data_dict | return |
+|:----:|:-------:|:------:|:---------:|:------:|
+| | Sequence\[[VPoint]] | Optional[Dict[Tuple[int, int], float]] | Optional\[Dict\[Union[int, Tuple[int, int]], Union\[[Coordinate], float]]] | None |
+| | | None | None | |
 
 The expression `vpoints` solver function of BFGS method by
 giving the input pairs `inputs` and link length `data_dict` requirements.
@@ -78,6 +86,13 @@ The format of `data_dict`:
 + Specific coordinates: Dict\[int, [Coordinate]]
 + Specific link length: Dict\[Tuple[int, int], float]
 
+#### SolverSystem.solve()
+
+| self | return |
+|:----:|:------:|
+| | List[Union[Tuple[float, float] Tuple[Tuple[float, float], Tuple[float, float]]]] |
+
+Solve the conditions and return the result, raise ValueError if not succeeded.
 The joint position will returned by its index correspondingly.
 
 + Revolut joints: Tuple[float, float]
