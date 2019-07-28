@@ -31,11 +31,11 @@ from pyslvs import (
     data_collecting,
     expr_solving,
     vpoint_dof,
-    vpoint_solving,
+    SolverSystem,
     ExpressionStack,
     Graph,
 )
-from python_solvespace import ResultFlag, Entity, SolverSystem
+from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
 from core.QtModules import Slot
 from core.info import logger
 from .entities import EntitiesMethodInterface
@@ -54,7 +54,7 @@ def slvs_solve(
     vlinks: Dict[str, VLink] = {vlink.name: vlink for vlink in get_vlinks(vpoints)}
 
     # Solvespace kernel
-    sys = SolverSystem()
+    sys = PySolver()
     sys.set_group(1)
     wp = sys.create_2d_base()
     origin_2d = sys.add_point_2d(0., 0., wp)
@@ -342,10 +342,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     if not self.free_move_button.isChecked() else ()
                 )
             elif solve_kernel == 2:
-                result = vpoint_solving(
+                result = SolverSystem(
                     self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
-                )
+                ).solve()
             else:
                 raise ValueError("incorrect kernel")
         except ValueError as error:
@@ -432,10 +432,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             inputs = {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
                         result, _ = slvs_solve(vpoints, inputs)
                     elif solve_kernel == 2:
-                        result = vpoint_solving(
+                        result = SolverSystem(
                             vpoints,
                             {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
-                        )
+                        ).solve()
                     else:
                         raise ValueError("incorrect kernel")
                 except ValueError:
