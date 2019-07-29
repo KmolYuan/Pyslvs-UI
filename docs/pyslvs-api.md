@@ -64,6 +64,10 @@ return `True` to terminate this function.
 
 Sketch Solve solver.
 
+!!! note
+
+    The object attributes of such type are unable to access.
+
 ### SolverSystem.\_\_init__()
 
 | self | vpoints | inputs | data_dict | return |
@@ -85,6 +89,15 @@ The format of `data_dict`:
 
 + Specific coordinates: Dict\[int, [Coordinate]]
 + Specific link length: Dict\[Tuple[int, int], float]
+
+#### SolverSystem.set_inputs()
+
+| self | inputs | return |
+|:----:|:------:|:------:|
+| | Dict[Tuple[int, int], float] | None |
+
+Set the values of `inputs` parameter from original constructor.
+Two groups of `dict` keys must be the same.
 
 #### SolverSystem.solve()
 
