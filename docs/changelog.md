@@ -9,8 +9,11 @@
 + Add duplicate function for graph collections page.
 + Fix the error of switching structure collections.
 + Showing attributes instead doing number synthesis after generalization.
-+ Update the documentation of APIs.
-+ Change documentation theme to "material".
++ Documentation update:
+    + APIs of kernels.
+    + Two major IO formats.
+    + Change the format of signatures.
+    + Change the theme to "material".
 + Adjust "zoom to fit" action during dimensional synthesis page.
 
 **Development**:
