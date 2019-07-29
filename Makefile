@@ -101,6 +101,8 @@ else ifeq ($(shell uname),Darwin)
 	mv dist/Pyslvs.app dist/$(EXENAME).app
 	zip -r dist/$(EXENAME).app.zip dist/$(EXENAME).app
 else
+	-rm -f -r ENV
+	-rm -f -r out
 	bash ./appimage_recipe.sh
 endif
 	@echo ---Done---

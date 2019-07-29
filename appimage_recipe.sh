@@ -22,15 +22,13 @@ MY_APPDIR=${PWD}
 
 mkdir -p usr
 virtualenv ./usr --python=python3 --always-copy --verbose
-
+mkdir -p usr/bin/
 source usr/bin/activate
 
 
 # Source some helper functions.
 wget -q https://raw.githubusercontent.com/AppImage/AppImages/master/functions.sh -O ./functions.sh
 . ./functions.sh
-
-mkdir -p usr/bin/
 
 
 # Show python and pip versions.
@@ -46,6 +44,7 @@ cd ${MY_APPDIR}
 cd ../../depend/solvespace/cython
 python setup.py install
 cd ${MY_APPDIR}
+
 
 # Copy all built-in scripts.
 PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))")
@@ -97,7 +96,7 @@ cd ${MY_APPDIR}
 # Python libraries
 SCRIPTDIR=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")
 for f in ${SCRIPTDIR}/libpython3*.so*; do
-    cp -n -v ${f} ./usr/lib
+    cp -n -v ${f} usr/lib
 done
 
 deactivate
@@ -106,19 +105,18 @@ deactivate
 # "Install" app in the AppDir
 ########################################################################
 
+# Make launch script
 cp ../../launch_pyslvs.py usr/bin/${LOWERAPP}
 sed -i "1i\#!/usr/bin/env python3" usr/bin/${LOWERAPP}
 chmod a+x usr/bin/${LOWERAPP}
 
 cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
-cp -r ../../core usr/bin
-find . -type f -name '*.ui' -delete
-find . -type f -name 'test_*.py' -delete
-find . -type f -name '*.pyi' -delete
-find . -type f -name '*.yml' -delete
-find . -type f -name '*.md' -delete
-find . -type f -name 'Makefile' -delete
+cd ../../core
+find . -name "*.py" -exec install -D {} ${MY_APPDIR}/usr/bin/core/{} \;
+cd ${MY_APPDIR}/usr/bin
+
+cd ../..
 
 ########################################################################
 # Finalize the AppDir
@@ -129,7 +127,7 @@ get_apprun
 cd ../..
 VERSION=$(python3 -c "from pyslvs import __version__; print(__version__)")
 echo "${VERSION}"
-cd ENV/${APP}.AppDir/
+cd ENV/${APP}.AppDir
 
 cat > ${LOWERAPP}.desktop <<EOF
 [Desktop Entry]
