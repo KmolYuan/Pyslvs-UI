@@ -12,33 +12,35 @@ environment:
           PYTHON_DIR: C:\Python37-x64
 
 install:
-    # Environment variables.
-    - set Path=%PYTHON_DIR%;%Path%
-    - set Path=%PYTHON_DIR%\Scripts;%Path%
-    - set Path=%MSYS_DIR%\usr\bin;%Path%
-    - set Path=%MINGW_DIR%\mingw64\bin;%Path%
+    # Environment variables
+    - set Path=%MINGW_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
+    - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
+    - set PYTHON_CFG=%PYTHON_DIR%\Lib\distutils\distutils.cfg
 
-    # Show Python.
+    # Show Python
     - python --version
     - pip --version
 
-    # Set Python compiler to Msys2.
-    - echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
-    - echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
+    # Upgrade setuptools
+    - pip install setuptools -U
+
+    # Set Python compiler to MinGW
+    - echo [build]>> %PYTHON_CFG%
+    - echo compiler=mingw32>> %PYTHON_CFG%
     - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
     - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 
-    # Install modules.
+    # Install modules
     - pip install -r requirements.txt
     - pip install pyinstaller
 
-    # Show tool kits.
+    # Show tool kits
     - pyinstaller --version
     - gcc --version
     - mingw32-make --version
 
 before_build:
-    # Clone submodules.
+    # Clone submodules
     - git submodule update --init --recursive
 
 build_script:

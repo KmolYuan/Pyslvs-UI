@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None
++ Settings correction of AppVeyor.
 
 ## Version 19.07
 
