@@ -97,7 +97,16 @@ The format of `data_dict`:
 | | Dict[Tuple[int, int], float] | None |
 
 Set the values of `inputs` parameter from original constructor.
-Two groups of `dict` keys must be the same.
+Two groups of `dict` keys must be the same or subset.
+
+#### SolverSystem.set_data()
+
+| self | data_dict | return |
+|:----:|:------:|:------:|
+| | Dict[Union[int, Tuple[int, int]], Union[Coordinate, float]] | None |
+
+Set the values of `data_dict` parameter from original constructor.
+Two groups of `dict` keys must be the same or subset.
 
 #### SolverSystem.solve()
 
