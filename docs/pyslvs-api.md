@@ -90,6 +90,8 @@ The format of `data_dict`:
 + Specific coordinates: Dict\[int, [Coordinate]]
 + Specific link length: Dict\[Tuple[int, int], float]
 
+The `data_dict` parameter will reformat its keys into `frozenset` type.
+
 #### SolverSystem.show_inputs()
 
 | self | return |
