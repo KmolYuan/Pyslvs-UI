@@ -90,6 +90,22 @@ The format of `data_dict`:
 + Specific coordinates: Dict\[int, [Coordinate]]
 + Specific link length: Dict\[Tuple[int, int], float]
 
+#### SolverSystem.show_inputs()
+
+| self | return |
+|:----:|:------:|
+| | FrozenSet[Tuple[int, int]] |
+
+Show the current [input pairs] keys from original constructor.
+
+#### SolverSystem.show_data()
+
+| self | return |
+|:----:|:------:|
+| | FrozenSet[Union[int, Tuple[int, int]]] |
+
+Show the current keys of `data_dict` parameter from original constructor.
+
 #### SolverSystem.set_inputs()
 
 | self | inputs | return |
@@ -1063,7 +1079,7 @@ This function will be directly called in the algorithms.
 
 Return the result from the variable list `v`.
 
-[input pairs]: #vpoint_solving
+[input pairs]: #solversystem9595init__
 [Coordinate]: #coordinate
 [VJoint]: #vjoint
 [VPoint]: #vpoint

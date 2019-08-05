@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Update API documentation.
 
 **Development**:
 
