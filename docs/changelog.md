@@ -8,6 +8,7 @@
 
 **Development**:
 
++ Many core performance improvements.
 + Settings correction of AppVeyor.
 
 ## Version 19.07
