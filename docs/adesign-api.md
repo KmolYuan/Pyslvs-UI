@@ -55,21 +55,6 @@ The format of argument `settings`:
 The argument `progress_fun` will be called when update progress,
 and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
 
-#### Differential.run()
-
-| self | return |
-|:----:|:------:|
-| | Tuple[Any, List[Tuple[int, float, float]]] |
-
-Run and return the result and convergence history.
-
-The first place of `return` is the result from calling [`Verification.result()`](pyslvs-api.md#verificationresult).
-
-The second place of `return` is a list of generation data,
-which type is `Tuple[int, float, float]]`.
-The first of them is generation,
-the second is fitenss, and the last one is time in second.
-
 ## Module `firefly`
 
 ### Firefly
@@ -113,16 +98,6 @@ The format of argument `settings`:
 
 Others arguments are same as [`Differential.__init__()`](#differential9595init__).
 
-#### Firefly.run()
-
-| self | return |
-|:----:|:------:|
-| | Tuple[Any, List[Tuple[int, float, float]]] |
-
-Run and return the result and convergence history.
-
-Same as [`Differential.run()`](#differentialrun).
-
 ## Module `rga`
 
 ### Genetic
@@ -165,16 +140,6 @@ The format of argument `settings`:
     + default: 10
 
 Others arguments are same as [`Differential.__init__()`](#differential9595init__).
-
-#### Genetic.run()
-
-| self | return |
-|:----:|:------:|
-| | Tuple[Any, List[Tuple[int, float, float]]] |
-
-Run and return the result and convergence history.
-
-Same as [`Differential.run()`](#differentialrun).
 
 ## Module `verify`
 

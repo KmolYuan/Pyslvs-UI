@@ -1001,7 +1001,7 @@ Solver function of Triangular method and BFGS method, for mechanism expression `
 The triangle expression stack `expr` is generated from [`vpoints_configure`](#vpoints_configure).
 
 The information data `mapping` map the symbols to the indicator of `vpoints`,
-additionally has a same format as argument `data_dict` in [`vpoint_solving`](#vpoint_solving).
+additionally has a same format as argument `data_dict` in [SolverSystem].
 
 Solver function will not handle slider input pairs in argument `angles`, which is only support revolut joints.
 In another way, the slider input pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
@@ -1054,8 +1054,8 @@ The argument `status` will track the configuration of each point, which is optio
 |:----:|:-------:|
 | type | object |
 
-Verification function class base.
-It is used to build the verification function for Metaheuristic Ramdom Algorithms.
+Verification function base class.
+It is used to build the verification function for Metaheuristic Random Algorithms.
 See the sections of [Adesign API](adesign-api.md).
 
 #### Verification.fitness()
@@ -1081,6 +1081,47 @@ This function will be directly called in the algorithms.
 
 Return the result from the variable list `v`.
 
+### AlgorithmBase
+
+| type | inherit |
+|:----:|:-------:|
+| type | object |
+
+Algorithm base class.
+It is used to build the Metaheuristic Random Algorithms.
+See the sections of [Adesign API](adesign-api.md).
+
+#### AlgorithmBase.\_\_init__()
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| | [Verification] | Dict[str, Any] | Optional[Callable[[int, str], None]] | Optional[Callable[[], bool]] | None |
+| | | | None | None | |
+
+The argument `func` is a object inherit from [Verification],
+and all abstract methods should be implemented.
+
+The format of argument `settings` can be customized.
+
+The argument `progress_fun` will be called when update progress,
+and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
+
+#### AlgorithmBase.run()
+
+| self | return |
+|:----:|:------:|
+| | Tuple[Any, List[Tuple[int, float, float]]] |
+
+Run and return the result and convergence history.
+
+The first place of `return` is came from calling [`Verification.result()`](#verificationresult).
+
+The second place of `return` is a list of generation data,
+which type is `Tuple[int, float, float]]`.
+The first of them is generation,
+the second is fitness, and the last one is time in second.
+
+[SolverSystem]: #solversystem
 [input pairs]: #solversystem9595init__
 [Coordinate]: #coordinate
 [VJoint]: #vjoint
