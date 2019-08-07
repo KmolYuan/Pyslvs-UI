@@ -45,12 +45,17 @@ The format of argument `settings`:
 + `CR`: Crossover rate
     + type: float (0.~1.)
     + default: 0.9
-+ `max_gen` or `min_fit` or `max_time`: Limitation of termination
-    + type: int / float / float
++ `max_gen` or `min_fit` or `max_time` or `slow_down`: Limitation of termination
+    + type: int / float / float / float
     + default: Raise `ValueError`
 + `report`: Report per generation
     + type: int
     + default: 10
+
+!!! note
+
+    The option `slow_down` is a percent value that
+    current fitnesses difference of two generation is divide by last one.
 
 The argument `progress_fun` will be called when update progress,
 and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.

@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ Update API documentation.
++ Update API documentation for kernel updated.
 
 **Development**:
 
