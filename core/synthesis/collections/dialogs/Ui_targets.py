@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/synthesis/collections/dialogs/targets.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -74,6 +75,4 @@ class Ui_Dialog(object):
         self.targets_add.setText(_translate("Dialog", ">>"))
         self.other_add.setText(_translate("Dialog", "<<"))
         self.targets_label.setText(_translate("Dialog", "Tragets:"))
-
-
 import icons_rc

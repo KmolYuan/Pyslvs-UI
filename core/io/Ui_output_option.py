@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/io/output_option.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -136,6 +137,4 @@ class Ui_Dialog(object):
         self.groupBox.setTitle(_translate("Dialog", "Write mode"))
         self.overwrite_radio.setText(_translate("Dialog", "Always overwrite"))
         self.warn_radio.setText(_translate("Dialog", "Warning me then back to this dialog"))
-
-
 import icons_rc

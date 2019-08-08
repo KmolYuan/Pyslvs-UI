@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/entities/edit_link.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -99,6 +100,4 @@ class Ui_Dialog(object):
         self.color_label.setText(_translate("Dialog", "Emphatic Color:"))
         self.points_label.setText(_translate("Dialog", "Points:"))
         self.label.setText(_translate("Dialog", ">>"))
-
-
 import icons_rc

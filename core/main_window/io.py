@@ -723,15 +723,5 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """The time of withdrawal and redo action."""
         self.workbook_no_save()
         self.entities_point.clearSelection()
-
-        # Variable reload for link adjust function.
-        if self.link_free_move_base.count() != self.entities_point.rowCount():
-            self.link_free_move_base.clear()
-            for i in range(self.entities_point.rowCount()):
-                self.link_free_move_base.addItem(f"Point{i}")
-
-        # Variable reload for input widget.
         self.inputs_widget.variable_reload()
-
-        # Solve
         self.solve()

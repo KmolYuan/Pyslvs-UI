@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/io/script.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -72,6 +73,4 @@ class Ui_Dialog(object):
         self.save.setText(_translate("Dialog", "Save as..."))
         self.label_3.setText(_translate("Dialog", "Syntax highlighting powered by Pygments."))
         self.button_box.setWhatsThis(_translate("Dialog", "Click to exit"))
-
-
 import icons_rc

@@ -222,52 +222,6 @@
                         <property name="bottomMargin">
                          <number>0</number>
                         </property>
-                        <item>
-                         <layout class="QHBoxLayout" name="horizontalLayout_4">
-                          <item>
-                           <widget class="QComboBox" name="link_free_move_base"/>
-                          </item>
-                          <item>
-                           <widget class="QComboBox" name="link_free_move_other"/>
-                          </item>
-                          <item>
-                           <spacer name="horizontalSpacer_3">
-                            <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>40</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item>
-                           <widget class="QDoubleSpinBox" name="link_free_move_spinbox">
-                            <property name="maximum">
-                             <double>10000.000000000000000</double>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="link_free_move_reset">
-                            <property name="icon">
-                             <iconset resource="../../icons.qrc">
-                              <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="link_free_move_confirm">
-                            <property name="icon">
-                             <iconset resource="../../icons.qrc">
-                              <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
                        </layout>
                       </widget>
                      </item>
@@ -547,8 +501,8 @@ QProgressBar::chunk {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>358</width>
-                  <height>692</height>
+                  <width>401</width>
+                  <height>733</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1390,6 +1344,7 @@ QProgressBar::chunk {
     <addaction name="action_delete_link"/>
     <addaction name="separator"/>
     <addaction name="action_scale_points"/>
+    <addaction name="action_set_link_length"/>
    </widget>
    <widget class="QMenu" name="menu_options">
     <property name="title">
@@ -1986,6 +1941,11 @@ QProgressBar::chunk {
    </property>
    <property name="statusTip">
     <string>See the documentation on Readthedocs.</string>
+   </property>
+  </action>
+  <action name="action_set_link_length">
+   <property name="text">
+    <string>Set Link &amp;Length</string>
    </property>
   </action>
  </widget>

@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/io/database.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -175,6 +176,4 @@ class Ui_Form(object):
         self.branch_add.setText(_translate("Form", "New Branch"))
         self.commit_stash.setStatusTip(_translate("Form", "Abandon all changes of this time, and return to the latest commit."))
         self.commit_stash.setText(_translate("Form", "Stash"))
-
-
 import icons_rc

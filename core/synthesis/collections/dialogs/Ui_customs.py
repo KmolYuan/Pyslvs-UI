@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/synthesis/collections/dialogs/customs.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -113,6 +114,4 @@ class Ui_Dialog(object):
         self.joint_choose_label.setText(_translate("Dialog", "Joint:"))
         self.add_mj_button.setText(_translate("Dialog", "Add"))
         self.delete_mj_button.setText(_translate("Dialog", "Delete"))
-
-
 import icons_rc

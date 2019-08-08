@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/synthesis/collections/structure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -260,6 +261,4 @@ class Ui_Form(object):
         self.configure_button.setText(_translate("Form", "Configure"))
         self.merge_button.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.merge_button.setText(_translate("Form", "Merge"))
-
-
 import icons_rc

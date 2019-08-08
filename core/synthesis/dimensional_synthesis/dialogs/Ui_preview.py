@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'core/synthesis/dimensional_synthesis/dialogs/preview.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from core.QtModules import QtCore, QtGui, QtWidgets
 
@@ -137,5 +138,3 @@ class Ui_Dialog(object):
         self.hardware_groupbox.setTitle(_translate("Dialog", "Hardware information"))
         self.hardware_label.setText(_translate("Dialog", "TextLabel"))
         self.information_tab.setTabText(self.information_tab.indexOf(self.geometry), _translate("Dialog", "Geometry"))
-
-

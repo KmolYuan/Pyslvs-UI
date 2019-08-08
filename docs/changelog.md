@@ -5,6 +5,7 @@
 **Features**:
 
 + Update API documentation for kernel updated.
++ Remake "set link length" operation.
 
 **Development**:
 

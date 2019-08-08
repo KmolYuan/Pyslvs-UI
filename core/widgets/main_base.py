@@ -385,9 +385,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
                 self.free_move_disable = action
         self.free_move_button.setMenu(free_move_mode_menu)
 
-        # "Link adjust" function
-        self.link_free_move_confirm.clicked.connect(self.main_canvas.emit_free_move_all)
-
     def __options(self):
         """Signal connection for option widgets.
 
