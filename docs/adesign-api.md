@@ -17,7 +17,7 @@ The modules are:
 
 | type | inherit |
 |:----:|:-------:|
-| type | object |
+| type | [AlgorithmBase] |
 
 The implementation of Differential Evolution algorithm.
 
@@ -66,7 +66,7 @@ and the argument `interrupt_fun` will check the interrupt status from GUI or sub
 
 | type | inherit |
 |:----:|:-------:|
-| type | object |
+| type | [AlgorithmBase] |
 
 The implementation of Firefly algorithm.
 
@@ -109,7 +109,7 @@ Others arguments are same as [`Differential.__init__()`](#differential9595init__
 
 | type | inherit |
 |:----:|:-------:|
-| type | object |
+| type | [AlgorithmBase] |
 
 The implementation of Real-coded Genetic Algorithm.
 
@@ -153,3 +153,4 @@ Others arguments are same as [`Differential.__init__()`](#differential9595init__
 See the sections of [Pyslvs API](pyslvs-api.md#module-verify)
 
 [Verification]: pyslvs-api.md#verification
+[AlgorithmBase]: pyslvs-api.md#algorithmbase
