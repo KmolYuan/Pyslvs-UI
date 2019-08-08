@@ -35,6 +35,7 @@ from core.QtModules import (
     QHBoxLayout,
     QVBoxLayout,
     QComboBox,
+    QMessageBox,
 )
 from core.entities import EditPointDialog, EditLinkDialog
 from core.widgets import (
@@ -513,6 +514,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         try:
             result = system.solve()
         except ValueError:
+            QMessageBox.warning(self, "Solved error", "The condition is not valid.")
             return
         self.command_stack.beginMacro(f"Set link length:{set(data)}")
         for row, c in enumerate(result):
