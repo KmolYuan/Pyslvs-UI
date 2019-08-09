@@ -13,6 +13,7 @@ from core.QtModules import (
     QABCMeta,
     QThread,
     QWidget,
+    QMutex,
 )
 
 
@@ -25,8 +26,11 @@ class BaseThread(QThread, metaclass=QABCMeta):
         super(BaseThread, self).__init__(parent)
         self.finished.connect(self.deleteLater)
         self.is_stop = False
+        self.mutex = QMutex()
 
     @Slot()
     def stop(self):
         """Stop the algorithm."""
+        self.mutex.unlock()
         self.is_stop = True
+        self.mutex.lock()

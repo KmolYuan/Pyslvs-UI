@@ -146,6 +146,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
     @Slot()
     def __close_work(self):
         """Close the thread."""
-        if self.work.isRunning():
-            self.stop_signal.emit()
-            logger.info("The thread has been canceled.")
+        if not self.work.isRunning():
+            return
+        self.stop_signal.emit()
+        logger.info("The thread has been canceled.")
+        self.work.wait()
