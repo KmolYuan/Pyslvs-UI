@@ -14,21 +14,23 @@ from typing import (
     Tuple,
     List,
     Sequence,
+    Optional,
 )
+from PIL import Image
+from PIL.ImageQt import ImageQt
 from pygments import highlight
 from pygments.lexer import RegexLexer
 from pygments.formatters.html import HtmlFormatter
-from pygments.styles import (
-    get_style_by_name,
-    get_all_styles,
-)
+from pygments.styles import get_style_by_name, get_all_styles
 from core.QtModules import (
+    qt_image_format,
     Slot,
     Qt,
     QApplication,
     QDialog,
     QTextEdit,
     QWidget,
+    QPixmap,
 )
 from .Ui_script import Ui_Dialog
 
@@ -97,7 +99,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
         lexer: RegexLexer,
         filename: str,
         file_format: List[str],
-        parent: MainWindowBase
+        parent: MainWindowBase,
+        *,
+        image: Optional[Image] = None,
     ):
         """Input parameters:
 
@@ -114,7 +118,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
             Qt.WindowMaximizeButtonHint
         )
         self.script_view = _ScriptBrowser(self)
-        self.main_layout.insertWidget(1, self.script_view)
+        self.main_splitter.addWidget(self.script_view)
+        self.main_splitter.setSizes([50, 80])
         self.code = highlight(script, lexer, HtmlFormatter())
         self.filename = filename
         self.file_format = file_format
@@ -125,6 +130,13 @@ class ScriptDialog(QDialog, Ui_Dialog):
         styles.insert(0, styles.pop(styles.index('default')))
         self.style_option.addItems(styles)
         self.style_option.setCurrentIndex(0)
+
+        # Image display
+        if image is None:
+            self.save_qrcode.setVisible(False)
+            self.qrcode_image.setVisible(False)
+        else:
+            self.qrcode_image.setPixmap(QPixmap.fromImage(ImageQt(image)))
 
     @Slot(str, name='on_style_option_currentIndexChanged')
     def __set_style(self, style: str):
@@ -137,12 +149,22 @@ class ScriptDialog(QDialog, Ui_Dialog):
         """Copy to clipboard."""
         QApplication.clipboard().setText(self.script_view.toPlainText())
 
-    @Slot(name='on_save_clicked')
-    def __save(self):
-        """Save to .py file."""
+    @Slot(name='on_save_script_clicked')
+    def __save_script(self):
+        """Save to text file."""
         file_name = self.output_to(self.filename, self.file_format)
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8', newline='') as f:
             f.write(self.script_view.toPlainText())
         self.save_reply_box(self.filename, file_name)
+
+    @Slot(name='on_save_qrcode_clicked')
+    def __save_qrcode(self):
+        """Save to image file."""
+        file_name = self.output_to(self.filename, qt_image_format)
+        if not file_name:
+            return
+        pixmap: QPixmap = self.qrcode_image.pixmap()
+        pixmap.save(file_name)
+        self.save_reply_box(f"QR code of {self.filename}", file_name)

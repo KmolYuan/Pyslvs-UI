@@ -6,6 +6,7 @@
 
 + Update API documentation for kernel updated.
 + Remake "set link length" operation.
++ Generate a QR code for mechanism expression.
 
 **Development**:
 

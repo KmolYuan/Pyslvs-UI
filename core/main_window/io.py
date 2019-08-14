@@ -16,8 +16,9 @@ from typing import (
     Union,
 )
 from abc import ABC
-from pygments.lexers.python import Python3Lexer
+import qrcode
 from lark.exceptions import LarkError
+from pygments.lexers.python import Python3Lexer
 from pyslvs import __version__, parse_params, PMKSLexer
 from core.QtModules import (
     Slot,
@@ -55,6 +56,8 @@ from core.io import (
 )
 from core.widgets import AddTable, EditPointTable
 from .actions import ActionMethodInterface
+
+_PREFIX = f"# Generate by Pyslvs {__version__}\n# Project "
 Settings: type = Union[int, float, bool, str]
 
 
@@ -567,14 +570,18 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def __show_expr(self):
         """Output as expression."""
         context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.vpoint_list)
+        script = _PREFIX + f"\"{self.database_widget.file_name().baseName()}\"\n"
+        if context:
+            script += f"M[\n{context}\n]"
+        else:
+            script += "M[]"
         dlg = ScriptDialog(
-            f"# Generate by Pyslvs {__version__}\n"
-            f"# Project \"{self.database_widget.file_name().baseName()}\"\n" +
-            (f"M[\n{context}\n]" if context else "M[]"),
+            script,
             PMKSLexer(),
             "Pyslvs expression",
             ["Text file (*.txt)"],
-            self
+            self,
+            image=qrcode.make(script)
         )
         dlg.show()
         dlg.exec()
@@ -584,8 +591,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def __show_py_script(self):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
-            f"# Generate by Pyslvs {__version__}\n"
-            f"# Project \"{self.database_widget.file_name().baseName()}\"\n" +
+            _PREFIX + f"\"{self.database_widget.file_name().baseName()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
