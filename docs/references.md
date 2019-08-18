@@ -16,6 +16,8 @@ The slides of Pyslvs:
 
 Refer link: <https://hdl.handle.net/11296/ku37fd>
 
+Paper repository: <https://github.com/KmolYuan/pyslvs-paper-public/releases>
+
 Bibtex:
 
 ```bibtex
