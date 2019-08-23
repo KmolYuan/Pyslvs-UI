@@ -13,20 +13,31 @@ which are need to be compiled first.
 
 Actual testing platforms with CI:
 
-+ ![w3.7](https://img.shields.io/badge/Windows%20x64-Python%203.7-blue.svg)
-+ ![m3.7](https://img.shields.io/badge/macOS%20Sierra-Python%203.7-ff69b4.svg)
-+ ![u3.7](https://img.shields.io/badge/Ubuntu%20x64-Python%203.7-orange.svg)
+| Platform (64-bit) | Windows | MacOS | Ubuntu |
+|:------------------:|:-------:|:-----:|:------:|
+| Python 3.7 | O | O | O |
 
 **Please note that the other platforms may be available but I have not tested before.**
 
-**Mac OS and Ubuntu**:
+Install dependences:
 
 ```bash
-# Local Python
-pip3 install -r requirements.txt
+pip install -r requirements.txt
+```
 
-# Global Python
-sudo pip3 install -r requirements.txt
+**Mac OS and Ubuntu**:
+
+Using [pyenv](https://github.com/pyenv/pyenv) will be more easier to handle Python version instead of using system Python.
+
+```bash
+# Install supported version of Pyslvs
+# The devlopment tools need to prepare first (like openssl, sqlite3)
+pyenv install --list  # show all available versions
+pyenv install 3.7.4
+pyenv install 3.7-dev
+pyenv global 3.7.4
+python --version  # Python 3.7.4
+pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.7.4/lib/python3.7/site-packages/pip (python 3.7)
 ```
 
 **Windows**:
@@ -35,19 +46,22 @@ Python 3: [Official Python] for Windows 64 bit.
 
 Makefile tool: [MinGW] or [Msys 2][msys].
 
-```bash
-pip install -r requirements.txt
-```
+### Qt Stuff (Development)
 
-### PyQt Stuff (Development)
+PyQt5 and its additional modules are now packed into the wheel file that most of platform can install them directly.
 
-PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can install them directly.
-
-Qt tools can be used to design the *.ui files, they are not the requirement if you just want to run Pyslvs.
+You need to get original Qt tools for development, which can be used to design the *.ui files,
+they are not the requirement if you just want to run Pyslvs.
 
 **Mac OS and Ubuntu**:
 
 Download and install [Qt5] to get the tools.
+
+Ubuntu users can obtain them via APT:
+
+```bash
+sudo apt install qttools5-dev-tools
+```
 
 **Windows**:
 
@@ -159,7 +173,7 @@ After following operation, the executable file is in `out` folder.
 Make command:
 
 ```bash
-sudo pip3 install virtualenv
+pip install virtualenv
 make
 ```
 
