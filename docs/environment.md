@@ -114,28 +114,41 @@ When using Msys2, following command might be helpful:
 ```bash
 # Install tools for Msys.
 # Open the "mingw64.exe" shell.
+
+# Install GCC
 pacman -S mingw-w64-x86_64-gcc
+# Install Make
 pacman -S mingw-w64-x86_64-toolchain
-# A list of tools will shown, choose "mingw-w64-x86_64-make".
-# The "make" command is named as "mingw32-make".
+# A list of tools will shown, choose 13 ("mingw-w64-x86_64-make").
+# The "make" command is named as "mingw32-make". You can rename it:
+mv /mingw64/bin/mingw32-make /mingw64/bin/make
+
+# Install patch
 pacman -S patch
+```
+
+And the programs should be added in to environment variable (with administrator).
+
+```batch
+setx Path %Path%C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin; /M
 ```
 
 Setup Python compiler as gcc / g++ of MinGW64:
 
-```bash
-# Where %PYTHON_DIR% is the directory of your Python installation.
-# In Pyslvs project.
+```batch
+REM Where %PYTHON_DIR% is the directory of your Python installation.
+REM In Pyslvs project.
+set PYTHON_DIR=C:\Python37
 
-# Create "distutils.cfg"
+REM Create "distutils.cfg"
 echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
 echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
 
-# Apply the patch of "cygwinccompiler.py".
-# Unix "patch" command of Msys.
+REM Apply the patch of "cygwinccompiler.py".
+REM Unix "patch" command of Msys.
 patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
 
-# Copy "vcruntime140.dll" to "libs".
+REM Copy "vcruntime140.dll" to "libs".
 copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 ```
 
