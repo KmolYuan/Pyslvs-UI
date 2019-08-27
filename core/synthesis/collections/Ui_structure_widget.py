@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'core/synthesis/collections/structure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 

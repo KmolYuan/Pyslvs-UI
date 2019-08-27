@@ -569,7 +569,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_exprsion_triggered')
     def __show_expr(self):
         """Output as expression."""
-        context = ",\n".join(" " * 4 + vpoint.expr() for vpoint in self.vpoint_list)
+        expr = [vpoint.expr() for vpoint in self.vpoint_list]
+        context = ",\n".join(" " * 4 + e for e in expr)
         script = _PREFIX + f"\"{self.database_widget.file_name().baseName()}\"\n"
         if context:
             script += f"M[\n{context}\n]"
@@ -581,6 +582,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             "Pyslvs expression",
             ["Text file (*.txt)"],
             self,
+            compressed_script=','.join(expr),
             image=qrcode.make(script)
         )
         dlg.show()

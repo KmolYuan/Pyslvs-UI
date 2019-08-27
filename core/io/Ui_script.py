@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'core/io/script.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,15 +14,15 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.setEnabled(True)
-        Dialog.resize(520, 564)
+        Dialog.resize(533, 564)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setAutoFillBackground(True)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.main_layout = QtWidgets.QVBoxLayout(Dialog)
+        self.main_layout.setObjectName("main_layout")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_2 = QtWidgets.QLabel(Dialog)
@@ -33,36 +33,16 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.style_option)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
+        self.show_qrcode = QtWidgets.QPushButton(Dialog)
+        self.show_qrcode.setAutoDefault(False)
+        self.show_qrcode.setObjectName("show_qrcode")
+        self.horizontalLayout_2.addWidget(self.show_qrcode)
         self.copy = QtWidgets.QPushButton(Dialog)
         self.copy.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.copy.setAutoDefault(False)
         self.copy.setObjectName("copy")
         self.horizontalLayout_2.addWidget(self.copy)
-        self.save_qrcode = QtWidgets.QPushButton(Dialog)
-        self.save_qrcode.setAutoDefault(False)
-        self.save_qrcode.setObjectName("save_qrcode")
-        self.horizontalLayout_2.addWidget(self.save_qrcode)
-        self.save_script = QtWidgets.QPushButton(Dialog)
-        self.save_script.setAutoDefault(False)
-        self.save_script.setObjectName("save_script")
-        self.horizontalLayout_2.addWidget(self.save_script)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.main_splitter = QtWidgets.QSplitter(Dialog)
-        self.main_splitter.setObjectName("main_splitter")
-        self.scroll_area = QtWidgets.QScrollArea(self.main_splitter)
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setObjectName("scroll_area")
-        self.qrcode_widget = QtWidgets.QWidget()
-        self.qrcode_widget.setGeometry(QtCore.QRect(0, 0, 500, 176))
-        self.qrcode_widget.setObjectName("qrcode_widget")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.qrcode_widget)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.qrcode_image = QtWidgets.QLabel(self.qrcode_widget)
-        self.qrcode_image.setAlignment(QtCore.Qt.AlignCenter)
-        self.qrcode_image.setObjectName("qrcode_image")
-        self.verticalLayout_2.addWidget(self.qrcode_image)
-        self.scroll_area.setWidget(self.qrcode_widget)
-        self.verticalLayout.addWidget(self.main_splitter)
+        self.main_layout.addLayout(self.horizontalLayout_2)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label_3 = QtWidgets.QLabel(Dialog)
@@ -80,7 +60,7 @@ class Ui_Dialog(object):
         self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
         self.button_box.setObjectName("button_box")
         self.horizontalLayout.addWidget(self.button_box)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.main_layout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
         self.button_box.rejected.connect(Dialog.reject)
@@ -89,9 +69,8 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         self.label_2.setText(_translate("Dialog", "Style:"))
+        self.show_qrcode.setText(_translate("Dialog", "Show QR code"))
         self.copy.setText(_translate("Dialog", "Copy"))
-        self.save_qrcode.setText(_translate("Dialog", "Save QR code"))
-        self.save_script.setText(_translate("Dialog", "Save script"))
         self.label_3.setText(_translate("Dialog", "Syntax highlighting powered by Pygments."))
         self.button_box.setWhatsThis(_translate("Dialog", "Click to exit"))
 import icons_rc

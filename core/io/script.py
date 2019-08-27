@@ -16,14 +16,13 @@ from typing import (
     Sequence,
     Optional,
 )
-from PIL import Image
+from PIL.Image import Image
 from PIL.ImageQt import ImageQt
 from pygments import highlight
 from pygments.lexer import RegexLexer
 from pygments.formatters.html import HtmlFormatter
 from pygments.styles import get_style_by_name, get_all_styles
 from core.QtModules import (
-    qt_image_format,
     Slot,
     Qt,
     QApplication,
@@ -31,6 +30,9 @@ from core.QtModules import (
     QTextEdit,
     QWidget,
     QPixmap,
+    QLabel,
+    QVBoxLayout,
+    QLineEdit,
 )
 from .Ui_script import Ui_Dialog
 
@@ -82,11 +84,12 @@ class _ScriptBrowser(QTextEdit):
 
     def wheelEvent(self, event):
         super(_ScriptBrowser, self).wheelEvent(event)
-        if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            if event.angleDelta().y() > 0:
-                self.zoomIn(1)
-            else:
-                self.zoomOut(1)
+        if QApplication.keyboardModifiers() != Qt.ControlModifier:
+            return
+        if event.angleDelta().y() > 0:
+            self.zoomIn(1)
+        else:
+            self.zoomOut(1)
 
 
 class ScriptDialog(QDialog, Ui_Dialog):
@@ -101,6 +104,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         file_format: List[str],
         parent: MainWindowBase,
         *,
+        compressed_script: str = "",
         image: Optional[Image] = None,
     ):
         """Input parameters:
@@ -118,8 +122,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
             Qt.WindowMaximizeButtonHint
         )
         self.script_view = _ScriptBrowser(self)
-        self.main_splitter.addWidget(self.script_view)
-        self.main_splitter.setSizes([50, 80])
+        self.main_layout.insertWidget(1, self.script_view)
         self.code = highlight(script, lexer, HtmlFormatter())
         self.filename = filename
         self.file_format = file_format
@@ -131,12 +134,16 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.style_option.addItems(styles)
         self.style_option.setCurrentIndex(0)
 
+        # Compressed script
+        self.compressed_script = compressed_script
+        if self.compressed_script:
+            line_edit = QLineEdit(self)
+            line_edit.setText(self.compressed_script)
+            line_edit.setReadOnly(True)
+            self.main_layout.insertWidget(2, line_edit)
+
         # Image display
-        if image is None:
-            self.save_qrcode.setVisible(False)
-            self.qrcode_image.setVisible(False)
-        else:
-            self.qrcode_image.setPixmap(QPixmap.fromImage(ImageQt(image)))
+        self.image = image
 
     @Slot(str, name='on_style_option_currentIndexChanged')
     def __set_style(self, style: str):
@@ -147,24 +154,18 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @Slot(name='on_copy_clicked')
     def __copy(self):
         """Copy to clipboard."""
-        QApplication.clipboard().setText(self.script_view.toPlainText())
+        QApplication.clipboard().setText(
+            self.compressed_script if self.compressed_script else self.script_view.toPlainText()
+        )
 
-    @Slot(name='on_save_script_clicked')
-    def __save_script(self):
-        """Save to text file."""
-        file_name = self.output_to(self.filename, self.file_format)
-        if not file_name:
-            return
-        with open(file_name, 'w', encoding='utf-8', newline='') as f:
-            f.write(self.script_view.toPlainText())
-        self.save_reply_box(self.filename, file_name)
-
-    @Slot(name='on_save_qrcode_clicked')
-    def __save_qrcode(self):
+    @Slot(name='on_show_qrcode_clicked')
+    def __show_qrcode(self):
         """Save to image file."""
-        file_name = self.output_to(self.filename, qt_image_format)
-        if not file_name:
-            return
-        pixmap: QPixmap = self.qrcode_image.pixmap()
-        pixmap.save(file_name)
-        self.save_reply_box(f"QR code of {self.filename}", file_name)
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Mechanism QR code")
+        dlg.setModal(True)
+        layout = QVBoxLayout(dlg)
+        label = QLabel(dlg)
+        layout.addWidget(label)
+        label.setPixmap(QPixmap.fromImage(ImageQt(self.image)))
+        dlg.show()
