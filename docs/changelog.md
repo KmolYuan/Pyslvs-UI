@@ -8,6 +8,7 @@
 + Remake "set link length" operation.
 + Generate a QR code for mechanism expression.
 + Fix the bug of switching selection mode.
++ Improvement of selection mode tooltips.
 
 **Development**:
 

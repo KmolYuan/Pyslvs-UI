@@ -277,12 +277,8 @@ class DynamicCanvas(DynamicCanvasInterface):
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
             self.selection_mode_wheel(self.selection_mode() + (-1 if value > 0 else 1))
-            i = self.selection_mode()
-            icons = ''.join(
-                f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"
-                for j, icon in enumerate(('bearing', 'link', 'configure'))
-            )
-            QToolTip.showText(event.globalPos(), f"<p style=\"background-color: # 77abff\">{icons}</p>", self)
+            mode = ["Points", "Links", "Formulas"][self.selection_mode()]
+            QToolTip.showText(event.globalPos(), f"Selection mode: {mode}", self)
         else:
             self.set_zoom_bar(self.zoom_value() + self.zoom_factor() * (1 if value > 0 else -1))
         event.accept()
