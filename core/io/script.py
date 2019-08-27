@@ -14,9 +14,8 @@ from typing import (
     Tuple,
     List,
     Sequence,
-    Optional,
 )
-from PIL.Image import Image
+import qrcode
 from PIL.ImageQt import ImageQt
 from pygments import highlight
 from pygments.lexer import RegexLexer
@@ -33,6 +32,7 @@ from core.QtModules import (
     QLabel,
     QVBoxLayout,
     QLineEdit,
+    QSizePolicy,
 )
 from .Ui_script import Ui_Dialog
 
@@ -104,8 +104,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         file_format: List[str],
         parent: MainWindowBase,
         *,
-        compressed_script: str = "",
-        image: Optional[Image] = None,
+        compressed_script: str = ""
     ):
         """Input parameters:
 
@@ -136,14 +135,19 @@ class ScriptDialog(QDialog, Ui_Dialog):
 
         # Compressed script
         self.compressed_script = compressed_script
-        if self.compressed_script:
-            line_edit = QLineEdit(self)
-            line_edit.setText(self.compressed_script)
-            line_edit.setReadOnly(True)
-            self.main_layout.insertWidget(2, line_edit)
+        if not self.compressed_script:
+            self.show_qrcode.setVisible(False)
+            self.image = None
+            return
+
+        line_edit = QLineEdit(self)
+        line_edit.setText(self.compressed_script)
+        line_edit.setReadOnly(True)
+        self.main_layout.insertWidget(2, line_edit)
 
         # Image display
-        self.image = image
+        image = qrcode.make(self.compressed_script)
+        self.image: QPixmap = QPixmap.fromImage(ImageQt(image.resize((500, 500))))
 
     @Slot(str, name='on_style_option_currentIndexChanged')
     def __set_style(self, style: str):
@@ -167,5 +171,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         layout = QVBoxLayout(dlg)
         label = QLabel(dlg)
         layout.addWidget(label)
-        label.setPixmap(QPixmap.fromImage(ImageQt(self.image)))
+        label.setPixmap(self.image)
+        dlg.setFixedSize(self.image.size())
+        dlg.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         dlg.show()

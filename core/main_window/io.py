@@ -16,7 +16,6 @@ from typing import (
     Union,
 )
 from abc import ABC
-import qrcode
 from lark.exceptions import LarkError
 from pygments.lexers.python import Python3Lexer
 from pyslvs import __version__, parse_params, PMKSLexer
@@ -582,8 +581,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             "Pyslvs expression",
             ["Text file (*.txt)"],
             self,
-            compressed_script=','.join(expr),
-            image=qrcode.make(script)
+            compressed_script="M[" + ','.join(expr).replace(", ", ",") + "]" if expr else ""
         )
         dlg.show()
         dlg.exec()
