@@ -25,6 +25,7 @@ from typing import (
     Dict,
     Tuple,
     Iterator,
+    Iterable,
     Union,
     Optional,
 )
@@ -41,6 +42,7 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
+from core.info import logger
 from .tables import (
     BaseTableWidget,
     PointTableWidget,
@@ -284,7 +286,7 @@ class EditPointTable(_EditFusedTable):
             new_points.remove(self.row)
             self.__set_cell(row, new_points)
 
-    def __set_cell(self, row: int, points: List[int]):
+    def __set_cell(self, row: int, points: Iterable[int]):
         item = QTableWidgetItem(','.join(f'Point{p}' for p in points))
         item.setFlags(_ITEM_FLAGS)
         self.link_table.setItem(row, 2, item)
@@ -357,7 +359,7 @@ class EditLinkTable(_EditFusedTable):
                 new_links.remove(name)
             self.__set_cell(row, new_links)
 
-    def __set_cell(self, row: int, links: List[str]):
+    def __set_cell(self, row: int, links: Iterable[str]):
         item = QTableWidgetItem(','.join(links))
         item.setFlags(_ITEM_FLAGS)
         self.point_table.setItem(row, 1, item)

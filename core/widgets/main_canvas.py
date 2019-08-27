@@ -58,7 +58,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.zoom_value = parent.zoom_bar.value
         self.zoom_factor = parent.scalefactor_option.value
         # Dependent functions to set selection mode.
-        self.set_selection_mode = parent.entities_tab.setCurrentIndex
+        self.selection_mode_wheel = parent.entities_tab.setCurrentIndex
         self.selection_mode = parent.entities_tab.currentIndex
 
     def update_figure(self, exprs: List[Tuple[str, ...]], path: List[_Coord]):
@@ -276,7 +276,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         """
         value = event.angleDelta().y()
         if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            self.set_selection_mode(self.selection_mode() + (-1 if value > 0 else 1))
+            self.selection_mode_wheel(self.selection_mode() + (-1 if value > 0 else 1))
             i = self.selection_mode()
             icons = ''.join(
                 f"<img width=\"{70 if i == j else 40}\" src=\":icons/{icon}.png\"/>"

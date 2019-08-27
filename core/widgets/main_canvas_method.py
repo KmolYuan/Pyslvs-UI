@@ -273,7 +273,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 y = vpoint.cy * -self.zoom
             else:
                 coordinate = vpoint.c[
-                    0 if (vlink.name == vpoint.links[0]) else 1
+                    0 if vlink.name == vpoint.links[0] else 1
                 ]
                 x = coordinate[0] * self.zoom
                 y = coordinate[1] * -self.zoom
