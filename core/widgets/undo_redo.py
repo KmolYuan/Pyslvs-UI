@@ -42,7 +42,6 @@ from core.QtModules import (
     QIcon,
     QPixmap,
 )
-from core.info import logger
 from .tables import (
     BaseTableWidget,
     PointTableWidget,

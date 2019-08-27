@@ -683,28 +683,16 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     @Slot()
     def delete_selected_points(self):
-        """Delete the selected points.
-        Be sure that the points will has new position after deleted.
-        """
-        selections = self.entities_point.selected_rows()
-        for i, p in enumerate(selections):
-            if p > selections[i - 1]:
-                row = p - i
-            else:
-                row = p
+        """Delete the selected points."""
+        for row in sorted(self.entities_point.selected_rows(), reverse=True):
             self.delete_point(row)
 
     @Slot()
     def delete_selected_links(self):
-        """Delete the selected links.
-        Be sure that the links will has new position after deleted.
-        """
-        selections = self.entities_link.selected_rows()
-        selections = tuple(
-            p - i + int(0 in selections) if p > selections[i - 1] else p
-            for i, p in enumerate(selections)
-        )
-        for row in selections:
+        """Delete the selected links."""
+        for row in sorted(self.entities_link.selected_rows(), reverse=True):
+            if row == 0:
+                continue
             self.delete_link(row)
 
     def set_coords_as_current(self):
