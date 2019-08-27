@@ -9,7 +9,7 @@ the programming script can be compiled as an executable file.
 In development state, Pyslvs including several dynamic libraries,
 which are need to be compiled first.
 
-## Dependency
+## Dependencies
 
 Actual testing platforms with CI:
 
@@ -53,9 +53,9 @@ PyQt5 and its additional modules are now packed into the wheel file that most of
 You need to get original Qt tools for development, which can be used to design the *.ui files,
 they are not the requirement if you just want to run Pyslvs.
 
-**Mac OS and Ubuntu**:
-
 Download and install [Qt5] to get the tools.
+
+**Ubuntu**:
 
 Ubuntu users can obtain them via APT:
 
@@ -73,7 +73,7 @@ pip install pyqt5-tools
 
 ## Kernels Requirement
 
-About the development tools, please see [Modules Requirement](#modules-requirement).
+About the development tools, please see [Dependencies](#dependencies).
 
 Make command:
 

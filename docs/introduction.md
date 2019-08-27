@@ -62,7 +62,7 @@ The "ground" label is a default name, this link will be the absolute coordinate 
 
 Pyslvs was translate the PMKS expression as a string, likes below:
 
-```python
+```
 # Single line annotation.
 M[
     J[R, color[Green], P[0.0, 0.0], L[ground, link_0]],
@@ -181,7 +181,7 @@ For the IO method of Solvespace format, you can also refer to two Python scripts
 
 ## Theory
 
-The theory of Pyslvs is at [here](license.md#cite).
+The theory of Pyslvs is at [here](references.md#cite).
 This manual **will not mention any principle of these concepts.**
 
 Here's the concepts that will shown in this manual:
