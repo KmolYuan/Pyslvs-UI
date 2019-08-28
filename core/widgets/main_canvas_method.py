@@ -763,14 +763,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.oy = height / 2
             self.update()
             return
-        x_diff = x_left - x_right
-        y_diff = y_top - y_bottom
-        x_diff = x_diff if x_diff else 1
-        y_diff = y_diff if y_diff else 1
-        if width / x_diff < height / y_diff:
-            factor = width / x_diff
-        else:
-            factor = height / y_diff
+
+        factor = self.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
         self.zoom_changed.emit(int(factor * self.margin_factor * 50))
         self.ox = (width - (x_left + x_right) * self.zoom) / 2
         self.oy = (height + (y_top + y_bottom) * self.zoom) / 2

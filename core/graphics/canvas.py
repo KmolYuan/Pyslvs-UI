@@ -130,25 +130,25 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.setFocusPolicy(Qt.StrongFocus)
         self.painter = QPainter()
 
-        # Origin coordinate.
+        # Origin coordinate
         self.ox = self.width() / 2
         self.oy = self.height() / 2
-        # Canvas zoom rate.
+        # Canvas zoom rate
         self.rate = 2.
         self.zoom = 2. * self.rate
-        # Joint size.
+        # Joint size
         self.joint_size = 5
-        # Canvas line width.
+        # Canvas line width
         self.link_width = 3
         self.path_width = 3
-        # Font size.
+        # Font size
         self.font_size = 15
-        # Show point mark or dimension.
+        # Show point mark or dimension
         self.show_point_mark = True
         self.show_dimension = True
-        # Path track.
+        # Path track
         self.path = _PathOption()
-        # Path solving.
+        # Path solving
         self.ranges: Dict[str, QRectF] = {}
         self.target_path: Dict[str, Sequence[_Coord]] = {}
         self.show_target_path = False
@@ -159,6 +159,24 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.background_offset = QPointF(0, 0)
         # Monochrome mode
         self.monochrome = False
+
+    @staticmethod
+    def zoom_factor(
+        width: int,
+        height: int,
+        x_right: float,
+        x_left: float,
+        y_top: float,
+        y_bottom: float
+    ) -> float:
+        x_diff = x_left - x_right
+        y_diff = y_top - y_bottom
+        x_diff = x_diff if x_diff else 1
+        y_diff = y_diff if y_diff else 1
+        if width / x_diff < height / y_diff:
+            return width / x_diff
+        else:
+            return height / y_diff
 
     @abstractmethod
     def paintEvent(self, event: QPaintEvent):
@@ -517,14 +535,7 @@ class PreviewCanvas(BaseCanvas):
         height = self.height()
         if self.pos:
             x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
-            x_diff = x_left - x_right
-            y_diff = y_top - y_bottom
-            x_diff = x_diff if x_diff else 1
-            y_diff = y_diff if y_diff else 1
-            if width / x_diff < height / y_diff:
-                factor = width / x_diff
-            else:
-                factor = height / y_diff
+            factor = self.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
             self.zoom = factor * 0.75
             self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
             self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
