@@ -50,31 +50,18 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         count = len(selection)
         # Set grounded state
         if count:
-            self.action_point_context_lock.setChecked(all(
+            self.action_point_lock.setChecked(all(
                 'ground' in self.entities_point.item(row, 1).text()
                 for row in self.entities_point.selected_rows()
             ))
-        # If no any point selected
-        for action in (
-            self.action_point_context_add,
-            self.action_canvas_context_add,
-            self.action_canvas_context_grounded_add,
+        for actions, state in (
+            (self.p_no_select, count == 0),
+            (self.p_one_select, count == 1),
+            (self.p_any_select, count > 0),
+            (self.p_mul_select, count > 1),
         ):
-            action.setVisible(count == 0)
-        # If a point selected
-        for action in (
-            self.action_point_context_edit,
-            self.action_point_context_clone,
-            self.action_point_context_copydata,
-            self.action_point_context_copy_coord,
-        ):
-            action.setVisible(count == 1)
-        # If any point selected
-        self.action_point_context_lock.setVisible(count > 0)
-        self.action_point_context_delete.setVisible(count > 0)
-        # If two or more points selected
-        self.action_new_link.setVisible(count > 1)
-        self.pop_menu_point_merge.menuAction().setVisible(count > 1)
+            for action in actions:
+                action.setVisible(state)
 
         def mj_func(order: int):
             """Generate a merge function."""
@@ -86,40 +73,24 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         for i, p in enumerate(selection):
             action = QAction(f"Base on Point{p}", self)
             action.triggered.connect(mj_func(i))
-            self.pop_menu_point_merge.addAction(action)
+            self.pop_point_merge.addAction(action)
 
     def __enable_link_context(self):
         """Enable / disable link's QAction, same as point table."""
         selection = self.entities_link.selected_rows()
         count = len(selection)
+        for actions, state in (
+            (self.l_no_select, count == 0),
+            (self.l_one_select, count == 1),
+            (self.l_any_select, count > 0),
+            (self.l_mul_select, count > 1),
+        ):
+            for action in actions:
+                action.setVisible(state)
         row = self.entities_link.currentRow()
-        # If no any link selected
-        self.action_link_context_add.setVisible(count == 0)
-        # If a link selected
-        for action in (
-            self.action_link_context_edit,
-            self.action_link_context_copydata,
-            self.action_link_context_release,
-            self.action_link_context_constrain,
-        ):
-            action.setVisible(count == 1)
-        # If any link selected
-        self.action_link_context_delete.setVisible(count > 0)
-        # If two or more links selected
-        for action in (
-            self.pop_menu_link_merge.menuAction(),
-            self.action_link_context_delete,
-        ):
-            action.setVisible(count > 1)
-        # Is ground
-        for action in (
-            self.action_link_context_release,
-        ):
+        for action in self.l_ground:
             action.setVisible(action.isVisible() and row == 0)
-        # Is not ground
-        for action in (
-            self.action_link_context_constrain,
-        ):
+        for action in self.l_not_ground:
             action.setVisible(action.isVisible() and row != 0)
 
         def ml_func(order: int) -> Callable[[], None]:
@@ -133,7 +104,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             name = self.entities_link.item(row, 0).text()
             action = QAction(f"Base on \"{name}\"", self)
             action.triggered.connect(ml_func(i))
-            self.pop_menu_link_merge.addAction(action)
+            self.pop_link_merge.addAction(action)
 
     def __to_multiple_joint(self, index: int, points: Sequence[int]):
         """Merge points into a multiple joint.
@@ -204,16 +175,16 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def point_context_menu(self, point: QPoint):
         """EntitiesPoint context menu."""
         self.__enable_point_context()
-        self.pop_menu_point.exec(self.entities_point_widget.mapToGlobal(point))
+        self.pop_point.exec(self.entities_point_widget.mapToGlobal(point))
         self.action_new_link.setVisible(True)
-        self.pop_menu_point_merge.clear()
+        self.pop_point_merge.clear()
 
     @Slot(QPoint)
     def link_context_menu(self, point: QPoint):
         """EntitiesLink context menu."""
         self.__enable_link_context()
-        self.pop_menu_link.exec(self.entities_link_widget.mapToGlobal(point))
-        self.pop_menu_link_merge.clear()
+        self.pop_link.exec(self.entities_link_widget.mapToGlobal(point))
+        self.pop_link_merge.clear()
 
     @Slot(QPoint)
     def canvas_context_menu(self, point: QPoint):
@@ -222,14 +193,14 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         if index == 0:
             self.__enable_point_context()
             is_synthesis = self.synthesis_tab_widget.currentIndex() == 2
-            self.action_canvas_context_path.setVisible(is_synthesis)
-            self.pop_menu_canvas_p.exec(self.main_canvas.mapToGlobal(point))
+            self.action_canvas_add_target.setVisible(is_synthesis)
+            self.pop_canvas_p.exec(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
-            self.pop_menu_point_merge.clear()
+            self.pop_point_merge.clear()
         elif index == 1:
             self.__enable_link_context()
-            self.pop_menu_canvas_l.exec(self.main_canvas.mapToGlobal(point))
-            self.pop_menu_link_merge.clear()
+            self.pop_canvas_l.exec(self.main_canvas.mapToGlobal(point))
+            self.pop_link_merge.clear()
 
     @Slot()
     def enable_mechanism_actions(self):

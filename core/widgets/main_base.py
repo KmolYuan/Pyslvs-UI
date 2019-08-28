@@ -16,6 +16,7 @@ from typing import (
     List,
     Sequence,
     Dict,
+    Callable,
     Any,
 )
 from abc import abstractmethod
@@ -76,11 +77,23 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         super(MainWindowBase, self).__init__()
         self.setupUi(self)
 
+        # Environment path
+        self.env = ""
         # Entities list
         self.vpoint_list: List[VPoint] = []
         self.vlink_list = [VLink('ground', 'White', (), color_rgb)]
-        # Environment path
-        self.env = ""
+
+        # Condition list
+        self.p_no_select: List[QAction] = []
+        self.p_one_select: List[QAction] = []
+        self.p_any_select: List[QAction] = []
+        self.p_mul_select: List[QAction] = []
+        self.l_no_select: List[QAction] = []
+        self.l_one_select: List[QAction] = []
+        self.l_any_select: List[QAction] = []
+        self.l_mul_select: List[QAction] = []
+        self.l_ground: List[QAction] = []
+        self.l_not_ground: List[QAction] = []
 
         # Initialize custom UI
         self.__undo_redo()
@@ -435,8 +448,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_zoom_to_fit.triggered.connect(self.main_canvas.zoom_to_fit)
         self.ResetCanvas.clicked.connect(self.main_canvas.zoom_to_fit)
 
-        zoom_menu = QMenu(self)
-
         def zoom_level(value: int):
             """Return a function that set the specified zoom value."""
             @Slot()
@@ -444,6 +455,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
                 self.zoom_bar.setValue(value)
             return func
 
+        zoom_menu = QMenu(self)
         for level in range(
             self.zoom_bar.minimum() - self.zoom_bar.minimum() % 100 + 100,
             500 + 1,
@@ -457,165 +469,81 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         zoom_menu.addAction(action)
         self.zoom_button.setMenu(zoom_menu)
 
+    def __action(
+        self,
+        name: str,
+        slot: Callable[..., None],
+        menus: Sequence[QMenu],
+        conditions: Sequence[List[QAction]] = ()
+    ) -> QAction:
+        """New action."""
+        action = QAction(name, self)
+        action.triggered.connect(slot)
+        for menu in menus:
+            menu.addAction(action)
+        for condition in conditions:
+            condition.append(action)
+        return action
+
     def __context_menu(self):
         """Context menu settings."""
-        # EntitiesPoint
-        # + Add
-        # ///////
-        # + New Link
-        # + Edit
-        # + Grounded
-        # + Multiple joint
-        #     - Point0
-        #     - Point1
-        #     - ...
-        # + Copy table data
-        # + Copy coordinate
-        # + Clone
-        # -------
-        # + Delete
-        self.entities_point_widget.customContextMenuRequested.connect(
-            self.point_context_menu
-        )
-        self.pop_menu_point = QMenu(self)
-        self.pop_menu_point.setSeparatorsCollapsible(True)
-        self.action_point_context_add = QAction("&Add", self)
-        self.action_point_context_add.triggered.connect(self.new_point)
-        self.pop_menu_point.addAction(self.action_point_context_add)
-        self.pop_menu_point.addAction(self.action_new_link)
-        self.action_point_context_edit = QAction("&Edit", self)
-        self.action_point_context_edit.triggered.connect(self.edit_point)
-        self.pop_menu_point.addAction(self.action_point_context_edit)
-        self.action_point_context_lock = QAction("&Grounded", self)
-        self.action_point_context_lock.setCheckable(True)
-        self.action_point_context_lock.triggered.connect(self.lock_points)
-        self.pop_menu_point.addAction(self.action_point_context_lock)
-        self.pop_menu_point_merge = QMenu(self)
-        self.pop_menu_point_merge.setTitle("Multiple joint")
-        self.pop_menu_point.addMenu(self.pop_menu_point_merge)
-        self.action_point_context_copydata = QAction("&Copy table data", self)
-        self.action_point_context_copydata.triggered.connect(self.copy_points_table)
-        self.pop_menu_point.addAction(self.action_point_context_copydata)
-        self.action_point_context_copy_coord = QAction("&Copy coordinate", self)
-        self.action_point_context_copy_coord.triggered.connect(self.copy_coord)
-        self.pop_menu_point.addAction(self.action_point_context_copy_coord)
-        self.action_point_context_clone = QAction("C&lone", self)
-        self.action_point_context_clone.triggered.connect(self.clone_point)
-        self.pop_menu_point.addAction(self.action_point_context_clone)
-        self.pop_menu_point.addSeparator()
-        self.action_point_context_delete = QAction("&Delete", self)
-        self.action_point_context_delete.triggered.connect(self.delete_selected_points)
-        self.pop_menu_point.addAction(self.action_point_context_delete)
-        # EntitiesLink
-        # + Add
-        # + Edit
-        # + Merge links
-        #     - Link0
-        #     - Link1
-        #     - ...
-        # + Copy table data
-        # + Release
-        # + Constrain
-        # -------
-        # + Delete
-        self.entities_link_widget.customContextMenuRequested.connect(
-            self.link_context_menu
-        )
-        self.pop_menu_link = QMenu(self)
-        self.pop_menu_link.setSeparatorsCollapsible(True)
-        self.action_link_context_add = QAction("&Add", self)
-        self.action_link_context_add.triggered.connect(self.new_link)
-        self.pop_menu_link.addAction(self.action_link_context_add)
-        self.action_link_context_edit = QAction("&Edit", self)
-        self.action_link_context_edit.triggered.connect(self.edit_link)
-        self.pop_menu_link.addAction(self.action_link_context_edit)
-        self.pop_menu_link_merge = QMenu(self)
-        self.pop_menu_link_merge.setTitle("Merge links")
-        self.pop_menu_link.addMenu(self.pop_menu_link_merge)
-        self.action_link_context_copydata = QAction("&Copy table data", self)
-        self.action_link_context_copydata.triggered.connect(self.copy_links_table)
-        self.pop_menu_link.addAction(self.action_link_context_copydata)
-        self.action_link_context_release = QAction("&Release", self)
-        self.action_link_context_release.triggered.connect(self.release_ground)
-        self.pop_menu_link.addAction(self.action_link_context_release)
-        self.action_link_context_constrain = QAction("C&onstrain", self)
-        self.action_link_context_constrain.triggered.connect(self.constrain_link)
-        self.pop_menu_link.addAction(self.action_link_context_constrain)
-        self.pop_menu_link.addSeparator()
-        self.action_link_context_delete_empty = QAction("Remove &empty names", self)
-        self.action_link_context_delete_empty.triggered.connect(self.delete_empty_links)
-        self.pop_menu_link.addAction(self.action_link_context_delete_empty)
-        self.action_link_context_delete = QAction("&Delete", self)
-        self.action_link_context_delete.triggered.connect(self.delete_selected_links)
-        self.pop_menu_link.addAction(self.action_link_context_delete)
-        # MainCanvas context menus,
-        # switch the actions when selection mode changed.
-
-        # + Actions set of points.
-        # + Actions set of links.
-        #
-        # Actions set of points:
-        #
-        # + Add
-        # ///////
-        # + New Link
-        # + Add [fixed]
-        # + Add [target path]
-        # ///////
-        # + Edit
-        # + Grounded
-        # + Multiple joint
-        #     - Point0
-        #     - Point1
-        #     - ...
-        # + Clone
-        # + Copy coordinate
-        # -------
-        # + Delete
+        self.entities_point_widget.customContextMenuRequested.connect(self.point_context_menu)
+        self.pop_point = QMenu(self)
+        self.entities_link_widget.customContextMenuRequested.connect(self.link_context_menu)
+        self.pop_link = QMenu(self)
         self.main_canvas.setContextMenuPolicy(Qt.CustomContextMenu)
         self.main_canvas.customContextMenuRequested.connect(self.canvas_context_menu)
-        self.pop_menu_canvas_p = QMenu(self)
-        self.pop_menu_canvas_p.setSeparatorsCollapsible(True)
-        self.action_canvas_context_add = QAction("&Add", self)
-        self.action_canvas_context_add.triggered.connect(self.add_normal_point)
-        self.pop_menu_canvas_p.addAction(self.action_canvas_context_add)
-        self.pop_menu_canvas_p.addAction(self.action_new_link)
-        self.action_canvas_context_grounded_add = QAction("Add [grounded]", self)
-        self.action_canvas_context_grounded_add.triggered.connect(self.add_fixed_point)
-        self.pop_menu_canvas_p.addAction(self.action_canvas_context_grounded_add)
-        self.action_canvas_context_path = QAction("Add [target path]", self)
-        self.action_canvas_context_path.triggered.connect(self.add_target_point)
-        self.pop_menu_canvas_p.addAction(self.action_canvas_context_path)
-        self.pop_menu_canvas_p.addAction(self.action_point_context_edit)
-        self.pop_menu_canvas_p.addAction(self.action_point_context_lock)
-        self.pop_menu_canvas_p.addMenu(self.pop_menu_point_merge)
-        self.pop_menu_canvas_p.addAction(self.action_point_context_copy_coord)
-        self.pop_menu_canvas_p.addAction(self.action_point_context_clone)
-        self.pop_menu_canvas_p.addSeparator()
-        self.pop_menu_canvas_p.addAction(self.action_point_context_delete)
-        # Actions set of links:
-        #
-        # + Add
-        # ///////
-        # + Add [target path]
-        # ///////
-        # + Edit
-        # + Merge links
-        #     - Link0
-        #     - Link1
-        #     - ...
-        # + Release / Constrain
-        # -------
-        # + Delete
-        self.pop_menu_canvas_l = QMenu(self)
-        self.pop_menu_canvas_l.setSeparatorsCollapsible(True)
-        self.pop_menu_canvas_l.addAction(self.action_link_context_add)
-        self.pop_menu_canvas_l.addAction(self.action_link_context_edit)
-        self.pop_menu_canvas_l.addMenu(self.pop_menu_link_merge)
-        self.pop_menu_canvas_l.addAction(self.action_link_context_constrain)
-        self.pop_menu_canvas_l.addSeparator()
-        self.pop_menu_canvas_l.addAction(self.action_link_context_delete_empty)
-        self.pop_menu_canvas_l.addAction(self.action_link_context_delete)
+        self.pop_canvas_p = QMenu(self)
+        self.pop_canvas_l = QMenu(self)
+        for menu in (
+            self.pop_point,
+            self.pop_link,
+            self.pop_canvas_p,
+            self.pop_canvas_l,
+        ):
+            menu.setSeparatorsCollapsible(True)
+        # EntitiesPoint
+        two_menus = (self.pop_point, self.pop_canvas_p)
+        self.__action("&Add", self.new_point, (self.pop_point,), (self.p_no_select,))
+        self.__action("&Add", self.add_normal_point, (self.pop_canvas_p,), (self.p_no_select,))
+        self.__action("Add [grounded]", self.add_fixed_point, (self.pop_canvas_p,), (self.p_no_select,))
+        self.action_canvas_add_target = self.__action(
+            "Add [target point]",
+            self.add_target_point,
+            (self.pop_canvas_p,),
+            (self.p_no_select,)
+        )
+        self.pop_point.addAction(self.action_new_link)
+        self.pop_canvas_p.addAction(self.action_new_link)
+        self.p_mul_select.append(self.action_new_link)
+        self.__action("&Edit", self.edit_point, two_menus, (self.p_one_select,))
+        self.action_point_lock = self.__action("&Grounded", self.lock_points, two_menus, (self.p_any_select,))
+        self.action_point_lock.setCheckable(True)
+        self.pop_point_merge = QMenu("Multiple joint", self)
+        self.pop_point.addMenu(self.pop_point_merge)
+        self.pop_canvas_p.addMenu(self.pop_point_merge)
+        self.p_mul_select.append(self.pop_point_merge.menuAction())
+        self.__action("&Copy table data", self.copy_points_table, (self.pop_point,), (self.p_one_select,))
+        self.__action("&Copy coordinate", self.copy_coord, (self.pop_point,), (self.p_one_select,))
+        self.__action("C&lone", self.clone_point, two_menus, (self.p_one_select,))
+        self.pop_point.addSeparator()
+        self.pop_canvas_p.addSeparator()
+        self.__action("&Delete", self.delete_selected_points, two_menus, (self.p_any_select,))
+        # EntitiesLink
+        two_menus = (self.pop_link, self.pop_canvas_l)
+        self.__action("&Add", self.new_link, two_menus, (self.l_no_select,))
+        self.__action("&Edit", self.edit_link, two_menus, (self.l_one_select,))
+        self.pop_link_merge = QMenu("Merge links", self)
+        self.pop_link.addMenu(self.pop_link_merge)
+        self.pop_canvas_l.addMenu(self.pop_link_merge)
+        self.l_mul_select.append(self.pop_link_merge.menuAction())
+        self.__action("&Copy table data", self.copy_links_table, (self.pop_link,), (self.l_one_select,))
+        self.__action("&Release", self.release_ground, two_menus, (self.l_one_select, self.l_ground))
+        self.__action("C&onstrain", self.constrain_link, two_menus, (self.l_one_select, self.l_not_ground))
+        self.pop_link.addSeparator()
+        self.pop_canvas_l.addSeparator()
+        self.__action("Remove &empty names", self.delete_empty_links, (self.pop_link,), ())
+        self.__action("&Delete", self.delete_selected_links, two_menus, (self.l_any_select,))
 
     @Slot(int, name='on_entities_tab_currentChanged')
     def __set_selection_mode(self, index: int):

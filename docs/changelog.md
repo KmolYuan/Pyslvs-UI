@@ -14,13 +14,15 @@
     + Changed function key from "Ctrl" to "Shift".
     + Support horizontal wheel.
     + Changed tooltips from icons to text.
-+ Pack actions into a single action when deleting multiple points or links.
++ Pack actions into a single action when:
+    + Deleting multiple points or links.
 + Add "Remove empty names" operation for link entities.
 
 **Development**:
 
 + Many core performance improvements.
 + Settings correction of AppVeyor.
++ Reformat the actions for all of context menus.
 
 ## Version 19.07
 

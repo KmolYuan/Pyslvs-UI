@@ -450,7 +450,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     def lock_points(self):
         """Turn a group of points to fixed on ground or not."""
-        to_fixed = self.action_point_context_lock.isChecked()
+        to_fixed = self.action_point_lock.isChecked()
         for row in self.entities_point.selected_rows():
             new_links = self.entities_point.item(row, 1).text().split(',')
             if to_fixed:
