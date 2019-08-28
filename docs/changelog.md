@@ -10,7 +10,10 @@
 + Error and Bugs:
     + Fix the error of deleting multiple points.
     + Fix the bug of switching selection mode.
-+ Improvement of selection mode tooltips.
++ Improvements of switching selection mode:
+    + Changed function key from "Ctrl" to "Shift".
+    + Support horizontal wheel.
+    + Changed tooltips from icons to text.
 
 **Development**:
 
