@@ -758,13 +758,14 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
         inf = float('inf')
         if (inf in {x_right, y_bottom}) or (-inf in {x_left, y_top}):
+            # Default scale value
             self.zoom_changed.emit(200)
             self.ox = width / 2
             self.oy = height / 2
             self.update()
             return
 
-        factor = self.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
+        factor = BaseCanvas.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
         self.zoom_changed.emit(int(factor * self.margin_factor * 50))
         self.ox = (width - (x_left + x_right) * self.zoom) / 2
         self.oy = (height + (y_top + y_bottom) * self.zoom) / 2
