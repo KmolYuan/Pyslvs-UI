@@ -76,8 +76,10 @@ The selected objects can be correspond to each row of the table.
 Clicking an empty area without holding "Shift" and "Ctrl" keys also can
 deselect all the entities.
 
-The "delete" actions and free move modes are support with
-multiple selected objects.
+Using "Shift" key plus scrolling mouse wheel can switch the tabs and the selection modes.
+This function also can be activated directly if your mouse has a horizontal wheel.
+
+The "delete" actions and free move modes are support with multiple selected objects.
 
 ## Free Move Modes
 
