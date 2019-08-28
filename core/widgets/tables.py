@@ -28,10 +28,8 @@ from typing import (
 from pyslvs import (
     ExpressionStack,
     Coordinate,
-    VJoint,
     VPoint,
     VLink,
-    color_rgb,
 )
 from core.QtModules import (
     Signal,
@@ -48,6 +46,7 @@ from core.QtModules import (
     QLabel,
     QWidget,
     QABCMeta,
+    QKeyEvent,
 )
 from core.graphics import color_icon
 
@@ -158,7 +157,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
             )
             self.scrollToItem(self.item(row, 0))
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event: QKeyEvent):
         """Hit the delete key,
         will emit delete signal from this table.
         """

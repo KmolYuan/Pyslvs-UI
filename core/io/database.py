@@ -45,6 +45,7 @@ from core.QtModules import (
     QLineEdit,
     QMessageBox,
     QTableWidgetItem,
+    QMouseEvent,
 )
 from core.info import logger
 from .overview import OverviewDialog
@@ -147,7 +148,7 @@ class LoadCommitButton(QPushButton):
         self.setToolTip(f"Reset to commit # {id_int}.")
         self.id = id_int
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event: QMouseEvent):
         """Load the commit when release button."""
         super(LoadCommitButton, self).mouseReleaseEvent(event)
         self.loaded.emit(self.id)

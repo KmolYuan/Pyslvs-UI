@@ -37,6 +37,9 @@ from core.QtModules import (
     QComboBox,
     QCheckBox,
     QLineEdit,
+    QMimeData,
+    QDragEnterEvent,
+    QDropEvent,
 )
 from core.info import (
     ARGUMENTS,
@@ -146,9 +149,9 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             (self.dontsave_option, True),
         )
 
-    def dragEnterEvent(self, event):
+    def dragEnterEvent(self, event: QDragEnterEvent):
         """Drag file in to our window."""
-        mime_data = event.mimeData()
+        mime_data: QMimeData = event.mimeData()
         if not mime_data.hasUrls():
             return
         for url in mime_data.urls():
@@ -156,7 +159,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             if suffix in {'pyslvs.yml', 'pyslvs', 'slvs'}:
                 event.acceptProposedAction()
 
-    def dropEvent(self, event):
+    def dropEvent(self, event: QDropEvent):
         """Drop file in to our window."""
         file_name = event.mimeData().urls()[-1].toLocalFile()
         self.__load_file(file_name)

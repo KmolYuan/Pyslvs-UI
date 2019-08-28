@@ -23,6 +23,7 @@ from core.QtModules import (
     QMessageBox,
     QInputDialog,
     QTextCursor,
+    QCloseEvent,
 )
 from core.info import ARGUMENTS, XStream, logger
 from .io import IOMethodInterface
@@ -62,7 +63,7 @@ class MainWindow(IOMethodInterface):
         # Load workbook from argument.
         self.load_from_args()
 
-    def closeEvent(self, event):
+    def closeEvent(self, event: QCloseEvent):
         """Close event to avoid user close the window accidentally."""
         if self.check_file_changed():
             event.ignore()

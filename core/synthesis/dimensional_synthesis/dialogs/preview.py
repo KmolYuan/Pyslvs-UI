@@ -35,6 +35,7 @@ from core.QtModules import (
     QSizeF,
     QDialog,
     QWidget,
+    QPaintEvent,
 )
 from core.graphics import BaseCanvas, color_qt
 from .Ui_preview import Ui_Dialog
@@ -125,7 +126,7 @@ class _DynamicCanvas(BaseCanvas):
                 y_top = rect.top()
         return x_right, x_left, y_top, y_bottom
 
-    def paintEvent(self, event):
+    def paintEvent(self, event: QPaintEvent):
         """Drawing functions."""
         width = self.width()
         height = self.height()

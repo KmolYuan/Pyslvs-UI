@@ -37,6 +37,7 @@ from core.QtModules import (
     QListWidgetItem,
     QLabel,
     QApplication,
+    QMouseEvent,
 )
 from core.graphics import PreviewCanvas
 from .dialogs import (
@@ -69,7 +70,7 @@ class _ConfigureCanvas(PreviewCanvas):
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event: QMouseEvent):
         """Check if get close to a joint."""
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
@@ -83,11 +84,11 @@ class _ConfigureCanvas(PreviewCanvas):
                 self.pressed = True
                 break
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event: QMouseEvent):
         """Cancel the drag."""
         self.pressed = False
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event: QMouseEvent):
         """Drag to move the joint."""
         if not self.pressed:
             return

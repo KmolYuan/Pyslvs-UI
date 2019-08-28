@@ -50,6 +50,7 @@ from core.QtModules import (
     QFont,
     QPainterPath,
     QImage,
+    QPaintEvent,
 )
 from .color import (
     color_num,
@@ -160,7 +161,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.monochrome = False
 
     @abstractmethod
-    def paintEvent(self, event):
+    def paintEvent(self, event: QPaintEvent):
         """Using a QPainter under 'self',
         so just change QPen or QBrush before painting.
         """
@@ -510,7 +511,7 @@ class PreviewCanvas(BaseCanvas):
         self.target.clear()
         self.update()
 
-    def paintEvent(self, event):
+    def paintEvent(self, event: QPaintEvent):
         """Draw the structure."""
         width = self.width()
         height = self.height()

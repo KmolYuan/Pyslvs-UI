@@ -23,10 +23,12 @@ from core.QtModules import (
     Qt,
     QApplication,
     QRectF,
+    QPoint,
     QPointF,
     QSizeF,
     QCursor,
     QToolTip,
+    QWheelEvent,
 )
 from .main_canvas_method import (
     DynamicCanvasInterface,
@@ -268,17 +270,26 @@ class DynamicCanvas(DynamicCanvasInterface):
                 self.vpoints[i].move(*c)
         self.update_preview_path()
 
-    def wheelEvent(self, event):
+    def wheelEvent(self, event: QWheelEvent):
         """Switch function by mouse wheel.
 
         + Set zoom bar value.
         + Set select mode.
         """
-        value = event.angleDelta().y()
-        if QApplication.keyboardModifiers() == Qt.ControlModifier:
-            self.selection_mode_wheel(self.selection_mode() + (-1 if value > 0 else 1))
-            mode = ["Points", "Links", "Formulas"][self.selection_mode()]
-            QToolTip.showText(event.globalPos(), f"Selection mode: {mode}", self)
+        p: QPoint = event.angleDelta()
+        value_x = p.x()
+        value_y = p.y()
+        if QApplication.keyboardModifiers() == Qt.ShiftModifier:
+            value = value_y
+        elif value_x != 0:
+            value = -value_x
+        elif value_y != 0:
+            self.set_zoom_bar(self.zoom_value() + self.zoom_factor() * (1 if value_y > 0 else -1))
+            return
         else:
-            self.set_zoom_bar(self.zoom_value() + self.zoom_factor() * (1 if value > 0 else -1))
+            return
+
+        self.selection_mode_wheel(self.selection_mode() + (-1 if value > 0 else 1))
+        mode = ["Points", "Links", "Formulas"][self.selection_mode()]
+        QToolTip.showText(event.globalPos(), f"Selection mode: {mode}", self)
         event.accept()

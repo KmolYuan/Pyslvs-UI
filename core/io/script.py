@@ -33,6 +33,7 @@ from core.QtModules import (
     QVBoxLayout,
     QLineEdit,
     QSizePolicy,
+    QWheelEvent,
 )
 from .Ui_script import Ui_Dialog
 
@@ -82,7 +83,7 @@ class _ScriptBrowser(QTextEdit):
         self.setReadOnly(True)
         self.zoomIn(3)
 
-    def wheelEvent(self, event):
+    def wheelEvent(self, event: QWheelEvent):
         super(_ScriptBrowser, self).wheelEvent(event)
         if QApplication.keyboardModifiers() != Qt.ControlModifier:
             return
