@@ -191,9 +191,11 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         if not self.background.isNull():
             rect = self.background.rect()
             self.painter.setOpacity(self.background_opacity)
-            img_origin: QPointF = self.background_offset * self.zoom
             self.painter.drawImage(
-                QRectF(img_origin, QSizeF(
+                QRectF(QPointF(
+                    self.background_offset.x() * self.zoom,
+                    self.background_offset.y() * self.zoom
+                ), QSizeF(
                     rect.width() * self.background_scale * self.zoom,
                     rect.height() * self.background_scale * self.zoom
                 )),
@@ -287,7 +289,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             if rect.width():
                 self.painter.drawRect(QRectF(
                     QPointF(cx, cy),
-                    QSizeF(rect.width(), rect.height()) * self.zoom
+                    QSizeF(rect.width() * self.zoom, rect.height() * self.zoom)
                 ))
             else:
                 self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
@@ -446,7 +448,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             else:
                 vpoint = pos[index]
-                tmp_list.append(QPointF(vpoint.cx, -vpoint.cy) * self.zoom)
+                tmp_list.append(QPointF(vpoint.cx * self.zoom, -vpoint.cy * self.zoom))
         return tmp_list, color
 
     def draw_solution(
@@ -680,8 +682,7 @@ class PreviewCanvas(BaseCanvas):
         self.same: Dict[int, int] = params['same']
         for node, ref in sorted(self.same.items()):
             pos_list.insert(node, pos_list[ref])
-        pos: Dict[int, _Coord] = dict(enumerate(pos_list))
-        self.set_graph(graph, pos)
+        self.set_graph(graph, {i: (x, y) for i, (x, y) in enumerate(pos_list)})
 
         # Grounded setting
         placement: Set[int] = set(params['Placement'])
