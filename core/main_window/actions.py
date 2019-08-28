@@ -48,22 +48,20 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         """
         selection = self.entities_point.selected_rows()
         count = len(selection)
-        # If connecting with the ground.
+        # Set grounded state
         if count:
             self.action_point_context_lock.setChecked(all(
                 'ground' in self.entities_point.item(row, 1).text()
                 for row in self.entities_point.selected_rows()
             ))
-        # If no any points selected.
+        # If no any point selected
         for action in (
             self.action_point_context_add,
             self.action_canvas_context_add,
             self.action_canvas_context_grounded_add,
         ):
             action.setVisible(count == 0)
-        self.action_point_context_lock.setVisible(count > 0)
-        self.action_point_context_delete.setVisible(count > 0)
-        # If a point selected.
+        # If a point selected
         for action in (
             self.action_point_context_edit,
             self.action_point_context_clone,
@@ -71,7 +69,10 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.action_point_context_copy_coord,
         ):
             action.setVisible(count == 1)
-        # If two or more points selected.
+        # If any point selected
+        self.action_point_context_lock.setVisible(count > 0)
+        self.action_point_context_delete.setVisible(count > 0)
+        # If two or more points selected
         self.action_new_link.setVisible(count > 1)
         self.pop_menu_point_merge.menuAction().setVisible(count > 1)
 
@@ -92,16 +93,34 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         selection = self.entities_link.selected_rows()
         count = len(selection)
         row = self.entities_link.currentRow()
+        # If no any link selected
         self.action_link_context_add.setVisible(count == 0)
-        selected_one = count == 1
-        not_ground = row > 0
-        any_link = row > -1
-        self.action_link_context_edit.setVisible(any_link and selected_one)
-        self.action_link_context_delete.setVisible(not_ground and (count > 0))
-        self.action_link_context_copydata.setVisible(any_link and selected_one)
-        self.action_link_context_release.setVisible((row == 0) and selected_one)
-        self.action_link_context_constrain.setVisible(not_ground and selected_one)
-        self.pop_menu_link_merge.menuAction().setVisible(count > 1)
+        # If a link selected
+        for action in (
+            self.action_link_context_edit,
+            self.action_link_context_copydata,
+            self.action_link_context_release,
+            self.action_link_context_constrain,
+        ):
+            action.setVisible(count == 1)
+        # If any link selected
+        self.action_link_context_delete.setVisible(count > 0)
+        # If two or more links selected
+        for action in (
+            self.pop_menu_link_merge.menuAction(),
+            self.action_link_context_delete,
+        ):
+            action.setVisible(count > 1)
+        # Is ground
+        for action in (
+            self.action_link_context_release,
+        ):
+            action.setVisible(action.isVisible() and row == 0)
+        # Is not ground
+        for action in (
+            self.action_link_context_constrain,
+        ):
+            action.setVisible(action.isVisible() and row != 0)
 
         def ml_func(order: int) -> Callable[[], None]:
             """Generate a merge function."""
