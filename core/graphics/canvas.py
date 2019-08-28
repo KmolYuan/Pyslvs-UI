@@ -13,6 +13,7 @@ from typing import (
     Sequence,
     Set,
     Dict,
+    Iterator,
     Any,
     Union,
 )
@@ -169,10 +170,11 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         y_top: float,
         y_bottom: float
     ) -> float:
+        """Calculate the zoom factor."""
         x_diff = x_left - x_right
         y_diff = y_top - y_bottom
-        x_diff = x_diff if x_diff else 1
-        y_diff = y_diff if y_diff else 1
+        x_diff = x_diff if x_diff else 1.
+        y_diff = y_diff if y_diff else 1.
         if width / x_diff < height / y_diff:
             return width / x_diff
         else:
@@ -672,6 +674,19 @@ class PreviewCanvas(BaseCanvas):
         """Get status. If multiple joints, return true."""
         return self.status[point] or (point in self.same)
 
+    @staticmethod
+    def grounded_detect(placement: Set[int], graph: Graph, same: Dict[int, int]) -> Iterator[int]:
+        """Find the grounded link."""
+        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
+        for joint, link in edges_view(graph):
+            for node in link:
+                links[node].add(joint)
+        for row, link in enumerate(links):
+            if placement == link - set(same):
+                # Return once
+                yield row
+                return
+
     def from_profile(self, params: Dict[str, Any]):
         """Simple load by dict object."""
         # Customize points and multiple joints
@@ -685,16 +700,8 @@ class PreviewCanvas(BaseCanvas):
         self.set_graph(graph, {i: (x, y) for i, (x, y) in enumerate(pos_list)})
 
         # Grounded setting
-        placement: Set[int] = set(params['Placement'])
-        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
-        for joint, link in edges_view(graph):
-            for node in link:
-                links[node].add(joint)
-
-        for row, link in enumerate(links):
-            if placement == link - set(self.same):
-                self.set_grounded(row)
-                break
+        for row in self.grounded_detect(set(params['Placement']), graph, self.same):
+            self.set_grounded(row)
 
         # Driver setting
         input_list: List[Tuple[int, int]] = params['input']

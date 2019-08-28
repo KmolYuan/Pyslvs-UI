@@ -14,7 +14,6 @@ from typing import (
     List,
     Tuple,
     Sequence,
-    Set,
     Dict,
     Callable,
     Optional,
@@ -380,8 +379,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         same: Dict[int, int] = params['same']
         for node, ref in sorted(same.items()):
             pos_list.insert(node, pos_list[ref])
-        pos: Dict[int, _Coord] = dict(enumerate(pos_list))
-        if not self.set_graph(graph, pos):
+        if not self.set_graph(graph, {i: (x, y) for i, (x, y) in enumerate(pos_list)}):
             dlg.deleteLater()
             return
 
@@ -392,16 +390,8 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.configure_canvas.same = same
 
         # Grounded setting
-        placement: Set[int] = set(params['Placement'])
-        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
-        for joint, link in edges_view(graph):
-            for node in link:
-                links[node].add(joint)
-
-        for row, link in enumerate(links):
-            if placement == link - set(same):
-                self.__set_grounded(row)
-                break
+        for row in PreviewCanvas.grounded_detect(set(params['Placement']), graph, same):
+            self.__set_grounded(row)
 
         # Driver, Target
         input_list: List[Tuple[int, int]] = params['input']
