@@ -684,16 +684,23 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     @Slot()
     def delete_selected_points(self):
         """Delete the selected points."""
-        for row in sorted(self.entities_point.selected_rows(), reverse=True):
+        selected_points = self.entities_point.selected_rows()
+        self.command_stack.beginMacro(f"Delete points: {sorted(selected_points)}")
+        for row in sorted(selected_points, reverse=True):
             self.delete_point(row)
+        self.command_stack.endMacro()
 
     @Slot()
     def delete_selected_links(self):
         """Delete the selected links."""
-        for row in sorted(self.entities_link.selected_rows(), reverse=True):
+        selected_links = self.entities_link.selected_rows()
+        names = ", ".join(self.vlink_list[i].name for i in sorted(selected_links))
+        self.command_stack.beginMacro(f"Delete links: [{names}]")
+        for row in sorted(selected_links, reverse=True):
             if row == 0:
                 continue
             self.delete_link(row)
+        self.command_stack.endMacro()
 
     def set_coords_as_current(self):
         """Update points position as current coordinate."""
