@@ -550,6 +550,9 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_link_context_constrain.triggered.connect(self.constrain_link)
         self.pop_menu_link.addAction(self.action_link_context_constrain)
         self.pop_menu_link.addSeparator()
+        self.action_link_context_delete_empty = QAction("Remove &empty names", self)
+        self.action_link_context_delete_empty.triggered.connect(self.delete_empty_links)
+        self.pop_menu_link.addAction(self.action_link_context_delete_empty)
         self.action_link_context_delete = QAction("&Delete", self)
         self.action_link_context_delete.triggered.connect(self.delete_selected_links)
         self.pop_menu_link.addAction(self.action_link_context_delete)
@@ -627,6 +630,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.pop_menu_canvas_l.addMenu(self.pop_menu_link_merge)
         self.pop_menu_canvas_l.addAction(self.action_link_context_constrain)
         self.pop_menu_canvas_l.addSeparator()
+        self.pop_menu_canvas_l.addAction(self.action_link_context_delete_empty)
         self.pop_menu_canvas_l.addAction(self.action_link_context_delete)
 
     @Slot(int, name='on_entities_tab_currentChanged')
@@ -697,6 +701,10 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def delete_selected_links(self) -> None:
+        ...
+
+    @abstractmethod
+    def delete_empty_links(self) -> None:
         ...
 
     @abstractmethod

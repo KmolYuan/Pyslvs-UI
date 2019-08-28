@@ -15,6 +15,7 @@
     + Support horizontal wheel.
     + Changed tooltips from icons to text.
 + Pack actions into a single action when deleting multiple points or links.
++ Add "Remove empty names" operation for link entities.
 
 **Development**:
 

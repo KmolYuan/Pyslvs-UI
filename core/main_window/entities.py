@@ -16,15 +16,13 @@ from typing import (
     Union,
     Optional,
 )
-from abc import ABC, abstractmethod
+from abc import ABC
 from itertools import chain
 from pyslvs import (
     VJoint,
-    VPoint,
     Graph,
     edges_view,
     SolverSystem,
-    ExpressionStack,
 )
 from core.QtModules import (
     Slot,
@@ -248,36 +246,6 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             i += 1
         return f"link_{i}"
 
-    @Slot(name='on_action_delete_link_triggered')
-    def delete_link(self, row: Optional[int] = None):
-        """Push delete link command to stack.
-
-        Remove link will not remove the points.
-        """
-        if row is None:
-            row = self.entities_link.currentRow()
-        if row < 1:
-            return
-        args = self.entities_link.row_data(row)
-        args[2] = ''
-        name = self.entities_link.item(row, 0).text()
-        self.command_stack.beginMacro(f"Delete {{Link: {name}}}")
-        self.command_stack.push(EditLinkTable(
-            row,
-            self.vpoint_list,
-            self.vlink_list,
-            self.entities_point,
-            self.entities_link,
-            args
-        ))
-        self.command_stack.push(DeleteTable(
-            row,
-            self.vlink_list,
-            self.entities_link,
-            is_rename=False
-        ))
-        self.command_stack.endMacro()
-
     @Slot(name='on_action_delete_point_triggered')
     def delete_point(self, row: Optional[int] = None):
         """Push delete point command to stack."""
@@ -314,6 +282,57 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             is_rename=True
         ))
         self.inputs_widget.variable_excluding(row)
+        self.command_stack.endMacro()
+
+    @Slot(name='on_action_delete_link_triggered')
+    def delete_link(self, row: Optional[int] = None):
+        """Push delete link command to stack.
+
+        Remove link will not remove the points.
+        """
+        if row is None:
+            row = self.entities_link.currentRow()
+        if row < 1:
+            return
+        args = self.entities_link.row_data(row)
+        args[2] = ''
+        name = self.entities_link.item(row, 0).text()
+        self.command_stack.beginMacro(f"Delete {{Link: {name}}}")
+        self.command_stack.push(EditLinkTable(
+            row,
+            self.vpoint_list,
+            self.vlink_list,
+            self.entities_point,
+            self.entities_link,
+            args
+        ))
+        self.command_stack.push(DeleteTable(
+            row,
+            self.vlink_list,
+            self.entities_link,
+            is_rename=False
+        ))
+        self.command_stack.endMacro()
+
+    def delete_points(self, points: Sequence[int]):
+        """Delete multiple points."""
+        if not points:
+            return
+        self.command_stack.beginMacro(f"Delete points: {sorted(points)}")
+        for row in sorted(points, reverse=True):
+            self.delete_point(row)
+        self.command_stack.endMacro()
+
+    def delete_links(self, links: Sequence[int]):
+        """Delete multiple links."""
+        if not links:
+            return
+        names = ", ".join(self.vlink_list[i].name for i in sorted(links))
+        self.command_stack.beginMacro(f"Delete links: [{names}]")
+        for row in sorted(links, reverse=True):
+            if row == 0:
+                continue
+            self.delete_link(row)
         self.command_stack.endMacro()
 
     @Slot(float, float)
@@ -684,23 +703,20 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     @Slot()
     def delete_selected_points(self):
         """Delete the selected points."""
-        selected_points = self.entities_point.selected_rows()
-        self.command_stack.beginMacro(f"Delete points: {sorted(selected_points)}")
-        for row in sorted(selected_points, reverse=True):
-            self.delete_point(row)
-        self.command_stack.endMacro()
+        self.delete_points(self.entities_point.selected_rows())
 
     @Slot()
     def delete_selected_links(self):
         """Delete the selected links."""
-        selected_links = self.entities_link.selected_rows()
-        names = ", ".join(self.vlink_list[i].name for i in sorted(selected_links))
-        self.command_stack.beginMacro(f"Delete links: [{names}]")
-        for row in sorted(selected_links, reverse=True):
-            if row == 0:
-                continue
-            self.delete_link(row)
-        self.command_stack.endMacro()
+        self.delete_links(self.entities_link.selected_rows())
+
+    @Slot()
+    def delete_empty_links(self):
+        """Delete empty link names."""
+        self.delete_links([
+            i for i, vlink in enumerate(self.vlink_list)
+            if vlink.name != 'ground' and not vlink.points
+        ])
 
     def set_coords_as_current(self):
         """Update points position as current coordinate."""
@@ -708,7 +724,3 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))
             for row, vpoint in enumerate(self.vpoint_list)
         ))
-
-    @abstractmethod
-    def get_triangle(self, vpoints: Optional[Tuple[VPoint]] = None) -> ExpressionStack:
-        ...
