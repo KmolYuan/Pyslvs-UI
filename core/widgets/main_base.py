@@ -88,9 +88,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__free_move()
         self.__options()
         self.__zoom()
-        self.__point_context_menu()
-        self.__link_context_menu()
-        self.__canvas_context_menu()
+        self.__context_menu()
 
         # Open file from command line
         if ARGUMENTS.c:
@@ -459,24 +457,23 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         zoom_menu.addAction(action)
         self.zoom_button.setMenu(zoom_menu)
 
-    def __point_context_menu(self):
-        """EntitiesPoint context menu
-
-        + Add
-        ///////
-        + New Link
-        + Edit
-        + Grounded
-        + Multiple joint
-            - Point0
-            - Point1
-            - ...
-        + Copy table data
-        + Copy coordinate
-        + Clone
-        -------
-        + Delete
-        """
+    def __context_menu(self):
+        """Context menu settings."""
+        # EntitiesPoint
+        # + Add
+        # ///////
+        # + New Link
+        # + Edit
+        # + Grounded
+        # + Multiple joint
+        #     - Point0
+        #     - Point1
+        #     - ...
+        # + Copy table data
+        # + Copy coordinate
+        # + Clone
+        # -------
+        # + Delete
         self.entities_point_widget.customContextMenuRequested.connect(
             self.point_context_menu
         )
@@ -485,7 +482,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_point_context_add = QAction("&Add", self)
         self.action_point_context_add.triggered.connect(self.new_point)
         self.pop_menu_point.addAction(self.action_point_context_add)
-        # New Link
         self.pop_menu_point.addAction(self.action_new_link)
         self.action_point_context_edit = QAction("&Edit", self)
         self.action_point_context_edit.triggered.connect(self.edit_point)
@@ -510,22 +506,18 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_point_context_delete = QAction("&Delete", self)
         self.action_point_context_delete.triggered.connect(self.delete_selected_points)
         self.pop_menu_point.addAction(self.action_point_context_delete)
-
-    def __link_context_menu(self):
-        """EntitiesLink context menu
-
-        + Add
-        + Edit
-        + Merge links
-            - Link0
-            - Link1
-            - ...
-        + Copy table data
-        + Release
-        + Constrain
-        -------
-        + Delete
-        """
+        # EntitiesLink
+        # + Add
+        # + Edit
+        # + Merge links
+        #     - Link0
+        #     - Link1
+        #     - ...
+        # + Copy table data
+        # + Release
+        # + Constrain
+        # -------
+        # + Delete
         self.entities_link_widget.customContextMenuRequested.connect(
             self.link_context_menu
         )
@@ -556,42 +548,37 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_link_context_delete = QAction("&Delete", self)
         self.action_link_context_delete.triggered.connect(self.delete_selected_links)
         self.pop_menu_link.addAction(self.action_link_context_delete)
+        # MainCanvas context menus,
+        # switch the actions when selection mode changed.
 
-    def __canvas_context_menu(self):
-        """MainCanvas context menus,
-            switch the actions when selection mode changed.
-
-        + Actions set of points.
-        + Actions set of links.
-        """
+        # + Actions set of points.
+        # + Actions set of links.
+        #
+        # Actions set of points:
+        #
+        # + Add
+        # ///////
+        # + New Link
+        # + Add [fixed]
+        # + Add [target path]
+        # ///////
+        # + Edit
+        # + Grounded
+        # + Multiple joint
+        #     - Point0
+        #     - Point1
+        #     - ...
+        # + Clone
+        # + Copy coordinate
+        # -------
+        # + Delete
         self.main_canvas.setContextMenuPolicy(Qt.CustomContextMenu)
         self.main_canvas.customContextMenuRequested.connect(self.canvas_context_menu)
-        """
-        Actions set of points:
-        
-        + Add
-        ///////
-        + New Link
-        + Add [fixed]
-        + Add [target path]
-        ///////
-        + Edit
-        + Grounded
-        + Multiple joint
-            - Point0
-            - Point1
-            - ...
-        + Clone
-        + Copy coordinate
-        -------
-        + Delete
-        """
         self.pop_menu_canvas_p = QMenu(self)
         self.pop_menu_canvas_p.setSeparatorsCollapsible(True)
         self.action_canvas_context_add = QAction("&Add", self)
         self.action_canvas_context_add.triggered.connect(self.add_normal_point)
         self.pop_menu_canvas_p.addAction(self.action_canvas_context_add)
-        # New Link
         self.pop_menu_canvas_p.addAction(self.action_new_link)
         self.action_canvas_context_grounded_add = QAction("Add [grounded]", self)
         self.action_canvas_context_grounded_add.triggered.connect(self.add_fixed_point)
@@ -599,7 +586,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_canvas_context_path = QAction("Add [target path]", self)
         self.action_canvas_context_path.triggered.connect(self.add_target_point)
         self.pop_menu_canvas_p.addAction(self.action_canvas_context_path)
-        # The following actions will be shown when points selected.
         self.pop_menu_canvas_p.addAction(self.action_point_context_edit)
         self.pop_menu_canvas_p.addAction(self.action_point_context_lock)
         self.pop_menu_canvas_p.addMenu(self.pop_menu_point_merge)
@@ -607,22 +593,20 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.pop_menu_canvas_p.addAction(self.action_point_context_clone)
         self.pop_menu_canvas_p.addSeparator()
         self.pop_menu_canvas_p.addAction(self.action_point_context_delete)
-        """
-        Actions set of links:
-        
-        + Add
-        ///////
-        + Add [target path]
-        ///////
-        + Edit
-        + Merge links
-            - Link0
-            - Link1
-            - ...
-        + Release / Constrain
-        -------
-        + Delete
-        """
+        # Actions set of links:
+        #
+        # + Add
+        # ///////
+        # + Add [target path]
+        # ///////
+        # + Edit
+        # + Merge links
+        #     - Link0
+        #     - Link1
+        #     - ...
+        # + Release / Constrain
+        # -------
+        # + Delete
         self.pop_menu_canvas_l = QMenu(self)
         self.pop_menu_canvas_l.setSeparatorsCollapsible(True)
         self.pop_menu_canvas_l.addAction(self.action_link_context_add)
@@ -769,6 +753,10 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def canvas_context_menu(self, point: QPoint) -> None:
+        ...
+
+    @abstractmethod
+    def point_context_menu(self, point: QPoint) -> None:
         ...
 
     @abstractmethod
