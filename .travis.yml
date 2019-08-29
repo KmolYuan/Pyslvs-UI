@@ -19,8 +19,9 @@ matrix:
                   tags: true
 
         - os: osx
+          osx_image: xcode10
           language: generic
-          env: PYTHON=37
+          env: PYTHON=3.7.0
           deploy:
               <<: *deploy-options
               file: dist/pyslvs-*.app.zip
@@ -29,17 +30,11 @@ matrix:
 before_install:
 
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci;
-        source ./macports-ci install;
-        fi
-
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        yes | sudo port install python$PYTHON;
-        yes | sudo port install py$PYTHON-pip;
-        sudo port select --set python3 python$PYTHON;
-        sudo port select --set pip pip$PYTHON;
-        python3 -m pip install pyinstaller --user --no-use-pep517;
-        export PATH=$PATH:$(python3 -c "import site; print(site.USER_BASE)")/bin;
+        brew update;
+        brew upgrade pyenv;
+        pyenv install ${PYTHON};
+        pyenv global ${PYTHON};
+        python3 -m pip install pyinstaller;
         fi
 
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -53,11 +48,7 @@ before_install:
         fi
 
 script:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        make;
-        else
-        make USER_MODE=false;
-        fi
+    - make USER_MODE=false
 
 before_cache:
     - rm -rf $HOME/.cache/pip/log
