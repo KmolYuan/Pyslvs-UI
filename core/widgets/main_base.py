@@ -606,7 +606,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_c_add_target: QAction = self.__action(
             "Add &Target Point",
             self.add_target_point,
-            _Enable.C_P | _Enable.P_NO
+            _Enable.C_P | _Enable.C_L | _Enable.P_NO | _Enable.L_NO
         )
         self.__action(self.action_new_link, enable=two_menus_p | two_menus_l | _Enable.P_MUL | _Enable.L_NO)
         self.__action("&Edit", self.edit_point, two_menus_p | _Enable.P_ONE)

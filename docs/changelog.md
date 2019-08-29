@@ -21,6 +21,7 @@
     + Grounded / ungrounded multiple points.
 + Add "Remove empty names" operation for link entities.
 + Add "Horse leg" example.
++ Action "Add target point" can now be used in link selection mode.
 
 **Development**:
 
