@@ -19,9 +19,11 @@
 + Pack actions into a single action when:
     + Deleting multiple points or links.
     + Grounded / ungrounded multiple points.
++ Action "Add target point":
+    + It can now be used in link selection mode.
+    + It will only appear when there has target path required.
 + Add "Remove empty names" operation for link entities.
 + Add "Horse leg" example.
-+ Action "Add target point" can now be used in link selection mode.
 
 **Development**:
 

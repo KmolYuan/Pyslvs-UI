@@ -169,8 +169,11 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         index = self.entities_tab.currentIndex()
         if index == 0:
             self.__enable_point_context()
-            is_synthesis = self.synthesis_tab_widget.currentIndex() == 2
-            self.action_c_add_target.setVisible(is_synthesis)
+            self.action_c_add_target.setVisible(
+                self.synthesis_tab_widget.currentIndex() == 2
+                and self.main_panel.currentIndex() == 2
+                and self.dimensional_synthesis.has_target()
+            )
             self.pop_canvas_p.exec(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
             self.pop_point_m.clear()

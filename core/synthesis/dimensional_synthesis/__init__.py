@@ -146,6 +146,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.update_range()
         self.__able_to_generate()
 
+    def has_target(self) -> bool:
+        """Return True if the panel is no target settings."""
+        return self.target_points.count() > 0
+
     @Slot(name='on_clear_button_clicked')
     def __user_clear(self):
         if not self.profile_name.text():
