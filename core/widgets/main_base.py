@@ -598,37 +598,37 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             menu.setSeparatorsCollapsible(True)
             self.context[enable] = menu
         # EntitiesPoint
-        two_menus = _Enable.T_P | _Enable.C_P
+        two_menus_p = _Enable.T_P | _Enable.C_P
+        two_menus_l = _Enable.T_L | _Enable.C_L
         self.__action("&Add", self.new_point, _Enable.T_P | _Enable.P_NO)
         self.__action("&Add", self.add_normal_point, _Enable.C_P | _Enable.P_NO)
-        self.__action("Add [grounded]", self.add_fixed_point, _Enable.C_P | _Enable.P_NO)
+        self.__action("Add to [ground]", self.add_fixed_point, _Enable.C_P | _Enable.P_NO)
         self.action_c_add_target: QAction = self.__action(
-            "Add [target point]",
+            "Add &Target Point",
             self.add_target_point,
             _Enable.C_P | _Enable.P_NO
         )
-        self.__action(self.action_new_link, enable=two_menus | _Enable.T_L | _Enable.C_L | _Enable.P_MUL | _Enable.L_NO)
-        self.__action("&Edit", self.edit_point, two_menus | _Enable.P_ONE)
-        self.action_p_lock: QAction = self.__action("&Grounded", self.lock_points, two_menus | _Enable.P_ANY)
+        self.__action(self.action_new_link, enable=two_menus_p | two_menus_l | _Enable.P_MUL | _Enable.L_NO)
+        self.__action("&Edit", self.edit_point, two_menus_p | _Enable.P_ONE)
+        self.action_p_lock: QAction = self.__action("&Grounded", self.lock_points, two_menus_p | _Enable.P_ANY)
         self.action_p_lock.setCheckable(True)
-        self.pop_point_m = self.__action("Multiple joint", enable=two_menus | _Enable.P_MUL, is_menu=True)
-        self.__action("&Copy table data", self.copy_points_table, _Enable.T_P | _Enable.P_ONE)
-        self.__action("&Copy coordinate", self.copy_coord, _Enable.T_P | _Enable.P_ONE)
-        self.__action("C&lone", self.clone_point, two_menus | _Enable.P_ONE)
+        self.pop_point_m = self.__action("Multiple joint", enable=two_menus_p | _Enable.P_MUL, is_menu=True)
+        self.__action("&Copy Table Data", self.copy_points_table, _Enable.T_P | _Enable.P_ONE)
+        self.__action("Copy Coordinate", self.copy_coord, _Enable.T_P | _Enable.P_ONE)
+        self.__action("C&lone", self.clone_point, two_menus_p | _Enable.P_ONE)
         self.pop_point.addSeparator()
         self.pop_canvas_p.addSeparator()
-        self.__action("&Delete", self.delete_selected_points, two_menus | _Enable.P_ANY)
+        self.__action("&Delete", self.delete_selected_points, two_menus_p | _Enable.P_ANY)
         # EntitiesLink
-        two_menus = _Enable.T_L | _Enable.C_L
-        self.__action("&Edit", self.edit_link, two_menus | _Enable.L_ONE)
-        self.pop_link_m = self.__action("Merge links", enable=two_menus | _Enable.L_MUL, is_menu=True)
-        self.__action("&Copy table data", self.copy_links_table, _Enable.T_L | _Enable.L_ONE)
-        self.__action("&Release", self.release_ground, two_menus | _Enable.L_ONE | _Enable.L_GND)
-        self.__action("C&onstrain", self.constrain_link, two_menus | _Enable.L_ONE | _Enable.L_N_GND)
+        self.__action("&Edit", self.edit_link, two_menus_l | _Enable.L_ONE)
+        self.pop_link_m = self.__action("Merge Links", enable=two_menus_l | _Enable.L_MUL, is_menu=True)
+        self.__action("&Copy Table Data", self.copy_links_table, _Enable.T_L | _Enable.L_ONE)
+        self.__action("&Release", self.release_ground, two_menus_l | _Enable.L_ONE | _Enable.L_GND)
+        self.__action("C&onstrain", self.constrain_link, two_menus_l | _Enable.L_ONE | _Enable.L_N_GND)
         self.pop_link.addSeparator()
         self.pop_canvas_l.addSeparator()
-        self.__action("Remove &empty names", self.delete_empty_links, _Enable.T_L)
-        self.__action("&Delete", self.delete_selected_links, two_menus | _Enable.L_ANY)
+        self.__action("Remove &Empty Names", self.delete_empty_links, _Enable.T_L)
+        self.__action("&Delete", self.delete_selected_links, two_menus_l | _Enable.L_ANY)
 
     @Slot(int, name='on_entities_tab_currentChanged')
     def __set_selection_mode(self, index: int):
