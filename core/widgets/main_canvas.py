@@ -282,14 +282,15 @@ class DynamicCanvas(DynamicCanvasInterface):
         if QApplication.keyboardModifiers() == Qt.ShiftModifier:
             value = value_y
         elif value_x != 0:
-            value = -value_x
+            value = value_x
         elif value_y != 0:
             self.set_zoom_bar(self.zoom_value() + self.zoom_factor() * (1 if value_y > 0 else -1))
             return
         else:
             return
 
-        self.selection_mode_wheel(self.selection_mode() + (-1 if value > 0 else 1))
-        mode = ["Points", "Links", "Formulas"][self.selection_mode()]
+        mode = self.selection_mode() + (-1 if value > 0 else 1)
+        self.selection_mode_wheel(1 if mode > 1 else mode)
+        mode = ["Points", "Links"][self.selection_mode()]
         QToolTip.showText(event.globalPos(), f"Selection mode: {mode}", self)
         event.accept()

@@ -14,6 +14,7 @@
     + Changed function key from "Ctrl" to "Shift".
     + Support horizontal wheel.
     + Changed tooltips from icons to text.
+    + Only for "Points" and "Links" tabs.
 + Pack actions into a single action when:
     + Deleting multiple points or links.
     + Grounded / ungrounded multiple points.
