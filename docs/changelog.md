@@ -8,8 +8,9 @@
 + Remake "set link length" operation.
 + Generate a QR code for mechanism expression.
 + Error and Bugs:
-    + Fix the error of deleting multiple points.
+    + Fix the bug of variable list.
     + Fix the bug of switching selection mode.
+    + Fix the error of deleting multiple points.
 + Improvements of switching selection mode:
     + Changed function key from "Ctrl" to "Shift".
     + Support horizontal wheel.

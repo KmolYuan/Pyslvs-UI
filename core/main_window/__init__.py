@@ -114,7 +114,7 @@ class MainWindow(IOMethodInterface):
 
     @Slot(int, name='on_main_panel_currentChanged')
     @Slot(int, name='on_synthesis_tab_widget_currentChanged')
-    def __set_show_target_path(self, _: int):
+    def __set_show_target_path(self, _=None):
         """Dimensional synthesis information will show on the canvas."""
         panel_index = self.main_panel.currentIndex()
         synthesis_index = self.synthesis_tab_widget.currentIndex()

@@ -348,7 +348,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.inputs_widget.about_to_resolve.connect(self.resolve)
 
         @Slot(tuple, bool)
-        def inputs_set_selection(selections: Sequence[int], _: bool):
+        def inputs_set_selection(selections: Sequence[int], _=None):
             """Distinguish table by tab index."""
             self.inputs_widget.clear_selection()
             if self.entities_tab.currentIndex() == 0:

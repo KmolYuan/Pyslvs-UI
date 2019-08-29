@@ -93,9 +93,6 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.valueChanged.connect(self.__set_var)
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
 
-        # Angle panel available check
-        self.variable_list.currentRowChanged.connect(self.__dial_ok)
-
         # Play button.
         action = QShortcut(QKeySequence("F5"), self)
         action.activated.connect(self.variable_play.click)
@@ -153,7 +150,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.joint_list.setCurrentRow(-1)
 
     @Slot(int, name='on_joint_list_currentRowChanged')
-    def __update_relate_points(self, _: int):
+    def __update_relate_points(self, _=None):
         """Change the point row from input widget."""
         self.driver_list.clear()
 
@@ -175,7 +172,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.driver_list.addItem(f"[{base_point.type_str}] Point{p0}")
 
     @Slot(int, name='on_driver_list_currentRowChanged')
-    def __set_add_var_enabled(self, _: int):
+    def __set_add_var_enabled(self, _=None):
         """Set enable of 'add variable' button."""
         driver = self.driver_list.currentIndex()
         self.variable_add.setEnabled(driver != -1)
@@ -242,9 +239,11 @@ class InputsWidget(QWidget, Ui_Form):
         for p0, p1 in variables:
             self.__add_inputs_variable(p0, p1)
 
-    @Slot()
-    def __dial_ok(self):
+    @Slot(QListWidgetItem, name='on_variable_list_itemClicked')
+    def __dial_ok(self, _=None):
         """Set the angle of base link and drive link."""
+        if self.inputs_play_shaft.isActive():
+            return
         row = self.variable_list.currentRow()
         enabled = row > -1
         rotatable = (
@@ -540,7 +539,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.MainCanvas.set_path_show(-1 if toggled else -2)
 
     @Slot(int, name='on_record_list_currentRowChanged')
-    def __set_path(self, _: int):
+    def __set_path(self, _=None):
         """Reload the canvas when switch the path."""
         if not self.record_show.isChecked():
             self.record_show.setChecked(True)

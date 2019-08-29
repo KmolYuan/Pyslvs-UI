@@ -428,7 +428,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         _set_warning(self.target_label, self.target_list.count() == 0)
 
     @Slot(QListWidgetItem)
-    def __set_parm_bind(self, _: QListWidgetItem = None):
+    def __set_parm_bind(self, _=None):
         """Set parameters binding."""
         link_expr_list = []
         for row, gs in enumerate(list_texts(self.grounded_list)):

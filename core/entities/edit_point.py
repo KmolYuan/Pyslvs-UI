@@ -90,7 +90,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
             self.noSelected.addItem(QListWidgetItem(self.link_icon, vlink.name))
 
     @Slot(int, name='on_color_box_currentIndexChanged')
-    def __set_color(self, _: int):
+    def __set_color(self, _=None):
         """Change the color icon of pick button."""
         self.color_pick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()

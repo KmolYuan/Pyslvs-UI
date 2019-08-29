@@ -385,7 +385,7 @@ class ExprTableWidget(BaseTableWidget[None]):
             row += 1
         self.exprs = exprs
 
-    def item_data(self, _: int) -> None:
+    def item_data(self, _=None) -> None:
         """Not used generator."""
         return None
 

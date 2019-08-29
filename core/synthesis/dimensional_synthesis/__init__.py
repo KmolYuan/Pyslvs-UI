@@ -180,7 +180,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         return self.path[int(item.text().replace('P', ''))]
 
     @Slot(str, name='on_target_points_currentTextChanged')
-    def __set_target(self, _: str):
+    def __set_target(self, _=None):
         """Switch to the current target path."""
         self.path_list.clear()
         for x, y in self.current_path():
@@ -512,7 +512,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             button.setEnabled(enable)
 
     @Slot(QModelIndex, name='on_result_list_doubleClicked')
-    def __show_result(self, _: QModelIndex):
+    def __show_result(self, _=None):
         """Double click result item can show up preview dialog."""
         row = self.result_list.currentRow()
         if not row > -1:
