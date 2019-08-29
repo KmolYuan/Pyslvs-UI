@@ -545,14 +545,17 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     def __action(
         self,
-        name: str,
+        name: Union[str, QAction],
         slot: Optional[Callable[..., None]] = None,
         enable: Optional[_Enable] = None,
         *,
         is_menu: bool = False
     ) -> Union[QAction, QMenu]:
         """New action or menu."""
-        if is_menu:
+        if type(name) is QAction:
+            menu = None
+            action: QAction = name
+        elif is_menu:
             menu = QMenu(name, self)
             action = menu.menuAction()
         else:
@@ -604,9 +607,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             self.add_target_point,
             _Enable.C_P | _Enable.P_NO
         )
-        self.pop_point.addAction(self.action_new_link)
-        self.pop_canvas_p.addAction(self.action_new_link)
-        self.context.p_mul.append(self.action_new_link)
+        self.__action(self.action_new_link, enable=two_menus | _Enable.T_L | _Enable.C_L | _Enable.P_MUL | _Enable.L_NO)
         self.__action("&Edit", self.edit_point, two_menus | _Enable.P_ONE)
         self.action_p_lock: QAction = self.__action("&Grounded", self.lock_points, two_menus | _Enable.P_ANY)
         self.action_p_lock.setCheckable(True)
@@ -619,7 +620,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__action("&Delete", self.delete_selected_points, two_menus | _Enable.P_ANY)
         # EntitiesLink
         two_menus = _Enable.T_L | _Enable.C_L
-        self.__action("&Add", self.new_link, two_menus | _Enable.L_NO)
         self.__action("&Edit", self.edit_link, two_menus | _Enable.L_ONE)
         self.pop_link_m = self.__action("Merge links", enable=two_menus | _Enable.L_MUL, is_menu=True)
         self.__action("&Copy table data", self.copy_links_table, _Enable.T_L | _Enable.L_ONE)
