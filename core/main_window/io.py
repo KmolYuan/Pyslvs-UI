@@ -526,7 +526,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output to PMKS as URL."""
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         url_table = []
-        for row in range(self.entities_point.rowCount()):
+        for row in range(len(self.vpoint_list)):
             type_and_angle = self.entities_point.item(row, 2).text().split(':')
             point_data = [
                 self.entities_point.item(row, 1).text(),

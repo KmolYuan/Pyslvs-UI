@@ -16,6 +16,7 @@
     + Changed tooltips from icons to text.
 + Pack actions into a single action when:
     + Deleting multiple points or links.
+    + Grounded / ungrounded multiple points.
 + Add "Remove empty names" operation for link entities.
 
 **Development**:

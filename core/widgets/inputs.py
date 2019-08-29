@@ -277,7 +277,7 @@ class InputsWidget(QWidget, Ui_Form):
             # If this is not origin point any more.
             if one_row and (row != b):
                 continue
-            self.CommandStack.beginMacro(f"Remove variable of Point{row}")
+            self.CommandStack.beginMacro(f"Remove variable of {{Point{row}}}")
             self.CommandStack.push(DeleteInput(i, self.variable_list))
             self.CommandStack.endMacro()
 
@@ -289,7 +289,7 @@ class InputsWidget(QWidget, Ui_Form):
         if not row > -1:
             return
         self.variable_stop.click()
-        self.CommandStack.beginMacro(f"Remove variable of Point{row}")
+        self.CommandStack.beginMacro(f"Remove variable of {{Point{row}}}")
         self.CommandStack.push(DeleteInput(row, self.variable_list))
         self.CommandStack.endMacro()
         self.EntitiesPoint.get_back_position()

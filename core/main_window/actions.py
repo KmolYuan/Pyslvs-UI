@@ -80,8 +80,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             return func
 
         for i, row in enumerate(selection):
-            name = self.entities_link.item(row, 0).text()
-            action = QAction(f"Base on \"{name}\"", self)
+            action = QAction(f"Base on \"{self.vlink_list[row].name}\"", self)
             action.triggered.connect(ml_func(i))
             self.pop_link_m.addAction(action)
 
@@ -91,9 +90,8 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         @index: The index of main joint in the sequence.
         """
         row = points[index]
-        points_text = ", ".join(f'Point{p}' for p in points)
         self.command_stack.beginMacro(
-            f"Merge {{{points_text}}} as multiple joint {{Point{row}}}"
+            f"Merge {sorted(points)} as multiple joint {{Point{row}}}"
         )
         links = list(self.vpoint_list[row].links)
         args = self.entities_point.row_data(row)
@@ -120,8 +118,8 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         @index: The index of main joint in the sequence.
         """
         row = links[index]
-        links_text = ", ".join(self.entities_link.item(link, 0).text() for link in links)
-        name = self.entities_link.item(row, 0).text()
+        links_text = ", ".join(self.vlink_list[link].name for link in links)
+        name = self.vlink_list[row].name
         self.command_stack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
         points = list(self.vlink_list[row].points)
         args = self.entities_link.row_data(row)

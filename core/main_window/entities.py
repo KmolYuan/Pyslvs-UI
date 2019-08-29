@@ -237,10 +237,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     def __get_link_serial_number(self) -> str:
         """Return a new serial number name of link."""
-        names = {
-            self.entities_link.item(row, 0).text()
-            for row in range(self.entities_link.rowCount())
-        }
+        names = {vlink.name for vlink in self.vlink_list}
         i = 1
         while f"link_{i}" in names:
             i += 1
@@ -296,8 +293,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             return
         args = self.entities_link.row_data(row)
         args[2] = ''
-        name = self.entities_link.item(row, 0).text()
-        self.command_stack.beginMacro(f"Delete {{Link: {name}}}")
+        self.command_stack.beginMacro(f"Delete {{Link: {self.vlink_list[row].name}}}")
         self.command_stack.push(EditLinkTable(
             row,
             self.vpoint_list,
@@ -446,22 +442,24 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     def edit_point(self):
         """Edit a point with arguments."""
         row = self.entities_point.currentRow()
-        self.__edit_point(row if (row > -1) else 0)
+        self.__edit_point(row if row > -1 else 0)
 
     def lock_points(self):
         """Turn a group of points to fixed on ground or not."""
         to_fixed = self.action_p_lock.isChecked()
-        for row in self.entities_point.selected_rows():
-            new_links = self.entities_point.item(row, 1).text().split(',')
+        selected_rows = self.entities_point.selected_rows()
+        self.command_stack.beginMacro(
+            f"{'Grounded' if to_fixed else 'Ungrounded'} {sorted(selected_rows)}"
+        )
+        for row in selected_rows:
+            new_links = list(self.vpoint_list[row].links)
             if to_fixed:
                 if 'ground' not in new_links:
                     new_links.append('ground')
-            else:
-                if 'ground' in new_links:
-                    new_links.remove('ground')
+            elif 'ground' in new_links:
+                new_links.remove('ground')
             args = self.entities_point.row_data(row)
             args[0] = ','.join(s for s in new_links if s)
-            self.command_stack.beginMacro(f"Edit {{Point{row}}}")
             self.command_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
@@ -470,7 +468,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 self.entities_link,
                 args
             ))
-            self.command_stack.endMacro()
+        self.command_stack.endMacro()
 
     def clone_point(self):
         """Clone a point (with orange color)."""
@@ -664,16 +662,13 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Turn a link to ground, then delete this link."""
         if row1 is None:
             row1 = self.entities_link.currentRow()
-        name = self.entities_link.item(row1, 0).text()
+        vlink1 = self.vlink_list[row1]
         link_args = self.entities_link.row_data(row1)
         link_args[2] = ''
-        new_points = sorted(
-            set(self.entities_link.item(0, 2).text().split(',')) |
-            set(self.entities_link.item(row1, 2).text().split(','))
-        )
+        new_points = sorted(set(self.vlink_list[0].points) | set(vlink1.points))
         base_args = self.entities_link.row_data(row2)
-        base_args[2] = ','.join(e for e in new_points if e)
-        self.command_stack.beginMacro(f"Constrain {{Link: {name}}} to ground")
+        base_args[2] = ','.join(f"Point{e}" for e in new_points if e)
+        self.command_stack.beginMacro(f"Constrain {{Link: {vlink1.name}}} to ground")
         # Turn to ground.
         self.command_stack.push(EditLinkTable(
             row2,
