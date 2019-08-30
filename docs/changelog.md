@@ -24,12 +24,14 @@
     + It will only appear when there has target path required.
 + Add "Remove empty names" operation for link entities.
 + Add "Horse leg" example.
++ Enhancement of argument parsing.
 
 **Development**:
 
 + Many core performance improvements.
 + Settings correction of AppVeyor.
 + Reformat the actions for all of context menus.
++ Use pyenv instead of MacPorts in Travis CI.
 
 ## Version 19.07
 

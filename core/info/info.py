@@ -12,7 +12,6 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
 from sys import version_info as _vi
 from platform import (
     system,
@@ -31,7 +30,7 @@ from core.QtModules import (
 )
 
 
-SYS_INFO: Tuple[str, ...] = (
+SYS_INFO = (
     f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
@@ -40,41 +39,24 @@ SYS_INFO: Tuple[str, ...] = (
     f"PyQt Version: {PYQT_VERSION_STR}",
 )
 
-_POWERED_BY = ", ".join((
-    "PyQt5",
-    "ezdxf",
-    "Cython",
-    "openpyxl",
-    "psutil",
-    "peewee",
-    "Lark-parser",
-    "NetworkX",
-    "Pygments",
-    "PyYAML",
-))
-
-_parser = ArgumentParser(
+parser = ArgumentParser(
     description=(
-        "Pyslvs - Open Source Planar Linkage Mechanism Simulation "
-        "and Mechanical Synthesis System."
+        f"Pyslvs version {__version__} - "
+        f"Open Source Planar Linkage Mechanism Simulation "
+        f"and Mechanical Synthesis System"
     ),
-    epilog=f"Powered by {_POWERED_BY}."
+    epilog=f"{__copyright__} {__license__} {__author__} {__email__}",
+    add_help=False
 )
-_parser.add_argument(
-    '-v',
-    '--version',
-    action='version',
-    version=SYS_INFO[0]
-)
-_parser.add_argument(
-    'file',
-    metavar="file path",
+g = parser.add_argument_group("startup options")
+g.add_argument(
+    'filepath',
     default=None,
     nargs='?',
     type=str,
-    help="read workbook from the file path"
+    help="read a specific workbook from the file path"
 )
-_parser.add_argument(
+g.add_argument(
     '-c',
     metavar="start path",
     default=None,
@@ -82,43 +64,54 @@ _parser.add_argument(
     type=str,
     help="change to specified path when startup Pyslvs"
 )
-_parser.add_argument(
-    '--fusion',
-    action='store_true',
-    help="run Pyslvs in Fusion style"
-)
-_parser.add_argument(
-    '--full-screen',
-    action='store_true',
-    help="start Pyslvs with full-screen mode"
-)
-_parser.add_argument(
-    '-d',
-    '--debug-mode',
-    action='store_true',
-    help=(
-        "do not connect to GUI console when opening, "
-        "and change the logger from INFO into DEBUG level"
-    )
-)
-_parser.add_argument(
-    '--test',
-    action='store_true',
-    help="just test module states and exit"
-)
-_parser.add_argument(
+g.add_argument(
     '--kernel',
     metavar="kernel",
     default=None,
     nargs='?',
     type=str,
     choices=['pyslvs', 'python_solvespace', 'sketch_solve'],
-    help=(
-        "startup Pyslvs with specified solver, "
-        "default is depending on local setting"
-    )
+    help="startup Pyslvs with specified solver, "
+         "default is depending on local setting"
 )
-_parser.add_argument(
+g = parser.add_argument_group("information options")
+g.add_argument(
+    '-h',
+    '--help',
+    action='help',
+    help="show this help message and exit"
+)
+g.add_argument(
+    '-v',
+    '--version',
+    action='version',
+    version=SYS_INFO[0]
+)
+g.add_argument(
+    '-d',
+    '--debug-mode',
+    action='store_true',
+    help="do not connect to GUI console when opening, "
+         "and change the logger from INFO into DEBUG level"
+)
+g = parser.add_argument_group("graphical user interface options")
+g.add_argument(
+    '--fusion',
+    action='store_true',
+    help="run Pyslvs in Fusion style"
+)
+g.add_argument(
+    '--full-screen',
+    action='store_true',
+    help="start Pyslvs with full-screen mode"
+)
+g = parser.add_argument_group("other options")
+g.add_argument(
+    '--test',
+    action='store_true',
+    help="just test the module import states and exit"
+)
+g.add_argument(
     '--platform',
     metavar="plugins",
     default="",
@@ -127,8 +120,31 @@ _parser.add_argument(
     help="startup Pyslvs with specified Qt platform plugins, "
          "such as WebGL (webgl:[port])"
 )
-
-ARGUMENTS = _parser.parse_args()
+if system() == "Linux":
+    # AppImage options
+    g = parser.add_argument_group(
+        "AppImage arguments",
+        "these options only work in package state"
+    )
+    g.add_argument(
+        '--appimage-extract',
+        action='store_true',
+        help="extract the files of package into a 'squashfs-root' folder"
+    )
+    g.add_argument(
+        '--appimage-mount',
+        action='store_true',
+        help="temporarily mount entire package into a folder, "
+             "it can stop by terminating this program"
+    )
+    g.add_argument(
+        '--appimage-offset',
+        action='store_true',
+        help="obtain offset value of 'mount' command, then mount it with: "
+             "\"sudo mount PACKAGE MOUNT -o offset=VALUE\""
+    )
+ARGUMENTS = parser.parse_args()
+del g, parser
 
 
 def check_update(dlg: QProgressDialog) -> str:
