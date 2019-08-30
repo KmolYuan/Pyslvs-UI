@@ -6,7 +6,8 @@ pyqtchart; sys_platform != 'win32'
 pyqt5<=5.12.2; sys_platform == 'win32'
 pyqtchart<=5.12.2; sys_platform == 'win32'
 ezdxf
-numpy
+numpy; python_version < '3.8'
+numpy<1.17; python_version >= '3.8' and sys_platform == 'linux'
 cython
 openpyxl
 psutil

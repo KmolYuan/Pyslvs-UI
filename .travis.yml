@@ -59,7 +59,7 @@ before_install:
         fi
 
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        python3 -m pip install -r requirements.txt --user;
+        python3 -m pip install -r requirements.txt;
         fi
 
 script:
