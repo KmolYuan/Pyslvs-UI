@@ -18,7 +18,6 @@ from core.QtModules import (
     QMessageBox,
 )
 from .Ui_path_adjust import Ui_Dialog
-
 if TYPE_CHECKING:
     from core.synthesis import DimensionalSynthesis
 

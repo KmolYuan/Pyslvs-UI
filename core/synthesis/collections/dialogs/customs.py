@@ -12,7 +12,6 @@ __email__ = "pyslvs@gmail.com"
 from typing import TYPE_CHECKING
 from core.QtModules import Slot, Qt, QDialog
 from .Ui_customs import Ui_Dialog
-
 if TYPE_CHECKING:
     from core.synthesis.collections import ConfigureWidget
 

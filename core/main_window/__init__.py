@@ -52,15 +52,14 @@ class MainWindow(IOMethodInterface):
         super(MainWindow, self).__init__()
         self.restore_settings()
 
-        # Console widget.
+        # Console widget
         self.console_error_option.setChecked(ARGUMENTS.debug_mode)
         if not ARGUMENTS.debug_mode:
             self.__console_connect()
 
-        # Start first solve function calling.
+        # Start first solve function calling
         self.solve()
-
-        # Load workbook from argument.
+        # Load workbook from argument
         self.load_from_args()
 
     def closeEvent(self, event: QCloseEvent):
@@ -128,8 +127,7 @@ class MainWindow(IOMethodInterface):
         """Merge result function of dimensional synthesis."""
         if not self.ask_add_storage(expr):
             return
-
-        # Add the path.
+        # Add the path
         i = 0
         while f"Algorithm_{i}" in self.inputs_widget.path_data():
             i += 1

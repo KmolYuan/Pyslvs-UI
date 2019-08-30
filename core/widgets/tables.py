@@ -49,7 +49,6 @@ from core.QtModules import (
     QKeyEvent,
 )
 from core.graphics import color_icon
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 

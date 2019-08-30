@@ -72,7 +72,7 @@ class WorkerThread(BaseThread):
         for self.current_loop in range(self.loop):
             logger.info(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
             if self.is_stop:
-                # Cancel the remaining tasks.
+                # Cancel the remaining tasks
                 logger.info("Canceled.")
                 continue
             self.result.emit(self.__algorithm())

@@ -63,7 +63,6 @@ from .dialogs import (
     ChartDialog,
 )
 from .Ui_dimension_widget import Ui_Form
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
@@ -264,7 +263,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         wb = load_workbook(file_name)
         ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
         data = []
-        # Keep finding until there is no value.
+        # Keep finding until there is no value
         i = 1
         while True:
             x = ws.cell(row=i, column=1).value
@@ -403,14 +402,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     "The length of target paths should be the same."
                 )
                 return
-        # Get the algorithm type.
+        # Get the algorithm type
         if self.type0.isChecked():
             type_num = AlgorithmType.RGA
         elif self.type1.isChecked():
             type_num = AlgorithmType.Firefly
         else:
             type_num = AlgorithmType.DE
-        # Deep copy it so the pointer will not the same.
+        # Deep copy it so the pointer will not the same
         mech_params = deepcopy(self.mech_params)
         mech_params['Expression'] = parse_vpoints(mech_params.pop('Expression', []))
         mech_params['Target'] = deepcopy(self.path)
@@ -431,7 +430,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.parameter_list.cellWidget(row, 4).value(),
             )
 
-        # Start progress dialog.
+        # Start progress dialog
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
         dlg.show()
         if not dlg.exec():

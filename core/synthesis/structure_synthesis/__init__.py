@@ -55,7 +55,6 @@ from .thread import (
     GraphEnumerateThread,
 )
 from .Ui_structure_widget import Ui_Form
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 

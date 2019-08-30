@@ -70,10 +70,10 @@ class ChartDialog(QDialog):
         axis_y.setTickCount(11)
 
         if self.__algorithm_data:
-            # Just copy references from algorithm data.
+            # Just copy references from algorithm data
             plot = [data['time_fitness'] for data in self.__algorithm_data]
 
-            # X max.
+            # X max
             max_x = int(max([max([tnf[pos_x] for tnf in data]) for data in plot]) * 100)
             axis_x.setMax(max_x)
             i10 = int(max_x / 10)
@@ -84,11 +84,11 @@ class ChartDialog(QDialog):
                 for i in range(0, 1000, 100):
                     axis_x.append(str(i / 100), i)
 
-            # Y max.
+            # Y max
             max_y = max(max([tnf[pos_y] for tnf in data]) for data in plot) + 10
         else:
             plot = None
-            # Y max.
+            # Y max
             max_y = 100
 
         max_y -= max_y % 10

@@ -81,15 +81,15 @@ def slvs_solve(
             x, y = vpoint.c[0]
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 sliders[i] = len(slider_bases)
-                # Base point (slot) is fixed.
+                # Base point (slot) is fixed
                 point = sys.add_point_2d(x, y, wp)
                 sys.dragged(point, wp)
                 slider_bases.append(point)
-                # Slot point (slot) is movable.
+                # Slot point (slot) is movable
                 x += cos(vpoint.angle)
                 y += sin(vpoint.angle)
                 slider_slots.append(sys.add_point_2d(x, y, wp))
-                # Pin is movable.
+                # Pin is movable
                 x, y = vpoint.c[1]
                 if vpoint.has_offset() and vpoint.true_offset() <= 0.1:
                     if vpoint.offset() > 0:
@@ -109,20 +109,20 @@ def slvs_solve(
         point = sys.add_point_2d(x, y, wp)
         if vpoint.type in {VJoint.P, VJoint.RP}:
             sliders[i] = len(slider_bases)
-            # Base point (slot) is movable.
+            # Base point (slot) is movable
             slider_bases.append(point)
-            # Slot point (slot) is movable.
+            # Slot point (slot) is movable
             x += cos(vpoint.angle)
             y += sin(vpoint.angle)
             slider_slots.append(sys.add_point_2d(x, y, wp))
             if vpoint.pin_grounded():
-                # Pin is fixed.
+                # Pin is fixed
                 x, y = vpoint.c[1]
                 point = sys.add_point_2d(x, y, wp)
                 sys.dragged(point, wp)
                 points.append(point)
             else:
-                # Pin is movable.
+                # Pin is movable
                 x, y = vpoint.c[1]
                 if vpoint.has_offset() and vpoint.true_offset() <= 0.1:
                     if vpoint.offset() > 0:
@@ -133,8 +133,7 @@ def slvs_solve(
                         y -= 0.1
                 points.append(sys.add_point_2d(x, y, wp))
             continue
-
-        # Point is movable.
+        # Point is movable
         points.append(point)
 
     for vlink in vlinks.values():
@@ -178,7 +177,7 @@ def slvs_solve(
         # Base slot
         slider_slot = sys.add_line_2d(slider_bases[b], slider_slots[b], wp)
         if vp1.grounded():
-            # Slot is grounded.
+            # Slot is grounded
             sys.angle(hv, slider_slot, vp1.angle, wp)
             sys.coincident(p1, slider_slot, wp)
             if vp1.has_offset():
@@ -188,14 +187,14 @@ def slvs_solve(
                 else:
                     sys.coincident(p2, p1, wp)
         else:
-            # Slider between links.
+            # Slider between links
             for name in vp1.links[:1]:  # type: str
                 vlink = vlinks[name]
-                # A base link friend.
+                # A base link friend
                 c = vlink.points[0]
                 if c == a:
                     if len(vlink.points) < 2:
-                        # If no any friend.
+                        # If no any friend
                         continue
                     c = vlink.points[1]
 
@@ -226,11 +225,11 @@ def slvs_solve(
 
             for name in vp1.links[1:]:
                 vlink = vlinks[name]
-                # A base link friend.
+                # A base link friend
                 c = vlink.points[0]
                 if c == a:
                     if len(vlink.points) < 2:
-                        # If no any friend.
+                        # If no any friend
                         continue
                     c = vlink.points[1]
 
@@ -249,9 +248,9 @@ def slvs_solve(
                 )
 
     for (b, d), angle in inputs.items():
-        # The constraints of drive shaft.
-        # Simulate the input variables to the mechanism.
-        # The 'base points' are shaft center.
+        # The constraints of drive shaft
+        # Simulate the input variables to the mechanism
+        # The 'base points' are shaft center
         if b == d:
             continue
 
@@ -439,14 +438,14 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     else:
                         raise ValueError("incorrect kernel")
                 except ValueError:
-                    # Update with error sign.
+                    # Update with error sign
                     for i in range(vpoint_count):
                         auto_preview[i].append((nan, nan))
-                    # Back to last feasible solution.
+                    # Back to last feasible solution
                     angles[dp] -= interval
                     dp += 1
                 else:
-                    # Update with result.
+                    # Update with result
                     for i in range(vpoint_count):
                         if vpoints[i].type == VJoint.R:
                             auto_preview[i].append(result[i])
@@ -483,7 +482,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         for b, d, _ in self.inputs_widget.input_pairs():
             input_pair.update({b, d})
 
-        # links name for RP joint.
+        # links name for RP joint
         k = len(self.vlink_list)
 
         graph = Graph([])
@@ -492,7 +491,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         same = {}
         used_point = set()
         mapping = {}
-        # Link names will change to index number.
+        # Link names will change to index number
         for i, vlink in enumerate(self.vlink_list):
             for p in vlink.points:
                 if p in used_point:

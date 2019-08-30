@@ -45,7 +45,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
         self.mechanisms: List[Dict[str, Any]] = []
 
-        # Batch label.
+        # Batch label
         if 'max_gen' in setting:
             self.limit = setting['max_gen']
             if self.limit > 0:
@@ -71,14 +71,14 @@ class ProgressDialog(QDialog, Ui_Dialog):
             self.limit_mode = 'max_gen'
         self.loopTime.setEnabled(self.limit > 0)
 
-        # Timer.
+        # Timer
         self.time = 0
         self.timer = QTimer()
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__set_time)
         self.time_spend = 0.
 
-        # Worker thread.
+        # Worker thread
         self.work = WorkerThread(type_num, mech_params, setting, self)
         self.stop_signal.connect(self.work.stop)
         if self.work.is_two_kernel():

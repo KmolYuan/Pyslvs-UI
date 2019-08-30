@@ -43,7 +43,6 @@ from .undo_redo import (
     AddPath,
     DeletePath,
 )
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
@@ -69,7 +68,7 @@ class InputsWidget(QWidget, Ui_Form):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
 
-        # parent's function pointer.
+        # parent's function pointer
         self.free_move_button = parent.free_move_button
         self.EntitiesPoint = parent.entities_point
         self.EntitiesLink = parent.entities_link
@@ -93,17 +92,17 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.valueChanged.connect(self.__set_var)
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
 
-        # Play button.
+        # Play button
         action = QShortcut(QKeySequence("F5"), self)
         action.activated.connect(self.variable_play.click)
         self.variable_stop.clicked.connect(self.variable_value_reset)
 
-        # Timer for play button.
+        # Timer for play button
         self.inputs_play_shaft = QTimer()
         self.inputs_play_shaft.setInterval(10)
         self.inputs_play_shaft.timeout.connect(self.__change_index)
 
-        # Change the point coordinates with current position.
+        # Change the point coordinates with current position
         self.update_pos.clicked.connect(self.set_coords_as_current)
 
         # Inputs record context menu
@@ -222,10 +221,10 @@ class InputsWidget(QWidget, Ui_Form):
         name = f'Point{p0}'
         self.CommandStack.beginMacro(f"Add variable of {name}")
         if p0 == p1:
-            # One joint by offset.
+            # One joint by offset
             value = self.vpoints[p0].true_offset()
         else:
-            # Two joints by angle.
+            # Two joints by angle
             value = self.vpoints[p0].slope_angle(self.vpoints[p1])
         self.CommandStack.push(AddInput('->'.join((
             name,
@@ -273,8 +272,8 @@ class InputsWidget(QWidget, Ui_Form):
         """Remove variable if the point was been deleted. Default: all."""
         one_row: bool = row is not None
         for i, (b, d, a) in enumerate(self.input_pairs()):
-            # If this is not origin point any more.
-            if one_row and (row != b):
+            # If this is not origin point any more
+            if one_row and row != b:
                 continue
             self.CommandStack.beginMacro(f"Remove variable of {{Point{row}}}")
             self.CommandStack.push(DeleteInput(i, self.variable_list))
@@ -497,7 +496,7 @@ class InputsWidget(QWidget, Ui_Form):
         try:
             data = self.__path_data[name]
         except KeyError:
-            # Auto preview path.
+            # Auto preview path
             data = self.MainCanvas.Path.path
             showall_action.setEnabled(False)
         else:
@@ -514,7 +513,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         if action_exec:
             if action_exec == copy_action:
-                # Copy path data.
+                # Copy path data
                 num = 0
                 name_copy = f"{name}_{num}"
                 while name_copy in self.__path_data:
@@ -522,12 +521,12 @@ class InputsWidget(QWidget, Ui_Form):
                     num += 1
                 self.add_path(name_copy, data)
             elif "Copy data from" in action_exec.text():
-                # Copy data to clipboard.
+                # Copy data to clipboard
                 QApplication.clipboard().setText('\n'.join(
                     f"{x},{y}" for x, y in data[action_exec.index]
                 ))
             elif "Show" in action_exec.text():
-                # Switch points enabled status.
+                # Switch points enabled status
                 if action_exec.index == -1:
                     self.record_show.setChecked(True)
                 self.MainCanvas.set_path_show(action_exec.index)

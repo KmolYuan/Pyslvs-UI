@@ -33,6 +33,7 @@
 + Reformat the actions for all of context menus.
 + Use pyenv instead of MacPorts in Travis CI.
 + Remove USER_MODE option in the Makefile.
++ Remove the period after the comment if not too long.
 
 ## Version 19.07
 

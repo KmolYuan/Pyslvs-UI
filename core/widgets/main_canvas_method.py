@@ -44,7 +44,6 @@ from core.QtModules import (
     QMouseEvent,
 )
 from core.graphics import convex_hull, BaseCanvas, color_qt
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 

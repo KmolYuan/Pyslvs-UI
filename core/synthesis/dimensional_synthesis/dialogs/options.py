@@ -171,7 +171,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.min_fit.setValue(settings['min_fit'])
         elif 'max_time' in settings:
             self.max_time_option.setChecked(True)
-            # In second (int).
+            # In second (int)
             max_time = settings['max_time']
             self.max_time_h.setValue(max_time // 3600)
             self.max_time_m.setValue((max_time % 3600) // 60)

@@ -26,7 +26,6 @@ from core.QtModules import (
     QCoreApplication,
 )
 from .overview import OverviewDialog
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 

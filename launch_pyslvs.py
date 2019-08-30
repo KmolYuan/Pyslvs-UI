@@ -9,6 +9,5 @@ __email__ = "pyslvs@gmail.com"
 
 from core import main
 
-
 if __name__ == '__main__':
     main()

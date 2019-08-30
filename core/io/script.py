@@ -36,7 +36,6 @@ from core.QtModules import (
     QWheelEvent,
 )
 from .Ui_script import Ui_Dialog
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 

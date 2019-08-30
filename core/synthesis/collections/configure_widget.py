@@ -46,7 +46,6 @@ from .dialogs import (
     list_texts,
 )
 from .Ui_configure_widget import Ui_Form
-
 if TYPE_CHECKING:
     from core.widgets.main_base import MainWindowBase
 
@@ -228,7 +227,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         for link in links:
             self.grounded_list.addItem("(" + ", ".join(link) + ")")
 
-        # Point name as (P1, P2, P3, ...).
+        # Point name is (P1, P2, P3, ...)
         for node in pos:
             self.joint_name.addItem(f'P{node}')
 
@@ -434,7 +433,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         for row, gs in enumerate(list_texts(self.grounded_list)):
             try:
                 link_expr = []
-                # Links from grounded list.
+                # Links from grounded list
                 for name in gs.replace('(', '').replace(')', '').split(", "):
                     num = int(name.replace('P', ''))
                     if num in self.configure_canvas.same:
@@ -443,7 +442,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             except KeyError:
                 continue
             else:
-                # Customize joints.
+                # Customize joints
                 for joint, link in self.configure_canvas.cus.items():
                     if row == link:
                         link_expr.append(f"P{joint}")

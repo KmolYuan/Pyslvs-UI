@@ -50,7 +50,6 @@ from core.graphics import (
 )
 from .dialogs.targets import TargetsDialog
 from .Ui_structure_widget import Ui_Form
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
@@ -355,7 +354,7 @@ class StructureWidget(QWidget, Ui_Form):
         ))
         self.selection_window.addItem(item_preview)
 
-        # Set attributes.
+        # Set attributes
         self.edges_text.setText(str(list(g.edges)))
         self.nl_label.setText(str(len(g.nodes)))
         self.nj_label.setText(str(len(g.edges)))

@@ -35,7 +35,6 @@ from .main_canvas_method import (
     FreeMode,
     SelectMode,
 )
-
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
