@@ -66,7 +66,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.license_text.setText(LICENSE_STRING)
         self.ver_text.setText(html(_order_list(*SYS_INFO)))
         self.args_text.setText(html(_content("Startup arguments are as follows:") + _order_list(
-            f"Open with: {ARGUMENTS.file}",
+            f"Open with: {ARGUMENTS.filepath}",
             f"Start Path: {ARGUMENTS.c}",
             f"Fusion style: {ARGUMENTS.fusion}",
             f"Debug mode: {ARGUMENTS.debug_mode}",

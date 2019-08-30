@@ -717,13 +717,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 widget.setText(value)
 
     def load_from_args(self):
-        if not ARGUMENTS.file:
+        if not ARGUMENTS.filepath:
             return
-        suffix = QFileInfo(ARGUMENTS.file).suffix()
+        suffix = QFileInfo(ARGUMENTS.filepath).suffix()
         if suffix == 'pyslvs':
-            self.database_widget.read(ARGUMENTS.file)
+            self.database_widget.read(ARGUMENTS.filepath)
         elif suffix == 'slvs':
-            self.__read_slvs(ARGUMENTS.file)
+            self.__read_slvs(ARGUMENTS.filepath)
         else:
             logger.critical("Unsupported format has been ignore when startup.")
 
