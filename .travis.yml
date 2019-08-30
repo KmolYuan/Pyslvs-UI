@@ -18,10 +18,25 @@ matrix:
               on:
                   tags: true
 
+        - os: linux
+          sudo: required
+          python: "3.8-dev"
+          dist: xenial
+          deploy:
+              <<: *deploy-options
+
         - os: osx
           osx_image: xcode10
           language: generic
           env: PYTHON=3.7.0
+          deploy:
+              <<: *deploy-options
+              file: dist/pyslvs-*.app.zip
+
+        - os: osx
+          osx_image: xcode10
+          language: generic
+          env: PYTHON=3.8-dev
           deploy:
               <<: *deploy-options
               file: dist/pyslvs-*.app.zip
