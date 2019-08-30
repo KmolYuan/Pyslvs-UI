@@ -124,7 +124,8 @@ if system() == "Linux":
     # AppImage options
     g = parser.add_argument_group(
         "AppImage arguments",
-        "these options only work in package state"
+        "these options only work in package state. Pyslvs is a type 2 package, "
+        "for more information: https://docs.appimage.org/"
     )
     g.add_argument(
         '--appimage-extract',
