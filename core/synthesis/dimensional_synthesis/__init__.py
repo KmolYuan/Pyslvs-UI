@@ -142,6 +142,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.type2.setChecked(True)
         self.parameter_list.setRowCount(0)
         self.target_points.clear()
+        self.target_label.setVisible(self.has_target())
         self.expression_string.clear()
         self.update_range()
         self.__able_to_generate()
@@ -379,7 +380,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __able_to_generate(self):
         """Set button enable if all the data are already."""
-        self.pointNum.setText(
+        self.point_num.setText(
             "<p><span style=\"font-size:12pt;"
             f"color:#00aa00;\">{self.path_list.count()}</span></p>"
         )
@@ -662,8 +663,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.path[name] = path.copy()
             else:
                 self.path[name] = []
-        if self.target_points.count():
+        if self.has_target():
             self.target_points.setCurrentRow(0)
+        self.target_label.setVisible(self.has_target())
 
         # Parameter of link length and input angle.
         link_list = set()
