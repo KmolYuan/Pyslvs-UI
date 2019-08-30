@@ -27,7 +27,9 @@ pip install -r requirements.txt
 
 **Mac OS and Ubuntu**:
 
-Using [pyenv](https://github.com/pyenv/pyenv) will be more easier to handle Python version instead of using system Python.
+It is recommended to use [pyenv](https://github.com/pyenv/pyenv),
+which will be more easier to handle Python version instead of using system Python.
+So any operation about Python will not required `sudo` or `--user` option.
 
 ```bash
 # Install supported version of Pyslvs

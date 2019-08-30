@@ -48,7 +48,7 @@ before_install:
         fi
 
 script:
-    - make USER_MODE=false
+    - make
 
 before_cache:
     - rm -rf $HOME/.cache/pip/log

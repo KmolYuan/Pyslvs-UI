@@ -40,8 +40,6 @@ git submodule update --init --recursive
 
 # Compile and install submodules
 make build-kernel
-# Install submodules without --user option
-make build-kernel USER_MODE=false
 
 # Open GUI by Python
 python launch_pyslvs.py
@@ -54,8 +52,6 @@ python launch_pyslvs.py --help
 
 # Pack into stand-alone executable file
 make
-# Without --user option
-make USER_MODE=false
 ```
 
 Python libraries has some dependencies with the compile environment,

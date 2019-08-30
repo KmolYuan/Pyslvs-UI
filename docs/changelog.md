@@ -32,6 +32,7 @@
 + Settings correction of AppVeyor.
 + Reformat the actions for all of context menus.
 + Use pyenv instead of MacPorts in Travis CI.
++ Remove USER_MODE option in the Makefile.
 
 ## Version 19.07
 
