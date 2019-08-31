@@ -1,7 +1,6 @@
 # Pyslvs Documentation Configuration
 
 site_name: Pyslvs Documentation
-theme: readthedocs
 repo_url: https://github.com/KmolYuan/Pyslvs-UI
 copyright: Copyright © 2016-2019 Yuan Chang
 site_description: The manual of Pyslvs, an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.

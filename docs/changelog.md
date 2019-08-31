@@ -279,7 +279,7 @@
 + Change atlas algorithm "cancel" behavior to "skip":
     + Realized partial searching in atlas algorithm.
     + User can skip and keep partial result at each searching step.
-+ Add fully support for Mac OS platform:
++ Add fully support for macOS platform:
     + Standalone executable file compilation.
     + Automatic switch to fusion mode to avoid border too wide.
     + CI testing.

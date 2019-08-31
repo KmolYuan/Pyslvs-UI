@@ -11,21 +11,28 @@ which are need to be compiled first.
 
 ## Dependencies
 
-Actual testing platforms with CI:
+The actual test and deployment platforms on CI/CD service:
 
-| Platform (64-bit) | Windows | MacOS | Ubuntu |
+| Platforms (64-bit) | Windows | macOS | Ubuntu |
 |:------------------:|:-------:|:-----:|:------:|
+| Service | [AppVeyor][ci1] | [Travis][ci2] | [Travis][ci3] |
+| OS version | Windows Server 2019 | Xcode 10.0 (10.13) | Xenial (16.04) |
 | Python 3.7 | O | O | O |
+| Python 3.8 (beta3) | O | O | O |
 
 **Please note that the other platforms may be available but I have not tested before.**
 
-Install dependences:
+[ci1]: https://www.appveyor.com/docs/windows-images-software/
+[ci2]: https://docs.travis-ci.com/user/reference/osx/
+[ci3]: https://docs.travis-ci.com/user/reference/linux/
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**Mac OS and Ubuntu**:
+**Ubuntu and macOS**:
 
 It is recommended to use [pyenv](https://github.com/pyenv/pyenv),
 which will be more easier to handle Python version instead of using system Python.
@@ -36,7 +43,6 @@ So any operation about Python will not required `sudo` or `--user` option.
 # The devlopment tools need to prepare first (like openssl, sqlite3)
 pyenv install --list  # show all available versions
 pyenv install 3.7.4
-pyenv install 3.7-dev
 pyenv global 3.7.4
 python --version  # Python 3.7.4
 pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.7.4/lib/python3.7/site-packages/pip (python 3.7)
@@ -95,7 +101,7 @@ Make command:
 make build-pyslvs
 ```
 
-#### Mac OS and Ubuntu
+#### Ubuntu and macOS
 
 User can compile the kernel by [Cython](http://cython.org/) directly.
 
@@ -182,8 +188,9 @@ As your wish, it can be renamed or moved out and operate independently in no-Pyt
 #### Ubuntu
 
 Use shell command to build as [AppImage].
+Because of it is more suitable with PyQt module than [PyInstaller].
 
-After following operation, the executable file is in `out` folder.
+After following operation, the executable file is in a folder named `out`.
 
 Make command:
 
@@ -192,11 +199,16 @@ pip install virtualenv
 make
 ```
 
-#### Mac OS and Windows
+!!! warning
 
-Use PyInstaller to build.
+    Check the `glibc` version from `ldd --version`,
+    it must be equal or higher than package's.
 
-After following operation, the executable file is in `dist` folder.
+#### Windows and macOS
+
+Use [PyInstaller] to build.
+
+After following operation, the executable file is in a folder named `dist`.
 
 Make command:
 
@@ -205,7 +217,11 @@ pip install pyinstaller
 make
 ```
 
-On Mac OS, PyInstaller will generate two executable files (refer [here][pinstaller-mac]).
+!!! note
+
+    The Windows platform version requirement is same as the Python that packed.
+
+On macOS, PyInstaller will generate two executable files (refer [here][pinstaller-mac]).
 
 [pinstaller-mac]: https://pyinstaller.readthedocs.io/en/stable/usage.html#building-mac-os-x-app-bundles
 
@@ -214,10 +230,14 @@ On Mac OS, PyInstaller will generate two executable files (refer [here][pinstall
 # Can not run it directly in Finder.
 ./executable --use-arguments-here
 
-# Run Mac app file. (Can not use any arguments)
+# Run macOS app file. (Can not use any arguments)
 # Same as double click it in Finder.
 open ./executable.app
 ```
+
+!!! warning
+
+    The version of macOS must be equal or higher than executable's.
 
 ## Documentation
 
@@ -239,13 +259,13 @@ mkdocs serve
 The file `mkdocs.yml` and the contents of directory `docs` is a MkDocs project.
 The markdown files are the resources of this site.
 
+[PyInstaller]: https://www.pyinstaller.org/
 [Solvespace]: http://solvespace.com
 [Qt5]: https://www.qt.io/download/
 
 [Official Python]: https://www.python.org/
 [MinGW]: https://sourceforge.net/projects/mingw-w64/files/
-
-[AppImage]: https://github.com/AppImage/AppImages
+[AppImage]: http://appimage.org
 
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace/tree/python
 [Pyslvs]: https://github.com/KmolYuan/pyslvs

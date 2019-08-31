@@ -37,7 +37,7 @@ def main():
     splash.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
     splash.show()
 
-    # Force enable fusion style on Mac OS
+    # Force enable fusion style on macOS
     if system() == 'Darwin':
         ARGUMENTS.fusion = True
 
