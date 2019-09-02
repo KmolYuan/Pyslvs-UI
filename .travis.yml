@@ -41,7 +41,13 @@ matrix:
               <<: *deploy-options
               file: dist/pyslvs-*.app.zip
 
-# For OS X
+addons:
+    apt:
+        packages:
+            - kde-style-breeze
+            - qt5-style-plugins
+            - fcitx-frontend-qt5
+
 before_install:
 
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
