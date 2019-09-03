@@ -1,6 +1,6 @@
 # What is Pyslvs?
 
-Pyslvs \[ˈpaɪsɑlvz] is an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System,
+Pyslvs \[`paɪsɑlvz] is an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System,
 which is named from "Python" and "Solvers".
 
 The project is maintained on GitHub: <https://github.com/KmolYuan/Pyslvs-UI>
@@ -19,7 +19,10 @@ If you want an open source version, clone it from GitHub.
 
 ### Windows and MacOS Platform
 
-Here's some command line options for Pyslvs executable `pyslvs` or `pyslvs.exe`.
+Here's some command line options for Pyslvs executable.
+
+For convenience, the file name of distributions can rename as `pyslvs.exe`, `pyslvs.app` or `pyslvs.AppImage`,
+the suffix is depended on your platform.
 
 ```bash
 # Open GUI directly
@@ -49,15 +52,19 @@ chomod +x pyslvs.AppImage
 # Unzip the package to "squashfs-root"
 # There is including the source code of Pyslvs
 ./pyslvs.AppImage --appimage-extract
-
-# Using other AppImage options
-# https://docs.appimage.org/user-guide/run-appimages.html
-./pyslvs.AppImage --appimage-mount
 ```
+
+You can refer other AppImage options from its [user guide](https://docs.appimage.org/user-guide/run-appimages.html).
 
 ### Git Repository
 
 Some options for Pyslvs repository.
+
+For more environment information, please see [Environment section](environment.md).
+
+!!! warning
+
+    Pyslvs requires Python 3.7 or above.
 
 ```bash
 # Download / update submodule
@@ -71,12 +78,6 @@ make build-kernel
 
 # Open GUI by Python
 python launch_pyslvs.py
-
-# Open GUI with Fusion style
-python launch_pyslvs.py --fusion
-
-# See the help:
-python launch_pyslvs.py --help
 
 # Pack into stand-alone executable file
 make

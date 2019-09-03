@@ -18,7 +18,7 @@ The actual test and deployment platforms on CI/CD service:
 | Service | [AppVeyor][ci1] | [Travis][ci2] | [Travis][ci3] |
 | OS version | Windows Server 2019 | Xcode 10.0 (10.13) | Xenial (16.04) |
 | Python 3.7 | O | O | O |
-| Python 3.8 (beta3) | O | O | O |
+| Python 3.8 (beta4) | O | O | O |
 
 **Please note that the other platforms may be available but I have not tested before.**
 
