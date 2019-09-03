@@ -54,7 +54,7 @@ Python 3: [Official Python] for Windows 64 bit.
 
 Makefile tool: [MinGW] or [Msys 2][msys].
 
-### Qt Stuff (Development)
+### Qt Designer (Development)
 
 PyQt5 and its additional modules are now packed into the wheel file that most of platform can install them directly.
 
@@ -78,6 +78,17 @@ Windows user can get Qt tools by pip (maybe not newest version), without to inst
 ```bash
 pip install pyqt5-tools
 ```
+
+### Fcitx QIMPanel Plugins on Linux
+
+The Fcitx input method support is depanded on the plugins of PyQt.
+Copy the libraries from `/usr/lib/x86_64-linux-gnu/qt5/plugins/` into `python/site-packages/PyQt5/Qt/plugins/`.
+
+The plugins is `platforminputcontexts/libfcitxplatforminputcontextplugin.so`.
+
+!!! warning
+
+    Please note that some PyQt plugins are version depended such like `styles`.
 
 ## Kernels Requirement
 
