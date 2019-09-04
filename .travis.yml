@@ -2,78 +2,72 @@
 language: python
 
 matrix:
-    include:
+  include:
 
-        - os: linux
-          sudo: required
-          python: "3.7"
-          dist: xenial
-          deploy: &deploy-options
-              overwrite: true
-              provider: releases
-              api_key: $TRAVIS_TOKEN
-              file_glob: true
-              file: out/pyslvs-*.AppImage
-              skip_cleanup: true
-              on:
-                  tags: true
+    - os: linux
+      sudo: required
+      python: "3.7"
+      dist: xenial
+      deploy: &deploy-options
+        overwrite: true
+        provider: releases
+        api_key: $TRAVIS_TOKEN
+        file_glob: true
+        file: out/pyslvs-*.AppImage
+        skip_cleanup: true
+        on:
+          tags: true
 
-        - os: linux
-          sudo: required
-          python: "3.8-dev"
-          dist: xenial
-          deploy:
-              <<: *deploy-options
+    - os: linux
+      sudo: required
+      python: "3.8-dev"
+      dist: xenial
 
-        - os: osx
-          osx_image: xcode10
-          language: generic
-          env: PYTHON=3.7.0
-          deploy:
-              <<: *deploy-options
-              file: dist/pyslvs-*.app.zip
+    - os: osx
+      osx_image: xcode10
+      language: generic
+      env: PYTHON=3.7.0
+      deploy:
+        <<: *deploy-options
+        file: dist/pyslvs-*.app.zip
 
-        - os: osx
-          osx_image: xcode10
-          language: generic
-          env: PYTHON=3.8-dev
-          deploy:
-              <<: *deploy-options
-              file: dist/pyslvs-*.app.zip
+    - os: osx
+      osx_image: xcode10
+      language: generic
+      env: PYTHON=3.8-dev
 
-addons:
-    apt:
-        packages:
-            - kde-style-breeze
-            - qt5-style-plugins
-            - fcitx-frontend-qt5
+git:
+  submodules: false
 
 before_install:
 
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        brew update;
-        brew upgrade pyenv;
-        pyenv install ${PYTHON};
-        pyenv global ${PYTHON};
-        python3 -m pip install pyinstaller;
-        fi
+  - git submodule update --init
+  - git submodule update --init --recursive depend/pyslvs
 
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        python3 --version;
-        python3 -m pip --version;
-        pyinstaller --version;
-        fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    brew update;
+    brew upgrade pyenv;
+    pyenv install ${PYTHON};
+    pyenv global ${PYTHON};
+    python3 -m pip install pyinstaller;
+    fi
 
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        python3 -m pip install -r requirements.txt;
-        fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    python3 --version;
+    python3 -m pip --version;
+    pyinstaller --version;
+    fi
+
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    python3 -m pip install -r requirements.txt;
+    fi
 
 script:
-    - make
+  - make
 
 before_cache:
-    - rm -rf $HOME/.cache/pip/log
+  - rm -rf $HOME/.cache/pip/log
 
 cache:
-    directories:
-        - $HOME/.cache/pip
+  directories:
+    - $HOME/.cache/pip

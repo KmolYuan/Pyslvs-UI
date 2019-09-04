@@ -2,64 +2,63 @@
 image: Visual Studio 2017
 
 platform:
-    - x64
+  - x64
 
 environment:
-    matrix:
+  matrix:
 
-        - MINGW_DIR: &mingw C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
-          MSYS_DIR: &msys2 C:\msys64
-          PYTHON_DIR: C:\Python37-x64
+    - MINGW_DIR: &mingw C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
+      MSYS_DIR: &msys2 C:\msys64
+      PYTHON_DIR: C:\Python37-x64
 
 install:
-    # Environment variables
-    - set Path=%MINGW_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
-    - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
-    - set PYTHON_CFG=%PYTHON_DIR%\Lib\distutils\distutils.cfg
+  # Environment variables
+  - set Path=%MINGW_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
+  - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
+  - set PYTHON_CFG=%PYTHON_DIR%\Lib\distutils\distutils.cfg
 
-    # Show Python
-    - python --version
-    - pip --version
+  # Show Python
+  - python --version
+  - pip --version
 
-    # Upgrade setuptools
-    - pip install setuptools -U
+  # Upgrade setuptools
+  - pip install setuptools -U
 
-    # Set Python compiler to MinGW
-    - echo [build]>> %PYTHON_CFG%
-    - echo compiler=mingw32>> %PYTHON_CFG%
-    - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
-    - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
+  # Set Python compiler to MinGW
+  - echo [build]>> %PYTHON_CFG%
+  - echo compiler=mingw32>> %PYTHON_CFG%
+  - patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
+  - copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
 
-    # Install modules
-    - pip install -r requirements.txt
-    - pip install pyinstaller
+  # Install modules
+  - pip install -r requirements.txt
+  - pip install pyinstaller
 
-    # Show tool kits
-    - pyinstaller --version
-    - gcc --version
-    - mingw32-make --version
+  # Show tool kits
+  - pyinstaller --version
+  - gcc --version
+  - mingw32-make --version
 
 before_build:
-    # Clone submodules
-    - git submodule update --init --recursive
+  # Clone submodules
+  - git submodule update --init
+  - git submodule update --init --recursive depend/pyslvs
 
 build_script:
-    - mingw32-make
-
-test: off
+  - mingw32-make
 
 artifacts:
-    - path: dist/pyslvs-*.exe
-      name: pyslvs
+  - path: dist/pyslvs-*.exe
+    name: pyslvs
 
 deploy:
-    - release: Pyslvs $(APPVEYOR_REPO_TAG_NAME)
-      tag: $(APPVEYOR_REPO_TAG_NAME)
-      description: ""
-      provider: GitHub
-      auth_token: $(APPVEYOR_TOKEN)
-      artifacts: pyslvs
-      force_update: true
-      on:
-          appveyor_repo_tag: true
-          PYTHON_DIR: C:\Python37-x64
+  - release: Pyslvs $(APPVEYOR_REPO_TAG_NAME)
+    tag: $(APPVEYOR_REPO_TAG_NAME)
+    description: ""
+    provider: GitHub
+    auth_token: $(APPVEYOR_TOKEN)
+    artifacts: pyslvs
+    force_update: true
+    on:
+      appveyor_repo_tag: true
+      PYTHON_DIR: C:\Python37-x64
