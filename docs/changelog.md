@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None
++ Remove pre-build requirement of Linux platform.
 
 ## Version 19.08
 

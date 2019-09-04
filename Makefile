@@ -25,11 +25,15 @@ ifeq ($(OS),Windows_NT)
     PYSLVSVER = $(shell $(PY) -c $(PYSLVSVER_COMAND))
     COMPILERVER = $(shell $(PY) -c $(COMPILERVER_COMAND))
     SYSVER = $(shell $(PY) -c $(SYSVER_COMAND))
+    _NEEDS_BUILD = true
 else
     PYVER = $(shell $(PY) -c $(PYVER_COMAND))
     PYSLVSVER = $(shell $(PY) -c $(PYSLVSVER_COMAND))
     COMPILERVER = $(shell $(PY) -c $(COMPILERVER_COMAND))
     SYSVER = $(shell $(PY) -c $(SYSVER_COMAND))
+ifeq ($(shell uname),Darwin)
+    _NEEDS_BUILD = true
+endif
 endif
 EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 
@@ -58,23 +62,29 @@ help:
 	@echo - clean-all: clean every binary files and executable file.
 
 build-pyslvs:
-	@echo ---Pyslvs libraries Build---
+	@echo Build libraries
 	-$(PY) -m pip uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py install
-	@echo ---Done---
+	@echo Done
 
 build-solvespace:
-	@echo ---Python Solvespace Build---
+	@echo Build Solvespace kernel
 	-$(PY) -m pip uninstall python_solvespace -y
 	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py install
-	@echo ---Done---
+	@echo Done
 
 build-kernel: build-pyslvs build-solvespace
 
-build: $(LAUNCHSCRIPT).py build-kernel test-kernel
-	@echo ---Pyslvs Build---
-	@echo ---$(OS) Version---
-	@echo --Python Version $(PYVER)--
+ifdef _NEEDS_BUILD
+_build: build-kernel test-kernel
+	@echo Packing Pyslvs executable
+else
+_build:
+	@echo Build AppImage for Linux platforms
+endif
+
+build: $(LAUNCHSCRIPT).py _build
+	@echo Python version: $(PYVER)
 ifeq ($(OS),Windows_NT)
 	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs
 	rename .\dist\Pyslvs.exe $(EXENAME).exe
@@ -89,17 +99,17 @@ else
 	-rm -f -r out
 	bash ./appimage_recipe.sh
 endif
-	@echo ---Done---
+	@echo Done
 
 test-pyslvs:
-	@echo ---Pyslvs libraries Test---
+	@echo Test libraries
 	cd $(PYSLVS_PATH) && $(PY) tests
-	@echo ---Done---
+	@echo Done
 
 test-solvespace:
-	@echo ---Python Solvespace Test---
+	@echo Test Solvespace kernel
 	cd $(PYTHON_SLVS_PATH) && $(PY) tests
-	@echo ---Done---
+	@echo Done
 
 test-kernel: test-pyslvs test-solvespace
 

@@ -37,8 +37,8 @@ pip --version
 
 # Install python dependencies into the virtualenv
 pip install -r ${BASEDIR}/requirements.txt
-cd ${BASEDIR}/depend/pyslvs && python setup.py install
-cd ${BASEDIR}/depend/solvespace/cython && python setup.py install
+cd ${BASEDIR}/depend/pyslvs && python setup.py install && python tests
+cd ${BASEDIR}/depend/solvespace/cython && python setup.py install && python tests
 cd ${APPDIR} || exit
 
 # Copy all built-in scripts
