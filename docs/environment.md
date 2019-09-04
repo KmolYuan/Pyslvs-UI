@@ -88,7 +88,8 @@ The plugins is `platforminputcontexts/libfcitxplatforminputcontextplugin.so`.
 
 !!! warning
 
-    Please note that some PyQt plugins are version depended such like `styles`.
+    Please note that some PyQt plugins are version depended,
+    so the AppImage distributions are exclude these supports.
 
 ## Kernels Requirement
 
