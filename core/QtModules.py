@@ -13,18 +13,17 @@ __email__ = "pyslvs@gmail.com"
 from abc import ABCMeta
 from typing import Tuple
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtChart import *
+from qtpy import QtCore, QtGui, QtWidgets, API_NAME
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
+from qtpy.QtGui import *
+from qtpy.QtCharts import QtCharts
 
-Signal = QtCore.pyqtSignal
-Slot = QtCore.pyqtSlot
-QT_VERSION_STR = QtCore.QT_VERSION_STR
-PYQT_VERSION_STR = QtCore.PYQT_VERSION_STR
+QT_VERSION = QtCore.__version__
 
 __all__ = [
+    'API_NAME',
+    'QT_VERSION',
     'Qt',
     'QtCore',
     'QtGui',
@@ -32,16 +31,12 @@ __all__ = [
     'Signal',
     'Slot',
     'qt_image_format',
-    'QT_VERSION_STR',
-    'PYQT_VERSION_STR',
     'QABCMeta',
     'QAbstractItemView',
     'QAction',
     'QApplication',
     'QBrush',
-    'QCategoryAxis',
-    'QChart',
-    'QChartView',
+    'QtCharts',
     'QCheckBox',
     'QCloseEvent',
     'QColor',
@@ -78,7 +73,6 @@ __all__ = [
     'QLabel',
     'QLineEdit',
     'QLineF',
-    'QLineSeries',
     'QListView',
     'QListWidget',
     'QListWidgetItem',
@@ -109,7 +103,6 @@ __all__ = [
     'QRectF',
     'QSpacerItem',
     'QSplitter',
-    'QScatterSeries',
     'QScrollArea',
     'QScrollBar',
     'QSettings',
@@ -139,7 +132,6 @@ __all__ = [
     'QUndoStack',
     'QUndoView',
     'QUrl',
-    'QValueAxis',
     'QVBoxLayout',
     'QWheelEvent',
     'QWidget',

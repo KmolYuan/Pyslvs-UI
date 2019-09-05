@@ -75,6 +75,14 @@ class XStream(QObject):
     __stderr: Optional[XStream] = None
     message_written = Signal(str)
 
+    @staticmethod
+    def flush():
+        pass
+
+    @staticmethod
+    def fileno():
+        return -1
+
     def write(self, msg: str):
         """Output the message."""
         if not self.signalsBlocked():

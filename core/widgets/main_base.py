@@ -182,7 +182,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
             self.set_locate(QFileInfo(ARGUMENTS.c).canonicalFilePath())
         else:
             desktop = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-            self.set_locate(self.settings.value("ENV", desktop, type=str))
+            self.set_locate(str(self.settings.value("ENV", desktop)))
 
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""

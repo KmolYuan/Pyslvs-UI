@@ -318,7 +318,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Custom points and multiple joints option."""
         dlg = CustomsDialog(self)
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
         self.configure_canvas.update()
 
@@ -365,7 +365,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -416,7 +416,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 

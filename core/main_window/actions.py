@@ -152,7 +152,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def point_context_menu(self, point: QPoint):
         """EntitiesPoint context menu."""
         self.__enable_point_context()
-        self.pop_point.exec(self.entities_point_widget.mapToGlobal(point))
+        self.pop_point.exec_(self.entities_point_widget.mapToGlobal(point))
         self.action_new_link.setVisible(True)
         self.pop_point_m.clear()
 
@@ -160,7 +160,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def link_context_menu(self, point: QPoint):
         """EntitiesLink context menu."""
         self.__enable_link_context()
-        self.pop_link.exec(self.entities_link_widget.mapToGlobal(point))
+        self.pop_link.exec_(self.entities_link_widget.mapToGlobal(point))
         self.pop_link_m.clear()
 
     @Slot(QPoint)
@@ -174,12 +174,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 and self.main_panel.currentIndex() == 2
                 and self.dimensional_synthesis.has_target()
             )
-            self.pop_canvas_p.exec(self.main_canvas.mapToGlobal(point))
+            self.pop_canvas_p.exec_(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
             self.pop_point_m.clear()
         elif index == 1:
             self.__enable_link_context()
-            self.pop_canvas_l.exec(self.main_canvas.mapToGlobal(point))
+            self.pop_canvas_l.exec_(self.main_canvas.mapToGlobal(point))
             self.pop_link_m.clear()
 
     @Slot()

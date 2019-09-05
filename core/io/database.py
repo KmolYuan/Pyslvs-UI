@@ -560,7 +560,7 @@ class DatabaseWidget(QWidget, Ui_Form):
             algorithm_data
         )
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
 
     def __import_commit(self, commit: CommitModel):
@@ -656,8 +656,8 @@ class DatabaseWidget(QWidget, Ui_Form):
                 BranchModel
                 .select()
                 .where(BranchModel.name == branch_name)
-            )).execute()
-            BranchModel.delete().where(BranchModel.name == branch_name).execute()
+            )).exec_ute()
+            BranchModel.delete().where(BranchModel.name == branch_name).exec_ute()
         _db.close()
         logger.info(f"Branch {branch_name} was deleted.")
         # Reload database.

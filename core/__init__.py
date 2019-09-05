@@ -53,6 +53,6 @@ def main():
     logger.debug(f"Startup with: {time() - t0:.02f}s")
     del preview_rc, splash, t0
 
-    qt_exit_code = app.exec()
+    qt_exit_code = app.exec_()
     shutdown()
     exit(qt_exit_code)

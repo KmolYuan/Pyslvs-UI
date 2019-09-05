@@ -426,7 +426,7 @@ class StructureWidget(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 

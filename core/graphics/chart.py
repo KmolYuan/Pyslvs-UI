@@ -12,22 +12,21 @@ __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     Qt,
-    QChart,
-    QValueAxis,
+    QtCharts,
     QSizePolicy,
     QFont,
 )
 
 
-class DataChart(QChart):
+class DataChart(QtCharts.QChart):
 
     """Two axises Qt chart widget."""
 
     def __init__(
         self,
         title: str,
-        axis_x: QValueAxis,
-        axis_y: QValueAxis
+        axis_x: QtCharts.QValueAxis,
+        axis_y: QtCharts.QValueAxis
     ):
         """Input title and two axis, QChart class has no parent."""
         super(DataChart, self).__init__()

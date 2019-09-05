@@ -25,8 +25,8 @@ from pyslvs import __version__
 from core.QtModules import (
     QCoreApplication,
     QProgressDialog,
-    QT_VERSION_STR,
-    PYQT_VERSION_STR,
+    API_NAME,
+    QT_VERSION,
 )
 
 
@@ -35,8 +35,8 @@ SYS_INFO = (
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
-    f"Qt Version: {QT_VERSION_STR}",
-    f"PyQt Version: {PYQT_VERSION_STR}",
+    f"PyQt Version: {API_NAME}",
+    f"Qt Version: {QT_VERSION}",
 )
 
 parser = ArgumentParser(

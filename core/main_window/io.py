@@ -219,7 +219,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Open Pyslvs about."""
         dlg = PyslvsAbout(self)
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
 
     @Slot(name='on_action_example_triggered')
@@ -430,7 +430,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        if dlg.exec():
+        if dlg.exec_():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
             self.set_locate(path)
             self.save_reply_box("Solvespace sketch", path)
@@ -448,7 +448,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        if dlg.exec():
+        if dlg.exec_():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
             self.set_locate(path)
             self.save_reply_box("Drawing Exchange Format", path)
@@ -587,7 +587,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             compressed_script="M[" + ','.join(expr).replace(", ", ",") + "]" if expr else ""
         )
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
 
     @Slot(name='on_action_python_script_triggered')
@@ -605,7 +605,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self
         )
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
 
     @Slot(name='on_action_check_update_triggered')
@@ -660,15 +660,15 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             name = widget.objectName()
             widget_type = type(widget)
             if widget_type == QSpinBox:
-                widget.setValue(self.settings.value(name, value, type=int))
+                widget.setValue(int(self.settings.value(name, value)))
             elif widget_type == QDoubleSpinBox:
-                widget.setValue(self.settings.value(name, value, type=float))
+                widget.setValue(float(self.settings.value(name, value)))
             elif widget_type == QComboBox:
-                widget.setCurrentIndex(self.settings.value(name, value, type=int))
+                widget.setCurrentIndex(int(self.settings.value(name, value)))
             elif widget_type == QCheckBox:
-                widget.setChecked(self.settings.value(name, value, type=bool))
+                widget.setChecked(bool(self.settings.value(name, value)))
             elif widget_type == QLineEdit:
-                widget.setText(self.settings.value(name, value, type=str))
+                widget.setText(str(self.settings.value(name, value)))
         # Specified solver setting.
         if ARGUMENTS.kernel:
             if ARGUMENTS.kernel == "python_solvespace":

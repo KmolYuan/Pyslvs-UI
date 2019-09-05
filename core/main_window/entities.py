@@ -160,7 +160,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Edit point function."""
         dlg = EditPointDialog(self.vpoint_list, self.vlink_list, row, self)
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -202,7 +202,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Edit link function."""
         dlg = EditLinkDialog(self.vpoint_list, self.vlink_list, row, self)
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -492,7 +492,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     def __set_scale(self):
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -519,7 +519,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Set link length."""
         dlg = _LinkLengthDialog(self)
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             return
         data = {(dlg.get_leader(), dlg.get_follower()): dlg.get_length()}
         dlg.deleteLater()

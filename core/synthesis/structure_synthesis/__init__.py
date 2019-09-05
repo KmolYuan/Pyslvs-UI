@@ -439,7 +439,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.add_collection.setEnabled(index > -1)
         self.copy_edges.setEnabled(index > -1)
         self.copy_image.setEnabled(index > -1)
-        action = self.pop_menu_topo.exec(self.structure_list.mapToGlobal(point))
+        action = self.pop_menu_topo.exec_(self.structure_list.mapToGlobal(point))
         if not action:
             return
         clipboard = QApplication.clipboard()

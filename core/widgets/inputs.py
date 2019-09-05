@@ -508,7 +508,7 @@ class InputsWidget(QWidget, Ui_Form):
                             f"{action_text} Point{i}"
                         )
                         action.index = i
-        action_exec = self.pop_menu_record_list.exec(
+        action_exec = self.pop_menu_record_list.exec_(
             self.record_list.mapToGlobal(point)
         )
         if action_exec:

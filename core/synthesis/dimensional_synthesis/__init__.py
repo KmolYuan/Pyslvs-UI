@@ -291,7 +291,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """
         dlg = PathAdjustDialog(self)
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -433,7 +433,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Start progress dialog
         dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -452,7 +452,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         dlg = ChartDialog("Convergence Data", mechanisms_plot, self)
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
 
     def __set_time(self, time: float):
@@ -524,7 +524,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         dlg = PreviewDialog(self.mechanism_data[row], self.__get_path(row), self)
         dlg.show()
-        dlg.exec()
+        dlg.exec_()
         dlg.deleteLater()
 
     @Slot(name='on_merge_button_clicked')
@@ -628,7 +628,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 
@@ -859,7 +859,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.DE
         dlg = AlgorithmOptionDialog(type_num, self.alg_options, self)
         dlg.show()
-        if not dlg.exec():
+        if not dlg.exec_():
             dlg.deleteLater()
             return
 

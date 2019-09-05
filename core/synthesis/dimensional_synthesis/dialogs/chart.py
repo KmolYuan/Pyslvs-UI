@@ -13,15 +13,11 @@ from core.QtModules import (
     QSize,
     QVBoxLayout,
     QTabWidget,
-    QCategoryAxis,
-    QValueAxis,
-    QLineSeries,
-    QScatterSeries,
+    QtCharts,
     QColor,
     QPointF,
     QWidget,
     QIcon,
-    QChartView,
     QSizePolicy,
 )
 from core.graphics import DataChart
@@ -63,9 +59,9 @@ class ChartDialog(QDialog):
         pos_x / pos_y: [0], [1], [2]
         time_fitness: List[List[Tuple[gen, fitness, time]]]
         """
-        axis_x = QCategoryAxis()
-        axis_y = QValueAxis()
-        axis_x.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
+        axis_x = QtCharts.QCategoryAxis()
+        axis_y = QtCharts.QValueAxis()
+        axis_x.setLabelsPosition(QtCharts.QCategoryAxis.AxisLabelsPositionOnValue)
         axis_x.setMin(0)
         axis_y.setTickCount(11)
 
@@ -97,8 +93,8 @@ class ChartDialog(QDialog):
 
         # Append data set.
         for i, data in enumerate(self.__algorithm_data):
-            line = QLineSeries()
-            scatter = QScatterSeries()
+            line = QtCharts.QLineSeries()
+            scatter = QtCharts.QScatterSeries()
             line.setName(f"{i}: {data['Algorithm']}")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
@@ -118,6 +114,6 @@ class ChartDialog(QDialog):
         self.tabWidget.addTab(widget, QIcon(), tab_name)
         layout = QVBoxLayout(widget)
         layout.setContentsMargins(2, 2, 2, 2)
-        chart_view = QChartView(chart)
+        chart_view = QtCharts.QChartView(chart)
         chart_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         layout.addWidget(chart_view)
