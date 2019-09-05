@@ -9,6 +9,7 @@
 **Development**:
 
 + Remove pre-build requirement of Linux platform.
++ Use QtPy as Qt switcher.
 
 ## Version 19.08
 
