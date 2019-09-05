@@ -120,10 +120,15 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         self.setFocus()
         keyboard_modifiers = QApplication.keyboardModifiers()
         if key_detect:
-            continue_select, not_select = {
-                Qt.ShiftModifier: (True, False),
-                Qt.ControlModifier: (True, True),
-            }.get(keyboard_modifiers, (False, False))
+            if keyboard_modifiers == Qt.ShiftModifier:
+                continue_select = True
+                not_select = False
+            elif keyboard_modifiers == Qt.ControlModifier:
+                continue_select = True
+                not_select = True
+            else:
+                continue_select = False
+                not_select = False
             self.__set_selected_ranges(
                 selections,
                 is_continue=continue_select,
