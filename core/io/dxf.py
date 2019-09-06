@@ -15,7 +15,6 @@ from typing import (
     Tuple,
     Sequence,
     Callable,
-    Optional,
 )
 from math import degrees, atan2
 import ezdxf

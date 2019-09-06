@@ -11,6 +11,7 @@ from typing import (
     Tuple,
     List,
     Dict,
+    Callable,
     Any,
 )
 from time import time
@@ -20,8 +21,7 @@ from platform import (
     machine,
 )
 from psutil import virtual_memory
-import numpy
-import numpy.distutils.cpuinfo
+from numpy.distutils.cpuinfo import cpu
 from pyslvs import (
     Genetic,
     Firefly,
@@ -84,7 +84,7 @@ class WorkerThread(BaseThread):
         t0 = time()
         expression, tf = self.__generate_process()
         time_spend = time() - t0
-        cpu = numpy.distutils.cpuinfo.cpu.info[0]
+        cpu_info = cpu.info[0]
         last_gen = tf[-1][0]
         mechanism = {
             'Algorithm': self.type_num.value,
@@ -96,7 +96,7 @@ class WorkerThread(BaseThread):
             'hardware_info': {
                 'os': f"{system()} {release()} {machine()}",
                 'memory': f"{virtual_memory().total / (1 << 30):.04f} GB",
-                'cpu': cpu.get("model name", cpu.get('ProcessorNameString', '')),
+                'cpu': cpu_info.get("model name", cpu_info.get('ProcessorNameString', '')),
             },
             'time_fitness': tf,
         }

@@ -439,7 +439,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         """Menu of free move mode."""
         free_move_mode_menu = QMenu(self)
 
-        def free_move_mode_func(j: int, icon_qt: QIcon) -> None:
+        def free_move_mode_func(j: int, icon_qt: QIcon) -> Callable[[], None]:
             @Slot()
             def func() -> None:
                 self.free_move_button.setIcon(icon_qt)
@@ -511,7 +511,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_zoom_to_fit.triggered.connect(self.main_canvas.zoom_to_fit)
         self.ResetCanvas.clicked.connect(self.main_canvas.zoom_to_fit)
 
-        def zoom_level(value: int) -> None:
+        def zoom_level(value: int) -> Callable[[], None]:
             """Return a function that set the specified zoom value."""
             @Slot()
             def func() -> None:

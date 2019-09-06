@@ -54,7 +54,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             ))
         self.context.point_enable(len(selection))
 
-        def mj_func(order: int) -> None:
+        def mj_func(order: int) -> Callable[[], None]:
             """Generate a merge function."""
             @Slot()
             def func() -> None:

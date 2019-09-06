@@ -220,7 +220,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         y_b = -self.oy
         self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
 
-        def indexing(v) -> None:
+        def indexing(v: float) -> int:
             """Draw tick."""
             return int(v / self.zoom - v / self.zoom % 5)
 

@@ -80,7 +80,7 @@ class XStream(QObject):
         pass
 
     @staticmethod
-    def fileno() -> None:
+    def fileno() -> int:
         return -1
 
     def write(self, msg: str) -> None:

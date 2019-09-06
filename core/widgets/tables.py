@@ -391,7 +391,7 @@ class ExprTableWidget(BaseTableWidget[None]):
 
     def item_data(self, _=None) -> None:
         """Not used generator."""
-        return None
+        ...
 
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Return column count."""

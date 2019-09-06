@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Tuple, Callable
 import numpy as np
 from core.QtModules import (
     Slot,
@@ -73,12 +73,16 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
             return
         index = list(range(length))
 
-        def poly_fit(x: List[float], y: List[float], d: int) -> None:
+        def poly_fit(
+            x: List[float],
+            y: List[float],
+            d: int
+        ) -> Tuple[Callable[[float], float], float]:
             """Return a 2D fitting equation."""
             coefficient = np.polyfit(x, y, d)
             # Fit values and mean.
             y_hat = np.poly1d(coefficient)(x)
-            y_bar = np.sum(y) / len(y)
+            y_bar: np.ndarray = np.sum(y) / len(y)
 
             def func(t: float) -> float:
                 """Return y(x) function."""
