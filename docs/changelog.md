@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Fix a solver bug of the stop button on inputs page.
 
 **Development**:
 

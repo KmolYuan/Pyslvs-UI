@@ -308,6 +308,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         super(SolverMethodInterface, self).__init__()
         self.dof = 0
 
+    def get_back_position(self) -> None:
+        """Make current position back."""
+        self.entities_point.get_back_position()
+        for vpoint in self.vpoint_list:
+            vpoint.move((vpoint.x, vpoint.y))
+
     def solve(self) -> None:
         """Resolve coordinates and preview path."""
         self.resolve()

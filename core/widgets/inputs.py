@@ -70,19 +70,20 @@ class InputsWidget(QWidget, Ui_Form):
 
         # parent's function pointer
         self.free_move_button = parent.free_move_button
-        self.EntitiesPoint = parent.entities_point
-        self.EntitiesLink = parent.entities_link
+        self.entities_point = parent.entities_point
+        self.entities_link = parent.entities_link
         self.vpoints = parent.vpoint_list
         self.vlinks = parent.vlink_list
-        self.MainCanvas = parent.main_canvas
+        self.main_canvas = parent.main_canvas
         self.solve = parent.solve
         self.reload_canvas = parent.reload_canvas
         self.output_to = parent.output_to
         self.conflict = parent.conflict
         self.dof = parent.dof
         self.right_input = parent.right_input
-        self.CommandStack = parent.command_stack
+        self.command_stack = parent.command_stack
         self.set_coords_as_current = parent.set_coords_as_current
+        self.get_back_position = parent.get_back_position
 
         # Angle panel
         self.dial = QDial()
@@ -219,19 +220,19 @@ class InputsWidget(QWidget, Ui_Form):
                 return
 
         name = f'Point{p0}'
-        self.CommandStack.beginMacro(f"Add variable of {name}")
+        self.command_stack.beginMacro(f"Add variable of {name}")
         if p0 == p1:
             # One joint by offset
             value = self.vpoints[p0].true_offset()
         else:
             # Two joints by angle
             value = self.vpoints[p0].slope_angle(self.vpoints[p1])
-        self.CommandStack.push(AddInput('->'.join((
+        self.command_stack.push(AddInput('->'.join((
             name,
             f"Point{p1}",
             f"{value:.02f}",
         )), self.variable_list))
-        self.CommandStack.endMacro()
+        self.command_stack.endMacro()
 
     def add_inputs_variables(self, variables: Sequence[Tuple[int, int]]) -> None:
         """Add from database."""
@@ -275,9 +276,9 @@ class InputsWidget(QWidget, Ui_Form):
             # If this is not origin point any more
             if one_row and row != b:
                 continue
-            self.CommandStack.beginMacro(f"Remove variable of {{Point{row}}}")
-            self.CommandStack.push(DeleteInput(i, self.variable_list))
-            self.CommandStack.endMacro()
+            self.command_stack.beginMacro(f"Remove variable of {{Point{row}}}")
+            self.command_stack.push(DeleteInput(i, self.variable_list))
+            self.command_stack.endMacro()
 
     @Slot(name='on_variable_remove_clicked')
     def remove_var(self, row: int = -1) -> None:
@@ -287,10 +288,10 @@ class InputsWidget(QWidget, Ui_Form):
         if not row > -1:
             return
         self.variable_stop.click()
-        self.CommandStack.beginMacro(f"Remove variable of {{Point{row}}}")
-        self.CommandStack.push(DeleteInput(row, self.variable_list))
-        self.CommandStack.endMacro()
-        self.EntitiesPoint.get_back_position()
+        self.command_stack.beginMacro(f"Remove variable of {{Point{row}}}")
+        self.command_stack.push(DeleteInput(row, self.variable_list))
+        self.command_stack.endMacro()
+        self.get_back_position()
         self.solve()
 
     def interval(self) -> float:
@@ -313,8 +314,8 @@ class InputsWidget(QWidget, Ui_Form):
     def variable_reload(self) -> None:
         """Auto check the points and type."""
         self.joint_list.clear()
-        for i in range(self.EntitiesPoint.rowCount()):
-            type_text = self.EntitiesPoint.item(i, 2).text()
+        for i in range(self.entities_point.rowCount()):
+            type_text = self.entities_point.item(i, 2).text()
             self.joint_list.addItem(f"[{type_text}] Point{i}")
         self.variable_value_reset()
 
@@ -339,7 +340,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.record_start.isChecked() and
             abs(self.oldVar - value) > self.record_interval.value()
         ):
-            self.MainCanvas.record_path()
+            self.main_canvas.record_path()
             self.oldVar = value
 
     def variable_value_reset(self) -> None:
@@ -347,7 +348,7 @@ class InputsWidget(QWidget, Ui_Form):
         if self.inputs_play_shaft.isActive():
             self.variable_play.setChecked(False)
             self.inputs_play_shaft.stop()
-        self.EntitiesPoint.get_back_position()
+        self.get_back_position()
         for i, (p0, p1, a) in enumerate(self.input_pairs()):
             self.variable_list.item(i).setText('->'.join([
                 f'Point{p0}',
@@ -389,11 +390,11 @@ class InputsWidget(QWidget, Ui_Form):
     def __start_record(self, toggled: bool) -> None:
         """Save to file path data."""
         if toggled:
-            self.MainCanvas.record_start(int(
+            self.main_canvas.record_start(int(
                 self.dial_spinbox.maximum() / self.record_interval.value()
             ))
             return
-        path = self.MainCanvas.get_record_path()
+        path = self.main_canvas.get_record_path()
         name, ok = QInputDialog.getText(
             self,
             "Recording completed!",
@@ -413,14 +414,14 @@ class InputsWidget(QWidget, Ui_Form):
 
     def add_path(self, name: str, path: Sequence[_Coord]) -> None:
         """Add path function."""
-        self.CommandStack.beginMacro(f"Add {{Path: {name}}}")
-        self.CommandStack.push(AddPath(
+        self.command_stack.beginMacro(f"Add {{Path: {name}}}")
+        self.command_stack.push(AddPath(
             self.record_list,
             name,
             self.__path_data,
             path
         ))
-        self.CommandStack.endMacro()
+        self.command_stack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
     def load_paths(self, paths: Dict[str, Sequence[_Coord]]) -> None:
@@ -435,13 +436,13 @@ class InputsWidget(QWidget, Ui_Form):
         if not row > 0:
             return
         name = self.record_list.item(row).text()
-        self.CommandStack.beginMacro(f"Delete {{Path: {name}}}")
-        self.CommandStack.push(DeletePath(
+        self.command_stack.beginMacro(f"Delete {{Path: {name}}}")
+        self.command_stack.push(DeletePath(
             row,
             self.record_list,
             self.__path_data
         ))
-        self.CommandStack.endMacro()
+        self.command_stack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
         self.reload_canvas()
 
@@ -497,7 +498,7 @@ class InputsWidget(QWidget, Ui_Form):
             data = self.__path_data[name]
         except KeyError:
             # Auto preview path
-            data = self.MainCanvas.Path.path
+            data = self.main_canvas.Path.path
             showall_action.setEnabled(False)
         else:
             for action_text in ("Show", "Copy data from"):
@@ -529,13 +530,13 @@ class InputsWidget(QWidget, Ui_Form):
                 # Switch points enabled status
                 if action_exec.index == -1:
                     self.record_show.setChecked(True)
-                self.MainCanvas.set_path_show(action_exec.index)
+                self.main_canvas.set_path_show(action_exec.index)
         self.pop_menu_record_list.clear()
 
     @Slot(bool, name='on_record_show_toggled')
     def __set_path_show(self, toggled: bool) -> None:
         """Show all paths or hide."""
-        self.MainCanvas.set_path_show(-1 if toggled else -2)
+        self.main_canvas.set_path_show(-1 if toggled else -2)
 
     @Slot(int, name='on_record_list_currentRowChanged')
     def __set_path(self, _=None) -> None:

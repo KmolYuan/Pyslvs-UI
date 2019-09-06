@@ -718,6 +718,10 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
+    def get_back_position(self) -> None:
+        ...
+
+    @abstractmethod
     def solve(self) -> None:
         ...
 
