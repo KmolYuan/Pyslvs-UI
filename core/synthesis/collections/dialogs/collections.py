@@ -36,7 +36,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self,
         collections: Dict[str, Any],
         get_collection: Callable[[], Dict[str, Any]],
-        unsave_func: Callable[[], None],
+        workbook_no_save: Callable[[], None],
         monochrome: bool,
         parent: QWidget
     ):
@@ -51,7 +51,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.collections = collections
         self.get_collection = get_collection
-        self.unsave_func = unsave_func
+        self.workbook_no_save = workbook_no_save
 
         # Current profile name
         self.name = ""
@@ -113,7 +113,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         item = self.collections_list.item(row)
         self.collections[name] = self.collections.pop(item.text())
         item.setText(name)
-        self.unsave_func()
+        self.workbook_no_save()
 
     @Slot(name='on_copy_button_clicked')
     def __copy(self):
@@ -141,7 +141,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         name_old = self.collections_list.item(row).text()
         self.collections[name] = self.collections[name_old].copy()
         self.collections_list.addItem(name)
-        self.unsave_func()
+        self.workbook_no_save()
 
     @Slot(name='on_delete_button_clicked')
     def __delete(self):
@@ -161,7 +161,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections.pop(item.text())
         self.preview_canvas.clear()
         self.__has_collection()
-        self.unsave_func()
+        self.workbook_no_save()
 
     @Slot(QListWidgetItem, name='on_common_list_itemClicked')
     def __choose_common(self, _=None):
@@ -201,7 +201,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             num += 1
         self.collections[name] = collection.copy()
         self.collections_list.addItem(name)
-        self.unsave_func()
+        self.workbook_no_save()
         self.__has_collection()
 
     @Slot(name='on_common_load_clicked')

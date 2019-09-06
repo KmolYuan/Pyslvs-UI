@@ -39,11 +39,11 @@ class ProjectWidget(QWidget, Ui_Form):
         # Check workbook saved function
         self.workbook_saved = parent.workbook_saved
         # Parse function
-        self.parse_func = parent.parse_expression
+        self.parse_expression = parent.parse_expression
         # Call to load inputs variables data
-        self.load_inputs_func = parent.inputs_widget.add_inputs_variables
+        self.load_inputs = parent.inputs_widget.add_inputs_variables
         # Clear function for main window
-        self.clear_func = parent.clear
+        self.main_clear = parent.clear
         # Environment path
         self.env_path = parent.env_path
 
@@ -148,11 +148,11 @@ class ProjectWidget(QWidget, Ui_Form):
         expr, inputs = example_list[example_name]
         if not is_import:
             self.reset()
-            self.clear_func()
-        self.parse_func(expr)
+            self.main_clear()
+        self.parse_expression(expr)
         if not is_import:
             # Import without input data
-            self.load_inputs_func(inputs)
+            self.load_inputs(inputs)
         self.set_file_name(example_name, is_example=True)
         self.workbook_saved()
         logger.info(f"Example \"{example_name}\" has been loaded.")

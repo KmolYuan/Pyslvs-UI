@@ -41,38 +41,38 @@ class YamlEditor(QObject):
         # Call to get link data
         self.vlinks = parent.vlink_list
         # Call to get storage data
-        self.storage_data_func = parent.get_storage
+        self.get_storage = parent.get_storage
         # Call to get collections data
-        self.collect_data_func = parent.collection_tab_page.collect_data
+        self.collect_data = parent.collection_tab_page.collect_data
         # Call to get triangle data
-        self.triangle_data_func = parent.collection_tab_page.triangle_data
+        self.triangle_data = parent.collection_tab_page.triangle_data
         # Call to get inputs variables data
-        self.inputs_data_func = parent.inputs_widget.input_pairs
+        self.input_pairs = parent.inputs_widget.input_pairs
         # Call to get algorithm data
-        self.algorithm_data_func = lambda: parent.dimensional_synthesis.mechanism_data
+        self.mechanism_data = parent.dimensional_synthesis.mechanism_data
         # Call to get path data
-        self.path_data_func = parent.inputs_widget.path_data
+        self.path_data = parent.inputs_widget.path_data
 
         # Add empty links function
-        self.add_links_func = parent.add_empty_links
+        self.add_empty_links = parent.add_empty_links
         # Add points function
-        self.add_points_func = parent.add_points
+        self.add_points = parent.add_points
 
         # Call to load inputs variables data
-        self.load_inputs_func = parent.inputs_widget.add_inputs_variables
+        self.load_inputs = parent.inputs_widget.add_inputs_variables
         # Add storage function
-        self.add_storage_func = parent.add_multiple_storage
+        self.load_storage = parent.add_multiple_storage
         # Call to load paths
-        self.load_path_func = parent.inputs_widget.load_paths
+        self.load_paths = parent.inputs_widget.load_paths
         # Call to load collections data
-        self.load_collect_func = parent.collection_tab_page.structure_widget.add_collections
+        self.load_collections = parent.collection_tab_page.structure_widget.add_collections
         # Call to load triangle data
-        self.load_triangle_func = parent.collection_tab_page.configure_widget.add_collections
+        self.load_triangle = parent.collection_tab_page.configure_widget.add_collections
         # Call to load algorithm results
-        self.load_algorithm_func = parent.dimensional_synthesis.load_results
+        self.load_algorithm = parent.dimensional_synthesis.load_results
 
         # Clear function for main window
-        self.clear_func = parent.clear
+        self.main_clear = parent.clear
 
     def save(self, file_name: str):
         """Save YAML file."""
@@ -91,12 +91,12 @@ class YamlEditor(QObject):
         data = {
             'mechanism': mechanism_data,
             'links': {l.name: l.color_str for l in self.vlinks},
-            'input': [{'base': b, 'drive': d} for b, d, _ in self.inputs_data_func()],
-            'storage': list(self.storage_data_func().items()),
-            'collection': self.collect_data_func(),
-            'triangle': self.triangle_data_func(),
-            'algorithm': eval(str(self.algorithm_data_func())),
-            'path': self.path_data_func(),
+            'input': [{'base': b, 'drive': d} for b, d, _ in self.input_pairs()],
+            'storage': list(self.get_storage().items()),
+            'collection': self.collect_data(),
+            'triangle': self.triangle_data(),
+            'algorithm': eval(str(self.mechanism_data)),
+            'path': self.path_data(),
         }
         yaml_script = yaml.dump(data, default_flow_style=False)
         with open(file_name, 'w', encoding='utf-8') as f:
@@ -104,7 +104,7 @@ class YamlEditor(QObject):
 
     def load(self, file_name: str):
         """Load YAML file."""
-        self.clear_func()
+        self.main_clear()
         dlg = QProgressDialog("Loading project", "Cancel", 0, 8, self.parent())
         dlg.setLabelText("Reading file ...")
         dlg.show()
@@ -116,9 +116,9 @@ class YamlEditor(QObject):
         dlg.setValue(1)
         dlg.setLabelText("Loading mechanism ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
         links_data: Dict[str, str] = data.get('links', {})
-        self.add_links_func(links_data)
+        self.add_empty_links(links_data)
 
         # Mechanism data
         mechanism_data: List[Dict[str, Any]] = data.get('mechanism', [])
@@ -132,13 +132,13 @@ class YamlEditor(QObject):
             p_type: int = point_attr.get('type', 0)
             p_angle: float = point_attr.get('angle', 0.)
             p_attr.append((p_x, p_y, ','.join(p_links), 'Green', p_type, p_angle))
-        self.add_points_func(p_attr)
+        self.add_points(p_attr)
 
         # Input data
         dlg.setValue(2)
         dlg.setLabelText("Loading input data ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
         input_data: List[Dict[str, int]] = data.get('input', [])
         i_attr = []
         for input_attr in input_data:
@@ -147,48 +147,48 @@ class YamlEditor(QObject):
                 i_base = input_attr['base']
                 i_drive = input_attr['drive']
                 i_attr.append((i_base, i_drive))
-        self.load_inputs_func(i_attr)
+        self.load_inputs(i_attr)
 
         # Storage data
         dlg.setValue(3)
         dlg.setLabelText("Loading storage ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
         storage_data: List[Tuple[str, str]] = data.get('storage', [])
-        self.add_storage_func(storage_data)
+        self.load_storage(storage_data)
 
         # Path data
         dlg.setValue(4)
         dlg.setLabelText("Loading paths ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
         path_data: Dict[str, Sequence[Tuple[float, float]]] = data.get('path', {})
-        self.load_path_func(path_data)
+        self.load_paths(path_data)
 
         # Collection data
         dlg.setValue(5)
         dlg.setLabelText("Loading graph collections ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
         collection_data: List[Tuple[Tuple[int, int], ...]] = data.get('collection', [])
-        self.load_collect_func(collection_data)
+        self.load_collections(collection_data)
 
         # Configuration data
         dlg.setValue(6)
         dlg.setLabelText("Loading synthesis configurations ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
-        self.load_triangle_func(config_data)
+        self.load_triangle(config_data)
 
         # Algorithm data
         dlg.setValue(7)
         dlg.setLabelText("Loading synthesis configurations ...")
         if dlg.wasCanceled():
-            return self.clear_func()
+            return self.main_clear()
 
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
-        self.load_algorithm_func(algorithm_data)
+        self.load_algorithm(algorithm_data)
 
         # Workbook loaded
         dlg.setValue(8)

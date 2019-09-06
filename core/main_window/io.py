@@ -61,7 +61,7 @@ from core.widgets import AddTable, EditPointTable
 from .actions import ActionMethodInterface
 
 _PREFIX = f"# Generate by Pyslvs {__version__}\n# Project "
-Settings: type = Union[int, float, bool, str]
+Settings = Union[int, float, bool, str]
 
 
 class IOMethodInterface(ActionMethodInterface, ABC):
@@ -79,7 +79,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                         continue
                     yield (vlink.points[0], p)
                     if i > 1:
-                        yield (vlink.points[i-1], p)
+                        yield (vlink.points[i - 1], p)
         return func
 
     def __read_slvs(self, file_name: str):
