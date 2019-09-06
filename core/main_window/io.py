@@ -223,6 +223,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_example_triggered')
     def __load_example(self):
         """Load examples from 'DatabaseWidget'. Return true if succeeded."""
+        if self.check_file_changed():
+            return
         if self.project_widget.load_example():
             self.__show_expr()
             self.main_canvas.zoom_to_fit()

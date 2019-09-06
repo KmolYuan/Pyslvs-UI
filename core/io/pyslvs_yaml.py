@@ -36,12 +36,6 @@ class YamlEditor(QObject):
 
     def __init__(self, parent: MainWindowBase):
         super(YamlEditor, self).__init__(parent)
-
-        # Check file changed function
-        self.check_file_changed = parent.check_file_changed
-        # Check workbook saved function
-        self.workbook_saved = parent.workbook_saved
-
         # Call to get point expressions
         self.vpoints = parent.vpoint_list
         # Call to get link data
@@ -110,13 +104,7 @@ class YamlEditor(QObject):
 
     def load(self, file_name: str):
         """Load YAML file."""
-        if self.check_file_changed():
-            return
-
-        # Clear first
         self.clear_func()
-
-        # Load file
         dlg = QProgressDialog("Loading project", "Cancel", 0, 8, self.parent())
         dlg.setLabelText("Reading file ...")
         dlg.show()
