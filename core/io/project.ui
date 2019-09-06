@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>680</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -45,6 +45,16 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="owner_title">
+       <property name="text">
+        <string>Owner:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="owner_label"/>
+     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="last_modified_title">
        <property name="text">
@@ -75,16 +85,6 @@
      <item row="5" column="1">
       <widget class="QLabel" name="type_label"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="owner_title">
-       <property name="text">
-        <string>Owner:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="owner_label"/>
-     </item>
     </layout>
    </item>
    <item>
@@ -92,6 +92,136 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="export_group">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="ex_dxf_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>100</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="ex_slvs_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="ex_pmks_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="ex_py_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="ex_image_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="ex_capture_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/capture.png</normaloff>:/icons/capture.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="import_group">
+     <property name="title">
+      <string>Import</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="im_example_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="im_pmks_button">
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

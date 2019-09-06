@@ -114,6 +114,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.vlinks = parent.vlink_list
         self.get_graph = parent.get_graph
         self.is_monochrome = parent.monochrome_option.isChecked
+        self.add_collection = parent.collection_tab_page.structure_widget.add_collection
 
         # Answer list
         self.assortment: Dict[Assortment, List[Assortment]] = {}
@@ -129,7 +130,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         # Context menu
         self.pop_menu_topo = QMenu(self)
-        self.add_collection = QAction(
+        self.to_collection = QAction(
             QIcon(QPixmap(":/icons/collections.png")),
             "Add to collections",
             self
@@ -137,7 +138,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.copy_edges = QAction("Copy edges", self)
         self.copy_image = QAction("Copy image", self)
         self.pop_menu_topo.addActions([
-            self.add_collection,
+            self.to_collection,
             self.copy_edges,
             self.copy_image,
         ])
@@ -436,15 +437,15 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __structure_list_context_menu(self, point):
         """Context menu for the type synthesis results."""
         index = self.structure_list.currentIndex().row()
-        self.add_collection.setEnabled(index > -1)
+        self.to_collection.setEnabled(index > -1)
         self.copy_edges.setEnabled(index > -1)
         self.copy_image.setEnabled(index > -1)
         action = self.pop_menu_topo.exec_(self.structure_list.mapToGlobal(point))
         if not action:
             return
         clipboard = QApplication.clipboard()
-        if action == self.add_collection:
-            self.addCollection(self.answer[index].edges)
+        if action == self.to_collection:
+            self.add_collection(self.answer[index].edges)
         elif action == self.copy_edges:
             clipboard.setText(str(self.answer[index].edges))
         elif action == self.copy_image:
@@ -470,7 +471,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Add this expression to collections widget."""
         string = self.edges_text.text()
         if string:
-            self.addCollection(eval(string))
+            self.add_collection(eval(string))
 
     @Slot(name='on_save_atlas_clicked')
     def __save_atlas(self):

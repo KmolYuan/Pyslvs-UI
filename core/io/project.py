@@ -47,6 +47,16 @@ class ProjectWidget(QWidget, Ui_Form):
         # Environment path
         self.env_path = parent.env_path
 
+        self.ex_dxf_button.clicked.connect(parent.export_dxf)
+        self.ex_slvs_button.clicked.connect(parent.export_slvs)
+        self.ex_pmks_button.clicked.connect(parent.save_pmks)
+        self.ex_py_button.clicked.connect(parent.py_script)
+        self.ex_image_button.clicked.connect(parent.export_image)
+        self.ex_capture_button.clicked.connect(parent.save_picture_clipboard)
+
+        self.im_pmks_button.clicked.connect(parent.import_pmks_url)
+        self.im_example_button.clicked.connect(lambda: self.load_example(is_import=True))
+
         # YAML editor
         self.yaml_editor = YamlEditor(parent)
         # Undo Stack

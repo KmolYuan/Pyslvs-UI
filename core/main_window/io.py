@@ -9,6 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     Tuple,
+    List,
     Sequence,
     Dict,
     Callable,
@@ -259,8 +260,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.entities_expr.clear()
         self.solve()
 
-    @Slot(name='on_action_import_pmks_url_triggered')
-    def __import_pmks_url(self):
+    @Slot()
+    def import_pmks_url(self):
         """Load PMKS URL and turn it to expression."""
         url, ok = QInputDialog.getText(
             self,
@@ -395,8 +396,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.workbook_saved()
         self.save_reply_box("YAML Profile", file_name)
 
-    @Slot(name='on_action_export_slvs_triggered')
-    def __export_slvs(self):
+    @Slot()
+    def export_slvs(self):
         """Solvespace 2d save function."""
         dlg = SlvsOutputDialog(
             self.env,
@@ -413,8 +414,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         dlg.deleteLater()
 
-    @Slot(name='on_action_export_dxf_triggered')
-    def __export_dxf(self):
+    @Slot()
+    def export_dxf(self):
         """DXF 2d save function."""
         dlg = DxfOutputDialog(
             self.env,
@@ -431,8 +432,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         dlg.deleteLater()
 
-    @Slot(name='on_action_export_image_triggered')
-    def __export_image(self):
+    @Slot()
+    def export_image(self):
         """Picture save function."""
         pixmap = self.main_canvas.grab()
         file_name = self.output_to("picture", qt_image_format)
@@ -485,28 +486,30 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         format_name: str,
         format_choose: Sequence[str],
         multiple: bool = False
-    ) -> str:
+    ) -> Union[str, List[str]]:
         """Get file name(s)."""
-        args = (
+        if multiple:
+            func = QFileDialog.getOpenFileNames
+        else:
+            func = QFileDialog.getOpenFileName
+        file_names: Union[str, List[str]]
+        file_names, suffix = func(
+            self,
             f"Open {format_name} file{'s' if multiple else ''}...",
             self.env,
             ';;'.join(format_choose)
         )
-        if multiple:
-            file_name_s, suffix = QFileDialog.getOpenFileNames(self, *args)
-        else:
-            file_name_s, suffix = QFileDialog.getOpenFileName(self, *args)
-        if file_name_s:
+        if file_names:
+            if type(file_names) is str:
+                self.set_locate(QFileInfo(file_names).absolutePath())
+            else:
+                self.set_locate(QFileInfo(file_names[0]).absolutePath())
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             logger.debug(f"Format: {suffix}")
-            if type(file_name_s) is str:
-                self.set_locate(QFileInfo(file_name_s).absolutePath())
-            else:
-                self.set_locate(QFileInfo(file_name_s[0]).absolutePath())
-        return file_name_s
+        return file_names
 
-    @Slot(name='on_action_export_pmks_url_triggered')
-    def __save_pmks(self):
+    @Slot()
+    def save_pmks(self):
         """Output to PMKS as URL."""
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         url_table = []
@@ -542,8 +545,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         elif reply == QMessageBox.Save:
             QApplication.clipboard().setText(url)
 
-    @Slot(name='on_action_export_image_clipboard_triggered')
-    def __save_picture_clipboard(self):
+    @Slot()
+    def save_picture_clipboard(self):
         """Capture the canvas image to clipboard."""
         QApplication.clipboard().setPixmap(self.main_canvas.grab())
         QMessageBox.information(
@@ -574,8 +577,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg.exec_()
         dlg.deleteLater()
 
-    @Slot(name='on_action_python_script_triggered')
-    def __show_py_script(self):
+    @Slot()
+    def py_script(self):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
             _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n" +

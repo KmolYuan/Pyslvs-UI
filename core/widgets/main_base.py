@@ -367,24 +367,15 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.main_canvas.noselected.connect(self.inputs_widget.clear_selection)
         self.inputs_widget.update_preview_button.clicked.connect(self.main_canvas.update_preview_path)
 
-        # Number and type synthesis
-        self.structure_synthesis = StructureSynthesis(self)
-        self.synthesis_tab_widget.addTab(
-            self.structure_synthesis,
-            self.structure_synthesis.windowIcon(),
-            "Structural"
-        )
-
         # Synthesis collections
         self.collection_tab_page = Collections(self)
-        self.synthesis_tab_widget.addTab(
-            self.collection_tab_page,
-            self.collection_tab_page.windowIcon(),
-            "Collections"
-        )
-        self.structure_synthesis.addCollection = (
-            self.collection_tab_page.structure_widget.add_collection
-        )
+        # Number and type synthesis
+        self.structure_synthesis = StructureSynthesis(self)
+        for widget, name in [
+            (self.structure_synthesis, "Structural"),
+            (self.collection_tab_page, "Collections"),
+        ]:
+            self.synthesis_tab_widget.addTab(widget, widget.windowIcon(), name)
 
         # Dimensional synthesis
         self.dimensional_synthesis = DimensionalSynthesis(self)
@@ -813,7 +804,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         format_name: str,
         format_choose: Sequence[str],
         multiple: bool = False
-    ) -> str:
+    ) -> Union[str, List[str]]:
         ...
 
     @abstractmethod
@@ -840,11 +831,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def merge_result(
-        self,
-        expr: str,
-        path: Sequence[Sequence[_Coord]]
-    ) -> None:
+    def merge_result(self, expr: str, path: Sequence[Sequence[_Coord]]) -> None:
         ...
 
     @abstractmethod
@@ -876,4 +863,32 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self,
         p_attr: Sequence[Tuple[float, float, str, str, int, float]]
     ) -> None:
+        ...
+
+    @abstractmethod
+    def import_pmks_url(self) -> None:
+        ...
+
+    @abstractmethod
+    def save_picture_clipboard(self) -> None:
+        ...
+
+    @abstractmethod
+    def py_script(self) -> None:
+        ...
+
+    @abstractmethod
+    def export_dxf(self) -> None:
+        ...
+
+    @abstractmethod
+    def export_slvs(self) -> None:
+        ...
+
+    @abstractmethod
+    def save_pmks(self) -> None:
+        ...
+
+    @abstractmethod
+    def export_image(self) -> None:
         ...

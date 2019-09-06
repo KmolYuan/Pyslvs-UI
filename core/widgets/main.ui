@@ -1297,36 +1297,12 @@ QProgressBar::chunk {
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <widget class="QMenu" name="menu_export">
-     <property name="statusTip">
-      <string>Export to other format.</string>
-     </property>
-     <property name="title">
-      <string>E&amp;xport</string>
-     </property>
-     <addaction name="action_export_dxf"/>
-     <addaction name="action_export_slvs"/>
-     <addaction name="action_export_pmks_url"/>
-     <addaction name="action_python_script"/>
-     <addaction name="separator"/>
-     <addaction name="action_export_image"/>
-     <addaction name="action_export_image_clipboard"/>
-    </widget>
-    <widget class="QMenu" name="menu_import">
-     <property name="title">
-      <string>&amp;Import</string>
-     </property>
-     <addaction name="action_import_pmks_url"/>
-     <addaction name="action_import_example"/>
-    </widget>
     <addaction name="action_new_workbook"/>
     <addaction name="action_load_file"/>
     <addaction name="action_example"/>
-    <addaction name="menu_import"/>
     <addaction name="separator"/>
     <addaction name="action_save"/>
     <addaction name="action_save_as"/>
-    <addaction name="menu_export"/>
     <addaction name="separator"/>
     <addaction name="action_full_screen"/>
     <addaction name="action_new_window"/>
@@ -1507,33 +1483,6 @@ QProgressBar::chunk {
     <string>Shift+F1</string>
    </property>
   </action>
-  <action name="action_export_image">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Image</string>
-   </property>
-   <property name="statusTip">
-    <string>Capture and output to image format.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
-   </property>
-  </action>
-  <action name="action_python_script">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
-   </property>
-   <property name="text">
-    <string>Python &amp;Script</string>
-   </property>
-   <property name="statusTip">
-    <string>Generate a Python scripts from the workbook.</string>
-   </property>
-  </action>
   <action name="action_delete_point">
    <property name="text">
     <string>&amp;Delete Point</string>
@@ -1595,30 +1544,6 @@ QProgressBar::chunk {
    </property>
    <property name="shortcut">
     <string>F10</string>
-   </property>
-  </action>
-  <action name="action_export_dxf">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;DXF</string>
-   </property>
-   <property name="statusTip">
-    <string>Output to Drawing Exchange sketch.</string>
-   </property>
-  </action>
-  <action name="action_export_slvs">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
-   </property>
-   <property name="text">
-    <string>S&amp;olvespace Parts</string>
-   </property>
-   <property name="statusTip">
-    <string>Output to Solvespace 2D sketch.</string>
    </property>
   </action>
   <action name="action_about_qt">
@@ -1707,30 +1632,6 @@ QProgressBar::chunk {
     <string>F12</string>
    </property>
   </action>
-  <action name="action_export_pmks_url">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;PMKS URL</string>
-   </property>
-   <property name="statusTip">
-    <string>Pass your mechanism to PMKS server by generate a URL.</string>
-   </property>
-  </action>
-  <action name="action_import_pmks_url">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;From PMKS server</string>
-   </property>
-   <property name="statusTip">
-    <string>Import from PMKS URL.</string>
-   </property>
-  </action>
   <action name="action_example">
    <property name="icon">
     <iconset resource="../../icons.qrc">
@@ -1756,33 +1657,6 @@ QProgressBar::chunk {
    </property>
    <property name="statusTip">
     <string>Get the Pyslvs expression.</string>
-   </property>
-  </action>
-  <action name="action_import_example">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
-   </property>
-   <property name="text">
-    <string>From &amp;Example</string>
-   </property>
-   <property name="statusTip">
-    <string>Import from example</string>
-   </property>
-  </action>
-  <action name="action_export_image_clipboard">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Capture to Clipboard</string>
-   </property>
-   <property name="statusTip">
-    <string>Capture and output to clipboard.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+P</string>
    </property>
   </action>
   <action name="action_check_update">
