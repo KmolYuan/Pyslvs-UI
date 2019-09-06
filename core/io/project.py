@@ -21,7 +21,7 @@ from core.QtModules import (
 )
 from core.info import logger
 from .pyslvs_yaml import YamlEditor
-from .Ui_database import Ui_Form
+from .Ui_project import Ui_Form
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 

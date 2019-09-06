@@ -842,7 +842,7 @@ class Ui_MainWindow(object):
         self.main_panel.setTabText(self.main_panel.indexOf(self.mechanism_tab), _translate("MainWindow", "Mechanism"))
         self.main_panel.setTabText(self.main_panel.indexOf(self.inputs_tab), _translate("MainWindow", "Inputs"))
         self.main_panel.setTabText(self.main_panel.indexOf(self.synthesis_tab), _translate("MainWindow", "Synthesis"))
-        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p>This action list will build your mechanism from data base.</p><p>If you want to view the workbook history, please switch to the version control tab.</p><p>You can backtracking commands by clicking them below.</p></body></html>"))
+        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p>You can backtracking commands by clicking them below.</p></body></html>"))
         self.main_panel.setTabText(self.main_panel.indexOf(self.history_tab), _translate("MainWindow", "History"))
         self.main_panel.setTabText(self.main_panel.indexOf(self.project_tab), _translate("MainWindow", "Project"))
         self.settings_ui_groupbox.setTitle(_translate("MainWindow", "Main canvas"))
