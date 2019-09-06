@@ -10,8 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from .script import ScriptDialog, slvs_process_script
 from .slvs import SlvsParser
 from .output_option import SlvsOutputDialog, DxfOutputDialog
-from .database import DatabaseWidget
-from .pyslvs_yaml import YamlEditor
+from .project import ProjectWidget
 
 __all__ = [
     'ScriptDialog',
@@ -19,8 +18,7 @@ __all__ = [
     'SlvsParser',
     'SlvsOutputDialog',
     'DxfOutputDialog',
-    'DatabaseWidget',
-    'YamlEditor',
+    'ProjectWidget',
     'str_between',
     'str_before',
 ]

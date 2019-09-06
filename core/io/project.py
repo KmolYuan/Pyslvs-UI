@@ -17,21 +17,23 @@ from core.QtModules import (
     QFileInfo,
     QWidget,
     QInputDialog,
+    QMessageBox,
 )
 from core.info import logger
+from .pyslvs_yaml import YamlEditor
 from .Ui_database import Ui_Form
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
 
-class DatabaseWidget(QWidget, Ui_Form):
+class ProjectWidget(QWidget, Ui_Form):
 
     """The table that stored workbook data and changes."""
 
     load_id = Signal(int)
 
     def __init__(self, parent: MainWindowBase):
-        super(DatabaseWidget, self).__init__(parent)
+        super(ProjectWidget, self).__init__(parent)
         self.setupUi(self)
 
         # Check file changed function
@@ -77,6 +79,8 @@ class DatabaseWidget(QWidget, Ui_Form):
         # Clear function for main window
         self.clear_func = parent.clear
 
+        # YAML editor
+        self.yaml_editor = YamlEditor(parent)
         # Undo Stack
         self.command_clear = parent.command_stack.clear
         # Reset
@@ -101,13 +105,21 @@ class DatabaseWidget(QWidget, Ui_Form):
         """Expose file name."""
         return self.__file_name
 
+    def file_path(self) -> str:
+        """Expose absolute file path."""
+        return self.__file_name.absoluteFilePath()
+
     def base_file_name(self) -> str:
         """Expose base file name."""
         return self.__file_name.baseName()
 
     def file_suffix(self) -> str:
         """Expose file name suffix."""
-        return self.__file_name.completeSuffix()
+        return self.__file_name.suffix()
+
+    def file_exist(self) -> bool:
+        """Return True if the file is exist."""
+        return self.__file_name.isFile()
 
     def set_changed(self, changed: bool):
         """Set file state."""
@@ -117,13 +129,20 @@ class DatabaseWidget(QWidget, Ui_Form):
         """Expose file state."""
         return self.__changed
 
-    def save(self, file_name: str, is_branch: bool = False):
+    def save(self, file_name: str = ""):
         """Save database, append commit to new branch function."""
-        ...
+        if not file_name:
+            file_name = self.file_path()
+        self.yaml_editor.save(file_name)
+        self.set_file_name(file_name)
 
     def read(self, file_name: str):
         """Load database commit."""
-        ...
+        if not QFileInfo(file_name).isFile():
+            QMessageBox.warning(self, "File not exist", "The path is invalid.")
+            return
+        self.yaml_editor.load(file_name)
+        self.set_file_name(file_name)
 
     def load_example(self, is_import: bool = False) -> bool:
         """Load example to new workbook."""

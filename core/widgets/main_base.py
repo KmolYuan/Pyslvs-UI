@@ -51,7 +51,7 @@ from core.QtModules import (
     QABCMeta,
 )
 from core.info import ARGUMENTS, logger, kernel_list
-from core.io import YamlEditor, DatabaseWidget
+from core.io import ProjectWidget
 from core.synthesis import (
     StructureSynthesis,
     Collections,
@@ -410,11 +410,8 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         show_label2.toggled.connect(show_label1.setChecked)
 
         # File widget settings
-        self.database_widget = DatabaseWidget(self)
-        self.project_layout.addWidget(self.database_widget)
-
-        # YAML editor
-        self.yaml_editor = YamlEditor(self)
+        self.project_widget = ProjectWidget(self)
+        self.project_layout.addWidget(self.project_widget)
 
         # Console dock will hide when startup
         self.console_widget.hide()
@@ -835,7 +832,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def workbook_saved(self) -> bool:
+    def workbook_saved(self) -> None:
         ...
 
     @abstractmethod
