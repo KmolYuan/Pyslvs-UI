@@ -11,7 +11,6 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 * [Cython] (Apache 2.0)
 * [openpyxl] (MIT)
 * [psutil] (BSD)
-* [peewee] (MIT)
 * [Lark-parser] (MIT)
 * [Pygments] (BSD)
 * [PyYAML] (MIT)
@@ -36,7 +35,6 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 [Cython]: http://cython.org/
 [openpyxl]: http://openpyxl.readthedocs.io/
 [psutil]: https://github.com/giampaolo/psutil
-[peewee]: http://docs.peewee-orm.com/en/latest/
 [Lark-parser]: https://github.com/erezsh/lark
 [Pygments]: http://pygments.org/
 [PyYAML]: https://pyyaml.org/

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
-    <height>849</height>
+    <width>1023</width>
+    <height>932</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -459,7 +459,7 @@ QProgressBar::chunk {
            <widget class="QWidget" name="project_tab">
             <attribute name="icon">
              <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+              <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
             </attribute>
             <attribute name="title">
              <string>Project</string>
@@ -1278,7 +1278,7 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>882</width>
+     <width>1023</width>
      <height>41</height>
     </rect>
    </property>
@@ -1310,7 +1310,6 @@ QProgressBar::chunk {
      </property>
      <addaction name="action_import_pmks_url"/>
      <addaction name="action_import_example"/>
-     <addaction name="action_import_database"/>
     </widget>
     <addaction name="action_new_workbook"/>
     <addaction name="action_load_file"/>
@@ -1612,18 +1611,6 @@ QProgressBar::chunk {
    </property>
    <property name="statusTip">
     <string>Output to Solvespace 2D sketch.</string>
-   </property>
-  </action>
-  <action name="action_import_database">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
-   </property>
-   <property name="text">
-    <string>From &amp;Workbook</string>
-   </property>
-   <property name="statusTip">
-    <string>Import from workbook.</string>
    </property>
   </action>
   <action name="action_about_qt">

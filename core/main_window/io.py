@@ -371,19 +371,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         self.main_canvas.zoom_to_fit()
 
-    @Slot(name='on_action_import_database_triggered')
-    def __import_database(self):
-        """Import from workbook."""
-        if self.check_file_changed():
-            return
-        file_name = self.input_from(
-            "Workbook database (Import)",
-            ["Pyslvs workbook (*.pyslvs)"]
-        )
-        if not file_name:
-            return
-        self.database_widget.import_mechanism(file_name)
-
     @Slot(name='on_action_save_triggered')
     def save(self):
         """Save action. (YAML)"""

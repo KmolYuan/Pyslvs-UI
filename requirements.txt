@@ -12,7 +12,6 @@ numpy<1.17; python_version >= '3.8' and sys_platform == 'linux'
 cython
 openpyxl
 psutil
-peewee
 lark-parser
 pygments
 pyyaml
