@@ -167,7 +167,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def workbook_no_save(self):
         """Workbook not saved signal."""
-        self.database_widget.changed = True
+        self.database_widget.set_changed(True)
         not_yet_saved = " (not yet saved)"
         self.setWindowTitle(
             self.windowTitle().replace(not_yet_saved, '') + not_yet_saved
@@ -175,7 +175,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def workbook_saved(self):
         """Workbook saved signal."""
-        self.database_widget.changed = False
+        self.database_widget.set_changed(False)
         self.__set_window_title_full_path()
 
     @Slot(name='on_title_full_path_option_clicked')
@@ -186,7 +186,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             title = file_name.absoluteFilePath()
         else:
             title = file_name.fileName()
-        saved_text = " (not yet saved)" if self.database_widget.changed else ''
+        saved_text = " (not yet saved)" if self.database_widget.changed() else ''
         self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
 
     def __open_url(self, url: str):
@@ -387,7 +387,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_save_triggered')
     def save(self):
         """Save action. (YAML)"""
-        if self.database_widget.file_name().completeSuffix() == 'pyslvs.yml':
+        if self.database_widget.file_suffix() == 'pyslvs.yml':
             self.yaml_editor.save()
             self.workbook_saved()
         else:
@@ -402,29 +402,12 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.workbook_saved()
             self.save_reply_box("YAML Profile", file_name)
 
-    @Slot(name='on_action_commit_triggered')
-    def commit(self, is_branch: bool = False):
-        """Save action. (Database)"""
-        file_name = self.database_widget.file_name().absoluteFilePath()
-        if self.database_widget.file_name().suffix() == 'pyslvs':
-            self.database_widget.save(file_name, is_branch)
-        else:
-            self.__commit_as(is_branch)
-
-    @Slot(name='on_action_commit_as_triggered')
-    def __commit_as(self, is_branch: bool = False):
-        """Save as action. (Database)"""
-        file_name = self.output_to("workbook", ["Pyslvs workbook (*.pyslvs)"])
-        if file_name:
-            self.database_widget.save(file_name, is_branch)
-            self.save_reply_box("Workbook", file_name)
-
     @Slot(name='on_action_export_slvs_triggered')
     def __export_slvs(self):
         """Solvespace 2d save function."""
         dlg = SlvsOutputDialog(
             self.env,
-            self.database_widget.file_name().baseName(),
+            self.database_widget.base_file_name(),
             self.vpoint_list,
             self.__v_to_slvs(),
             self
@@ -442,7 +425,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """DXF 2d save function."""
         dlg = DxfOutputDialog(
             self.env,
-            self.database_widget.file_name().baseName(),
+            self.database_widget.base_file_name(),
             self.vpoint_list,
             self.__v_to_slvs(),
             self
@@ -470,7 +453,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         file_name, suffix = QFileDialog.getSaveFileName(
             self,
             f"Save to {format_name}...",
-            self.env + '/' + self.database_widget.file_name().baseName(),
+            self.env + '/' + self.database_widget.base_file_name(),
             ';;'.join(format_choose)
         )
         if file_name:
@@ -573,7 +556,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output as expression."""
         expr = [vpoint.expr() for vpoint in self.vpoint_list]
         context = ",\n".join(" " * 4 + e for e in expr)
-        script = _PREFIX + f"\"{self.database_widget.file_name().baseName()}\"\n"
+        script = _PREFIX + f"\"{self.database_widget.base_file_name()}\"\n"
         if context:
             script += f"M[\n{context}\n]"
         else:
@@ -594,7 +577,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def __show_py_script(self):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
-            _PREFIX + f"\"{self.database_widget.file_name().baseName()}\"\n" +
+            _PREFIX + f"\"{self.database_widget.base_file_name()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
@@ -637,7 +620,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         Return True if user want to "discard" the operation.
         """
-        if not self.database_widget.changed:
+        if not self.database_widget.changed():
             return False
 
         reply = QMessageBox.question(
@@ -649,7 +632,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         )
         if reply == QMessageBox.Save:
             self.save()
-            return self.database_widget.changed
+            return self.database_widget.changed()
         elif reply == QMessageBox.Discard:
             return False
         return True
@@ -719,8 +702,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def load_from_args(self):
         if not ARGUMENTS.filepath:
             return
-        suffix = QFileInfo(ARGUMENTS.filepath).suffix()
-        if suffix == 'pyslvs':
+        suffix = QFileInfo(ARGUMENTS.filepath).completeSuffix()
+        if suffix == 'pyslvs.yml':
+            self.yaml_editor.load(ARGUMENTS.filepath)
+        elif suffix == 'pyslvs':
             self.database_widget.read(ARGUMENTS.filepath)
         elif suffix == 'slvs':
             self.__read_slvs(ARGUMENTS.filepath)

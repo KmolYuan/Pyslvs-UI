@@ -456,13 +456,13 @@ QProgressBar::chunk {
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="version_control_tab">
+           <widget class="QWidget" name="project_tab">
             <attribute name="icon">
              <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
+              <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
             </attribute>
             <attribute name="title">
-             <string>Version Control</string>
+             <string>Project</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <property name="leftMargin">
@@ -478,7 +478,7 @@ QProgressBar::chunk {
               <number>0</number>
              </property>
              <item>
-              <layout class="QVBoxLayout" name="vc_layout"/>
+              <layout class="QVBoxLayout" name="project_layout"/>
              </item>
             </layout>
            </widget>
@@ -501,8 +501,8 @@ QProgressBar::chunk {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>401</width>
-                  <height>733</height>
+                  <width>601</width>
+                  <height>1177</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1279,7 +1279,7 @@ QProgressBar::chunk {
      <x>0</x>
      <y>0</y>
      <width>882</width>
-     <height>21</height>
+     <height>41</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -1320,11 +1320,6 @@ QProgressBar::chunk {
     <addaction name="action_save"/>
     <addaction name="action_save_as"/>
     <addaction name="menu_export"/>
-    <addaction name="separator"/>
-    <addaction name="action_commit"/>
-    <addaction name="action_commit_branch"/>
-    <addaction name="action_commit_as"/>
-    <addaction name="action_stash"/>
     <addaction name="separator"/>
     <addaction name="action_full_screen"/>
     <addaction name="action_new_window"/>
@@ -1496,7 +1491,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/fullscreen.png</normaloff>:/icons/fullscreen.png</iconset>
    </property>
    <property name="text">
-    <string>Full Screen</string>
+    <string>&amp;Full Screen</string>
    </property>
    <property name="statusTip">
     <string>Let the window truns to full screen.</string>
@@ -1520,24 +1515,6 @@ QProgressBar::chunk {
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="action_commit">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Commit</string>
-   </property>
-   <property name="toolTip">
-    <string>Save</string>
-   </property>
-   <property name="statusTip">
-    <string>Save the workbook.</string>
-   </property>
-   <property name="priority">
-    <enum>QAction::HighPriority</enum>
-   </property>
-  </action>
   <action name="action_python_script">
    <property name="icon">
     <iconset resource="../../icons.qrc">
@@ -1552,7 +1529,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_delete_point">
    <property name="text">
-    <string>Delete Point</string>
+    <string>&amp;Delete Point</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing point.</string>
@@ -1560,7 +1537,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_delete_link">
    <property name="text">
-    <string>Delete Link</string>
+    <string>Delete Li&amp;nk</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing link.</string>
@@ -1568,7 +1545,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_edit_point">
    <property name="text">
-    <string>Edit Point</string>
+    <string>&amp;Edit Point</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing point.</string>
@@ -1576,7 +1553,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_edit_link">
    <property name="text">
-    <string>Edit Link</string>
+    <string>Ed&amp;it Link</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing link.</string>
@@ -1625,52 +1602,16 @@ QProgressBar::chunk {
     <string>Output to Drawing Exchange sketch.</string>
    </property>
   </action>
-  <action name="action_commit_as">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
-   </property>
-   <property name="text">
-    <string>Commit As ...</string>
-   </property>
-   <property name="statusTip">
-    <string>Save to another workbook.</string>
-   </property>
-  </action>
   <action name="action_export_slvs">
    <property name="icon">
     <iconset resource="../../icons.qrc">
      <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Solvespace Parts</string>
+    <string>S&amp;olvespace Parts</string>
    </property>
    <property name="statusTip">
     <string>Output to Solvespace 2D sketch.</string>
-   </property>
-  </action>
-  <action name="action_title_slvs">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Solvespace</string>
-   </property>
-  </action>
-  <action name="action_title_dxf">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>DXF</string>
-   </property>
-  </action>
-  <action name="action_title_other">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Other Format</string>
    </property>
   </action>
   <action name="action_import_database">
@@ -1679,7 +1620,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
-    <string>From Workbook</string>
+    <string>From &amp;Workbook</string>
    </property>
    <property name="statusTip">
     <string>Import from workbook.</string>
@@ -1691,7 +1632,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/qt.png</normaloff>:/icons/qt.png</iconset>
    </property>
    <property name="text">
-    <string>About Qt</string>
+    <string>About &amp;Qt</string>
    </property>
    <property name="statusTip">
     <string>Show Qt about.</string>
@@ -1718,7 +1659,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/aim.png</normaloff>:/icons/aim.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom to Fit</string>
+    <string>&amp;Zoom to Fit</string>
    </property>
    <property name="statusTip">
     <string>Zoom in as mechanism size.</string>
@@ -1735,7 +1676,7 @@ QProgressBar::chunk {
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Solid Style Path</string>
+    <string>Solid Style &amp;Path</string>
    </property>
    <property name="statusTip">
     <string>Show path in solid line style, otherwise will be isolated dots.</string>
@@ -1762,7 +1703,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
    </property>
    <property name="text">
-    <string>Show GUI Console</string>
+    <string>&amp;Show GUI Console</string>
    </property>
    <property name="statusTip">
     <string>Open a widget to show console output.</string>
@@ -1789,7 +1730,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
    </property>
    <property name="text">
-    <string>From PMKS server</string>
+    <string>&amp;From PMKS server</string>
    </property>
    <property name="statusTip">
     <string>Import from PMKS URL.</string>
@@ -1801,7 +1742,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
-    <string>Example ...</string>
+    <string>&amp;Example ...</string>
    </property>
    <property name="statusTip">
     <string>Load a example.</string>
@@ -1816,34 +1757,10 @@ QProgressBar::chunk {
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
-    <string>Mechanism Expression</string>
+    <string>Mechanism &amp;Expression</string>
    </property>
    <property name="statusTip">
     <string>Get the Pyslvs expression.</string>
-   </property>
-  </action>
-  <action name="action_commit_branch">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
-   </property>
-   <property name="text">
-    <string>Commit with New Branch</string>
-   </property>
-   <property name="statusTip">
-    <string>Creat a new branch then save the commit to this branch.</string>
-   </property>
-  </action>
-  <action name="action_stash">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-   </property>
-   <property name="text">
-    <string>Stash</string>
-   </property>
-   <property name="statusTip">
-    <string>Abandon all changes of this time, and return to the latest commit.</string>
    </property>
   </action>
   <action name="action_import_example">
@@ -1852,7 +1769,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
-    <string>From Example</string>
+    <string>From &amp;Example</string>
    </property>
    <property name="statusTip">
     <string>Import from example</string>
@@ -1875,7 +1792,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_check_update">
    <property name="text">
-    <string>Check for Updates</string>
+    <string>&amp;Check for Updates</string>
    </property>
    <property name="statusTip">
     <string>Check the lastest version of Pyslvs from Github.</string>
@@ -1887,7 +1804,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/new_window.png</normaloff>:/icons/new_window.png</iconset>
    </property>
    <property name="text">
-    <string>New Window</string>
+    <string>New &amp;Window</string>
    </property>
    <property name="statusTip">
     <string>Open a new Pyslvs window.</string>
@@ -1907,7 +1824,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/yaml.png</normaloff>:/icons/yaml.png</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
    </property>
    <property name="statusTip">
     <string>Save to a YAML-based format.</string>
@@ -1937,7 +1854,7 @@ QProgressBar::chunk {
      <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
    </property>
    <property name="text">
-    <string>Documentation</string>
+    <string>&amp;Documentation</string>
    </property>
    <property name="statusTip">
     <string>See the documentation on Readthedocs.</string>
@@ -1945,7 +1862,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_set_link_length">
    <property name="text">
-    <string>Set Link &amp;Length</string>
+    <string>Se&amp;t Link Length</string>
    </property>
   </action>
  </widget>

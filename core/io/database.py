@@ -223,7 +223,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.history_commit = None
         self.__file_name = QFileInfo("Untitled")
         self.last_time = datetime.now()
-        self.changed = False
+        self.__changed = False
         self.reset()
 
     def reset(self):
@@ -231,7 +231,7 @@ class DatabaseWidget(QWidget, Ui_Form):
         self.history_commit: Optional[CommitModel] = None
         self.__file_name = QFileInfo("Untitled")
         self.last_time = datetime.now()
-        self.changed = False
+        self.__changed = False
         self.command_clear()
         for row in range(self.CommitTable.rowCount()):
             self.CommitTable.removeRow(0)
@@ -251,6 +251,22 @@ class DatabaseWidget(QWidget, Ui_Form):
     def file_name(self) -> QFileInfo:
         """Expose file name."""
         return self.__file_name
+
+    def base_file_name(self) -> str:
+        """Expose base file name."""
+        return self.__file_name.baseName()
+
+    def file_suffix(self) -> str:
+        """Expose file name suffix."""
+        return self.__file_name.completeSuffix()
+
+    def set_changed(self, changed: bool):
+        """Set file state."""
+        self.__changed = changed
+
+    def changed(self) -> bool:
+        """Expose file state."""
+        return self.__changed
 
     def __connect_database(self, file_name: str):
         """Connect database."""

@@ -411,10 +411,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
         # File widget settings
         self.database_widget = DatabaseWidget(self)
-        self.vc_layout.addWidget(self.database_widget)
-        self.database_widget.commit_add.clicked.connect(self.commit)
-        self.database_widget.branch_add.clicked.connect(self.commit_branch)
-        self.action_stash.triggered.connect(self.database_widget.stash)
+        self.project_layout.addWidget(self.database_widget)
 
         # YAML editor
         self.yaml_editor = YamlEditor(self)
@@ -734,14 +731,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def resolve(self) -> None:
-        ...
-
-    @abstractmethod
-    def commit(self, is_branch: bool = False) -> None:
-        ...
-
-    @abstractmethod
-    def commit_branch(self) -> None:
         ...
 
     @abstractmethod
