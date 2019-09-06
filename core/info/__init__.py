@@ -24,6 +24,17 @@ __all__ = [
     'logger',
     'XStream',
     'kernel_list',
+    'size_format',
 ]
 
 kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
+
+
+def size_format(num: int):
+    if num <= 0:
+        return "0 B"
+    for u in ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z'):
+        if abs(num) < 1024.0:
+            return f"{num:3.1f} {u}B"
+        num /= 1024.0
+    return f"{num:.1f} YB"

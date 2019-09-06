@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>540</width>
+    <width>637</width>
     <height>663</height>
    </rect>
   </property>
@@ -62,7 +62,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="filename_edit"/>
+      <widget class="QLineEdit" name="filename_edit">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="filename_suffix_label">
@@ -82,7 +86,7 @@
       <item>
        <widget class="QRadioButton" name="assembly_radio">
         <property name="text">
-         <string>Assembly</string>
+         <string>&amp;Assembly</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -139,7 +143,7 @@
       <item>
        <widget class="QRadioButton" name="frame_radio">
         <property name="text">
-         <string>Only wire frame</string>
+         <string>O&amp;nly wire frame</string>
         </property>
        </widget>
       </item>
@@ -171,7 +175,7 @@
       <item>
        <widget class="QRadioButton" name="overwrite_radio">
         <property name="text">
-         <string>Always overwrite</string>
+         <string>A&amp;lways overwrite</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -181,7 +185,7 @@
       <item>
        <widget class="QRadioButton" name="warn_radio">
         <property name="text">
-         <string>Warning me then back to this dialog</string>
+         <string>Warning &amp;me then back to this dialog</string>
         </property>
        </widget>
       </item>

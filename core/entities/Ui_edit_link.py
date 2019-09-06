@@ -30,6 +30,7 @@ class Ui_Dialog(object):
         self.name_box.setObjectName("name_box")
         self.verticalLayout.addWidget(self.name_box)
         self.name_edit = QtWidgets.QLineEdit(Dialog)
+        self.name_edit.setClearButtonEnabled(True)
         self.name_edit.setObjectName("name_edit")
         self.verticalLayout.addWidget(self.name_edit)
         self.color_label = QtWidgets.QLabel(Dialog)

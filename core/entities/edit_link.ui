@@ -37,7 +37,11 @@
       <widget class="QComboBox" name="name_box"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="name_edit"/>
+      <widget class="QLineEdit" name="name_edit">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="color_label">

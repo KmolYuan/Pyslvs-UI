@@ -169,6 +169,18 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         # Condition list of context menus
         self.context = Context()
 
+        # Set path from command line
+        self.settings = QSettings(
+            QStandardPaths.writableLocation(QStandardPaths.HomeLocation) + '/.pyslvs.ini',
+            QSettings.IniFormat,
+            self
+        )
+        if ARGUMENTS.c:
+            self.set_locate(QFileInfo(ARGUMENTS.c).canonicalFilePath())
+        else:
+            desktop = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+            self.set_locate(str(self.settings.value("ENV", desktop)))
+
         # Initialize custom UI
         self.__undo_redo()
         self.__appearance()
@@ -177,12 +189,9 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__zoom()
         self.__context_menu()
 
-        # Open file from command line
-        if ARGUMENTS.c:
-            self.set_locate(QFileInfo(ARGUMENTS.c).canonicalFilePath())
-        else:
-            desktop = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-            self.set_locate(str(self.settings.value("ENV", desktop)))
+    def env_path(self) -> str:
+        """Return environment path."""
+        return self.env
 
     def show(self):
         """Overridden function to zoom the canvas's size after startup."""
@@ -472,11 +481,6 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         + Check boxes
         """
         # While value change, update the canvas widget.
-        self.settings = QSettings(
-            QStandardPaths.writableLocation(QStandardPaths.HomeLocation) + '/.pyslvs.ini',
-            QSettings.IniFormat,
-            self
-        )
         self.zoom_bar.valueChanged.connect(self.main_canvas.set_zoom)
         self.line_width_option.valueChanged.connect(self.main_canvas.set_link_width)
         self.path_width_option.valueChanged.connect(self.main_canvas.set_path_width)

@@ -14,11 +14,13 @@ from pyslvs import example_list
 from core.QtModules import (
     Signal,
     QFileInfo,
+    QFileDevice,
     QWidget,
     QInputDialog,
     QMessageBox,
+    QDateTime,
 )
-from core.info import logger
+from core.info import logger, size_format
 from .pyslvs_yaml import YamlEditor
 from .Ui_project import Ui_Form
 if TYPE_CHECKING:
@@ -42,25 +44,40 @@ class ProjectWidget(QWidget, Ui_Form):
         self.load_inputs_func = parent.inputs_widget.add_inputs_variables
         # Clear function for main window
         self.clear_func = parent.clear
+        # Environment path
+        self.env_path = parent.env_path
 
         # YAML editor
         self.yaml_editor = YamlEditor(parent)
         # Undo Stack
         self.command_clear = parent.command_stack.clear
         # Reset
-        self.__file_name = QFileInfo("Untitled")
+        self.__file_name = QFileInfo("")
         self.__changed = False
         self.reset()
 
     def reset(self):
         """Clear all the things that dependent on database."""
-        self.__file_name = QFileInfo("Untitled")
+        self.set_file_name(self.env_path() + "/Untitled")
         self.__changed = False
         self.command_clear()
 
-    def set_file_name(self, file_name: str):
+    def set_file_name(self, file_name: str, *, is_example: bool = False):
         """Set file name."""
         self.__file_name = QFileInfo(file_name)
+        self.file_name_label.setText(self.__file_name.fileName())
+        self.path_label.setText(self.__file_name.absolutePath())
+        self.owner_label.setText(self.__file_name.owner())
+        time: QDateTime = self.__file_name.fileTime(QFileDevice.FileModificationTime)
+        self.last_modified_label.setText(time.toString())
+        self.file_size_label.setText(size_format(self.__file_name.size()))
+        if is_example:
+            t = "Example (In memory)"
+        elif self.file_exist():
+            t = "File"
+        else:
+            t = "In memory"
+        self.type_label.setText(t)
 
     def file_name(self) -> QFileInfo:
         """Expose file name."""
@@ -126,7 +143,7 @@ class ProjectWidget(QWidget, Ui_Form):
         if not is_import:
             # Import without input data
             self.load_inputs_func(inputs)
-        self.__file_name = QFileInfo(example_name)
+        self.set_file_name(example_name, is_example=True)
         self.workbook_saved()
         logger.info(f"Example \"{example_name}\" has been loaded.")
         return True

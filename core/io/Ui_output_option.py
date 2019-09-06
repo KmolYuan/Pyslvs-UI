@@ -13,7 +13,7 @@ from core.QtModules import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(540, 663)
+        Dialog.resize(637, 663)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.main_layout = QtWidgets.QVBoxLayout(Dialog)
@@ -43,6 +43,7 @@ class Ui_Dialog(object):
         self.filename_label.setObjectName("filename_label")
         self.horizontalLayout_3.addWidget(self.filename_label)
         self.filename_edit = QtWidgets.QLineEdit(Dialog)
+        self.filename_edit.setClearButtonEnabled(True)
         self.filename_edit.setObjectName("filename_edit")
         self.horizontalLayout_3.addWidget(self.filename_edit)
         self.filename_suffix_label = QtWidgets.QLabel(Dialog)
@@ -131,10 +132,10 @@ class Ui_Dialog(object):
         self.filename_label.setText(_translate("Dialog", "Main file name:"))
         self.filename_suffix_label.setText(_translate("Dialog", ".slvs"))
         self.output_group.setTitle(_translate("Dialog", "Output types"))
-        self.assembly_radio.setText(_translate("Dialog", "Assembly"))
+        self.assembly_radio.setText(_translate("Dialog", "&Assembly"))
         self.link_radius_label.setText(_translate("Dialog", "Fillet radius:"))
-        self.frame_radio.setText(_translate("Dialog", "Only wire frame"))
+        self.frame_radio.setText(_translate("Dialog", "O&nly wire frame"))
         self.groupBox.setTitle(_translate("Dialog", "Write mode"))
-        self.overwrite_radio.setText(_translate("Dialog", "Always overwrite"))
-        self.warn_radio.setText(_translate("Dialog", "Warning me then back to this dialog"))
+        self.overwrite_radio.setText(_translate("Dialog", "A&lways overwrite"))
+        self.warn_radio.setText(_translate("Dialog", "Warning &me then back to this dialog"))
 import icons_rc
