@@ -19,7 +19,7 @@ class RotatableView(QGraphicsView):
 
     """Rotate QDial widget."""
 
-    def __init__(self, item):
+    def __init__(self, item) -> None:
         QGraphicsView.__init__(self)
         scene = QGraphicsScene(self)
         self.setScene(scene)

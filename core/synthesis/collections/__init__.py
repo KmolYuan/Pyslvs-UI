@@ -43,7 +43,7 @@ class Collections(QWidget):
 
     """Just a widget contains a sub tab widget."""
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         """Create two widget page and using main window to make their parent."""
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)
@@ -72,7 +72,7 @@ class Collections(QWidget):
             self.configure_widget.set_graph
         )
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear the sub-widgets."""
         self.structure_widget.clear()
         self.configure_widget.clear()

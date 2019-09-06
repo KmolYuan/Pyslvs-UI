@@ -30,7 +30,7 @@ __all__ = [
 kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
 
 
-def size_format(num: int):
+def size_format(num: int) -> str:
     if num <= 0:
         return "0 B"
     for u in ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z'):

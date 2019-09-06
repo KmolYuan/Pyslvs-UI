@@ -52,7 +52,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     + Zoom to fit function.
     """
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(DynamicCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar.
         self.set_zoom_bar = parent.zoom_bar.setValue
@@ -62,7 +62,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.selection_mode_wheel = parent.entities_tab.setCurrentIndex
         self.selection_mode = parent.entities_tab.currentIndex
 
-    def update_figure(self, exprs: List[Tuple[str, ...]], path: List[_Coord]):
+    def update_figure(self, exprs: List[Tuple[str, ...]], path: List[_Coord]) -> None:
         """Update with Point and Links data."""
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
@@ -70,49 +70,49 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.update()
 
     @Slot()
-    def update_preview_path(self):
+    def update_preview_path(self) -> None:
         """Update preview path."""
         self.preview_path(self.path_preview, self.slider_path_preview, self.vpoints)
         self.update()
 
     @Slot(int)
-    def set_link_width(self, link_width: int):
+    def set_link_width(self, link_width: int) -> None:
         """Update width of links."""
         self.link_width = link_width
         self.update()
 
     @Slot(int)
-    def set_path_width(self, path_width: int):
+    def set_path_width(self, path_width: int) -> None:
         """Update width of links."""
         self.path_width = path_width
         self.update()
 
     @Slot(bool)
-    def set_point_mark(self, show_point_mark: bool):
+    def set_point_mark(self, show_point_mark: bool) -> None:
         """Update show point mark or not."""
         self.show_point_mark = show_point_mark
         self.update()
 
     @Slot(bool)
-    def set_show_dimension(self, show_dimension: bool):
+    def set_show_dimension(self, show_dimension: bool) -> None:
         """Update show dimension or not."""
         self.show_dimension = show_dimension
         self.update()
 
     @Slot(bool)
-    def set_curve_mode(self, curve: bool):
+    def set_curve_mode(self, curve: bool) -> None:
         """Update show as curve mode or not."""
         self.path.curve = curve
         self.update()
 
     @Slot(int)
-    def set_font_size(self, font_size: int):
+    def set_font_size(self, font_size: int) -> None:
         """Update font size."""
         self.font_size = font_size
         self.update()
 
     @Slot(int)
-    def set_zoom(self, zoom: int):
+    def set_zoom(self, zoom: int) -> None:
         """Update zoom factor."""
         zoom_old = self.zoom
         self.zoom = zoom / 100 * self.rate
@@ -125,87 +125,87 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.oy += (pos.y() - self.oy) / self.zoom * zoom_old
         self.update()
 
-    def set_show_target_path(self, show_target_path: bool):
+    def set_show_target_path(self, show_target_path: bool) -> None:
         """Update show target path or not."""
         self.show_target_path = show_target_path
         self.update()
 
-    def set_free_move(self, free_move: int):
+    def set_free_move(self, free_move: int) -> None:
         """Update free move mode number."""
         self.free_move = FreeMode(free_move + 1)
         self.update()
 
     @Slot(int)
-    def set_selection_radius(self, sr: int):
+    def set_selection_radius(self, sr: int) -> None:
         """Update radius of point selector."""
         self.sr = sr
 
     @Slot(int)
-    def set_transparency(self, transparency: int):
+    def set_transparency(self, transparency: int) -> None:
         """Update transparency. (0%: opaque)"""
         self.transparency = (100 - transparency) / 100
         self.update()
 
     @Slot(int)
-    def set_margin_factor(self, margin_factor: int):
+    def set_margin_factor(self, margin_factor: int) -> None:
         """Update margin factor when zoom to fit."""
         self.margin_factor = 1 - margin_factor / 100
         self.update()
 
     @Slot(int)
-    def set_joint_size(self, joint_size: int):
+    def set_joint_size(self, joint_size: int) -> None:
         """Update size for each joint."""
         self.joint_size = joint_size
         self.update()
 
     @Slot(int)
-    def set_zoom_by(self, zoomby: int):
+    def set_zoom_by(self, zoomby: int) -> None:
         """Update zooming center option."""
         self.zoomby = zoomby
 
     @Slot(float)
-    def set_snap(self, snap: float):
+    def set_snap(self, snap: float) -> None:
         """Update mouse capture value."""
         self.snap = snap
 
     @Slot(str)
-    def set_background(self, path: str):
+    def set_background(self, path: str) -> None:
         """Set background from file path."""
         if self.background.load(path):
             self.update()
 
     @Slot(float)
-    def set_background_opacity(self, opacity: float):
+    def set_background_opacity(self, opacity: float) -> None:
         """Set opacity of background."""
         self.background_opacity = opacity
         self.update()
 
     @Slot(float)
-    def set_background_scale(self, scale: float):
+    def set_background_scale(self, scale: float) -> None:
         """Set scale value of background."""
         self.background_scale = scale
         self.update()
 
     @Slot(float)
-    def set_background_offset_x(self, x: float):
+    def set_background_offset_x(self, x: float) -> None:
         """Set offset x value of background."""
         self.background_offset.setX(x)
         self.update()
 
     @Slot(float)
-    def set_background_offset_y(self, y: float):
+    def set_background_offset_y(self, y: float) -> None:
         """Set offset y value of background."""
         self.background_offset.setY(-y)
         self.update()
 
     @Slot(int)
-    def set_selection_mode(self, select_mode: int):
+    def set_selection_mode(self, select_mode: int) -> None:
         """Update the selection."""
         self.select_mode = SelectMode(select_mode + 1)
         self.update()
 
     @Slot(list)
-    def set_selection(self, selections: List[int]):
+    def set_selection(self, selections: List[int]) -> None:
         """Update the selection."""
         self.selections = selections
         self.update()
@@ -218,7 +218,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.target_path = target_path
         self.update()
 
-    def set_path_show(self, p: int):
+    def set_path_show(self, p: int) -> None:
         """Update path present mode.
 
         -2: Hide all paths.
@@ -228,7 +228,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         self.path.show = p
         self.update()
 
-    def update_ranges(self, ranges: Dict[str, Tuple[float, float, float]]):
+    def update_ranges(self, ranges: Dict[str, Tuple[float, float, float]]) -> None:
         """Update the ranges of dimensional synthesis."""
         self.ranges.clear()
         self.ranges.update({tag: QRectF(
@@ -237,13 +237,13 @@ class DynamicCanvas(DynamicCanvasInterface):
         ) for tag, values in ranges.items()})
         self.update()
 
-    def record_start(self, limit: int):
+    def record_start(self, limit: int) -> None:
         """Start a limit from main window."""
         self.path_record = []
         for _ in range(len(self.vpoints)):
             self.path_record.append(deque([], limit))
 
-    def record_path(self):
+    def record_path(self) -> None:
         """Recording path."""
         for i, vpoint in enumerate(self.vpoints):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
@@ -269,7 +269,7 @@ class DynamicCanvas(DynamicCanvasInterface):
                 self.vpoints[i].move(*c)
         self.update_preview_path()
 
-    def wheelEvent(self, event: QWheelEvent):
+    def wheelEvent(self, event: QWheelEvent) -> None:
         """Switch function by mouse wheel.
 
         + Set zoom bar value.

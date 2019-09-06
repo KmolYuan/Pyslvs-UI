@@ -72,7 +72,7 @@ from .inputs import InputsWidget
 _Coord = Tuple[float, float]
 
 
-def _set_actions(actions: Sequence[QAction], state: bool):
+def _set_actions(actions: Sequence[QAction], state: bool) -> None:
     """Set actions method."""
     for action in actions:
         action.setVisible(state)
@@ -114,7 +114,7 @@ class Context:
     l_gnd: List[QAction] = field(default_factory=list)
     l_n_gnd: List[QAction] = field(default_factory=list)
 
-    def point_enable(self, count: int):
+    def point_enable(self, count: int) -> None:
         """Point operations settings."""
         for actions, state in (
             (self.p_no, count == 0),
@@ -124,7 +124,7 @@ class Context:
         ):
             _set_actions(actions, state)
 
-    def link_enable(self, count: int, current_row: int):
+    def link_enable(self, count: int, current_row: int) -> None:
         """Link operations settings."""
         for actions, state in (
             (self.l_no, count == 0),
@@ -147,7 +147,7 @@ class Context:
                 meta.append(self.__getattribute__(enable.name.lower()))
         return tuple(meta)
 
-    def __setitem__(self, key: _Enable, value: Union[List[QAction], QMenu]):
+    def __setitem__(self, key: _Enable, value: Union[List[QAction], QMenu]) -> None:
         self.__setattr__(key.name.lower(), value)
 
 
@@ -156,7 +156,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     """External UI settings."""
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self) -> None:
         super(MainWindowBase, self).__init__()
         self.setupUi(self)
 
@@ -193,12 +193,12 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         """Return environment path."""
         return self.env
 
-    def show(self):
+    def show(self) -> None:
         """Overridden function to zoom the canvas's size after startup."""
         super(MainWindowBase, self).show()
         self.main_canvas.zoom_to_fit()
 
-    def set_locate(self, locate: str):
+    def set_locate(self, locate: str) -> None:
         """Set environment variables."""
         if locate == self.env:
             # If no changed.
@@ -207,7 +207,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.env = locate
         logger.debug(f"~Set workplace to: [\"{self.env}\"]")
 
-    def __undo_redo(self):
+    def __undo_redo(self) -> None:
         """Undo list settings.
 
         + Undo stack.
@@ -235,7 +235,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.menu_edit.addAction(self.action_undo)
         self.menu_edit.addAction(self.action_redo)
 
-    def __appearance(self):
+    def __appearance(self) -> None:
         """Start up and initialize custom widgets."""
         # Version label
         self.version_label.setText(__version__)
@@ -265,7 +265,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         select_all_button.setStatusTip("Select all item of point table.")
 
         @Slot()
-        def table_select_all():
+        def table_select_all() -> None:
             """Distinguish table by tab index."""
             tables: List[BaseTableWidget] = [
                 self.entities_point,
@@ -288,7 +288,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.entities_tab.currentChanged.connect(self.main_canvas.set_selection_mode)
 
         @Slot(QPoint, str)
-        def show_select_tips(pos: QPoint, text: str):
+        def show_select_tips(pos: QPoint, text: str) -> None:
             select_tips.setText(text)
             select_tips.move(pos - QPoint(0, select_tips.height()))
             select_tips.show()
@@ -297,7 +297,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.main_canvas.selected_tips_hide.connect(select_tips.hide)
 
         @Slot(tuple, bool)
-        def table_set_selection(selections: Sequence[int], key_detect: bool):
+        def table_set_selection(selections: Sequence[int], key_detect: bool) -> None:
             """Distinguish table by tab index."""
             tables: List[BaseTableWidget] = [
                 self.entities_point,
@@ -310,7 +310,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.entities_point.row_selection_changed.connect(self.main_canvas.set_selection)
 
         @Slot()
-        def table_clear_selection():
+        def table_clear_selection() -> None:
             """Distinguish table by tab index."""
             tables: List[BaseTableWidget] = [
                 self.entities_point,
@@ -357,7 +357,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.inputs_widget.about_to_resolve.connect(self.resolve)
 
         @Slot(tuple, bool)
-        def inputs_set_selection(selections: Sequence[int], _=None):
+        def inputs_set_selection(selections: Sequence[int], _=None) -> None:
             """Distinguish table by tab index."""
             self.inputs_widget.clear_selection()
             if self.entities_tab.currentIndex() == 0:
@@ -387,7 +387,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         )
 
         @Slot()
-        def set_design_progress():
+        def set_design_progress() -> None:
             """Synthesis progress bar."""
             pos = self.synthesis_tab_widget.currentIndex()
             if pos == 1:
@@ -428,18 +428,18 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.menu_mechanism.aboutToShow.connect(self.enable_mechanism_actions)
 
         @Slot()
-        def new_main_window():
+        def new_main_window() -> None:
             """Start a new window."""
             run = self.__class__()
             run.show()
 
         self.action_new_window.triggered.connect(new_main_window)
 
-    def __free_move(self):
+    def __free_move(self) -> None:
         """Menu of free move mode."""
         free_move_mode_menu = QMenu(self)
 
-        def free_move_mode_func(j: int, icon_qt: QIcon):
+        def free_move_mode_func(j: int, icon_qt: QIcon) -> None:
             @Slot()
             def func() -> None:
                 self.free_move_button.setIcon(icon_qt)
@@ -464,7 +464,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
                 self.free_move_disable = action
         self.free_move_button.setMenu(free_move_mode_menu)
 
-    def __options(self):
+    def __options(self) -> None:
         """Signal connection for option widgets.
 
         + Spin boxes
@@ -502,7 +502,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.path_preview_option.currentIndexChanged.connect(self.solve)
         self.settings_reset.clicked.connect(self.reset_options)
 
-    def __zoom(self):
+    def __zoom(self) -> None:
         """Zoom functions.
 
         + 'zoom to fit' function connections.
@@ -511,10 +511,10 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.action_zoom_to_fit.triggered.connect(self.main_canvas.zoom_to_fit)
         self.ResetCanvas.clicked.connect(self.main_canvas.zoom_to_fit)
 
-        def zoom_level(value: int):
+        def zoom_level(value: int) -> None:
             """Return a function that set the specified zoom value."""
             @Slot()
-            def func():
+            def func() -> None:
                 self.zoom_bar.setValue(value)
             return func
 
@@ -568,7 +568,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         else:
             return action
 
-    def __context_menu(self):
+    def __context_menu(self) -> None:
         """Context menu settings."""
         self.entities_point_widget.customContextMenuRequested.connect(self.point_context_menu)
         self.pop_point = QMenu(self)
@@ -620,7 +620,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         self.__action("&Delete", self.delete_selected_links, two_menus_l | _Enable.L_ANY)
 
     @Slot(int, name='on_entities_tab_currentChanged')
-    def __set_selection_mode(self, index: int):
+    def __set_selection_mode(self, index: int) -> None:
         """Connect selection signal for main canvas."""
         # Set selection from click table items.
         tables: List[BaseTableWidget] = [

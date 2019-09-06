@@ -75,7 +75,7 @@ class _Selector:
     left_dragged = False
     picking = False
 
-    def release(self):
+    def release(self) -> None:
         """Release the dragging status."""
         self.selection_rect.clear()
         self.middle_dragged = False
@@ -151,7 +151,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
     set_target_point = Signal(float, float)
 
     @abstractmethod
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(DynamicCanvasInterface, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
@@ -191,7 +191,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         self.width_old = None
         self.height_old = None
 
-    def __draw_frame(self):
+    def __draw_frame(self) -> None:
         """Draw a external frame."""
         pos_x = self.width() - self.ox
         pos_y = -self.oy
@@ -202,7 +202,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(neg_x, neg_y))
         self.painter.drawLine(QPointF(pos_x, pos_y), QPointF(pos_x, neg_y))
 
-    def __draw_point(self, i: int, vpoint: VPoint):
+    def __draw_point(self, i: int, vpoint: VPoint) -> None:
         """Draw a point."""
         if vpoint.type in {VJoint.P, VJoint.RP}:
             pen = QPen(QColor(*vpoint.color))
@@ -282,7 +282,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             points.append((x, y))
         return points
 
-    def __draw_link(self, vlink: VLink):
+    def __draw_link(self, vlink: VLink) -> None:
         """Draw a link."""
         if vlink.name == 'ground' or (not vlink.points):
             return
@@ -319,7 +319,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             f'[{vlink.name}]'
         )
 
-    def __draw_path(self):
+    def __draw_path(self) -> None:
         """Draw paths. Recording first."""
         paths = self.path_record or self.path.path or self.path_preview
         if len(self.vpoints) != len(paths):
@@ -346,7 +346,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             else:
                 self.draw_dot(path)
 
-    def __emit_free_move(self, targets: Sequence[int]):
+    def __emit_free_move(self, targets: Sequence[int]) -> None:
         """Emit free move targets to edit."""
         self.free_moved.emit(tuple((num, (
             self.vpoints[num].cx,
@@ -354,7 +354,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.vpoints[num].angle,
         )) for num in targets))
 
-    def __select_func(self, *, rect: bool = False):
+    def __select_func(self, *, rect: bool = False) -> None:
         """Select function."""
         self.selector.selection_rect.clear()
         if self.select_mode == SelectMode.Joint:
@@ -504,11 +504,11 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
         return x_right, x_left, y_top, y_bottom
 
-    def emit_free_move_all(self):
+    def emit_free_move_all(self) -> None:
         """Edit all points to edit."""
         self.__emit_free_move(range(len(self.vpoints)))
 
-    def paintEvent(self, event: QPaintEvent):
+    def paintEvent(self, event: QPaintEvent) -> None:
         """Drawing functions."""
         width = self.width()
         height = self.height()
@@ -589,7 +589,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         """Return the mouse position mapping to main canvas."""
         return (event.x() - self.ox) / self.zoom, (event.y() - self.oy) / -self.zoom
 
-    def mousePressEvent(self, event: QMouseEvent):
+    def mousePressEvent(self, event: QMouseEvent) -> None:
         """Press event.
 
         Middle button: Move canvas of view.
@@ -606,7 +606,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             if self.selector.selection_rect:
                 self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
 
-    def mouseDoubleClickEvent(self, event: QMouseEvent):
+    def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
         """Mouse double click.
 
         + Middle button: Zoom to fit.
@@ -623,7 +623,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                 if self.free_move == FreeMode.NoFreeMove:
                     self.doubleclick_edit.emit(self.selector.selection_rect[0])
 
-    def mouseReleaseEvent(self, event: QMouseEvent):
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         """Release mouse button.
 
         + Alt & Left button: Add a point.
@@ -664,7 +664,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         self.selector.release()
         self.update()
 
-    def mouseMoveEvent(self, event: QMouseEvent):
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
         """Move mouse.
 
         + Middle button: Translate canvas view.
@@ -749,7 +749,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             self.update()
         self.tracking.emit(x, y)
 
-    def zoom_to_fit(self):
+    def zoom_to_fit(self) -> None:
         """Zoom to fit function."""
         width = self.width()
         height = self.height()

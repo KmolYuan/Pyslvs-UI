@@ -77,12 +77,12 @@ class _ScriptBrowser(QTextEdit):
 
     """Custom text browser to implement text zooming."""
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         super(_ScriptBrowser, self).__init__(parent)
         self.setReadOnly(True)
         self.zoomIn(3)
 
-    def wheelEvent(self, event: QWheelEvent):
+    def wheelEvent(self, event: QWheelEvent) -> None:
         super(_ScriptBrowser, self).wheelEvent(event)
         if QApplication.keyboardModifiers() != Qt.ControlModifier:
             return
@@ -150,20 +150,20 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.image: QPixmap = QPixmap.fromImage(ImageQt(image.resize((500, 500))))
 
     @Slot(str, name='on_style_option_currentIndexChanged')
-    def __set_style(self, style: str):
+    def __set_style(self, style: str) -> None:
         """Redefine the CSS script of the html."""
         style_code = HtmlFormatter(style=get_style_by_name(style)).get_style_defs()
         self.script_view.setHtml(f"<style>{style_code}</style>" + self.code)
 
     @Slot(name='on_copy_clicked')
-    def __copy(self):
+    def __copy(self) -> None:
         """Copy to clipboard."""
         QApplication.clipboard().setText(
             self.compressed_script if self.compressed_script else self.script_view.toPlainText()
         )
 
     @Slot(name='on_show_qrcode_clicked')
-    def __show_qrcode(self):
+    def __show_qrcode(self) -> None:
         """Save to image file."""
         dlg = QDialog(self)
         dlg.setWindowTitle("Mechanism QR code")

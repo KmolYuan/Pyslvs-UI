@@ -14,7 +14,7 @@ class SlvsParser:
 
     """Use to read data from solvespace file format."""
 
-    def __init__(self, file_name: str):
+    def __init__(self, file_name: str) -> None:
         """Open the file when initialize."""
         self.groups: List[Dict[str, str]] = []
         self.requests: List[Dict[str, str]] = []

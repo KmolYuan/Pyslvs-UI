@@ -90,7 +90,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.work.finished.connect(self.__finish)
 
     @Slot(int, str)
-    def __set_progress(self, progress: int, fitness: str):
+    def __set_progress(self, progress: int, fitness: str) -> None:
         """Progress bar will always full."""
         value = progress + self.limit * self.work.current_loop
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
@@ -99,7 +99,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.fitness_label.setText(fitness)
 
     @Slot()
-    def __set_time(self):
+    def __set_time(self) -> None:
         """Set time label."""
         self.time += 1
         t_min = self.time % 3600
@@ -110,7 +110,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         )
 
     @Slot(name='on_start_button_clicked')
-    def __start(self):
+    def __start(self) -> None:
         """Start the process."""
         loop = self.loopTime.value()
         self.progress_bar.setMaximum(self.limit * loop)
@@ -125,26 +125,26 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.interrupt_button.setEnabled(True)
 
     @Slot(dict)
-    def __get_result(self, mechanism: Dict[str, Any]):
+    def __get_result(self, mechanism: Dict[str, Any]) -> None:
         """Get the result."""
         self.mechanisms.append(mechanism)
         self.time_spend += mechanism['time']
 
     @Slot()
-    def __finish(self):
+    def __finish(self) -> None:
         """Finish the process."""
         self.timer.stop()
         self.accept()
 
     @Slot(name='on_interrupt_button_clicked')
-    def __interrupt(self):
+    def __interrupt(self) -> None:
         """Interrupt the process."""
         if self.work.isRunning():
             self.stop_signal.emit()
             logger.info("The thread has been interrupted.")
 
     @Slot()
-    def __close_work(self):
+    def __close_work(self) -> None:
         """Close the thread."""
         if not self.work.isRunning():
             return

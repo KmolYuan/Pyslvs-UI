@@ -49,7 +49,7 @@ class PyslvsAbout(QDialog, Ui_Dialog):
 
     """Pyslvs about dialog."""
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         """About description strings."""
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)

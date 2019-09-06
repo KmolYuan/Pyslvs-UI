@@ -46,7 +46,7 @@ def boundaryloop(
     return boundary_tmp
 
 
-def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
+def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     """Generate a linkage sketch by specified radius."""
     # Translate
     min_x = min(vpoint.cx for vpoint in vpoints)
@@ -77,7 +77,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     writer.group_normal(0x3, "boundary")
 
     # Add "Param".
-    def add_param(edges: Sequence[_CoordsPair]):
+    def add_param(edges: Sequence[_CoordsPair]) -> None:
         """Add param by pair of coordinates."""
         for edge in edges:
             writer.param_num += 0x10
@@ -130,7 +130,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
     # The number of same lines.
     line_num = [[] for _ in range(len(frame))]
 
-    def segment_processing(edges: Sequence[_CoordsPair]):
+    def segment_processing(edges: Sequence[_CoordsPair]) -> None:
         """Add edges to workplane. (No any constraint.)"""
         # Add "Request".
         for _ in range(len(edges)):
@@ -208,7 +208,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
 
     segment_processing(boundary)
 
-    def add_circle(index: int, _x: float, _y: float):
+    def add_circle(index: int, _x: float, _y: float) -> None:
         """Add circle"""
         # Add "Request"
         writer.request_circle(writer.request_num)
@@ -236,7 +236,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str):
             writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
         writer.constraint_num += 1
 
-    def add_arc(index: int, _cx: float, _cy: float):
+    def add_arc(index: int, _cx: float, _cy: float) -> None:
         """Add arc"""
         # Add "Request"
         writer.request_arc(writer.request_num)

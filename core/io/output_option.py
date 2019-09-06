@@ -87,7 +87,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         self.v_to_slvs = v_to_slvs
 
     @Slot(name='on_choose_dir_button_clicked')
-    def __set_dir(self):
+    def __set_dir(self) -> None:
         """Choose path and it will be set as environment variable if accepted."""
         path = self.path_edit.text()
         if not isdir(path):
@@ -97,7 +97,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
             self.path_edit.setText(path)
 
     @Slot(name='on_button_box_accepted')
-    def __accepted(self):
+    def __accepted(self) -> None:
         """Use the file path to export the project."""
         qdir = QDir(_get_name(self.path_edit, ispath=True))
         if self.newfolder_option.isChecked():
@@ -120,7 +120,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         """Do the saving work here, return True if done."""
         ...
 
-    def exist_warning(self, name: str, *, folder: bool = False):
+    def exist_warning(self, name: str, *, folder: bool = False) -> None:
         """Show the "file is exist" message box."""
         QMessageBox.warning(
             self,
@@ -135,7 +135,7 @@ class SlvsOutputDialog(_OutputDialog):
 
     """Dialog for Solvespace format."""
 
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         """Type name: "Solvespace module"."""
         super(SlvsOutputDialog, self).__init__(
             "Solvespace",
@@ -195,7 +195,7 @@ class DxfOutputDialog(_OutputDialog):
 
     """Dialog for DXF format."""
 
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         """Type name: "DXF module"."""
         super(DxfOutputDialog, self).__init__(
             "DXF",

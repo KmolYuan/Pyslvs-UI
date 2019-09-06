@@ -26,7 +26,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
 
-    def __init__(self, parent: ConfigureWidget):
+    def __init__(self, parent: ConfigureWidget) -> None:
         """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
@@ -47,7 +47,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         for s, qs in self.same.items():
             self.multiple_list.addItem(f"P{s} -> P{qs}")
 
-    def __reload_quote_choose(self):
+    def __reload_quote_choose(self) -> None:
         """Reload joints from 'pos' dict."""
         s_old = self.quote_choose.currentText()
         self.quote_choose.clear()
@@ -57,7 +57,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.quote_choose.setCurrentIndex(self.quote_choose.findText(s_old))
 
     @Slot(name='on_add_button_clicked')
-    def __add_cus(self):
+    def __add_cus(self) -> None:
         """Add a custom point by dependents."""
         row = self.link_choose.currentIndex()
         if not row > -1:
@@ -76,7 +76,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.joint_combobox.addItem(new_name)
 
     @Slot(name='on_delete_button_clicked')
-    def __delete_cus(self):
+    def __delete_cus(self) -> None:
         """Remove a custom point."""
         row = self.custom_list.currentRow()
         if not row > -1:
@@ -91,7 +91,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.joint_combobox.removeItem(num)
 
     @Slot(str, name='on_quote_choose_currentIndexChanged')
-    def __set_quote(self, s: str):
+    def __set_quote(self, s: str) -> None:
         """Update the joint symbols when switch quote."""
         self.quote_link_choose.clear()
         if not s:
@@ -103,7 +103,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
                 self.quote_link_choose.addItem(link_text)
 
     @Slot(str, name='on_quote_link_choose_currentIndexChanged')
-    def __set_quote_link(self, s: str):
+    def __set_quote_link(self, s: str) -> None:
         """Update the joint symbols when switch quote link."""
         self.joint_choose.clear()
         if not s:
@@ -117,7 +117,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
             self.joint_choose.addItem(joint)
 
     @Slot(name='on_add_mj_button_clicked')
-    def __add_multi_joint(self):
+    def __add_multi_joint(self) -> None:
         """Add a multiple joint by dependents."""
         s = self.joint_choose.currentText()
         if not s:
@@ -130,7 +130,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.__reload_quote_choose()
 
     @Slot(name='on_delete_mj_button_clicked')
-    def __delete_multi_joint(self):
+    def __delete_multi_joint(self) -> None:
         """Remove a multiple joint."""
         row = self.multiple_list.currentRow()
         if not row > -1:

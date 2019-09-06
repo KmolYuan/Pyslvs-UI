@@ -64,7 +64,7 @@ class InputsWidget(QWidget, Ui_Form):
 
     about_to_resolve = Signal()
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
 
@@ -112,44 +112,44 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.__path_data: Dict[str, Sequence[_Coord]] = {}
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear function to reset widget status."""
         self.__path_data.clear()
         for _ in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
         self.variable_list.clear()
 
-    def __set_angle_mode(self):
+    def __set_angle_mode(self) -> None:
         """Change to angle input."""
         self.dial.setMinimum(0)
         self.dial.setMaximum(36000)
         self.dial_spinbox.setMinimum(0)
         self.dial_spinbox.setMaximum(360)
 
-    def __set_unit_mode(self):
+    def __set_unit_mode(self) -> None:
         """Change to unit input."""
         self.dial.setMinimum(-50000)
         self.dial.setMaximum(50000)
         self.dial_spinbox.setMinimum(-500)
         self.dial_spinbox.setMaximum(500)
 
-    def path_data(self):
+    def path_data(self) -> Dict[str, Sequence[_Coord]]:
         """Return current path data."""
         return self.__path_data
 
     @Slot(tuple)
-    def set_selection(self, selections: Sequence[int]):
+    def set_selection(self, selections: Sequence[int]) -> None:
         """Set one selection from canvas."""
         self.joint_list.setCurrentRow(selections[0])
 
     @Slot()
-    def clear_selection(self):
+    def clear_selection(self) -> None:
         """Clear the points selection."""
         self.driver_list.clear()
         self.joint_list.setCurrentRow(-1)
 
     @Slot(int, name='on_joint_list_currentRowChanged')
-    def __update_relate_points(self, _=None):
+    def __update_relate_points(self, _=None) -> None:
         """Change the point row from input widget."""
         self.driver_list.clear()
 
@@ -171,13 +171,13 @@ class InputsWidget(QWidget, Ui_Form):
             self.driver_list.addItem(f"[{base_point.type_str}] Point{p0}")
 
     @Slot(int, name='on_driver_list_currentRowChanged')
-    def __set_add_var_enabled(self, _=None):
+    def __set_add_var_enabled(self, _=None) -> None:
         """Set enable of 'add variable' button."""
         driver = self.driver_list.currentIndex()
         self.variable_add.setEnabled(driver != -1)
 
     @Slot(name='on_variable_add_clicked')
-    def __add_inputs_variable(self, p0: Optional[int] = None, p1: Optional[int] = None):
+    def __add_inputs_variable(self, p0: Optional[int] = None, p1: Optional[int] = None) -> None:
         """Add variable with '->' sign."""
         if p0 is None:
             item: Optional[QListWidgetItem] = self.joint_list.currentItem()
@@ -233,13 +233,13 @@ class InputsWidget(QWidget, Ui_Form):
         )), self.variable_list))
         self.CommandStack.endMacro()
 
-    def add_inputs_variables(self, variables: Sequence[Tuple[int, int]]):
+    def add_inputs_variables(self, variables: Sequence[Tuple[int, int]]) -> None:
         """Add from database."""
         for p0, p1 in variables:
             self.__add_inputs_variable(p0, p1)
 
     @Slot(QListWidgetItem, name='on_variable_list_itemClicked')
-    def __dial_ok(self, _=None):
+    def __dial_ok(self, _=None) -> None:
         """Set the angle of base link and drive link."""
         if self.inputs_play_shaft.isActive():
             return
@@ -268,7 +268,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.__set_angle_mode()
         self.dial.setValue(value * 100 if enabled else 0)
 
-    def variable_excluding(self, row: Optional[int] = None):
+    def variable_excluding(self, row: Optional[int] = None) -> None:
         """Remove variable if the point was been deleted. Default: all."""
         one_row: bool = row is not None
         for i, (b, d, a) in enumerate(self.input_pairs()):
@@ -280,7 +280,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.CommandStack.endMacro()
 
     @Slot(name='on_variable_remove_clicked')
-    def remove_var(self, row: int = -1):
+    def remove_var(self, row: int = -1) -> None:
         """Remove and reset angle."""
         if row == -1:
             row = self.variable_list.currentRow()
@@ -310,7 +310,7 @@ class InputsWidget(QWidget, Ui_Form):
             angle = float(var[2])
             yield (p0, p1, angle)
 
-    def variable_reload(self):
+    def variable_reload(self) -> None:
         """Auto check the points and type."""
         self.joint_list.clear()
         for i in range(self.EntitiesPoint.rowCount()):
@@ -319,11 +319,11 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_value_reset()
 
     @Slot(float)
-    def __set_var(self, value: float):
+    def __set_var(self, value: float) -> None:
         self.dial.setValue(int(value * 100 % self.dial.maximum()))
 
     @Slot(int)
-    def __update_var(self, value: int):
+    def __update_var(self, value: int) -> None:
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
         value /= 100.
@@ -342,7 +342,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.MainCanvas.record_path()
             self.oldVar = value
 
-    def variable_value_reset(self):
+    def variable_value_reset(self) -> None:
         """Reset the value of QDial."""
         if self.inputs_play_shaft.isActive():
             self.variable_play.setChecked(False)
@@ -358,7 +358,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.solve()
 
     @Slot(bool, name='on_variable_play_toggled')
-    def __play(self, toggled: bool):
+    def __play(self, toggled: bool) -> None:
         """Triggered when play button was changed."""
         self.dial.setEnabled(not toggled)
         self.dial_spinbox.setEnabled(not toggled)
@@ -370,7 +370,7 @@ class InputsWidget(QWidget, Ui_Form):
                 self.set_coords_as_current()
 
     @Slot()
-    def __change_index(self):
+    def __change_index(self) -> None:
         """QTimer change index."""
         index = self.dial.value()
         speed = self.variable_speed.value()
@@ -386,7 +386,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial.setValue(index)
 
     @Slot(bool, name='on_record_start_toggled')
-    def __start_record(self, toggled: bool):
+    def __start_record(self, toggled: bool) -> None:
         """Save to file path data."""
         if toggled:
             self.MainCanvas.record_start(int(
@@ -411,7 +411,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.add_path(name, path)
 
-    def add_path(self, name: str, path: Sequence[_Coord]):
+    def add_path(self, name: str, path: Sequence[_Coord]) -> None:
         """Add path function."""
         self.CommandStack.beginMacro(f"Add {{Path: {name}}}")
         self.CommandStack.push(AddPath(
@@ -423,13 +423,13 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
-    def load_paths(self, paths: Dict[str, Sequence[_Coord]]):
+    def load_paths(self, paths: Dict[str, Sequence[_Coord]]) -> None:
         """Add multiple path."""
         for name, path in paths.items():
             self.add_path(name, path)
 
     @Slot(name='on_record_remove_clicked')
-    def __remove_path(self):
+    def __remove_path(self) -> None:
         """Remove path data."""
         row = self.record_list.currentRow()
         if not row > 0:
@@ -446,7 +446,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.reload_canvas()
 
     @Slot(QListWidgetItem, name='on_record_list_itemDoubleClicked')
-    def __path_dlg(self, item: QListWidgetItem):
+    def __path_dlg(self, item: QListWidgetItem) -> None:
         """View path data."""
         name = item.text().split(":")[0]
         try:
@@ -480,7 +480,7 @@ class InputsWidget(QWidget, Ui_Form):
         logger.info(f"Output path data: {file_name}")
 
     @Slot(QPoint)
-    def __record_list_context_menu(self, point):
+    def __record_list_context_menu(self, point) -> None:
         """Show the context menu.
 
         Show path [0], [1], ...
@@ -533,18 +533,18 @@ class InputsWidget(QWidget, Ui_Form):
         self.pop_menu_record_list.clear()
 
     @Slot(bool, name='on_record_show_toggled')
-    def __set_path_show(self, toggled: bool):
+    def __set_path_show(self, toggled: bool) -> None:
         """Show all paths or hide."""
         self.MainCanvas.set_path_show(-1 if toggled else -2)
 
     @Slot(int, name='on_record_list_currentRowChanged')
-    def __set_path(self, _=None):
+    def __set_path(self, _=None) -> None:
         """Reload the canvas when switch the path."""
         if not self.record_show.isChecked():
             self.record_show.setChecked(True)
         self.reload_canvas()
 
-    def current_path(self):
+    def current_path(self) -> None:
         """Return current path data to main canvas.
 
         + No path.
@@ -559,7 +559,7 @@ class InputsWidget(QWidget, Ui_Form):
 
     @Slot(name='on_variable_up_clicked')
     @Slot(name='on_variable_down_clicked')
-    def __set_variable_priority(self):
+    def __set_variable_priority(self) -> None:
         row = self.variable_list.currentRow()
         if not row > -1:
             return

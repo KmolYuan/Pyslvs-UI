@@ -63,7 +63,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
     row_selection_changed = Signal(list)
     delete_request = Signal()
 
-    def __init__(self, row: int, headers: Sequence[str], parent: QWidget):
+    def __init__(self, row: int, headers: Sequence[str], parent: QWidget) -> None:
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setStatusTip("This table will show about the entities items in current view mode.")
@@ -81,7 +81,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         @Slot()
-        def __emit_selection_changed():
+        def __emit_selection_changed() -> None:
             self.row_selection_changed.emit(self.selected_rows())
 
         self.itemSelectionChanged.connect(__emit_selection_changed)
@@ -110,12 +110,12 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         """Get what row is been selected."""
         return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
 
-    def selectAll(self):
+    def selectAll(self) -> None:
         """Override method of select all function."""
         self.setFocus(Qt.ShortcutFocusReason)
         super(BaseTableWidget, self).selectAll()
 
-    def set_selections(self, selections: Sequence[int], key_detect: bool = False):
+    def set_selections(self, selections: Sequence[int], key_detect: bool = False) -> None:
         """Auto select function, get the signal from canvas."""
         self.setFocus()
         keyboard_modifiers = QApplication.keyboardModifiers()
@@ -161,20 +161,20 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
             )
             self.scrollToItem(self.item(row, 0))
 
-    def keyPressEvent(self, event: QKeyEvent):
+    def keyPressEvent(self, event: QKeyEvent) -> None:
         """Hit the delete key,
         will emit delete signal from this table.
         """
         if event.key() == Qt.Key_Delete:
             self.delete_request.emit()
 
-    def clear(self):
+    def clear(self) -> None:
         """Overridden the clear function, just removed all items."""
         for row in range(self.rowCount()):
             self.removeRow(0)
 
     @Slot()
-    def clearSelection(self):
+    def clearSelection(self) -> None:
         """Overridden the 'clear_selection' slot to emit 'row_selection_changed'"""
         super(BaseTableWidget, self).clearSelection()
         self.row_selection_changed.emit([])
@@ -186,7 +186,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
 
     selectionLabelUpdate = Signal(list)
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         super(PointTableWidget, self).__init__(0, (
             'Number',
             'Links',
@@ -197,7 +197,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             'Current',
         ), parent)
 
-    def edit_point(self, row: int, links: str, type_str: str, color: str, x: float, y: float):
+    def edit_point(self, row: int, links: str, type_str: str, color: str, x: float, y: float) -> None:
         """Edit a point."""
         for i, e in enumerate([f'Point{row}', links, type_str, color, x, y, f"({x}, {y})"]):
             item = QTableWidgetItem(str(e))
@@ -213,7 +213,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             row_text[i] = float(row_text[i]) if row_text[i] else 0.
         return row_text
 
-    def rename(self, row: int):
+    def rename(self, row: int) -> None:
         """When index changed, the points need to rename."""
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(f'Point{j}'))
@@ -229,7 +229,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             coords.append(coords[0])
         return coords
 
-    def update_current_position(self, coords: Sequence[Union[_Coord, Tuple[_Coord, _Coord]]]):
+    def update_current_position(self, coords: Sequence[Union[_Coord, Tuple[_Coord, _Coord]]]) -> None:
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
             if type(c[0]) is float:
@@ -240,7 +240,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             item.setToolTip(text)
             self.setItem(i, 6, item)
 
-    def get_back_position(self):
+    def get_back_position(self) -> None:
         """Let all the points go back to origin coordinate."""
         self.update_current_position(tuple(
             (float(self.item(row, 4).text()), float(self.item(row, 5).text()))
@@ -253,7 +253,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             return []
         return [s for s in item.text().split(',') if s]
 
-    def set_selections(self, selections: Sequence[int], key_detect: bool = False):
+    def set_selections(self, selections: Sequence[int], key_detect: bool = False) -> None:
         """Need to update selection label on status bar."""
         super(PointTableWidget, self).set_selections(selections, key_detect)
         self.selectionLabelUpdate.emit(self.selected_rows())
@@ -266,7 +266,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             return range(1, self.columnCount() - 1)
 
     @Slot()
-    def clearSelection(self):
+    def clearSelection(self) -> None:
         """Overridden the 'clear_selection' slot,
         so it will emit signal to clean the selection.
         """
@@ -278,7 +278,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
 
     """Custom table widget for link."""
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         super(LinkTableWidget, self).__init__(1, ('Name', 'Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
@@ -323,7 +323,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         """Row range that can be delete."""
         return range(self.columnCount())
 
-    def clear(self):
+    def clear(self) -> None:
         """We should keep the 'ground' left."""
         super(LinkTableWidget, self).clear()
         self.setRowCount(1)
@@ -337,7 +337,7 @@ class ExprTableWidget(BaseTableWidget[None]):
     + Free move request: link name, length
     """
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         super(ExprTableWidget, self).__init__(0, (
             'Function',
             'p0',
@@ -397,7 +397,7 @@ class ExprTableWidget(BaseTableWidget[None]):
         """Return column count."""
         return range(self.columnCount())
 
-    def clear(self):
+    def clear(self) -> None:
         """Emit to close the link free move widget."""
         super(ExprTableWidget, self).clear()
 
@@ -406,14 +406,14 @@ class SelectionLabel(QLabel):
 
     """This QLabel can show distance in status bar."""
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
         self.vpoints = parent.vpoint_list
 
     @Slot()
     @Slot(list)
-    def update_select_point(self, points: Optional[List[int]] = None):
+    def update_select_point(self, points: Optional[List[int]] = None) -> None:
         """Get points and distance from Point table widget."""
         if points is None:
             points = []
@@ -439,7 +439,7 @@ class SelectionLabel(QLabel):
         self.setText(text)
 
     @Slot(float, float)
-    def update_mouse_position(self, x: float, y: float):
+    def update_mouse_position(self, x: float, y: float) -> None:
         """Get the mouse position from canvas when press the middle button."""
         self.setText(f"Mouse at: ({x:.04f}, {y:.04f})")
 
@@ -448,7 +448,7 @@ class FPSLabel(QLabel):
 
     """This QLabel can show FPS of main canvas in status bar."""
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         super(FPSLabel, self).__init__(parent)
         self.__t0 = time() - 1
         self.__frame_timer = QTimer()
@@ -456,14 +456,14 @@ class FPSLabel(QLabel):
         self.__frame_timer.start(500)
 
     @Slot()
-    def __update_text(self):
+    def __update_text(self) -> None:
         """Update FPS with timer."""
         t1 = time() - self.__t0
         fps = 1 / t1 if t1 else 1
         self.setText(f"FPS: {fps:6.02f}")
 
     @Slot()
-    def update_text(self):
+    def update_text(self) -> None:
         """Update FPS with timer."""
         self.__update_text()
         self.__t0 = time()

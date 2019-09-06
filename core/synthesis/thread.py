@@ -22,14 +22,14 @@ class BaseThread(QThread, metaclass=QABCMeta):
     """Base thread of Cython functions."""
 
     @abstractmethod
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         super(BaseThread, self).__init__(parent)
         self.finished.connect(self.deleteLater)
         self.is_stop = False
         self.mutex = QMutex()
 
     @Slot()
-    def stop(self):
+    def stop(self) -> None:
         """Stop the algorithm."""
         self.mutex.unlock()
         self.is_stop = True

@@ -29,7 +29,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
 
-    def __init__(self, parent: DimensionalSynthesis):
+    def __init__(self, parent: DimensionalSynthesis) -> None:
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)
@@ -45,7 +45,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         self.match_num.setValue(len(self.path))
 
     @Slot(name='on_scaling_button_clicked')
-    def __scale(self):
+    def __scale(self) -> None:
         ox = self.scaling_rx.value()
         oy = self.scaling_ry.value()
         rx = self.scaling_rx.value()
@@ -58,7 +58,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         self.accept()
 
     @Slot(name='on_moving_button_clicked')
-    def __move(self):
+    def __move(self) -> None:
         """Translate functions."""
         mx = self.moving_x_coordinate.value()
         my = self.moving_y_coordinate.value()
@@ -66,14 +66,14 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         self.accept()
 
     @Slot(name='on_match_button_clicked')
-    def __match(self):
+    def __match(self) -> None:
         """Fitting function."""
         length = len(self.path)
         if length == 0:
             return
         index = list(range(length))
 
-        def poly_fit(x: List[float], y: List[float], d: int):
+        def poly_fit(x: List[float], y: List[float], d: int) -> None:
             """Return a 2D fitting equation."""
             coefficient = np.polyfit(x, y, d)
             # Fit values and mean.

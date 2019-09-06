@@ -126,7 +126,7 @@ class _DynamicCanvas(BaseCanvas):
                 y_top = rect.top()
         return x_right, x_left, y_top, y_bottom
 
-    def paintEvent(self, event: QPaintEvent):
+    def paintEvent(self, event: QPaintEvent) -> None:
         """Drawing functions."""
         width = self.width()
         height = self.height()
@@ -188,7 +188,7 @@ class _DynamicCanvas(BaseCanvas):
         else:
             self.__no_error = self.__index
 
-    def __draw_point(self, i: int):
+    def __draw_point(self, i: int) -> None:
         """Draw point function."""
         k = i
         for j in range(i):
@@ -204,7 +204,7 @@ class _DynamicCanvas(BaseCanvas):
             fixed = True
         self.draw_point(i, x, y, fixed, color)
 
-    def __draw_link(self, name: str, points: Sequence[int]):
+    def __draw_link(self, name: str, points: Sequence[int]) -> None:
         """Draw link function.
 
         The link color will be the default color.
@@ -232,7 +232,7 @@ class _DynamicCanvas(BaseCanvas):
             cen_y = sum(self.pos[i][1] for i in points if self.pos[i])
             self.painter.drawText(QPointF(cen_x, -cen_y) * self.zoom / len(points), text)
 
-    def __draw_path(self):
+    def __draw_path(self) -> None:
         """Draw a path.
 
         A simple function than main canvas.
@@ -248,7 +248,7 @@ class _DynamicCanvas(BaseCanvas):
             self.draw_curve(path)
 
     @Slot()
-    def __change_index(self):
+    def __change_index(self) -> None:
         """A slot to change the path index."""
         self.__index += self.__interval
         if self.__index > self.__path_count:

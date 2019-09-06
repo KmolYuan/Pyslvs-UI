@@ -160,7 +160,7 @@ class QABCMeta(type(QObject), ABCMeta):
 
     class MyQObject(QObject, metaclass=QABCMeta):
         @abstractmethod
-        def my_abstract_method(self):
+        def my_abstract_method(self) -> None:
             ...
     """
     pass

@@ -53,7 +53,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_targets_add_clicked')
     @Slot(QListWidgetItem, name='on_other_list_itemDoubleClicked')
-    def __add(self):
+    def __add(self) -> None:
         """Add a new target joint."""
         row = self.other_list.currentRow()
         if not row > -1:
@@ -62,7 +62,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_other_add_clicked')
     @Slot(QListWidgetItem, name='on_targets_list_itemDoubleClicked')
-    def __remove(self):
+    def __remove(self) -> None:
         """Remove a target joint."""
         row = self.targets_list.currentRow()
         if not row > -1:

@@ -71,13 +71,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__can_open()
 
     @Slot(str, name='on_collections_list_currentTextChanged')
-    def __can_open(self, _=None):
+    def __can_open(self, _=None) -> None:
         """Set the button box to enable when data is already."""
         self.button_box.button(QDialogButtonBox.Open).setEnabled(
             self.collections_list.currentRow() > -1
         )
 
-    def __has_collection(self):
+    def __has_collection(self) -> None:
         """Set the buttons to enable when user choose a data."""
         has_collection = bool(self.collections)
         for button in [
@@ -88,7 +88,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             button.setEnabled(has_collection)
 
     @Slot(name='on_rename_button_clicked')
-    def __rename(self):
+    def __rename(self) -> None:
         """Show up a string input to change the data name."""
         row = self.collections_list.currentRow()
         if not row > -1:
@@ -116,7 +116,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.workbook_no_save()
 
     @Slot(name='on_copy_button_clicked')
-    def __copy(self):
+    def __copy(self) -> None:
         """Ask a name to copy a data."""
         row = self.collections_list.currentRow()
         if not row > -1:
@@ -144,7 +144,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.workbook_no_save()
 
     @Slot(name='on_delete_button_clicked')
-    def __delete(self):
+    def __delete(self) -> None:
         """Delete a data."""
         row = self.collections_list.currentRow()
         if not row > -1:
@@ -164,7 +164,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.workbook_no_save()
 
     @Slot(QListWidgetItem, name='on_common_list_itemClicked')
-    def __choose_common(self, _=None):
+    def __choose_common(self, _=None) -> None:
         """Update preview canvas for common data."""
         item = self.common_list.currentItem()
         if not item:
@@ -175,7 +175,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.preview_canvas.from_profile(self.params)
 
     @Slot(QListWidgetItem, name='on_collections_list_itemClicked')
-    def __choose_collections(self, _=None):
+    def __choose_collections(self, _=None) -> None:
         """Update preview canvas for a workbook data."""
         item = self.collections_list.currentItem()
         if not item:
@@ -186,7 +186,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.preview_canvas.from_profile(self.params)
 
     @Slot(name='on_workbook_button_clicked')
-    def __from_canvas(self):
+    def __from_canvas(self) -> None:
         """Get a collection data from current mechanism."""
         try:
             collection = self.get_collection()
@@ -206,14 +206,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
     @Slot(name='on_common_load_clicked')
     @Slot(QListWidgetItem, name='on_common_list_itemDoubleClicked')
-    def __load_common(self, _=None):
+    def __load_common(self, _=None) -> None:
         """Load a common data and close."""
         self.__choose_common()
         self.accept()
 
     @Slot(name='on_button_box_accepted')
     @Slot(QListWidgetItem, name='on_collections_list_itemDoubleClicked')
-    def __load_collections(self, _=None):
+    def __load_collections(self, _=None) -> None:
         """Load a workbook data and close."""
         self.__choose_collections()
         self.accept()

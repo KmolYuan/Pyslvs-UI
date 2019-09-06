@@ -32,7 +32,7 @@ class ChartDialog(QDialog):
     + Fitness / Time Chart.
     """
 
-    def __init__(self, title, algorithm_data, parent: QWidget):
+    def __init__(self, title, algorithm_data, parent: QWidget) -> None:
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")
@@ -53,7 +53,7 @@ class ChartDialog(QDialog):
         self.__set_chart("Fitness / Time Chart", 2, 1)
         main_layout.addWidget(self.tabWidget)
 
-    def __set_chart(self, tab_name: str, pos_x: int, pos_y: int):
+    def __set_chart(self, tab_name: str, pos_x: int, pos_y: int) -> None:
         """Setting charts by data index.
 
         pos_x / pos_y: [0], [1], [2]

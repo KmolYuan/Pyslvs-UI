@@ -60,11 +60,11 @@ class WorkerThread(BaseThread):
     def is_two_kernel(self) -> bool:
         return self.planar.is_two_kernel()
 
-    def set_loop(self, loop: int):
+    def set_loop(self, loop: int) -> None:
         """Set the loop times."""
         self.loop = loop
 
-    def run(self):
+    def run(self) -> None:
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
             logger.debug(f"- [P{name}] ({len(path)})")

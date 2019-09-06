@@ -62,13 +62,13 @@ class _ConfigureCanvas(PreviewCanvas):
     edit_size = 1000
     set_joint_number = Signal(int)
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         """Add a function use to get current point from parent."""
         super(_ConfigureCanvas, self).__init__(parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
 
-    def mousePressEvent(self, event: QMouseEvent):
+    def mousePressEvent(self, event: QMouseEvent) -> None:
         """Check if get close to a joint."""
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
@@ -82,11 +82,11 @@ class _ConfigureCanvas(PreviewCanvas):
                 self.pressed = True
                 break
 
-    def mouseReleaseEvent(self, event: QMouseEvent):
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         """Cancel the drag."""
         self.pressed = False
 
-    def mouseMoveEvent(self, event: QMouseEvent):
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
         """Drag to move the joint."""
         if not self.pressed:
             return
@@ -120,7 +120,7 @@ class _ConfigureCanvas(PreviewCanvas):
         self.update()
 
 
-def _set_warning(label: QLabel, warning: bool):
+def _set_warning(label: QLabel, warning: bool) -> None:
     """Show a warning sign front of label."""
     warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
     label.setText(label.text().replace(warning_icon, ''))
@@ -160,16 +160,16 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         self.__clear_panel()
 
-    def add_collections(self, collections: Dict[str, Dict[str, Any]]):
+    def add_collections(self, collections: Dict[str, Dict[str, Any]]) -> None:
         """Update the new collections."""
         self.collections.update(collections)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all sub-widgets."""
         self.collections.clear()
         self.__clear_panel()
 
-    def __clear_panel(self):
+    def __clear_panel(self) -> None:
         """Clear the settings of sub-widgets."""
         self.profile_name.clear()
         self.configure_canvas.clear()
@@ -203,7 +203,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         return False
 
     @Slot(name='on_add_collection_button_clicked')
-    def __add_collection(self):
+    def __add_collection(self) -> None:
         """Add the graph back to structure collections."""
         self.add_collection(tuple(self.configure_canvas.G.edges))
 
@@ -234,7 +234,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         return True
 
     @Slot(int, name='on_grounded_list_currentRowChanged')
-    def __set_grounded(self, row: int):
+    def __set_grounded(self, row: int) -> None:
         """Change current grounded link. Reset all settings."""
         has_choose = row > -1
         _set_warning(self.grounded_label, not has_choose)
@@ -259,12 +259,12 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.grounded_list.blockSignals(False)
 
     @Slot(str, name='on_driver_base_currentIndexChanged')
-    def __set_driver_base(self, name: str):
+    def __set_driver_base(self, name: str) -> None:
         self.driver_rotator.clear()
         if not name:
             return
 
-        def find_friends(node: int):
+        def find_friends(node: int) -> List[str]:
             """Find all the nodes that are same link with input node."""
             ev = dict(edges_view(self.configure_canvas.G))
             link = set(ev[node])
@@ -280,7 +280,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.driver_rotator.addItems(find_friends(int(name.replace('P', ''))))
 
     @Slot(name='on_driver_add_clicked')
-    def __add_driver(self):
+    def __add_driver(self) -> None:
         """Add a input pair."""
         d1 = self.driver_base.currentText()
         d2 = self.driver_rotator.currentText()
@@ -297,7 +297,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         _set_warning(self.driver_label, False)
 
     @Slot(name='on_driver_del_clicked')
-    def __del_driver(self):
+    def __del_driver(self) -> None:
         """Remove a input pair."""
         row = self.driver_list.currentRow()
         if not row > -1:
@@ -307,14 +307,14 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.__update_driver()
         _set_warning(self.driver_label, self.driver_list.count() == 0)
 
-    def __update_driver(self):
+    def __update_driver(self) -> None:
         """Update driver for canvas."""
         self.configure_canvas.set_driver([
             eval(s.replace('P', '')) for s in list_texts(self.driver_list)
         ])
 
     @Slot(name='on_add_customization_clicked')
-    def __set_cus_same(self):
+    def __set_cus_same(self) -> None:
         """Custom points and multiple joints option."""
         dlg = CustomsDialog(self)
         dlg.show()
@@ -355,7 +355,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         }
 
     @Slot(name='on_load_button_clicked')
-    def __from_profile(self):
+    def __from_profile(self) -> None:
         """Show up the dialog to load structure data."""
         dlg = CollectionsDialog(
             self.collections,
@@ -406,7 +406,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.expr_show.setText(params['Expression'])
 
     @Slot(name='on_target_button_clicked')
-    def __set_target(self):
+    def __set_target(self) -> None:
         """Show up target joints dialog."""
         dlg = TargetsDialog(
             "Choose the target points.",
@@ -427,7 +427,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         _set_warning(self.target_label, self.target_list.count() == 0)
 
     @Slot(QListWidgetItem)
-    def __set_parm_bind(self, _=None):
+    def __set_parm_bind(self, _=None) -> None:
         """Set parameters binding."""
         link_expr_list = []
         for row, gs in enumerate(list_texts(self.grounded_list)):
@@ -463,7 +463,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.expr_show.setText("M[" + ", ".join(vpoint_exprs) + "]")
 
     @Slot(name='on_save_button_clicked')
-    def __save(self):
+    def __save(self) -> None:
         """Save the profile to database."""
         if self.profile_name.text():
             name = self.profile_name.text()
@@ -484,7 +484,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.workbook_no_save()
 
     @Slot(name='on_clipboard_button_clicked')
-    def __copy(self):
+    def __copy(self) -> None:
         """Copy the mechanism params."""
         QApplication.clipboard().setText(
             pprint.pformat(self.__get_current_mechanism_params())

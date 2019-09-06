@@ -42,7 +42,7 @@ class MainWindow(IOMethodInterface):
     to wrapper function in 'main_window' module.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Notes:
 
         + Input command line arguments object from Python parser.
@@ -62,7 +62,7 @@ class MainWindow(IOMethodInterface):
         # Load workbook from argument
         self.load_from_args()
 
-    def closeEvent(self, event: QCloseEvent):
+    def closeEvent(self, event: QCloseEvent) -> None:
         """Close event to avoid user close the window accidentally."""
         if self.check_file_changed():
             event.ignore()
@@ -75,12 +75,12 @@ class MainWindow(IOMethodInterface):
         event.accept()
 
     @Slot(int, name='on_zoom_bar_valueChanged')
-    def __set_zoom(self, value: int):
+    def __set_zoom(self, value: int) -> None:
         """Reset the text when zoom bar changed."""
         self.zoom_button.setText(f'{value}%')
 
     @Slot()
-    def customize_zoom(self):
+    def customize_zoom(self) -> None:
         """Customize zoom value."""
         value, ok = QInputDialog.getInt(
             self,
@@ -95,35 +95,35 @@ class MainWindow(IOMethodInterface):
             self.zoom_bar.setValue(value)
 
     @Slot(bool, name='on_action_show_dimensions_toggled')
-    def __set_show_dimensions(self, toggled: bool):
+    def __set_show_dimensions(self, toggled: bool) -> None:
         """If turn on dimension labels, turn on the point marks."""
         if toggled:
             self.action_show_point_mark.setChecked(True)
 
     @Slot(bool, name='on_action_show_point_mark_toggled')
-    def __set_show_point_mark(self, toggled: bool):
+    def __set_show_point_mark(self, toggled: bool) -> None:
         """If no point marks, turn off the dimension labels."""
         if not toggled:
             self.action_show_dimensions.setChecked(False)
 
     @Slot(name='on_action_path_style_triggered')
-    def __set_curve_mode(self):
+    def __set_curve_mode(self) -> None:
         """Set path style as curve (true) or dots (false)."""
         self.main_canvas.set_curve_mode(self.action_path_style.isChecked())
 
     @Slot(int, name='on_main_panel_currentChanged')
     @Slot(int, name='on_synthesis_tab_widget_currentChanged')
-    def __set_show_target_path(self, _=None):
+    def __set_show_target_path(self, _=None) -> None:
         """Dimensional synthesis information will show on the canvas."""
         panel_index = self.main_panel.currentIndex()
         synthesis_index = self.synthesis_tab_widget.currentIndex()
         self.main_canvas.set_show_target_path(panel_index == synthesis_index == 2)
 
-    def add_target_point(self):
+    def add_target_point(self) -> None:
         """Use context menu to add a target path coordinate."""
         self.dimensional_synthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
-    def merge_result(self, expr: str, path: Sequence[Sequence[Tuple[float, float]]]):
+    def merge_result(self, expr: str, path: Sequence[Sequence[Tuple[float, float]]]) -> None:
         """Merge result function of dimensional synthesis."""
         if not self.ask_add_storage(expr):
             return
@@ -134,14 +134,14 @@ class MainWindow(IOMethodInterface):
         self.inputs_widget.add_path(f"Algorithm_{i}", path)
 
     @Slot(name='on_background_choose_dir_clicked')
-    def __set_background(self):
+    def __set_background(self) -> None:
         """Show up dialog to set the background file path."""
         file_name = self.input_from("Background", qt_image_format)
         if file_name:
             self.background_option.setText(file_name)
 
     @Slot(name='on_console_connect_button_clicked')
-    def __console_connect(self):
+    def __console_connect(self) -> None:
         """Turn the OS command line (stdout) log to console."""
         logger.info("Connect to GUI console.")
         XStream.stdout().message_written.connect(self.__append_to_console)
@@ -150,7 +150,7 @@ class MainWindow(IOMethodInterface):
         logger.info("Connect to GUI console.")
 
     @Slot(name='on_console_disconnect_button_clicked')
-    def __console_disconnect(self):
+    def __console_disconnect(self) -> None:
         """Turn the console log to OS command line (stdout)."""
         logger.info("Disconnect from GUI console.")
         XStream.back()
@@ -159,14 +159,14 @@ class MainWindow(IOMethodInterface):
         logger.info("Disconnect from GUI console.")
 
     @Slot(str)
-    def __append_to_console(self, log: str):
+    def __append_to_console(self, log: str) -> None:
         """After inserted the text, move cursor to end."""
         self.console_widget_browser.moveCursor(QTextCursor.End)
         self.console_widget_browser.insertPlainText(log)
         self.console_widget_browser.moveCursor(QTextCursor.End)
 
     @Slot(bool, name='on_action_full_screen_toggled')
-    def __full_screen(self, full_screen: bool):
+    def __full_screen(self, full_screen: bool) -> None:
         """Show full screen or not."""
         if full_screen:
             self.showFullScreen()
@@ -174,11 +174,11 @@ class MainWindow(IOMethodInterface):
             self.showMaximized()
 
     @Slot(name='on_action_about_qt_triggered')
-    def __about_qt(self):
+    def __about_qt(self) -> None:
         """Open Qt about."""
         QMessageBox.aboutQt(self)
 
     @Slot(name='on_action_commit_branch_triggered')
-    def commit_branch(self):
+    def commit_branch(self) -> None:
         """Save as new branch action."""
         self.commit(True)

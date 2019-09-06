@@ -64,7 +64,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
             self.name_box.setCurrentIndex(pos)
 
     @Slot(int, name='on_name_box_currentIndexChanged')
-    def __set_name(self, index: int):
+    def __set_name(self, index: int) -> None:
         """Load the parameters of the point."""
         if not len(self.vpoints) > index:
             return
@@ -90,14 +90,14 @@ class EditPointDialog(QDialog, Ui_Dialog):
             self.noSelected.addItem(QListWidgetItem(self.link_icon, vlink.name))
 
     @Slot(int, name='on_color_box_currentIndexChanged')
-    def __set_color(self, _=None):
+    def __set_color(self, _=None) -> None:
         """Change the color icon of pick button."""
         self.color_pick_button.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
 
     @Slot(name='on_color_pick_button_clicked')
-    def __set_rgb(self):
+    def __set_rgb(self) -> None:
         """Add a custom color from current color."""
         color = QColorDialog.getColor(
             color_qt(self.color_box.currentText()),
@@ -110,19 +110,19 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.color_box.setCurrentIndex(self.color_box.count() - 1)
 
     @Slot(int, name='on_type_box_currentIndexChanged')
-    def __set_type(self, index: int):
+    def __set_type(self, index: int) -> None:
         """Toggle the slider angle option."""
         self.angle_box.setEnabled(index != 0)
 
     @Slot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
-    def __add_selected(self, item: QListWidgetItem):
+    def __add_selected(self, item: QListWidgetItem) -> None:
         """Add item to selected list."""
         self.selected.addItem(
             self.noSelected.takeItem(self.noSelected.row(item))
         )
 
     @Slot(QListWidgetItem, name='on_selected_itemDoubleClicked')
-    def __add_no_selected(self, item: QListWidgetItem):
+    def __add_no_selected(self, item: QListWidgetItem) -> None:
         """Add item to no selected list."""
         self.noSelected.addItem(
             self.selected.takeItem(self.selected.row(item))

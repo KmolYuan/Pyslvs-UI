@@ -33,12 +33,12 @@ class LinkSynthesisThread(BaseThread):
     result = Signal(dict)
     size_update = Signal(int)
 
-    def __init__(self, nl: int, nj: int, parent: QWidget):
+    def __init__(self, nl: int, nj: int, parent: QWidget) -> None:
         super(LinkSynthesisThread, self).__init__(parent)
         self.nl = nl
         self.nj = nj
 
-    def run(self):
+    def run(self) -> None:
         """Run and return contracted link assortment."""
         try:
             la_list = link_synthesis(self.nl, self.nj, lambda: self.is_stop)
@@ -67,12 +67,12 @@ class GraphEnumerateThread(BaseThread):
     count_update = Signal(QTreeWidgetItem, int)
     result = Signal(list)
 
-    def __init__(self, jobs: Sequence[QTreeWidgetItem], degenerate: int, parent: QWidget):
+    def __init__(self, jobs: Sequence[QTreeWidgetItem], degenerate: int, parent: QWidget) -> None:
         super(GraphEnumerateThread, self).__init__(parent)
         self.jobs = jobs
         self.degenerate = degenerate
 
-    def run(self):
+    def run(self) -> None:
         """Run and return conventional graph."""
         cg_list = {}
         answers = []

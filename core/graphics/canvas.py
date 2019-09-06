@@ -124,7 +124,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
     """The subclass can draw a blank canvas more easier."""
 
     @abstractmethod
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         """Set the parameters for drawing."""
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
@@ -181,7 +181,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             return height / y_diff
 
     @abstractmethod
-    def paintEvent(self, event: QPaintEvent):
+    def paintEvent(self, event: QPaintEvent) -> None:
         """Using a QPainter under 'self',
         so just change QPen or QBrush before painting.
         """
@@ -220,7 +220,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         y_b = -self.oy
         self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
 
-        def indexing(v):
+        def indexing(v) -> None:
             """Draw tick."""
             return int(v / self.zoom - v / self.zoom % 5)
 
@@ -275,7 +275,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
 
-    def draw_slvs_ranges(self):
+    def draw_slvs_ranges(self) -> None:
         """Draw solving range."""
         pen = QPen()
         pen.setWidth(5)
@@ -301,7 +301,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             self.painter.drawText(QPointF(cx, cy) + QPointF(6, -6), tag)
             self.painter.setBrush(Qt.NoBrush)
 
-    def draw_target_path(self):
+    def draw_target_path(self) -> None:
         """Draw solving path."""
         pen = QPen()
         pen.setWidth(self.path_width)
@@ -386,7 +386,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         self.painter.setFont(font_copy)
 
-    def draw_curve(self, path: Sequence[_Coord]):
+    def draw_curve(self, path: Sequence[_Coord]) -> None:
         """Draw path as curve."""
         if len(set(path)) <= 2:
             return
@@ -411,7 +411,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                     painter_path.lineTo(x, y)
         self.painter.drawPath(painter_path)
 
-    def draw_dot(self, path: Sequence[_Coord]):
+    def draw_dot(self, path: Sequence[_Coord]) -> None:
         """Draw path as dots."""
         if len(set(path)) <= 2:
             return
@@ -467,7 +467,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
 
-        def draw_arrow(index: int, text: str):
+        def draw_arrow(index: int, text: str) -> None:
             """Draw arrow."""
             self.__draw_arrow(
                 points[-1].x(),
@@ -486,7 +486,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setBrush(Qt.NoBrush)
 
     @Slot(bool)
-    def set_monochrome_mode(self, monochrome: bool):
+    def set_monochrome_mode(self, monochrome: bool) -> None:
         self.monochrome = monochrome
         self.update()
 
@@ -497,7 +497,7 @@ class PreviewCanvas(BaseCanvas):
 
     view_size = 240
 
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget) -> None:
         """Input parameters and attributes.
 
         + Origin graph
@@ -521,7 +521,7 @@ class PreviewCanvas(BaseCanvas):
 
         self.clear()
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear the attributes."""
         self.G = Graph([])
         self.cus.clear()
@@ -533,7 +533,7 @@ class PreviewCanvas(BaseCanvas):
         self.target.clear()
         self.update()
 
-    def paintEvent(self, event: QPaintEvent):
+    def paintEvent(self, event: QPaintEvent) -> None:
         """Draw the structure."""
         width = self.width()
         height = self.height()
@@ -637,14 +637,14 @@ class PreviewCanvas(BaseCanvas):
                 y_top = y
         return x_right, x_left, y_top, y_bottom
 
-    def set_graph(self, graph: Graph, pos: Dict[int, _Coord]):
+    def set_graph(self, graph: Graph, pos: Dict[int, _Coord]) -> None:
         """Set the graph from NetworkX graph type."""
         self.G = graph
         self.pos = pos
         self.status = {k: False for k in pos}
         self.update()
 
-    def set_grounded(self, link: int):
+    def set_grounded(self, link: int) -> None:
         """Set the grounded link number."""
         self.grounded = link
         for n, edge in edges_view(self.G):
@@ -653,19 +653,19 @@ class PreviewCanvas(BaseCanvas):
             self.status[n] = self.grounded == link
         self.update()
 
-    def set_driver(self, input_list: List[Tuple[int, int]]):
+    def set_driver(self, input_list: List[Tuple[int, int]]) -> None:
         """Set driver nodes."""
         self.driver.clear()
         self.driver.update(pair[0] for pair in input_list)
         self.update()
 
-    def set_target(self, nodes: Sequence[int]):
+    def set_target(self, nodes: Sequence[int]) -> None:
         """Set target nodes."""
         self.target.clear()
         self.target.update(nodes)
         self.update()
 
-    def set_status(self, point: str, status: bool):
+    def set_status(self, point: str, status: bool) -> None:
         """Set status node."""
         self.status[int(point.replace('P', ''))] = status
         self.update()
@@ -687,7 +687,7 @@ class PreviewCanvas(BaseCanvas):
                 yield row
                 return
 
-    def from_profile(self, params: Dict[str, Any]):
+    def from_profile(self, params: Dict[str, Any]) -> None:
         """Simple load by dict object."""
         # Customize points and multiple joints
         graph = Graph(params['Graph'])

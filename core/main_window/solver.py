@@ -304,17 +304,17 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
     """Abstract class for solver methods."""
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self) -> None:
         super(SolverMethodInterface, self).__init__()
         self.dof = 0
 
-    def solve(self):
+    def solve(self) -> None:
         """Resolve coordinates and preview path."""
         self.resolve()
         self.main_canvas.update_preview_path()
 
     @Slot()
-    def resolve(self):
+    def resolve(self) -> None:
         """Resolve: Using three libraries to solve the system.
 
         + Pyslvs
@@ -621,7 +621,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.entities_expr.clear()
         return inputs
 
-    def reload_canvas(self):
+    def reload_canvas(self) -> None:
         """Update main canvas data, without resolving."""
         self.main_canvas.update_figure(
             self.get_triangle().as_list(),

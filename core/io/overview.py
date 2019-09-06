@@ -79,7 +79,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
             self.results_list.addItem(data['Algorithm'])
         self.__set_item_text(3, len(algorithm_data))
 
-    def __set_item_text(self, i: int, *count: int):
+    def __set_item_text(self, i: int, *count: int) -> None:
         """Set the title for a specified tab."""
         text = " / ".join(str(c) for c in count)
         self.toolBox.setItemText(i, f"{self.toolBox.itemText(i)} - ({text})")

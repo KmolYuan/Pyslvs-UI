@@ -63,7 +63,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     layout_sender = Signal(Graph, dict)
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)
@@ -82,7 +82,7 @@ class StructureWidget(QWidget, Ui_Form):
         # Engine list
         self.graph_engine.addItems(engines)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all sub-widgets."""
         for button in (
             self.merge_button,
@@ -95,7 +95,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.__clear_selection()
 
     @Slot(name='on_clear_button_clicked')
-    def __user_clear(self):
+    def __user_clear(self) -> None:
         """Ask user before clear."""
         if not self.collections:
             return
@@ -112,7 +112,7 @@ class StructureWidget(QWidget, Ui_Form):
     @Slot(bool, name='on_graph_link_as_node_toggled')
     @Slot(bool, name='on_graph_show_label_toggled')
     @Slot(int, name='on_graph_engine_currentIndexChanged')
-    def __reload_atlas(self):
+    def __reload_atlas(self) -> None:
         """Reload atlas with the engine."""
         current_pos = self.collection_list.currentRow()
         self.collections_layouts.clear()
@@ -184,7 +184,7 @@ class StructureWidget(QWidget, Ui_Form):
                 return f"is isomorphic with: {h.edges}"
         return ""
 
-    def add_collection(self, edges: Iterable[Tuple[int, int]], *, reload: bool = True):
+    def add_collection(self, edges: Iterable[Tuple[int, int]], *, reload: bool = True) -> None:
         """Add collection by in put edges."""
         error = self.__is_valid_graph(edges)
         if error:
@@ -195,13 +195,13 @@ class StructureWidget(QWidget, Ui_Form):
         if reload:
             self.__reload_atlas()
 
-    def add_collections(self, collections: Sequence[Sequence[Tuple[int, int]]]):
+    def add_collections(self, collections: Sequence[Sequence[Tuple[int, int]]]) -> None:
         """Add collections."""
         for edges in collections:
             self.add_collection(edges)
 
     @Slot(name='on_add_by_edges_button_clicked')
-    def __add_from_edges(self):
+    def __add_from_edges(self) -> None:
         """Add collection by input string."""
         edges_str = ""
         while not edges_str:
@@ -224,7 +224,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.add_collection(edges)
 
     @Slot(name='on_add_by_files_button_clicked')
-    def __add_from_files(self):
+    def __add_from_files(self) -> None:
         """Append atlas by text files."""
         file_names = self.input_from(
             "Edges data",
@@ -255,7 +255,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.__reload_atlas()
 
     @Slot(name='on_capture_graph_clicked')
-    def __save_graph(self):
+    def __save_graph(self) -> None:
         """Save the current graph."""
         if self.selection_window.count() != 1:
             return
@@ -269,7 +269,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.save_reply_box("Graph", file_name)
 
     @Slot(name='on_save_atlas_clicked')
-    def __save_atlas(self):
+    def __save_atlas(self) -> None:
         """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
         if not count:
@@ -309,7 +309,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.save_reply_box("Atlas", file_name)
 
     @Slot(name='on_save_edges_clicked')
-    def __save_edges(self):
+    def __save_edges(self) -> None:
         """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
         if not count:
@@ -322,7 +322,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.save_reply_box("edges expression", file_name)
 
     @Slot(QListWidgetItem, name='on_collection_list_itemClicked')
-    def __set_selection(self, item: QListWidgetItem):
+    def __set_selection(self, item: QListWidgetItem) -> None:
         """Show the data of collection.
 
         Save the layout position to keep the graphs
@@ -369,7 +369,7 @@ class StructureWidget(QWidget, Ui_Form):
 
         self.__grounded()
 
-    def __clear_selection(self):
+    def __clear_selection(self) -> None:
         """Clear the selection preview data."""
         self.grounded_list.clear()
         self.selection_window.clear()
@@ -382,7 +382,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.contracted_link_assortment_label.setText("N/A")
 
     @Slot(name='on_expr_copy_clicked')
-    def __copy_expr(self):
+    def __copy_expr(self) -> None:
         """Copy the expression."""
         string = self.edges_text.text()
         if string:
@@ -390,7 +390,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.edges_text.selectAll()
 
     @Slot(name='on_delete_button_clicked')
-    def __delete_collection(self):
+    def __delete_collection(self) -> None:
         """Delete the selected collection."""
         row = self.collection_list.currentRow()
         if not row > -1:
@@ -410,7 +410,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.workbook_no_save()
 
     @Slot(name='on_duplicate_button_clicked')
-    def __make_duplicate(self):
+    def __make_duplicate(self) -> None:
         """Make current graph symmetric."""
         row = self.collection_list.currentRow()
         if not row > -1:
@@ -444,14 +444,14 @@ class StructureWidget(QWidget, Ui_Form):
         self.add_collection(new_graph.edges)
 
     @Slot(name='on_configure_button_clicked')
-    def __configuration(self):
+    def __configuration(self) -> None:
         """Triangular iteration."""
         self.layout_sender.emit(
             self.collections[self.collection_list.currentRow()],
             self.ground_engine.copy()
         )
 
-    def __grounded(self):
+    def __grounded(self) -> None:
         """Grounded combinations."""
         current_item = self.collection_list.currentItem()
         self.collections_grounded.clear()
@@ -486,7 +486,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.grounded_list.addItem(item)
 
     @Slot(name='on_merge_button_clicked')
-    def __grounded_merge(self):
+    def __grounded_merge(self) -> None:
         """Merge the grounded result."""
         item = self.grounded_list.currentItem()
         if not item:

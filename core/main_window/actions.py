@@ -23,7 +23,7 @@ from core.widgets import (
 from .storage import StorageMethodInterface
 
 
-def _copy_table_data(table):
+def _copy_table_data(table) -> None:
     """Copy item text to clipboard."""
     text = table.currentItem().text()
     if text:
@@ -35,12 +35,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     """Abstract class for action methods."""
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self) -> None:
         super(ActionMethodInterface, self).__init__()
         self.mouse_pos_x = 0.
         self.mouse_pos_y = 0.
 
-    def __enable_point_context(self):
+    def __enable_point_context(self) -> None:
         """Adjust the status of QActions.
 
         What ever we have least one point or not,
@@ -54,10 +54,10 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             ))
         self.context.point_enable(len(selection))
 
-        def mj_func(order: int):
+        def mj_func(order: int) -> None:
             """Generate a merge function."""
             @Slot()
-            def func():
+            def func() -> None:
                 self.__to_multiple_joint(order, selection)
             return func
 
@@ -66,7 +66,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             action.triggered.connect(mj_func(i))
             self.pop_point_m.addAction(action)
 
-    def __enable_link_context(self):
+    def __enable_link_context(self) -> None:
         """Enable / disable link's QAction, same as point table."""
         selection = self.entities_link.selected_rows()
         row = self.entities_link.currentRow()
@@ -75,7 +75,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         def ml_func(order: int) -> Callable[[], None]:
             """Generate a merge function."""
             @Slot(int)
-            def func():
+            def func() -> None:
                 self.__merge_link(order, selection)
             return func
 
@@ -84,7 +84,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             action.triggered.connect(ml_func(i))
             self.pop_link_m.addAction(action)
 
-    def __to_multiple_joint(self, index: int, points: Sequence[int]):
+    def __to_multiple_joint(self, index: int, points: Sequence[int]) -> None:
         """Merge points into a multiple joint.
 
         @index: The index of main joint in the sequence.
@@ -112,7 +112,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         ))
         self.command_stack.endMacro()
 
-    def __merge_link(self, index: int, links: Sequence[int]):
+    def __merge_link(self, index: int, links: Sequence[int]) -> None:
         """Merge links to a base link.
 
         @index: The index of main joint in the sequence.
@@ -143,13 +143,13 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.command_stack.endMacro()
 
     @Slot(float, float)
-    def set_mouse_pos(self, x: float, y: float):
+    def set_mouse_pos(self, x: float, y: float) -> None:
         """Mouse position on canvas."""
         self.mouse_pos_x = x
         self.mouse_pos_y = y
 
     @Slot(QPoint)
-    def point_context_menu(self, point: QPoint):
+    def point_context_menu(self, point: QPoint) -> None:
         """EntitiesPoint context menu."""
         self.__enable_point_context()
         self.pop_point.exec_(self.entities_point_widget.mapToGlobal(point))
@@ -157,14 +157,14 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.pop_point_m.clear()
 
     @Slot(QPoint)
-    def link_context_menu(self, point: QPoint):
+    def link_context_menu(self, point: QPoint) -> None:
         """EntitiesLink context menu."""
         self.__enable_link_context()
         self.pop_link.exec_(self.entities_link_widget.mapToGlobal(point))
         self.pop_link_m.clear()
 
     @Slot(QPoint)
-    def canvas_context_menu(self, point: QPoint):
+    def canvas_context_menu(self, point: QPoint) -> None:
         """MainCanvas context menu."""
         index = self.entities_tab.currentIndex()
         if index == 0:
@@ -183,7 +183,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.pop_link_m.clear()
 
     @Slot()
-    def enable_mechanism_actions(self):
+    def enable_mechanism_actions(self) -> None:
         """Enable / disable 'mechanism' menu."""
         point_selection = self.entities_point.selected_rows()
         link_selection = self.entities_link.selected_rows()
@@ -199,16 +199,16 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.action_delete_link.setEnabled(link_selected)
 
     @Slot()
-    def copy_points_table(self):
+    def copy_points_table(self) -> None:
         """Copy text from point table."""
         _copy_table_data(self.entities_point)
 
     @Slot()
-    def copy_links_table(self):
+    def copy_links_table(self) -> None:
         """Copy text from link table."""
         _copy_table_data(self.entities_link)
 
-    def copy_coord(self):
+    def copy_coord(self) -> None:
         """Copy the current coordinate of the point."""
         pos = self.entities_point.current_position(self.entities_point.currentRow())
         text = str(pos[0] if len(pos) == 1 else pos)

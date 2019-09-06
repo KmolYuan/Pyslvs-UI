@@ -35,7 +35,7 @@ if system() not in {'Windows', 'Darwin'}:
     _log_path = os.path.join(os.path.expanduser("~"), _log_path)
 
 
-def _sign_in_logger():
+def _sign_in_logger() -> None:
     basicConfig(
         level=DEBUG if ARGUMENTS.debug_mode else INFO,
         filename=_log_path,
@@ -52,16 +52,16 @@ class _QtHandler(Handler):
 
     """Logging handle."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(_QtHandler, self).__init__()
 
-    def emit(self, record: str):
+    def emit(self, record: str) -> None:
         """Output to the other side."""
         record = self.format(record)
         if record and XStream.replaced():
             XStream.stdout().write(record + '\n')
 
-    def close(self):
+    def close(self) -> None:
         """Remove log file if exit."""
         super(_QtHandler, self).close()
         os.remove(_log_path)
@@ -76,14 +76,14 @@ class XStream(QObject):
     message_written = Signal(str)
 
     @staticmethod
-    def flush():
+    def flush() -> None:
         pass
 
     @staticmethod
-    def fileno():
+    def fileno() -> None:
         return -1
 
-    def write(self, msg: str):
+    def write(self, msg: str) -> None:
         """Output the message."""
         if not self.signalsBlocked():
             self.message_written.emit(msg)
@@ -102,7 +102,7 @@ class XStream(QObject):
         return XStream.__stdout
 
     @staticmethod
-    def back():
+    def back() -> None:
         """Disconnect from Qt widget."""
         sys.stdout = _SYS_STDOUT
         sys.stderr = _SYS_STDERR

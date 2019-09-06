@@ -50,7 +50,7 @@ class _ScaleDialog(QDialog):
 
     """Scale mechanism dialog."""
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(_ScaleDialog, self).__init__(parent)
         self.setWindowTitle("Scale Mechanism")
         self.main_layout = QVBoxLayout(self)
@@ -66,7 +66,7 @@ class _ScaleDialog(QDialog):
         button_box.button(QDialogButtonBox.Ok).setEnabled(bool(parent.vpoint_list))
         self.main_layout.addWidget(button_box)
 
-    def __add_option(self, name: str, option: QDoubleSpinBox):
+    def __add_option(self, name: str, option: QDoubleSpinBox) -> None:
         """Add widgets for option."""
         layout = QHBoxLayout()
         label = QLabel(name, self)
@@ -86,7 +86,7 @@ class _LinkLengthDialog(QDialog):
 
     """Link length dialog."""
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(_LinkLengthDialog, self).__init__(parent)
         self.setWindowTitle("Set Link Length")
         self.main_layout = QVBoxLayout(self)
@@ -117,7 +117,7 @@ class _LinkLengthDialog(QDialog):
         self.main_layout.addWidget(button_box)
 
     @Slot(str)
-    def __set_follower(self, leader: str):
+    def __set_follower(self, leader: str) -> None:
         """Set follower options."""
         self.follower.clear()
         n = int(leader.replace('P', ''))
@@ -131,7 +131,7 @@ class _LinkLengthDialog(QDialog):
         self.follower.addItems([f"P{i}" for i in options])
 
     @Slot(str)
-    def __set_length(self, follower: str):
+    def __set_length(self, follower: str) -> None:
         """Set the current length of two points."""
         if not follower:
             return
@@ -156,7 +156,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     """Abstract class for entities methods."""
 
-    def __edit_point(self, row: Union[int, bool] = False):
+    def __edit_point(self, row: Union[int, bool] = False) -> None:
         """Edit point function."""
         dlg = EditPointDialog(self.vpoint_list, self.vlink_list, row, self)
         dlg.show()
@@ -198,7 +198,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.command_stack.endMacro()
 
-    def __edit_link(self, row: Union[int, bool] = False):
+    def __edit_link(self, row: Union[int, bool] = False) -> None:
         """Edit link function."""
         dlg = EditLinkDialog(self.vpoint_list, self.vlink_list, row, self)
         dlg.show()
@@ -244,7 +244,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         return f"link_{i}"
 
     @Slot(name='on_action_delete_point_triggered')
-    def delete_point(self, row: Optional[int] = None):
+    def delete_point(self, row: Optional[int] = None) -> None:
         """Push delete point command to stack."""
         if row is None:
             row = self.entities_point.currentRow()
@@ -282,7 +282,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_action_delete_link_triggered')
-    def delete_link(self, row: Optional[int] = None):
+    def delete_link(self, row: Optional[int] = None) -> None:
         """Push delete link command to stack.
 
         Remove link will not remove the points.
@@ -310,7 +310,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.command_stack.endMacro()
 
-    def delete_points(self, points: Sequence[int]):
+    def delete_points(self, points: Sequence[int]) -> None:
         """Delete multiple points."""
         if not points:
             return
@@ -319,7 +319,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.delete_point(row)
         self.command_stack.endMacro()
 
-    def delete_links(self, links: Sequence[int]):
+    def delete_links(self, links: Sequence[int]) -> None:
         """Delete multiple links."""
         if not links:
             return
@@ -332,18 +332,18 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(float, float)
-    def add_point_by_pos(self, x: float, y: float):
+    def add_point_by_pos(self, x: float, y: float) -> None:
         """Add point group using alt key."""
         if self.main_panel.currentIndex() == self.synthesis_tab_widget.currentIndex() == 2:
             self.add_target_point()
         else:
             self.add_point(x, y)
 
-    def add_normal_point(self):
+    def add_normal_point(self) -> None:
         """Add a point (not fixed)."""
         self.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
-    def add_fixed_point(self):
+    def add_fixed_point(self) -> None:
         """Add a point (fixed)."""
         self.add_point(self.mouse_pos_x, self.mouse_pos_y, 'ground', 'Blue')
 
@@ -413,11 +413,11 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.constrain_link(ground)
 
     @Slot(list)
-    def add_normal_link(self, points: Sequence[int]):
+    def add_normal_link(self, points: Sequence[int]) -> None:
         """Add a link."""
         self.add_link(self.__get_link_serial_number(), 'Blue', points)
 
-    def add_link(self, name: str, color: str, points: Optional[Sequence[int]] = None):
+    def add_link(self, name: str, color: str, points: Optional[Sequence[int]] = None) -> None:
         """Push a new link command to stack."""
         if points is None:
             points: List[int] = []
@@ -434,17 +434,17 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.command_stack.endMacro()
 
-    def new_point(self):
+    def new_point(self) -> None:
         """Create a point with arguments."""
         self.__edit_point()
 
     @Slot(name='on_action_edit_point_triggered')
-    def edit_point(self):
+    def edit_point(self) -> None:
         """Edit a point with arguments."""
         row = self.entities_point.currentRow()
         self.__edit_point(row if row > -1 else 0)
 
-    def lock_points(self):
+    def lock_points(self) -> None:
         """Turn a group of points to fixed on ground or not."""
         to_fixed = self.action_p_lock.isChecked()
         selected_rows = self.entities_point.selected_rows()
@@ -470,7 +470,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             ))
         self.command_stack.endMacro()
 
-    def clone_point(self):
+    def clone_point(self) -> None:
         """Clone a point (with orange color)."""
         row = self.entities_point.currentRow()
         args = self.entities_point.row_data(row)
@@ -489,7 +489,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(name="on_action_scale_points_triggered")
-    def __set_scale(self):
+    def __set_scale(self) -> None:
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
         if not dlg.exec_():
@@ -515,7 +515,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_action_set_link_length_triggered')
-    def __set_link_length(self):
+    def __set_link_length(self) -> None:
         """Set link length."""
         dlg = _LinkLengthDialog(self)
         dlg.show()
@@ -575,7 +575,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_action_new_link_triggered')
-    def new_link(self):
+    def new_link(self) -> None:
         """Create a link with arguments.
 
         + Last than one point:
@@ -626,12 +626,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_action_edit_link_triggered')
-    def edit_link(self):
+    def edit_link(self) -> None:
         """Edit a link with arguments."""
         self.__edit_link(self.entities_link.currentRow())
 
     @Slot()
-    def release_ground(self):
+    def release_ground(self) -> None:
         """Clone ground to a new link, then make ground no points."""
         name = self.__get_link_serial_number()
         args = [name, 'Blue', self.entities_link.item(0, 2).text()]
@@ -658,7 +658,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot()
-    def constrain_link(self, row1: Optional[int] = None, row2: int = 0):
+    def constrain_link(self, row1: Optional[int] = None, row2: int = 0) -> None:
         """Turn a link to ground, then delete this link."""
         if row1 is None:
             row1 = self.entities_link.currentRow()
@@ -696,24 +696,24 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot()
-    def delete_selected_points(self):
+    def delete_selected_points(self) -> None:
         """Delete the selected points."""
         self.delete_points(self.entities_point.selected_rows())
 
     @Slot()
-    def delete_selected_links(self):
+    def delete_selected_links(self) -> None:
         """Delete the selected links."""
         self.delete_links(self.entities_link.selected_rows())
 
     @Slot()
-    def delete_empty_links(self):
+    def delete_empty_links(self) -> None:
         """Delete empty link names."""
         self.delete_links([
             i for i, vlink in enumerate(self.vlink_list)
             if vlink.name != 'ground' and not vlink.points
         ])
 
-    def set_coords_as_current(self):
+    def set_coords_as_current(self) -> None:
         """Update points position as current coordinate."""
         self.set_free_move(tuple(
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))

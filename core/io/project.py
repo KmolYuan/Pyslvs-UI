@@ -33,7 +33,7 @@ class ProjectWidget(QWidget, Ui_Form):
 
     load_id = Signal(int)
 
-    def __init__(self, parent: MainWindowBase):
+    def __init__(self, parent: MainWindowBase) -> None:
         super(ProjectWidget, self).__init__(parent)
         self.setupUi(self)
         # Check workbook saved function
@@ -66,13 +66,13 @@ class ProjectWidget(QWidget, Ui_Form):
         self.__changed = False
         self.reset()
 
-    def reset(self):
+    def reset(self) -> None:
         """Clear all the things that dependent on database."""
         self.set_file_name(self.env_path() + "/Untitled")
         self.__changed = False
         self.command_clear()
 
-    def set_file_name(self, file_name: str, *, is_example: bool = False):
+    def set_file_name(self, file_name: str, *, is_example: bool = False) -> None:
         """Set file name."""
         self.__file_name = QFileInfo(file_name)
         self.file_name_label.setText(self.__file_name.fileName())
@@ -109,7 +109,7 @@ class ProjectWidget(QWidget, Ui_Form):
         """Return True if the file is exist."""
         return self.__file_name.isFile()
 
-    def set_changed(self, changed: bool):
+    def set_changed(self, changed: bool) -> None:
         """Set file state."""
         self.__changed = changed
 
@@ -117,14 +117,14 @@ class ProjectWidget(QWidget, Ui_Form):
         """Expose file state."""
         return self.__changed
 
-    def save(self, file_name: str = ""):
+    def save(self, file_name: str = "") -> None:
         """Save database, append commit to new branch function."""
         if not file_name:
             file_name = self.file_path()
         self.yaml_editor.save(file_name)
         self.set_file_name(file_name)
 
-    def read(self, file_name: str):
+    def read(self, file_name: str) -> None:
         """Load database commit."""
         if not QFileInfo(file_name).isFile():
             QMessageBox.warning(self, "File not exist", "The path is invalid.")

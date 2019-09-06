@@ -63,7 +63,7 @@ class AlgorithmType(Enum):
     Firefly = "Firefly Algorithm"
     DE = "Differential Evolution"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.value)
 
 
@@ -92,7 +92,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         self.alg_table.setColumnWidth(1, 90)
         self.__set_args(settings)
 
-    def __init_alg_table(self):
+    def __init_alg_table(self) -> None:
         """Initialize the algorithm table widgets."""
 
         def write_table(
@@ -162,7 +162,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 ]
             )
 
-    def __set_args(self, settings: Dict[str, Any]):
+    def __set_args(self, settings: Dict[str, Any]) -> None:
         """Set arguments by settings dict."""
         if 'max_gen' in settings:
             self.max_gen.setValue(settings['max_gen'])
@@ -191,7 +191,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
 
     @Slot(name='on_reset_button_clicked')
-    def __reset(self):
+    def __reset(self) -> None:
         """Reset the settings to default."""
         # Differential Evolution (Default)
         d = defaultSettings.copy()

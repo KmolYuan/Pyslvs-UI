@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 __all__ = ['main']
 
 
-def main():
+def main() -> None:
     """Startup function."""
     global app
     from time import time

@@ -36,7 +36,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
 
     """Abstract class for storage methods."""
 
-    def __add_storage(self, name: str, expr: str):
+    def __add_storage(self, name: str, expr: str) -> None:
         """Add storage data function."""
         self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
         self.command_stack.push(AddStorage(
@@ -47,7 +47,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_add_clicked')
-    def __add_current_storage(self):
+    def __add_current_storage(self) -> None:
         name = (
             self.mechanism_storage_name_tag.text() or
             self.mechanism_storage_name_tag.placeholderText()
@@ -59,14 +59,14 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_copy_clicked')
-    def __copy_storage(self):
+    def __copy_storage(self) -> None:
         """Copy the expression from a storage data."""
         item = self.mechanism_storage.currentItem()
         if item:
             QApplication.clipboard().setText(item.expr)
 
     @Slot(name='on_mechanism_storage_paste_clicked')
-    def __paste_storage(self):
+    def __paste_storage(self) -> None:
         """Add the storage data from string."""
         expr, ok = QInputDialog.getMultiLineText(
             self,
@@ -109,7 +109,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         return True
 
     @Slot(name='on_mechanism_storage_delete_clicked')
-    def __delete_storage(self):
+    def __delete_storage(self) -> None:
         """Delete the storage data."""
         row = self.mechanism_storage.currentRow()
         if not row > -1:
@@ -121,7 +121,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
 
     @Slot(name='on_mechanism_storage_restore_clicked')
     @Slot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
-    def __restore_storage(self, item: Optional[QListWidgetItem] = None):
+    def __restore_storage(self, item: Optional[QListWidgetItem] = None) -> None:
         """Restore the storage data."""
         if item is None:
             item = self.mechanism_storage.currentItem()
@@ -162,7 +162,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             storage[item.text()] = item.expr
         return storage
 
-    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]):
+    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]) -> None:
         """Add storage data from database."""
         for name, expr in exprs:
             self.__add_storage(name, expr)
