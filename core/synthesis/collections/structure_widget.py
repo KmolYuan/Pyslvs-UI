@@ -272,7 +272,7 @@ class StructureWidget(QWidget, Ui_Form):
     def __save_atlas(self) -> None:
         """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
-        if not count:
+        if count < 1:
             return
 
         lateral, ok = QInputDialog.getInt(
@@ -290,18 +290,16 @@ class StructureWidget(QWidget, Ui_Form):
 
         icon_size = self.collection_list.iconSize()
         width = icon_size.width()
+        image = self.collection_list.item(0).icon().pixmap(icon_size).toImage()
         image_main = QImage(QSize(
-            lateral * width if count > lateral else count * width,
-            ((count // lateral) + bool(count % lateral)) * width
-        ), self.collection_list.item(0).icon().pixmap(icon_size).toImage().format())
+            lateral if count > lateral else count,
+            (count // lateral) + bool(count % lateral)
+        ) * width, image.format())
         image_main.fill(Qt.transparent)
         painter = QPainter(image_main)
         for row in range(count):
             image = self.collection_list.item(row).icon().pixmap(icon_size).toImage()
-            painter.drawImage(QPointF(
-                row % lateral * width,
-                row // lateral * width
-            ), image)
+            painter.drawImage(QPointF(row % lateral, row // lateral) * width, image)
         painter.end()
         pixmap = QPixmap()
         pixmap.convertFromImage(image_main)
@@ -312,13 +310,13 @@ class StructureWidget(QWidget, Ui_Form):
     def __save_edges(self) -> None:
         """Save function as same as type synthesis widget."""
         count = self.collection_list.count()
-        if not count:
+        if count < 1:
             return
         file_name = self.output_to("Atlas edges expression", ["Text file (*.txt)"])
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(str(G.edges) for G in self.collections))
+            f.write('\n'.join(str(g.edges) for g in self.collections))
         self.save_reply_box("edges expression", file_name)
 
     @Slot(QListWidgetItem, name='on_collection_list_itemClicked')

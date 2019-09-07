@@ -194,23 +194,20 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             rect = self.background.rect()
             self.painter.setOpacity(self.background_opacity)
             self.painter.drawImage(
-                QRectF(QPointF(
-                    self.background_offset.x() * self.zoom,
-                    self.background_offset.y() * self.zoom
-                ), QSizeF(
-                    rect.width() * self.background_scale * self.zoom,
-                    rect.height() * self.background_scale * self.zoom
-                )),
+                QRectF(
+                    self.background_offset * self.zoom,
+                    QSizeF(rect.width(), rect.height()) * self.background_scale * self.zoom
+                ),
                 self.background,
                 QRectF(rect)
             )
             self.painter.setOpacity(1)
-        # Show frame.
+        # Show frame
         pen = QPen(Qt.blue)
         pen.setWidth(1)
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Arial", self.font_size))
-        # Draw origin lines.
+        # Draw origin lines
         pen.setColor(Qt.gray)
         self.painter.setPen(pen)
         x_l = -self.ox
@@ -450,7 +447,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             else:
                 vpoint = pos[index]
-                tmp_list.append(QPointF(vpoint.cx * self.zoom, -vpoint.cy * self.zoom))
+                tmp_list.append(QPointF(vpoint.cx, -vpoint.cy) * self.zoom)
         return tmp_list, color
 
     def draw_solution(

@@ -97,8 +97,8 @@ class _Selector:
     def to_rect(self, zoom: float) -> QRectF:
         """Return limit as QRectF type."""
         return QRectF(
-            QPointF(self.x * zoom, -self.y * zoom),
-            QPointF(self.sx * zoom, -self.sy * zoom)
+            QPointF(self.x, -self.y) * zoom,
+            QPointF(self.sx, -self.sy) * zoom
         )
 
     def current_selection(self) -> Tuple[int, ...]:

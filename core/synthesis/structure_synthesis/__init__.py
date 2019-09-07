@@ -481,7 +481,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         Then using QImage class to merge into one image.
         """
         count = self.structure_list.count()
-        if not count:
+        if count < 1:
             return
 
         lateral = self.__save_atlas_ask()
@@ -501,10 +501,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         painter = QPainter(image_main)
         for row in range(count):
             image = self.__atlas_image(row)
-            painter.drawImage(QPointF(
-                row % lateral * width,
-                row // lateral * width
-            ), image)
+            painter.drawImage(QPointF(row % lateral, row // lateral) * width, image)
         painter.end()
         pixmap = QPixmap.fromImage(image_main)
         pixmap.save(file_name)
@@ -527,7 +524,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Saving all the atlas to text file."""
         file_name = ""
         count = self.structure_list.count()
-        if not count:
+        if count < 1:
             return
         if not file_name:
             file_name = self.output_to(
