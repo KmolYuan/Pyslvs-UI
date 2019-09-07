@@ -4,12 +4,18 @@
 
 **Features**:
 
++ "Project" page:
+    + Replaced database functions with YAML.
+    + Move "export" and "import" functions to project page.
 + Fix a solver bug of the stop button on inputs page.
 
 **Development**:
 
 + Remove pre-build requirement of Linux platform.
 + Use QtPy as Qt switcher.
++ Add return None annotations.
++ Peewee module requirement is removed.
++ Separate out the abstract methods of main window base into `main_abc`.
 
 ## Version 19.08
 
