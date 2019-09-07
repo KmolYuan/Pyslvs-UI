@@ -1,5 +1,4 @@
 # Pyslvs Makefile
-
 # author: Yuan Chang
 # copyright: Copyright (C) 2016-2019
 # license: AGPL
@@ -15,27 +14,19 @@ else
     PY = python3
 endif
 
-PYVER_COMAND = "import sys; print('{v[0]}{v[1]}'.format(v=list(sys.version_info[:2])))"
-PYSLVSVER_COMAND = "from pyslvs import __version__; print(__version__)"
-COMPILERVER_COMAND = "import platform; print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())"
-SYSVER_COMAND = "import platform; print(platform.machine().lower())"
 ifeq ($(OS),Windows_NT)
     SHELL = cmd
-    PYVER = $(shell $(PY) -c $(PYVER_COMAND))
-    PYSLVSVER = $(shell $(PY) -c $(PYSLVSVER_COMAND))
-    COMPILERVER = $(shell $(PY) -c $(COMPILERVER_COMAND))
-    SYSVER = $(shell $(PY) -c $(SYSVER_COMAND))
     _NEEDS_BUILD = true
-else
-    PYVER = $(shell $(PY) -c $(PYVER_COMAND))
-    PYSLVSVER = $(shell $(PY) -c $(PYSLVSVER_COMAND))
-    COMPILERVER = $(shell $(PY) -c $(COMPILERVER_COMAND))
-    SYSVER = $(shell $(PY) -c $(SYSVER_COMAND))
-ifeq ($(shell uname),Darwin)
+else ifeq ($(shell uname),Darwin)
     _NEEDS_BUILD = true
 endif
+ifdef _NEEDS_BUILD
+    PYSLVSVER = $(shell $(PY) -c "from pyslvs import __version__; print(__version__)")
+    COMPILERVER = $(shell $(PY) -c \
+"import platform; print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())")
+    SYSVER = $(shell $(PY) -c "import platform; print(platform.machine().lower())")
+    EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 endif
-EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 
 .PHONY: help \
     build build-kernel build-pyslvs build-solvespace \
@@ -76,15 +67,14 @@ build-solvespace:
 build-kernel: build-pyslvs build-solvespace
 
 ifdef _NEEDS_BUILD
-_build: build-kernel test-kernel
-	@echo Packing Pyslvs executable
+_build: clean build-kernel test-kernel
 else
-_build:
-	@echo Build AppImage for Linux platforms
+_build: clean
 endif
 
 build: $(LAUNCHSCRIPT).py _build
-	@echo Python version: $(PYVER)
+	@echo Build executable for Python \
+$(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS),Windows_NT)
 	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs
 	rename .\dist\Pyslvs.exe $(EXENAME).exe
@@ -95,8 +85,6 @@ else ifeq ($(shell uname),Darwin)
 	mv dist/Pyslvs.app dist/$(EXENAME).app
 	zip -r dist/$(EXENAME).app.zip dist/$(EXENAME).app
 else
-	-rm -f -r ENV
-	-rm -f -r out
 	bash ./appimage_recipe.sh
 endif
 	@echo Done
