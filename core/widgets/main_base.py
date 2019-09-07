@@ -15,26 +15,22 @@ from typing import (
     Tuple,
     List,
     Sequence,
-    Dict,
     Callable,
     Union,
     Optional,
-    Any,
 )
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
 from dataclasses import dataclass, field
 from pyslvs import (
     __version__,
     VPoint,
     VLink,
-    Graph,
     color_rgb,
 )
 from core.QtModules import (
     Slot,
     Qt,
-    QMainWindow,
     QAction,
     QMenu,
     QIcon,
@@ -43,12 +39,10 @@ from core.QtModules import (
     QLabel,
     QPushButton,
     QKeySequence,
-    QStandardPaths,
-    QFileInfo,
+    QDir,
     QSettings,
     QUndoStack,
     QUndoView,
-    QABCMeta,
 )
 from core.info import ARGUMENTS, logger, kernel_list
 from core.io import ProjectWidget
@@ -57,7 +51,7 @@ from core.synthesis import (
     Collections,
     DimensionalSynthesis,
 )
-from .Ui_main import Ui_MainWindow
+from .main_abc import MainWindowABC
 from .main_canvas import DynamicCanvas
 from .tables import (
     BaseTableWidget,
@@ -68,8 +62,6 @@ from .tables import (
     FPSLabel,
 )
 from .inputs import InputsWidget
-
-_Coord = Tuple[float, float]
 
 
 def _set_actions(actions: Sequence[QAction], state: bool) -> None:
@@ -151,35 +143,29 @@ class Context:
         self.__setattr__(key.name.lower(), value)
 
 
-class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
+class MainWindowBase(MainWindowABC, ABC):
 
     """External UI settings."""
 
     @abstractmethod
     def __init__(self) -> None:
         super(MainWindowBase, self).__init__()
-        self.setupUi(self)
-
         # Environment path
         self.env = ""
         # Entities list
         self.vpoint_list: List[VPoint] = []
         self.vlink_list = [VLink('ground', 'White', (), color_rgb)]
-
         # Condition list of context menus
         self.context = Context()
 
         # Set path from command line
-        self.settings = QSettings(
-            QStandardPaths.writableLocation(QStandardPaths.HomeLocation) + '/.pyslvs.ini',
-            QSettings.IniFormat,
-            self
-        )
+        home_dir = QDir.home()
+        self.settings = QSettings(home_dir.absoluteFilePath(".pyslvs.ini"), QSettings.IniFormat, self)
         if ARGUMENTS.c:
-            self.set_locate(QFileInfo(ARGUMENTS.c).canonicalFilePath())
+            self.set_locate(QDir(ARGUMENTS.c).absolutePath())
         else:
-            desktop = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-            self.set_locate(str(self.settings.value("ENV", desktop)))
+            home_dir.cd("Desktop")
+            self.set_locate(str(self.settings.value("ENV", home_dir.absolutePath())))
 
         # Initialize custom UI
         self.__undo_redo()
@@ -200,8 +186,7 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     def set_locate(self, locate: str) -> None:
         """Set environment variables."""
-        if locate == self.env:
-            # If no changed.
+        if locate == self.env or not QDir(locate).exists():
             return
 
         self.env = locate
@@ -648,251 +633,3 @@ class MainWindowBase(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         for table in tables:
             table.clearSelection()
         self.inputs_widget.clear_selection()
-
-    @abstractmethod
-    def command_reload(self, index: int) -> None:
-        ...
-
-    @abstractmethod
-    def new_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def add_normal_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def add_fixed_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def edit_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def delete_selected_points(self) -> None:
-        ...
-
-    @abstractmethod
-    def lock_points(self) -> None:
-        ...
-
-    @abstractmethod
-    def new_link(self) -> None:
-        ...
-
-    @abstractmethod
-    def edit_link(self) -> None:
-        ...
-
-    @abstractmethod
-    def delete_selected_links(self) -> None:
-        ...
-
-    @abstractmethod
-    def delete_empty_links(self) -> None:
-        ...
-
-    @abstractmethod
-    def constrain_link(self) -> None:
-        ...
-
-    @abstractmethod
-    def release_ground(self) -> None:
-        ...
-
-    @abstractmethod
-    def add_target_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def set_free_move(self, args: Sequence[Tuple[int, Tuple[float, float, float]]]) -> None:
-        ...
-
-    @abstractmethod
-    def add_point_by_pos(self, x: float, y: float) -> None:
-        ...
-
-    @abstractmethod
-    def set_mouse_pos(self, x: float, y: float) -> None:
-        ...
-
-    @abstractmethod
-    def get_back_position(self) -> None:
-        ...
-
-    @abstractmethod
-    def solve(self) -> None:
-        ...
-
-    @abstractmethod
-    def resolve(self) -> None:
-        ...
-
-    @abstractmethod
-    def enable_mechanism_actions(self) -> None:
-        ...
-
-    @abstractmethod
-    def clone_point(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_coord(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_points_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def copy_links_table(self) -> None:
-        ...
-
-    @abstractmethod
-    def canvas_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def point_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def link_context_menu(self, point: QPoint) -> None:
-        ...
-
-    @abstractmethod
-    def customize_zoom(self) -> None:
-        ...
-
-    @abstractmethod
-    def reset_options(self) -> None:
-        ...
-
-    @abstractmethod
-    def preview_path(
-        self,
-        auto_preview: List[List[_Coord]],
-        slider_auto_preview: Dict[int, List[_Coord]],
-        vpoints: Sequence[VPoint]
-    ) -> None:
-        ...
-
-    @abstractmethod
-    def reload_canvas(self) -> None:
-        ...
-
-    @abstractmethod
-    def output_to(self, format_name: str, format_choose: Sequence[str]) -> str:
-        ...
-
-    @abstractmethod
-    def right_input(self) -> bool:
-        ...
-
-    @abstractmethod
-    def set_coords_as_current(self) -> None:
-        ...
-
-    @abstractmethod
-    def dof(self) -> int:
-        ...
-
-    @abstractmethod
-    def save_reply_box(self, title: str, file_name: str) -> None:
-        ...
-
-    @abstractmethod
-    def input_from(
-        self,
-        format_name: str,
-        format_choose: Sequence[str],
-        multiple: bool = False
-    ) -> Union[str, List[str]]:
-        ...
-
-    @abstractmethod
-    def get_graph(self) -> Tuple[
-        Graph,
-        List[int],
-        List[Tuple[int, int]],
-        Dict[int, _Coord],
-        Dict[int, int],
-        Dict[int, int]
-    ]:
-        ...
-
-    @abstractmethod
-    def get_configure(self) -> Dict[str, Any]:
-        ...
-
-    @abstractmethod
-    def workbook_no_save(self) -> None:
-        ...
-
-    @abstractmethod
-    def workbook_saved(self) -> None:
-        ...
-
-    @abstractmethod
-    def merge_result(self, expr: str, path: Sequence[Sequence[_Coord]]) -> None:
-        ...
-
-    @abstractmethod
-    def check_file_changed(self) -> bool:
-        ...
-
-    @abstractmethod
-    def get_storage(self) -> Dict[str, str]:
-        ...
-
-    @abstractmethod
-    def add_empty_links(self, link_color: Dict[str, str]) -> None:
-        ...
-
-    @abstractmethod
-    def parse_expression(self, expr: str) -> None:
-        ...
-
-    @abstractmethod
-    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]) -> None:
-        ...
-
-    @abstractmethod
-    def clear(self) -> None:
-        ...
-
-    @abstractmethod
-    def add_points(
-        self,
-        p_attr: Sequence[Tuple[float, float, str, str, int, float]]
-    ) -> None:
-        ...
-
-    @abstractmethod
-    def import_pmks_url(self) -> None:
-        ...
-
-    @abstractmethod
-    def save_picture_clipboard(self) -> None:
-        ...
-
-    @abstractmethod
-    def py_script(self) -> None:
-        ...
-
-    @abstractmethod
-    def export_dxf(self) -> None:
-        ...
-
-    @abstractmethod
-    def export_slvs(self) -> None:
-        ...
-
-    @abstractmethod
-    def save_pmks(self) -> None:
-        ...
-
-    @abstractmethod
-    def export_image(self) -> None:
-        ...
