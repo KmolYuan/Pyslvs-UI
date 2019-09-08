@@ -53,7 +53,6 @@ from core.synthesis import (
 from .main_abc import MainWindowABC
 from .main_canvas import DynamicCanvas
 from .tables import (
-    BaseTableWidget,
     PointTableWidget,
     LinkTableWidget,
     ExprTableWidget,
@@ -201,19 +200,19 @@ class MainWindowBase(MainWindowABC, ABC):
         self.command_stack.setUndoLimit(self.undo_limit_option.value())
         self.undo_limit_option.valueChanged.connect(self.command_stack.setUndoLimit)
         self.command_stack.indexChanged.connect(self.command_reload)
-        self.action_redo = self.command_stack.createRedoAction(self, "Redo")
-        self.action_undo = self.command_stack.createUndoAction(self, "Undo")
-        self.action_redo.setShortcuts([
+        action_redo = self.command_stack.createRedoAction(self, "Redo")
+        action_undo = self.command_stack.createUndoAction(self, "Undo")
+        action_redo.setShortcuts([
             QKeySequence("Ctrl+Shift+Z"),
             QKeySequence("Ctrl+Y"),
         ])
-        self.action_redo.setStatusTip("Backtracking undo action.")
-        self.action_redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
-        self.action_undo.setShortcut("Ctrl+Z")
-        self.action_undo.setStatusTip("Recover last action.")
-        self.action_undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
-        self.menu_edit.addAction(self.action_undo)
-        self.menu_edit.addAction(self.action_redo)
+        action_redo.setStatusTip("Backtracking undo action.")
+        action_redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
+        action_undo.setShortcut("Ctrl+Z")
+        action_undo.setStatusTip("Recover last action.")
+        action_undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
+        self.menu_edit.addAction(action_undo)
+        self.menu_edit.addAction(action_redo)
 
     def __appearance(self) -> None:
         """Start up and initialize custom widgets."""
@@ -221,22 +220,19 @@ class MainWindowBase(MainWindowABC, ABC):
         self.version_label.setText(__version__)
 
         # Entities tables
-        self.entities_tab.tabBar().setStatusTip(
-            "Switch the tabs to change to another view mode."
-        )
-
+        tab_bar = self.entities_tab.tabBar()
+        tab_bar.setStatusTip("Switch the tabs to change to another view mode.")
         self.entities_point = PointTableWidget(self.entities_point_widget)
         self.entities_point.cellDoubleClicked.connect(self.edit_point)
         self.entities_point.delete_request.connect(self.delete_selected_points)
         self.entities_point_layout.addWidget(self.entities_point)
-
         self.entities_link = LinkTableWidget(self.entities_link_widget)
         self.entities_link.cellDoubleClicked.connect(self.edit_link)
         self.entities_link.delete_request.connect(self.delete_selected_links)
         self.entities_link_layout.addWidget(self.entities_link)
-
         self.entities_expr = ExprTableWidget(self.EntitiesExpr_widget)
         self.entities_expr_layout.insertWidget(0, self.entities_expr)
+        self.__tables = (self.entities_point, self.entities_link, self.entities_expr)
 
         # Select all button on the Point and Link tab as corner widget.
         select_all_button = QPushButton()
@@ -247,12 +243,7 @@ class MainWindowBase(MainWindowABC, ABC):
         @Slot()
         def table_select_all() -> None:
             """Distinguish table by tab index."""
-            tables: List[BaseTableWidget] = [
-                self.entities_point,
-                self.entities_link,
-                self.entities_expr,
-            ]
-            tables[self.entities_tab.currentIndex()].selectAll()
+            self.__tables[self.entities_tab.currentIndex()].selectAll()
 
         select_all_button.clicked.connect(table_select_all)
         self.entities_tab.setCornerWidget(select_all_button)
@@ -264,8 +255,8 @@ class MainWindowBase(MainWindowABC, ABC):
 
         # QPainter canvas window
         self.main_canvas = DynamicCanvas(self)
-        select_tips = QLabel(self, Qt.ToolTip)
         self.entities_tab.currentChanged.connect(self.main_canvas.set_selection_mode)
+        select_tips = QLabel(self, Qt.ToolTip)
 
         @Slot(QPoint, str)
         def show_select_tips(pos: QPoint, text: str) -> None:
@@ -279,32 +270,21 @@ class MainWindowBase(MainWindowABC, ABC):
         @Slot(tuple, bool)
         def table_set_selection(selections: Sequence[int], key_detect: bool) -> None:
             """Distinguish table by tab index."""
-            tables: List[BaseTableWidget] = [
-                self.entities_point,
-                self.entities_link,
-                self.entities_expr,
-            ]
-            tables[self.entities_tab.currentIndex()].set_selections(selections, key_detect)
+            self.__tables[self.entities_tab.currentIndex()].set_selections(selections, key_detect)
 
         self.main_canvas.selected.connect(table_set_selection)
         self.entities_point.row_selection_changed.connect(self.main_canvas.set_selection)
 
         @Slot()
         def table_clear_selection() -> None:
-            """Distinguish table by tab index."""
-            tables: List[BaseTableWidget] = [
-                self.entities_point,
-                self.entities_link,
-                self.entities_expr,
-            ]
-            tables[self.entities_tab.currentIndex()].clearSelection()
-
-        self.main_canvas.noselected.connect(table_clear_selection)
+            """Clear the selection of specific table by tab index."""
+            self.__tables[self.entities_tab.currentIndex()].clearSelection()
 
         clean_selection_action = QAction("Clean selection", self)
         clean_selection_action.triggered.connect(table_clear_selection)
         clean_selection_action.setShortcut("Esc")
         clean_selection_action.setShortcutContext(Qt.WindowShortcut)
+        self.main_canvas.noselected.connect(table_clear_selection)
         self.addAction(clean_selection_action)
 
         self.main_canvas.free_moved.connect(self.set_free_move)
@@ -317,12 +297,8 @@ class MainWindowBase(MainWindowABC, ABC):
 
         # Selection label on status bar right side
         selection_label = SelectionLabel(self)
-        self.entities_point.selectionLabelUpdate.connect(
-            selection_label.update_select_point
-        )
-        self.main_canvas.browse_tracking.connect(
-            selection_label.update_mouse_position
-        )
+        self.entities_point.selectionLabelUpdate.connect(selection_label.update_select_point)
+        self.main_canvas.browse_tracking.connect(selection_label.update_mouse_position)
         self.status_bar.addPermanentWidget(selection_label)
 
         # FPS label on status bar right side
@@ -404,7 +380,7 @@ class MainWindowBase(MainWindowABC, ABC):
         self.main_splitter.setStretchFactor(1, 15)
         self.mechanism_panel_splitter.setSizes([500, 200])
 
-        # Enable mechanism menu actions when shows.
+        # Enable mechanism menu actions when shows
         self.menu_mechanism.aboutToShow.connect(self.enable_mechanism_actions)
 
         @Slot()
@@ -578,7 +554,7 @@ class MainWindowBase(MainWindowABC, ABC):
         self.__action("&Edit", self.edit_point, two_menus_p | _Enable.P_ONE)
         self.action_p_lock: QAction = self.__action("&Grounded", self.lock_points, two_menus_p | _Enable.P_ANY)
         self.action_p_lock.setCheckable(True)
-        self.pop_point_m = self.__action("Multiple joint", enable=two_menus_p | _Enable.P_MUL, is_menu=True)
+        self.pop_point_m: QMenu = self.__action("Multiple joint", enable=two_menus_p | _Enable.P_MUL, is_menu=True)
         self.__action("&Copy Table Data", self.copy_points_table, _Enable.T_P | _Enable.P_ONE)
         self.__action("Copy Coordinate", self.copy_coord, _Enable.T_P | _Enable.P_ONE)
         self.__action("C&lone", self.clone_point, two_menus_p | _Enable.P_ONE)
@@ -599,19 +575,14 @@ class MainWindowBase(MainWindowABC, ABC):
     @Slot(int, name='on_entities_tab_currentChanged')
     def __set_selection_mode(self, index: int) -> None:
         """Connect selection signal for main canvas."""
-        # Set selection from click table items.
-        tables: List[BaseTableWidget] = [
-            self.entities_point,
-            self.entities_link,
-            self.entities_expr,
-        ]
+        # Set selection from click table items
         try:
-            for table in tables:
+            for table in self.__tables:
                 table.row_selection_changed.disconnect()
         except TypeError:
             pass
-        tables[index].row_selection_changed.connect(self.main_canvas.set_selection)
-        # Double click signal.
+        self.__tables[index].row_selection_changed.connect(self.main_canvas.set_selection)
+        # Double click signal
         try:
             self.main_canvas.doubleclick_edit.disconnect()
         except TypeError:
@@ -620,7 +591,7 @@ class MainWindowBase(MainWindowABC, ABC):
             self.main_canvas.doubleclick_edit.connect(self.edit_point)
         elif index == 1:
             self.main_canvas.doubleclick_edit.connect(self.edit_link)
-        # Clear all selections.
-        for table in tables:
+        # Clear all selections
+        for table in self.__tables:
             table.clearSelection()
         self.inputs_widget.clear_selection()
