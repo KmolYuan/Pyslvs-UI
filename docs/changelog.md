@@ -18,6 +18,7 @@
 + Add return None annotations.
 + Peewee module requirement is removed.
 + Separate out the abstract methods of main window base into `main_abc`.
++ Show the startup time in none-debug mode.
 
 ## Version 19.08
 

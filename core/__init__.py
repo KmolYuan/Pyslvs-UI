@@ -8,6 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 __all__ = ['main']
 
+app = None
+
 
 def main() -> None:
     """Startup function."""
@@ -18,12 +20,7 @@ def main() -> None:
     from sys import argv, exit
     from logging import shutdown
     from platform import system
-    from .QtModules import (
-        Qt,
-        QApplication,
-        QPixmap,
-        QSplashScreen,
-    )
+    from .QtModules import Qt, QApplication, QPixmap, QSplashScreen
     from .info import ARGUMENTS, logger
     if ARGUMENTS.test:
         from .main_window import MainWindow
@@ -40,17 +37,17 @@ def main() -> None:
     # Force enable fusion style on macOS
     if system() == 'Darwin':
         ARGUMENTS.fusion = True
-
-    # Fusion style
     if ARGUMENTS.fusion:
         app.setStyle('fusion')
 
     from .main_window import MainWindow
-    run = MainWindow()
-    run.show()
-    splash.finish(run)
+    main_window = MainWindow()
+    main_window.show()
+    splash.finish(main_window)
     splash.deleteLater()
-    logger.debug(f"Startup with: {time() - t0:.02f}s")
+    logger.info(f"Startup with: {time() - t0:.02f}s")
+    if not ARGUMENTS.debug_mode:
+        main_window.console_connect()
     del preview_rc, splash, t0
 
     qt_exit_code = app.exec_()

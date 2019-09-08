@@ -54,9 +54,6 @@ class MainWindow(IOMethodInterface):
 
         # Console widget
         self.console_error_option.setChecked(ARGUMENTS.debug_mode)
-        if not ARGUMENTS.debug_mode:
-            self.__console_connect()
-
         # Start first solve function calling
         self.solve()
         # Load workbook from argument
@@ -141,7 +138,7 @@ class MainWindow(IOMethodInterface):
             self.background_option.setText(file_name)
 
     @Slot(name='on_console_connect_button_clicked')
-    def __console_connect(self) -> None:
+    def console_connect(self) -> None:
         """Turn the OS command line (stdout) log to console."""
         logger.info("Connect to GUI console.")
         XStream.stdout().message_written.connect(self.__append_to_console)
@@ -150,7 +147,7 @@ class MainWindow(IOMethodInterface):
         logger.info("Connect to GUI console.")
 
     @Slot(name='on_console_disconnect_button_clicked')
-    def __console_disconnect(self) -> None:
+    def console_disconnect(self) -> None:
         """Turn the console log to OS command line (stdout)."""
         logger.info("Disconnect from GUI console.")
         XStream.back()
