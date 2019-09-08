@@ -55,6 +55,7 @@ from core.io import (
     SlvsParser,
     SlvsOutputDialog,
     DxfOutputDialog,
+    OverviewDialog,
     str_between,
 )
 from core.widgets import AddTable, EditPointTable
@@ -227,7 +228,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if self.check_file_changed():
             return
         if self.project_widget.load_example():
-            self.__show_expr()
+            self.show_expr()
             self.main_canvas.zoom_to_fit()
 
     @Slot(name='on_action_import_example_triggered')
@@ -555,8 +556,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             "Canvas widget picture is copy to clipboard."
         )
 
-    @Slot(name='on_action_exprsion_triggered')
-    def __show_expr(self) -> None:
+    @Slot()
+    def show_expr(self) -> None:
         """Output as expression."""
         expr = [vpoint.expr() for vpoint in self.vpoint_list]
         context = ",\n".join(" " * 4 + e for e in expr)
@@ -725,3 +726,20 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.entities_point.clearSelection()
         self.inputs_widget.variable_reload()
         self.solve()
+
+    @Slot()
+    def show_overview(self) -> None:
+        """Show overview dialog."""
+        dlg = OverviewDialog(
+            self,
+            self.project_widget.base_file_name(),
+            self.collection_tab_page.config_data(),
+            list(self.inputs_widget.input_pairs()),
+            self.inputs_widget.path_data(),
+            self.collection_tab_page.collect_data(),
+            self.collection_tab_page.config_data(),
+            self.dimensional_synthesis.mechanism_data
+        )
+        dlg.show()
+        dlg.exec_()
+        dlg.deleteLater()

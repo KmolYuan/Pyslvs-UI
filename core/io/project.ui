@@ -95,6 +95,28 @@
     </widget>
    </item>
    <item>
+    <widget class="QPushButton" name="overview_button">
+     <property name="text">
+      <string>Project overview</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../icons.qrc">
+       <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ex_expression_button">
+     <property name="text">
+      <string>Mechanism expression</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../icons.qrc">
+       <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="export_group">
      <property name="title">
       <string>Export</string>
@@ -134,23 +156,6 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="ex_pmks_button">
-        <property name="statusTip">
-         <string>Export as PMKS URL.</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../icons.qrc">
-          <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>50</width>
-          <height>50</height>
-         </size>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="ex_py_button">
         <property name="statusTip">
@@ -176,6 +181,23 @@
         <property name="icon">
          <iconset resource="../../icons.qrc">
           <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="ex_pmks_button">
+        <property name="statusTip">
+         <string>Export as PMKS URL.</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../icons.qrc">
+          <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
         </property>
         <property name="iconSize">
          <size>

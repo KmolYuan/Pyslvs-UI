@@ -6,6 +6,7 @@
 
 + "Project" page:
     + Replaced database functions with YAML.
+    + Integrated "Project overview" and "Mechanism expression" button.
     + Move "export" and "import" functions to project page.
     + "History" page has been merged in this page.
 + Fix a solver bug of the stop button on inputs page.

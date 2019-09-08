@@ -203,7 +203,7 @@ class Ui_Form(object):
         self.import_xlsx_button = QtWidgets.QPushButton(self.layoutWidget)
         self.import_xlsx_button.setText("")
         icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap(":/icons/excel_2013.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon13.addPixmap(QtGui.QPixmap(":/icons/excel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.import_xlsx_button.setIcon(icon13)
         self.import_xlsx_button.setIconSize(QtCore.QSize(20, 20))
         self.import_xlsx_button.setObjectName("import_xlsx_button")

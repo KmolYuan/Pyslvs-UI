@@ -366,7 +366,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../../icons.qrc">
-                    <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
+                    <normaloff>:/icons/excel.png</normaloff>:/icons/excel.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>

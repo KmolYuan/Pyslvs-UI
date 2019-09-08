@@ -10,6 +10,10 @@
     <height>544</height>
    </rect>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../icons.qrc">
+    <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
@@ -24,8 +28,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>345</height>
+        <width>430</width>
+        <height>315</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -53,8 +57,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>345</height>
+        <width>193</width>
+        <height>131</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -100,8 +104,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>237</width>
-        <height>136</height>
+        <width>297</width>
+        <height>131</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -147,8 +151,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>345</height>
+        <width>96</width>
+        <height>129</height>
        </rect>
       </property>
       <attribute name="icon">

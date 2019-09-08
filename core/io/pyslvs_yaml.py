@@ -45,11 +45,11 @@ class YamlEditor(QObject):
         # Call to get collections data
         self.collect_data = parent.collection_tab_page.collect_data
         # Call to get triangle data
-        self.triangle_data = parent.collection_tab_page.triangle_data
+        self.config_data = parent.collection_tab_page.config_data
         # Call to get inputs variables data
         self.input_pairs = parent.inputs_widget.input_pairs
         # Call to get algorithm data
-        self.mechanism_data = parent.dimensional_synthesis.mechanism_data
+        self.algorithm_data = parent.dimensional_synthesis.mechanism_data
         # Call to get path data
         self.path_data = parent.inputs_widget.path_data
 
@@ -66,8 +66,8 @@ class YamlEditor(QObject):
         self.load_paths = parent.inputs_widget.load_paths
         # Call to load collections data
         self.load_collections = parent.collection_tab_page.structure_widget.add_collections
-        # Call to load triangle data
-        self.load_triangle = parent.collection_tab_page.configure_widget.add_collections
+        # Call to load config data
+        self.load_config = parent.collection_tab_page.configure_widget.add_collections
         # Call to load algorithm results
         self.load_algorithm = parent.dimensional_synthesis.load_results
 
@@ -94,8 +94,8 @@ class YamlEditor(QObject):
             'input': [{'base': b, 'drive': d} for b, d, _ in self.input_pairs()],
             'storage': list(self.get_storage().items()),
             'collection': self.collect_data(),
-            'triangle': self.triangle_data(),
-            'algorithm': eval(str(self.mechanism_data)),
+            'triangle': self.config_data(),
+            'algorithm': eval(str(self.algorithm_data)),
             'path': self.path_data(),
         }
         yaml_script = yaml.dump(data, default_flow_style=False)
@@ -179,7 +179,7 @@ class YamlEditor(QObject):
         if dlg.wasCanceled():
             return self.main_clear()
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
-        self.load_triangle(config_data)
+        self.load_config(config_data)
 
         # Algorithm data
         dlg.setValue(7)
@@ -197,7 +197,7 @@ class YamlEditor(QObject):
         # Show overview dialog
         dlg = OverviewDialog(
             self.parent(),
-            f"YAML project: {QFileInfo(file_name).baseName()}",
+            QFileInfo(file_name).baseName(),
             storage_data,
             i_attr,
             path_data,

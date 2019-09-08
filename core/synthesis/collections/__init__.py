@@ -81,6 +81,6 @@ class Collections(QWidget):
         """Return collections to database."""
         return [tuple(G.edges) for G in self.structure_widget.collections]
 
-    def triangle_data(self) -> Dict[str, Dict[str, Any]]:
+    def config_data(self) -> Dict[str, Dict[str, Any]]:
         """Return profiles to database."""
         return self.configure_widget.collections

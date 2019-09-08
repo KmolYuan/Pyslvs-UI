@@ -59,6 +59,8 @@ class ProjectWidget(QWidget, Ui_Form):
         # Environment path
         self.env_path = parent.env_path
 
+        self.overview_button.clicked.connect(parent.show_overview)
+        self.ex_expression_button.clicked.connect(parent.show_expr)
         self.ex_dxf_button.clicked.connect(parent.export_dxf)
         self.ex_slvs_button.clicked.connect(parent.export_slvs)
         self.ex_pmks_button.clicked.connect(parent.save_pmks)

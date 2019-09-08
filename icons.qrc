@@ -10,7 +10,8 @@
     <!--File format icons-->
     <file>icons/csv.png</file>
     <file>icons/dxf.png</file>
-    <file>icons/excel_2013.png</file>
+    <file>icons/excel.png</file>
+    <file>icons/id.png</file>
     <file>icons/formula.png</file>
     <file>icons/qt.png</file>
     <file>icons/pmks.png</file>

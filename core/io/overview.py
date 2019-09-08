@@ -15,6 +15,7 @@ from typing import (
     Any,
 )
 from core.QtModules import (
+    Qt,
     QWidget,
     QDialog,
     QListWidgetItem,
@@ -43,9 +44,8 @@ class OverviewDialog(QDialog, Ui_Dialog):
         """Data come from commit."""
         super(OverviewDialog, self).__init__(parent)
         self.setupUi(self)
-
-        # Window title
-        self.setWindowTitle(title)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowTitle(f"Project: {title}")
 
         # Expression of storage data.
         for name, expr in storage_data:

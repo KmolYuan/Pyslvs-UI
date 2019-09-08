@@ -1303,8 +1303,6 @@ QProgressBar::chunk {
     <addaction name="action_show_point_mark"/>
     <addaction name="action_show_dimensions"/>
     <addaction name="action_path_style"/>
-    <addaction name="separator"/>
-    <addaction name="action_exprsion"/>
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
@@ -1614,18 +1612,6 @@ QProgressBar::chunk {
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
-   </property>
-  </action>
-  <action name="action_exprsion">
-   <property name="icon">
-    <iconset resource="../../icons.qrc">
-     <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
-   </property>
-   <property name="text">
-    <string>Mechanism &amp;Expression</string>
-   </property>
-   <property name="statusTip">
-    <string>Get the Pyslvs expression.</string>
    </property>
   </action>
   <action name="action_check_update">

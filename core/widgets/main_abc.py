@@ -261,6 +261,10 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
+    def show_expr(self) -> None:
+        ...
+
+    @abstractmethod
     def py_script(self) -> None:
         ...
 
@@ -278,4 +282,8 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def export_image(self) -> None:
+        ...
+
+    @abstractmethod
+    def show_overview(self) -> None:
         ...
