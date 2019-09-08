@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>638</height>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="main_layout">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -249,17 +249,11 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QTabWidget" name="history_tabs">
+     <property name="currentIndex">
+      <number>-1</number>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>

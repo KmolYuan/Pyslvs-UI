@@ -42,7 +42,6 @@ from core.QtModules import (
     QDir,
     QSettings,
     QUndoStack,
-    QUndoView,
 )
 from core.info import ARGUMENTS, logger, kernel_list
 from core.io import ProjectWidget
@@ -188,7 +187,6 @@ class MainWindowBase(MainWindowABC, ABC):
         """Set environment variables."""
         if locate == self.env or not QDir(locate).exists():
             return
-
         self.env = locate
         logger.debug(f"~Set workplace to: [\"{self.env}\"]")
 
@@ -203,9 +201,6 @@ class MainWindowBase(MainWindowABC, ABC):
         self.command_stack.setUndoLimit(self.undo_limit_option.value())
         self.undo_limit_option.valueChanged.connect(self.command_stack.setUndoLimit)
         self.command_stack.indexChanged.connect(self.command_reload)
-        self.undo_view = QUndoView(self.command_stack)
-        self.undo_view.setEmptyLabel("~ Start Pyslvs")
-        self.undo_redo_layout.addWidget(self.undo_view)
         self.action_redo = self.command_stack.createRedoAction(self, "Redo")
         self.action_undo = self.command_stack.createUndoAction(self, "Undo")
         self.action_redo.setShortcuts([
@@ -504,11 +499,8 @@ class MainWindowBase(MainWindowABC, ABC):
             return func
 
         zoom_menu = QMenu(self)
-        for level in range(
-            self.zoom_bar.minimum() - self.zoom_bar.minimum() % 100 + 100,
-            500 + 1,
-            100
-        ):
+        zoom_min = self.zoom_bar.minimum() - self.zoom_bar.minimum() % 100 + 100
+        for level in range(zoom_min, 500 + 1, 100):
             action = QAction(f'{level}%', self)
             action.triggered.connect(zoom_level(level))
             zoom_menu.addAction(action)
@@ -618,7 +610,6 @@ class MainWindowBase(MainWindowABC, ABC):
                 table.row_selection_changed.disconnect()
         except TypeError:
             pass
-
         tables[index].row_selection_changed.connect(self.main_canvas.set_selection)
         # Double click signal.
         try:

@@ -13,12 +13,16 @@ from typing import TYPE_CHECKING
 from pyslvs import example_list
 from core.QtModules import (
     Signal,
+    QUndoView,
     QFileInfo,
     QFileDevice,
+    QVBoxLayout,
     QWidget,
     QInputDialog,
     QMessageBox,
     QDateTime,
+    QPixmap,
+    QIcon,
 )
 from core.info import logger, size_format
 from .pyslvs_yaml import YamlEditor
@@ -36,6 +40,14 @@ class ProjectWidget(QWidget, Ui_Form):
     def __init__(self, parent: MainWindowBase) -> None:
         super(ProjectWidget, self).__init__(parent)
         self.setupUi(self)
+        # Undo view
+        undo_view = QUndoView(parent.command_stack)
+        undo_view.setEmptyLabel("~ Start Pyslvs")
+        w = QWidget(self)
+        layout = QVBoxLayout(w)
+        layout.addWidget(undo_view)
+        history_icon = QIcon(QPixmap(":/icons/history.png"))
+        self.history_tabs.addTab(w, history_icon, "Mechanism")
         # Check workbook saved function
         self.workbook_saved = parent.workbook_saved
         # Parse function
