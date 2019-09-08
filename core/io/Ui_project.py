@@ -144,5 +144,13 @@ class Ui_Form(object):
         self.file_size_title.setText(_translate("Form", "File size:"))
         self.type_title.setText(_translate("Form", "Type:"))
         self.export_group.setTitle(_translate("Form", "Export"))
+        self.ex_dxf_button.setStatusTip(_translate("Form", "Export as DXF format."))
+        self.ex_slvs_button.setStatusTip(_translate("Form", "Export as Solvespace format."))
+        self.ex_pmks_button.setStatusTip(_translate("Form", "Export as PMKS URL."))
+        self.ex_py_button.setStatusTip(_translate("Form", "Export as Python script."))
+        self.ex_image_button.setStatusTip(_translate("Form", "Export as image formats."))
+        self.ex_capture_button.setStatusTip(_translate("Form", "Capture the main canvas into clipboard."))
         self.import_group.setTitle(_translate("Form", "Import"))
+        self.im_example_button.setStatusTip(_translate("Form", "Import from an example."))
+        self.im_pmks_button.setStatusTip(_translate("Form", "Import from PMKS URL."))
 import icons_rc
