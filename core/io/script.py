@@ -11,6 +11,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     TYPE_CHECKING,
+    Type,
     Tuple,
     List,
     Sequence,
@@ -28,6 +29,7 @@ from core.QtModules import (
     QDialog,
     QTextEdit,
     QWidget,
+    QIcon,
     QPixmap,
     QLabel,
     QVBoxLayout,
@@ -98,8 +100,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
 
     def __init__(
         self,
+        icon: QIcon,
         script: str,
-        lexer: RegexLexer,
+        lexer: Type[RegexLexer],
         filename: str,
         file_format: List[str],
         parent: MainWindowBase,
@@ -120,9 +123,10 @@ class ScriptDialog(QDialog, Ui_Dialog):
             ~Qt.WindowContextHelpButtonHint |
             Qt.WindowMaximizeButtonHint
         )
+        self.setWindowIcon(icon)
         self.script_view = _ScriptBrowser(self)
         self.main_layout.insertWidget(1, self.script_view)
-        self.code = highlight(script, lexer, HtmlFormatter())
+        self.code = highlight(script, lexer(), HtmlFormatter())
         self.filename = filename
         self.file_format = file_format
         self.output_to = parent.output_to

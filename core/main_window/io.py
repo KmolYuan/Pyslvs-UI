@@ -29,6 +29,8 @@ from core.QtModules import (
     QDesktopServices,
     QUrl,
     QInputDialog,
+    QPixmap,
+    QIcon,
     QFile,
     QFileInfo,
     QFileDialog,
@@ -567,8 +569,9 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         else:
             script += "M[]"
         dlg = ScriptDialog(
+            QIcon(QPixmap(":/icons/id.png")),
             script,
-            PMKSLexer(),
+            PMKSLexer,
             "Pyslvs expression",
             ["Text file (*.txt)"],
             self,
@@ -582,12 +585,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def py_script(self) -> None:
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
+            QIcon(QPixmap(":/icons/script.png")),
             _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n" +
             slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
             ),
-            Python3Lexer(),
+            Python3Lexer,
             "Python script",
             ["Python3 Script (*.py)"],
             self
