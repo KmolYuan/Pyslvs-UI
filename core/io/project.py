@@ -15,7 +15,6 @@ from core.QtModules import (
     Signal,
     QUndoView,
     QFileInfo,
-    QFileDevice,
     QVBoxLayout,
     QWidget,
     QInputDialog,
@@ -92,7 +91,7 @@ class ProjectWidget(QWidget, Ui_Form):
         self.file_name_label.setText(self.__file_name.fileName())
         self.path_label.setText(self.__file_name.absolutePath())
         self.owner_label.setText(self.__file_name.owner())
-        time: QDateTime = self.__file_name.fileTime(QFileDevice.FileModificationTime)
+        time: QDateTime = self.__file_name.lastModified()
         self.last_modified_label.setText(time.toString())
         self.file_size_label.setText(size_format(self.__file_name.size()))
         if is_example:

@@ -147,7 +147,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.project_widget.set_changed(False)
         self.__set_window_title_full_path()
 
-    @Slot(name='on_title_full_path_option_clicked')
     def __set_window_title_full_path(self) -> None:
         """Set the option 'window title will show the full path'."""
         file_name = self.project_widget.file_name()
@@ -199,11 +198,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if self.project_widget.load_example():
             self.show_expr()
             self.main_canvas.zoom_to_fit()
-
-    @Slot(name='on_action_import_example_triggered')
-    def __import_example(self) -> None:
-        """Import a example and merge it to canvas."""
-        self.project_widget.load_example(is_import=True)
 
     @Slot(name='on_action_new_workbook_triggered')
     def __new_workbook(self) -> None:
@@ -616,8 +610,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def restore_settings(self) -> None:
         """Restore Pyslvs settings."""
         for name, field in self.prefer.__dataclass_fields__.items():  # type: str, Field
-            value = field.default
-            setattr(self.prefer, name, field.type(self.settings.value(name, value)))
+            setting = self.settings.value(name, field.default)
+            if setting is None:
+                setting = 0
+            setattr(self.prefer, name, field.type(setting))
         # Specified solver setting
         if ARGUMENTS.kernel:
             if ARGUMENTS.kernel == "python_solvespace":
@@ -716,4 +712,5 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         ):
             func(self.prefer.monochrome_option)
         self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
+        self.__set_window_title_full_path()
         self.solve()

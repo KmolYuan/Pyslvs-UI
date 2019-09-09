@@ -165,8 +165,3 @@ class MainWindow(IOMethodInterface):
     def __about_qt(self) -> None:
         """Open Qt about."""
         QMessageBox.aboutQt(self)
-
-    @Slot(name='on_action_commit_branch_triggered')
-    def commit_branch(self) -> None:
-        """Save as new branch action."""
-        self.commit(True)
