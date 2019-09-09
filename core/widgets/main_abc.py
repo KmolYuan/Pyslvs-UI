@@ -17,7 +17,7 @@ from typing import (
 )
 from abc import abstractmethod
 from pyslvs import Graph, VPoint
-from core.QtModules import QMainWindow, QPoint, QABCMeta
+from core.QtModules import Qt, QMainWindow, QPoint, QABCMeta
 from .Ui_main import Ui_MainWindow
 
 _Coord = Tuple[float, float]
@@ -31,6 +31,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def __init__(self) -> None:
         super(MainWindowABC, self).__init__()
         self.setupUi(self)
+        self.setAttribute(Qt.WA_DeleteOnClose)
 
     @abstractmethod
     def command_reload(self, index: int) -> None:

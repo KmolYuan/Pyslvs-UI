@@ -41,13 +41,13 @@ def main() -> None:
         app.setStyle('fusion')
 
     from .main_window import MainWindow
-    main_window = MainWindow()
-    main_window.show()
-    splash.finish(main_window)
+    w = MainWindow()
+    w.show()
+    splash.finish(w)
     splash.deleteLater()
     logger.info(f"Startup with: {time() - t0:.02f}s")
     if not ARGUMENTS.debug_mode:
-        main_window.console_connect()
+        w.console_connect()
     del preview_rc, splash, t0
 
     qt_exit_code = app.exec_()
