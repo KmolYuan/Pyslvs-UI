@@ -23,10 +23,10 @@ from argparse import ArgumentParser
 import requests
 from pyslvs import __version__
 from core.QtModules import (
+    API,
+    QT_VERSION,
     QCoreApplication,
     QProgressDialog,
-    API_NAME,
-    QT_VERSION,
 )
 
 
@@ -35,7 +35,7 @@ SYS_INFO = (
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
-    f"PyQt Version: {API_NAME}",
+    f"Qt wrapper: {API}",
     f"Qt Version: {QT_VERSION}",
 )
 
