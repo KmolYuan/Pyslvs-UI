@@ -12,6 +12,7 @@ from .slvs import SlvsParser
 from .output_option import SlvsOutputDialog, DxfOutputDialog
 from .overview import OverviewDialog
 from .project import ProjectWidget
+from .preferences import PreferencesDialog
 
 __all__ = [
     'ScriptDialog',
@@ -21,6 +22,7 @@ __all__ = [
     'DxfOutputDialog',
     'OverviewDialog',
     'ProjectWidget',
+    'PreferencesDialog',
     'str_between',
     'str_before',
 ]

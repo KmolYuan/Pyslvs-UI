@@ -37,7 +37,7 @@ from pyslvs import (
 )
 from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
 from core.QtModules import Slot
-from core.info import logger
+from core.info import logger, kernel_list
 from .entities import EntitiesMethodInterface
 
 _Coord = Tuple[float, float]
@@ -331,7 +331,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             if b == d:
                 self.vpoint_list[b].set_offset(a)
 
-        solve_kernel = self.planar_solver_option.currentIndex()
+        solve_kernel = self.prefer.planar_solver_option
         try:
             if solve_kernel == 0:
                 result = expr_solving(
@@ -355,7 +355,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 raise ValueError("incorrect kernel")
         except ValueError as error:
             # Error: Show warning without update data.
-            if self.console_error_option.isChecked():
+            if self.prefer.console_error_option:
                 logger.warn(format_exc())
             error_text = f"Error: {error}"
             self.conflict.setToolTip(error_text)
@@ -391,9 +391,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         vpoints = tuple(vpoint.copy() for vpoint in vpoints)
         vpoint_count = len(vpoints)
 
-        solve_kernel = self.path_preview_option.currentIndex()
-        if solve_kernel == self.path_preview_option.count() - 1:
-            solve_kernel = self.planar_solver_option.currentIndex()
+        solve_kernel = self.prefer.path_preview_option
+        if solve_kernel == len(kernel_list):
+            solve_kernel = self.prefer.planar_solver_option
         interval_o = self.inputs_widget.interval()
 
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]

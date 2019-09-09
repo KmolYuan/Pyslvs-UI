@@ -17,6 +17,7 @@ from typing import (
     Union,
 )
 from abc import ABC
+from dataclasses import Field
 from lark.exceptions import LarkError
 from pygments.lexers.python import Python3Lexer
 from pyslvs import __version__, parse_params, PMKSLexer
@@ -24,7 +25,6 @@ from core.QtModules import (
     Slot,
     qt_image_format,
     QApplication,
-    QWidget,
     QMessageBox,
     QDesktopServices,
     QUrl,
@@ -35,11 +35,6 @@ from core.QtModules import (
     QFileInfo,
     QFileDialog,
     QProgressDialog,
-    QSpinBox,
-    QDoubleSpinBox,
-    QComboBox,
-    QCheckBox,
-    QLineEdit,
     QMimeData,
     QDragEnterEvent,
     QDropEvent,
@@ -49,7 +44,6 @@ from core.info import (
     logger,
     PyslvsAbout,
     check_update,
-    kernel_list,
 )
 from core.io import (
     ScriptDialog,
@@ -58,6 +52,7 @@ from core.io import (
     SlvsOutputDialog,
     DxfOutputDialog,
     OverviewDialog,
+    PreferencesDialog,
     str_between,
 )
 from core.widgets import AddTable, EditPointTable
@@ -123,34 +118,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         logger.debug(f"Read from group: {group}")
         self.parse_expression(parser.parse(group.split('@')[0]))
 
-    def __settings(self) -> Tuple[Tuple[QWidget, Settings], ...]:
-        """Give the settings of all option widgets."""
-        return (
-            (self.line_width_option, 3),
-            (self.font_size_option, 14),
-            (self.path_width_option, 3),
-            (self.scalefactor_option, 10),
-            (self.selection_radius_option, 10),
-            (self.link_trans_option, 0),
-            (self.margin_factor_option, 5),
-            (self.joint_size_option, 5),
-            (self.zoom_by_option, 0),
-            (self.snap_option, 1),
-            (self.background_option, ""),
-            (self.background_opacity_option, 1),
-            (self.background_scale_option, 1),
-            (self.background_offset_x_option, 0),
-            (self.background_offset_y_option, 0),
-            (self.undo_limit_option, 32),
-            (self.planar_solver_option, 0),
-            (self.path_preview_option, self.path_preview_option.count() - 1),
-            (self.title_full_path_option, False),
-            (self.console_error_option, False),
-            (self.monochrome_option, False),
-            # "Do not save the settings" by default.
-            (self.dontsave_option, True),
-        )
-
     def dragEnterEvent(self, event: QDragEnterEvent) -> None:
         """Drag file in to our window."""
         mime_data: QMimeData = event.mimeData()
@@ -184,7 +151,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def __set_window_title_full_path(self) -> None:
         """Set the option 'window title will show the full path'."""
         file_name = self.project_widget.file_name()
-        if self.title_full_path_option.isChecked():
+        if self.prefer.title_full_path_option:
             title = file_name.absoluteFilePath()
         else:
             title = file_name.fileName()
@@ -648,65 +615,35 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def restore_settings(self) -> None:
         """Restore Pyslvs settings."""
-        for widget, value in self.__settings():
-            name = widget.objectName()
-            widget_type = type(widget)
-            if widget_type == QSpinBox:
-                widget.setValue(int(self.settings.value(name, value)))
-            elif widget_type == QDoubleSpinBox:
-                widget.setValue(float(self.settings.value(name, value)))
-            elif widget_type == QComboBox:
-                widget.setCurrentIndex(int(self.settings.value(name, value)))
-            elif widget_type == QCheckBox:
-                widget.setChecked(bool(self.settings.value(name, value)))
-            elif widget_type == QLineEdit:
-                widget.setText(str(self.settings.value(name, value)))
-        # Specified solver setting.
+        for name, field in self.prefer.__dataclass_fields__.items():  # type: str, Field
+            value = field.default
+            setattr(self.prefer, name, field.type(self.settings.value(name, value)))
+        # Specified solver setting
         if ARGUMENTS.kernel:
             if ARGUMENTS.kernel == "python_solvespace":
-                kernel_name = kernel_list[1]
+                self.prefer.planar_solver_option = 1
             elif ARGUMENTS.kernel == "sketch_solve":
-                kernel_name = kernel_list[2]
+                self.prefer.planar_solver_option = 2
             elif ARGUMENTS.kernel == "pyslvs":
-                kernel_name = kernel_list[0]
+                self.prefer.planar_solver_option = 0
             else:
-                raise ValueError("no such kernel")
-            self.planar_solver_option.setCurrentText(kernel_name)
-            self.path_preview_option.setCurrentText(kernel_name)
+                QMessageBox.warning(
+                    self,
+                    "Kernel not found",
+                    f"No such kernel: {ARGUMENTS.kernel}"
+                )
 
     def save_settings(self) -> None:
         """Save Pyslvs settings (auto save when close event)."""
-        if self.dontsave_option.isChecked():
+        if self.prefer.dontsave_option:
             f = QFile(self.settings.fileName())
             if f.exists():
                 f.remove()
             return
 
         self.settings.setValue("ENV", self.env)
-        for widget, value in self.__settings():
-            name = widget.objectName()
-            widget_type = type(widget)
-            if widget_type in {QSpinBox, QDoubleSpinBox}:
-                self.settings.setValue(name, widget.value())
-            elif widget_type == QComboBox:
-                self.settings.setValue(name, widget.currentIndex())
-            elif widget_type == QCheckBox:
-                self.settings.setValue(name, widget.isChecked())
-            elif widget_type == QLineEdit:
-                self.settings.setValue(name, widget.text())
-
-    def reset_options(self) -> None:
-        """Reset options with default value."""
-        for widget, value in self.__settings():
-            widget_type = type(widget)
-            if widget_type in {QSpinBox, QDoubleSpinBox}:
-                widget.setValue(value)
-            elif widget_type == QComboBox:
-                widget.setCurrentIndex(value)
-            elif widget_type == QCheckBox:
-                widget.setChecked(value)
-            elif widget_type == QLineEdit:
-                widget.setText(value)
+        for name in self.prefer.__dataclass_fields__:  # type: str
+            self.settings.setValue(name, getattr(self.prefer, name))
 
     def load_from_args(self) -> None:
         if not ARGUMENTS.filepath:
@@ -747,3 +684,36 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
+
+    @Slot(name='on_action_preference_triggered')
+    def __set_preference(self) -> None:
+        """Set preference by dialog."""
+        dlg = PreferencesDialog(self)
+        dlg.show()
+        if not dlg.exec_():
+            dlg.deleteLater()
+            return
+        dlg.deleteLater()
+        # Update values
+        self.main_canvas.set_link_width(self.prefer.line_width_option)
+        self.main_canvas.set_path_width(self.prefer.path_width_option)
+        self.main_canvas.set_font_size(self.prefer.font_size_option)
+        self.main_canvas.set_selection_radius(self.prefer.selection_radius_option)
+        self.main_canvas.set_transparency(self.prefer.link_trans_option)
+        self.main_canvas.set_margin_factor(self.prefer.margin_factor_option)
+        self.main_canvas.set_joint_size(self.prefer.joint_size_option)
+        self.main_canvas.set_zoom_by(self.prefer.zoom_by_option)
+        self.main_canvas.set_snap(self.prefer.snap_option)
+        self.main_canvas.set_background(self.prefer.background_option)
+        self.main_canvas.set_background_opacity(self.prefer.background_opacity_option)
+        self.main_canvas.set_background_scale(self.prefer.background_scale_option)
+        self.main_canvas.set_background_offset_x(self.prefer.background_offset_x_option)
+        self.main_canvas.set_background_offset_y(self.prefer.background_offset_y_option)
+        for func in (
+            self.main_canvas.set_monochrome_mode,
+            self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode,
+            self.dimensional_synthesis.preview_canvas.set_monochrome_mode,
+        ):
+            func(self.prefer.monochrome_option)
+        self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
+        self.solve()

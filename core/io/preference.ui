@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>818</width>
+    <height>664</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Preference</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../icons.qrc">
+    <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="settings_ui_groupbox">
+       <property name="title">
+        <string>Main canvas</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="linewidth_label">
+          <property name="text">
+           <string>Line width</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="line_width_option">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+          <property name="displayIntegerBase">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="fontsize_label">
+          <property name="text">
+           <string>Font size</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="font_size_option">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>30</number>
+          </property>
+          <property name="singleStep">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="pathwidth_label">
+          <property name="text">
+           <string>Path width</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="path_width_option">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="scalefactor_label">
+          <property name="text">
+           <string>Scale factor</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="scalefactor_option">
+          <property name="minimum">
+           <number>5</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="singleStep">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="selectionradius_label">
+          <property name="text">
+           <string>Selection radius</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="selection_radius_option">
+          <property name="minimum">
+           <number>3</number>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="linktransparency_label">
+          <property name="text">
+           <string>Link transparency</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QSpinBox" name="link_trans_option">
+          <property name="suffix">
+           <string> %</string>
+          </property>
+          <property name="maximum">
+           <number>80</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="marginfactor_label">
+          <property name="text">
+           <string>Margin of &quot;zoom to fit&quot;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QSpinBox" name="margin_factor_option">
+          <property name="suffix">
+           <string>%</string>
+          </property>
+          <property name="maximum">
+           <number>30</number>
+          </property>
+          <property name="singleStep">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="jointsize_label">
+          <property name="text">
+           <string>Joint annotation size (diameter)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QSpinBox" name="joint_size_option">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="zoomby_label">
+          <property name="text">
+           <string>Center zooming by</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QComboBox" name="zoom_by_option">
+          <item>
+           <property name="text">
+            <string>Cursor</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cavas center</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="snap_label">
+          <property name="text">
+           <string>Snap the mouse when dragging</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QDoubleSpinBox" name="snap_option">
+          <property name="maximum">
+           <double>50.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="0">
+         <widget class="QLabel" name="background_label">
+          <property name="text">
+           <string>Background</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1">
+         <layout class="QHBoxLayout" name="background_layout">
+          <item>
+           <widget class="QLineEdit" name="background_option">
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="background_choose_dir">
+            <property name="icon">
+             <iconset resource="../../icons.qrc">
+              <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="12" column="0">
+         <widget class="QLabel" name="background_opacity_label">
+          <property name="text">
+           <string>Background opacity</string>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="1">
+         <widget class="QDoubleSpinBox" name="background_opacity_option">
+          <property name="maximum">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QLabel" name="background_scale_label">
+          <property name="text">
+           <string>Background scale</string>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="1">
+         <widget class="QDoubleSpinBox" name="background_scale_option">
+          <property name="minimum">
+           <double>0.010000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>10.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.020000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="0">
+         <widget class="QLabel" name="background_offset_label">
+          <property name="text">
+           <string>Background offset</string>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="1">
+         <layout class="QHBoxLayout" name="background_offset_layout">
+          <item>
+           <widget class="QDoubleSpinBox" name="background_offset_x_option">
+            <property name="minimum">
+             <double>-999999.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>999999.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="background_offset_y_option">
+            <property name="minimum">
+             <double>-999999.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>999999.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QGroupBox" name="settings_kernels_groupBox">
+         <property name="title">
+          <string>Kernels</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="planarsolver_label">
+            <property name="text">
+             <string>Planar solving:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="planar_solver_option"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="pathpreview_label">
+            <property name="text">
+             <string>Path preview:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="path_preview_option"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="settings_history_groupbox">
+         <property name="title">
+          <string>History</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="UndoLimit_label">
+            <property name="text">
+             <string>Undo limit</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="undo_limit_option">
+            <property name="suffix">
+             <string> times</string>
+            </property>
+            <property name="minimum">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="settings_misc_groupBox">
+         <property name="title">
+          <string>Misc</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QCheckBox" name="title_full_path_option">
+            <property name="text">
+             <string>Show full file path on window title.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="console_error_option">
+            <property name="text">
+             <string>Show error messages in the console.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="monochrome_option">
+            <property name="text">
+             <string>Monochrome mode for mechanism. (Excluding indicators)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="dontsave_option">
+            <property name="text">
+             <string>Do not save Pyslvs option.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -10,6 +10,7 @@
     + Move "export" and "import" functions to project page.
     + "History" page has been merged in this page.
 + Fix a solver bug of the stop button on inputs page.
++ Separate out "preferences" page as dialog.
 
 **Development**:
 

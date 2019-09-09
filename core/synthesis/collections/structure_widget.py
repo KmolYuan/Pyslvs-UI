@@ -72,7 +72,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.input_from = parent.input_from
         self.add_points_by_graph = parent.add_points_by_graph
         self.workbook_no_save = parent.workbook_no_save
-        self.is_monochrome = parent.monochrome_option.isChecked
+        self.is_monochrome = parent.prefer.func('monochrome_option', bool)
 
         # Data structures
         self.collections: List[Graph] = []

@@ -30,11 +30,7 @@ from core.QtModules import (
     QToolTip,
     QWheelEvent,
 )
-from .main_canvas_method import (
-    DynamicCanvasInterface,
-    FreeMode,
-    SelectMode,
-)
+from .main_canvas_method import DynamicCanvasInterface, FreeMode, SelectMode
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
 
@@ -54,11 +50,11 @@ class DynamicCanvas(DynamicCanvasInterface):
 
     def __init__(self, parent: MainWindowBase) -> None:
         super(DynamicCanvas, self).__init__(parent)
-        # Dependent functions to set zoom bar.
+        # Dependent functions to set zoom bar
         self.set_zoom_bar = parent.zoom_bar.setValue
         self.zoom_value = parent.zoom_bar.value
-        self.zoom_factor = parent.scalefactor_option.value
-        # Dependent functions to set selection mode.
+        self.zoom_factor = parent.prefer.func('scalefactor_option', int)
+        # Dependent functions to set selection mode
         self.selection_mode_wheel = parent.entities_tab.setCurrentIndex
         self.selection_mode = parent.entities_tab.currentIndex
 

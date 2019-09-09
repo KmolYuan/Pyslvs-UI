@@ -149,10 +149,6 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def reset_options(self) -> None:
-        ...
-
-    @abstractmethod
     def preview_path(
         self,
         auto_preview: List[List[_Coord]],

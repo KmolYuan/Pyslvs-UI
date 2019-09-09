@@ -113,7 +113,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.vpoints = parent.vpoint_list
         self.vlinks = parent.vlink_list
         self.get_graph = parent.get_graph
-        self.is_monochrome = parent.monochrome_option.isChecked
+        self.is_monochrome = parent.prefer.func('monochrome_option', bool)
         self.add_collection = parent.collection_tab_page.structure_widget.add_collection
 
         # Answer list

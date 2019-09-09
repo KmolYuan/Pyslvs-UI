@@ -52,8 +52,6 @@ class MainWindow(IOMethodInterface):
         super(MainWindow, self).__init__()
         self.restore_settings()
 
-        # Console widget
-        self.console_error_option.setChecked(ARGUMENTS.debug_mode)
         # Start first solve function calling
         self.solve()
         # Load workbook from argument
@@ -129,13 +127,6 @@ class MainWindow(IOMethodInterface):
         while f"Algorithm_{i}" in self.inputs_widget.path_data():
             i += 1
         self.inputs_widget.add_path(f"Algorithm_{i}", path)
-
-    @Slot(name='on_background_choose_dir_clicked')
-    def __set_background(self) -> None:
-        """Show up dialog to set the background file path."""
-        file_name = self.input_from("Background", qt_image_format)
-        if file_name:
-            self.background_option.setText(file_name)
 
     @Slot(name='on_console_connect_button_clicked')
     def console_connect(self) -> None:

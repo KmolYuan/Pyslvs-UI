@@ -12,6 +12,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    Type,
+    TypeVar,
     Tuple,
     List,
     Sequence,
@@ -21,13 +23,8 @@ from typing import (
 )
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
-from dataclasses import dataclass, field
-from pyslvs import (
-    __version__,
-    VPoint,
-    VLink,
-    color_rgb,
-)
+from dataclasses import dataclass, field, Field
+from pyslvs import VPoint, VLink, color_rgb
 from core.QtModules import (
     Slot,
     Qt,
@@ -45,11 +42,7 @@ from core.QtModules import (
 )
 from core.info import ARGUMENTS, logger, kernel_list
 from core.io import ProjectWidget
-from core.synthesis import (
-    StructureSynthesis,
-    Collections,
-    DimensionalSynthesis,
-)
+from core.synthesis import StructureSynthesis, Collections, DimensionalSynthesis
 from .main_abc import MainWindowABC
 from .main_canvas import DynamicCanvas
 from .tables import (
@@ -60,6 +53,8 @@ from .tables import (
     FPSLabel,
 )
 from .inputs import InputsWidget
+
+_N = TypeVar('_N')
 
 
 def _set_actions(actions: Sequence[QAction], state: bool) -> None:
@@ -89,7 +84,7 @@ class _Enable(Flag):
 
 
 @dataclass(eq=False)
-class Context:
+class _Context:
 
     """Context menu actions."""
 
@@ -134,11 +129,50 @@ class Context:
         meta = []
         for enable in _Enable:  # type: _Enable
             if enable in key:
-                meta.append(self.__getattribute__(enable.name.lower()))
+                meta.append(getattr(self, enable.name.lower()))
         return tuple(meta)
 
     def __setitem__(self, key: _Enable, value: Union[List[QAction], QMenu]) -> None:
         self.__setattr__(key.name.lower(), value)
+
+
+@dataclass(eq=False)
+class _Preferences:
+
+    """The settings of Pyslvs."""
+
+    line_width_option: int = 3
+    font_size_option: int = 14
+    path_width_option: int = 3
+    scalefactor_option: int = 10
+    selection_radius_option: int = 10
+    link_trans_option: int = 0
+    margin_factor_option: int = 5
+    joint_size_option: int = 5
+    zoom_by_option: int = 0
+    snap_option: float = 1
+    background_option: str = ""
+    background_opacity_option: float = 1
+    background_scale_option: float = 1
+    background_offset_x_option: float = 0
+    background_offset_y_option: float = 0
+    undo_limit_option: int = 60
+    planar_solver_option: int = 0
+    path_preview_option: int = len(kernel_list)
+    title_full_path_option: bool = False
+    console_error_option: bool = ARGUMENTS.debug_mode
+    monochrome_option: bool = False
+    # "Do not save the settings" by default
+    dontsave_option: bool = True
+
+    def func(self, name: str, __type: Type[_N]) -> Callable[[], _N]:
+        """Get the function by the name."""
+        return lambda: getattr(self, name)
+
+    def reset(self) -> None:
+        """Reset the user values."""
+        for name, field_obj in self.__dataclass_fields__.items():  # type: str, Field
+            setattr(self, name, field_obj.default)
 
 
 class MainWindowBase(MainWindowABC, ABC):
@@ -154,7 +188,9 @@ class MainWindowBase(MainWindowABC, ABC):
         self.vpoint_list: List[VPoint] = []
         self.vlink_list = [VLink('ground', 'White', (), color_rgb)]
         # Condition list of context menus
-        self.context = Context()
+        self.context = _Context()
+        # Preference
+        self.prefer = _Preferences()
 
         # Set path from command line
         home_dir = QDir.home()
@@ -197,8 +233,7 @@ class MainWindowBase(MainWindowABC, ABC):
         + Hot keys.
         """
         self.command_stack = QUndoStack(self)
-        self.command_stack.setUndoLimit(self.undo_limit_option.value())
-        self.undo_limit_option.valueChanged.connect(self.command_stack.setUndoLimit)
+        self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
         self.command_stack.indexChanged.connect(self.command_reload)
         action_redo = self.command_stack.createRedoAction(self, "Redo")
         action_undo = self.command_stack.createUndoAction(self, "Undo")
@@ -216,9 +251,6 @@ class MainWindowBase(MainWindowABC, ABC):
 
     def __appearance(self) -> None:
         """Start up and initialize custom widgets."""
-        # Version label
-        self.version_label.setText(__version__)
-
         # Entities tables
         tab_bar = self.entities_tab.tabBar()
         tab_bar.setStatusTip("Switch the tabs to change to another view mode.")
@@ -427,36 +459,10 @@ class MainWindowBase(MainWindowABC, ABC):
         + Combo boxes
         + Check boxes
         """
-        # While value change, update the canvas widget.
+        # While value change, update the canvas widget
         self.zoom_bar.valueChanged.connect(self.main_canvas.set_zoom)
-        self.line_width_option.valueChanged.connect(self.main_canvas.set_link_width)
-        self.path_width_option.valueChanged.connect(self.main_canvas.set_path_width)
-        self.font_size_option.valueChanged.connect(self.main_canvas.set_font_size)
         self.action_show_point_mark.toggled.connect(self.main_canvas.set_point_mark)
         self.action_show_dimensions.toggled.connect(self.main_canvas.set_show_dimension)
-        self.selection_radius_option.valueChanged.connect(self.main_canvas.set_selection_radius)
-        self.link_trans_option.valueChanged.connect(self.main_canvas.set_transparency)
-        self.margin_factor_option.valueChanged.connect(self.main_canvas.set_margin_factor)
-        self.joint_size_option.valueChanged.connect(self.main_canvas.set_joint_size)
-        self.zoom_by_option.currentIndexChanged.connect(self.main_canvas.set_zoom_by)
-        self.snap_option.valueChanged.connect(self.main_canvas.set_snap)
-        self.background_option.textChanged.connect(self.main_canvas.set_background)
-        self.background_opacity_option.valueChanged.connect(self.main_canvas.set_background_opacity)
-        self.background_scale_option.valueChanged.connect(self.main_canvas.set_background_scale)
-        self.background_offset_x_option.valueChanged.connect(self.main_canvas.set_background_offset_x)
-        self.background_offset_y_option.valueChanged.connect(self.main_canvas.set_background_offset_y)
-        self.monochrome_option.toggled.connect(self.main_canvas.set_monochrome_mode)
-        self.monochrome_option.toggled.connect(
-            self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode
-        )
-        self.monochrome_option.toggled.connect(self.dimensional_synthesis.preview_canvas.set_monochrome_mode)
-
-        # Resolve after change current kernel.
-        self.planar_solver_option.addItems(kernel_list)
-        self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))
-        self.planar_solver_option.currentIndexChanged.connect(self.solve)
-        self.path_preview_option.currentIndexChanged.connect(self.solve)
-        self.settings_reset.clicked.connect(self.reset_options)
 
     def __zoom(self) -> None:
         """Zoom functions.
