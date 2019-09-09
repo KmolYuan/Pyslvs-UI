@@ -20,6 +20,7 @@
 + Peewee module requirement is removed.
 + Separate out the abstract methods of main window base into `main_abc`.
 + Show the startup time in none-debug mode.
++ Replace "time.time" with "time.perf_counter".
 
 ## Version 19.08
 

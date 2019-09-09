@@ -7,19 +7,9 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    List,
-    Dict,
-    Callable,
-    Any,
-)
-from time import time
-from platform import (
-    system,
-    release,
-    machine,
-)
+from typing import Tuple, List, Dict, Any
+from time import perf_counter
+from platform import system, release, machine
 from psutil import virtual_memory
 from numpy.distutils.cpuinfo import cpu
 from pyslvs import (
@@ -68,7 +58,7 @@ class WorkerThread(BaseThread):
         """Start the algorithm loop."""
         for name, path in self.mech_params['Target'].items():
             logger.debug(f"- [P{name}] ({len(path)})")
-        t0 = time()
+        t0 = perf_counter()
         for self.current_loop in range(self.loop):
             logger.info(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
             if self.is_stop:
@@ -76,14 +66,14 @@ class WorkerThread(BaseThread):
                 logger.info("Canceled.")
                 continue
             self.result.emit(self.__algorithm())
-        logger.info(f"total cost time: {time() - t0:.02f} [s]")
+        logger.info(f"total cost time: {perf_counter() - t0:.02f} [s]")
         self.finished.emit()
 
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
-        t0 = time()
+        t0 = perf_counter()
         expression, tf = self.__generate_process()
-        time_spend = time() - t0
+        time_spend = perf_counter() - t0
         cpu_info = cpu.info[0]
         last_gen = tf[-1][0]
         mechanism = {

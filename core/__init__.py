@@ -14,8 +14,8 @@ app = None
 def main() -> None:
     """Startup function."""
     global app
-    from time import time
-    t0 = time()
+    from time import perf_counter
+    t0 = perf_counter()
 
     from sys import argv, exit
     from logging import shutdown
@@ -45,7 +45,7 @@ def main() -> None:
     w.show()
     splash.finish(w)
     splash.deleteLater()
-    logger.info(f"Startup with: {time() - t0:.02f}s")
+    logger.info(f"Startup with: {perf_counter() - t0:.02f}s")
     if not ARGUMENTS.debug_mode:
         w.console_connect()
     del preview_rc, splash, t0

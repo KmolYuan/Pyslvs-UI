@@ -12,7 +12,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from time import time
+from time import perf_counter
 from typing import (
     TYPE_CHECKING,
     Tuple,
@@ -450,7 +450,7 @@ class FPSLabel(QLabel):
 
     def __init__(self, parent: QWidget) -> None:
         super(FPSLabel, self).__init__(parent)
-        self.__t0 = time() - 1
+        self.__t0 = perf_counter()
         self.__frame_timer = QTimer()
         self.__frame_timer.timeout.connect(self.__update_text)
         self.__frame_timer.start(500)
@@ -458,7 +458,7 @@ class FPSLabel(QLabel):
     @Slot()
     def __update_text(self) -> None:
         """Update FPS with timer."""
-        t1 = time() - self.__t0
+        t1 = perf_counter() - self.__t0
         fps = 1 / t1 if t1 else 1
         self.setText(f"FPS: {fps:6.02f}")
 
@@ -466,4 +466,4 @@ class FPSLabel(QLabel):
     def update_text(self) -> None:
         """Update FPS with timer."""
         self.__update_text()
-        self.__t0 = time()
+        self.__t0 = perf_counter()
