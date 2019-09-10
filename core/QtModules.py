@@ -17,14 +17,16 @@ from qtpy.QtWidgets import *
 from qtpy.QtGui import *
 from qtpy.QtCharts import QtCharts
 if API_NAME == 'PyQt5':
-    from PyQt5.QtCore import PYQT_VERSION_STR as VER
-    API = f"{API_NAME} {VER}"
+    from PyQt5.QtCore import PYQT_VERSION_STR
+    API = f"{API_NAME} {PYQT_VERSION_STR}"
+    del PYQT_VERSION_STR
 elif API_NAME == 'PySide2':
-    from PySide2 import __version__ as VER
-    API = f"{API_NAME} {VER}"
+    from PySide2 import __version__
+    API = f"{API_NAME} {__version__}"
+    del __version__
 else:
     raise ModuleNotFoundError("module not found: PyQt5 or PySide2")
-del API_NAME, VER
+del API_NAME
 
 QT_VERSION = QtCore.__version__
 
