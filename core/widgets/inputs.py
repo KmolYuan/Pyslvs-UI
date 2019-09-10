@@ -464,14 +464,12 @@ class InputsWidget(QWidget, Ui_Form):
             QMessageBox.Close
         ) != QMessageBox.Save:
             return
-
         file_name = self.output_to(
             "path data",
             ["Comma-Separated Values (*.csv)", "Text file (*.txt)"]
         )
         if not file_name:
             return
-
         with open(file_name, 'w', encoding='utf-8', newline='') as stream:
             writer = csv.writer(stream)
             for point in data:

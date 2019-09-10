@@ -17,7 +17,7 @@ from typing import (
     Union,
 )
 from abc import ABC
-from dataclasses import Field
+from dataclasses import Field, fields
 from lark.exceptions import LarkError
 from pygments.lexers.python import Python3Lexer
 from pyslvs import __version__, parse_params, PMKSLexer
@@ -44,6 +44,7 @@ from core.info import (
     logger,
     PyslvsAbout,
     check_update,
+    size_format,
 )
 from core.io import (
     ScriptDialog,
@@ -191,7 +192,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     @Slot(name='on_action_example_triggered')
     def __load_example(self) -> None:
-        """Load examples from 'DatabaseWidget'. Return true if succeeded."""
+        """Load examples from "DatabaseWidget"."""
         if self.check_file_changed():
             return
         if self.project_widget.load_example():
@@ -317,7 +318,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
 
         if not file_name:
-            file_name = self.input_from("Workbook database", [
+            file_name = self.input_from("workbook", [
                 "Pyslvs YAML file (*.pyslvs)",
                 "Solvespace module (*.slvs)",
             ])
@@ -429,21 +430,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.set_locate(info.absolutePath())
         return file_name
 
-    def save_reply_box(self, title: str, file_name: str) -> None:
-        """Show message when successfully saved."""
-        size = QFileInfo(file_name).size()
-        logger.debug("Size: " + (
-            f"{size / 1024 / 1024:.02f} MB"
-            if size / 1024 // 1024 else
-            f"{size / 1024:.02f} KB"
-        ))
-        QMessageBox.information(
-            self,
-            f"Initial Saved: {title}",
-            f"Successfully saved:\n{file_name}"
-        )
-        logger.info(f"Initial saved: [\"{file_name}\"]")
-
     def input_from(
         self,
         format_name: str,
@@ -470,6 +456,17 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             logger.debug(f"Format: {suffix}")
         return file_names
+
+    def save_reply_box(self, title: str, file_name: str) -> None:
+        """Show message when successfully saved."""
+        size = size_format(QFileInfo(file_name).size())
+        QMessageBox.information(
+            self,
+            f"Initial Saved: {title}",
+            f"Successfully saved:\n{file_name}\n"
+            f"Size: {size}"
+        )
+        logger.info(f"Saved: [\"{file_name}\"] ({size})")
 
     @Slot()
     def save_pmks(self) -> None:
@@ -587,7 +584,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def check_file_changed(self) -> bool:
         """If the user has not saved the change.
 
-        Return True if user want to "discard" the operation.
+        Return True if user want to CANCEL the operation.
         """
         if not self.project_widget.changed():
             return False
@@ -608,11 +605,11 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def restore_settings(self) -> None:
         """Restore Pyslvs settings."""
-        for name, field in self.prefer.__dataclass_fields__.items():  # type: str, Field
-            setting = self.settings.value(name, field.default)
+        for field in fields(self.prefer):  # type: Field
+            setting = self.settings.value(field.name, field.default)
             if setting is None:
                 setting = 0
-            setattr(self.prefer, name, field.type(setting))
+            setattr(self.prefer, field.name, field.type(setting))
         # Specified solver setting
         if ARGUMENTS.kernel:
             if ARGUMENTS.kernel == "python_solvespace":
@@ -637,8 +634,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
 
         self.settings.setValue("ENV", self.env)
-        for name in self.prefer.__dataclass_fields__:  # type: str
-            self.settings.setValue(name, getattr(self.prefer, name))
+        for field in fields(self.prefer):  # type: Field
+            self.settings.setValue(field.name, getattr(self.prefer, field.name))
 
     def load_from_args(self) -> None:
         if not ARGUMENTS.filepath:

@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from dataclasses import fields, Field
 from core.widgets import MainWindowBase
 from core.QtModules import (
     Slot,
@@ -49,9 +50,9 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     @Slot()
     def __load_settings(self) -> None:
         """Load settings on UI."""
-        for name in self.prefer.__dataclass_fields__:
-            widget = getattr(self, name)
-            value = getattr(self.prefer, name)
+        for field in fields(self.prefer):  # type: Field
+            widget = getattr(self, field.name)
+            value = getattr(self.prefer, field.name)
             if type(widget) is QSpinBox or type(widget) is QDoubleSpinBox:
                 widget.setValue(value)
             elif type(widget) is QLineEdit:
@@ -64,20 +65,20 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     @Slot()
     def __save_settings(self):
         """Save settings after clicked apply."""
-        for name in self.prefer.__dataclass_fields__:  # type: str
-            widget = getattr(self, name)
+        for field in self.prefer.__dataclass_fields__:  # type: Field
+            widget = getattr(self, field.name)
             if type(widget) is QSpinBox or type(widget) is QDoubleSpinBox:
-                setattr(self.prefer, name, widget.value())
+                setattr(self.prefer, field.name, widget.value())
             elif type(widget) is QLineEdit:
-                setattr(self.prefer, name, widget.text())
+                setattr(self.prefer, field.name, widget.text())
             elif type(widget) is QCheckBox:
-                setattr(self.prefer, name, widget.isChecked())
+                setattr(self.prefer, field.name, widget.isChecked())
             elif type(widget) is QComboBox:
-                setattr(self.prefer, name, widget.currentIndex())
+                setattr(self.prefer, field.name, widget.currentIndex())
 
     @Slot(name='on_background_choose_dir_clicked')
     def __background_choose_dir(self) -> None:
         """Choose background directory."""
-        file_name = self.input_from("Background image", qt_image_format)
+        file_name = self.input_from("background image", qt_image_format)
         if file_name:
             self.background_option.setText(file_name)

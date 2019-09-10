@@ -227,7 +227,7 @@ class StructureWidget(QWidget, Ui_Form):
     def __add_from_files(self) -> None:
         """Append atlas by text files."""
         file_names = self.input_from(
-            "Edges data",
+            "edges data",
             ["Text File (*.txt)"],
             multiple=True
         )
@@ -260,7 +260,7 @@ class StructureWidget(QWidget, Ui_Form):
         if self.selection_window.count() != 1:
             return
 
-        file_name = self.output_to("Atlas image", qt_image_format)
+        file_name = self.output_to("atlas image", qt_image_format)
         if not file_name:
             return
 
@@ -284,7 +284,7 @@ class StructureWidget(QWidget, Ui_Form):
         if not ok:
             return
 
-        file_name = self.output_to("Atlas image", qt_image_format)
+        file_name = self.output_to("atlas image", qt_image_format)
         if not file_name:
             return
 
@@ -312,7 +312,7 @@ class StructureWidget(QWidget, Ui_Form):
         count = self.collection_list.count()
         if count < 1:
             return
-        file_name = self.output_to("Atlas edges expression", ["Text file (*.txt)"])
+        file_name = self.output_to("atlas edges expression", ["Text file (*.txt)"])
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8') as f:

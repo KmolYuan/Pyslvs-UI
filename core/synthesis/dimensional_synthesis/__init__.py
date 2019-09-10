@@ -222,7 +222,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __import_csv(self) -> None:
         """Paste path data from a text file."""
         file_name = self.input_from(
-            "Path data",
+            "path data",
             ["Text file (*.txt)", "Comma-Separated Values (*.csv)"]
         )
         if not file_name:
@@ -255,7 +255,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __import_xlsx(self) -> None:
         """Paste path data from a Excel file."""
         file_name = self.input_from(
-            "Excel file",
+            "Excel workbook",
             ["Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)"]
         )
         if not file_name:

@@ -23,7 +23,7 @@ from typing import (
 )
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
-from dataclasses import dataclass, field, Field
+from dataclasses import dataclass, field, fields, Field
 from pyslvs import VPoint, VLink, color_rgb
 from core.QtModules import (
     Slot,
@@ -171,8 +171,8 @@ class _Preferences:
 
     def reset(self) -> None:
         """Reset the user values."""
-        for name, field_obj in self.__dataclass_fields__.items():  # type: str, Field
-            setattr(self, name, field_obj.default)
+        for field_obj in fields(self):  # type: Field
+            setattr(self, field_obj.name, field_obj.default)
 
 
 class MainWindowBase(MainWindowABC, ABC):

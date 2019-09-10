@@ -488,7 +488,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if not lateral:
             return
 
-        file_name = self.output_to("Atlas image", qt_image_format)
+        file_name = self.output_to("atlas image", qt_image_format)
         if not file_name:
             return
 
@@ -527,10 +527,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         if count < 1:
             return
         if not file_name:
-            file_name = self.output_to(
-                "Atlas edges expression",
-                ["Text file (*.txt)"]
-            )
+            file_name = self.output_to("atlas edges expression", ["Text file (*.txt)"])
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8') as f:
@@ -544,7 +541,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         This operation will load all edges to list widget first.
         """
         file_names = self.input_from(
-            "Edges data",
+            "edges data",
             ["Text file (*.txt)"],
             multiple=True
         )
