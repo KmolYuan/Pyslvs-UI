@@ -167,7 +167,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     @Slot(str)
     def set_background(self, path: str) -> None:
         """Set background from file path."""
-        if self.background.load(path):
+        if path and self.background.load(path):
             self.update()
 
     @Slot(float)

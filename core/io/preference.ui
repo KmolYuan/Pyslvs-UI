@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>664</height>
+    <width>1172</width>
+    <height>778</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -399,7 +402,7 @@
           <item>
            <widget class="QCheckBox" name="dontsave_option">
             <property name="text">
-             <string>Do not save Pyslvs option.</string>
+             <string>Do not save Pyslvs option to local. (Lost them next time)</string>
             </property>
            </widget>
           </item>

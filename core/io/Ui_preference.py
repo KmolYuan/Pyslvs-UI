@@ -13,10 +13,11 @@ from core.QtModules import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(818, 664)
+        Dialog.resize(1172, 778)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
+        Dialog.setModal(True)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -251,5 +252,5 @@ class Ui_Dialog(object):
         self.title_full_path_option.setText(_translate("Dialog", "Show full file path on window title."))
         self.console_error_option.setText(_translate("Dialog", "Show error messages in the console."))
         self.monochrome_option.setText(_translate("Dialog", "Monochrome mode for mechanism. (Excluding indicators)"))
-        self.dontsave_option.setText(_translate("Dialog", "Do not save Pyslvs option."))
+        self.dontsave_option.setText(_translate("Dialog", "Do not save Pyslvs option to local. (Lost them next time)"))
 import icons_rc

@@ -11,8 +11,6 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import ABCMeta
-from typing import Tuple
-
 from qtpy import QtCore, QtGui, QtWidgets, API_NAME
 from qtpy.QtCore import *
 from qtpy.QtWidgets import *
@@ -149,7 +147,7 @@ __all__ = [
 ]
 
 
-qt_image_format: Tuple[str, ...] = (
+qt_image_format = (
     "Portable Network Graphics (*.png)",
     "Joint Photographic Experts Group (*.jpg)",
     "Bitmap Image file (*.bmp)",
@@ -173,3 +171,6 @@ class QABCMeta(type(QObject), ABCMeta):
             ...
     """
     pass
+
+
+del ABCMeta

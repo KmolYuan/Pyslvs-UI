@@ -10,6 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from core.widgets import MainWindowBase
 from core.QtModules import (
     Slot,
+    qt_image_format,
     QDialog,
     QLineEdit,
     QSpinBox,
@@ -29,6 +30,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     def __init__(self, parent: MainWindowBase):
         super(PreferencesDialog, self).__init__(parent)
         self.setupUi(self)
+        self.input_from = parent.input_from
         self.planar_solver_option.addItems(kernel_list)
         self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))
         self.prefer = parent.prefer
@@ -72,3 +74,10 @@ class PreferencesDialog(QDialog, Ui_Dialog):
                 setattr(self.prefer, name, widget.isChecked())
             elif type(widget) is QComboBox:
                 setattr(self.prefer, name, widget.currentIndex())
+
+    @Slot(name='on_background_choose_dir_clicked')
+    def __background_choose_dir(self) -> None:
+        """Choose background directory."""
+        file_name = self.input_from("Background image", qt_image_format)
+        if file_name:
+            self.background_option.setText(file_name)
