@@ -19,13 +19,12 @@ __email__ = "pyslvs@gmail.com"
 from typing import Tuple, Sequence
 from core.QtModules import (
     Slot,
-    qt_image_format,
     QMessageBox,
     QInputDialog,
     QTextCursor,
     QCloseEvent,
 )
-from core.info import ARGUMENTS, XStream, logger
+from core.info import XStream, logger
 from .io import IOMethodInterface
 
 __all__ = ['MainWindow']

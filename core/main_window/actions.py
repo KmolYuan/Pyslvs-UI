@@ -14,13 +14,14 @@ from core.QtModules import (
     QAction,
     QApplication,
     QPoint,
+    QTableWidget,
 )
 from core.widgets import AddTable, EditPointTable, EditLinkTable
 from core.io import PreferencesDialog
 from .storage import StorageMethodInterface
 
 
-def _copy_table_data(table) -> None:
+def _copy_table_data(table: QTableWidget) -> None:
     """Copy item text to clipboard."""
     text = table.currentItem().text()
     if text:

@@ -116,6 +116,7 @@ class YamlEditor(QObject):
         dlg.setValue(1)
         dlg.setLabelText("Loading mechanism ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
         links_data: Dict[str, str] = data.get('links', {})
         self.add_empty_links(links_data)
@@ -138,6 +139,7 @@ class YamlEditor(QObject):
         dlg.setValue(2)
         dlg.setLabelText("Loading input data ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
         input_data: List[Dict[str, int]] = data.get('input', [])
         i_attr = []
@@ -153,6 +155,7 @@ class YamlEditor(QObject):
         dlg.setValue(3)
         dlg.setLabelText("Loading storage ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
         storage_data: List[Tuple[str, str]] = data.get('storage', [])
         self.load_storage(storage_data)
@@ -161,6 +164,7 @@ class YamlEditor(QObject):
         dlg.setValue(4)
         dlg.setLabelText("Loading paths ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
         path_data: Dict[str, Sequence[Tuple[float, float]]] = data.get('path', {})
         self.load_paths(path_data)
@@ -169,6 +173,7 @@ class YamlEditor(QObject):
         dlg.setValue(5)
         dlg.setLabelText("Loading graph collections ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
         collection_data: List[Tuple[Tuple[int, int], ...]] = data.get('collection', [])
         self.load_collections(collection_data)
@@ -177,6 +182,7 @@ class YamlEditor(QObject):
         dlg.setValue(6)
         dlg.setLabelText("Loading synthesis configurations ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
         self.load_config(config_data)
@@ -185,6 +191,7 @@ class YamlEditor(QObject):
         dlg.setValue(7)
         dlg.setLabelText("Loading synthesis configurations ...")
         if dlg.wasCanceled():
+            dlg.deleteLater()
             return self.main_clear()
 
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])

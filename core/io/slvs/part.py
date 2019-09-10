@@ -272,7 +272,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         # Add "Constraint" for become tangent line.
         for j, num in enumerate((num1 - num1 % 16, num2 - num2 % 16)):
             r = j == 1
-            writer.constraint_arc_line_tangent(writer.constraint_num, circles[-1], num, reversed=r)
+            writer.constraint_arc_line_tangent(writer.constraint_num, circles[-1], num, reverse=r)
             writer.constraint_num += 1
 
     for i, (x, y) in enumerate(centers):

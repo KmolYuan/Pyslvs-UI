@@ -111,7 +111,9 @@ class SlvsWriter:
 
     """Use to save data with solvespace file format."""
 
-    def __init__(self, *,
+    def __init__(
+        self,
+        *,
         group: int = 0x2,
         comment_group: int = 0x3,
         workplane: int = 0x80020000
@@ -157,7 +159,7 @@ class SlvsWriter:
         self.entity_normal_3d_wxyz(0x20020, 0x20001)
         self.entity_plane(0x30000, 0x30001, 0x30020)
         self.entity_point(0x30001)
-        self.entity_normal_3d_wxyz(0x30020, 0x30001, reversed=True)
+        self.entity_normal_3d_wxyz(0x30020, 0x30001, reverse=True)
 
         self.constraint_num = 0x1
         self.script_constraint = []
@@ -227,7 +229,7 @@ class SlvsWriter:
             "AddGroup",
         ]))
 
-    def param(self, num: int) -> str:
+    def param(self, num: int) -> None:
         """A no value parameter."""
         self.script_param.append('\n'.join((
             f"Param.h.v.={num:08x}",
@@ -242,11 +244,11 @@ class SlvsWriter:
             "AddParam",
         ]))
 
-    def request(self, num: int, type: int) -> None:
+    def request(self, num: int, type_i: int) -> None:
         """A request for an entity."""
         self.script_request.append('\n'.join([
             f"Request.h.v={num:08x}",
-            f"Request.type={type}",
+            f"Request.type={type_i}",
             f"Request.workplane.v={self.__workplane:08x}",
             f"Request.group.v={self.__group:08x}",
             "Request.construction=0",
@@ -297,11 +299,11 @@ class SlvsWriter:
             "AddEntity",
         ]))
 
-    def entity_normal(self, num: int, p: int, type: int) -> None:
+    def entity_normal(self, num: int, p: int, type_i: int) -> None:
         """A 3D normal."""
         self.script_entity.append('\n'.join([
             f"Entity.h.v={num:08x}",
-            f"Entity.type={type}",
+            f"Entity.type={type_i}",
             "Entity.construction=0",
             f"Entity.point[0].v={p:08x}",
             f"Entity.actNormal.w={1:.020f}",
@@ -313,9 +315,9 @@ class SlvsWriter:
         """A 3D normal."""
         self.entity_normal(num, p, 3000)
 
-    def entity_normal_3d_wxyz(self, num: int, p: int, *, reversed: bool = False) -> None:
+    def entity_normal_3d_wxyz(self, num: int, p: int, *, reverse: bool = False) -> None:
         """A 3D normal from quaternion."""
-        unit = -0.5 if reversed else 0.5
+        unit = -0.5 if reverse else 0.5
         self.script_entity.append('\n'.join([
             f"Entity.h.v={num:08x}",
             f"Entity.type={3000}",
@@ -440,10 +442,10 @@ class SlvsWriter:
     ):
         """Constraint two distance between two workplane."""
 
-        def constraint_fix_hv(num: int, phv: int, val: float) -> None:
+        def constraint_fix_hv(n: int, phv: int, val: float) -> None:
             """Constraint a distance from a point to a plane."""
             self.script_constraint.append('\n'.join([
-                f"Constraint.h.v={num:08x}",
+                f"Constraint.h.v={n:08x}",
                 f"Constraint.type={31}",
                 f"Constraint.group.v={self.__group:08x}",
                 f"Constraint.workplane.v={self.__workplane:08x}",
@@ -545,7 +547,7 @@ class SlvsWriter:
         e1: int,
         e2: int,
         *,
-        reversed: bool = False
+        reverse: bool = False
     ):
         """Constraint an arc is tangent with a line."""
         self.script_constraint.append('\n'.join([
@@ -555,7 +557,7 @@ class SlvsWriter:
             f"Constraint.workplane.v={self.__workplane:08x}",
             f"Constraint.entityA.v={e1:08x}",
             f"Constraint.entityB.v={e2:08x}",
-            f"Constraint.other={1 if reversed else 0}",
+            f"Constraint.other={1 if reverse else 0}",
             "Constraint.other2=0",
             "Constraint.reference=0",
             "AddConstraint",

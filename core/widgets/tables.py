@@ -453,7 +453,7 @@ class FPSLabel(QLabel):
         self.__t0 = perf_counter()
         self.__frame_timer = QTimer()
         self.__frame_timer.timeout.connect(self.__update_text)
-        self.__frame_timer.start(500)
+        self.__frame_timer.start(1000)
 
     @Slot()
     def __update_text(self) -> None:

@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Optional
+from typing import Optional, ClassVar
 import sys
 import os
 from platform import system
@@ -71,8 +71,8 @@ class XStream(QObject):
 
     """Stream object to imitate Python output."""
 
-    __stdout: Optional[XStream] = None
-    __stderr: Optional[XStream] = None
+    __stdout: ClassVar[Optional[XStream]] = None
+    __stderr: ClassVar[Optional[XStream]] = None
     message_written = Signal(str)
 
     @staticmethod

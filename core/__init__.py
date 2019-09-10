@@ -8,12 +8,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 __all__ = ['main']
 
-app = None
+_app = None
 
 
 def main() -> None:
     """Startup function."""
-    global app
+    global _app
     from time import perf_counter
     t0 = perf_counter()
 
@@ -28,7 +28,7 @@ def main() -> None:
         shutdown()
         exit(0)
 
-    app = QApplication(argv)
+    _app = QApplication(argv)
     import preview_rc
     splash = QSplashScreen(QPixmap(":/icons/splash.png"))
     splash.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
@@ -38,7 +38,7 @@ def main() -> None:
     if system() == 'Darwin':
         ARGUMENTS.fusion = True
     if ARGUMENTS.fusion:
-        app.setStyle('fusion')
+        _app.setStyle('fusion')
 
     from .main_window import MainWindow
     w = MainWindow()
@@ -50,6 +50,6 @@ def main() -> None:
         w.console_connect()
     del preview_rc, splash, t0
 
-    qt_exit_code = app.exec_()
+    qt_exit_code = _app.exec_()
     shutdown()
     exit(qt_exit_code)

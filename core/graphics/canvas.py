@@ -16,6 +16,7 @@ from typing import (
     Iterator,
     Any,
     Union,
+    ClassVar,
 )
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -492,7 +493,7 @@ class PreviewCanvas(BaseCanvas):
 
     """A preview canvas use to show structure diagram."""
 
-    view_size = 240
+    view_size: ClassVar[int] = 240
 
     def __init__(self, parent: QWidget) -> None:
         """Input parameters and attributes.
