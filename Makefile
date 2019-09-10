@@ -10,15 +10,13 @@ PYTHON_SLVS_PATH = depend/solvespace/cython
 
 ifeq ($(OS),Windows_NT)
     PY = python
-else
-    PY = python3
-endif
-
-ifeq ($(OS),Windows_NT)
     SHELL = cmd
     _NEEDS_BUILD = true
-else ifeq ($(shell uname),Darwin)
+else
+    PY = python3
+ifeq ($(shell uname),Darwin)
     _NEEDS_BUILD = true
+endif
 endif
 ifdef _NEEDS_BUILD
     PYSLVSVER = $(shell $(PY) -c "from pyslvs import __version__; print(__version__)")
@@ -67,12 +65,12 @@ build-solvespace:
 build-kernel: build-pyslvs build-solvespace
 
 ifdef _NEEDS_BUILD
-_build: clean build-kernel test-kernel
+_build: build-kernel test-kernel
 else
-_build: clean
+_build:
 endif
 
-build: $(LAUNCHSCRIPT).py _build
+build: $(LAUNCHSCRIPT).py clean _build
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS),Windows_NT)
@@ -91,12 +89,12 @@ endif
 
 test-pyslvs:
 	@echo Test libraries
-	cd $(PYSLVS_PATH) && $(PY) tests
+	cd $(PYSLVS_PATH) && $(PY) setup.py test
 	@echo Done
 
 test-solvespace:
 	@echo Test Solvespace kernel
-	cd $(PYTHON_SLVS_PATH) && $(PY) tests
+	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py test
 	@echo Done
 
 test-kernel: test-pyslvs test-solvespace
@@ -130,8 +128,8 @@ clean-pyslvs:
 ifeq ($(OS),Windows_NT)
 	-rd "$(PYSLVS_PATH)/dist" /s /q
 	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
-	-cd $(PYSLVS_PATH)/pyslvs && del *.cpp /q
-	-cd $(PYSLVS_PATH)/pyslvs && del Adesign\*.cpp /q
+	-cd "$(PYSLVS_PATH)/pyslvs" && del *.cpp /q
+	-cd "$(PYSLVS_PATH)/pyslvs" && del Adesign\*.cpp /q
 else
 	-rm -fr $(PYSLVS_PATH)/dist
 	-rm -fr $(PYSLVS_PATH)/pyslvs.egg-info
@@ -145,7 +143,7 @@ clean-solvespace:
 ifeq ($(OS),Windows_NT)
 	-rd "$(PYTHON_SLVS_PATH)/dist" /s /q
 	-rd "$(PYTHON_SLVS_PATH)/python_solvespace.egg-info" /s /q
-	-cd $(PYTHON_SLVS_PATH)/python_solvespace && del *.cpp /q
+	-cd "$(PYTHON_SLVS_PATH)/python_solvespace" && del *.cpp /q
 else
 	-rm -fr $(PYTHON_SLVS_PATH)/dist
 	-rm -fr $(PYTHON_SLVS_PATH)/python_solvespace.egg-info
