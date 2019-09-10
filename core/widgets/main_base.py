@@ -418,7 +418,7 @@ class MainWindowBase(MainWindowABC, ABC):
         @Slot()
         def new_main_window() -> None:
             """Start a new window."""
-            w = self.__class__()
+            w = type(self)()
             if not ARGUMENTS.debug_mode:
                 w.console_connect()
             w.show()

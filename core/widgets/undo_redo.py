@@ -98,7 +98,7 @@ class _FusedTable(QUndoCommand, metaclass=QABCMeta):
         self.table = table
         self.table_type = type(table)
         if self.table_type not in {PointTableWidget, LinkTableWidget}:
-            raise TypeError(f"{table.__class__.__name__} is not a valid table type")
+            raise TypeError(f"{self.table_type.__name__} is not a valid table type")
 
 
 class AddTable(_FusedTable):
