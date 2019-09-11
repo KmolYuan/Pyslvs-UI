@@ -24,7 +24,7 @@ from core.QtModules import (
     QIcon,
 )
 from core.info import logger, size_format
-from .pyslvs_yaml import YamlEditor
+from .yaml import YamlEditor
 from .Ui_project import Ui_Form
 if TYPE_CHECKING:
     from core.widgets import MainWindowBase
@@ -40,13 +40,17 @@ class ProjectWidget(QWidget, Ui_Form):
         super(ProjectWidget, self).__init__(parent)
         self.setupUi(self)
         # Undo view
-        undo_view = QUndoView(parent.command_stack)
+        self.command_stack = parent.command_stack
+        undo_view = QUndoView(self.command_stack)
         undo_view.setEmptyLabel("~ Start Pyslvs")
         w = QWidget(self)
         layout = QVBoxLayout(w)
         layout.addWidget(undo_view)
         history_icon = QIcon(QPixmap(":/icons/history.png"))
         self.history_tabs.addTab(w, history_icon, "Mechanism")
+        # Action group settings
+        self.group_action = parent.prefer.func('open_project_actions_option', int)
+        self.undo_limit = parent.prefer.func('undo_limit_option', int)
         # Check workbook saved function
         self.workbook_saved = parent.workbook_saved
         # Parse function
@@ -72,8 +76,6 @@ class ProjectWidget(QWidget, Ui_Form):
 
         # YAML editor
         self.yaml_editor = YamlEditor(parent)
-        # Undo Stack
-        self.command_clear = parent.command_stack.clear
         # Reset
         self.__file_name = QFileInfo("")
         self.__changed = False
@@ -83,7 +85,8 @@ class ProjectWidget(QWidget, Ui_Form):
         """Clear all the things that dependent on database."""
         self.set_file_name(self.env_path() + "/Untitled")
         self.__changed = False
-        self.command_clear()
+        self.command_stack.clear()
+        self.command_stack.setUndoLimit(self.undo_limit())
 
     def set_file_name(self, file_name: str, *, is_example: bool = False) -> None:
         """Set file name."""
@@ -143,6 +146,9 @@ class ProjectWidget(QWidget, Ui_Form):
             QMessageBox.warning(self, "File not exist", "The path is invalid.")
             return
         self.yaml_editor.load(file_name)
+        if self.group_action() == 0:
+            self.command_stack.clear()
+            self.command_stack.setUndoLimit(self.undo_limit())
         self.set_file_name(file_name)
 
     def load_example(self, is_import: bool = False) -> bool:
@@ -158,14 +164,24 @@ class ProjectWidget(QWidget, Ui_Form):
         )
         if not ok:
             return False
-        expr, inputs = example_list[example_name]
         if not is_import:
             self.reset()
             self.main_clear()
+            if self.group_action() == 1:
+                self.command_stack.beginMacro("Add mechanism")
+        expr, inputs = example_list[example_name]
         self.parse_expression(expr)
         if not is_import:
+            if self.group_action() == 1:
+                self.command_stack.endMacro()
+                self.command_stack.beginMacro("Add inputs data")
             # Import without input data
             self.load_inputs(inputs)
+            if self.group_action() == 0:
+                self.command_stack.clear()
+                self.command_stack.setUndoLimit(self.undo_limit())
+            elif self.group_action() == 1:
+                self.command_stack.endMacro()
         self.set_file_name(example_name, is_example=True)
         self.workbook_saved()
         logger.info(f"Example \"{example_name}\" has been loaded.")

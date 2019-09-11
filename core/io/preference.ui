@@ -353,7 +353,7 @@
          </property>
          <layout class="QFormLayout" name="formLayout_2">
           <item row="0" column="0">
-           <widget class="QLabel" name="UndoLimit_label">
+           <widget class="QLabel" name="undo_limit_label">
             <property name="text">
              <string>Undo limit</string>
             </property>
@@ -367,6 +367,32 @@
             <property name="minimum">
              <number>5</number>
             </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="open_project_actions_label">
+            <property name="text">
+             <string>Open project actions</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="open_project_actions_option">
+            <item>
+             <property name="text">
+              <string>No undo</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Group with macros</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>No group</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>

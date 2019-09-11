@@ -36,6 +36,10 @@ class YamlEditor(QObject):
 
     def __init__(self, parent: MainWindowBase) -> None:
         super(YamlEditor, self).__init__(parent)
+        # Undo stack
+        self.command_stack = parent.command_stack
+        # Action group settings
+        self.group_action = parent.prefer.func('open_project_actions_option', int)
         # Call to get point expressions
         self.vpoints = parent.vpoint_list
         # Call to get link data
@@ -112,16 +116,15 @@ class YamlEditor(QObject):
             yaml_script = f.read()
         data: Dict[str, Any] = yaml.load(yaml_script, Loader=yaml.FullLoader)
 
-        # Links data
+        # Mechanism data
         dlg.setValue(1)
         dlg.setLabelText("Loading mechanism ...")
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
+        self.__set_group("Add mechanism")
         links_data: Dict[str, str] = data.get('links', {})
         self.add_empty_links(links_data)
-
-        # Mechanism data
         mechanism_data: List[Dict[str, Any]] = data.get('mechanism', [])
         p_attr = []
         nan = float("nan")
@@ -134,6 +137,7 @@ class YamlEditor(QObject):
             p_angle: float = point_attr.get('angle', 0.)
             p_attr.append((p_x, p_y, ','.join(p_links), 'Green', p_type, p_angle))
         self.add_points(p_attr)
+        self.__end_group()
 
         # Input data
         dlg.setValue(2)
@@ -141,6 +145,7 @@ class YamlEditor(QObject):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
+        self.__set_group("Add input data")
         input_data: List[Dict[str, int]] = data.get('input', [])
         i_attr = []
         for input_attr in input_data:
@@ -150,6 +155,7 @@ class YamlEditor(QObject):
                 i_drive = input_attr['drive']
                 i_attr.append((i_base, i_drive))
         self.load_inputs(i_attr)
+        self.__end_group()
 
         # Storage data
         dlg.setValue(3)
@@ -157,8 +163,10 @@ class YamlEditor(QObject):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
+        self.__set_group("Add storage")
         storage_data: List[Tuple[str, str]] = data.get('storage', [])
         self.load_storage(storage_data)
+        self.__end_group()
 
         # Path data
         dlg.setValue(4)
@@ -166,8 +174,10 @@ class YamlEditor(QObject):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
+        self.__set_group("Add paths")
         path_data: Dict[str, Sequence[Tuple[float, float]]] = data.get('path', {})
         self.load_paths(path_data)
+        self.__end_group()
 
         # Collection data
         dlg.setValue(5)
@@ -175,8 +185,10 @@ class YamlEditor(QObject):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
+        self.__set_group("Add graph collections")
         collection_data: List[Tuple[Tuple[int, int], ...]] = data.get('collection', [])
         self.load_collections(collection_data)
+        self.__end_group()
 
         # Configuration data
         dlg.setValue(6)
@@ -184,18 +196,21 @@ class YamlEditor(QObject):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
+        self.__set_group("Add synthesis configurations")
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
         self.load_config(config_data)
+        self.__end_group()
 
         # Algorithm data
         dlg.setValue(7)
-        dlg.setLabelText("Loading synthesis configurations ...")
+        dlg.setLabelText("Loading synthesis results ...")
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-
+        self.__set_group("Add synthesis results")
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
         self.load_algorithm(algorithm_data)
+        self.__end_group()
 
         # Workbook loaded
         dlg.setValue(8)
@@ -215,3 +230,13 @@ class YamlEditor(QObject):
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
+
+    def __set_group(self, text: str) -> None:
+        """Set group."""
+        if self.group_action() == 1:
+            self.command_stack.beginMacro(text)
+
+    def __end_group(self) -> None:
+        """End group."""
+        if self.group_action() == 1:
+            self.command_stack.endMacro()

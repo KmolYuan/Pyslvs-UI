@@ -38,13 +38,11 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
 
     def __add_storage(self, name: str, expr: str) -> None:
         """Add storage data function."""
-        self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
         self.command_stack.push(AddStorage(
             name,
             self.mechanism_storage,
             expr
         ))
-        self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_add_clicked')
     def __add_current_storage(self) -> None:
@@ -114,10 +112,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         row = self.mechanism_storage.currentRow()
         if not row > -1:
             return
-        name = self.mechanism_storage.item(row).text()
-        self.command_stack.beginMacro(f"Delete {{Mechanism: {name}}}")
         self.command_stack.push(DeleteStorage(row, self.mechanism_storage))
-        self.command_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_restore_clicked')
     @Slot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')

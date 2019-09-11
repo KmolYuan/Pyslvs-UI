@@ -157,6 +157,7 @@ class _Preferences:
     background_offset_x_option: float = 0
     background_offset_y_option: float = 0
     undo_limit_option: int = 60
+    open_project_actions_option: int = 1
     planar_solver_option: int = 0
     path_preview_option: int = len(kernel_list)
     title_full_path_option: bool = False

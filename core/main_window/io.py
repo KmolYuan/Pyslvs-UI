@@ -145,9 +145,9 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def workbook_saved(self) -> None:
         """Workbook saved signal."""
         self.project_widget.set_changed(False)
-        self.__set_window_title_full_path()
+        self.set_window_title_full_path()
 
-    def __set_window_title_full_path(self) -> None:
+    def set_window_title_full_path(self) -> None:
         """Set the option 'window title will show the full path'."""
         file_name = self.project_widget.file_name()
         if self.prefer.title_full_path_option:

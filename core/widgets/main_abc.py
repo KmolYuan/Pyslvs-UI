@@ -250,6 +250,10 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
+    def set_window_title_full_path(self) -> None:
+        ...
+
+    @abstractmethod
     def import_pmks_url(self) -> None:
         ...
 

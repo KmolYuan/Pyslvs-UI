@@ -41,6 +41,7 @@ from core.QtModules import (
     QLineEdit,
     QIcon,
     QPixmap,
+    QWidget,
 )
 from .tables import (
     BaseTableWidget,
@@ -91,14 +92,13 @@ class _FusedTable(QUndoCommand, metaclass=QABCMeta):
     def __init__(
         self,
         entities_list: List[Union[VPoint, VLink, None]],
-        table: BaseTableWidget
+        table: BaseTableWidget,
+        parent: Optional[QWidget] = None
     ):
-        super(_FusedTable, self).__init__()
+        super(_FusedTable, self).__init__(parent)
         self.entities_list = entities_list
         self.table = table
         self.table_type = type(table)
-        if self.table_type not in {PointTableWidget, LinkTableWidget}:
-            raise TypeError(f"{self.table_type.__name__} is not a valid table type")
 
 
 class AddTable(_FusedTable):
@@ -108,13 +108,14 @@ class AddTable(_FusedTable):
     def __init__(
         self,
         entities_list: List[Union[VPoint, VLink, None]],
-        table: BaseTableWidget
+        table: BaseTableWidget,
+        parent: Optional[QWidget] = None
     ):
         """Attributes
 
         + Table reference
         """
-        super(AddTable, self).__init__(entities_list, table)
+        super(AddTable, self).__init__(entities_list, table, parent)
 
     def redo(self) -> None:
         """Add a empty row and add empty text strings into table items."""
@@ -142,7 +143,8 @@ class DeleteTable(_FusedTable):
         row: int,
         entities_list: List[Union[VPoint, VLink, None]],
         table: BaseTableWidget,
-        is_rename: bool
+        is_rename: bool,
+        parent: Optional[QWidget] = None
     ):
         """Attributes
 
@@ -150,7 +152,7 @@ class DeleteTable(_FusedTable):
         + Row
         + Should rename
         """
-        super(DeleteTable, self).__init__(entities_list, table)
+        super(DeleteTable, self).__init__(entities_list, table, parent)
         self.row = row
         self.is_rename = is_rename
 
@@ -179,7 +181,8 @@ class FixSequenceNumber(QUndoCommand):
         self,
         point_table: PointTableWidget,
         row: int,
-        benchmark: int
+        benchmark: int,
+        parent: Optional[QWidget] = None
     ):
         """Attributes
 
@@ -187,7 +190,7 @@ class FixSequenceNumber(QUndoCommand):
         + Row
         + Benchmark
         """
-        super(FixSequenceNumber, self).__init__()
+        super(FixSequenceNumber, self).__init__(parent)
         self.point_table = point_table
         self.row = row
         self.benchmark = benchmark
@@ -223,9 +226,10 @@ class _EditFusedTable(QUndoCommand, metaclass=QABCMeta):
         vlink_list: List[VLink],
         point_table: PointTableWidget,
         link_table: LinkTableWidget,
-        args_list: Sequence[Union[str, float]]
+        args_list: Sequence[Union[str, float]],
+        parent: Optional[QWidget] = None
     ):
-        super(_EditFusedTable, self).__init__()
+        super(_EditFusedTable, self).__init__(parent)
         self.row = row
         self.vpoint_list = vpoint_list
         self.vlink_list = vlink_list
@@ -369,8 +373,16 @@ class AddPath(QUndoCommand):
 
     """Append a new path."""
 
-    def __init__(self, widget: QListWidget, name: str, data: Dict[str, _Path], path: _Path) -> None:
-        super(AddPath, self).__init__()
+    def __init__(
+        self,
+        widget: QListWidget,
+        name: str,
+        data: Dict[str, _Path],
+        path: _Path,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(AddPath, self).__init__(parent)
+        self.setText(f"Add {{Path: {name}}}")
         self.widget = widget
         self.name = name
         self.data = data
@@ -393,8 +405,15 @@ class DeletePath(QUndoCommand):
 
     """"Delete the specified row of path."""
 
-    def __init__(self, row: int, widget: QListWidget, data: Dict[str, _Path]) -> None:
-        super(DeletePath, self).__init__()
+    def __init__(
+        self,
+        row: int,
+        widget: QListWidget,
+        data: Dict[str, _Path],
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(DeletePath, self).__init__(parent)
+        self.setText(f"Delete {{Path: {widget.item(row).text()}}}")
         self.row = row
         self.widget = widget
         self.data = data
@@ -418,8 +437,15 @@ class AddStorage(QUndoCommand):
 
     """Append a new storage."""
 
-    def __init__(self, name: str, widget: QListWidget, mechanism: str) -> None:
-        super(AddStorage, self).__init__()
+    def __init__(
+        self,
+        name: str,
+        widget: QListWidget,
+        mechanism: str,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(AddStorage, self).__init__(parent)
+        self.setText(f"Add {{Mechanism: {name}}}")
         self.name = name
         self.widget = widget
         self.mechanism = mechanism
@@ -440,8 +466,14 @@ class DeleteStorage(QUndoCommand):
 
     """Delete the specified row of storage."""
 
-    def __init__(self, row: int, widget: QListWidget) -> None:
-        super(DeleteStorage, self).__init__()
+    def __init__(
+        self,
+        row: int,
+        widget: QListWidget,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(DeleteStorage, self).__init__(parent)
+        self.setText(f"Delete {{Mechanism: {widget.item(row).text()}}}")
         self.row = row
         self.widget = widget
         self.name = widget.item(row).text()
@@ -463,8 +495,13 @@ class AddStorageName(QUndoCommand):
 
     """Update name of storage name."""
 
-    def __init__(self, name: str, widget: QLineEdit) -> None:
-        super(AddStorageName, self).__init__()
+    def __init__(
+        self,
+        name: str,
+        widget: QLineEdit,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(AddStorageName, self).__init__(parent)
         self.name = name
         self.widget = widget
 
@@ -481,8 +518,8 @@ class ClearStorageName(QUndoCommand):
 
     """Clear the storage name"""
 
-    def __init__(self, widget: QLineEdit) -> None:
-        super(ClearStorageName, self).__init__()
+    def __init__(self, widget: QLineEdit, parent: Optional[QWidget] = None) -> None:
+        super(ClearStorageName, self).__init__(parent)
         self.name = widget.text() or widget.placeholderText()
         self.widget = widget
 
@@ -499,10 +536,16 @@ class AddInput(QUndoCommand):
 
     """Add a variable to list widget."""
 
-    def __init__(self, text: str, widget: QListWidget) -> None:
-        super(AddInput, self).__init__()
-        self.item = QListWidgetItem(text)
-        self.item.setToolTip(text)
+    def __init__(
+        self,
+        name: str,
+        widget: QListWidget,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(AddInput, self).__init__(parent)
+        self.setText(f"Add variable of {name}")
+        self.item = QListWidgetItem(name)
+        self.item.setToolTip(name)
         self.widget = widget
 
     def redo(self) -> None:
@@ -518,8 +561,14 @@ class DeleteInput(QUndoCommand):
 
     """Remove the variable item."""
 
-    def __init__(self, row: int, widget: QListWidget) -> None:
-        super(DeleteInput, self).__init__()
+    def __init__(
+        self,
+        row: int,
+        widget: QListWidget,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(DeleteInput, self).__init__(parent)
+        self.setText(f"Remove variable of {{Point{row}}}")
         self.item = widget.item(row)
         self.widget = widget
 

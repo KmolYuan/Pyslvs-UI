@@ -242,6 +242,5 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.dimensional_synthesis.preview_canvas.set_monochrome_mode,
         ):
             func(self.prefer.monochrome_option)
-        self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
-        self.__set_window_title_full_path()
+        self.set_window_title_full_path()
         self.solve()

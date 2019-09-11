@@ -65,7 +65,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     @Slot()
     def __save_settings(self):
         """Save settings after clicked apply."""
-        for field in self.prefer.__dataclass_fields__:  # type: Field
+        for field in fields(self.prefer):  # type: Field
             widget = getattr(self, field.name)
             if type(widget) is QSpinBox or type(widget) is QDoubleSpinBox:
                 setattr(self.prefer, field.name, widget.value())

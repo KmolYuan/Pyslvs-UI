@@ -219,8 +219,6 @@ class InputsWidget(QWidget, Ui_Form):
                 )
                 return
 
-        name = f'Point{p0}'
-        self.command_stack.beginMacro(f"Add variable of {name}")
         if p0 == p1:
             # One joint by offset
             value = self.vpoints[p0].true_offset()
@@ -228,11 +226,10 @@ class InputsWidget(QWidget, Ui_Form):
             # Two joints by angle
             value = self.vpoints[p0].slope_angle(self.vpoints[p1])
         self.command_stack.push(AddInput('->'.join((
-            name,
+            f'Point{p0}',
             f"Point{p1}",
             f"{value:.02f}",
         )), self.variable_list))
-        self.command_stack.endMacro()
 
     def add_inputs_variables(self, variables: Sequence[Tuple[int, int]]) -> None:
         """Add from database."""
@@ -276,9 +273,7 @@ class InputsWidget(QWidget, Ui_Form):
             # If this is not origin point any more
             if one_row and row != b:
                 continue
-            self.command_stack.beginMacro(f"Remove variable of {{Point{row}}}")
             self.command_stack.push(DeleteInput(i, self.variable_list))
-            self.command_stack.endMacro()
 
     @Slot(name='on_variable_remove_clicked')
     def remove_var(self, row: int = -1) -> None:
@@ -288,9 +283,7 @@ class InputsWidget(QWidget, Ui_Form):
         if not row > -1:
             return
         self.variable_stop.click()
-        self.command_stack.beginMacro(f"Remove variable of {{Point{row}}}")
         self.command_stack.push(DeleteInput(row, self.variable_list))
-        self.command_stack.endMacro()
         self.get_back_position()
         self.solve()
 
@@ -414,14 +407,12 @@ class InputsWidget(QWidget, Ui_Form):
 
     def add_path(self, name: str, path: Sequence[_Coord]) -> None:
         """Add path function."""
-        self.command_stack.beginMacro(f"Add {{Path: {name}}}")
         self.command_stack.push(AddPath(
             self.record_list,
             name,
             self.__path_data,
             path
         ))
-        self.command_stack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
     def load_paths(self, paths: Dict[str, Sequence[_Coord]]) -> None:
@@ -435,14 +426,11 @@ class InputsWidget(QWidget, Ui_Form):
         row = self.record_list.currentRow()
         if not row > 0:
             return
-        name = self.record_list.item(row).text()
-        self.command_stack.beginMacro(f"Delete {{Path: {name}}}")
         self.command_stack.push(DeletePath(
             row,
             self.record_list,
             self.__path_data
         ))
-        self.command_stack.endMacro()
         self.record_list.setCurrentRow(self.record_list.count() - 1)
         self.reload_canvas()
 
