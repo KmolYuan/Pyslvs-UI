@@ -624,6 +624,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.collections,
             self.get_collection,
             self.workbook_no_save,
+            self.preview_canvas.show_ticks,
             self.preview_canvas.monochrome,
             self
         )

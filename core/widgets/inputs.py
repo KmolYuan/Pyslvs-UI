@@ -94,8 +94,6 @@ class InputsWidget(QWidget, Ui_Form):
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
 
         # Play button
-        action = QShortcut(QKeySequence("F5"), self)
-        action.activated.connect(self.variable_play.click)
         self.variable_stop.clicked.connect(self.variable_value_reset)
 
         # Timer for play button

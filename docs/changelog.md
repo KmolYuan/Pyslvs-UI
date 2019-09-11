@@ -14,6 +14,7 @@
     + Separate out "preferences" page as dialog.
     + Add "open actions" settings for the opening macros.
     + Add "file type" settings for YAML saving.
+    + Add "Tick mark" settings for main canvas.
 + Use star sign as unsaved mark.
 
 **Development**:

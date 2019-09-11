@@ -226,7 +226,7 @@
              <bool>false</bool>
             </property>
             <property name="statusTip">
-             <string>(F5) Start / Pause the auto driver of this variables.</string>
+             <string>Start / Pause the auto driver of this variables.</string>
             </property>
             <property name="icon">
              <iconset resource="../../icons.qrc">

@@ -37,6 +37,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         collections: Dict[str, Any],
         get_collection: Callable[[], Dict[str, Any]],
         workbook_no_save: Callable[[], None],
+        show_ticks: bool,
         monochrome: bool,
         parent: QWidget
     ):
@@ -59,6 +60,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
+        self.preview_canvas.set_show_ticks(show_ticks)
         self.preview_canvas.set_monochrome_mode(monochrome)
         self.common_list.addItems(collection_list)
         self.collections_list.addItems(self.collections)

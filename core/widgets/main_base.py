@@ -37,7 +37,6 @@ from core.QtModules import (
     QPoint,
     QLabel,
     QPushButton,
-    QKeySequence,
     QDir,
     QSettings,
     QUndoStack,
@@ -85,7 +84,7 @@ class _Enable(Flag):
     C_L = auto()
 
 
-@dataclass(eq=False)
+@dataclass(repr=False, eq=False)
 class _Context:
 
     """Context menu actions."""
@@ -138,7 +137,7 @@ class _Context:
         self.__setattr__(key.name.lower(), value)
 
 
-@dataclass
+@dataclass(repr=False)
 class _Preferences:
 
     """The settings of Pyslvs."""
@@ -158,6 +157,7 @@ class _Preferences:
     background_scale_option: float = 1
     background_offset_x_option: float = 0
     background_offset_y_option: float = 0
+    tick_mark_option: int = 1
     monochrome_option: bool = False
     undo_limit_option: int = 60
     open_project_actions_option: int = 1
@@ -247,17 +247,13 @@ class MainWindowBase(MainWindowABC, ABC):
         self.command_stack.indexChanged.connect(self.command_reload)
         action_redo = self.command_stack.createRedoAction(self, "Redo")
         action_undo = self.command_stack.createUndoAction(self, "Undo")
-        action_redo.setShortcuts([
-            QKeySequence("Ctrl+Shift+Z"),
-            QKeySequence("Ctrl+Y"),
-        ])
+        action_redo.setShortcuts(["Ctrl+Shift+Z", "Ctrl+Y"])
         action_redo.setStatusTip("Backtracking undo action.")
         action_redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
         action_undo.setShortcut("Ctrl+Z")
         action_undo.setStatusTip("Recover last action.")
         action_undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
-        self.menu_edit.addAction(action_undo)
-        self.menu_edit.addAction(action_redo)
+        self.menu_edit.addActions([action_undo, action_redo])
 
     def __appearance(self) -> None:
         """Start up and initialize custom widgets."""
@@ -457,7 +453,7 @@ class MainWindowBase(MainWindowABC, ABC):
         ]):
             action = QAction(QIcon(QPixmap(f":/icons/{icon}.png")), text, self)
             action.triggered.connect(free_move_mode_func(i, action.icon()))
-            action.setShortcut(QKeySequence(f"Ctrl+{i + 1}"))
+            action.setShortcut(f"Ctrl+{i + 1}")
             action.setShortcutContext(Qt.WindowShortcut)
             action.setStatusTip(tip)
             free_move_mode_menu.addAction(action)

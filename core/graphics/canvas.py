@@ -20,6 +20,7 @@ from typing import (
 )
 from abc import abstractmethod
 from dataclasses import dataclass
+from enum import auto, unique, IntEnum
 from math import (
     radians,
     sin,
@@ -108,16 +109,24 @@ class _PathOption:
 
     Attributes:
 
-    + Preview path data
-    + Path data
-    + Display mode:
-        + Show mode parameter.
-        + The path will be the curve, otherwise using the points.
+    + Path data (-1: Hide, 0: Preview path data)
+    + Show mode parameter.
+    + The path will be the curve, otherwise using the points.
     """
 
     path: Tuple[Tuple[_Coord, ...], ...] = ()
     show: int = -1
     curve: bool = True
+
+
+@unique
+class _TickMark(IntEnum):
+
+    """The status of tick mark."""
+
+    hide = auto()
+    show = auto()
+    show_num = auto()
 
 
 class BaseCanvas(QWidget, metaclass=QABCMeta):
@@ -146,6 +155,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         # Font size
         self.font_size = 15
         # Show point mark or dimension
+        self.show_ticks = _TickMark.show
         self.show_point_mark = True
         self.show_dimension = True
         # Path track
@@ -209,30 +219,43 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Arial", self.font_size))
         # Draw origin lines
-        pen.setColor(Qt.gray)
-        self.painter.setPen(pen)
-        x_l = -self.ox
-        x_r = self.width() - self.ox
-        self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
-        y_t = self.height() - self.oy
-        y_b = -self.oy
-        self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
+        if self.show_ticks in {_TickMark.show, _TickMark.show_num}:
+            pen.setColor(Qt.gray)
+            self.painter.setPen(pen)
+            x_l = -self.ox
+            x_r = self.width() - self.ox
+            self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
+            y_t = self.height() - self.oy
+            y_b = -self.oy
+            self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
 
-        def indexing(v: float) -> int:
-            """Draw tick."""
-            return int(v / self.zoom - v / self.zoom % 5)
+            def indexing(v: float) -> int:
+                """Draw tick."""
+                return int(v / self.zoom - v / self.zoom % 5)
 
-        # Draw tick
-        for x in range(indexing(x_l), indexing(x_r) + 1, 5):
-            self.painter.drawLine(
-                QPointF(x, 0) * self.zoom,
-                QPointF(x * self.zoom, -10 if x % 10 == 0 else -5)
-            )
-        for y in range(indexing(y_b), indexing(y_t) + 1, 5):
-            self.painter.drawLine(
-                QPointF(0, y) * self.zoom,
-                QPointF(10 if y % 10 == 0 else 5, y * self.zoom)
-            )
+            # Draw tick
+            for x in range(indexing(x_l), indexing(x_r) + 1, 5):
+                if x == 0:
+                    continue
+                is_ten = x % 10 == 0
+                end = QPointF(x * self.zoom, -10 if is_ten else -5)
+                self.painter.drawLine(
+                    QPointF(x, 0) * self.zoom,
+                    end
+                )
+                if self.show_ticks == _TickMark.show_num and is_ten:
+                    self.painter.drawText(end + QPointF(0, 3), f"{x}")
+            for y in range(indexing(y_b), indexing(y_t) + 1, 5):
+                if y == 0:
+                    continue
+                is_ten = y % 10 == 0
+                end = QPointF(10 if is_ten else 5, y * self.zoom)
+                self.painter.drawLine(
+                    QPointF(0, y) * self.zoom,
+                    end
+                )
+                if self.show_ticks == _TickMark.show_num and is_ten:
+                    self.painter.drawText(end + QPointF(3, 0), f"{-y}")
         # Please to call the "end" method when ending paint event.
 
     def draw_point(
@@ -483,8 +506,15 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.drawPolygon(QPolygonF(points))
         self.painter.setBrush(Qt.NoBrush)
 
+    @Slot(int)
+    def set_show_ticks(self, show: int):
+        """Set the appearance of tick mark."""
+        self.show_ticks = _TickMark(show + 1)
+        self.update()
+
     @Slot(bool)
     def set_monochrome_mode(self, monochrome: bool) -> None:
+        """Set monochrome mode."""
         self.monochrome = monochrome
         self.update()
 

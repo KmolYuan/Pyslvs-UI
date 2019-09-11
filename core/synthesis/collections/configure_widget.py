@@ -361,6 +361,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.collections,
             self.get_configure,
             self.workbook_no_save,
+            self.configure_canvas.show_ticks,
             self.configure_canvas.monochrome,
             self
         )

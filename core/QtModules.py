@@ -80,7 +80,6 @@ __all__ = [
     'QImage',
     'QInputDialog',
     'QKeyEvent',
-    'QKeySequence',
     'QLabel',
     'QLineEdit',
     'QLineF',

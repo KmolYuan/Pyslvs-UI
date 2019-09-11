@@ -251,6 +251,10 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.main_canvas.set_background_offset_x(value)
             elif name == 'background_offset_y_option':
                 self.main_canvas.set_background_offset_y(value)
+            elif name == 'tick_mark_option':
+                self.main_canvas.set_show_ticks(value)
+                self.collection_tab_page.configure_widget.configure_canvas.set_show_ticks(value)
+                self.dimensional_synthesis.preview_canvas.set_show_ticks(value)
             elif name == 'monochrome_option':
                 self.main_canvas.set_monochrome_mode(value)
                 self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode(value)
