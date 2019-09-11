@@ -88,19 +88,11 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """
         parser = SlvsParser(file_name)
         if not parser.is_valid():
-            QMessageBox.warning(
-                self,
-                "Format error",
-                "The format is not support."
-            )
+            QMessageBox.warning(self, "Format error", "The format is not support.")
             return
         groups = parser.get_groups()
         if not groups:
-            QMessageBox.warning(
-                self,
-                "Format error",
-                "The model file is empty."
-            )
+            QMessageBox.warning(self, "Format error", "The model file is empty.")
             return
         group, ok = QInputDialog.getItem(
             self,
@@ -130,17 +122,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def dropEvent(self, event: QDropEvent) -> None:
         """Drop file in to our window."""
-        file_name = event.mimeData().urls()[-1].toLocalFile()
-        self.__load_file(file_name)
+        self.__load_file(event.mimeData().urls()[-1].toLocalFile())
         event.acceptProposedAction()
 
     def workbook_no_save(self) -> None:
         """Workbook not saved signal."""
         self.project_widget.set_changed(True)
-        not_yet_saved = " (not yet saved)"
-        self.setWindowTitle(
-            self.windowTitle().replace(not_yet_saved, '') + not_yet_saved
-        )
+        self.set_window_title_full_path()
 
     def workbook_saved(self) -> None:
         """Workbook saved signal."""
@@ -154,8 +142,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             title = file_name.absoluteFilePath()
         else:
             title = file_name.fileName()
-        saved_text = " (not yet saved)" if self.project_widget.changed() else ''
-        self.setWindowTitle(f"Pyslvs - {title}{saved_text}")
+        self.setWindowTitle(f"Pyslvs - {title}{'*' if self.project_widget.changed() else ''}")
 
     def __open_url(self, url: str) -> None:
         """Use to open link."""

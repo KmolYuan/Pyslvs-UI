@@ -12,6 +12,7 @@
 + Fix a solver bug of the stop button on inputs page.
 + Separate out "preferences" page as dialog.
 + Add "open actions" settings for the opening macros.
++ Use star sign as unsaved mark.
 
 **Development**:
 
