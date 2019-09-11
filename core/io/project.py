@@ -174,7 +174,7 @@ class ProjectWidget(QWidget, Ui_Form):
             if self.prefer.open_project_actions_option == 1:
                 self.command_stack.endMacro()
                 self.command_stack.beginMacro("Add inputs data")
-            # Import without input data
+            # Import without inputs data
             self.load_inputs(inputs)
             if self.prefer.open_project_actions_option == 0:
                 self.command_stack.clear()

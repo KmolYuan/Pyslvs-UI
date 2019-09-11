@@ -147,11 +147,11 @@ class YamlEditor(QObject):
 
         # Input data
         dlg.setValue(2)
-        dlg.setLabelText("Loading input data ...")
+        dlg.setLabelText("Loading inputs data ...")
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add input data")
+        self.__set_group("Add inputs data")
         input_data: List[Dict[str, int]] = data.get('input', [])
         i_attr = []
         for input_attr in input_data:
