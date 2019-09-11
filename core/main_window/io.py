@@ -115,14 +115,16 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         mime_data: QMimeData = event.mimeData()
         if not mime_data.hasUrls():
             return
-        for url in mime_data.urls():
-            suffix = QFileInfo(url.toLocalFile()).suffix()
+        urls = mime_data.urls()
+        if len(urls) == 1:
+            suffix = QFileInfo(urls[0].toLocalFile()).suffix()
             if suffix in {'yml', 'pyslvs', 'slvs'}:
                 event.acceptProposedAction()
 
     def dropEvent(self, event: QDropEvent) -> None:
         """Drop file in to our window."""
-        self.__load_file(event.mimeData().urls()[-1].toLocalFile())
+        mime_data: QMimeData = event.mimeData()
+        self.__load_file(mime_data.urls()[0].toLocalFile())
         event.acceptProposedAction()
 
     def workbook_no_save(self) -> None:
