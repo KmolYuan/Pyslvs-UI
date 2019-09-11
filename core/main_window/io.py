@@ -596,9 +596,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Restore Pyslvs settings."""
         for field in fields(self.prefer):  # type: Field
             setting = self.settings.value(field.name, field.default)
-            if setting is None:
-                setting = 0
-            setattr(self.prefer, field.name, field.type(setting))
+            setattr(self.prefer, field.name, setting)
         # Specified solver setting
         if ARGUMENTS.kernel:
             if ARGUMENTS.kernel == "python_solvespace":

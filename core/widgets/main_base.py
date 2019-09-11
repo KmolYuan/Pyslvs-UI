@@ -6,24 +6,26 @@
 + Context menus.
 """
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    Type,
     TypeVar,
     Tuple,
     List,
     Sequence,
+    Iterator,
     Callable,
     Union,
     Optional,
 )
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
-from dataclasses import dataclass, field, fields, Field
+from dataclasses import dataclass, field, fields, Field, astuple
 from pyslvs import VPoint, VLink, color_rgb
 from core.QtModules import (
     Slot,
@@ -136,7 +138,7 @@ class _Context:
         self.__setattr__(key.name.lower(), value)
 
 
-@dataclass(eq=False)
+@dataclass
 class _Preferences:
 
     """The settings of Pyslvs."""
@@ -166,10 +168,20 @@ class _Preferences:
     # "Do not save the settings" by default
     dontsave_option: bool = True
 
+    def diff(self, other: _Preferences) -> Iterator[str]:
+        """Show the fields of differences."""
+        for field_obj in fields(self):  # type: Field
+            if getattr(self, field_obj.name) != getattr(other, field_obj.name):
+                yield field_obj.name
+
     def reset(self) -> None:
         """Reset the user values."""
         for field_obj in fields(self):  # type: Field
             setattr(self, field_obj.name, field_obj.default)
+
+    def copy(self):
+        """Make a copy of preference data."""
+        return _Preferences(*astuple(self))
 
 
 class MainWindowBase(MainWindowABC, ABC):

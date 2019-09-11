@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence, Callable
+from typing import Sequence, Callable, Union
 from abc import ABC, abstractmethod
 from core.QtModules import (
     Slot,
@@ -220,27 +220,42 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-        dlg.deleteLater()
         # Update values
-        self.main_canvas.set_link_width(self.prefer.line_width_option)
-        self.main_canvas.set_path_width(self.prefer.path_width_option)
-        self.main_canvas.set_font_size(self.prefer.font_size_option)
-        self.main_canvas.set_selection_radius(self.prefer.selection_radius_option)
-        self.main_canvas.set_transparency(self.prefer.link_trans_option)
-        self.main_canvas.set_margin_factor(self.prefer.margin_factor_option)
-        self.main_canvas.set_joint_size(self.prefer.joint_size_option)
-        self.main_canvas.set_zoom_by(self.prefer.zoom_by_option)
-        self.main_canvas.set_snap(self.prefer.snap_option)
-        self.main_canvas.set_background(self.prefer.background_option)
-        self.main_canvas.set_background_opacity(self.prefer.background_opacity_option)
-        self.main_canvas.set_background_scale(self.prefer.background_scale_option)
-        self.main_canvas.set_background_offset_x(self.prefer.background_offset_x_option)
-        self.main_canvas.set_background_offset_y(self.prefer.background_offset_y_option)
-        for func in (
-            self.main_canvas.set_monochrome_mode,
-            self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode,
-            self.dimensional_synthesis.preview_canvas.set_monochrome_mode,
-        ):
-            func(self.prefer.monochrome_option)
-        self.set_window_title_full_path()
+        for name in dlg.diff():
+            value: Union[bool, int, float, str] = getattr(self.prefer, name)
+            if name == 'line_width_option':
+                self.main_canvas.set_link_width(value)
+            elif name == 'path_width_option':
+                self.main_canvas.set_path_width(value)
+            elif name == 'font_size_option':
+                self.main_canvas.set_font_size(value)
+            elif name == 'selection_radius_option':
+                self.main_canvas.set_selection_radius(value)
+            elif name == 'link_trans_option':
+                self.main_canvas.set_transparency(value)
+            elif name == 'margin_factor_option':
+                self.main_canvas.set_margin_factor(value)
+            elif name == 'joint_size_option':
+                self.main_canvas.set_joint_size(value)
+            elif name == 'zoom_by_option':
+                self.main_canvas.set_zoom_by(value)
+            elif name == 'snap_option':
+                self.main_canvas.set_snap(value)
+            elif name == 'background_option':
+                self.main_canvas.set_background(value)
+            elif name == 'background_opacity_option':
+                self.main_canvas.set_background_opacity(value)
+            elif name == 'background_scale_option':
+                self.main_canvas.set_background_scale(value)
+            elif name == 'background_offset_x_option':
+                self.main_canvas.set_background_offset_x(value)
+            elif name == 'background_offset_y_option':
+                self.main_canvas.set_background_offset_y(value)
+            elif name == 'monochrome_option':
+                self.main_canvas.set_monochrome_mode(value)
+                self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode(value)
+                self.dimensional_synthesis.preview_canvas.set_monochrome_mode(value)
+            elif name == 'title_full_path_option':
+                self.set_window_title_full_path()
+        dlg.deleteLater()
         self.solve()

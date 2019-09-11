@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Iterator
 from dataclasses import fields, Field
 from core.widgets import MainWindowBase
 from core.QtModules import (
@@ -35,6 +36,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.planar_solver_option.addItems(kernel_list)
         self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))
         self.prefer = parent.prefer
+        self.prefer_origin = self.prefer.copy()
 
         self.accepted.connect(self.__save_settings)
         self.button_box.button(QDialogButtonBox.Apply).clicked.connect(self.__save_settings)
@@ -75,6 +77,12 @@ class PreferencesDialog(QDialog, Ui_Dialog):
                 setattr(self.prefer, field.name, widget.isChecked())
             elif type(widget) is QComboBox:
                 setattr(self.prefer, field.name, widget.currentIndex())
+
+    def diff(self) -> Iterator[str]:
+        """Return the diff of two data."""
+        if self.prefer == self.prefer_origin:
+            return
+        yield from self.prefer_origin.diff(self.prefer)
 
     @Slot(name='on_background_choose_dir_clicked')
     def __background_choose_dir(self) -> None:

@@ -97,17 +97,20 @@ g.add_argument(
 g = parser.add_argument_group("graphical user interface options")
 g.add_argument(
     '--fusion',
+    default=False,
     action='store_true',
     help="run Pyslvs in Fusion style"
 )
 g.add_argument(
     '--full-screen',
+    default=False,
     action='store_true',
     help="start Pyslvs with full-screen mode"
 )
 g = parser.add_argument_group("other options")
 g.add_argument(
     '--test',
+    default=False,
     action='store_true',
     help="just test the module import states and exit"
 )
