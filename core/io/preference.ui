@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1172</width>
-    <height>778</height>
+    <width>1154</width>
+    <height>817</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -28,289 +31,313 @@
        <property name="title">
         <string>Main canvas</string>
        </property>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="linewidth_label">
-          <property name="text">
-           <string>Line width</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="line_width_option">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>10</number>
-          </property>
-          <property name="displayIntegerBase">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="fontsize_label">
-          <property name="text">
-           <string>Font size</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="font_size_option">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>30</number>
-          </property>
-          <property name="singleStep">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="pathwidth_label">
-          <property name="text">
-           <string>Path width</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="path_width_option">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>5</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="scalefactor_label">
-          <property name="text">
-           <string>Scale factor</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="scalefactor_option">
-          <property name="minimum">
-           <number>5</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="singleStep">
-           <number>5</number>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="selectionradius_label">
-          <property name="text">
-           <string>Selection radius</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QSpinBox" name="selection_radius_option">
-          <property name="minimum">
-           <number>3</number>
-          </property>
-          <property name="maximum">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="linktransparency_label">
-          <property name="text">
-           <string>Link transparency</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QSpinBox" name="link_trans_option">
-          <property name="suffix">
-           <string> %</string>
-          </property>
-          <property name="maximum">
-           <number>80</number>
-          </property>
-          <property name="singleStep">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="marginfactor_label">
-          <property name="text">
-           <string>Margin of &quot;zoom to fit&quot;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QSpinBox" name="margin_factor_option">
-          <property name="suffix">
-           <string>%</string>
-          </property>
-          <property name="maximum">
-           <number>30</number>
-          </property>
-          <property name="singleStep">
-           <number>5</number>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="jointsize_label">
-          <property name="text">
-           <string>Joint annotation size (diameter)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QSpinBox" name="joint_size_option">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="zoomby_label">
-          <property name="text">
-           <string>Center zooming by</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QComboBox" name="zoom_by_option">
-          <item>
-           <property name="text">
-            <string>Cursor</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Cavas center</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="10" column="0">
-         <widget class="QLabel" name="snap_label">
-          <property name="text">
-           <string>Snap the mouse when dragging</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="1">
-         <widget class="QDoubleSpinBox" name="snap_option">
-          <property name="maximum">
-           <double>50.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="0">
-         <widget class="QLabel" name="background_label">
-          <property name="text">
-           <string>Background</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="1">
-         <layout class="QHBoxLayout" name="background_layout">
-          <item>
-           <widget class="QLineEdit" name="background_option">
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="linewidth_label">
+            <property name="text">
+             <string>Line width</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QToolButton" name="background_choose_dir">
-            <property name="icon">
-             <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="line_width_option">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="displayIntegerBase">
+             <number>10</number>
             </property>
            </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="fontsize_label">
+            <property name="text">
+             <string>Font size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="font_size_option">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>30</number>
+            </property>
+            <property name="singleStep">
+             <number>2</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="pathwidth_label">
+            <property name="text">
+             <string>Path width</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="path_width_option">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="scalefactor_label">
+            <property name="text">
+             <string>Scale factor</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="scalefactor_option">
+            <property name="minimum">
+             <number>5</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="singleStep">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="selectionradius_label">
+            <property name="text">
+             <string>Selection radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QSpinBox" name="selection_radius_option">
+            <property name="minimum">
+             <number>3</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="linktransparency_label">
+            <property name="text">
+             <string>Link transparency</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QSpinBox" name="link_trans_option">
+            <property name="suffix">
+             <string> %</string>
+            </property>
+            <property name="maximum">
+             <number>80</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="marginfactor_label">
+            <property name="text">
+             <string>Margin of &quot;zoom to fit&quot;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QSpinBox" name="margin_factor_option">
+            <property name="suffix">
+             <string>%</string>
+            </property>
+            <property name="maximum">
+             <number>30</number>
+            </property>
+            <property name="singleStep">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="jointsize_label">
+            <property name="text">
+             <string>Joint annotation size (diameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QSpinBox" name="joint_size_option">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="zoomby_label">
+            <property name="text">
+             <string>Center zooming by</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QComboBox" name="zoom_by_option">
+            <item>
+             <property name="text">
+              <string>Cursor</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Cavas center</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QLabel" name="snap_label">
+            <property name="text">
+             <string>Snap the mouse when dragging</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QDoubleSpinBox" name="snap_option">
+            <property name="maximum">
+             <double>50.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="QLabel" name="background_label">
+            <property name="text">
+             <string>Background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <layout class="QHBoxLayout" name="background_layout">
+            <item>
+             <widget class="QLineEdit" name="background_option">
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="background_choose_dir">
+              <property name="icon">
+               <iconset resource="../../icons.qrc">
+                <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="background_opacity_label">
+            <property name="text">
+             <string>Background opacity</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QDoubleSpinBox" name="background_opacity_option">
+            <property name="maximum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QLabel" name="background_scale_label">
+            <property name="text">
+             <string>Background scale</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="1">
+           <widget class="QDoubleSpinBox" name="background_scale_option">
+            <property name="minimum">
+             <double>0.010000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.020000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0">
+           <widget class="QLabel" name="background_offset_label">
+            <property name="text">
+             <string>Background offset</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1">
+           <layout class="QHBoxLayout" name="background_offset_layout">
+            <item>
+             <widget class="QDoubleSpinBox" name="background_offset_x_option">
+              <property name="minimum">
+               <double>-999999.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>999999.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="background_offset_y_option">
+              <property name="minimum">
+               <double>-999999.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>999999.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
-        <item row="12" column="0">
-         <widget class="QLabel" name="background_opacity_label">
+        <item>
+         <widget class="QCheckBox" name="monochrome_option">
           <property name="text">
-           <string>Background opacity</string>
+           <string>Monochrome mode for mechanism. (Excluding indicators)</string>
           </property>
          </widget>
         </item>
-        <item row="12" column="1">
-         <widget class="QDoubleSpinBox" name="background_opacity_option">
-          <property name="maximum">
-           <double>1.000000000000000</double>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="singleStep">
-           <double>0.100000000000000</double>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
           </property>
-          <property name="value">
-           <double>1.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="13" column="0">
-         <widget class="QLabel" name="background_scale_label">
-          <property name="text">
-           <string>Background scale</string>
-          </property>
-         </widget>
-        </item>
-        <item row="13" column="1">
-         <widget class="QDoubleSpinBox" name="background_scale_option">
-          <property name="minimum">
-           <double>0.010000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>10.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.020000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="14" column="0">
-         <widget class="QLabel" name="background_offset_label">
-          <property name="text">
-           <string>Background offset</string>
-          </property>
-         </widget>
-        </item>
-        <item row="14" column="1">
-         <layout class="QHBoxLayout" name="background_offset_layout">
-          <item>
-           <widget class="QDoubleSpinBox" name="background_offset_x_option">
-            <property name="minimum">
-             <double>-999999.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>999999.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="background_offset_y_option">
-            <property name="minimum">
-             <double>-999999.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>999999.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -326,7 +353,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="planarsolver_label">
             <property name="text">
-             <string>Planar solving:</string>
+             <string>Planar solving</string>
             </property>
            </widget>
           </item>
@@ -336,7 +363,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="pathpreview_label">
             <property name="text">
-             <string>Path preview:</string>
+             <string>Path preview</string>
             </property>
            </widget>
           </item>
@@ -347,9 +374,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="settings_history_groupbox">
+        <widget class="QGroupBox" name="settings_project_groupbox">
          <property name="title">
-          <string>History</string>
+          <string>Project and history</string>
          </property>
          <layout class="QFormLayout" name="formLayout_2">
           <item row="0" column="0">
@@ -395,6 +422,27 @@
             </item>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="file_type_label">
+            <property name="text">
+             <string>File type:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="file_type_option">
+            <item>
+             <property name="text">
+              <string>YAML</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Compressed YAML</string>
+             </property>
+            </item>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -419,18 +467,24 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="monochrome_option">
-            <property name="text">
-             <string>Monochrome mode for mechanism. (Excluding indicators)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="dontsave_option">
             <property name="text">
              <string>Do not save Pyslvs option to local. (Lost them next time)</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>

@@ -158,13 +158,14 @@ class _Preferences:
     background_scale_option: float = 1
     background_offset_x_option: float = 0
     background_offset_y_option: float = 0
+    monochrome_option: bool = False
     undo_limit_option: int = 60
     open_project_actions_option: int = 1
+    file_type_option: int = 0
     planar_solver_option: int = 0
     path_preview_option: int = len(kernel_list)
     title_full_path_option: bool = False
     console_error_option: bool = ARGUMENTS.debug_mode
-    monochrome_option: bool = False
     # "Do not save the settings" by default
     dontsave_option: bool = True
 
