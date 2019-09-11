@@ -39,7 +39,7 @@ class YamlEditor(QObject):
         # Undo stack
         self.command_stack = parent.command_stack
         # Action group settings
-        self.group_action = parent.prefer.func('open_project_actions_option', int)
+        self.prefer = parent.prefer
         # Call to get point expressions
         self.vpoints = parent.vpoint_list
         # Call to get link data
@@ -233,10 +233,10 @@ class YamlEditor(QObject):
 
     def __set_group(self, text: str) -> None:
         """Set group."""
-        if self.group_action() == 1:
+        if self.prefer.open_project_actions_option == 1:
             self.command_stack.beginMacro(text)
 
     def __end_group(self) -> None:
         """End group."""
-        if self.group_action() == 1:
+        if self.prefer.open_project_actions_option == 1:
             self.command_stack.endMacro()

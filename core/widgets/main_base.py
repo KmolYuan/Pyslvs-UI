@@ -166,10 +166,6 @@ class _Preferences:
     # "Do not save the settings" by default
     dontsave_option: bool = True
 
-    def func(self, name: str, __type: Type[_N]) -> Callable[[], _N]:
-        """Get the function by the name."""
-        return lambda: getattr(self, name)
-
     def reset(self) -> None:
         """Reset the user values."""
         for field_obj in fields(self):  # type: Field

@@ -48,9 +48,8 @@ class ProjectWidget(QWidget, Ui_Form):
         layout.addWidget(undo_view)
         history_icon = QIcon(QPixmap(":/icons/history.png"))
         self.history_tabs.addTab(w, history_icon, "Mechanism")
-        # Action group settings
-        self.group_action = parent.prefer.func('open_project_actions_option', int)
-        self.undo_limit = parent.prefer.func('undo_limit_option', int)
+        # Settings
+        self.prefer = parent.prefer
         # Check workbook saved function
         self.workbook_saved = parent.workbook_saved
         # Parse function
@@ -86,7 +85,7 @@ class ProjectWidget(QWidget, Ui_Form):
         self.set_file_name(self.env_path() + "/Untitled")
         self.__changed = False
         self.command_stack.clear()
-        self.command_stack.setUndoLimit(self.undo_limit())
+        self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
 
     def set_file_name(self, file_name: str, *, is_example: bool = False) -> None:
         """Set file name."""
@@ -146,9 +145,9 @@ class ProjectWidget(QWidget, Ui_Form):
             QMessageBox.warning(self, "File not exist", "The path is invalid.")
             return
         self.yaml_editor.load(file_name)
-        if self.group_action() == 0:
+        if self.prefer.open_project_actions_option == 0:
             self.command_stack.clear()
-            self.command_stack.setUndoLimit(self.undo_limit())
+            self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
         self.set_file_name(file_name)
 
     def load_example(self, is_import: bool = False) -> bool:
@@ -167,20 +166,20 @@ class ProjectWidget(QWidget, Ui_Form):
         if not is_import:
             self.reset()
             self.main_clear()
-            if self.group_action() == 1:
+            if self.prefer.open_project_actions_option == 1:
                 self.command_stack.beginMacro("Add mechanism")
         expr, inputs = example_list[example_name]
         self.parse_expression(expr)
         if not is_import:
-            if self.group_action() == 1:
+            if self.prefer.open_project_actions_option == 1:
                 self.command_stack.endMacro()
                 self.command_stack.beginMacro("Add inputs data")
             # Import without input data
             self.load_inputs(inputs)
-            if self.group_action() == 0:
+            if self.prefer.open_project_actions_option == 0:
                 self.command_stack.clear()
-                self.command_stack.setUndoLimit(self.undo_limit())
-            elif self.group_action() == 1:
+                self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
+            elif self.prefer.open_project_actions_option == 1:
                 self.command_stack.endMacro()
         self.set_file_name(example_name, is_example=True)
         self.workbook_saved()

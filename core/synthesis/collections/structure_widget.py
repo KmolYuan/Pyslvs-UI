@@ -72,7 +72,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.input_from = parent.input_from
         self.add_points_by_graph = parent.add_points_by_graph
         self.workbook_no_save = parent.workbook_no_save
-        self.is_monochrome = parent.prefer.func('monochrome_option', bool)
+        self.prefer = parent.prefer
 
         # Data structures
         self.collections: List[Graph] = []
@@ -147,7 +147,7 @@ class StructureWidget(QWidget, Ui_Form):
                 engine,
                 self.graph_link_as_node.isChecked(),
                 self.graph_show_label.isChecked(),
-                self.is_monochrome()
+                self.prefer.monochrome_option
             ))
             self.collections_layouts.append(engine)
             item.setToolTip(f"{g.edges}")
@@ -348,7 +348,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.ground_engine,
             link_is_node,
             self.graph_show_label.isChecked(),
-            self.is_monochrome()
+            self.prefer.monochrome_option
         ))
         self.selection_window.addItem(item_preview)
 
@@ -462,7 +462,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.ground_engine,
             self.graph_link_as_node.isChecked(),
             self.graph_show_label.isChecked(),
-            self.is_monochrome()
+            self.prefer.monochrome_option
         )
         item.setIcon(icon)
         self.collections_grounded.append(g)
@@ -476,7 +476,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.ground_engine,
                 self.graph_link_as_node.isChecked(),
                 self.graph_show_label.isChecked(),
-                self.is_monochrome(),
+                self.prefer.monochrome_option,
                 except_node=node
             )
             item.setIcon(icon)

@@ -113,7 +113,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.vpoints = parent.vpoint_list
         self.vlinks = parent.vlink_list
         self.get_graph = parent.get_graph
-        self.is_monochrome = parent.prefer.func('monochrome_option', bool)
+        self.prefer = parent.prefer
         self.add_collection = parent.collection_tab_page.structure_widget.add_collection
 
         # Answer list
@@ -415,7 +415,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.graph_engine.currentText(),
             self.graph_link_as_node.isChecked(),
             self.graph_show_label.isChecked(),
-            self.is_monochrome()
+            self.prefer.monochrome_option
         ))
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"

@@ -53,7 +53,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         # Dependent functions to set zoom bar
         self.set_zoom_bar = parent.zoom_bar.setValue
         self.zoom_value = parent.zoom_bar.value
-        self.zoom_factor = parent.prefer.func('scalefactor_option', int)
+        self.prefer = parent.prefer
         # Dependent functions to set selection mode
         self.selection_mode_wheel = parent.entities_tab.setCurrentIndex
         self.selection_mode = parent.entities_tab.currentIndex
@@ -279,11 +279,12 @@ class DynamicCanvas(DynamicCanvasInterface):
         elif value_x != 0:
             value = value_x
         elif value_y != 0:
-            self.set_zoom_bar(self.zoom_value() + self.zoom_factor() * (1 if value_y > 0 else -1))
+            value = self.prefer.scalefactor_option * (1 if value_y > 0 else -1)
+            value += self.zoom_value()
+            self.set_zoom_bar(value)
             return
         else:
             return
-
         mode = self.selection_mode() + (-1 if value > 0 else 1)
         self.selection_mode_wheel(1 if mode > 1 else mode)
         mode = ["Points", "Links"][self.selection_mode()]
