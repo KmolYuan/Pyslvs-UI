@@ -217,9 +217,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         """Set preference by dialog."""
         dlg = PreferencesDialog(self)
         dlg.show()
-        if not dlg.exec_():
-            dlg.deleteLater()
-            return
+        dlg.exec_()
         # Update values
         for name in dlg.diff():
             value: Union[bool, int, float, str] = getattr(self.prefer, name)
@@ -251,15 +249,16 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.main_canvas.set_background_offset_x(value)
             elif name == 'background_offset_y_option':
                 self.main_canvas.set_background_offset_y(value)
-            elif name == 'tick_mark_option':
-                self.main_canvas.set_show_ticks(value)
-                self.collection_tab_page.configure_widget.configure_canvas.set_show_ticks(value)
-                self.dimensional_synthesis.preview_canvas.set_show_ticks(value)
-            elif name == 'monochrome_option':
-                self.main_canvas.set_monochrome_mode(value)
-                self.collection_tab_page.configure_widget.configure_canvas.set_monochrome_mode(value)
-                self.dimensional_synthesis.preview_canvas.set_monochrome_mode(value)
             elif name == 'title_full_path_option':
                 self.set_window_title_full_path()
+            for canvas in (
+                self.main_canvas,
+                self.collection_tab_page.configure_widget.configure_canvas,
+                self.dimensional_synthesis.preview_canvas,
+            ):
+                if name == 'tick_mark_option':
+                    canvas.set_show_ticks(value)
+                elif name == 'monochrome_option':
+                    canvas.set_monochrome_mode(value)
         dlg.deleteLater()
         self.solve()
