@@ -171,6 +171,12 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.background_offset = QPointF(0, 0)
         # Monochrome mode
         self.monochrome = False
+        # Grab mode
+        self.__grab_mode = False
+
+    def switch_grab(self) -> None:
+        """Start grab mode."""
+        self.__grab_mode = not self.__grab_mode
 
     @staticmethod
     def zoom_factor(
@@ -196,8 +202,9 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         """Using a QPainter under 'self',
         so just change QPen or QBrush before painting.
         """
-        self.painter.begin(self)
-        self.painter.fillRect(event.rect(), QBrush(Qt.white))
+        if not self.__grab_mode:
+            self.painter.begin(self)
+            self.painter.fillRect(event.rect(), QBrush(Qt.white))
         # Translation
         self.painter.translate(self.ox, self.oy)
         # Background

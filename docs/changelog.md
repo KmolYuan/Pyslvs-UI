@@ -12,9 +12,10 @@
 + Fix a solver bug of the stop button on inputs page.
 + User options:
     + Separate out "preferences" page as dialog.
-    + Add "open actions" settings for the opening macros.
-    + Add "file type" settings for YAML saving.
-    + Add "Tick mark" settings for main canvas.
+    + Add "open actions" setting for the opening macros.
+    + Add "file type" setting for YAML saving.
+    + Add "Tick mark" setting for main canvas.
+    + Add "Transparent background when capturing" setting for main canvas.
 + Use star sign as unsaved mark.
 + Logical correction of checking update.
 

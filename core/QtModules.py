@@ -111,6 +111,7 @@ __all__ = [
     'QRadioButton',
     'QRect',
     'QRectF',
+    'QRegion',
     'QSpacerItem',
     'QSplitter',
     'QScrollArea',

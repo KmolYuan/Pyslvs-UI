@@ -388,7 +388,10 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot()
     def export_image(self) -> None:
         """Picture save function."""
-        pixmap = self.main_canvas.grab()
+        if self.prefer.grab_no_background_option:
+            pixmap = self.main_canvas.grab_no_background()
+        else:
+            pixmap = self.main_canvas.grab()
         file_name = self.output_to("picture", qt_image_format)
         if not file_name:
             return
@@ -407,15 +410,16 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if file_name:
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             logger.debug(f"Format: {suffix}")
-            if QFileInfo(file_name).suffix() != suffix[1:]:
-                file_name += suffix
             info = QFileInfo(file_name)
-            if info.isFile() and QMessageBox.question(
-                self,
-                "File exist",
-                f"{file_name} already exists.\nDo you want to replace it?"
-            ) == QMessageBox.No:
-                return ""
+            if info.suffix() != suffix[1:]:
+                file_name += suffix
+                info = QFileInfo(file_name)
+                if info.isFile() and QMessageBox.question(
+                    self,
+                    "File exist",
+                    f"{file_name} already exists.\nDo you want to replace it?"
+                ) == QMessageBox.No:
+                    return ""
             self.set_locate(info.absolutePath())
         return file_name
 
@@ -497,7 +501,11 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot()
     def save_picture_clipboard(self) -> None:
         """Capture the canvas image to clipboard."""
-        QApplication.clipboard().setPixmap(self.main_canvas.grab())
+        if self.prefer.grab_no_background_option:
+            pixmap = self.main_canvas.grab_no_background()
+        else:
+            pixmap = self.main_canvas.grab()
+        QApplication.clipboard().setPixmap(pixmap)
         QMessageBox.information(
             self,
             "Captured!",

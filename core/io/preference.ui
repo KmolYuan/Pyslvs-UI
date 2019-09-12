@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1060</width>
-    <height>687</height>
+    <height>724</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -355,6 +355,13 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="grab_no_background_option">
+          <property name="text">
+           <string>Use transparent background when capturing.</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="monochrome_option">

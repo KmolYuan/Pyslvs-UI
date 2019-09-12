@@ -26,9 +26,13 @@ from core.QtModules import (
     QPoint,
     QPointF,
     QSizeF,
+    QRegion,
     QCursor,
     QToolTip,
     QWheelEvent,
+    QPixmap,
+    QImage,
+    QWidget,
 )
 from .main_canvas_method import DynamicCanvasInterface, FreeMode, SelectMode
 if TYPE_CHECKING:
@@ -290,3 +294,13 @@ class DynamicCanvas(DynamicCanvasInterface):
         mode = ["Points", "Links"][self.selection_mode()]
         QToolTip.showText(event.globalPos(), f"Selection mode: {mode}", self)
         event.accept()
+
+    def grab_no_background(self) -> QPixmap:
+        """Grab function without background."""
+        image = QImage(self.size(), QImage.Format_ARGB32_Premultiplied)
+        image.fill(Qt.transparent)
+        self.switch_grab()
+        self.painter.begin(image)
+        self.render(self.painter, QPoint(), QRegion(), QWidget.DrawChildren)
+        self.switch_grab()
+        return QPixmap.fromImage(image)

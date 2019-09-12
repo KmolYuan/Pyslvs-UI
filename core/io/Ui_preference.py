@@ -13,7 +13,7 @@ from core.QtModules import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1060, 687)
+        Dialog.resize(1060, 724)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -179,6 +179,9 @@ class Ui_Dialog(object):
         self.tick_mark_option.addItem("")
         self.formLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.tick_mark_option)
         self.verticalLayout_3.addLayout(self.formLayout)
+        self.grab_no_background_option = QtWidgets.QCheckBox(self.settings_ui_groupbox)
+        self.grab_no_background_option.setObjectName("grab_no_background_option")
+        self.verticalLayout_3.addWidget(self.grab_no_background_option)
         self.monochrome_option = QtWidgets.QCheckBox(self.settings_ui_groupbox)
         self.monochrome_option.setObjectName("monochrome_option")
         self.verticalLayout_3.addWidget(self.monochrome_option)
@@ -291,6 +294,7 @@ class Ui_Dialog(object):
         self.tick_mark_option.setItemText(0, _translate("Dialog", "Hide"))
         self.tick_mark_option.setItemText(1, _translate("Dialog", "Display"))
         self.tick_mark_option.setItemText(2, _translate("Dialog", "Display with number"))
+        self.grab_no_background_option.setText(_translate("Dialog", "Use transparent background when capturing."))
         self.monochrome_option.setText(_translate("Dialog", "Monochrome mode for mechanism. (Excluding indicators)"))
         self.settings_kernels_groupBox.setTitle(_translate("Dialog", "Kernels"))
         self.planarsolver_label.setText(_translate("Dialog", "Planar solving"))

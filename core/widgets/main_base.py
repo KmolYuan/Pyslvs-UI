@@ -158,6 +158,7 @@ class _Preferences:
     background_offset_x_option: float = 0
     background_offset_y_option: float = 0
     tick_mark_option: int = 1
+    grab_no_background_option: bool = True
     monochrome_option: bool = False
     undo_limit_option: int = 60
     open_project_actions_option: int = 1
