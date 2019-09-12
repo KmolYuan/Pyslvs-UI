@@ -153,23 +153,10 @@ And the programs should be added in to environment variable (with administrator)
 setx Path %Path%C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin; /M
 ```
 
-Setup Python compiler as gcc / g++ of MinGW64:
+Setup Python compiler as GCC / G++ of MinGW64:
 
 ```batch
-REM Where %PYTHON_DIR% is the directory of your Python installation.
-REM In Pyslvs project.
-set PYTHON_DIR=C:\Python37
-
-REM Create "distutils.cfg"
-echo [build]>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
-echo compiler = mingw32>> %PYTHON_DIR%\Lib\distutils\distutils.cfg
-
-REM Apply the patch of "cygwinccompiler.py".
-REM Unix "patch" command of Msys.
-patch %PYTHON_DIR%\lib\distutils\cygwinccompiler.py platform\patch.diff
-
-REM Copy "vcruntime140.dll" to "libs".
-copy %PYTHON_DIR%\vcruntime140.dll %PYTHON_DIR%\libs
+platform\set_pycompiler C:\Python37
 ```
 
 And it will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
