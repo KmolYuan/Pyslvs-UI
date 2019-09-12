@@ -7,12 +7,8 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .info import (
-    SYS_INFO,
-    ARGUMENTS,
-    check_update,
-)
-from .about import PyslvsAbout, html
+from .info import SYS_INFO, ARGUMENTS
+from .about import PyslvsAbout, html, check_update
 from .logging_handler import logger, XStream
 
 __all__ = [

@@ -16,6 +16,7 @@
     + Add "file type" settings for YAML saving.
     + Add "Tick mark" settings for main canvas.
 + Use star sign as unsaved mark.
++ Logical correction of checking update.
 
 **Development**:
 

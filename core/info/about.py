@@ -7,9 +7,11 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from requests import get as get_url
 from pyslvs import __version__
-from core.QtModules import Qt, QDialog, QWidget
+from core.QtModules import Qt, QDialog, QWidget, QCoreApplication, QProgressDialog
 from .info import SYS_INFO, ARGUMENTS
+from .logging_handler import logger
 from .Ui_about import Ui_Dialog
 
 
@@ -72,3 +74,41 @@ class PyslvsAbout(QDialog, Ui_Dialog):
             f"Debug mode: {ARGUMENTS.debug_mode}",
             f"Specified kernel: {ARGUMENTS.kernel}",
         ) + _content("Use \"-h\" or \"--help\" argument to view the help.")))
+
+
+def check_update(dlg: QProgressDialog) -> str:
+    """Check for update."""
+    ver_list = [int(v) for v in __version__.split('.') if v.isdigit()]
+    logger.info(f"Getting update for \"{__version__}\":")
+    m = len(ver_list)
+    for i in range(m):
+        if i == 0:
+            text = "major"
+        elif i == 1:
+            text = "minor"
+        else:
+            text = "build"
+        dlg.setLabelText(f"Checking for {text}...")
+        QCoreApplication.processEvents()
+        if dlg.wasCanceled():
+            return ""
+        next_ver = ver_list[:m]
+        next_ver[i] += 1
+        for j in range(i + 1, m):
+            next_ver[j] = 0
+        if i == 0:
+            next_ver[1] = 1
+        elif i == 1:
+            if next_ver[1] > 12:
+                dlg.setValue(i + 1)
+                continue
+        url = (
+            f"https://github.com/KmolYuan/Pyslvs-UI/releases/tag/"
+            f"v{next_ver[0]}.{next_ver[1]:02}.{next_ver[2]}"
+        )
+        request = get_url(url)
+        dlg.setValue(i + 1)
+        if request.status_code == 200:
+            dlg.setValue(m)
+            return url
+    return ""

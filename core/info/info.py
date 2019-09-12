@@ -20,14 +20,8 @@ from platform import (
     python_compiler,
 )
 from argparse import ArgumentParser
-import requests
 from pyslvs import __version__
-from core.QtModules import (
-    API,
-    QT_VERSION,
-    QCoreApplication,
-    QProgressDialog,
-)
+from core.QtModules import API, QT_VERSION
 
 
 SYS_INFO = (
@@ -149,32 +143,3 @@ if system() == "Linux":
     )
 ARGUMENTS = parser.parse_args()
 del g, parser
-
-
-def check_update(dlg: QProgressDialog) -> str:
-    """Check for update."""
-    ver_list = [int(v) for v in __version__.split('.') if v.isdigit()]
-    m = len(ver_list)
-    for i in range(m):
-        if i == 0:
-            text = "major"
-        elif i == 1:
-            text = "minor"
-        else:
-            text = "build"
-        dlg.setLabelText(f"Checking for {text}...")
-        QCoreApplication.processEvents()
-        if dlg.wasCanceled():
-            return ""
-        next_ver = ver_list[:m]
-        next_ver[i] += 1
-        url = (
-            "https://github.com/KmolYuan/Pyslvs-UI/releases/tag/"
-            f"v{next_ver[0]}.{next_ver[1]:02}.{next_ver[2]}"
-        )
-        request = requests.get(url)
-        dlg.setValue(i + 1)
-        if request.status_code == 200:
-            dlg.setValue(m)
-            return url
-    return ""
