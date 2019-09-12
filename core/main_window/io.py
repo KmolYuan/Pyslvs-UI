@@ -622,7 +622,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def save_settings(self) -> None:
         """Save Pyslvs settings (auto save when close event)."""
-        if self.prefer.dontsave_option:
+        if self.prefer.not_save_option:
             f = QFile(self.settings.fileName())
             if f.exists():
                 f.remove()

@@ -281,7 +281,7 @@ class DynamicCanvas(DynamicCanvasInterface):
         elif p.x() != 0:
             value = p.x()
         elif p.y() != 0:
-            value = self.prefer.scalefactor_option * (1 if p.y() > 0 else -1)
+            value = self.prefer.scale_factor_option * (1 if p.y() > 0 else -1)
             value += self.zoom_value()
             self.set_zoom_bar(value)
             return

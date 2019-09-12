@@ -145,7 +145,7 @@ class _Preferences:
     line_width_option: int = 3
     font_size_option: int = 14
     path_width_option: int = 3
-    scalefactor_option: int = 10
+    scale_factor_option: int = 10
     selection_radius_option: int = 10
     link_trans_option: int = 0
     margin_factor_option: int = 5
@@ -168,7 +168,7 @@ class _Preferences:
     title_full_path_option: bool = False
     console_error_option: bool = ARGUMENTS.debug_mode
     # "Do not save the settings" by default
-    dontsave_option: bool = True
+    not_save_option: bool = True
 
     def diff(self, other: _Preferences) -> Iterator[str]:
         """Show the fields of differences."""

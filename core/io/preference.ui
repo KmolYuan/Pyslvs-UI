@@ -92,7 +92,7 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QSpinBox" name="scalefactor_option">
+           <widget class="QSpinBox" name="scale_factor_option">
             <property name="minimum">
              <number>5</number>
             </property>
@@ -515,7 +515,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="dontsave_option">
+           <widget class="QCheckBox" name="not_save_option">
             <property name="text">
              <string>Don't save Pyslvs options to local.</string>
             </property>
