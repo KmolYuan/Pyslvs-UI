@@ -146,7 +146,7 @@
         </property>
         <property name="icon">
          <iconset resource="../../icons.qrc">
-          <normaloff>:/icons/solvespace.ico</normaloff>:/icons/solvespace.ico</iconset>
+          <normaloff>:/icons/solvespace.png</normaloff>:/icons/solvespace.png</iconset>
         </property>
         <property name="iconSize">
          <size>

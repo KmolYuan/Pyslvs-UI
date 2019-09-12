@@ -3,7 +3,7 @@
   <qresource>
     <!--Main window icons-->
     <file>icons/main.png</file>
-    <file>icons/solvespace.ico</file>
+    <file>icons/solvespace.png</file>
     <file>icons/github.png</file>
     <file>icons/kmol.png</file>
     <file>icons/picture.png</file>
@@ -48,7 +48,6 @@
     <file>icons/example.png</file>
     <file>icons/exit.png</file>
     <file>icons/fullscreen.png</file>
-    <file>icons/git.png</file>
     <file>icons/guide.png</file>
     <file>icons/interrupted.png</file>
     <file>icons/konsole.png</file>

@@ -139,7 +139,7 @@ class SlvsOutputDialog(_OutputDialog):
         """Type name: "Solvespace module"."""
         super(SlvsOutputDialog, self).__init__(
             "Solvespace",
-            "solvespace.ico",
+            "solvespace.png",
             "The part sketchs file will be generated automatically "
             "with target directory.",
             "There is only sketch file of main mechanism will be generated.",

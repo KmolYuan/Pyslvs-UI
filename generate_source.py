@@ -36,7 +36,7 @@ def gen_qrc():
         with open(target_name, 'r+', encoding='utf-8') as f:
             script_new = f.read().replace(
                 "from PyQt5 import QtCore",
-                "from core.QtModules import QtCore",
+                "from core.QtModules import QtCore"
             )
             f.seek(0)
             f.truncate()

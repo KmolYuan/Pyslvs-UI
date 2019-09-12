@@ -86,7 +86,7 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.ex_dxf_button, 0, 0, 1, 1)
         self.ex_slvs_button = QtWidgets.QPushButton(self.export_group)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/icons/solvespace.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/icons/solvespace.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ex_slvs_button.setIcon(icon2)
         self.ex_slvs_button.setIconSize(QtCore.QSize(50, 50))
         self.ex_slvs_button.setObjectName("ex_slvs_button")
