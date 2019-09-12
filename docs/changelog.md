@@ -18,6 +18,7 @@
     + Add "Transparent background when capturing" setting for main canvas.
 + Use star sign as unsaved mark.
 + Logical correction of checking update.
++ Selection mode can be scrolled infinitely.
 
 **Development**:
 

@@ -275,24 +275,22 @@ class DynamicCanvas(DynamicCanvasInterface):
         + Set zoom bar value.
         + Set select mode.
         """
-        p: QPoint = event.angleDelta()
-        value_x = p.x()
-        value_y = p.y()
+        p = event.angleDelta()
         if QApplication.keyboardModifiers() == Qt.ShiftModifier:
-            value = value_y
-        elif value_x != 0:
-            value = value_x
-        elif value_y != 0:
-            value = self.prefer.scalefactor_option * (1 if value_y > 0 else -1)
+            value = p.y()
+        elif p.x() != 0:
+            value = p.x()
+        elif p.y() != 0:
+            value = self.prefer.scalefactor_option * (1 if p.y() > 0 else -1)
             value += self.zoom_value()
             self.set_zoom_bar(value)
             return
         else:
             return
-        mode = self.selection_mode() + (-1 if value > 0 else 1)
-        self.selection_mode_wheel(1 if mode > 1 else mode)
-        mode = ["Points", "Links"][self.selection_mode()]
-        QToolTip.showText(event.globalPos(), f"Selection mode: {mode}", self)
+        tags = ("Points", "Links")
+        mode = (self.selection_mode() + (-1 if value > 0 else 1)) % len(tags)
+        self.selection_mode_wheel(mode)
+        QToolTip.showText(event.globalPos(), f"Selection mode: {tags[mode]}", self)
         event.accept()
 
     def grab_no_background(self) -> QPixmap:
