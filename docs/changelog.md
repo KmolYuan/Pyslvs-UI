@@ -26,6 +26,7 @@
 + Separate out the abstract methods of main window base into `main_abc`.
 + Show the startup time in none-debug mode.
 + Replace "time.time" with "time.perf_counter".
++ Add Windows patch script `set_pycompiler`.
 
 ## Version 19.08
 
