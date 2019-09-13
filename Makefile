@@ -114,15 +114,16 @@ ifeq ($(OS),Windows_NT)
 	-rd dist /s /q
 	-rd pyslvs_ui.egg-info /s /q
 	-del *.spec /q
-else ifeq ($(shell uname),Darwin)
+else
 	-rm -f -r build
 	-rm -f -r dist
 	-rm -f -r pyslvs_ui.egg-info
+ifeq ($(shell uname),Darwin)
 	-rm -f *.spec
 else
 	-rm -f -r ENV
 	-rm -f -r out
-	-rm -f -r pyslvs_ui.egg-info
+endif
 endif
 
 clean-pyslvs:
