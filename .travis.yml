@@ -41,11 +41,6 @@ matrix:
           file: dist/pyslvs-*.app.zip
         - <<: *pypi-deploy
 
-    - os: osx
-      osx_image: xcode10
-      language: generic
-      env: PYTHON=3.8-dev
-
 git:
   submodules: false
 
