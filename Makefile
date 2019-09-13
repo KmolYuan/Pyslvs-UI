@@ -83,7 +83,7 @@ else ifeq ($(shell uname),Darwin)
 	mv dist/Pyslvs.app dist/$(EXENAME).app
 	zip -r dist/$(EXENAME).app.zip dist/$(EXENAME).app
 else
-	bash ./appimage_recipe.sh
+	bash platform/appimage_recipe.sh
 endif
 	@echo Done
 

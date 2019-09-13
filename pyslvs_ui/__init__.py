@@ -1,14 +1,8 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Launch script of Pyslvs."""
+"""Pyslvs-UI module."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
-
-from pyslvs_ui.core import main
-
-if __name__ == '__main__':
-    main()

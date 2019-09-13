@@ -1,0 +1,80 @@
+<!DOCTYPE RCC>
+<RCC>
+  <qresource>
+    <!--Splash-->
+    <file>../icons/splash.png</file>
+    <!--Main window icons-->
+    <file>../icons/main.png</file>
+    <file>../icons/solvespace.png</file>
+    <file>../icons/github.png</file>
+    <file>../icons/kmol.png</file>
+    <file>../icons/picture.png</file>
+    <!--File format icons-->
+    <file>../icons/csv.png</file>
+    <file>../icons/dxf.png</file>
+    <file>../icons/excel.png</file>
+    <file>../icons/id.png</file>
+    <file>../icons/formula.png</file>
+    <file>../icons/qt.png</file>
+    <file>../icons/pmks.png</file>
+    <file>../icons/script.png</file>
+    <file>../icons/yaml.png</file>
+    <!--Panel icons-->
+    <file>../icons/mechanism.png</file>
+    <file>../icons/history.png</file>
+    <file>../icons/synthesis.png</file>
+    <!--Free move mode icons-->
+    <file>../icons/free_move_off.png</file>
+    <file>../icons/reflect.png</file>
+    <file>../icons/rotate.png</file>
+    <file>../icons/translate.png</file>
+    <!--Dialog icons-->
+    <file>../icons/arrow_down.png</file>
+    <file>../icons/arrow_up.png</file>
+    <file>../icons/bearing.png</file>
+    <file>../icons/aim.png</file>
+    <file>../icons/capture.png</file>
+    <file>../icons/clean.png</file>
+    <file>../icons/structure.png</file>
+    <file>../icons/configure.png</file>
+    <file>../icons/collections.png</file>
+    <file>../icons/conflict.png</file>
+    <file>../icons/connect.png</file>
+    <file>../icons/copy.png</file>
+    <file>../icons/data.png</file>
+    <file>../icons/data_update.png</file>
+    <file>../icons/delete.png</file>
+    <file>../icons/dimensional_synthesis.png</file>
+    <file>../icons/disconnect.png</file>
+    <file>../icons/edges_to_atlas.png</file>
+    <file>../icons/example.png</file>
+    <file>../icons/exit.png</file>
+    <file>../icons/fullscreen.png</file>
+    <file>../icons/guide.png</file>
+    <file>../icons/interrupted.png</file>
+    <file>../icons/konsole.png</file>
+    <file>../icons/link.png</file>
+    <file>../icons/loadfile.png</file>
+    <file>../icons/merge.png</file>
+    <file>../icons/merge_from.png</file>
+    <file>../icons/motor.png</file>
+    <file>../icons/new_file.png</file>
+    <file>../icons/new_window.png</file>
+    <file>../icons/normal_size.png</file>
+    <file>../icons/number.png</file>
+    <file>../icons/paste.png</file>
+    <file>../icons/pause.png</file>
+    <file>../icons/play.png</file>
+    <file>../icons/properties.png</file>
+    <file>../icons/question.png</file>
+    <file>../icons/record.png</file>
+    <file>../icons/redo.png</file>
+    <file>../icons/rename.png</file>
+    <file>../icons/save_file.png</file>
+    <file>../icons/select_all.png</file>
+    <file>../icons/settings.png</file>
+    <file>../icons/task_completed.png</file>
+    <file>../icons/undo.png</file>
+    <file>../icons/warning.png</file>
+  </qresource>
+</RCC>

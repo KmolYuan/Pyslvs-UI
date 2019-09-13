@@ -1,7 +1,0 @@
-<!DOCTYPE RCC>
-<RCC>
-    <qresource>
-    <!--Splash-->
-    <file>icons/splash.png</file>
-    </qresource>
-</RCC>

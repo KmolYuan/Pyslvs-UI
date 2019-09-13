@@ -10,17 +10,22 @@ from PyQt5.pyrcc_main import processResourceFile
 
 
 def gen_ui():
-    for root, _, files in walk("core"):
+    for root, _, files in walk("pyslvs_ui/core"):
         for file in files:
             if not file.endswith('.ui'):
                 continue
-            target_name = re.sub(r"([\w ]+)\.ui", r"Ui_\1.py", file)
+            target_name = re.sub(r"([\w ]+)\.ui", r"\1_ui.py", file)
             with open(join(root, target_name), 'w+', encoding='utf-8') as f:
-                compileUi(join(root, file).replace('\\', '/'), f)
+                compileUi(
+                    join(root, file).replace('\\', '/'),
+                    f,
+                    from_imports='pyslvs_ui',
+                    import_from='pyslvs_ui'
+                )
                 f.seek(0)
                 script_new = f.read().replace(
-                    "from PyQt5 import QtCore, QtGui, QtWidgets",
-                    "from core.QtModules import QtCore, QtGui, QtWidgets"
+                    "from PyQt5 import",
+                    "from pyslvs_ui.core.QtModules import"
                 )
                 f.seek(0)
                 f.truncate()
@@ -35,8 +40,8 @@ def gen_qrc():
         processResourceFile([file], target_name, False)
         with open(target_name, 'r+', encoding='utf-8') as f:
             script_new = f.read().replace(
-                "from PyQt5 import QtCore",
-                "from core.QtModules import QtCore"
+                "from PyQt5 import",
+                "from pyslvs_ui.core.QtModules import"
             )
             f.seek(0)
             f.truncate()
