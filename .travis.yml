@@ -8,15 +8,24 @@ matrix:
       sudo: required
       python: "3.7"
       dist: xenial
-      deploy: &deploy-options
-        overwrite: true
-        provider: releases
-        api_key: $TRAVIS_TOKEN
-        file_glob: true
-        file: out/pyslvs-*.AppImage
-        skip_cleanup: true
-        on:
-          tags: true
+      deploy:
+        - &appimage-deploy
+          provider: releases
+          overwrite: true
+          api_key: $TRAVIS_TOKEN
+          file_glob: true
+          file: out/pyslvs-*.AppImage
+          skip_cleanup: true
+          on:
+            tags: true
+        - &pypi-deploy
+          provider: pypi
+          user: $TWINE_USERNAME
+          password: $TWINE_PASSWORD
+          skip_cleanup: true
+          skip_existing: true
+          on:
+            tags: true
 
     - os: linux
       sudo: required
@@ -28,8 +37,9 @@ matrix:
       language: generic
       env: PYTHON=3.7.0
       deploy:
-        <<: *deploy-options
-        file: dist/pyslvs-*.app.zip
+        - <<: *appimage-deploy
+          file: dist/pyslvs-*.app.zip
+        - <<: *pypi-deploy
 
     - os: osx
       osx_image: xcode10
@@ -58,14 +68,18 @@ before_install:
     pyinstaller --version;
     fi
 
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    python3 -m pip install -r requirements.txt;
-    fi
+  - python3 -m pip install -r requirements.txt -U
 
-install: false
+install:
+  - make
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    cd depend/pyslvs; python3 setup.py install; cd -;
+    cd depend/solvespace/cython; python3 setup.py install; cd -;
+    fi
+  - python3 setup.py install
 
 script:
-  - make
+  - pyslvs --test
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
@@ -73,3 +87,10 @@ before_cache:
 cache:
   directories:
     - $HOME/.cache/pip
+
+after_success:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" && -n "$TRAVIS_TAG" ]]; then
+    python3 -m pip install twine;
+    python3 setup.py sdist bdist_wheel;
+    python3 -m twine upload dist/*.whl --skip-existing;
+    fi

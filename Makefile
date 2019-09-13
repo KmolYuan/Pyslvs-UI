@@ -4,7 +4,7 @@
 # license: AGPL
 # email: pyslvs@gmail.com
 
-LAUNCHSCRIPT = launch_pyslvs
+LAUNCHER = launch_pyslvs.py
 PYSLVS_PATH = depend/pyslvs
 PYTHON_SLVS_PATH = depend/solvespace/cython
 
@@ -70,7 +70,7 @@ else
 _build:
 endif
 
-build: $(LAUNCHSCRIPT).py clean _build
+build: $(LAUNCHER) clean _build
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS),Windows_NT)
@@ -112,14 +112,17 @@ clean:
 ifeq ($(OS),Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
+	-rd pyslvs_ui.egg-info /s /q
 	-del *.spec /q
 else ifeq ($(shell uname),Darwin)
 	-rm -f -r build
 	-rm -f -r dist
+	-rm -f -r pyslvs_ui.egg-info
 	-rm -f *.spec
 else
 	-rm -f -r ENV
 	-rm -f -r out
+	-rm -f -r pyslvs_ui.egg-info
 endif
 
 clean-pyslvs:

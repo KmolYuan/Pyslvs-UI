@@ -77,6 +77,7 @@ deactivate
 ########################################################################
 
 mv "${BASEDIR}/launch_pyslvs.py" "${APPDIR}/usr/bin/${LOWERAPP}"
+sed -i "1i\#!/usr/bin/env python3" "${APPDIR}/usr/bin/${LOWERAPP}"
 chmod +x "${APPDIR}/usr/bin/${LOWERAPP}"
 
 cd "${BASEDIR}/pyslvs_ui" || exit

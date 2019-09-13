@@ -42,19 +42,30 @@ before_build:
 
 build_script:
   - mingw32-make
+  - python setup.py install
+
+test_script:
+  - pyslvs --test
 
 artifacts:
-  - path: dist/pyslvs-*.exe
+  - path: dist\pyslvs-*.exe
     name: pyslvs
+  - path: dist\*.whl
 
 deploy:
-  - release: Pyslvs $(APPVEYOR_REPO_TAG_NAME)
+  - provider: GitHub
+    release: Pyslvs $(APPVEYOR_REPO_TAG_NAME)
     tag: $(APPVEYOR_REPO_TAG_NAME)
     description: ""
-    provider: GitHub
     auth_token: $(APPVEYOR_TOKEN)
     artifacts: pyslvs
     force_update: true
     on:
       appveyor_repo_tag: true
       PYTHON_DIR: C:\Python37-x64
+
+deploy_script:
+  - python setup.py bdist_wheel
+  - IF "%APPVEYOR_REPO_TAG%"=="true" (pip install twine)
+    ELSE (echo deployment has been skipped as environment variable has not matched)
+  - IF "%APPVEYOR_REPO_TAG%"=="true" (twine upload dist\*.whl --skip-existing)
