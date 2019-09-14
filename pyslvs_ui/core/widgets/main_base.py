@@ -138,7 +138,7 @@ class _Context:
 
 
 @dataclass(repr=False)
-class _Preferences:
+class Preferences:
 
     """The settings of Pyslvs."""
 
@@ -170,7 +170,7 @@ class _Preferences:
     # "Do not save the settings" by default
     not_save_option: bool = True
 
-    def diff(self, other: _Preferences) -> Iterator[str]:
+    def diff(self, other: Preferences) -> Iterator[str]:
         """Show the fields of differences."""
         for field_obj in fields(self):  # type: Field
             if getattr(self, field_obj.name) != getattr(other, field_obj.name):
@@ -183,7 +183,7 @@ class _Preferences:
 
     def copy(self):
         """Make a copy of preference data."""
-        return _Preferences(*astuple(self))
+        return Preferences(*astuple(self))
 
 
 class MainWindowBase(MainWindowABC, ABC):
@@ -201,7 +201,7 @@ class MainWindowBase(MainWindowABC, ABC):
         # Condition list of context menus
         self.context = _Context()
         # Preference
-        self.prefer = _Preferences()
+        self.prefer = Preferences()
 
         # Set path from command line
         home_dir = QDir.home()

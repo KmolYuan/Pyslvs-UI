@@ -219,6 +219,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         dlg.show()
         dlg.exec_()
         # Update values
+        self.prefer = dlg.prefer_applied
         for name in dlg.diff():
             value: Union[bool, int, float, str] = getattr(self.prefer, name)
             if name == 'line_width_option':
