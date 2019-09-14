@@ -18,6 +18,7 @@ ifeq ($(shell uname),Darwin)
     _NEEDS_BUILD = true
 endif
 endif
+PIP = $(PY) -m pip
 ifdef _NEEDS_BUILD
     PYSLVSVER = $(shell $(PY) -c "from pyslvs import __version__; print(__version__)")
     COMPILERVER = $(shell $(PY) -c \
@@ -28,6 +29,7 @@ endif
 
 .PHONY: help \
     build build-kernel build-pyslvs build-solvespace \
+    install uninstall \
     test test-kernel test-pyslvs test-solvespace \
     clean clean-kernel clean-pyslvs clean-solvespace clean-all
 
@@ -37,28 +39,30 @@ help:
 	@echo Pyslvs Makefile Help
 	@echo
 	@echo make target:
-	@echo - help: show this help message.
-	@echo - all: build Pyslvs and test binary.
-	@echo - build: build Pyslvs executable file.
-	@echo - build-kernel: build kernels.
-	@echo - build-pyslvs: build and install pyslvs kernel.
-	@echo - build-solvespace: build solvespace kernel.
-	@echo - clean: clean up executable file and PyInstaller items,
+	@echo   help: show this help message.
+	@echo   all: build Pyslvs and test binary.
+	@echo   build: build Pyslvs executable file.
+	@echo   build-kernel: build kernels.
+	@echo   build-pyslvs: build and install pyslvs kernel.
+	@echo   build-solvespace: build solvespace kernel.
+	@echo   install: install Pyslvs by setuptools.
+	@echo   uninstall: uninstall Pyslvs by pip.
+	@echo   clean: clean up executable file and PyInstaller items,
 	@echo          but not to delete kernel binary files.
-	@echo - clean-kernel: clean up kernel binary files.
-	@echo - clean-pyslvs: clean up and uninstall pyslvs.
-	@echo - clean-solvespace: clean up kernel binary files of solvespace.
-	@echo - clean-all: clean every binary files and executable file.
+	@echo   clean-kernel: clean up kernel binary files.
+	@echo   clean-pyslvs: clean up and uninstall pyslvs.
+	@echo   clean-solvespace: clean up kernel binary files of solvespace.
+	@echo   clean-all: clean every binary files and executable file.
 
 build-pyslvs:
 	@echo Build libraries
-	-$(PY) -m pip uninstall pyslvs -y
+	-$(PIP) uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py install
 	@echo Done
 
 build-solvespace:
 	@echo Build Solvespace kernel
-	-$(PY) -m pip uninstall python_solvespace -y
+	-$(PIP) uninstall python_solvespace -y
 	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py install
 	@echo Done
 
@@ -86,6 +90,12 @@ else
 	bash platform/appimage_recipe.sh
 endif
 	@echo Done
+
+install:
+	$(PY) setup.py install
+
+uninstall:
+	$(PIP) uninstall pyslvs-ui
 
 test-pyslvs:
 	@echo Test libraries
@@ -127,7 +137,7 @@ endif
 endif
 
 clean-pyslvs:
-	-$(PY) -m pip uninstall pyslvs -y
+	-$(PIP) uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
 ifeq ($(OS),Windows_NT)
 	-rd "$(PYSLVS_PATH)/dist" /s /q
@@ -142,7 +152,7 @@ else
 endif
 
 clean-solvespace:
-	-$(PY) -m pip uninstall python_solvespace -y
+	-$(PIP) uninstall python_solvespace -y
 	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py clean --all
 ifeq ($(OS),Windows_NT)
 	-rd "$(PYTHON_SLVS_PATH)/dist" /s /q
