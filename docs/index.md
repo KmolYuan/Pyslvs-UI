@@ -11,18 +11,62 @@ See the Windows platform testing on AppVeyor:
 See the Ubuntu and macOS platform testing on Travis CI:
 [![Build status](https://img.shields.io/travis/KmolYuan/Pyslvs-UI.svg?logo=travis)](https://travis-ci.org/KmolYuan/Pyslvs-UI)
 
-## How to Startup
+## Install
+
+!!! note
+
+    Feel free to uninstall Pyslvs by [uninstall guide](#uninstall).
+
+!!! warning
+
+    Pyslvs requires Python 3.7 or above.
+
+### PyPI
+
+Install from PyPI:
+[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
+
+```bash
+pip install pyslvs-ui
+```
+
+### Repository
+
+If you want an open source version,
+clone it from GitHub then install by setuptools:
+
+```bash
+python setup.py install
+```
+
+### Portable
 
 Download Pyslvs from GitHub [release page](https://github.com/KmolYuan/Pyslvs-UI/releases),
 which can be executed directly without Python interpreter.
-If you want an open source version, clone it from GitHub.
 
-### Windows and MacOS Platform
+I hope your platform is supported, if not,
+please try another way or help me improve my Continuous Deployment process.
 
-Here's some command line options for Pyslvs executable.
+### Run Directly
+
+Recommended for developers.
+After cloned the repository,
+build the develop environment by [guide](environment.md) and execute the launcher.
+
+```bash
+python launch_pyslvs.py
+```
+
+## Startup
+
+### Python Package and Executable
+
+After installed package, Pyslvs provides a startup script `pyslvs` in command line.
 
 For convenience, the file name of distributions can rename as `pyslvs.exe`, `pyslvs.app` or `pyslvs.AppImage`,
 the suffix is depended on your platform.
+
+Here's some command line options for Pyslvs executable.
 
 ```bash
 # Open GUI directly
@@ -35,7 +79,7 @@ pyslvs --fusion
 pyslvs --help
 ```
 
-### Ubuntu Platform
+### AppImage
 
 Python libraries has some dependencies with the compile environment,
 so the sources need to packed the Python installation and its libraries.
@@ -56,15 +100,11 @@ chomod +x pyslvs.AppImage
 
 You can refer other AppImage options from its [user guide](https://docs.appimage.org/user-guide/run-appimages.html).
 
-### Git Repository
+### Repository
 
 Some options for Pyslvs repository.
 
 For more environment information, please see [Environment section](environment.md).
-
-!!! warning
-
-    Pyslvs requires Python 3.7 or above.
 
 ```bash
 # Download / update submodule
@@ -82,3 +122,17 @@ python launch_pyslvs.py
 # Pack into stand-alone executable file
 make
 ```
+
+## Uninstall
+
+### PyPI and Repository
+
+Uninstall Pyslvs by `pip`.
+
+```bash
+pip uninstall pyslvs-ui
+```
+
+### Other Distributions
+
+Just delete the file or repository.

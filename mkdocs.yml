@@ -2,45 +2,48 @@
 
 site_name: Pyslvs Documentation
 repo_url: https://github.com/KmolYuan/Pyslvs-UI
-copyright: Copyright © 2016-2019 Yuan Chang
+copyright: Copyright © 2016-2019 <a href="https://github.com/KmolYuan">Yuan Chang</a>
 site_description: The manual of Pyslvs, an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.
 
 theme:
-    name: material
-    favicon: img/favicon.ico
-    logo: img/favicon.ico
-    feature:
-        tabs: true
+  name: material
+  favicon: img/favicon.ico
+  logo: img/favicon.ico
+  feature:
+    tabs: true
 
 markdown_extensions:
-    - toc:
-        permalink: true
-    - admonition
-    - smarty
-    - attr_list
-    - codehilite
-
-nav:
-    - What is Pyslvs?: index.md
-    - Getting Start:
-        - Introduction: introduction.md
-        - Environment: environment.md
-    - User Interface:
-        - Build a Planar Linkage Mechanism: mechanism.md
-        - Mechanism Variables: inputs.md
-        - Mechanism Synthesis: synthesis.md
-        - File Format of Pyslvs: io.md
-        - Settings: settings.md
-    - Libraries:
-        - Pyslvs Libraries: pyslvs-lib.md
-        - Pyslvs API: pyslvs-api.md
-        - Adesign API: adesign-api.md
-        - Python-Solvespace Library: python-solvespace-lib.md
-        - Python-Solvespace API: python-solvespace-api.md
-    - About:
-        - References: references.md
-        - Releated Modules: releated.md
-        - Change Log: changelog.md
+  - pymdownx.arithmatex
+  - pymdownx.smartsymbols
+  - toc:
+      permalink: true
+  - admonition
+  - smarty
+  - attr_list
+  - codehilite
 
 extra_javascript:
+  - js/extra.js
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML
+
+nav:
+  - What is Pyslvs?: index.md
+  - Getting Start:
+      - Introduction: introduction.md
+      - Environment: environment.md
+  - User Interface:
+      - Build a Planar Linkage Mechanism: mechanism.md
+      - Mechanism Variables: inputs.md
+      - Mechanism Synthesis: synthesis.md
+      - File Format of Pyslvs: io.md
+      - Settings: settings.md
+  - Libraries:
+      - Pyslvs Libraries: pyslvs-lib.md
+      - Pyslvs API: pyslvs-api.md
+      - Adesign API: adesign-api.md
+      - Python-Solvespace Library: python-solvespace-lib.md
+      - Python-Solvespace API: python-solvespace-api.md
+  - About:
+      - References: references.md
+      - Releated Modules: releated.md
+      - Changelog: changelog.md

@@ -1,9 +1,10 @@
-# Change Log
+# Changelog
 
 ## Version 19.09
 
 **Features**:
 
++ Provided PyPI install approach.
 + "Project" page:
     + Replaced database functions with YAML.
     + Integrated "Project overview" and "Mechanism expression" button.
