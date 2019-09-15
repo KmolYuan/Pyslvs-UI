@@ -8,7 +8,7 @@
 [![Qt](https://img.shields.io/badge/qt%20version-&ge;5.10-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
 [![kernel](https://img.shields.io/badge/kernel-python%20solvespace-orange.svg)](https://github.com/KmolYuan/solvespace)
 [![kernel](https://img.shields.io/badge/kernel-pyslvs-orange.svg)](https://github.com/KmolYuan/pyslvs)
-[![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs/)
+[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
 [![sourceforge](https://img.shields.io/badge/site-sourceforge-green.svg)](https://sourceforge.net/projects/pyslvs/)
 [![Blog](https://img.shields.io/badge/info-blog-blue.svg)](http://www.pyslvs.com/blog/index.html)
 [![CMS](https://img.shields.io/badge/info-cms-blue.svg)](http://www.pyslvs.com/content/)
