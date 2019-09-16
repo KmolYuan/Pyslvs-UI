@@ -2,7 +2,7 @@
 
 """Generate source code files from UI files."""
 
-from os import listdir, walk
+from os import walk
 from os.path import join
 import re
 from PyQt5.uic import compileUi
@@ -10,6 +10,7 @@ from PyQt5.pyrcc_main import processResourceFile
 
 
 def gen_ui():
+    count = 0
     for root, _, files in walk("pyslvs_ui/core"):
         for file in files:
             if not file.endswith('.ui'):
@@ -30,22 +31,28 @@ def gen_ui():
                 f.seek(0)
                 f.truncate()
                 f.write(script_new)
+            count += 1
+    print(f"Compiled {count} UI file(s)")
 
 
 def gen_qrc():
-    for file in listdir('.'):
-        if not file.endswith('.qrc'):
-            continue
-        target_name = re.sub(r"([\w ]+)\.qrc", r"\1_rc.py", file)
-        processResourceFile([file], target_name, False)
-        with open(target_name, 'r+', encoding='utf-8') as f:
-            script_new = f.read().replace(
-                "from PyQt5 import",
-                "from pyslvs_ui.core.QtModules import"
-            )
-            f.seek(0)
-            f.truncate()
-            f.write(script_new)
+    count = 0
+    for root, _, files in walk("pyslvs_ui"):
+        for file in files:
+            if not file.endswith('.qrc'):
+                continue
+            target_name = re.sub(r"([\w ]+)\.qrc", r"\1_rc.py", file)
+            processResourceFile([join(root, file).replace('\\', '/')], join(root, target_name), False)
+            with open(join(root, target_name), 'r+', encoding='utf-8') as f:
+                script_new = f.read().replace(
+                    "from PyQt5 import",
+                    "from pyslvs_ui.core.QtModules import"
+                )
+                f.seek(0)
+                f.truncate()
+                f.write(script_new)
+            count += 1
+    print(f"Compiled {count} resource file(s)")
 
 
 if __name__ == '__main__':

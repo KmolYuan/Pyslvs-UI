@@ -44,7 +44,7 @@ setup(
     url="https://github.com/KmolYuan/pyslvs",
     packages=find_packages(exclude=('depend',)),
     package_data={'': ["*.ui"]},
-    entry_points={'console_scripts': ['pyslvs = pyslvs_ui.core:main']},
+    entry_points={'console_scripts': ['pyslvs = pyslvs_ui:main']},
     zip_safe=False,
     python_requires=">=3.7",
     install_requires=read('requirements.txt').splitlines() + [f'pyslvs=={version}'],
