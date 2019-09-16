@@ -5,6 +5,8 @@
 **Features**:
 
 + Provided PyPI install approach.
+    + Install with "pip install pyslvs-ui" command.
+    + Use "pyslvs" command line script or "python -m pyslvs_ui" to startup.
 + "Project" page:
     + Replaced database functions with YAML.
     + Integrated "Project overview" and "Mechanism expression" button.

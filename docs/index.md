@@ -30,15 +30,6 @@ Install from PyPI:
 pip install pyslvs-ui
 ```
 
-### Repository
-
-If you want an open source version,
-clone it from GitHub then install by setuptools:
-
-```bash
-python setup.py install
-```
-
 ### Portable
 
 Download Pyslvs from GitHub [release page](https://github.com/KmolYuan/Pyslvs-UI/releases),
@@ -50,20 +41,31 @@ please try another way or help me improve my Continuous Deployment process.
 ### Run Directly
 
 Recommended for developers.
-After cloned the repository,
-build the develop environment by [guide](environment.md) and execute the launcher.
+If you want an open source version,
+please clone it from GitHub then follow the develop environment [guide](environment.md)
+and [execute the launcher](#repository).
+
+Or, install it with setuptools. The kernels will installed by pip.
+(Only for stable version!)
 
 ```bash
-python launch_pyslvs.py
+python setup.py install
 ```
 
 ## Startup
 
 ### Python Package and Executable
 
-After installed package, Pyslvs provides a startup script `pyslvs` in command line.
+After installed package, Pyslvs provides a launcher command `pyslvs` for your terminal.
+The command `python -m pyslvs_ui` or write a python script also works:
 
-For convenience, the file name of distributions can rename as `pyslvs.exe`, `pyslvs.app` or `pyslvs.AppImage`,
+```python
+from pyslvs_ui import main
+main()
+```
+
+For convenience, the file name of distributions can be renamed as
+`pyslvs.exe`, `pyslvs.app` or `pyslvs.AppImage`,
 the suffix is depended on your platform.
 
 Here's some command line options for Pyslvs executable.
