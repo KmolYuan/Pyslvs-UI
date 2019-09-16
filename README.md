@@ -39,7 +39,11 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
 # Documentation
 
-The documentation of Pyslvs and kernel API are deployed on [Readthedocs](https://pyslvs-ui.readthedocs.io/).
+The documentation of Pyslvs and kernel API are deployed on Readthedocs:
+
++ [stable](https://pyslvs-ui.readthedocs.io/en/stable/)
++ [latest](https://pyslvs-ui.readthedocs.io/en/latest/)
+
 Or start it from source:
 
 ```bash
