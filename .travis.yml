@@ -31,6 +31,11 @@ matrix:
       sudo: required
       python: "3.8-dev"
       dist: xenial
+      addons:
+        apt:
+          update: true
+          packages:
+            - libhdf5-dev
 
     - os: osx
       osx_image: xcode10
