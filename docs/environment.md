@@ -150,7 +150,7 @@ pacman -S patch
 And the programs should be added in to environment variable (with administrator).
 
 ```batch
-setx Path %Path%C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin; /M
+setx Path "C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin;%Path%" /M
 ```
 
 Setup Python compiler as GCC / G++ of MinGW64:
