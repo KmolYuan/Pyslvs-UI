@@ -43,6 +43,7 @@ The documentation of Pyslvs and kernel API are deployed on Readthedocs ([stable]
 Or start it from source:
 
 ```bash
+pip install mkdocs
 pip install -r doc-requirements.txt
 mkdocs serve
 ```
