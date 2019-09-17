@@ -15,5 +15,6 @@ psutil
 lark-parser
 pygments
 pyyaml
+h5py
 pillow
 qrcode[pil]

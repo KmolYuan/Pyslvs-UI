@@ -34,7 +34,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         self,
         parent: QWidget,
         title: str,
-        storage_data: List[Tuple[str, str]],
+        storage_data: Dict[str, str],
         input_data: Sequence[Tuple[int, int]],
         path_data: Dict[str, Sequence[Tuple[float, float]]],
         collection_data: List[Tuple[Tuple[int, int], ...]],
@@ -48,7 +48,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         self.setWindowTitle(f"Project: {title}")
 
         # Expression of storage data.
-        for name, expr in storage_data:
+        for name, expr in storage_data.items():
             item = QListWidgetItem(f"[Storage] - {name}")
             item.setToolTip(expr)
             self.storage_list.addItem(item)

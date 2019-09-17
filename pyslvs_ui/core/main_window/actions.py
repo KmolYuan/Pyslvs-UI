@@ -218,10 +218,9 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         dlg = PreferencesDialog(self)
         dlg.show()
         dlg.exec_()
-        # Update values
-        self.prefer = dlg.prefer_applied
         for name in dlg.diff():
-            value: Union[bool, int, float, str] = getattr(self.prefer, name)
+            value: Union[bool, int, float, str] = getattr(dlg.prefer_applied, name)
+            setattr(self.prefer, name, value)
             if name == 'line_width_option':
                 self.main_canvas.set_link_width(value)
             elif name == 'path_width_option':

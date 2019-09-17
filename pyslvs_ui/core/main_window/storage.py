@@ -157,7 +157,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             storage[item.text()] = item.expr
         return storage
 
-    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]) -> None:
+    def add_multiple_storage(self, exprs: Dict[str, str]) -> None:
         """Add storage data from database."""
-        for name, expr in exprs:
+        for name, expr in exprs.items():
             self.__add_storage(name, expr)

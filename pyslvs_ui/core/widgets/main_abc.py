@@ -235,7 +235,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def add_multiple_storage(self, exprs: Sequence[Tuple[str, str]]) -> None:
+    def add_multiple_storage(self, exprs: Dict[str, str]) -> None:
         ...
 
     @abstractmethod

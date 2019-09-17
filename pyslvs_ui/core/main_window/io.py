@@ -106,7 +106,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if not ok:
             return
         self.clear()
-        self.project_widget.reset()
         logger.debug(f"Read from group: {group}")
         self.parse_expression(parser.parse(group.split('@')[0]))
 
@@ -143,7 +142,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if self.prefer.title_full_path_option:
             title = file_name.absoluteFilePath()
         else:
-            title = file_name.fileName()
+            title = file_name.completeBaseName()
         self.setWindowTitle(f"Pyslvs - {title}{'*' if self.project_widget.changed() else ''}")
 
     def __open_url(self, url: str) -> None:
@@ -194,7 +193,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if self.check_file_changed():
             return
         self.clear()
-        self.project_widget.reset()
         logger.info("Created a new workbook.")
 
     def clear(self) -> None:
@@ -212,6 +210,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.vlink_list[1:] = []
         self.entities_expr.clear()
         self.solve()
+        self.project_widget.reset()
+        self.workbook_saved()
 
     @Slot()
     def import_pmks_url(self) -> None:
@@ -661,8 +661,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg = OverviewDialog(
             self,
             self.project_widget.base_file_name(),
-            self.collection_tab_page.config_data(),
-            list(self.inputs_widget.input_pairs()),
+            self.get_storage(),
+            [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             self.inputs_widget.path_data(),
             self.collection_tab_page.collect_data(),
             self.collection_tab_page.config_data(),

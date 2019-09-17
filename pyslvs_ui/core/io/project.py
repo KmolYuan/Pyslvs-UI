@@ -25,6 +25,7 @@ from pyslvs_ui.core.QtModules import (
 )
 from pyslvs_ui.core.info import logger, size_format
 from .yaml import YamlEditor
+from .hdf5 import HDF5Editor
 from .project_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
@@ -73,8 +74,9 @@ class ProjectWidget(QWidget, Ui_Form):
         self.im_pmks_button.clicked.connect(parent.import_pmks_url)
         self.im_example_button.clicked.connect(lambda: self.load_example(is_import=True))
 
-        # YAML editor
+        # Editors
         self.yaml_editor = YamlEditor(parent)
+        self.hdf5_editor = HDF5Editor(parent)
         # Reset
         self.__file_name = QFileInfo("")
         self.__changed = False
@@ -136,7 +138,10 @@ class ProjectWidget(QWidget, Ui_Form):
         """Save database, append commit to new branch function."""
         if not file_name:
             file_name = self.file_path()
-        self.yaml_editor.save(file_name)
+        if self.prefer.file_type_option == 2:
+            self.hdf5_editor.save(file_name)
+        else:
+            self.yaml_editor.save(file_name)
         self.set_file_name(file_name)
 
     def read(self, file_name: str) -> None:
@@ -144,7 +149,10 @@ class ProjectWidget(QWidget, Ui_Form):
         if not QFileInfo(file_name).isFile():
             QMessageBox.warning(self, "File not exist", "The path is invalid.")
             return
-        self.yaml_editor.load(file_name)
+        if HDF5Editor.test(file_name):
+            self.hdf5_editor.load(file_name)
+        else:
+            self.yaml_editor.load(file_name)
         if self.prefer.open_project_actions_option == 0:
             self.command_stack.clear()
             self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
