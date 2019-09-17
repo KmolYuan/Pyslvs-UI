@@ -5,7 +5,6 @@
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/KmolYuan/Pyslvs-UI.svg)](https://github.com/KmolYuan/Pyslvs-UI/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-UI/total.svg)](https://github.com/KmolYuan/Pyslvs-UI/releases)
 
-[![Qt](https://img.shields.io/badge/qt%20version-&ge;5.10-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
 [![kernel](https://img.shields.io/badge/kernel-python%20solvespace-orange.svg)](https://github.com/KmolYuan/solvespace)
 [![kernel](https://img.shields.io/badge/kernel-pyslvs-orange.svg)](https://github.com/KmolYuan/pyslvs)
 [![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
@@ -39,10 +38,7 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
 # Documentation
 
-The documentation of Pyslvs and kernel API are deployed on Readthedocs:
-
-+ [stable](https://pyslvs-ui.readthedocs.io/en/stable/)
-+ [latest](https://pyslvs-ui.readthedocs.io/en/latest/)
+The documentation of Pyslvs and kernel API are deployed on Readthedocs ([stable] / [latest]).
 
 Or start it from source:
 
@@ -58,3 +54,6 @@ If you have any question, please post on GitHub issue or contact <pyslvs@gmail.c
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
+
+[stable]: https://pyslvs-ui.readthedocs.io/en/stable/
+[latest]: https://pyslvs-ui.readthedocs.io/en/latest/
