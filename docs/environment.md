@@ -119,17 +119,14 @@ User can compile the kernel by [Cython](http://cython.org/) directly.
 
 #### Windows
 
-There's two options to choose SDK:
+Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/projects/mingw-w64/),
+they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
 
-1. Using Microsoft Visual Studio. You can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
-1. Using [Msys 2][msys]. It is based on MinGW 64-bit version.
-1. Just using [MinGW 64-bit][mingw64].
+```batch
+choco install mingw msys2
+```
 
-[visualstudio-link]: https://www.visualstudio.com/downloads/
-[msys]: http://www.msys2.org/
-[mingw64]: https://sourceforge.net/projects/mingw-w64/
-
-When using Msys2, following command might be helpful:
+When you are using Msys2, following command might be helpful:
 
 ```bash
 # Install tools for Msys.
