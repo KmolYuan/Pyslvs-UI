@@ -387,17 +387,16 @@ class AddPath(QUndoCommand):
         self.name = name
         self.data = data
         self.path = path
+        self.targets = [i for i, d in enumerate(self.path) if len(set(d)) > 1]
 
     def redo(self) -> None:
         """Add new path data."""
         self.data[self.name] = self.path
-        self.widget.addItem(f"{self.name}: " + ", ".join(
-            f"[{i}]" for i, d in enumerate(self.path) if d
-        ))
+        self.widget.addItem(f"{self.name}: " + ", ".join(f"[{i}]" for i in self.targets))
 
     def undo(self) -> None:
         """Remove the last item."""
-        self.widget.takeItem(self.widget.count()-1)
+        self.widget.takeItem(self.widget.count() - 1)
         self.data.pop(self.name)
 
 
@@ -459,7 +458,7 @@ class AddStorage(QUndoCommand):
 
     def undo(self) -> None:
         """Remove the last item."""
-        self.widget.takeItem(self.widget.count()-1)
+        self.widget.takeItem(self.widget.count() - 1)
 
 
 class DeleteStorage(QUndoCommand):

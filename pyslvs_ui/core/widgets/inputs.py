@@ -31,8 +31,6 @@ from pyslvs_ui.core.QtModules import (
     QListWidgetItem,
     QPoint,
     QApplication,
-    QShortcut,
-    QKeySequence,
 )
 from pyslvs_ui.core.info import logger
 from .rotatable import RotatableView
@@ -465,7 +463,7 @@ class InputsWidget(QWidget, Ui_Form):
         logger.info(f"Output path data: {file_name}")
 
     @Slot(QPoint)
-    def __record_list_context_menu(self, point) -> None:
+    def __record_list_context_menu(self, p: QPoint) -> None:
         """Show the context menu.
 
         Show path [0], [1], ...
@@ -478,43 +476,43 @@ class InputsWidget(QWidget, Ui_Form):
         showall_action.index = -1
         copy_action = self.pop_menu_record_list.addAction("Copy as new")
         name = self.record_list.item(row).text().split(':')[0]
-        try:
+        if name in self.__path_data:
             data = self.__path_data[name]
-        except KeyError:
-            # Auto preview path
-            data = self.main_canvas.Path.path
-            showall_action.setEnabled(False)
         else:
-            for action_text in ("Show", "Copy data from"):
-                self.pop_menu_record_list.addSeparator()
-                for i in range(len(data)):
-                    if data[i]:
-                        action = self.pop_menu_record_list.addAction(
-                            f"{action_text} Point{i}"
-                        )
-                        action.index = i
-        action_exec = self.pop_menu_record_list.exec_(
-            self.record_list.mapToGlobal(point)
-        )
-        if action_exec:
-            if action_exec == copy_action:
-                # Copy path data
-                num = 0
+            # Auto preview path
+            data = self.main_canvas.path_preview
+        targets = 0
+        for text in ("Show", "Copy data from"):
+            self.pop_menu_record_list.addSeparator()
+            for i, path in enumerate(data):
+                if len(set(path)) > 1:
+                    action = self.pop_menu_record_list.addAction(f"{text} Point{i}")
+                    action.index = i
+                    targets += 1
+        copy_action.setEnabled(targets > 0)
+        action = self.pop_menu_record_list.exec_(self.record_list.mapToGlobal(p))
+        if action is None:
+            self.pop_menu_record_list.clear()
+            return
+        text = action.text()
+        if action == copy_action:
+            # Copy path data
+            num = 0
+            name_copy = f"{name}_{num}"
+            while name_copy in self.__path_data:
                 name_copy = f"{name}_{num}"
-                while name_copy in self.__path_data:
-                    name_copy = f"{name}_{num}"
-                    num += 1
-                self.add_path(name_copy, data)
-            elif "Copy data from" in action_exec.text():
-                # Copy data to clipboard
-                QApplication.clipboard().setText('\n'.join(
-                    f"{x},{y}" for x, y in data[action_exec.index]
-                ))
-            elif "Show" in action_exec.text():
-                # Switch points enabled status
-                if action_exec.index == -1:
-                    self.record_show.setChecked(True)
-                self.main_canvas.set_path_show(action_exec.index)
+                num += 1
+            self.add_path(name_copy, data)
+        elif text.startswith("Copy data from"):
+            # Copy data to clipboard (csv)
+            QApplication.clipboard().setText('\n'.join(
+                f"{x},{y}" for x, y in data[action.index]
+            ))
+        elif text.startswith("Show"):
+            # Switch points enabled status
+            if action.index == -1:
+                self.record_show.setChecked(True)
+            self.main_canvas.set_path_show(action.index)
         self.pop_menu_record_list.clear()
 
     @Slot(bool, name='on_record_show_toggled')

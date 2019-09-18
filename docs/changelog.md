@@ -12,16 +12,19 @@
     + Integrated "Project overview" and "Mechanism expression" button.
     + Move "export" and "import" functions to project page.
     + "History" page has been merged in this page.
-+ Fix a solver bug of the stop button on inputs page.
++ Provided new file format "HDF5" as binary format.
 + User options:
     + Separate out "preferences" page as dialog.
     + Add "open actions" setting for the opening macros.
-    + Add "file type" setting for YAML saving.
+    + Add "file type" setting for YAML and HDF5 saving.
     + Add "Tick mark" setting for main canvas.
     + Add "Transparent background when capturing" setting for main canvas.
 + Use star sign as unsaved mark.
 + Logical correction of checking update.
 + Selection mode can be scrolled infinitely.
++ **YAML format has been changed.**
++ Fix a solver bug of the stop button on inputs page.
++ Fix the error of path context menu.
 
 **Development**:
 
