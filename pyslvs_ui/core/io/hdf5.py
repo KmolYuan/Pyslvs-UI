@@ -4,8 +4,8 @@ from __future__ import annotations
 
 """HDF5 format processing function."""
 
-from typing import TYPE_CHECKING, Dict, Any
-from h5py import File
+from typing import TYPE_CHECKING, Dict, Union, Any
+from h5py import File, Dataset, Group
 from numpy import array, int8
 from pyslvs import __version__
 from pyslvs_ui.core.QtModules import QMessageBox
@@ -14,22 +14,38 @@ if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
 
 
-def _h5py_dump(f: File, d: Dict[str, Any], *, prefix: str = '/'):
+def _h5py_dump(f: File, d: Dict[str, Any], *, prefix: str = ''):
     """Dump function for h5py."""
     for k, v in d.items():
+        if prefix:
+            key = prefix + '/' + k
+        else:
+            key = k
         if type(v) is dict:
-            _h5py_dump(f, v, prefix=prefix + k + '/')
-            continue
-        try:
-            a = array(v, dtype=int8)
-        except ValueError:
-            a = array(bytearray(str(v).encode('utf-8')), dtype=int8)
-        f.create_dataset(prefix + k, data=a)
+            _h5py_dump(f, v, prefix=key)
+        elif type(v) in {int, float, str, bytes}:
+            f[key] = v
+        else:
+            try:
+                a = array(v, dtype=int8)
+            except (ValueError, TypeError):
+                # Use eval function
+                a = f"!{v!r}"
+            f[key] = a
 
 
-def _h5py_load(f: File) -> Dict[str, Any]:
+def _h5py_load(f: Group) -> Dict[str, Any]:
     """Load function for h5py."""
-    # TODO:
+    data = {}
+    for k, v in f.items():  # type: str, Union[Group, Dataset]
+        if type(v) is Group:
+            data[k] = _h5py_load(v)
+        elif type(v) is Dataset:
+            value = v[()]
+            if (type(value) is str) and value.startswith('!'):
+                value = eval(value[1:])
+            data[k] = value
+    return data
 
 
 class HDF5Editor(FormatEditor):
