@@ -36,6 +36,7 @@
 + Show the startup time in none-debug mode.
 + Replace "time.time" with "time.perf_counter".
 + Add Windows patch script `set_pycompiler`.
++ Create GitHub action.
 
 ## Version 19.08
 
