@@ -211,14 +211,11 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         if not self.background.isNull():
             rect = self.background.rect()
             self.painter.setOpacity(self.background_opacity)
-            self.painter.drawImage(
-                QRectF(
-                    self.background_offset * self.zoom,
-                    QSizeF(rect.width(), rect.height()) * self.background_scale * self.zoom
-                ),
-                self.background,
-                QRectF(rect)
-            )
+            self.painter.drawImage(QRectF(
+                self.background_offset * self.zoom,
+                QSizeF(rect.width(), rect.height())
+                * self.background_scale * self.zoom
+            ), self.background, QRectF(rect))
             self.painter.setOpacity(1)
         # Show frame
         pen = QPen(Qt.blue)
@@ -226,44 +223,49 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Arial", self.font_size))
         # Draw origin lines
-        if self.show_ticks in {_TickMark.show, _TickMark.show_num}:
-            pen.setColor(Qt.gray)
-            self.painter.setPen(pen)
-            x_l = -self.ox
-            x_r = self.width() - self.ox
-            self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
-            y_t = self.height() - self.oy
-            y_b = -self.oy
-            self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
+        if self.show_ticks not in {_TickMark.show, _TickMark.show_num}:
+            return
+        pen.setColor(Qt.gray)
+        self.painter.setPen(pen)
+        x_l = -self.ox
+        x_r = self.width() - self.ox
+        self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
+        y_t = self.height() - self.oy
+        y_b = -self.oy
+        self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
 
-            def indexing(v: float) -> int:
-                """Draw tick."""
-                return int(v / self.zoom - v / self.zoom % 5)
+        def indexing(v: float) -> int:
+            """Draw tick."""
+            return int(v / self.zoom - v / self.zoom % 5)
 
-            # Draw tick
-            for x in range(indexing(x_l), indexing(x_r) + 1, 5):
-                if x == 0:
-                    continue
-                is_ten = x % 10 == 0
-                end = QPointF(x * self.zoom, -10 if is_ten else -5)
-                self.painter.drawLine(
-                    QPointF(x, 0) * self.zoom,
-                    end
-                )
-                if self.show_ticks == _TickMark.show_num and is_ten:
-                    self.painter.drawText(end + QPointF(0, 3), f"{x}")
-            for y in range(indexing(y_b), indexing(y_t) + 1, 5):
-                if y == 0:
-                    continue
-                is_ten = y % 10 == 0
-                end = QPointF(10 if is_ten else 5, y * self.zoom)
-                self.painter.drawLine(
-                    QPointF(0, y) * self.zoom,
-                    end
-                )
-                if self.show_ticks == _TickMark.show_num and is_ten:
-                    self.painter.drawText(end + QPointF(3, 0), f"{-y}")
+        # Draw tick
+        for x in range(indexing(x_l), indexing(x_r) + 1, 5):
+            if x == 0:
+                continue
+            is_ten = x % 10 == 0
+            end = QPointF(x * self.zoom, -10 if is_ten else -5)
+            self.painter.drawLine(
+                QPointF(x, 0) * self.zoom,
+                end
+            )
+            if self.show_ticks == _TickMark.show_num and is_ten:
+                self.painter.drawText(end + QPointF(0, 3), f"{x}")
+        for y in range(indexing(y_b), indexing(y_t) + 1, 5):
+            if y == 0:
+                continue
+            is_ten = y % 10 == 0
+            end = QPointF(10 if is_ten else 5, y * self.zoom)
+            self.painter.drawLine(
+                QPointF(0, y) * self.zoom,
+                end
+            )
+            if self.show_ticks == _TickMark.show_num and is_ten:
+                self.painter.drawText(end + QPointF(3, 0), f"{-y}")
         # Please to call the "end" method when ending paint event.
+
+    def draw_circle(self, p: QPointF, r: float) -> None:
+        """Draw circle."""
+        self.painter.drawEllipse(p, r, r)
 
     def draw_point(
         self,
@@ -272,7 +274,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         cy,
         fix: bool,
         color: Tuple[int, int, int]
-    ):
+    ) -> None:
         """Draw a joint."""
         pen = QPen(Qt.black if self.monochrome else QColor(*color))
         pen.setWidth(2)
@@ -291,7 +293,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             r = self.joint_size * 2
         else:
             r = self.joint_size
-        self.painter.drawEllipse(QPointF(x, y), r, r)
+        self.draw_circle(QPointF(x, y), r)
 
         if not self.show_point_mark:
             return
@@ -319,10 +321,10 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             if rect.width():
                 self.painter.drawRect(QRectF(
                     QPointF(cx, cy),
-                    QSizeF(rect.width() * self.zoom, rect.height() * self.zoom)
+                    QSizeF(rect.width(), rect.height()) * self.zoom
                 ))
             else:
-                self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
+                self.draw_circle(QPointF(cx, cy), 3)
             range_color.setAlpha(255)
             pen.setColor(range_color)
             self.painter.setPen(pen)
@@ -345,12 +347,12 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 self.painter.drawText(p + QPointF(6, -6), name)
                 pen.setColor(dot)
                 self.painter.setPen(pen)
-                self.painter.drawEllipse(p, self.joint_size, self.joint_size)
+                self.draw_circle(p, self.joint_size)
             else:
                 painter_path = QPainterPath()
                 for j, (x, y) in enumerate(path):
                     p = QPointF(x, -y) * self.zoom
-                    self.painter.drawEllipse(p, self.joint_size, self.joint_size)
+                    self.draw_circle(p, self.joint_size)
                     if j == 0:
                         self.painter.drawText(p + QPointF(6, -6), name)
                         painter_path.moveTo(p)
@@ -364,8 +366,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 for x, y in path:
                     pen.setColor(dot)
                     self.painter.setPen(pen)
-                    p = QPointF(x, -y) * self.zoom
-                    self.painter.drawEllipse(p, self.joint_size, self.joint_size)
+                    self.draw_circle(QPointF(x, -y) * self.zoom, self.joint_size)
         self.painter.setBrush(Qt.NoBrush)
 
     def __draw_arrow(
@@ -377,7 +378,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         *,
         zoom: bool = False,
         text: str = ''
-    ):
+    ) -> None:
         """Front point -> Back point"""
         if zoom:
             x1 *= self.zoom
@@ -430,7 +431,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 y *= -self.zoom
                 if i == 0:
                     painter_path.moveTo(x, y)
-                    self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
+                    self.draw_circle(QPointF(x, y), self.joint_size)
                     continue
                 if error:
                     painter_path.moveTo(x, y)
@@ -487,7 +488,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         args: Sequence[str],
         target: str,
         pos: Sequence[VPoint]
-    ):
+    ) -> None:
         """Draw the solution triangle."""
         points, color = self.solution_polygon(func, args, target, pos)
         color.setAlpha(150)
@@ -574,8 +575,14 @@ class PreviewCanvas(BaseCanvas):
         height = self.height()
         if self.pos:
             x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
-            factor = self.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
-            self.zoom = factor * 0.75
+            self.zoom = self.zoom_factor(
+                width,
+                height,
+                x_right,
+                x_left,
+                y_top,
+                y_bottom
+            ) * 0.75
             self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
             self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
         else:
@@ -636,7 +643,7 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
-            self.painter.drawEllipse(QPointF(x, y), self.joint_size, self.joint_size)
+            self.draw_circle(QPointF(x, y), self.joint_size)
             pen.setColor(Qt.black)
             self.painter.setPen(pen)
 
@@ -710,10 +717,14 @@ class PreviewCanvas(BaseCanvas):
         return self.status[point] or (point in self.same)
 
     @staticmethod
-    def grounded_detect(placement: Set[int], graph: Graph, same: Dict[int, int]) -> Iterator[int]:
+    def grounded_detect(
+        placement: Set[int],
+        g: Graph,
+        same: Dict[int, int]
+    ) -> Iterator[int]:
         """Find the grounded link."""
-        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
-        for joint, link in edges_view(graph):
+        links: List[Set[int]] = [set() for _ in range(len(g.nodes))]
+        for joint, link in edges_view(g):
             for node in link:
                 links[node].add(joint)
         for row, link in enumerate(links):
@@ -725,17 +736,17 @@ class PreviewCanvas(BaseCanvas):
     def from_profile(self, params: Dict[str, Any]) -> None:
         """Simple load by dict object."""
         # Customize points and multiple joints
-        graph = Graph(params['Graph'])
+        g = Graph(params['Graph'])
         expression: str = params['Expression']
         pos_list = parse_pos(expression)
         self.cus: Dict[int, int] = params['cus']
         self.same: Dict[int, int] = params['same']
         for node, ref in sorted(self.same.items()):
             pos_list.insert(node, pos_list[ref])
-        self.set_graph(graph, {i: (x, y) for i, (x, y) in enumerate(pos_list)})
+        self.set_graph(g, {i: (x, y) for i, (x, y) in enumerate(pos_list)})
 
         # Grounded setting
-        for row in self.grounded_detect(set(params['Placement']), graph, self.same):
+        for row in self.grounded_detect(set(params['Placement']), g, self.same):
             self.set_grounded(row)
 
         # Driver setting

@@ -46,15 +46,18 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         """
         super(EditLinkDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(
+            self.windowFlags()
+            & ~Qt.WindowContextHelpButtonHint
+        )
         self.vpoints = vpoints
         self.vlinks = vlinks
         icon = self.windowIcon()
-        self.point_icon = QIcon(QPixmap(":/icons/bearing.png"))
+        self.icon = QIcon(QPixmap(":/icons/bearing.png"))
         for i, e in enumerate(color_names):
             self.color_box.insertItem(i, color_icon(e), e)
         for i in range(len(self.vpoints)):
-            self.noSelected.addItem(QListWidgetItem(self.point_icon, f'Point{i}'))
+            self.noSelected.addItem(QListWidgetItem(self.icon, f'Point{i}'))
         if row is False:
             self.name_box.addItem(icon, "New link")
             self.name_box.setEnabled(False)
@@ -100,11 +103,11 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             self.noSelected.clear()
             self.selected.clear()
             for p in vlink.points:
-                self.selected.addItem(QListWidgetItem(self.point_icon, f'Point{p}'))
+                self.selected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
             for p in range(len(self.vpoints)):
                 if p in vlink.points:
                     continue
-                self.noSelected.addItem(QListWidgetItem(self.point_icon, f'Point{p}'))
+                self.noSelected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.color_pick_button):
             widget.setEnabled(not_ground)
@@ -119,7 +122,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @Slot(name='on_color_pick_button_clicked')
     def __set_rgb(self) -> None:
         """Add a custom color from current color."""
-        color = QColorDialog.getColor(color_qt(self.color_box.currentText()), self)
+        color = color_qt(self.color_box.currentText())
+        color = QColorDialog.getColor(color, self)
         if not color.isValid():
             return
         rgb_str = str((color.red(), color.green(), color.blue()))

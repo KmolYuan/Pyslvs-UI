@@ -21,7 +21,7 @@ import ezdxf
 from ezdxf.lldxf.const import versions_supported_by_new, acad_release
 from pyslvs import VPoint
 from pyslvs_ui.core.graphics import convex_hull
-from .slvs import boundaryloop
+from .slvs import boundary_loop
 
 
 # A list of support versions with "ezdxf" module.
@@ -102,7 +102,7 @@ def dxf_boundary(
         centers = centers_ch
 
         # Draw boundary edges.
-        boundary = boundaryloop(boundary, radius)
+        boundary = boundary_loop(boundary, radius)
         for c1, c2 in boundary:
             msp.add_line((c1.x, c1.y), (c2.x, c2.y))
 
