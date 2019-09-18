@@ -291,8 +291,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         # Rearrange: Put the nearest point to the next position.
         qpoints = convex_hull(points, as_qpoint=True)
         if (
-            self.select_mode == SelectMode.Link and
-            self.vlinks.index(vlink) in self.selections
+            self.select_mode == SelectMode.Link
+            and self.vlinks.index(vlink) in self.selections
         ):
             pen.setWidth(self.link_width + 6)
             pen.setColor(Qt.black if self.monochrome else QColor(161, 16, 239))
@@ -383,8 +383,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                     polygon = QPolygonF(convex_hull(points, as_qpoint=True))
                 else:
                     polygon = QPolygonF(convex_hull(
-                        [(x + self.sr, y + self.sr) for x, y in points] +
-                        [(x - self.sr, y - self.sr) for x, y in points],
+                        [(x + self.sr, y + self.sr) for x, y in points]
+                        + [(x - self.sr, y - self.sr) for x, y in points],
                         as_qpoint=True
                     ))
                 if rect:
@@ -634,17 +634,17 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             km = QApplication.keyboardModifiers()
             self.selector.selection_old = list(self.selections)
             if (
-                self.select_mode == SelectMode.Joint and
-                self.free_move != FreeMode.NoFreeMove
+                self.select_mode == SelectMode.Joint
+                and self.free_move != FreeMode.NoFreeMove
             ):
                 x, y = self.__mouse_pos(event)
                 if self.selector.x != x and self.selector.y != y:
                     # Edit point coordinates.
                     self.__emit_free_move(self.selections)
                 elif (
-                    (not self.selector.selection_rect) and
-                    km != Qt.ControlModifier and
-                    km != Qt.ShiftModifier
+                    (not self.selector.selection_rect)
+                    and km != Qt.ControlModifier
+                    and km != Qt.ShiftModifier
                 ):
                     self.noselected.emit()
             else:
@@ -655,9 +655,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                         self.__snap(self.selector.y, is_zoom=False)
                     )
                 elif (
-                    (not self.selector.selection_rect) and
-                    km != Qt.ControlModifier and
-                    km != Qt.ShiftModifier
+                    (not self.selector.selection_rect)
+                    and km != Qt.ControlModifier
+                    and km != Qt.ShiftModifier
                 ):
                     self.noselected.emit()
         self.selected_tips_hide.emit()

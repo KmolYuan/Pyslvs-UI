@@ -240,9 +240,9 @@ class InputsWidget(QWidget, Ui_Form):
         row = self.variable_list.currentRow()
         enabled = row > -1
         rotatable = (
-            enabled and
-            not self.free_move_button.isChecked() and
-            self.right_input()
+            enabled
+            and not self.free_move_button.isChecked()
+            and self.right_input()
         )
         self.dial.setEnabled(rotatable)
         self.dial_spinbox.setEnabled(rotatable)
@@ -326,8 +326,8 @@ class InputsWidget(QWidget, Ui_Form):
             item.setText('->'.join(item_text))
             self.about_to_resolve.emit()
         if (
-            self.record_start.isChecked() and
-            abs(self.oldVar - value) > self.record_interval.value()
+            self.record_start.isChecked()
+            and abs(self.oldVar - value) > self.record_interval.value()
         ):
             self.main_canvas.record_path()
             self.oldVar = value
@@ -365,8 +365,8 @@ class InputsWidget(QWidget, Ui_Form):
         index = self.dial.value()
         speed = self.variable_speed.value()
         extreme_rebound = (
-            self.conflict.isVisible() and
-            self.extremeRebound.isChecked()
+            self.conflict.isVisible()
+            and self.extremeRebound.isChecked()
         )
         if extreme_rebound:
             speed = -speed

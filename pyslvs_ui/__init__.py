@@ -23,8 +23,10 @@ def main() -> None:
     from .core.QtModules import Qt, QApplication, QPixmap, QSplashScreen
     from .core.info import ARGUMENTS, logger
     if ARGUMENTS.test:
-        from .core.main_window import MainWindow
+        from importlib import import_module
+        import_module('pyslvs_ui.core.main_window')
         logger.info("All module loaded successfully.")
+        logger.info(f"Loaded with: {perf_counter() - t0:.02f}s")
         shutdown()
         exit(0)
 

@@ -45,9 +45,9 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(
-            self.windowFlags() &
-            ~Qt.WindowContextHelpButtonHint |
-            Qt.WindowMaximizeButtonHint
+            self.windowFlags()
+            & ~Qt.WindowContextHelpButtonHint
+            | Qt.WindowMaximizeButtonHint
         )
 
         self.collections = collections

@@ -540,8 +540,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
             QIcon(QPixmap(":/icons/script.png")),
-            _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n" +
-            slvs_process_script(
+            _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
+            + slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
             ),

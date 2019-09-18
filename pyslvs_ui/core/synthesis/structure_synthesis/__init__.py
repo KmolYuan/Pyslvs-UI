@@ -206,8 +206,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         if not self.keep_dof.isChecked():
             self.dof.setValue(
-                3 * (self.nl_input.value() - 1) -
-                2 * self.nj_input.value()
+                3 * (self.nl_input.value() - 1)
+                - 2 * self.nj_input.value()
             )
             return
 

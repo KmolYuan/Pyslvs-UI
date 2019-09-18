@@ -244,8 +244,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             QMessageBox.warning(
                 self,
                 "File error",
-                "Wrong format.\nIt should be look like this:" +
-                ("\n0.0,0.0[\\n]" * 3)
+                "Wrong format.\nIt should be look like this:"
+                + ("\n0.0,0.0[\\n]" * 3)
             )
         else:
             for x, y in data:
@@ -354,8 +354,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Target point move down."""
         row = self.path_list.currentRow()
         if not (
-            (row < self.path_list.count() - 1) and
-            (self.path_list.count() > 1)
+            (row < self.path_list.count() - 1)
+            and (self.path_list.count() > 1)
         ):
             return
         path = self.current_path()
@@ -875,9 +875,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         elif dlg.max_time_option.isChecked():
             # Three spinbox value translate to second.
             self.alg_options['max_time'] = (
-                dlg.max_time_h.value() * 3600 +
-                dlg.max_time_m.value() * 60 +
-                dlg.max_time_s.value()
+                dlg.max_time_h.value() * 3600
+                + dlg.max_time_m.value() * 60
+                + dlg.max_time_s.value()
             )
         else:
             raise ValueError("invalid option")

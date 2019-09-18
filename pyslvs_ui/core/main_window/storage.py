@@ -7,12 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    Sequence,
-    Dict,
-    Optional,
-)
+from typing import Dict, Optional
 from abc import ABC
 from pyslvs import parse_params
 from pyslvs_ui.core.QtModules import (
@@ -47,8 +42,8 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
     @Slot(name='on_mechanism_storage_add_clicked')
     def __add_current_storage(self) -> None:
         name = (
-            self.mechanism_storage_name_tag.text() or
-            self.mechanism_storage_name_tag.placeholderText()
+            self.mechanism_storage_name_tag.text()
+            or self.mechanism_storage_name_tag.placeholderText()
         )
         self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
         exprs = ", ".join(vpoint.expr() for vpoint in self.vpoint_list)
