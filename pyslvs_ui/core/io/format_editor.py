@@ -13,7 +13,7 @@ from typing import (
     Dict,
     Any,
 )
-from pyslvs import VJoint
+from pyslvs import __version__, VJoint
 from pyslvs_ui.core.QtModules import (
     QObject,
     QFileInfo,
@@ -21,6 +21,7 @@ from pyslvs_ui.core.QtModules import (
     QCoreApplication,
     QABCMeta,
 )
+from pyslvs_ui.core.info import logger
 from .overview import OverviewDialog
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
@@ -88,6 +89,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
                 attr['angle'] = vpoint.angle
             mechanism_data.append(attr)
         return {
+            'pyslvs_ver': __version__,
             'mechanism': mechanism_data,
             'links': {l.name: l.color_str for l in self.vlinks},
             'input': [(b, d) for b, d, _ in self.input_pairs()],
@@ -101,6 +103,10 @@ class FormatEditor(QObject, metaclass=QABCMeta):
     def load_data(self, file_name: str, data: Dict[str, Any]) -> None:
         """Load file method."""
         self.main_clear()
+        ver = data.get('pyslvs_ver', "")
+        if ver:
+            logger.info(f"Load data from Pyslvs {ver}")
+        del ver
         dlg = QProgressDialog("Loading project", "Cancel", 0, 8, self.parent())
         dlg.setLabelText("Reading file ...")
         dlg.show()
@@ -150,7 +156,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             dlg.deleteLater()
             return self.main_clear()
         self.__set_group("Add storage")
-        storage_data: Dict[str, str] = data.get('storage', [])
+        storage_data: Dict[str, str] = data.get('storage', {})
         self.load_storage(storage_data)
         self.__end_group()
 

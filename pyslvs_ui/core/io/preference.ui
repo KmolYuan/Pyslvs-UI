@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1060</width>
-    <height>724</height>
+    <width>763</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -488,12 +488,17 @@
            <widget class="QComboBox" name="file_type_option">
             <item>
              <property name="text">
-              <string>YAML</string>
+              <string>YAML (pyyaml)</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Compressed YAML</string>
+              <string>Compressed YAML (pyyaml)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HDF5 (h5py)</string>
              </property>
             </item>
            </widget>

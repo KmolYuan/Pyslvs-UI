@@ -7,7 +7,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict, Union, Any
 from h5py import File, Dataset, Group
 from numpy import array, int8
-from pyslvs import __version__
 from pyslvs_ui.core.QtModules import QMessageBox
 from .format_editor import FormatEditor
 if TYPE_CHECKING:
@@ -69,7 +68,6 @@ class HDF5Editor(FormatEditor):
         """Save HDF5 file."""
         data = self.save_data()
         with File(file_name, 'w') as f:
-            f['pyslvs_ver'] = __version__
             _h5py_dump(f, data)
 
     def load(self, file_name: str) -> None:
