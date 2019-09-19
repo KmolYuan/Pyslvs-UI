@@ -40,7 +40,8 @@ class ProgressDialog(QDialog, Ui_Dialog):
     ):
         super(ProgressDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.__close_work)
 
         self.mechanisms: List[Dict[str, Any]] = []

@@ -73,7 +73,8 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         """Comes in environment variable and workbook name."""
         super(_OutputDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"Export {format_name} module project")
         self.setWindowIcon(QIcon(QPixmap(f":/icons/{format_icon}")))
         self.assembly_label.setText(assembly_description)

@@ -31,7 +31,7 @@ from pyslvs import (
 )
 from pyslvs_ui.core.info import logger
 from .color import color_qt, color_num
-from .canvas import convex_hull
+from .canvas import convex_hull, LINK_COLOR
 
 Pos = Dict[int, Tuple[float, float]]
 
@@ -138,7 +138,7 @@ def graph2icon(
         if monochrome:
             color = QColor(Qt.darkGray)
         else:
-            color = QColor(226, 219, 190)
+            color = LINK_COLOR
         color.setAlpha(150)
         painter.setBrush(QBrush(color))
         for link in g.nodes:

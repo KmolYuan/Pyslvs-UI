@@ -16,6 +16,7 @@ from .color import (
 )
 from .chart import DataChart
 from .canvas import (
+    LINK_COLOR,
     BaseCanvas,
     PreviewCanvas,
     convex_hull,
@@ -33,6 +34,7 @@ __all__ = [
     'color_qt',
     'target_path_style',
     'DataChart',
+    'LINK_COLOR',
     'BaseCanvas',
     'PreviewCanvas',
     'convex_hull',

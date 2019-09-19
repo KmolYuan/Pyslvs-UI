@@ -56,6 +56,7 @@ from .color import (
     target_path_style,
 )
 
+LINK_COLOR = QColor(226, 219, 190)
 _Coord = Tuple[float, float]
 
 
@@ -596,7 +597,7 @@ class PreviewCanvas(BaseCanvas):
         if self.monochrome:
             color = QColor(Qt.darkGray)
         else:
-            color = QColor(226, 219, 190)
+            color = LINK_COLOR
         color.setAlpha(150)
         self.painter.setBrush(QBrush(color))
 

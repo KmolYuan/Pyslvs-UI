@@ -56,7 +56,8 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         """About description strings."""
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.title_label.setText(html(_title("Pyslvs") + _content(
             f"Version {__version__} 2016-2019"
         )))

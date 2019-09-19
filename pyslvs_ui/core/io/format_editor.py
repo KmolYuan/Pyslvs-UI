@@ -40,9 +40,9 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Call to get storage data
         self.get_storage = parent.get_storage
         # Call to get collections data
-        self.collect_data = parent.collection_tab_page.collect_data
+        self.collect_data = parent.collections.collect_data
         # Call to get triangle data
-        self.config_data = parent.collection_tab_page.config_data
+        self.config_data = parent.collections.config_data
         # Call to get inputs variables data
         self.input_pairs = parent.inputs_widget.input_pairs
         # Call to get algorithm data
@@ -62,9 +62,9 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Call to load paths
         self.load_paths = parent.inputs_widget.load_paths
         # Call to load collections data
-        self.load_collections = parent.collection_tab_page.structure_widget.add_collections
+        self.load_collections = parent.collections.structure_widget.add_collections
         # Call to load config data
-        self.load_config = parent.collection_tab_page.configure_widget.add_collections
+        self.load_config = parent.collections.configure_widget.add_collections
         # Call to load algorithm results
         self.load_algorithm = parent.dimensional_synthesis.load_results
 

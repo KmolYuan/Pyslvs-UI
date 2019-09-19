@@ -29,7 +29,8 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         """Just load in path data."""
         super(PathAdjustDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
 
         # Get the current path from parent widget.
         self.path = parent.current_path()

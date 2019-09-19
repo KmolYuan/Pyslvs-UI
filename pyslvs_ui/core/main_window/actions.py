@@ -248,7 +248,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.set_window_title_full_path()
             for canvas in (
                 self.main_canvas,
-                self.collection_tab_page.configure_widget.configure_canvas,
+                self.collections.configure_widget.configure_canvas,
                 self.dimensional_synthesis.preview_canvas,
             ):
                 if name == 'tick_mark_option':

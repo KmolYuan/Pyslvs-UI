@@ -18,7 +18,7 @@ from typing import (
 )
 from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
-from qtpy.QtGui import QPen, QColor, QFont, QPaintEvent
+from qtpy.QtGui import QPen, QFont, QPaintEvent
 from pyslvs import (
     color_rgb,
     get_vlinks,
@@ -26,7 +26,7 @@ from pyslvs import (
     VLink,
     parse_vpoints,
 )
-from pyslvs_ui.core.graphics import BaseCanvas, color_qt
+from pyslvs_ui.core.graphics import BaseCanvas, color_qt, LINK_COLOR
 from .preview_ui import Ui_Dialog
 
 
@@ -202,7 +202,7 @@ class _DynamicCanvas(BaseCanvas):
         pen = QPen(color)
         pen.setWidth(self.link_width)
         self.painter.setPen(pen)
-        brush = QColor(226, 219, 190)
+        brush = LINK_COLOR
         brush.setAlphaF(0.70)
         self.painter.setBrush(brush)
         qpoints = tuple(

@@ -82,7 +82,8 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         """Load the settings to user interface."""
         super(AlgorithmOptionDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"{algorithm.value} Options")
 
         self.__algorithm = algorithm

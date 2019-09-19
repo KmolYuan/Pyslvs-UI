@@ -38,7 +38,12 @@ from qtpy.QtGui import (
     QMouseEvent,
 )
 from pyslvs import VJoint, VPoint, VLink
-from pyslvs_ui.core.graphics import convex_hull, BaseCanvas, color_qt
+from pyslvs_ui.core.graphics import (
+    convex_hull,
+    BaseCanvas,
+    color_qt,
+    LINK_COLOR,
+)
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
 
@@ -296,7 +301,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         pen.setWidth(self.link_width)
         pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
         self.painter.setPen(pen)
-        brush = QColor(Qt.darkGray) if self.monochrome else QColor(226, 219, 190)
+        brush = QColor(Qt.darkGray) if self.monochrome else LINK_COLOR
         brush.setAlphaF(self.transparency)
         self.painter.setBrush(brush)
         self.painter.drawPolygon(*qpoints)

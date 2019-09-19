@@ -31,7 +31,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
         """Add data and widget references from parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
 
         self.cus = parent.configure_canvas.cus
         self.same = parent.configure_canvas.same

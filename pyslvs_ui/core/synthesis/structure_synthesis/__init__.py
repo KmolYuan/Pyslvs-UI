@@ -103,7 +103,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         """
         super(StructureSynthesis, self).__init__(parent)
         self.setupUi(self)
-        self.link_assortment_list.header().setSectionResizeMode(QHeaderView.ResizeToContents)
+        header = self.link_assortment_list.header()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
         # Function references
         self.output_to = parent.output_to
@@ -113,7 +114,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.vlinks = parent.vlink_list
         self.get_graph = parent.get_graph
         self.prefer = parent.prefer
-        self.add_collection = parent.collection_tab_page.structure_widget.add_collection
+        self.add_collection = parent.collections.structure_widget.add_collection
 
         # Answer list
         self.assortment: Dict[Assortment, List[Assortment]] = {}
@@ -324,7 +325,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.__clear_structure_list()
         jobs = []
         for i in range(self.link_assortment_list.topLevelItemCount()):
-            root: QTreeWidgetItem = self.link_assortment_list.topLevelItem(i)
+            root = self.link_assortment_list.topLevelItem(i)
             for j in range(root.childCount()):
                 jobs.append(root.child(j))
         self.__structural_combine(jobs)
@@ -350,7 +351,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.answer = answer
             dlg.deleteLater()
             for i in range(self.link_assortment_list.topLevelItemCount()):
-                root: QTreeWidgetItem = self.link_assortment_list.topLevelItem(i)
+                root = self.link_assortment_list.topLevelItem(i)
                 count = 0
                 for j in range(root.childCount()):
                     item = root.child(j)

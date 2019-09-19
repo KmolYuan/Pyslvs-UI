@@ -60,7 +60,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
     row_selection_changed = Signal(list)
     delete_request = Signal()
 
-    def __init__(self, row: int, headers: Sequence[str], parent: QWidget) -> None:
+    def __init__(self, row: int, parent: QWidget) -> None:
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setStatusTip("This table will show about the entities items in current view mode.")
@@ -70,18 +70,25 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
 
         self.setRowCount(row)
-        self.setColumnCount(len(headers))
-        for i, e in enumerate(headers):
+        self.setColumnCount(len(self.headers))
+        for i, e in enumerate(self.headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
 
         # Table widget column width.
-        self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        header = self.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
         @Slot()
-        def __emit_selection_changed() -> None:
+        def emit_selection_changed() -> None:
             self.row_selection_changed.emit(self.selected_rows())
 
-        self.itemSelectionChanged.connect(__emit_selection_changed)
+        self.itemSelectionChanged.connect(emit_selection_changed)
+
+    @property
+    @abstractmethod
+    def headers(self) -> Sequence[str]:
+        """Table headers."""
+        ...
 
     def row_text(self, row: int, *, has_name: bool) -> List[str]:
         """Get the whole row of texts.
@@ -181,18 +188,11 @@ class PointTableWidget(BaseTableWidget[VPoint]):
 
     """Custom table widget for points."""
 
+    headers = ('Number', 'Links', 'Type', 'Color', 'X', 'Y', 'Current')
     selectionLabelUpdate = Signal(list)
 
     def __init__(self, parent: QWidget) -> None:
-        super(PointTableWidget, self).__init__(0, (
-            'Number',
-            'Links',
-            'Type',
-            'Color',
-            'X',
-            'Y',
-            'Current',
-        ), parent)
+        super(PointTableWidget, self).__init__(0, parent)
 
     def edit_point(self, row: int, links: str, type_str: str, color: str, x: float, y: float) -> None:
         """Edit a point."""
@@ -275,8 +275,10 @@ class LinkTableWidget(BaseTableWidget[VLink]):
 
     """Custom table widget for link."""
 
+    headers = ('Name', 'Color', 'Points')
+
     def __init__(self, parent: QWidget) -> None:
-        super(LinkTableWidget, self).__init__(1, ('Name', 'Color', 'Points'), parent)
+        super(LinkTableWidget, self).__init__(1, parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
         self.edit_link(0, 'ground', 'White', '')
@@ -334,16 +336,10 @@ class ExprTableWidget(BaseTableWidget[None]):
     + Free move request: link name, length
     """
 
+    headers = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
+
     def __init__(self, parent: QWidget) -> None:
-        super(ExprTableWidget, self).__init__(0, (
-            'Function',
-            'p0',
-            'p1',
-            'p2',
-            'p3',
-            'p4',
-            'target',
-        ), parent)
+        super(ExprTableWidget, self).__init__(0, parent)
         self.exprs = []
 
     def set_expr(

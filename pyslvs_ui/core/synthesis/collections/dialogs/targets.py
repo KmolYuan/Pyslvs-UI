@@ -44,7 +44,8 @@ class TargetsDialog(QDialog, Ui_Dialog):
         """Filter and show the target option (just like movable points)."""
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        flags = self.windowFlags()
+        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.main_label.setText(description)
         self.prefix = prefix
         self.other_list.addItems(f"{self.prefix}{i}" for i in not_target)

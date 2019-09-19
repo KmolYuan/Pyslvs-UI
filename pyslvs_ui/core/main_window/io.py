@@ -198,7 +198,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.free_move_disable.trigger()
         self.mechanism_storage_name_tag.clear()
         self.mechanism_storage.clear()
-        self.collection_tab_page.clear()
+        self.collections.clear()
         self.structure_synthesis.clear()
         self.inputs_widget.clear()
         self.dimensional_synthesis.clear()
@@ -662,8 +662,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.get_storage(),
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             self.inputs_widget.path_data(),
-            self.collection_tab_page.collect_data(),
-            self.collection_tab_page.config_data(),
+            self.collections.collect_data(),
+            self.collections.config_data(),
             self.dimensional_synthesis.mechanism_data
         )
         dlg.show()

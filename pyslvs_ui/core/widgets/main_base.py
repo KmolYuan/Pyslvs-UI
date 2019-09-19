@@ -206,12 +206,17 @@ class MainWindowBase(MainWindowABC, ABC):
 
         # Set path from command line
         home_dir = QDir.home()
-        self.settings = QSettings(home_dir.absoluteFilePath(".pyslvs.ini"), QSettings.IniFormat, self)
+        self.settings = QSettings(
+            home_dir.absoluteFilePath(".pyslvs.ini"),
+            QSettings.IniFormat,
+            self
+        )
         if ARGUMENTS.c:
             self.set_locate(QDir(ARGUMENTS.c).absolutePath())
         else:
             home_dir.cd("Desktop")
-            self.set_locate(str(self.settings.value("ENV", home_dir.absolutePath())))
+            env = self.settings.value("ENV", home_dir.absolutePath())
+            self.set_locate(str(env))
 
         # Initialize custom UI
         self.__undo_redo()
@@ -308,17 +313,19 @@ class MainWindowBase(MainWindowABC, ABC):
         self.main_canvas.selected_tips_hide.connect(select_tips.hide)
 
         @Slot(tuple, bool)
-        def table_set_selection(selections: Sequence[int], key_detect: bool) -> None:
+        def table_selection(selection: Sequence[int], check_key: bool) -> None:
             """Distinguish table by tab index."""
-            self.__tables[self.entities_tab.currentIndex()].set_selections(selections, key_detect)
+            index = self.entities_tab.currentIndex()
+            self.__tables[index].set_selections(selection, check_key)
 
-        self.main_canvas.selected.connect(table_set_selection)
+        self.main_canvas.selected.connect(table_selection)
         self.entities_point.row_selection_changed.connect(self.main_canvas.set_selection)
 
         @Slot()
         def table_clear_selection() -> None:
             """Clear the selection of specific table by tab index."""
-            self.__tables[self.entities_tab.currentIndex()].clearSelection()
+            index = self.entities_tab.currentIndex()
+            self.__tables[index].clearSelection()
 
         clean_selection_action = QAction("Clean selection", self)
         clean_selection_action.triggered.connect(table_clear_selection)
@@ -353,23 +360,23 @@ class MainWindowBase(MainWindowABC, ABC):
         self.inputs_widget.about_to_resolve.connect(self.resolve)
 
         @Slot(tuple, bool)
-        def inputs_set_selection(selections: Sequence[int], _=None) -> None:
+        def inputs_selection(selections: Sequence[int], _=None) -> None:
             """Distinguish table by tab index."""
             self.inputs_widget.clear_selection()
             if self.entities_tab.currentIndex() == 0:
                 self.inputs_widget.set_selection(selections)
 
-        self.main_canvas.selected.connect(inputs_set_selection)
+        self.main_canvas.selected.connect(inputs_selection)
         self.main_canvas.noselected.connect(self.inputs_widget.clear_selection)
         self.inputs_widget.update_preview_button.clicked.connect(self.main_canvas.update_preview_path)
 
         # Synthesis collections
-        self.collection_tab_page = Collections(self)
+        self.collections = Collections(self)
         # Number and type synthesis
         self.structure_synthesis = StructureSynthesis(self)
         for widget, name in [
             (self.structure_synthesis, "Structural"),
-            (self.collection_tab_page, "Collections"),
+            (self.collections, "Collections"),
         ]:
             self.synthesis_tab_widget.addTab(widget, widget.windowIcon(), name)
 
@@ -387,20 +394,20 @@ class MainWindowBase(MainWindowABC, ABC):
             """Synthesis progress bar."""
             pos = self.synthesis_tab_widget.currentIndex()
             if pos == 1:
-                pos += self.collection_tab_page.tab_widget.currentIndex()
+                pos += self.collections.tab_widget.currentIndex()
             elif pos == 2:
                 pos += 1
             self.synthesis_progress.setValue(pos)
 
         self.synthesis_tab_widget.currentChanged.connect(set_design_progress)
-        self.collection_tab_page.tab_widget.currentChanged.connect(set_design_progress)
+        self.collections.tab_widget.currentChanged.connect(set_design_progress)
 
         # Same options of structure previews
-        as_node1 = self.collection_tab_page.structure_widget.graph_link_as_node
+        as_node1 = self.collections.structure_widget.graph_link_as_node
         as_node2 = self.structure_synthesis.graph_link_as_node
         as_node1.toggled.connect(as_node2.setChecked)
         as_node2.toggled.connect(as_node1.setChecked)
-        show_label1 = self.collection_tab_page.structure_widget.graph_show_label
+        show_label1 = self.collections.structure_widget.graph_show_label
         show_label2 = self.structure_synthesis.graph_show_label
         show_label1.toggled.connect(show_label2.setChecked)
         show_label2.toggled.connect(show_label1.setChecked)
@@ -492,7 +499,8 @@ class MainWindowBase(MainWindowABC, ABC):
             return func
 
         zoom_menu = QMenu(self)
-        zoom_min = self.zoom_bar.minimum() - self.zoom_bar.minimum() % 100 + 100
+        zoom_min = self.zoom_bar.minimum()
+        zoom_min = zoom_min - zoom_min % 100 + 100
         for level in range(zoom_min, 500 + 1, 100):
             action = QAction(f'{level}%', self)
             action.triggered.connect(zoom_level(level))
