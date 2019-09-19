@@ -31,7 +31,7 @@ from typing import (
 )
 from abc import abstractmethod
 from pyslvs import VJoint, VPoint, VLink, color_rgb
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Qt,
     QABCMeta,
     QUndoCommand,

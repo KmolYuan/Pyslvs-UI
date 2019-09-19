@@ -21,7 +21,7 @@ from logging import (
     Handler,
     StreamHandler,
 )
-from pyslvs_ui.core.QtModules import QObject, Signal
+from pyslvs_ui.core.qt_patch import QObject, Signal
 from .info import ARGUMENTS, SYS_INFO
 
 

@@ -21,7 +21,7 @@ from platform import (
 )
 from argparse import ArgumentParser
 from pyslvs import __version__
-from pyslvs_ui.core.QtModules import API, QT_VERSION
+from pyslvs_ui.core.qt_patch import API, QT_VERSION
 
 
 SYS_INFO = (

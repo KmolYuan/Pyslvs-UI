@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/synthesis/structure_synthesis/structure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
-from pyslvs_ui.core.QtModules import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 
 
 class Ui_Form(object):
@@ -269,4 +268,6 @@ class Ui_Form(object):
         self.save_edges.setStatusTip(_translate("Form", "Save the edges of atlas to text file."))
         self.save_edges.setText(_translate("Form", "Save as list"))
         self.edges2atlas_button.setStatusTip(_translate("Form", "Load the edges data from text file, then save them to image files."))
+
+
 from pyslvs_ui import icons_rc

@@ -14,7 +14,7 @@ from typing import (
     Any,
 )
 from pyslvs import __version__, VJoint
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     QObject,
     QFileInfo,
     QProgressDialog,

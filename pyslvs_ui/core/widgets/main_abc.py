@@ -17,7 +17,7 @@ from typing import (
 )
 from abc import abstractmethod
 from pyslvs import Graph, VPoint
-from pyslvs_ui.core.QtModules import Qt, QMainWindow, QPoint, QABCMeta
+from pyslvs_ui.core.qt_patch import Qt, QMainWindow, QPoint, QABCMeta
 from .main_ui import Ui_MainWindow
 
 _Coord = Tuple[float, float]

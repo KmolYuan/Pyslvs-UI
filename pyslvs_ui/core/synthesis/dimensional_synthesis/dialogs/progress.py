@@ -8,13 +8,13 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List, Dict, Any
-from pyslvs_ui.core.QtModules import (
-    QDialog,
+from qtpy.QtCore import (
     Qt,
     QTimer,
     Signal,
     Slot,
 )
+from qtpy.QtWidgets import QDialog
 from pyslvs_ui.core.info import logger
 from .progress_ui import Ui_Dialog
 from .thread import WorkerThread

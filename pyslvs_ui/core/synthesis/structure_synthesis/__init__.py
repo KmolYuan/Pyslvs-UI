@@ -24,7 +24,7 @@ from pyslvs import (
     link_assortment,
     contracted_link_assortment,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     qt_image_format,
     Qt,

@@ -14,12 +14,8 @@ from typing import (
     Dict,
     Any,
 )
-from pyslvs_ui.core.QtModules import (
-    Qt,
-    QWidget,
-    QDialog,
-    QListWidgetItem,
-)
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QWidget, QDialog, QListWidgetItem
 from .overview_ui import Ui_Dialog
 
 

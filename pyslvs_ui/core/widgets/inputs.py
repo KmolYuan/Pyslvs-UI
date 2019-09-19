@@ -19,7 +19,7 @@ from typing import (
     Optional,
 )
 from pyslvs import VJoint
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Signal,
     Slot,
     QWidget,

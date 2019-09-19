@@ -27,7 +27,7 @@ from pyslvs import (
     graph2vpoints,
     parse_pos,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Signal,
     QWidget,
     Slot,

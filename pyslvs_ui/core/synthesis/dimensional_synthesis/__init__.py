@@ -34,7 +34,7 @@ from pyslvs import (
     parse_vpoints,
     parse_vlinks,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     QWidget,
     QModelIndex,

@@ -28,15 +28,10 @@ from math import (
 )
 from itertools import chain
 from pyslvs import VJoint, VPoint, VLink
-from pyslvs_ui.core.QtModules import (
-    Signal,
-    Qt,
-    QApplication,
+from qtpy.QtCore import Signal, Qt, QRectF, QPoint, QPointF, QLineF
+from qtpy.QtWidgets import QApplication
+from qtpy.QtGui import (
     QPolygonF,
-    QRectF,
-    QPoint,
-    QPointF,
-    QLineF,
     QFont,
     QPen,
     QColor,

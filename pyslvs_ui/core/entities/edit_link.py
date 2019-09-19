@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from re import match
 from typing import List, Union
 from pyslvs import VPoint, VLink
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QDialog,

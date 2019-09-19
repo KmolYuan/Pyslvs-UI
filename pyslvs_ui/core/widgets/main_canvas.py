@@ -18,7 +18,7 @@ from typing import (
     Dict,
     Union,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QApplication,

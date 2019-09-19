@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/io/script.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
-from pyslvs_ui.core.QtModules import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 
 
 class Ui_Dialog(object):
@@ -73,4 +72,6 @@ class Ui_Dialog(object):
         self.copy.setText(_translate("Dialog", "Copy"))
         self.label_3.setText(_translate("Dialog", "Syntax highlighting powered by Pygments."))
         self.button_box.setWhatsThis(_translate("Dialog", "Click to exit"))
+
+
 from pyslvs_ui import icons_rc

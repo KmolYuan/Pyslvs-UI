@@ -22,7 +22,7 @@ from pygments import highlight
 from pygments.lexer import RegexLexer
 from pygments.formatters.html import HtmlFormatter
 from pygments.styles import get_style_by_name, get_all_styles
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QApplication,

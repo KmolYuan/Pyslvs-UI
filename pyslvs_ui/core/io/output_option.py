@@ -18,7 +18,7 @@ from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
 from pyslvs import VPoint
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QDialog,

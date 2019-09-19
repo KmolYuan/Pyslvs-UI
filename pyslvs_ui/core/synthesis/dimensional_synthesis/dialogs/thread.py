@@ -18,7 +18,8 @@ from pyslvs import (
     Differential,
     Planar,
 )
-from pyslvs_ui.core.QtModules import Signal, QWidget
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QWidget
 from pyslvs_ui.core.info import logger
 from pyslvs_ui.core.synthesis.thread import BaseThread
 from .options import AlgorithmType

@@ -31,7 +31,7 @@ from pyslvs import (
     VPoint,
     VLink,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Signal,
     Qt,
     QTimer,

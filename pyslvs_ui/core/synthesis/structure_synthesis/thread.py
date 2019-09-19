@@ -14,8 +14,9 @@ from pyslvs import (
     contracted_graph,
     conventional_graph,
 )
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QWidget, QTreeWidgetItem
 from pyslvs_ui.core.synthesis.thread import BaseThread
-from pyslvs_ui.core.QtModules import Signal, QWidget, QTreeWidgetItem
 
 Assortment = Sequence[int]
 

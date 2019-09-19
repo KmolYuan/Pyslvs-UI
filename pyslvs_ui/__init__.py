@@ -20,7 +20,9 @@ def main() -> None:
     from sys import argv, exit
     from logging import shutdown
     from platform import system
-    from .core.QtModules import Qt, QApplication, QPixmap, QSplashScreen
+    from qtpy.QtCore import Qt
+    from qtpy.QtWidgets import QApplication, QSplashScreen
+    from qtpy.QtGui import QPixmap
     from .core.info import ARGUMENTS, logger
     if ARGUMENTS.test:
         from importlib import import_module

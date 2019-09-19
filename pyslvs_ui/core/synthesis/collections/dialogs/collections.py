@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from copy import deepcopy
 from typing import Dict, Callable, Any
 from pyslvs import collection_list
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Qt,
     QDialog,
     QDialogButtonBox,

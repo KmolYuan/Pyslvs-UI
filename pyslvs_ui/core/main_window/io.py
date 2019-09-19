@@ -21,24 +21,22 @@ from dataclasses import Field, fields
 from lark.exceptions import LarkError
 from pygments.lexers.python import Python3Lexer
 from pyslvs import __version__, parse_params, PMKSLexer
-from pyslvs_ui.core.QtModules import (
-    Slot,
-    qt_image_format,
+from qtpy.QtCore import Slot, QUrl, QFile, QFileInfo, QMimeData
+from qtpy.QtWidgets import (
     QApplication,
     QMessageBox,
-    QDesktopServices,
-    QUrl,
     QInputDialog,
-    QPixmap,
-    QIcon,
-    QFile,
-    QFileInfo,
     QFileDialog,
     QProgressDialog,
-    QMimeData,
+)
+from qtpy.QtGui import (
+    QDesktopServices,
+    QPixmap,
+    QIcon,
     QDragEnterEvent,
     QDropEvent,
 )
+from pyslvs_ui.core.qt_patch import qt_image_format
 from pyslvs_ui.core.info import (
     ARGUMENTS,
     logger,

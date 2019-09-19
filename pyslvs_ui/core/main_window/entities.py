@@ -24,7 +24,7 @@ from pyslvs import (
     edges_view,
     SolverSystem,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     QDialogButtonBox,
     QDialog,

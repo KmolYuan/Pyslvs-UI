@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/synthesis/collections/structure_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
-from pyslvs_ui.core.QtModules import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 
 
 class Ui_Form(object):
@@ -261,4 +260,6 @@ class Ui_Form(object):
         self.configure_button.setText(_translate("Form", "Configure"))
         self.merge_button.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.merge_button.setText(_translate("Form", "Merge"))
+
+
 from pyslvs_ui import icons_rc

@@ -10,7 +10,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from pyslvs_ui.core.QtModules import Qt, QtCharts, QSizePolicy, QFont
+from pyslvs_ui.core.qt_patch import Qt, QtCharts, QSizePolicy, QFont
 
 
 class DataChart(QtCharts.QChart):

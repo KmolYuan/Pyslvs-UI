@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/synthesis/collections/dialogs/customs.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
-from pyslvs_ui.core.QtModules import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 
 
 class Ui_Dialog(object):
@@ -114,4 +113,6 @@ class Ui_Dialog(object):
         self.joint_choose_label.setText(_translate("Dialog", "Joint:"))
         self.add_mj_button.setText(_translate("Dialog", "Add"))
         self.delete_mj_button.setText(_translate("Dialog", "Delete"))
+
+
 from pyslvs_ui import icons_rc

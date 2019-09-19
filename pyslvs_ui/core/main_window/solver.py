@@ -36,7 +36,7 @@ from pyslvs import (
     Graph,
 )
 from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
-from pyslvs_ui.core.QtModules import Slot
+from qtpy.QtCore import Slot
 from pyslvs_ui.core.info import logger, kernel_list
 from .entities import EntitiesMethodInterface
 

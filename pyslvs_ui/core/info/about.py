@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from requests import get as get_url
 from pyslvs import __version__
-from pyslvs_ui.core.QtModules import Qt, QDialog, QWidget, QCoreApplication, QProgressDialog
+from pyslvs_ui.core.qt_patch import Qt, QDialog, QWidget, QCoreApplication, QProgressDialog
 from .info import SYS_INFO, ARGUMENTS
 from .logging_handler import logger
 from .about_ui import Ui_Dialog

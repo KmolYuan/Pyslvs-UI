@@ -36,16 +36,10 @@ from pyslvs import (
     edges_view,
     parse_pos,
 )
-from pyslvs_ui.core.QtModules import (
-    Slot,
-    Qt,
-    QABCMeta,
-    QPointF,
-    QRectF,
+from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF
+from qtpy.QtWidgets import QWidget, QSizePolicy
+from qtpy.QtGui import (
     QPolygonF,
-    QSizeF,
-    QWidget,
-    QSizePolicy,
     QPainter,
     QBrush,
     QPen,
@@ -55,6 +49,7 @@ from pyslvs_ui.core.QtModules import (
     QImage,
     QPaintEvent,
 )
+from pyslvs_ui.core.qt_patch import QABCMeta
 from .color import (
     color_num,
     color_qt,

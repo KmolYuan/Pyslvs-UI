@@ -18,14 +18,12 @@ from pyslvs import (
     external_loop_layout,
     edges_view,
 )
-from pyslvs_ui.core.QtModules import (
-    Qt,
+from qtpy.QtCore import Qt, QSize, QPointF
+from qtpy.QtGui import (
     QImage,
-    QSize,
     QPainter,
     QBrush,
     QPen,
-    QPointF,
     QColor,
     QIcon,
     QPixmap,

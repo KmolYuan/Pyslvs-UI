@@ -27,7 +27,7 @@ from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
 from dataclasses import dataclass, field, fields, Field, astuple
 from pyslvs import VPoint, VLink, color_rgb
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QAction,

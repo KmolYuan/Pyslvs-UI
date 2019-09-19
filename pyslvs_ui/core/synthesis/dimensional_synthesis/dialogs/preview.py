@@ -23,7 +23,7 @@ from pyslvs import (
     VLink,
     parse_vpoints,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QTimer,

@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/entities/edit_link.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
-from pyslvs_ui.core.QtModules import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 
 
 class Ui_Dialog(object):
@@ -101,4 +100,6 @@ class Ui_Dialog(object):
         self.color_label.setText(_translate("Dialog", "Emphatic Color:"))
         self.points_label.setText(_translate("Dialog", "Points:"))
         self.label.setText(_translate("Dialog", ">>"))
+
+
 from pyslvs_ui import icons_rc

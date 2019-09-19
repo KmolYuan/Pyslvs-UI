@@ -18,7 +18,7 @@ from typing import (
     Dict,
     Any,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     QWidget,
     QVBoxLayout,
     QTabWidget,

@@ -8,11 +8,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from pyslvs import color_names, color_rgb
-from pyslvs_ui.core.QtModules import (
+from qtpy.QtCore import QSize
+from qtpy.QtGui import (
     QColor,
     QIcon,
     QPixmap,
-    QSize,
 )
 
 

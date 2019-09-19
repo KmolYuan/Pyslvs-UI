@@ -26,7 +26,7 @@ def gen_ui():
                 f.seek(0)
                 script_new = f.read().replace(
                     "from PyQt5 import",
-                    "from pyslvs_ui.core.QtModules import"
+                    "from qtpy import"
                 )
                 f.seek(0)
                 f.truncate()
@@ -46,7 +46,7 @@ def gen_qrc():
             with open(join(root, target_name), 'r+', encoding='utf-8') as f:
                 script_new = f.read().replace(
                     "from PyQt5 import",
-                    "from pyslvs_ui.core.QtModules import"
+                    "from qtpy import"
                 )
                 f.seek(0)
                 f.truncate()

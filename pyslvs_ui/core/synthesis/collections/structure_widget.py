@@ -25,7 +25,7 @@ from pyslvs import (
     is_planar,
     external_loop_layout,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Signal,
     Slot,
     qt_image_format,

@@ -15,7 +15,7 @@ from typing import (
     Optional,
     Any,
 )
-from pyslvs_ui.core.QtModules import (
+from pyslvs_ui.core.qt_patch import (
     Slot,
     Qt,
     QDialog,
