@@ -29,7 +29,7 @@
 **Development**:
 
 + Remove pre-build requirement of Linux platform.
-+ Use QtPy as Qt switcher.
++ Use QtPy as Qt switcher, use `qt_patch` instead of `QtModules`.
 + Add return None annotations.
 + Peewee module requirement is removed.
 + Separate out the abstract methods of main window base into `main_abc`.
