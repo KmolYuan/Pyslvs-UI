@@ -10,7 +10,6 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING
-from pyslvs import example_list
 from qtpy.QtCore import Signal, QFileInfo, QDateTime
 from qtpy.QtWidgets import (
     QUndoView,
@@ -20,6 +19,7 @@ from qtpy.QtWidgets import (
     QMessageBox,
 )
 from qtpy.QtGui import QPixmap, QIcon
+from pyslvs import example_list
 from pyslvs_ui.core.info import logger, size_format
 from .yaml import YamlEditor
 from .hdf5 import HDF5Editor

@@ -17,13 +17,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    QMessageBox,
-    QInputDialog,
-    QTextCursor,
-    QCloseEvent,
-)
+from qtpy.QtCore import Slot
+from qtpy.QtWidgets import QMessageBox, QInputDialog
+from qtpy.QtGui import QTextCursor, QCloseEvent
 from pyslvs_ui.core.info import XStream, logger
 from .io import IOMethodInterface
 

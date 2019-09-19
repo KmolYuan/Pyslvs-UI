@@ -17,12 +17,9 @@ from typing import (
 from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
-from pyslvs import VPoint
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    Qt,
+from qtpy.QtCore import Slot, Qt, QDir
+from qtpy.QtWidgets import (
     QDialog,
-    QDir,
     QMessageBox,
     QFileDialog,
     QTextEdit,
@@ -34,10 +31,10 @@ from pyslvs_ui.core.qt_patch import (
     QHBoxLayout,
     QSizePolicy,
     QSpacerItem,
-    QIcon,
-    QPixmap,
-    QABCMeta,
 )
+from qtpy.QtGui import QIcon, QPixmap
+from pyslvs import VPoint
+from pyslvs_ui.core.qt_patch import QABCMeta
 from .slvs import slvs_frame, slvs_part
 from .dxf import (
     DXF_VERSIONS,

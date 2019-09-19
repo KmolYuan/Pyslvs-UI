@@ -11,12 +11,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Tuple, Callable
 import numpy as np
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    Qt,
-    QDialog,
-    QMessageBox,
-)
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import QDialog, QMessageBox
 from .path_adjust_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.core.synthesis import DimensionalSynthesis

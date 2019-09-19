@@ -17,6 +17,23 @@ from typing import (
     Dict,
     Iterable,
 )
+from qtpy.QtCore import (
+    Signal,
+    Slot,
+    Qt,
+    QSize,
+    QPointF,
+    QCoreApplication,
+)
+from qtpy.QtWidgets import (
+    QMessageBox,
+    QProgressDialog,
+    QListWidgetItem,
+    QInputDialog,
+    QWidget,
+    QApplication,
+)
+from qtpy.QtGui import QImage, QPainter, QPixmap
 from pyslvs import (
     Graph,
     link_assortment,
@@ -25,24 +42,7 @@ from pyslvs import (
     is_planar,
     external_loop_layout,
 )
-from pyslvs_ui.core.qt_patch import (
-    Signal,
-    Slot,
-    qt_image_format,
-    Qt,
-    QMessageBox,
-    QProgressDialog,
-    QCoreApplication,
-    QListWidgetItem,
-    QInputDialog,
-    QImage,
-    QSize,
-    QWidget,
-    QPainter,
-    QPointF,
-    QPixmap,
-    QApplication,
-)
+from pyslvs_ui.core.qt_patch import qt_image_format
 from pyslvs_ui.core.graphics import (
     graph2icon,
     engine_picker,
@@ -50,12 +50,12 @@ from pyslvs_ui.core.graphics import (
 )
 from .dialogs.targets import TargetsDialog
 from .structure_widget_ui import Ui_Form
+
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
 
 
 class StructureWidget(QWidget, Ui_Form):
-
     """Structure widget.
 
     Preview the structures that was been added in collection list by user.

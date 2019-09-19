@@ -25,29 +25,26 @@ from typing import (
     TypeVar,
     Generic,
 )
+from qtpy.QtCore import Signal, Qt, QTimer, Slot
+from qtpy.QtWidgets import (
+    QTableWidget,
+    QSizePolicy,
+    QAbstractItemView,
+    QTableWidgetItem,
+    QApplication,
+    QTableWidgetSelectionRange,
+    QHeaderView,
+    QLabel,
+    QWidget,
+)
+from qtpy.QtGui import QKeyEvent
 from pyslvs import (
     ExpressionStack,
     Coordinate,
     VPoint,
     VLink,
 )
-from pyslvs_ui.core.qt_patch import (
-    Signal,
-    Qt,
-    QTimer,
-    QTableWidget,
-    QSizePolicy,
-    QAbstractItemView,
-    QTableWidgetItem,
-    Slot,
-    QApplication,
-    QTableWidgetSelectionRange,
-    QHeaderView,
-    QLabel,
-    QWidget,
-    QABCMeta,
-    QKeyEvent,
-)
+from pyslvs_ui.core.qt_patch import QABCMeta
 from pyslvs_ui.core.graphics import color_icon
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase

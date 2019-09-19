@@ -30,19 +30,18 @@ from typing import (
     Optional,
 )
 from abc import abstractmethod
-from pyslvs import VJoint, VPoint, VLink, color_rgb
-from pyslvs_ui.core.qt_patch import (
-    Qt,
-    QABCMeta,
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import (
     QUndoCommand,
     QTableWidgetItem,
     QListWidget,
     QListWidgetItem,
     QLineEdit,
-    QIcon,
-    QPixmap,
     QWidget,
 )
+from qtpy.QtGui import QIcon, QPixmap
+from pyslvs import VJoint, VPoint, VLink, color_rgb
+from pyslvs_ui.core.qt_patch import QABCMeta
 from .tables import (
     BaseTableWidget,
     PointTableWidget,

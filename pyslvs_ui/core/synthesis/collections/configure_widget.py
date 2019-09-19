@@ -21,22 +21,21 @@ from typing import (
 )
 from math import hypot
 import pprint
-from pyslvs import (
-    Graph,
-    edges_view,
-    graph2vpoints,
-    parse_pos,
-)
-from pyslvs_ui.core.qt_patch import (
-    Signal,
+from qtpy.QtCore import Signal, Slot
+from qtpy.QtWidgets import (
     QWidget,
-    Slot,
     QMessageBox,
     QInputDialog,
     QListWidgetItem,
     QLabel,
     QApplication,
-    QMouseEvent,
+)
+from qtpy.QtGui import QMouseEvent
+from pyslvs import (
+    Graph,
+    edges_view,
+    graph2vpoints,
+    parse_pos,
 )
 from pyslvs_ui.core.graphics import PreviewCanvas
 from .dialogs import (

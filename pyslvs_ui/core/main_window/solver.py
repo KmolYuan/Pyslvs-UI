@@ -20,6 +20,7 @@ from typing import (
 from math import radians, cos, sin
 from abc import ABC, abstractmethod
 from traceback import format_exc
+from qtpy.QtCore import Slot
 from pyslvs import (
     edges_view,
     graph2vpoints,
@@ -36,7 +37,6 @@ from pyslvs import (
     Graph,
 )
 from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
-from qtpy.QtCore import Slot
 from pyslvs_ui.core.info import logger, kernel_list
 from .entities import EntitiesMethodInterface
 

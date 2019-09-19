@@ -20,7 +20,6 @@ from abc import ABC
 from dataclasses import Field, fields
 from lark.exceptions import LarkError
 from pygments.lexers.python import Python3Lexer
-from pyslvs import __version__, parse_params, PMKSLexer
 from qtpy.QtCore import Slot, QUrl, QFile, QFileInfo, QMimeData
 from qtpy.QtWidgets import (
     QApplication,
@@ -36,6 +35,7 @@ from qtpy.QtGui import (
     QDragEnterEvent,
     QDropEvent,
 )
+from pyslvs import __version__, parse_params, PMKSLexer
 from pyslvs_ui.core.qt_patch import qt_image_format
 from pyslvs_ui.core.info import (
     ARGUMENTS,

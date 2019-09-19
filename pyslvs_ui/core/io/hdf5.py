@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict, Union, Any
 from h5py import File, Dataset, Group
 from numpy import array, int8
-from pyslvs_ui.core.qt_patch import QMessageBox
+from qtpy.QtWidgets import QMessageBox
 from .format_editor import FormatEditor
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase

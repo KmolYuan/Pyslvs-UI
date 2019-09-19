@@ -18,21 +18,21 @@ from typing import (
     Dict,
     Union,
 )
-from pyslvs_ui.core.qt_patch import (
+from qtpy.QtCore import (
     Slot,
     Qt,
-    QApplication,
     QRectF,
     QPoint,
     QPointF,
     QSizeF,
+)
+from qtpy.QtWidgets import QApplication, QToolTip, QWidget
+from qtpy.QtGui import (
     QRegion,
     QCursor,
-    QToolTip,
     QWheelEvent,
     QPixmap,
     QImage,
-    QWidget,
 )
 from .main_canvas_method import DynamicCanvasInterface, FreeMode, SelectMode
 if TYPE_CHECKING:

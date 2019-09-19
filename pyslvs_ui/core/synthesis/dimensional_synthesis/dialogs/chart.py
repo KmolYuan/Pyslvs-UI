@@ -7,19 +7,16 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from pyslvs_ui.core.qt_patch import (
+from qtpy.QtCore import Qt, QSize, QPointF
+from qtpy.QtWidgets import (
     QDialog,
-    Qt,
-    QSize,
     QVBoxLayout,
     QTabWidget,
-    QtCharts,
-    QColor,
-    QPointF,
     QWidget,
-    QIcon,
     QSizePolicy,
 )
+from qtpy.QtGui import QColor, QIcon
+from qtpy.QtCharts import QtCharts
 from pyslvs_ui.core.graphics import DataChart
 
 

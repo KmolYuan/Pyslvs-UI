@@ -27,26 +27,24 @@ import pprint
 from copy import deepcopy
 from re import split as char_split
 from openpyxl import load_workbook
+from qtpy.QtCore import Slot, QModelIndex
+from qtpy.QtWidgets import (
+    QWidget,
+    QApplication,
+    QMessageBox,
+    QHeaderView,
+    QListWidgetItem,
+    QInputDialog,
+    QDoubleSpinBox,
+    QTableWidgetItem,
+)
+from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import (
     vpoints_configure,
     expr_solving,
     parse_pos,
     parse_vpoints,
     parse_vlinks,
-)
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    QWidget,
-    QModelIndex,
-    QApplication,
-    QMessageBox,
-    QHeaderView,
-    QListWidgetItem,
-    QIcon,
-    QPixmap,
-    QInputDialog,
-    QDoubleSpinBox,
-    QTableWidgetItem,
 )
 from pyslvs_ui.core.graphics import PreviewCanvas
 from pyslvs_ui.core.synthesis import CollectionsDialog

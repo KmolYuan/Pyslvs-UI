@@ -7,12 +7,8 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from pyslvs_ui.core.qt_patch import (
-    Qt,
-    QGraphicsView,
-    QGraphicsScene,
-    QSize,
-)
+from qtpy.QtCore import Qt, QSize
+from qtpy.QtWidgets import QGraphicsView, QGraphicsScene
 
 
 class RotatableView(QGraphicsView):

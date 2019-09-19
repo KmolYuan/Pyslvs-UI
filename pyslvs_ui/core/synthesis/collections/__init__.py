@@ -18,13 +18,8 @@ from typing import (
     Dict,
     Any,
 )
-from pyslvs_ui.core.qt_patch import (
-    QWidget,
-    QVBoxLayout,
-    QTabWidget,
-    QIcon,
-    QPixmap,
-)
+from qtpy.QtWidgets import QWidget, QVBoxLayout, QTabWidget
+from qtpy.QtGui import QIcon, QPixmap
 from .structure_widget import StructureWidget
 from .configure_widget import ConfigureWidget
 from .dialogs import CollectionsDialog

@@ -13,14 +13,10 @@ from typing import (
     Dict,
     Any,
 )
+from qtpy.QtCore import QObject, QFileInfo, QCoreApplication
+from qtpy.QtWidgets import QProgressDialog
 from pyslvs import __version__, VJoint
-from pyslvs_ui.core.qt_patch import (
-    QObject,
-    QFileInfo,
-    QProgressDialog,
-    QCoreApplication,
-    QABCMeta,
-)
+from pyslvs_ui.core.qt_patch import QABCMeta
 from pyslvs_ui.core.info import logger
 from .overview import OverviewDialog
 if TYPE_CHECKING:

@@ -26,21 +26,22 @@ from typing import (
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
 from dataclasses import dataclass, field, fields, Field, astuple
-from pyslvs import VPoint, VLink, color_rgb
-from pyslvs_ui.core.qt_patch import (
+from qtpy.QtCore import (
     Slot,
     Qt,
-    QAction,
-    QMenu,
-    QIcon,
-    QPixmap,
     QPoint,
-    QLabel,
-    QPushButton,
     QDir,
     QSettings,
+)
+from qtpy.QtWidgets import (
+    QAction,
+    QMenu,
+    QLabel,
+    QPushButton,
     QUndoStack,
 )
+from qtpy.QtGui import QIcon, QPixmap
+from pyslvs import VPoint, VLink, color_rgb
 from pyslvs_ui.core.info import ARGUMENTS, logger, kernel_list
 from pyslvs_ui.core.io import ProjectWidget
 from pyslvs_ui.core.synthesis import StructureSynthesis, Collections, DimensionalSynthesis

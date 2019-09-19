@@ -8,17 +8,15 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List
-from pyslvs import VPoint, VLink
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    Qt,
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import (
     QDialog,
-    QIcon,
-    QPixmap,
     QListWidgetItem,
     QColorDialog,
     QWidget,
 )
+from qtpy.QtGui import QIcon, QPixmap
+from pyslvs import VPoint, VLink
 from pyslvs_ui.core.graphics import color_names, color_qt, color_icon
 from .edit_point_ui import Ui_Dialog
 

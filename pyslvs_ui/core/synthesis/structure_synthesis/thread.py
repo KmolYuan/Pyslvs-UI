@@ -8,14 +8,14 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Sequence
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QWidget, QTreeWidgetItem
 from pyslvs import (
     link_synthesis,
     contracted_link_synthesis,
     contracted_graph,
     conventional_graph,
 )
-from qtpy.QtCore import Signal
-from qtpy.QtWidgets import QWidget, QTreeWidgetItem
 from pyslvs_ui.core.synthesis.thread import BaseThread
 
 Assortment = Sequence[int]

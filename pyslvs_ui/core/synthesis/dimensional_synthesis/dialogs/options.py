@@ -15,9 +15,8 @@ from typing import (
     Optional,
     Any,
 )
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    Qt,
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import (
     QDialog,
     QTableWidgetItem,
     QDoubleSpinBox,

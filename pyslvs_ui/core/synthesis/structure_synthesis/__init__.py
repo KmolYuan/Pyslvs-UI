@@ -19,35 +19,34 @@ from typing import (
     Optional,
 )
 from time import perf_counter
-from pyslvs import (
-    Graph,
-    link_assortment,
-    contracted_link_assortment,
-)
-from pyslvs_ui.core.qt_patch import (
+from qtpy.QtCore import (
     Slot,
-    qt_image_format,
     Qt,
+    QSize,
+    QCoreApplication,
+    QPoint,
+    QPointF,
+)
+from qtpy.QtWidgets import (
     QWidget,
     QMenu,
     QAction,
-    QIcon,
-    QPixmap,
     QProgressDialog,
-    QSize,
-    QCoreApplication,
     QMessageBox,
-    QPoint,
     QApplication,
-    QImage,
-    QPainter,
-    QPointF,
     QInputDialog,
     QScrollBar,
     QListWidgetItem,
     QTreeWidgetItem,
     QHeaderView,
 )
+from qtpy.QtGui import QIcon, QPixmap, QImage, QPainter
+from pyslvs import (
+    Graph,
+    link_assortment,
+    contracted_link_assortment,
+)
+from pyslvs_ui.core.qt_patch import qt_image_format
 from pyslvs_ui.core.graphics import graph2icon, engines
 from .thread import (
     assortment_eval,

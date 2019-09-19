@@ -30,12 +30,6 @@ from math import (
     isnan,
 )
 from functools import reduce
-from pyslvs import (
-    VPoint,
-    Graph,
-    edges_view,
-    parse_pos,
-)
 from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QWidget, QSizePolicy
 from qtpy.QtGui import (
@@ -48,6 +42,12 @@ from qtpy.QtGui import (
     QPainterPath,
     QImage,
     QPaintEvent,
+)
+from pyslvs import (
+    VPoint,
+    Graph,
+    edges_view,
+    parse_pos,
 )
 from pyslvs_ui.core.qt_patch import QABCMeta
 from .color import (

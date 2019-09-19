@@ -16,8 +16,10 @@ from typing import (
     Any,
 )
 from abc import abstractmethod
+from qtpy.QtCore import Qt, QPoint
+from qtpy.QtWidgets import QMainWindow
 from pyslvs import Graph, VPoint
-from pyslvs_ui.core.qt_patch import Qt, QMainWindow, QPoint, QABCMeta
+from pyslvs_ui.core.qt_patch import QABCMeta
 from .main_ui import Ui_MainWindow
 
 _Coord = Tuple[float, float]

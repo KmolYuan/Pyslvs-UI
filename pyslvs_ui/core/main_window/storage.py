@@ -9,7 +9,6 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Dict, Optional
 from abc import ABC
-from pyslvs import parse_params
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import (
     QApplication,
@@ -17,6 +16,7 @@ from qtpy.QtWidgets import (
     QInputDialog,
     QMessageBox,
 )
+from pyslvs import parse_params
 from pyslvs_ui.core.widgets import (
     AddStorage,
     DeleteStorage,

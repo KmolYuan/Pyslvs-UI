@@ -18,14 +18,8 @@ from typing import (
 )
 from abc import ABC
 from itertools import chain
-from pyslvs import (
-    VJoint,
-    Graph,
-    edges_view,
-    SolverSystem,
-)
-from pyslvs_ui.core.qt_patch import (
-    Slot,
+from qtpy.QtCore import Slot
+from qtpy.QtWidgets import (
     QDialogButtonBox,
     QDialog,
     QDoubleSpinBox,
@@ -34,6 +28,12 @@ from pyslvs_ui.core.qt_patch import (
     QVBoxLayout,
     QComboBox,
     QMessageBox,
+)
+from pyslvs import (
+    VJoint,
+    Graph,
+    edges_view,
+    SolverSystem,
 )
 from pyslvs_ui.core.entities import EditPointDialog, EditLinkDialog
 from pyslvs_ui.core.widgets import (

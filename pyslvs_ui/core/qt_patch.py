@@ -12,12 +12,9 @@ __email__ = "pyslvs@gmail.com"
 
 from abc import ABCMeta
 from qtpy import QtCore, API_NAME
-from qtpy.QtCore import *
 from importlib import import_module
 if API_NAME == 'PyQt5':
-    qt = import_module('PyQt5.QtCore')
-    API = f"{API_NAME} {qt.PYQT_VERSION_STR}"
-    del qt
+    API = f"{API_NAME} {QtCore.PYQT_VERSION_STR}"
 elif API_NAME == 'PySide2':
     qt = import_module('PySide2')
     API = f"{API_NAME} {qt.__version__}"
@@ -44,7 +41,7 @@ qt_image_format = (
 )
 
 
-class QABCMeta(type(QObject), ABCMeta):
+class QABCMeta(type(QtCore.QObject), ABCMeta):
     """Qt ABCMeta class.
 
     Usage:

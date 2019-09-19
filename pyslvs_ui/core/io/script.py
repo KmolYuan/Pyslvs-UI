@@ -22,21 +22,18 @@ from pygments import highlight
 from pygments.lexer import RegexLexer
 from pygments.formatters.html import HtmlFormatter
 from pygments.styles import get_style_by_name, get_all_styles
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    Qt,
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import (
     QApplication,
     QDialog,
     QTextEdit,
     QWidget,
-    QIcon,
-    QPixmap,
     QLabel,
     QVBoxLayout,
     QLineEdit,
     QSizePolicy,
-    QWheelEvent,
 )
+from qtpy.QtGui import QIcon, QPixmap, QWheelEvent
 from .script_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase

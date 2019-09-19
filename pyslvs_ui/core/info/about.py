@@ -8,8 +8,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from requests import get as get_url
+from qtpy.QtCore import Qt, QCoreApplication
+from qtpy.QtWidgets import QDialog, QWidget, QProgressDialog
 from pyslvs import __version__
-from pyslvs_ui.core.qt_patch import Qt, QDialog, QWidget, QCoreApplication, QProgressDialog
 from .info import SYS_INFO, ARGUMENTS
 from .logging_handler import logger
 from .about_ui import Ui_Dialog

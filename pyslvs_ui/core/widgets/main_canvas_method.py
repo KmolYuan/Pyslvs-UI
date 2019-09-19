@@ -27,7 +27,6 @@ from math import (
     hypot,
 )
 from itertools import chain
-from pyslvs import VJoint, VPoint, VLink
 from qtpy.QtCore import Signal, Qt, QRectF, QPoint, QPointF, QLineF
 from qtpy.QtWidgets import QApplication
 from qtpy.QtGui import (
@@ -38,6 +37,7 @@ from qtpy.QtGui import (
     QPaintEvent,
     QMouseEvent,
 )
+from pyslvs import VJoint, VPoint, VLink
 from pyslvs_ui.core.graphics import convex_hull, BaseCanvas, color_qt
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase

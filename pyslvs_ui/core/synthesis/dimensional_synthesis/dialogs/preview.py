@@ -16,26 +16,15 @@ from typing import (
     Sequence,
     Any,
 )
+from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
+from qtpy.QtWidgets import QDialog, QWidget
+from qtpy.QtGui import QPen, QColor, QFont, QPaintEvent
 from pyslvs import (
     color_rgb,
     get_vlinks,
     VPoint,
     VLink,
     parse_vpoints,
-)
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    Qt,
-    QTimer,
-    QPen,
-    QColor,
-    QPointF,
-    QFont,
-    QRectF,
-    QSizeF,
-    QDialog,
-    QWidget,
-    QPaintEvent,
 )
 from pyslvs_ui.core.graphics import BaseCanvas, color_qt
 from .preview_ui import Ui_Dialog

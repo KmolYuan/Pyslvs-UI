@@ -18,20 +18,17 @@ from typing import (
     Iterator,
     Optional,
 )
-from pyslvs import VJoint
-from pyslvs_ui.core.qt_patch import (
-    Signal,
-    Slot,
+from qtpy.QtCore import Signal, Slot, QTimer, QPoint
+from qtpy.QtWidgets import (
     QWidget,
     QDial,
-    QTimer,
     QMenu,
     QMessageBox,
     QInputDialog,
     QListWidgetItem,
-    QPoint,
     QApplication,
 )
+from pyslvs import VJoint
 from pyslvs_ui.core.info import logger
 from .rotatable import RotatableView
 from .inputs_ui import Ui_Form

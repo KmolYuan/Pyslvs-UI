@@ -12,14 +12,14 @@ from time import perf_counter
 from platform import system, release, machine
 from psutil import virtual_memory
 from numpy.distutils.cpuinfo import cpu
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QWidget
 from pyslvs import (
     Genetic,
     Firefly,
     Differential,
     Planar,
 )
-from qtpy.QtCore import Signal
-from qtpy.QtWidgets import QWidget
 from pyslvs_ui.core.info import logger
 from pyslvs_ui.core.synthesis.thread import BaseThread
 from .options import AlgorithmType

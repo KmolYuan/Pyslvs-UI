@@ -8,13 +8,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from pyslvs_ui.core.qt_patch import (
-    Slot,
-    QABCMeta,
-    QThread,
-    QWidget,
-    QMutex,
-)
+from qtpy.QtCore import Slot, QThread, QMutex
+from qtpy.QtWidgets import QWidget
+from pyslvs_ui.core.qt_patch import QABCMeta
 
 
 class BaseThread(QThread, metaclass=QABCMeta):

@@ -9,17 +9,16 @@ __email__ = "pyslvs@gmail.com"
 
 from copy import deepcopy
 from typing import Dict, Callable, Any
-from pyslvs import collection_list
-from pyslvs_ui.core.qt_patch import (
-    Qt,
+from qtpy.QtCore import Qt, Slot
+from qtpy.QtWidgets import (
     QDialog,
     QDialogButtonBox,
-    Slot,
     QInputDialog,
     QMessageBox,
     QListWidgetItem,
     QWidget,
 )
+from pyslvs import collection_list
 from pyslvs_ui.core.graphics import PreviewCanvas
 from .collections_ui import Ui_Dialog
 
