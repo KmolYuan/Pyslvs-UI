@@ -9,7 +9,7 @@ matrix:
       python: "3.7"
       dist: xenial
       deploy:
-        - &appimage-deploy
+        - &executable-deploy
           provider: releases
           overwrite: true
           api_key: $TRAVIS_TOKEN
@@ -42,7 +42,7 @@ matrix:
       language: generic
       env: PYTHON=3.7.0
       deploy:
-        - <<: *appimage-deploy
+        - <<: *executable-deploy
           file: dist/pyslvs-*.app.zip
         - <<: *pypi-deploy
 
@@ -93,6 +93,7 @@ cache:
     - $HOME/.cache/pip
 
 after_success:
+  # PyPI deployment
   - if [[ "$TRAVIS_OS_NAME" == "osx" && -n "$TRAVIS_TAG" ]]; then
     python3 -m pip install twine;
     python3 setup.py sdist bdist_wheel;

@@ -1,5 +1,5 @@
 # AppVeyor for Pyslvs-UI
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 platform:
   - x64
@@ -7,13 +7,12 @@ platform:
 environment:
   matrix:
 
-    - MINGW_DIR: &mingw C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
-      MSYS_DIR: &msys2 C:\msys64
+    - MSYS_DIR: &msys2 C:\msys64
       PYTHON_DIR: C:\Python37-x64
 
 install:
   # Environment variables
-  - set Path=%MINGW_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
+  - set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
   - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
 
   # Show Python
