@@ -334,7 +334,10 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     @Slot(float, float)
     def add_point_by_pos(self, x: float, y: float) -> None:
         """Add point group using alt key."""
-        if self.main_panel.currentIndex() == self.synthesis_tab_widget.currentIndex() == 2:
+        if (
+            self.main_panel.currentWidget() is self.synthesis_tab
+            and self.synthesis_tab_widget.currentWidget() is self.dimensional_synthesis
+        ):
             self.add_target_point()
         else:
             self.add_point(x, y)

@@ -96,6 +96,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.merge_result = parent.merge_result
         self.update_ranges = parent.main_canvas.update_ranges
         self.set_solving_path = parent.main_canvas.set_solving_path
+        self.prefer = parent.prefer
 
         # Data and functions
         self.mechanism_data: List[Dict[str, Any]] = []
@@ -622,7 +623,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.collections,
             self.get_collection,
             self.workbook_no_save,
-            self.preview_canvas.show_ticks,
+            self.prefer.tick_mark_option,
             self.preview_canvas.monochrome,
             self
         )

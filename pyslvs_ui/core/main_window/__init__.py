@@ -105,9 +105,10 @@ class MainWindow(IOMethodInterface):
     @Slot(int, name='on_synthesis_tab_widget_currentChanged')
     def __set_show_target_path(self, _=None) -> None:
         """Dimensional synthesis information will show on the canvas."""
-        panel_index = self.main_panel.currentIndex()
-        synthesis_index = self.synthesis_tab_widget.currentIndex()
-        self.main_canvas.set_show_target_path(panel_index == synthesis_index == 2)
+        self.main_canvas.set_show_target_path(
+            self.main_panel.currentWidget() is self.synthesis_tab
+            and self.synthesis_tab_widget.currentWidget() is self.dimensional_synthesis
+        )
 
     def add_target_point(self) -> None:
         """Use context menu to add a target path coordinate."""

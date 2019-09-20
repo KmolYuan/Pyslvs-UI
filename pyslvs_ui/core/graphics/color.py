@@ -8,11 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from qtpy.QtCore import QSize
-from qtpy.QtGui import (
-    QColor,
-    QIcon,
-    QPixmap,
-)
+from qtpy.QtGui import QColor, QIcon, QPixmap
 from pyslvs import color_names, color_rgb
 
 

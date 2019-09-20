@@ -145,6 +145,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.workbook_no_save = parent.workbook_no_save
         self.get_configure = parent.get_configure
         self.add_collection = add_collection
+        self.prefer = parent.prefer
 
         # Iteration data
         self.collections: Dict[str, Dict[str, Any]] = {}
@@ -360,7 +361,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.collections,
             self.get_configure,
             self.workbook_no_save,
-            self.configure_canvas.show_ticks,
+            self.prefer.tick_mark_option,
             self.configure_canvas.monochrome,
             self
         )

@@ -36,7 +36,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         collections: Dict[str, Any],
         get_collection: Callable[[], Dict[str, Any]],
         workbook_no_save: Callable[[], None],
-        show_ticks: bool,
+        show_ticks: int,
         monochrome: bool,
         parent: QWidget
     ):
