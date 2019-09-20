@@ -20,11 +20,12 @@ These data called "workbook" or "Pyslvs project" in the UI.
 
 ## Features of Formats
 
-| Attributes | YAML |
-|:----------:|:----:|
-| is default | yes |
-| suffix | `.pyslvs.yml` |
-| base | text |
-| file size | larger |
-| file lock | when saving |
-| version recording | no |
+The saving option will changed when loaded a different type of format.
+
+| Attributes | YAML | compressed YAML | HDF5 |
+|:----------:|:----:|:---------------:|:----:|
+| is default | yes | no | no |
+| suffix | `.pyslvs` | `.pyslvs` | `.pyslvs` |
+| base | text | text | binary |
+| file size | blocked YAML | one line YAML | the path data will be smaller |
+| file lock | when saving | when saving | when saving |

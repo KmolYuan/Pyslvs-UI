@@ -76,7 +76,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         """Save file method."""
         data = {
             'pyslvs_ver': __version__,
-            'mechanism': "M[" + ", ".join([p.expr() for p in self.vpoints]) + "]",
+            'file_type': self.prefer.file_type_option,
+            'mechanism': "M[" + ", ".join(p.expr() for p in self.vpoints) + "]",
             'links': {l.name: l.color_str for l in self.vlinks},
             'input': [(b, d) for b, d, _ in self.input_pairs()],
             'storage': self.get_storage(),
@@ -187,6 +188,9 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Workbook loaded
         dlg.setValue(8)
         dlg.deleteLater()
+
+        # File type option align (ignore previous one)
+        self.prefer.file_type_option = data.get('file_type', 0)
 
         # Show overview dialog
         dlg = OverviewDialog(
