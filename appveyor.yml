@@ -1,8 +1,6 @@
 # AppVeyor for Pyslvs-UI
 image: Visual Studio 2019
-
-platform:
-  - x64
+platform: x64
 
 environment:
   matrix:
