@@ -24,6 +24,7 @@ from pyslvs_ui.core.info import logger, size_format
 from .yaml import YamlEditor
 from .hdf5 import HDF5Editor
 from .project_ui import Ui_Form
+from .format_editor import PROJECT_FORMAT
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
 
@@ -98,7 +99,7 @@ class ProjectWidget(QWidget, Ui_Form):
         if is_example:
             t = "Example (In memory)"
         elif self.file_exist():
-            t = "File"
+            t = f"File ({PROJECT_FORMAT[self.prefer.file_type_option]})"
         else:
             t = "In memory"
         self.type_label.setText(t)

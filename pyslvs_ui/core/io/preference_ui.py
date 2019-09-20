@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(763, 508)
+        Dialog.resize(819, 508)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -238,9 +238,6 @@ class Ui_Dialog(object):
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.file_type_label)
         self.file_type_option = QtWidgets.QComboBox(self.settings_project_groupbox)
         self.file_type_option.setObjectName("file_type_option")
-        self.file_type_option.addItem("")
-        self.file_type_option.addItem("")
-        self.file_type_option.addItem("")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.file_type_option)
         self.verticalLayout.addWidget(self.settings_project_groupbox)
         self.settings_misc_groupBox = QtWidgets.QGroupBox(Dialog)
@@ -308,9 +305,6 @@ class Ui_Dialog(object):
         self.open_project_actions_option.setItemText(1, _translate("Dialog", "Group with macros"))
         self.open_project_actions_option.setItemText(2, _translate("Dialog", "No group"))
         self.file_type_label.setText(_translate("Dialog", "File type:"))
-        self.file_type_option.setItemText(0, _translate("Dialog", "YAML (pyyaml)"))
-        self.file_type_option.setItemText(1, _translate("Dialog", "Compressed YAML (pyyaml)"))
-        self.file_type_option.setItemText(2, _translate("Dialog", "HDF5 (h5py)"))
         self.settings_misc_groupBox.setTitle(_translate("Dialog", "Misc"))
         self.title_full_path_option.setText(_translate("Dialog", "Show full file path on window title."))
         self.not_save_option.setText(_translate("Dialog", "Don\'t save Pyslvs options to local."))

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>763</width>
+    <width>819</width>
     <height>508</height>
    </rect>
   </property>
@@ -485,23 +485,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="file_type_option">
-            <item>
-             <property name="text">
-              <string>YAML (pyyaml)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Compressed YAML (pyyaml)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>HDF5 (h5py)</string>
-             </property>
-            </item>
-           </widget>
+           <widget class="QComboBox" name="file_type_option"/>
           </item>
          </layout>
         </widget>

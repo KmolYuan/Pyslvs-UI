@@ -25,6 +25,7 @@ from qtpy.QtGui import QCloseEvent
 from pyslvs_ui.core.qt_patch import qt_image_format
 from pyslvs_ui.core.info import kernel_list
 from pyslvs_ui.core.widgets import Preferences
+from .format_editor import PROJECT_FORMAT
 from .preference_ui import Ui_Dialog
 
 
@@ -35,6 +36,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     def __init__(self, parent: MainWindowBase):
         super(PreferencesDialog, self).__init__(parent)
         self.setupUi(self)
+        self.file_type_option.addItems(PROJECT_FORMAT)
         self.input_from = parent.input_from
         self.planar_solver_option.addItems(kernel_list)
         self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))

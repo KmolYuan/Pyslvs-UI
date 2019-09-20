@@ -22,6 +22,12 @@ from .overview import OverviewDialog
 if TYPE_CHECKING:
     from pyslvs_ui.core.widgets import MainWindowBase
 
+PROJECT_FORMAT = (
+    "YAML",
+    "Compressed YAML",
+    "HDF5",
+)
+
 
 class FormatEditor(QObject, metaclass=QABCMeta):
 
