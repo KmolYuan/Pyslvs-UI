@@ -74,7 +74,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     def save_data(self) -> Dict[str, Any]:
         """Save file method."""
-        return {
+        data = {
             'pyslvs_ver': __version__,
             'mechanism': "M[" + ", ".join([p.expr() for p in self.vpoints]) + "]",
             'links': {l.name: l.color_str for l in self.vlinks},
@@ -85,6 +85,10 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             'algorithm': self.algorithm_data,
             'path': self.path_data(),
         }
+        for k, v in tuple(data.items()):
+            if not v:
+                data.pop(k)
+        return data
 
     def load_data(self, file_name: str, data: Dict[str, Any]) -> None:
         """Load file method."""
