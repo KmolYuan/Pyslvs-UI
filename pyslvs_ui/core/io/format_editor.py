@@ -15,7 +15,7 @@ from typing import (
 )
 from qtpy.QtCore import QObject, QFileInfo, QCoreApplication
 from qtpy.QtWidgets import QProgressDialog
-from pyslvs import __version__, VJoint
+from pyslvs import __version__
 from pyslvs_ui.core.qt_patch import QABCMeta
 from pyslvs_ui.core.info import logger
 from .overview import OverviewDialog
@@ -53,6 +53,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Add empty links function
         self.add_empty_links = parent.add_empty_links
         # Add points function
+        self.parse_expression = parent.parse_expression
         self.add_points = parent.add_points
 
         # Call to load inputs variables data
@@ -73,20 +74,9 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     def save_data(self) -> Dict[str, Any]:
         """Save file method."""
-        mechanism_data = []
-        for vpoint in self.vpoints:
-            attr = {
-                'links': vpoint.links,
-                'type': vpoint.type,
-                'x': vpoint.x,
-                'y': vpoint.y,
-            }
-            if vpoint.type in {VJoint.P, VJoint.RP}:
-                attr['angle'] = vpoint.angle
-            mechanism_data.append(attr)
         return {
             'pyslvs_ver': __version__,
-            'mechanism': mechanism_data,
+            'mechanism': "M[" + ", ".join([p.expr() for p in self.vpoints]) + "]",
             'links': {l.name: l.color_str for l in self.vlinks},
             'input': [(b, d) for b, d, _ in self.input_pairs()],
             'storage': self.get_storage(),
@@ -116,18 +106,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.__set_group("Add mechanism")
         links_data: Dict[str, str] = data.get('links', {})
         self.add_empty_links(links_data)
-        mechanism_data: List[Dict[str, Any]] = data.get('mechanism', [])
-        p_attr = []
-        nan = float("nan")
-        for point_attr in mechanism_data:
-            QCoreApplication.processEvents()
-            p_x: float = point_attr.get('x', nan)
-            p_y: float = point_attr.get('y', nan)
-            p_links: Tuple[str] = point_attr.get('links', ())
-            p_type: int = point_attr.get('type', 0)
-            p_angle: float = point_attr.get('angle', 0.)
-            p_attr.append((p_x, p_y, ','.join(p_links), 'Green', p_type, p_angle))
-        self.add_points(p_attr)
+        mechanism_data: str = data.get('mechanism', "")
+        self.parse_expression(mechanism_data)
         self.__end_group()
 
         # Input data
