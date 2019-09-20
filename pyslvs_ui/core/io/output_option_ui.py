@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/io/output_option.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -137,6 +138,4 @@ class Ui_Dialog(object):
         self.groupBox.setTitle(_translate("Dialog", "Write mode"))
         self.overwrite_radio.setText(_translate("Dialog", "A&lways overwrite"))
         self.warn_radio.setText(_translate("Dialog", "Warning &me then back to this dialog"))
-
-
 from pyslvs_ui import icons_rc

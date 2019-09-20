@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/info/about.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -116,6 +117,4 @@ class Ui_Dialog(object):
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.VersionsTab), _translate("Dialog", "Versions"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.ArgumentsTab), _translate("Dialog", "Arguments"))
         self.button_box.setWhatsThis(_translate("Dialog", "Click to exit"))
-
-
 from pyslvs_ui import icons_rc

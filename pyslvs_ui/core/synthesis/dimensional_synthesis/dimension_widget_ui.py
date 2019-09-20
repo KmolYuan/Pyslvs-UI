@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/synthesis/dimensional_synthesis/dimension_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -366,6 +367,4 @@ class Ui_Form(object):
         self.result_load_settings.setStatusTip(_translate("Form", "Load the setting of this result."))
         self.delete_button.setStatusTip(_translate("Form", "Delete this result."))
         self.merge_button.setStatusTip(_translate("Form", "Merge this result to canvas."))
-
-
 from pyslvs_ui import icons_rc

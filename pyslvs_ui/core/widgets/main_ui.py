@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/widgets/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -651,6 +652,4 @@ class Ui_MainWindow(object):
         self.action_set_link_length.setText(_translate("MainWindow", "Se&t Link Length"))
         self.action_preference.setText(_translate("MainWindow", "Preferences"))
         self.action_preference.setShortcut(_translate("MainWindow", "F2"))
-
-
 from pyslvs_ui import icons_rc

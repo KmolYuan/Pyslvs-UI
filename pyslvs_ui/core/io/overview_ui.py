@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/io/overview.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -129,6 +130,4 @@ class Ui_Dialog(object):
         self.toolBox.setItemText(self.toolBox.indexOf(self.page2), _translate("Dialog", "Collections"))
         self.results_label.setText(_translate("Dialog", "Results:"))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page3), _translate("Dialog", "Dimensional Synthesis"))
-
-
 from pyslvs_ui import icons_rc

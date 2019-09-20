@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/core/io/project.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from qtpy import QtCore, QtGui, QtWidgets
 
@@ -12,12 +13,12 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(431, 781)
+        Form.resize(415, 781)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/id.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
-        self.main_layout = QtWidgets.QVBoxLayout(Form)
-        self.main_layout.setObjectName("main_layout")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
         self.file_name_title = QtWidgets.QLabel(Form)
@@ -58,20 +59,25 @@ class Ui_Form(object):
         self.type_label = QtWidgets.QLabel(Form)
         self.type_label.setObjectName("type_label")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.type_label)
-        self.main_layout.addLayout(self.formLayout)
+        self.verticalLayout_2.addLayout(self.formLayout)
         self.line = QtWidgets.QFrame(Form)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.main_layout.addWidget(self.line)
+        self.verticalLayout_2.addWidget(self.line)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.overview_button = QtWidgets.QPushButton(Form)
         self.overview_button.setIcon(icon)
         self.overview_button.setObjectName("overview_button")
-        self.main_layout.addWidget(self.overview_button)
+        self.horizontalLayout_2.addWidget(self.overview_button)
         self.ex_expression_button = QtWidgets.QPushButton(Form)
         self.ex_expression_button.setIcon(icon)
         self.ex_expression_button.setObjectName("ex_expression_button")
-        self.main_layout.addWidget(self.ex_expression_button)
+        self.horizontalLayout_2.addWidget(self.ex_expression_button)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.export_group = QtWidgets.QGroupBox(Form)
         self.export_group.setObjectName("export_group")
         self.gridLayout = QtWidgets.QGridLayout(self.export_group)
@@ -80,7 +86,7 @@ class Ui_Form(object):
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/icons/dxf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ex_dxf_button.setIcon(icon1)
-        self.ex_dxf_button.setIconSize(QtCore.QSize(100, 50))
+        self.ex_dxf_button.setIconSize(QtCore.QSize(50, 50))
         self.ex_dxf_button.setObjectName("ex_dxf_button")
         self.gridLayout.addWidget(self.ex_dxf_button, 0, 0, 1, 1)
         self.ex_slvs_button = QtWidgets.QPushButton(self.export_group)
@@ -118,27 +124,28 @@ class Ui_Form(object):
         self.ex_capture_button.setIconSize(QtCore.QSize(50, 50))
         self.ex_capture_button.setObjectName("ex_capture_button")
         self.gridLayout.addWidget(self.ex_capture_button, 1, 2, 1, 1)
-        self.main_layout.addWidget(self.export_group)
+        self.horizontalLayout.addWidget(self.export_group)
         self.import_group = QtWidgets.QGroupBox(Form)
         self.import_group.setObjectName("import_group")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.import_group)
-        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.import_group)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.im_example_button = QtWidgets.QPushButton(self.import_group)
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/icons/example.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.im_example_button.setIcon(icon7)
         self.im_example_button.setIconSize(QtCore.QSize(50, 50))
         self.im_example_button.setObjectName("im_example_button")
-        self.gridLayout_2.addWidget(self.im_example_button, 0, 1, 1, 1)
+        self.verticalLayout.addWidget(self.im_example_button)
         self.im_pmks_button = QtWidgets.QPushButton(self.import_group)
         self.im_pmks_button.setIcon(icon5)
         self.im_pmks_button.setIconSize(QtCore.QSize(50, 50))
         self.im_pmks_button.setObjectName("im_pmks_button")
-        self.gridLayout_2.addWidget(self.im_pmks_button, 0, 0, 1, 1)
-        self.main_layout.addWidget(self.import_group)
+        self.verticalLayout.addWidget(self.im_pmks_button)
+        self.horizontalLayout.addWidget(self.import_group)
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.history_tabs = QtWidgets.QTabWidget(Form)
         self.history_tabs.setObjectName("history_tabs")
-        self.main_layout.addWidget(self.history_tabs)
+        self.verticalLayout_2.addWidget(self.history_tabs)
 
         self.retranslateUi(Form)
         self.history_tabs.setCurrentIndex(-1)
@@ -164,6 +171,4 @@ class Ui_Form(object):
         self.import_group.setTitle(_translate("Form", "Import"))
         self.im_example_button.setStatusTip(_translate("Form", "Import from an example."))
         self.im_pmks_button.setStatusTip(_translate("Form", "Import from PMKS URL."))
-
-
 from pyslvs_ui import icons_rc
