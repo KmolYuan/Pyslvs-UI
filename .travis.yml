@@ -27,12 +27,12 @@ matrix:
           skip_cleanup: true
           on:
             tags: true
-        - &pypi-deploy
-          provider: pypi
+        - provider: pypi
           user: $TWINE_USERNAME
           password: $TWINE_PASSWORD
           skip_cleanup: true
           skip_existing: true
+          distributions: bdist_wheel
           on:
             repo: KmolYuan/Pyslvs-UI
             tags: true
@@ -72,13 +72,12 @@ matrix:
         # PyPI deployment
         - if [[ "$TRAVIS_REPO_SLUG" == "KmolYuan/Pyslvs-UI" && -n "$TRAVIS_TAG" ]]; then
           python3 -m pip install twine;
-          python3 setup.py sdist bdist_wheel;
+          python3 setup.py bdist_wheel;
           python3 -m twine upload dist/*.whl --skip-existing;
           fi
       deploy:
         - <<: *executable-deploy
           file: dist/pyslvs-*.app.zip
-        - <<: *pypi-deploy
 
 git:
   submodules: false
