@@ -6,7 +6,10 @@ __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
-__all__ = ['main']
+
+from pyslvs import __version__
+
+__all__ = ['main', '__version__']
 
 _app = None
 

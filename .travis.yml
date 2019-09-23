@@ -3,11 +3,20 @@ language: python
 
 matrix:
   include:
-
-    - os: linux
+    - &linux
+      os: linux
       sudo: required
       python: "3.7"
       dist: xenial
+      before_install:
+        - git submodule update --init
+        - git submodule update --init --recursive depend/pyslvs
+        - python3 -m pip install -r requirements.txt -U
+      install:
+        - make
+        - cd depend/pyslvs; python3 setup.py install; cd -
+        - cd depend/solvespace/cython; python3 setup.py install; cd -
+        - python3 setup.py install
       deploy:
         - &executable-deploy
           provider: releases
@@ -25,12 +34,11 @@ matrix:
           skip_cleanup: true
           skip_existing: true
           on:
+            repo: KmolYuan/Pyslvs-UI
             tags: true
 
-    - os: linux
-      sudo: required
+    - <<: *linux
       python: "3.8-dev"
-      dist: xenial
       addons:
         apt:
           update: true
@@ -41,6 +49,32 @@ matrix:
       osx_image: xcode10
       language: generic
       env: PYTHON=3.7.0
+      before_install:
+        - git submodule update --init
+        - git submodule update --init --recursive depend/pyslvs
+        - brew update
+        - brew upgrade pyenv
+        - export PATH="/Users/travis/.pyenv/shims:${PATH}"
+        - env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON}
+        - pyenv global ${PYTHON}
+        - python3 -m pip install pip -U
+        - python3 -m pip install pyinstaller
+        - pyenv rehash
+        - python3 --version
+        - python3 -m pip --version
+        - pyinstaller --version
+        - python3 -m pip install -r requirements.txt -U
+      install:
+        - make
+        - python3 setup.py install
+        - pyenv rehash
+      after_success:
+        # PyPI deployment
+        - if [[ "$TRAVIS_REPO_SLUG" == "KmolYuan/Pyslvs-UI" && -n "$TRAVIS_TAG" ]]; then
+          python3 -m pip install twine;
+          python3 setup.py sdist bdist_wheel;
+          python3 -m twine upload dist/*.whl --skip-existing;
+          fi
       deploy:
         - <<: *executable-deploy
           file: dist/pyslvs-*.app.zip
@@ -48,39 +82,6 @@ matrix:
 
 git:
   submodules: false
-
-before_install:
-
-  - git submodule update --init
-  - git submodule update --init --recursive depend/pyslvs
-
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    brew update;
-    brew upgrade pyenv;
-    export PATH="/Users/travis/.pyenv/shims:${PATH}";
-    env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON};
-    pyenv global ${PYTHON};
-    python3 -m pip install pip -U;
-    python3 -m pip install pyinstaller;
-    pyenv rehash;
-    fi
-
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    python3 --version;
-    python3 -m pip --version;
-    pyinstaller --version;
-    fi
-
-  - python3 -m pip install -r requirements.txt -U
-
-install:
-  - make
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    cd depend/pyslvs; python3 setup.py install; cd -;
-    cd depend/solvespace/cython; python3 setup.py install; cd -;
-    fi
-  - python3 setup.py install
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pyenv rehash; fi
 
 script:
   - pyslvs --test
@@ -91,11 +92,3 @@ before_cache:
 cache:
   directories:
     - $HOME/.cache/pip
-
-after_success:
-  # PyPI deployment
-  - if [[ "$TRAVIS_OS_NAME" == "osx" && -n "$TRAVIS_TAG" ]]; then
-    python3 -m pip install twine;
-    python3 setup.py sdist bdist_wheel;
-    python3 -m twine upload dist/*.whl --skip-existing;
-    fi

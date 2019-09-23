@@ -31,7 +31,7 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
-version = find_version('depend/pyslvs/pyslvs', '__init__.py')
+version = find_version('depend', 'pyslvs', 'pyslvs', '__init__.py')
 setup(
     name='pyslvs_ui',
     version=version,
@@ -43,12 +43,11 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/KmolYuan/pyslvs",
     packages=find_packages(exclude=('depend',)),
-    package_data={'': ["*.ui"]},
-    entry_points={'console_scripts': ['pyslvs = pyslvs_ui:main']},
+    entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
     zip_safe=False,
     python_requires=">=3.7",
     install_requires=read('requirements.txt').splitlines()
-        + [f'pyslvs=={version}', 'python-solvespace'],
+        + [f'pyslvs=={version}', 'python_solvespace'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Cython",

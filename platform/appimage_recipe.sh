@@ -11,7 +11,7 @@
 APP=pyslvs
 LOWERAPP=${APP,,}
 
-BASEDIR=$(readlink -f "$(dirname "$(readlink -f ${0})")/..")
+BASEDIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")/..")
 cd "${BASEDIR}" || exit
 ENV=${BASEDIR}/ENV
 APPDIR=${ENV}/${APP}.AppDir
@@ -19,7 +19,7 @@ APPDIR=${ENV}/${APP}.AppDir
 mkdir -p "${APPDIR}"
 
 # Source some helper functions
-wget -q https://raw.githubusercontent.com/AppImage/pkg2appimage/master/functions.sh -O ${ENV}/functions.sh
+wget -q https://raw.githubusercontent.com/AppImage/pkg2appimage/master/functions.sh -O "${ENV}"/functions.sh
 # shellcheck disable=SC1090
 . "${ENV}/functions.sh"
 
@@ -54,7 +54,7 @@ rm -fr "${MY_PYDIR}/distutils"
 echo "Copy builtin scripts from '${PYDIR}' to '${MY_PYDIR}' ..."
 cd "${PYDIR}" || exit
 for p in "*.py" "*.so"; do
-  find . -name "${p}" -exec install -v -D {} ${MY_PYDIR}/{} \;
+  find . -name "${p}" -exec install -v -D {} "${MY_PYDIR}"/{} \;
 done
 
 cd "${MY_PYDIR}" || exit
@@ -88,7 +88,7 @@ rm -fr "${APPDIR}/usr/bin/pyslvs_ui/__main__.py"
 # Finalize the AppDir
 ########################################################################
 
-cd ${APPDIR} || exit
+cd "${APPDIR}" || exit
 get_apprun
 cat >${LOWERAPP}.desktop <<EOF
 [Desktop Entry]

@@ -3,30 +3,24 @@ image: Visual Studio 2019
 platform: x64
 
 environment:
+  MSYS_DIR: C:\msys64
   matrix:
-
-    - MSYS_DIR: &msys2 C:\msys64
-      PYTHON_DIR: C:\Python37-x64
+    - PYTHON_DIR: C:\Python37-x64
 
 install:
   # Environment variables
   - set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
   - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
-
   # Show Python
   - python --version
   - pip --version
-
   # Upgrade setuptools
   - pip install setuptools -U
-
   # Set Python compiler to MinGW
   - platform\set_pycompiler %PYTHON_DIR%
-
   # Install modules
   - pip install -r requirements.txt
   - pip install pyinstaller
-
   # Show tool kits
   - pyinstaller --version
   - gcc --version
@@ -63,10 +57,9 @@ deploy:
 
 deploy_script:
   # PyPI deployment
-  - IF "%APPVEYOR_REPO_TAG%"=="true" (
+  - IF "%APPVEYOR_REPO_TAG%"=="true"
+    IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
     pip install twine &&
     python setup.py bdist_wheel &&
     twine upload dist\*.whl --skip-existing
-    ) ELSE (
-    echo deployment has been skipped as environment variable has not matched
     )
