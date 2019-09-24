@@ -23,12 +23,26 @@ See the Ubuntu and macOS platform testing on Travis CI:
 
 ### PyPI
 
-Install from PyPI:
-[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
+Pyslvs-UI from PyPI:
+[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui)
+
+Pyslvs from PyPI:
+[![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs)
+
+Python-Solvespace from PyPI:
+[![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace)
 
 ```bash
 pip install pyslvs-ui
 ```
+
+!!! note
+
+    Pyslvs-UI is an universal (pure Python) package, which is cross-platform.
+
+    But the core kernel is installed from PyPI,
+    Windows and macOS platform are packed as wheels,
+    Linux platform will build from source code.
 
 ### Portable
 
