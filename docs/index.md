@@ -141,14 +141,10 @@ make
 
 ## Uninstall
 
-### PyPI and Repository
-
-Uninstall Pyslvs by `pip`.
+For PyPI package, uninstall Pyslvs-UI and its kernels by `pip`.
 
 ```bash
-pip uninstall pyslvs-ui
+pip uninstall pyslvs-ui pyslvs python-solvespace
 ```
 
-### Other Distributions
-
-Just delete the file or repository.
+For other distributions, just delete the file or repository.

@@ -103,6 +103,11 @@ make build-kernel
 
 This project including two kernels should build.
 
+!!! note
+
+    The kernels can also be installed from pip with specified version.
+    The Makefile command will build them from source.
+
 ### Pyslvs Kernel
 
 [Pyslvs]: Core libraries of this project.
@@ -123,7 +128,7 @@ Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/p
 they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
 
 ```batch
-choco install mingw msys2
+choco install msys2
 ```
 
 When you are using Msys2, following command might be helpful:
@@ -132,12 +137,11 @@ When you are using Msys2, following command might be helpful:
 # Install tools for Msys.
 # Open the "mingw64.exe" shell.
 
-# Install GCC
+# Install MinGW
 pacman -S mingw-w64-x86_64-gcc
 # Install Make
-pacman -S mingw-w64-x86_64-toolchain
-# A list of tools will shown, choose 13 ("mingw-w64-x86_64-make").
-# The "make" command is named as "mingw32-make". You can rename it:
+pacman -S mingw-w64-x86_64-make
+# The "make" command is named as "mingw32-make". You can rename it by:
 mv /mingw64/bin/mingw32-make /mingw64/bin/make
 
 # Install patch
@@ -147,7 +151,7 @@ pacman -S patch
 And the programs should be added in to environment variable (with administrator).
 
 ```batch
-setx Path "C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin;%Path%" /M
+setx Path "C:\tools\msys64\usr\bin;%Path%" /M
 ```
 
 Setup Python compiler as GCC / G++ of MinGW64:
