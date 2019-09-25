@@ -5,7 +5,7 @@
 **Features**:
 
 + Provided PyPI install approach.
-    + Install with "pip install pyslvs-ui" command.
+    + Install Pyslvs-UI with "pip install pyslvs-ui" command.
     + Use "pyslvs" command line script or "python -m pyslvs_ui" to startup.
 + "Project" page:
     + Replaced database functions with YAML.
@@ -13,6 +13,8 @@
     + Move "export" and "import" functions to project page.
     + "History" page has been merged in this page.
 + Provided new file format "HDF5" as binary format.
++ Discard "MySQL" file format.
++ **YAML format has been changed.**
 + User options:
     + Separate out "preferences" page as dialog.
     + Add "open actions" setting for the opening macros.
@@ -22,7 +24,6 @@
 + Use star sign as unsaved mark.
 + Logical correction of checking update.
 + Selection mode can be scrolled infinitely.
-+ **YAML format has been changed.**
 + Fix a solver bug of the stop button on inputs page.
 + Fix the error of path context menu.
 
@@ -35,7 +36,9 @@
 + Separate out the abstract methods of main window base into `main_abc`.
 + Show the startup time in none-debug mode.
 + Replace "time.time" with "time.perf_counter".
-+ Add Windows patch script `set_pycompiler`.
++ `platform` directory:
+    + `appimage_recipe.sh` has been moved to here.
+    + Add Windows patch script `set_pycompiler`.
 + Create GitHub action.
 
 ## Version 19.08
