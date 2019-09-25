@@ -41,7 +41,6 @@ test_script:
 artifacts:
   - path: dist\pyslvs-*.exe
     name: pyslvs
-  - path: dist\*.whl
 
 deploy:
   - provider: GitHub
