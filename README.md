@@ -50,6 +50,10 @@ mkdocs serve
 
 If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
 
+# Cite
+
+Please see the [reference](https://pyslvs-ui.readthedocs.io/en/stable/references/#cite).
+
 [PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
 [Solvespace]: http://solvespace.com
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace
