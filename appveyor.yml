@@ -55,7 +55,7 @@ deploy:
       appveyor_repo_tag: true
       PYTHON_DIR: C:\Python37-x64
 
-deploy_script:
+after_build:
   # PyPI deployment
   - IF "%APPVEYOR_REPO_TAG%"=="true"
     IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
