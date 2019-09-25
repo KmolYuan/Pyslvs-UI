@@ -12,7 +12,7 @@
 [![Blog](https://img.shields.io/badge/info-blog-blue.svg)](http://www.pyslvs.com/blog/index.html)
 [![CMS](https://img.shields.io/badge/info-cms-blue.svg)](http://www.pyslvs.com/content/)
 
-![title](icons/splash.png)
+![](icons/splash.png)
 
 # Introduction
 
