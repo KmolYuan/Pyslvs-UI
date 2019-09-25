@@ -2,7 +2,20 @@
 
 Python wrapper for Solvespace, a geometric constraint solver written in C++.
 
-The submodule is located at `pyslvs/core/libs/python_solvespace`.
+The submodule is located at `depend/python_solvespace`.
+
+Python-Solvespace is now available on
+[![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace),
+you can install it by pip individually:
+
+```bash
+pip install python-solvespace
+```
+
+!!!warning
+
+    Pyslvs-UI is using global `python-solvespace` as kernel.
+    Please make sure the version is meet the requirement.
 
 ## Build and Test
 
