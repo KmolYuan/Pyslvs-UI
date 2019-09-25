@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Iterator, Optional
+from typing import Optional
 from dataclasses import fields, Field
 from pyslvs_ui.core.widgets import MainWindowBase
 from qtpy.QtCore import Slot
@@ -40,9 +40,8 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.input_from = parent.input_from
         self.planar_solver_option.addItems(kernel_list)
         self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))
-        self.prefer_origin = parent.prefer
-        self.prefer = self.prefer_origin.copy()
-        self.prefer_applied = self.prefer_origin.copy()
+        self.prefer = parent.prefer.copy()
+        self.prefer_applied = parent.prefer.copy()
 
         self.accepted.connect(self.__get_settings)
         self.button_box.button(QDialogButtonBox.Apply).clicked.connect(self.__get_settings)
@@ -117,10 +116,6 @@ class PreferencesDialog(QDialog, Ui_Dialog):
             return True
         else:
             return False
-
-    def diff(self) -> Iterator[str]:
-        """Return the diff of two data."""
-        yield from self.prefer_origin.diff(self.prefer_applied)
 
     @Slot(name='on_background_choose_dir_clicked')
     def __background_choose_dir(self) -> None:

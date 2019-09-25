@@ -204,19 +204,24 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     def __draw_point(self, i: int, vpoint: VPoint) -> None:
         """Draw a point."""
+        connected = len(vpoint.links) - 1
         if vpoint.type in {VJoint.P, VJoint.RP}:
             pen = QPen(QColor(*vpoint.color))
             pen.setWidth(2)
 
-            # Draw slot point and pin point.
+            # Draw slot point and pin point
             for j, (cx, cy) in enumerate(vpoint.c):
                 if not vpoint.links:
                     grounded = False
                 else:
                     grounded = vpoint.links[j] == 'ground'
-                # Slot point.
+                # Slot point
                 if j == 0 or vpoint.type == VJoint.P:
-                    pen.setColor(Qt.black if self.monochrome else QColor(*vpoint.color))
+                    if self.monochrome:
+                        color = Qt.black
+                    else:
+                        color = QColor(*vpoint.color)
+                    pen.setColor(color)
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
                     jr = self.joint_size * (2 if j == 0 else 1)
@@ -230,7 +235,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
                             text += f":({cx:.02f}, {cy:.02f})"
                         self.painter.drawText(cp + rp, text)
                 else:
-                    self.draw_point(i, cx, cy, grounded, vpoint.color)
+                    self.draw_point(i, cx, cy, grounded, vpoint.color, connected)
 
             # Slider line
             pen.setColor(QColor(*vpoint.color).darker())
@@ -252,9 +257,9 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
             qline_2.setAngle(qline_2.angle() + 180)
             self.painter.drawLine(qline_2)
         else:
-            self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color)
+            self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color, connected)
 
-        # For selects function.
+        # For selects function
         if self.select_mode == SelectMode.Joint and (i in self.selections):
             pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
@@ -325,7 +330,10 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         if len(self.vpoints) != len(paths):
             return
         if paths is self.path_preview:
-            o_path = chain(enumerate(self.path_preview), self.slider_path_preview.items())
+            o_path = chain(
+                enumerate(self.path_preview),
+                self.slider_path_preview.items()
+            )
         else:
             o_path = enumerate(paths)
         pen = QPen()

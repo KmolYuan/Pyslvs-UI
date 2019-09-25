@@ -268,8 +268,9 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         i: int,
         cx,
         cy,
-        fix: bool,
-        color: Tuple[int, int, int]
+        fixed: bool,
+        color: Tuple[int, int, int],
+        mul: int = 1
     ) -> None:
         """Draw a joint."""
         pen = QPen(Qt.black if self.monochrome else QColor(*color))
@@ -277,26 +278,23 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         x = cx * self.zoom
         y = cy * -self.zoom
-        if fix:
-            bottom = y + 20
-            width = 10
-            # Draw a triangle below.
+        if fixed:
+            # Draw a triangle below
             self.painter.drawPolygon(
                 QPointF(x, y),
-                QPointF(x - width, bottom),
-                QPointF(x + width, bottom)
+                QPointF(x - self.joint_size, y + 2 * self.joint_size),
+                QPointF(x + self.joint_size, y + 2 * self.joint_size)
             )
-            r = self.joint_size * 2
-        else:
-            r = self.joint_size
-        self.draw_circle(QPointF(x, y), r)
-
+        r = self.joint_size
+        for _ in range(1 if mul < 1 else mul):
+            self.draw_circle(QPointF(x, y), r)
+            r += 5
         if not self.show_point_mark:
             return
         pen.setColor(Qt.darkGray)
         pen.setWidth(2)
         self.painter.setPen(pen)
-        text = f"[{i}]" if type(i) is str else f"[Point{i}]"
+        text = f"[Point{i}]"
         if self.show_dimension:
             text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
@@ -413,7 +411,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
 
     def draw_curve(self, path: Sequence[_Coord]) -> None:
         """Draw path as curve."""
-        if len(set(path)) <= 2:
+        if len(set(path)) < 2:
             return
         painter_path = QPainterPath()
         error = False
@@ -423,27 +421,30 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 self.painter.drawPath(painter_path)
                 painter_path = QPainterPath()
             else:
-                x *= self.zoom
-                y *= -self.zoom
+                p = QPointF(x, -y) * self.zoom
                 if i == 0:
-                    painter_path.moveTo(x, y)
-                    self.draw_circle(QPointF(x, y), self.joint_size)
+                    painter_path.moveTo(p)
+                    self.draw_circle(p, 5)
                     continue
                 if error:
-                    painter_path.moveTo(x, y)
+                    painter_path.moveTo(p)
                     error = False
                 else:
-                    painter_path.lineTo(x, y)
+                    painter_path.lineTo(p)
         self.painter.drawPath(painter_path)
 
     def draw_dot(self, path: Sequence[_Coord]) -> None:
         """Draw path as dots."""
-        if len(set(path)) <= 2:
+        if len(set(path)) < 2:
             return
-        for x, y in path:
+        for i, (x, y) in enumerate(path):
             if isnan(x):
                 continue
-            self.painter.drawPoint(QPointF(x, -y) * self.zoom)
+            p = QPointF(x, -y) * self.zoom
+            if i == 0:
+                self.draw_circle(p, 5)
+            else:
+                self.painter.drawPoint(p)
 
     def solution_polygon(
         self,

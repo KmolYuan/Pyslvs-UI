@@ -150,7 +150,7 @@ class Preferences:
     selection_radius_option: int = 10
     link_trans_option: int = 0
     margin_factor_option: int = 5
-    joint_size_option: int = 5
+    joint_size_option: int = 10
     zoom_by_option: int = 0
     snap_option: float = 1
     background_option: str = ""
@@ -171,11 +171,14 @@ class Preferences:
     # "Do not save the settings" by default
     not_save_option: bool = True
 
-    def diff(self, other: Preferences) -> Iterator[str]:
-        """Show the fields of differences."""
+    def diff(self, other: Optional[Preferences]) -> Iterator[str]:
+        """Show the fields of differences.
+        Pass None to iterate over all names.
+        """
         for field_obj in fields(self):  # type: Field
-            if getattr(self, field_obj.name) != getattr(other, field_obj.name):
-                yield field_obj.name
+            name: str = field_obj.name
+            if other is None or getattr(self, name) != getattr(other, name):
+                yield name
 
     def reset(self) -> None:
         """Reset the user values."""

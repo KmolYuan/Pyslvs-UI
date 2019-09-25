@@ -22,6 +22,7 @@
     + Add "Tick mark" setting for main canvas.
     + Add "Transparent background when capturing" setting for main canvas.
 + Use star sign as unsaved mark.
++ Show multiple joint with multiple circles.
 + Logical correction of checking update.
 + Selection mode can be scrolled infinitely.
 + Fix a solver bug of the stop button on inputs page.

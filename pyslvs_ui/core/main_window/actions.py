@@ -11,7 +11,12 @@ from typing import Sequence, Callable, Union
 from abc import ABC, abstractmethod
 from qtpy.QtCore import Slot, QPoint
 from qtpy.QtWidgets import QAction, QApplication, QTableWidget
-from pyslvs_ui.core.widgets import AddTable, EditPointTable, EditLinkTable
+from pyslvs_ui.core.widgets import (
+    AddTable,
+    EditPointTable,
+    EditLinkTable,
+    Preferences,
+)
 from pyslvs_ui.core.io import PreferencesDialog
 from .storage import StorageMethodInterface
 
@@ -213,8 +218,14 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         dlg = PreferencesDialog(self)
         dlg.show()
         dlg.exec_()
-        for name in dlg.diff():
-            value: Union[bool, int, float, str] = getattr(dlg.prefer_applied, name)
+        self.apply_preferences(dlg.prefer_applied)
+        dlg.deleteLater()
+        self.solve()
+
+    def apply_preferences(self, prefer: Preferences, *, force: bool = False):
+        """Apply preference from a setting."""
+        for name in self.prefer.diff(None if force else prefer):
+            value: Union[bool, int, float, str] = getattr(prefer, name)
             setattr(self.prefer, name, value)
             if name == 'line_width_option':
                 self.main_canvas.set_link_width(value)
@@ -255,5 +266,3 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                     canvas.set_show_ticks(value)
                 elif name == 'monochrome_option':
                     canvas.set_monochrome_mode(value)
-        dlg.deleteLater()
-        self.solve()

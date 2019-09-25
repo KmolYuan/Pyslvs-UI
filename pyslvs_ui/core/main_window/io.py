@@ -53,7 +53,7 @@ from pyslvs_ui.core.io import (
     OverviewDialog,
     str_between,
 )
-from pyslvs_ui.core.widgets import AddTable, EditPointTable
+from pyslvs_ui.core.widgets import AddTable, EditPointTable, Preferences
 from .actions import ActionMethodInterface
 
 _PREFIX = f"# Generate by Pyslvs {__version__}\n# Project "
@@ -600,23 +600,25 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def restore_settings(self) -> None:
         """Restore Pyslvs settings."""
-        for field in fields(self.prefer):  # type: Field
+        prefer = Preferences()
+        for field in fields(prefer):  # type: Field
             setting = self.settings.value(field.name, field.default)
-            setattr(self.prefer, field.name, setting)
+            setattr(prefer, field.name, setting)
         # Specified solver setting
         if ARGUMENTS.kernel:
             if ARGUMENTS.kernel == "python_solvespace":
-                self.prefer.planar_solver_option = 1
+                prefer.planar_solver_option = 1
             elif ARGUMENTS.kernel == "sketch_solve":
-                self.prefer.planar_solver_option = 2
+                prefer.planar_solver_option = 2
             elif ARGUMENTS.kernel == "pyslvs":
-                self.prefer.planar_solver_option = 0
+                prefer.planar_solver_option = 0
             else:
                 QMessageBox.warning(
                     self,
                     "Kernel not found",
                     f"No such kernel: {ARGUMENTS.kernel}"
                 )
+        self.apply_preferences(prefer, force=True)
 
     def save_settings(self) -> None:
         """Save Pyslvs settings (auto save when close event)."""
@@ -625,7 +627,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             if f.exists():
                 f.remove()
             return
-
         self.settings.setValue("ENV", self.env)
         for field in fields(self.prefer):  # type: Field
             self.settings.setValue(field.name, getattr(self.prefer, field.name))
