@@ -26,10 +26,10 @@ def main() -> None:
     from qtpy.QtCore import Qt
     from qtpy.QtWidgets import QApplication, QSplashScreen
     from qtpy.QtGui import QPixmap
-    from .core.info import ARGUMENTS, logger
+    from .info import ARGUMENTS, logger
     if ARGUMENTS.test:
         from importlib import import_module
-        import_module('pyslvs_ui.core.main_window')
+        import_module('pyslvs_ui.main_window')
         logger.info("All module loaded successfully.")
         logger.info(f"Loaded with: {perf_counter() - t0:.02f}s")
         shutdown()
@@ -46,7 +46,7 @@ def main() -> None:
     if ARGUMENTS.fusion:
         _app.setStyle('fusion')
 
-    from .core.main_window import MainWindow
+    from .main_window import MainWindow
     w = MainWindow()
     w.show()
     splash.finish(w)

@@ -12,7 +12,7 @@
 [![Blog](https://img.shields.io/badge/info-blog-blue.svg)](http://www.pyslvs.com/blog/index.html)
 [![CMS](https://img.shields.io/badge/info-cms-blue.svg)](http://www.pyslvs.com/content/)
 
-![](icons/splash.png)
+![](https://raw.githubusercontent.com/KmolYuan/Pyslvs-UI/master/icons/splash.png)
 
 # Introduction
 
@@ -36,6 +36,18 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
     - Auto layout of generalized chain.
     - The code complies with PEP8.
 
+If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
+
+# Getting Started
+
+Download [portable executable file](https://github.com/KmolYuan/Pyslvs-UI/releases) of your platform.
+
+Or simply install Pyslvs-UI from PyPI:
+
+```bash
+pip install pyslvs-ui
+```
+
 # Documentation
 
 The documentation of Pyslvs and kernel API are deployed on Readthedocs ([stable] / [latest]).
@@ -47,8 +59,6 @@ pip install mkdocs
 pip install -r doc-requirements.txt
 mkdocs serve
 ```
-
-If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
 
 # Cite
 
