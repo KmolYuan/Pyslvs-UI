@@ -6,7 +6,6 @@
 
 LAUNCHER = launch_pyslvs.py
 PYSLVS_PATH = depend/pyslvs
-PYTHON_SLVS_PATH = depend/solvespace/cython
 
 ifeq ($(OS),Windows_NT)
     PY = python
@@ -28,10 +27,10 @@ ifdef _NEEDS_BUILD
 endif
 
 .PHONY: help \
-    build build-kernel build-pyslvs build-solvespace \
+    build build-kernel build-pyslvs \
     install uninstall \
-    test test-kernel test-pyslvs test-solvespace \
-    clean clean-kernel clean-pyslvs clean-solvespace clean-all
+    test test-kernel test-pyslvs \
+    clean clean-kernel clean-pyslvs clean-all
 
 all: test
 
@@ -44,14 +43,12 @@ help:
 	@echo   build: build Pyslvs executable file.
 	@echo   build-kernel: build kernels.
 	@echo   build-pyslvs: build and install pyslvs kernel.
-	@echo   build-solvespace: build solvespace kernel.
 	@echo   install: install Pyslvs by setuptools.
 	@echo   uninstall: uninstall Pyslvs by pip.
 	@echo   clean: clean up executable file and PyInstaller items,
 	@echo          but not to delete kernel binary files.
 	@echo   clean-kernel: clean up kernel binary files.
 	@echo   clean-pyslvs: clean up and uninstall pyslvs.
-	@echo   clean-solvespace: clean up kernel binary files of solvespace.
 	@echo   clean-all: clean every binary files and executable file.
 
 build-pyslvs:
@@ -60,13 +57,7 @@ build-pyslvs:
 	cd $(PYSLVS_PATH) && $(PY) setup.py install
 	@echo Done
 
-build-solvespace:
-	@echo Build Solvespace kernel
-	-$(PIP) uninstall python_solvespace -y
-	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py install
-	@echo Done
-
-build-kernel: build-pyslvs build-solvespace
+build-kernel: build-pyslvs
 
 ifdef _NEEDS_BUILD
 _build: build-kernel test-kernel
@@ -102,12 +93,7 @@ test-pyslvs:
 	cd $(PYSLVS_PATH) && $(PY) setup.py test
 	@echo Done
 
-test-solvespace:
-	@echo Test Solvespace kernel
-	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py test
-	@echo Done
-
-test-kernel: test-pyslvs test-solvespace
+test-kernel: test-pyslvs
 
 test: build
 ifeq ($(OS),Windows_NT)
@@ -151,19 +137,6 @@ else
 	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.cpp
 endif
 
-clean-solvespace:
-	-$(PIP) uninstall python_solvespace -y
-	cd $(PYTHON_SLVS_PATH) && $(PY) setup.py clean --all
-ifeq ($(OS),Windows_NT)
-	-rd "$(PYTHON_SLVS_PATH)/dist" /s /q
-	-rd "$(PYTHON_SLVS_PATH)/python_solvespace.egg-info" /s /q
-	-cd "$(PYTHON_SLVS_PATH)/python_solvespace" && del *.cpp /q
-else
-	-rm -fr $(PYTHON_SLVS_PATH)/dist
-	-rm -fr $(PYTHON_SLVS_PATH)/python_solvespace.egg-info
-	-rm -f $(PYTHON_SLVS_PATH)/python_solvespace/*.cpp
-endif
-
-clean-kernel: clean-pyslvs clean-solvespace
+clean-kernel: clean-pyslvs
 
 clean-all: clean clean-kernel

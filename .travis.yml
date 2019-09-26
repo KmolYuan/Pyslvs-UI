@@ -15,7 +15,6 @@ matrix:
       install:
         - make
         - cd depend/pyslvs; python3 setup.py install; cd -
-        - cd depend/solvespace/cython; python3 setup.py install; cd -
         - python3 setup.py install
       deploy:
         - &executable-deploy

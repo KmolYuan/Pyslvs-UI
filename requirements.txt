@@ -8,6 +8,7 @@ ezdxf
 numpy; python_version < '3.8' or sys_platform != 'linux'
 numpy<1.17; python_version >= '3.8' and sys_platform == 'linux'
 cython
+python-solvespace
 openpyxl
 psutil
 lark-parser

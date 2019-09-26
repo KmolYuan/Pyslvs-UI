@@ -8,7 +8,8 @@
 
 **Development**:
 
-+ None
++ Remove `core` namespace.
++ Treat `python-solvespace` as normal module.
 
 ## Version 19.09
 

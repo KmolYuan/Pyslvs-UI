@@ -46,8 +46,7 @@ setup(
     entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
     zip_safe=False,
     python_requires=">=3.7",
-    install_requires=read('requirements.txt').splitlines()
-        + [f'pyslvs=={version}', 'python_solvespace'],
+    install_requires=read('requirements.txt').splitlines() + [f'pyslvs=={version}'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Cython",
