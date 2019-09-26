@@ -26,11 +26,8 @@ ifdef _NEEDS_BUILD
     EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
 endif
 
-.PHONY: help \
-    build build-kernel build-pyslvs \
-    install uninstall \
-    test test-kernel test-pyslvs \
-    clean clean-kernel clean-pyslvs clean-all
+.PHONY: help install uninstall \
+    build build-kernel test test-kernel clean clean-kernel clean-all
 
 all: test
 
@@ -41,23 +38,19 @@ help:
 	@echo   help: show this help message.
 	@echo   all: build Pyslvs and test binary.
 	@echo   build: build Pyslvs executable file.
-	@echo   build-kernel: build kernels.
-	@echo   build-pyslvs: build and install pyslvs kernel.
+	@echo   build-kernel: build kernel(s).
 	@echo   install: install Pyslvs by setuptools.
 	@echo   uninstall: uninstall Pyslvs by pip.
 	@echo   clean: clean up executable file and PyInstaller items,
 	@echo          but not to delete kernel binary files.
 	@echo   clean-kernel: clean up kernel binary files.
-	@echo   clean-pyslvs: clean up and uninstall pyslvs.
 	@echo   clean-all: clean every binary files and executable file.
 
-build-pyslvs:
+build-kernel:
 	@echo Build libraries
 	-$(PIP) uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py install
 	@echo Done
-
-build-kernel: build-pyslvs
 
 ifdef _NEEDS_BUILD
 _build: build-kernel test-kernel
@@ -88,12 +81,10 @@ install:
 uninstall:
 	$(PIP) uninstall pyslvs-ui
 
-test-pyslvs:
+test-kernel:
 	@echo Test libraries
 	cd $(PYSLVS_PATH) && $(PY) setup.py test
 	@echo Done
-
-test-kernel: test-pyslvs
 
 test: build
 ifeq ($(OS),Windows_NT)
@@ -122,7 +113,7 @@ else
 endif
 endif
 
-clean-pyslvs:
+clean-kernel:
 	-$(PIP) uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
 ifeq ($(OS),Windows_NT)
@@ -136,7 +127,5 @@ else
 	-rm -f $(PYSLVS_PATH)/pyslvs/*.cpp
 	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.cpp
 endif
-
-clean-kernel: clean-pyslvs
 
 clean-all: clean clean-kernel

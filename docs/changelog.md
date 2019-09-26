@@ -9,6 +9,7 @@
 **Development**:
 
 + Remove `core` namespace.
++ Replace `*-pyslvs` command with `*-kernel` in Makefile.
 + Treat `python-solvespace` as normal module.
 
 ## Version 19.09
