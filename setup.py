@@ -41,7 +41,7 @@ setup(
     description="Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.",
     long_description=read("README.md"),
     long_description_content_type='text/markdown',
-    url="https://github.com/KmolYuan/pyslvs",
+    url="https://github.com/KmolYuan/Pyslvs-UI",
     packages=find_packages(exclude=('depend',)),
     entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
     zip_safe=False,
