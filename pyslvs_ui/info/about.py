@@ -89,7 +89,7 @@ def check_update(dlg: QProgressDialog) -> str:
         elif i == 1:
             text = "minor"
         else:
-            text = "build"
+            text = "micro"
         dlg.setLabelText(f"Checking for {text}...")
         QCoreApplication.processEvents()
         if dlg.wasCanceled():
