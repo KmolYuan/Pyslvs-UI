@@ -38,7 +38,7 @@ setup(
     author=__author__,
     author_email=__email__,
     license=__license__,
-    description="Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.",
+    description="An open source planar linkage mechanism simulation and mechanical synthesis system.",
     long_description=read("README.md"),
     long_description_content_type='text/markdown',
     url="https://github.com/KmolYuan/Pyslvs-UI",
@@ -49,7 +49,8 @@ setup(
     install_requires=read('requirements.txt').splitlines() + [f'pyslvs=={version}'],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Cython",
+        "Environment :: X11 Applications :: Qt",
+        "Topic :: Scientific/Engineering",
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Operating System :: OS Independent",
     ]
