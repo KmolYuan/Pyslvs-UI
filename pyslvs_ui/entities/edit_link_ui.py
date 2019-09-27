@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pyslvs_ui/core/entities/edit_link.ui'
+# Form implementation generated from reading ui file 'pyslvs_ui/entities/edit_link.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(333, 467)
+        Dialog.resize(336, 467)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/link.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)

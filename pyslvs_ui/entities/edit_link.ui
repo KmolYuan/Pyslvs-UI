@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>333</width>
+    <width>336</width>
     <height>467</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Link</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset resource="../icons.qrc">
     <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -152,7 +152,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>

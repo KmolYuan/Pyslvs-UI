@@ -11,7 +11,7 @@ from PyQt5.pyrcc_main import processResourceFile
 
 def gen_ui():
     count = 0
-    for root, _, files in walk("pyslvs_ui/core"):
+    for root, _, files in walk("pyslvs_ui"):
         for file in files:
             if not file.endswith('.ui'):
                 continue

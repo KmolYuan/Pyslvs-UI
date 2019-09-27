@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -26,7 +26,7 @@
         <string>Add the chain by edge expression from text files.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
        </property>
       </widget>
@@ -37,7 +37,7 @@
         <string>Add the chain by edge expression.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
        </property>
       </widget>
@@ -58,7 +58,7 @@
         <string>Save as image</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
        </property>
       </widget>
@@ -72,7 +72,7 @@
         <string>Save as list</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
        </property>
       </widget>
@@ -99,7 +99,7 @@
         <string>Delete this structure.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
        </property>
       </widget>
@@ -110,7 +110,7 @@
         <string>Delete all of structures.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
        </property>
       </widget>
@@ -178,7 +178,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
            </property>
           </widget>
@@ -230,7 +230,7 @@
             <string>Copy expression.</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
            </property>
           </widget>
@@ -238,7 +238,7 @@
          <item>
           <widget class="QPushButton" name="capture_graph">
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
            </property>
           </widget>
@@ -406,7 +406,7 @@
                 <string>Make Duplicate</string>
                </property>
                <property name="icon">
-                <iconset resource="../../../icons.qrc">
+                <iconset resource="../../icons.qrc">
                  <normaloff>:/icons/reflect.png</normaloff>:/icons/reflect.png</iconset>
                </property>
               </widget>
@@ -423,7 +423,7 @@
                 <string>Configure</string>
                </property>
                <property name="icon">
-                <iconset resource="../../../icons.qrc">
+                <iconset resource="../../icons.qrc">
                  <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
                </property>
               </widget>
@@ -440,7 +440,7 @@
                 <string>Merge</string>
                </property>
                <property name="icon">
-                <iconset resource="../../../icons.qrc">
+                <iconset resource="../../icons.qrc">
                  <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
                </property>
               </widget>
@@ -490,7 +490,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

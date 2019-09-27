@@ -14,7 +14,7 @@
    <string>Preference</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset resource="../icons.qrc">
     <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -250,7 +250,7 @@
             <item>
              <widget class="QToolButton" name="background_choose_dir">
               <property name="icon">
-               <iconset resource="../../icons.qrc">
+               <iconset resource="../icons.qrc">
                 <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
               </property>
              </widget>
@@ -543,7 +543,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>

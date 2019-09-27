@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pyslvs_ui/core/synthesis/structure_synthesis/structure_widget.ui'
+# Form implementation generated from reading ui file 'pyslvs_ui/synthesis/structure_synthesis/structure_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(430, 654)
+        Form.resize(459, 654)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/number.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)

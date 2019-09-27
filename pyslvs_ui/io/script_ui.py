@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pyslvs_ui/core/io/script.ui'
+# Form implementation generated from reading ui file 'pyslvs_ui/io/script.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #

@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset resource="../icons.qrc">
     <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -123,7 +123,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -14,7 +14,7 @@
    <string>Path process</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../icons.qrc">
+   <iconset>
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -542,7 +542,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../icons.qrc"/>
+  <include location="../../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset resource="../icons.qrc">
     <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -102,7 +102,7 @@
         <string>Project overview</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
        </property>
       </widget>
@@ -113,7 +113,7 @@
         <string>Mechanism expression</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset resource="../icons.qrc">
          <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
        </property>
       </widget>
@@ -134,7 +134,7 @@
            <string>Export as DXF format.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
           </property>
           <property name="iconSize">
@@ -151,7 +151,7 @@
            <string>Export as Solvespace format.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/solvespace.png</normaloff>:/icons/solvespace.png</iconset>
           </property>
           <property name="iconSize">
@@ -168,7 +168,7 @@
            <string>Export as Python script.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
           </property>
           <property name="iconSize">
@@ -185,7 +185,7 @@
            <string>Export as image formats.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
           </property>
           <property name="iconSize">
@@ -202,7 +202,7 @@
            <string>Export as PMKS URL.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
           </property>
           <property name="iconSize">
@@ -219,7 +219,7 @@
            <string>Capture the main canvas into clipboard.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/capture.png</normaloff>:/icons/capture.png</iconset>
           </property>
           <property name="iconSize">
@@ -245,7 +245,7 @@
            <string>Import from an example.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
           </property>
           <property name="iconSize">
@@ -262,7 +262,7 @@
            <string>Import from PMKS URL.</string>
           </property>
           <property name="icon">
-           <iconset resource="../../icons.qrc">
+           <iconset resource="../icons.qrc">
             <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
           </property>
           <property name="iconSize">
@@ -288,7 +288,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

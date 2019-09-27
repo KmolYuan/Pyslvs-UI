@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pyslvs_ui/core/synthesis/dimensional_synthesis/dialogs/options.ui'
+# Form implementation generated from reading ui file 'pyslvs_ui/synthesis/dimensional_synthesis/dialogs/options.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #

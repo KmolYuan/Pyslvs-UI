@@ -20,7 +20,7 @@
    <string>Pyslvs - Untitled</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset resource="../icons.qrc">
     <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
   </property>
   <widget class="QWidget" name="central_widget">
@@ -67,7 +67,7 @@
            </property>
            <widget class="QWidget" name="mechanism_tab">
             <attribute name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset resource="../icons.qrc">
               <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
             </attribute>
             <attribute name="title">
@@ -109,7 +109,7 @@
                   <widget class="QTabWidget" name="entities_tab">
                    <widget class="QWidget" name="PointsTab">
                     <attribute name="icon">
-                     <iconset resource="../../icons.qrc">
+                     <iconset resource="../icons.qrc">
                       <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
                     </attribute>
                     <attribute name="title">
@@ -153,7 +153,7 @@
                    </widget>
                    <widget class="QWidget" name="LinksTab">
                     <attribute name="icon">
-                     <iconset resource="../../icons.qrc">
+                     <iconset resource="../icons.qrc">
                       <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
                     </attribute>
                     <attribute name="title">
@@ -197,7 +197,7 @@
                    </widget>
                    <widget class="QWidget" name="tab">
                     <attribute name="icon">
-                     <iconset resource="../../icons.qrc">
+                     <iconset resource="../icons.qrc">
                       <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
                     </attribute>
                     <attribute name="title">
@@ -288,7 +288,7 @@
                         <string>Add</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../../icons.qrc">
+                        <iconset resource="../icons.qrc">
                          <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
                        </property>
                       </widget>
@@ -302,7 +302,7 @@
                         <string>Restore</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../../icons.qrc">
+                        <iconset resource="../icons.qrc">
                          <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
                        </property>
                       </widget>
@@ -323,7 +323,7 @@
                         <string>Copy</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../../icons.qrc">
+                        <iconset resource="../icons.qrc">
                          <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
                        </property>
                       </widget>
@@ -337,7 +337,7 @@
                         <string>Paste</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../../icons.qrc">
+                        <iconset resource="../icons.qrc">
                          <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
                        </property>
                       </widget>
@@ -364,7 +364,7 @@
                         <string>Delete</string>
                        </property>
                        <property name="icon">
-                        <iconset resource="../../icons.qrc">
+                        <iconset resource="../icons.qrc">
                          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                        </property>
                       </widget>
@@ -381,7 +381,7 @@
            </widget>
            <widget class="QWidget" name="inputs_tab">
             <attribute name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset resource="../icons.qrc">
               <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
             </attribute>
             <attribute name="title">
@@ -391,7 +391,7 @@
            </widget>
            <widget class="QWidget" name="synthesis_tab">
             <attribute name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset resource="../icons.qrc">
               <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
             </attribute>
             <attribute name="title">
@@ -430,7 +430,7 @@ QProgressBar::chunk {
            </widget>
            <widget class="QWidget" name="project_tab">
             <attribute name="icon">
-             <iconset resource="../../icons.qrc">
+             <iconset resource="../icons.qrc">
               <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
             </attribute>
             <attribute name="title">
@@ -583,7 +583,7 @@ QProgressBar::chunk {
                 <string>Zoom to fit.</string>
                </property>
                <property name="icon">
-                <iconset resource="../../icons.qrc">
+                <iconset resource="../icons.qrc">
                  <normaloff>:/icons/aim.png</normaloff>:/icons/aim.png</iconset>
                </property>
                <property name="iconSize">
@@ -600,7 +600,7 @@ QProgressBar::chunk {
                 <string>Free mode: Allow selected point coordinates to be edited by drag and drop.</string>
                </property>
                <property name="icon">
-                <iconset resource="../../icons.qrc">
+                <iconset resource="../icons.qrc">
                  <normaloff>:/icons/free_move_off.png</normaloff>:/icons/free_move_off.png</iconset>
                </property>
                <property name="iconSize">
@@ -724,7 +724,7 @@ QProgressBar::chunk {
                    <string>Disconnect from GUI console.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../icons.qrc">
+                   <iconset resource="../icons.qrc">
                     <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
                   </property>
                  </widget>
@@ -735,7 +735,7 @@ QProgressBar::chunk {
                    <string>Connect to GUI console.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../icons.qrc">
+                   <iconset resource="../icons.qrc">
                     <normaloff>:/icons/connect.png</normaloff>:/icons/connect.png</iconset>
                   </property>
                  </widget>
@@ -753,7 +753,7 @@ QProgressBar::chunk {
                    <string>Clear GUI console.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../icons.qrc">
+                   <iconset resource="../icons.qrc">
                     <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
                   </property>
                  </widget>
@@ -859,7 +859,7 @@ QProgressBar::chunk {
   <widget class="QStatusBar" name="status_bar"/>
   <action name="action_new_workbook">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/new_file.png</normaloff>:/icons/new_file.png</iconset>
    </property>
    <property name="text">
@@ -877,7 +877,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_new_point">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
    </property>
    <property name="text">
@@ -892,7 +892,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_new_link">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
    </property>
    <property name="text">
@@ -910,7 +910,7 @@ QProgressBar::chunk {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
@@ -922,7 +922,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_mde_tw">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/kmol.png</normaloff>:/icons/kmol.png</iconset>
    </property>
    <property name="text">
@@ -934,7 +934,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_github_repository">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
@@ -946,7 +946,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_about">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
    </property>
    <property name="text">
@@ -964,7 +964,7 @@ QProgressBar::chunk {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/fullscreen.png</normaloff>:/icons/fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -1042,7 +1042,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_about_qt">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/qt.png</normaloff>:/icons/qt.png</iconset>
    </property>
    <property name="text">
@@ -1054,7 +1054,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_load_file">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
@@ -1069,7 +1069,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_zoom_to_fit">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/aim.png</normaloff>:/icons/aim.png</iconset>
    </property>
    <property name="text">
@@ -1098,7 +1098,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_pyslvs_com">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
    </property>
    <property name="text">
@@ -1113,7 +1113,7 @@ QProgressBar::chunk {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
    </property>
    <property name="text">
@@ -1128,7 +1128,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_example">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
@@ -1151,7 +1151,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_new_window">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/new_window.png</normaloff>:/icons/new_window.png</iconset>
    </property>
    <property name="text">
@@ -1171,7 +1171,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_save">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/yaml.png</normaloff>:/icons/yaml.png</iconset>
    </property>
    <property name="text">
@@ -1186,7 +1186,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_save_as">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/yaml.png</normaloff>:/icons/yaml.png</iconset>
    </property>
    <property name="text">
@@ -1201,7 +1201,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_documentation">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
    </property>
    <property name="text">
@@ -1218,7 +1218,7 @@ QProgressBar::chunk {
   </action>
   <action name="action_preference">
    <property name="icon">
-    <iconset resource="../../icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
    </property>
    <property name="text">
@@ -1230,7 +1230,7 @@ QProgressBar::chunk {
   </action>
  </widget>
  <resources>
-  <include location="../../icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>

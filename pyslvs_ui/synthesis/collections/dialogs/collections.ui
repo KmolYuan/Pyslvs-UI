@@ -14,7 +14,7 @@
    <string>Profile collections</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../icons.qrc">
+   <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -68,7 +68,7 @@
            <string>Load common structure</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../../icons.qrc">
+           <iconset resource="../../../icons.qrc">
             <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
           </property>
          </widget>
@@ -104,7 +104,7 @@
                <string>Mechanism</string>
               </property>
               <property name="icon">
-               <iconset resource="../../../../icons.qrc">
+               <iconset resource="../../../icons.qrc">
                 <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
               </property>
              </widget>
@@ -122,7 +122,7 @@
                <string>Rename</string>
               </property>
               <property name="icon">
-               <iconset resource="../../../../icons.qrc">
+               <iconset resource="../../../icons.qrc">
                 <normaloff>:/icons/rename.png</normaloff>:/icons/rename.png</iconset>
               </property>
               <property name="autoDefault">
@@ -136,7 +136,7 @@
                <string>Copy</string>
               </property>
               <property name="icon">
-               <iconset resource="../../../../icons.qrc">
+               <iconset resource="../../../icons.qrc">
                 <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
               </property>
              </widget>
@@ -160,7 +160,7 @@
                <string>Delete</string>
               </property>
               <property name="icon">
-               <iconset resource="../../../../icons.qrc">
+               <iconset resource="../../../icons.qrc">
                 <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
               </property>
               <property name="autoDefault">
@@ -204,7 +204,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../icons.qrc"/>
+  <include location="../../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

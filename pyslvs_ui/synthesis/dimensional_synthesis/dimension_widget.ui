@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -23,7 +23,7 @@
      <widget class="QTabWidget" name="options_tab">
       <widget class="QWidget" name="structure">
        <attribute name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
        </attribute>
        <attribute name="title">
@@ -38,7 +38,7 @@
              <string>Load profile from triangular iteration database.</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
             </property>
            </widget>
@@ -49,7 +49,7 @@
              <string>Save the structure profile back to the database.</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
             </property>
            </widget>
@@ -67,7 +67,7 @@
              <string>Clear the current profile and settings.</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
             </property>
            </widget>
@@ -86,7 +86,7 @@
           <item>
            <widget class="QPushButton" name="expr_copy">
             <property name="icon">
-             <iconset resource="../../../icons.qrc">
+             <iconset resource="../../icons.qrc">
               <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
             </property>
            </widget>
@@ -166,7 +166,7 @@
       </widget>
       <widget class="QWidget" name="target_path">
        <attribute name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
        </attribute>
        <attribute name="title">
@@ -221,7 +221,7 @@
                  <string>Past path data from string format.</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../../icons.qrc">
+                 <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
                 </property>
                </widget>
@@ -232,7 +232,7 @@
                  <string>Copy the path data as a string.</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../../icons.qrc">
+                 <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
                 </property>
                </widget>
@@ -243,7 +243,7 @@
                  <string>Clear all points.</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../../icons.qrc">
+                 <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
                 </property>
                 <property name="autoDefault">
@@ -268,7 +268,7 @@
                      <string>Move the point up.</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
                     </property>
                    </widget>
@@ -279,7 +279,7 @@
                      <string>Move the point down.</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
                     </property>
                    </widget>
@@ -303,7 +303,7 @@
                      <string>Remove the point.</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                     </property>
                    </widget>
@@ -314,7 +314,7 @@
                      <string>Close the path.</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/free_move_off.png</normaloff>:/icons/free_move_off.png</iconset>
                     </property>
                    </widget>
@@ -325,7 +325,7 @@
                      <string>User can edit target point immediately.</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../../icons.qrc">
+                     <iconset resource="../../icons.qrc">
                       <normaloff>:/icons/translate.png</normaloff>:/icons/translate.png</iconset>
                     </property>
                     <property name="checkable">
@@ -348,7 +348,7 @@
                    <string>Adjust the target path.</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../icons.qrc">
+                   <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
                   </property>
                  </widget>
@@ -365,7 +365,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../icons.qrc">
+                   <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/excel.png</normaloff>:/icons/excel.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -388,7 +388,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../icons.qrc">
+                   <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/csv.png</normaloff>:/icons/csv.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -434,7 +434,7 @@
       </widget>
       <widget class="QWidget" name="algorithm">
        <attribute name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
        </attribute>
        <attribute name="title">
@@ -477,7 +477,7 @@
            <string>Advance ...</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../icons.qrc">
+           <iconset resource="../../icons.qrc">
             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
           </property>
          </widget>
@@ -544,7 +544,7 @@
            <string>Synthesis</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../icons.qrc">
+           <iconset resource="../../icons.qrc">
             <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
           </property>
           <property name="autoDefault">
@@ -583,7 +583,7 @@
               <string>Load the setting of this result.</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
              </property>
             </widget>
@@ -594,7 +594,7 @@
               <bool>false</bool>
              </property>
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
              </property>
             </widget>
@@ -621,7 +621,7 @@
               <string>Delete this result.</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
              </property>
             </widget>
@@ -635,7 +635,7 @@
               <string>Merge this result to canvas.</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
              </property>
             </widget>
@@ -651,7 +651,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

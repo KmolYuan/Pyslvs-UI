@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../icons.qrc">
+   <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -197,10 +197,10 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QTableWidget" name="alg_table">
-      <attribute name="horizontalHeaderDefaultSectionSize">
+      <attribute name="horizontalHeaderMinimumSectionSize">
        <number>150</number>
       </attribute>
-      <attribute name="horizontalHeaderMinimumSectionSize">
+      <attribute name="horizontalHeaderDefaultSectionSize">
        <number>150</number>
       </attribute>
       <column>
@@ -253,7 +253,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../icons.qrc"/>
+  <include location="../../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

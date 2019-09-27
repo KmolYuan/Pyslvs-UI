@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>358</width>
+    <width>427</width>
     <height>422</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -26,7 +26,7 @@
         <string>Triangular iteration data and common structure data collections.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
        </property>
       </widget>
@@ -37,7 +37,7 @@
         <string>Save this iteration profile to data collections.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
        </property>
       </widget>
@@ -55,7 +55,7 @@
         <string>Turn this structure diagram back to structure collections.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
        </property>
       </widget>
@@ -66,7 +66,7 @@
         <string>Save this iteration profile to clipboard as a string.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
        </property>
       </widget>
@@ -84,7 +84,7 @@
         <string>Create a new iteration profile.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../icons.qrc">
+        <iconset resource="../../icons.qrc">
          <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
        </property>
       </widget>
@@ -126,7 +126,7 @@
             <string>Properties of Joints</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
            </property>
           </widget>
@@ -206,7 +206,7 @@
            <item>
             <widget class="QPushButton" name="driver_add">
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
              </property>
             </widget>
@@ -228,7 +228,7 @@
            <item>
             <widget class="QPushButton" name="driver_del">
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
              </property>
             </widget>
@@ -287,7 +287,7 @@
   <zorder></zorder>
  </widget>
  <resources>
-  <include location="../../../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

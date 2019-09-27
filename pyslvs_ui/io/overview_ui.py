@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pyslvs_ui/core/io/overview.ui'
+# Form implementation generated from reading ui file 'pyslvs_ui/io/overview.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -24,7 +24,7 @@ class Ui_Dialog(object):
         self.toolBox = QtWidgets.QToolBox(Dialog)
         self.toolBox.setObjectName("toolBox")
         self.page0 = QtWidgets.QWidget()
-        self.page0.setGeometry(QtCore.QRect(0, 0, 430, 315))
+        self.page0.setGeometry(QtCore.QRect(0, 0, 420, 345))
         self.page0.setObjectName("page0")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.page0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -38,7 +38,7 @@ class Ui_Dialog(object):
         icon1.addPixmap(QtGui.QPixmap(":/icons/mechanism.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page0, icon1, "")
         self.page1 = QtWidgets.QWidget()
-        self.page1.setGeometry(QtCore.QRect(0, 0, 193, 131))
+        self.page1.setGeometry(QtCore.QRect(0, 0, 211, 135))
         self.page1.setObjectName("page1")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.page1)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -64,7 +64,7 @@ class Ui_Dialog(object):
         icon2.addPixmap(QtGui.QPixmap(":/icons/motor.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page1, icon2, "")
         self.page2 = QtWidgets.QWidget()
-        self.page2.setGeometry(QtCore.QRect(0, 0, 297, 131))
+        self.page2.setGeometry(QtCore.QRect(0, 0, 237, 135))
         self.page2.setObjectName("page2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.page2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -90,7 +90,7 @@ class Ui_Dialog(object):
         icon3.addPixmap(QtGui.QPixmap(":/icons/collections.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page2, icon3, "")
         self.page3 = QtWidgets.QWidget()
-        self.page3.setGeometry(QtCore.QRect(0, 0, 96, 129))
+        self.page3.setGeometry(QtCore.QRect(0, 0, 111, 133))
         self.page3.setObjectName("page3")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page3)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
