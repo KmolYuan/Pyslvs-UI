@@ -5,8 +5,12 @@
 from os import walk
 from os.path import join
 import re
-from PyQt5.uic import compileUi
-from PyQt5.pyrcc_main import processResourceFile
+from qtpy import PYQT5
+if PYQT5:
+    from PyQt5.uic import compileUi
+    from PyQt5.pyrcc_main import processResourceFile
+else:
+    raise ModuleNotFoundError("no compiler found")
 
 
 def gen_ui():
@@ -24,9 +28,10 @@ def gen_ui():
                     import_from='pyslvs_ui'
                 )
                 f.seek(0)
-                script_new = f.read().replace(
-                    "from PyQt5 import",
-                    "from qtpy import"
+                script_new = (
+                    f.read()
+                    .replace("from PyQt5 import", "from qtpy import")
+                    .replace("from PySide2 import", "from qtpy import")
                 )
                 f.seek(0)
                 f.truncate()
@@ -44,9 +49,10 @@ def gen_qrc():
             target_name = re.sub(r"([\w ]+)\.qrc", r"\1_rc.py", file)
             processResourceFile([join(root, file).replace('\\', '/')], join(root, target_name), False)
             with open(join(root, target_name), 'r+', encoding='utf-8') as f:
-                script_new = f.read().replace(
-                    "from PyQt5 import",
-                    "from qtpy import"
+                script_new = (
+                    f.read()
+                    .replace("from PyQt5 import", "from qtpy import")
+                    .replace("from PySide2 import", "from qtpy import")
                 )
                 f.seek(0)
                 f.truncate()
