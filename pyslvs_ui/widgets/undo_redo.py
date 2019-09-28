@@ -110,10 +110,6 @@ class AddTable(_FusedTable):
         table: BaseTableWidget,
         parent: Optional[QWidget] = None
     ):
-        """Attributes
-
-        + Table reference
-        """
         super(AddTable, self).__init__(entities_list, table, parent)
 
     def redo(self) -> None:
@@ -145,12 +141,6 @@ class DeleteTable(_FusedTable):
         is_rename: bool,
         parent: Optional[QWidget] = None
     ):
-        """Attributes
-
-        + Table reference
-        + Row
-        + Should rename
-        """
         super(DeleteTable, self).__init__(entities_list, table, parent)
         self.row = row
         self.is_rename = is_rename
@@ -184,12 +174,6 @@ class FixSequenceNumber(QUndoCommand):
         benchmark: int,
         parent: Optional[QWidget] = None
     ):
-        """Attributes
-
-        + Table reference
-        + Row
-        + Benchmark
-        """
         super(FixSequenceNumber, self).__init__(parent)
         self.link_table = link_table
         self.vlink_list = vlink_list
