@@ -178,7 +178,8 @@ class FixSequenceNumber(QUndoCommand):
 
     def __init__(
         self,
-        point_table: PointTableWidget,
+        vlink_list: List[VLink],
+        link_table: LinkTableWidget,
         row: int,
         benchmark: int,
         parent: Optional[QWidget] = None
@@ -190,7 +191,8 @@ class FixSequenceNumber(QUndoCommand):
         + Benchmark
         """
         super(FixSequenceNumber, self).__init__(parent)
-        self.point_table = point_table
+        self.link_table = link_table
+        self.vlink_list = vlink_list
         self.row = row
         self.benchmark = benchmark
 
@@ -202,14 +204,16 @@ class FixSequenceNumber(QUndoCommand):
 
     def __sorting(self, benchmark: bool) -> None:
         """Sorting point number by benchmark."""
-        item = self.point_table.item(self.row, 2)
-        if not item.text():
+        vlink = self.vlink_list[self.row]
+        if not vlink.points:
             return
-        points = [int(p.replace('Point', '')) for p in item.text().split(',')]
+        points = list(vlink.points)
         if benchmark:
             points = [p - 1 if p > self.benchmark else p for p in points]
         else:
             points = [p + 1 if p >= self.benchmark else p for p in points]
+        vlink.set_points(points)
+        item = self.link_table.item(self.row, 2)
         item.setText(','.join([f'Point{p}' for p in points]))
 
 

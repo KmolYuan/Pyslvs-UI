@@ -268,6 +268,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         for i in range(self.entities_link.rowCount()):
             self.command_stack.push(FixSequenceNumber(
+                self.vlink_list,
                 self.entities_link,
                 i,
                 row
