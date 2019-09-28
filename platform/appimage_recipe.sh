@@ -101,7 +101,7 @@ EOF
 
 # Make the AppImage ask to "install" itself into the menu
 get_desktopintegration ${LOWERAPP}
-cp -n -v "${BASEDIR}/icons/main.png" "${LOWERAPP}.png"
+cp -n -v "${BASEDIR}/pyslvs_ui/icons/main.png" "${LOWERAPP}.png"
 
 ########################################################################
 # Bundle dependencies

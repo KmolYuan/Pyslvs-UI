@@ -9,6 +9,7 @@
 **Development**:
 
 + Remove `core` namespace.
++ Move `icons` folder into `pyslvs_ui/icons`.
 + Replace `*-pyslvs` command with `*-kernel` in Makefile.
 + Treat `python-solvespace` as normal module.
 

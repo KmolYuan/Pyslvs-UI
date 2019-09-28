@@ -12,9 +12,7 @@
 [![Blog](https://img.shields.io/badge/info-blog-blue.svg)](http://www.pyslvs.com/blog/index.html)
 [![CMS](https://img.shields.io/badge/info-cms-blue.svg)](http://www.pyslvs.com/content/)
 
-![](https://raw.githubusercontent.com/KmolYuan/Pyslvs-UI/master/icons/splash.png)
-
-# Introduction
+# Pyslvs-UI
 
 A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 

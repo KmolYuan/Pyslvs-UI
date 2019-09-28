@@ -62,10 +62,10 @@ build: $(LAUNCHER) clean _build
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS),Windows_NT)
-	pyinstaller -F $< -i ./icons/main.ico -n Pyslvs
+	pyinstaller -F $< -i pyslvs_ui/icons/main.ico -n Pyslvs
 	rename .\dist\Pyslvs.exe $(EXENAME).exe
 else ifeq ($(shell uname),Darwin)
-	pyinstaller -w -F $< -i ./icons/main.icns -n Pyslvs
+	pyinstaller -w -F $< -i pyslvs_ui/icons/main.icns -n Pyslvs
 	mv dist/Pyslvs dist/$(EXENAME)
 	chmod +x dist/$(EXENAME)
 	mv dist/Pyslvs.app dist/$(EXENAME).app
