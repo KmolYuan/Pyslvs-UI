@@ -46,9 +46,11 @@ setup(
     entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
     zip_safe=False,
     python_requires=">=3.7",
+    options={'bdist_wheel': {'python_tag': 'cp37.cp38'}},
     install_requires=read('requirements.txt').splitlines() + [f'pyslvs=={version}'],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Environment :: X11 Applications :: Qt",
         "Topic :: Scientific/Engineering",
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
