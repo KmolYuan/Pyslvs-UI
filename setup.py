@@ -46,10 +46,12 @@ setup(
     entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
     zip_safe=False,
     python_requires=">=3.7",
+    options={'bdist_wheel': {'python_tag': 'cp37.cp38'}},
     install_requires=read('requirements.txt').splitlines()
         + [f'pyslvs=={version}', 'python_solvespace'],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Cython",
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Operating System :: OS Independent",
