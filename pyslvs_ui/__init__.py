@@ -36,9 +36,9 @@ def main() -> None:
         exit(0)
 
     _app = QApplication(argv)
-    splash = QSplashScreen(QPixmap(":/icons/splash.png"))
-    splash.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
-    splash.show()
+    sp = QSplashScreen(QPixmap(":/icons/splash.png"))
+    sp.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
+    sp.show()
 
     # Force enable fusion style on macOS
     if system() == 'Darwin':
@@ -47,14 +47,10 @@ def main() -> None:
         _app.setStyle('fusion')
 
     from .main_window import MainWindow
-    w = MainWindow()
-    w.show()
-    splash.finish(w)
-    splash.deleteLater()
+    sp.finish(MainWindow.new())
+    sp.deleteLater()
     logger.info(f"Startup with: {perf_counter() - t0:.02f}s")
-    if not ARGUMENTS.debug_mode:
-        w.console_connect()
-    del splash, t0
+    del sp, t0
 
     qt_exit_code = _app.exec_()
     shutdown()

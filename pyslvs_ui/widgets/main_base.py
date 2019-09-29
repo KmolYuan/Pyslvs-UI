@@ -233,11 +233,6 @@ class MainWindowBase(MainWindowABC, ABC):
         """Return environment path."""
         return self.env
 
-    def show(self) -> None:
-        """Overridden function to zoom the canvas's size after startup."""
-        super(MainWindowBase, self).show()
-        self.main_canvas.zoom_to_fit()
-
     def set_locate(self, locate: str) -> None:
         """Set environment variables."""
         if locate == self.env or not QDir(locate).exists():
@@ -414,35 +409,22 @@ class MainWindowBase(MainWindowABC, ABC):
         show_label2 = self.structure_synthesis.graph_show_label
         show_label1.toggled.connect(show_label2.setChecked)
         show_label2.toggled.connect(show_label1.setChecked)
-
         # File widget settings
         self.project_widget = ProjectWidget(self)
         self.project_layout.addWidget(self.project_widget)
-
         # Console dock will hide when startup
         self.console_widget.hide()
         # Connect to GUI button
         self.console_disconnect_button.setEnabled(not ARGUMENTS.debug_mode)
         self.console_connect_button.setEnabled(ARGUMENTS.debug_mode)
-
         # Splitter stretch factor
         self.main_splitter.setStretchFactor(0, 4)
         self.main_splitter.setStretchFactor(1, 15)
         self.mechanism_panel_splitter.setSizes([500, 200])
-
         # Enable mechanism menu actions when shows
         self.menu_mechanism.aboutToShow.connect(self.enable_mechanism_actions)
-
-        @Slot()
-        def new_main_window() -> None:
-            """Start a new window."""
-            w = type(self)()
-            if not ARGUMENTS.debug_mode:
-                w.console_connect()
-            w.show()
-            logger.info("New window started.")
-
-        self.action_new_window.triggered.connect(new_main_window)
+        # New main window function
+        self.action_new_window.triggered.connect(self.new)
 
     def __free_move(self) -> None:
         """Menu of free move mode."""

@@ -11,6 +11,8 @@ Abstract classes (ordered):
 + IOMethodInterface (io)
 """
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -20,7 +22,7 @@ from typing import Tuple, Sequence
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import QMessageBox, QInputDialog
 from qtpy.QtGui import QTextCursor, QCloseEvent
-from pyslvs_ui.info import XStream, logger
+from pyslvs_ui.info import ARGUMENTS, XStream, logger
 from .io import IOMethodInterface
 
 __all__ = ['MainWindow']
@@ -51,6 +53,17 @@ class MainWindow(IOMethodInterface):
         self.solve()
         # Load workbook from argument
         self.load_from_args()
+
+    @staticmethod
+    @Slot()
+    def new() -> MainWindow:
+        """Create a new main window."""
+        m = MainWindow()
+        m.showMaximized()
+        m.main_canvas.zoom_to_fit()
+        if not ARGUMENTS.debug_mode:
+            m.console_connect()
+        return m
 
     def closeEvent(self, event: QCloseEvent) -> None:
         """Close event to avoid user close the window accidentally."""

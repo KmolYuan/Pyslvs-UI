@@ -2,6 +2,8 @@
 
 """Predefined methods of main window."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
@@ -289,4 +291,9 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def show_overview(self) -> None:
+        ...
+
+    @staticmethod
+    @abstractmethod
+    def new() -> MainWindowABC:
         ...

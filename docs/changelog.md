@@ -8,6 +8,7 @@
 
 **Development**:
 
++ Create main window using `new` static method.
 + Remove `core` namespace.
 + Move `icons` folder into `pyslvs_ui/icons`.
 + Replace `*-pyslvs` command with `*-kernel` in Makefile.
