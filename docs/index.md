@@ -1,6 +1,6 @@
 # What is Pyslvs?
 
-Pyslvs \[`paɪsɑlvz] is an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System,
+<img src="img/favicon.png" width="10%"/> Pyslvs \[`paɪsɑlvz] is an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System,
 which is named from "Python" and "Solvers".
 
 The project is maintained on GitHub: <https://github.com/KmolYuan/Pyslvs-UI>

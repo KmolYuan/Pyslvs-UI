@@ -14,7 +14,7 @@
 
 # Pyslvs-UI
 
-A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
+<img src="docs/img/favicon.png" width="10%"/> A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
 + **Planar Linkages Simulation**
 

@@ -7,8 +7,8 @@ site_description: The manual of Pyslvs, an open source planar linkage mechanism 
 
 theme:
   name: material
-  favicon: img/favicon.ico
-  logo: img/favicon.ico
+  favicon: img/favicon.png
+  logo: img/favicon.png
   feature:
     tabs: true
 
