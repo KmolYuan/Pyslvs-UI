@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Pyslvs can only start one instance.
 
 **Development**:
 

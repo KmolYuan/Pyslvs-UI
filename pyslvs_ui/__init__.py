@@ -21,9 +21,10 @@ def main() -> None:
     t0 = perf_counter()
 
     from sys import argv, exit
+    from os.path import join
     from logging import shutdown
     from platform import system
-    from qtpy.QtCore import Qt
+    from qtpy.QtCore import Qt, QDir, QLockFile
     from qtpy.QtWidgets import QApplication, QSplashScreen
     from qtpy.QtGui import QPixmap
     from .info import ARGUMENTS, logger
@@ -36,6 +37,11 @@ def main() -> None:
         exit(0)
 
     _app = QApplication(argv)
+    lf = QLockFile(join(QDir.tempPath(), "pyslvs.lock"))
+    if not lf.tryLock(100):
+        logger.info("Pyslvs can only start one instance.")
+        shutdown()
+        exit(0)
     sp = QSplashScreen(QPixmap(":/icons/splash.png"))
     sp.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
     sp.show()
