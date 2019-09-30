@@ -165,6 +165,7 @@ class Preferences:
     file_type_option: int = 0
     planar_solver_option: int = 0
     path_preview_option: int = len(kernel_list)
+    auto_remove_link_option: bool = True
     title_full_path_option: bool = False
     console_error_option: bool = ARGUMENTS.debug_mode
     # "Do not save the settings" by default

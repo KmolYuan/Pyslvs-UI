@@ -282,6 +282,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.inputs_widget.variable_excluding(row)
         self.command_stack.endMacro()
+        if self.prefer.auto_remove_link_option:
+            self.delete_empty_links()
 
     @Slot(name='on_action_delete_link_triggered')
     def delete_link(self, row: Optional[int] = None) -> None:
@@ -715,7 +717,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Delete empty link names."""
         self.delete_links([
             i for i, vlink in enumerate(self.vlink_list)
-            if vlink.name != 'ground' and not vlink.points
+            if vlink.name != 'ground' and len(vlink.points) < 2
         ])
 
     def set_coords_as_current(self) -> None:

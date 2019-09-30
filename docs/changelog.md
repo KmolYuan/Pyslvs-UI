@@ -7,6 +7,7 @@
 + Pyslvs can only start one instance.
 + Add "points alignment" function. (github issue #21)
 + Add "navigation toolbar position" option.
++ Add "auto remove empty links after deleted points" option. (github issue #23)
 
 **Development**:
 

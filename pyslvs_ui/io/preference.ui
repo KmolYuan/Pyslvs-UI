@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>711</width>
-    <height>405</height>
+    <height>394</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -520,6 +520,13 @@
           <string>Misc</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QCheckBox" name="auto_remove_link_option">
+            <property name="text">
+             <string>Remove empty links after deleted points.</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QCheckBox" name="title_full_path_option">
             <property name="text">

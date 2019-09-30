@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(711, 405)
+        Dialog.resize(711, 394)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -252,6 +252,9 @@ class Ui_Dialog(object):
         self.settings_misc_groupBox.setObjectName("settings_misc_groupBox")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.settings_misc_groupBox)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.auto_remove_link_option = QtWidgets.QCheckBox(self.settings_misc_groupBox)
+        self.auto_remove_link_option.setObjectName("auto_remove_link_option")
+        self.verticalLayout_7.addWidget(self.auto_remove_link_option)
         self.title_full_path_option = QtWidgets.QCheckBox(self.settings_misc_groupBox)
         self.title_full_path_option.setObjectName("title_full_path_option")
         self.verticalLayout_7.addWidget(self.title_full_path_option)
@@ -318,6 +321,7 @@ class Ui_Dialog(object):
         self.open_project_actions_option.setItemText(2, _translate("Dialog", "No group"))
         self.file_type_label.setText(_translate("Dialog", "File type:"))
         self.settings_misc_groupBox.setTitle(_translate("Dialog", "Misc"))
+        self.auto_remove_link_option.setText(_translate("Dialog", "Remove empty links after deleted points."))
         self.title_full_path_option.setText(_translate("Dialog", "Show full file path on window title."))
         self.not_save_option.setText(_translate("Dialog", "Don\'t save Pyslvs options to local."))
 from pyslvs_ui import icons_rc
