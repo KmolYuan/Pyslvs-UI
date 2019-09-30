@@ -243,6 +243,8 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.main_canvas.set_joint_size(value)
             elif name == 'zoom_by_option':
                 self.main_canvas.set_zoom_by(value)
+            elif name == 'nav_toolbar_pos_option':
+                self.__set_nav_toolbar_pos(value)
             elif name == 'snap_option':
                 self.main_canvas.set_snap(value)
             elif name == 'background_option':
@@ -266,3 +268,12 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                     canvas.set_show_ticks(value)
                 elif name == 'monochrome_option':
                     canvas.set_monochrome_mode(value)
+
+    def __set_nav_toolbar_pos(self, pos: int) -> None:
+        """Set the position of toolbar. (0: top, 1: bottom)"""
+        if pos in {0, 1}:
+            if self.canvas_splitter.indexOf(self.nav_toolbar) == pos:
+                return
+            self.canvas_splitter.insertWidget(pos, self.nav_toolbar)
+        else:
+            raise ValueError("invalid toolbar position.")

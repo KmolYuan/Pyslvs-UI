@@ -6,6 +6,7 @@
 
 + Pyslvs can only start one instance.
 + Add "points alignment" function. (github issue #21)
++ Add "navigation toolbar position" option.
 
 **Development**:
 

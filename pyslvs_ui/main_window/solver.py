@@ -360,7 +360,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.conflict.setToolTip(error_text)
             self.conflict.setStatusTip(error_text)
             self.conflict.setVisible(True)
-            self.DOFview.setVisible(False)
+            self.dof_view.setVisible(False)
         else:
             self.entities_point.update_current_position(result)
             for i, c in enumerate(result):
@@ -370,9 +370,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     c1, c2 = c
                     self.vpoint_list[i].move(c1, c2)
             self.dof = vpoint_dof(self.vpoint_list)
-            self.DOFview.setText(f"{self.dof} ({self.inputs_widget.input_count()})")
+            self.dof_view.setText(f"{self.dof} ({self.inputs_widget.input_count()})")
             self.conflict.setVisible(False)
-            self.DOFview.setVisible(True)
+            self.dof_view.setVisible(True)
         self.reload_canvas()
 
     def preview_path(

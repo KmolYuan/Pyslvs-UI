@@ -137,6 +137,8 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     """Abstract class for wrapping main canvas class."""
 
+    default_zoom = 400
+
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)
@@ -767,7 +769,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
         inf = float('inf')
         if (inf in {x_right, y_bottom}) or (-inf in {x_left, y_top}):
             # Default scale value
-            self.zoom_changed.emit(200)
+            self.zoom_changed.emit(self.default_zoom)
             self.ox = width / 2
             self.oy = height / 2
             self.update()
