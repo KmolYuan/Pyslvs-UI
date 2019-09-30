@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1023</width>
-    <height>932</height>
+    <width>828</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -572,7 +572,7 @@ QProgressBar::chunk {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="ResetCanvas">
+              <widget class="QPushButton" name="reset_canvas_button">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -595,9 +595,29 @@ QProgressBar::chunk {
               </widget>
              </item>
              <item>
+              <widget class="QToolButton" name="alignment_button">
+               <property name="statusTip">
+                <string>Point alignment: Align the selected points with a value of x or y axis.</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/vertical_align.png</normaloff>:/icons/vertical_align.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::MenuButtonPopup</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="free_move_button">
                <property name="statusTip">
-                <string>Free mode: Allow selected point coordinates to be edited by drag and drop.</string>
+                <string>Free mode: Allow selected point coordinates to be edited by dragging.</string>
                </property>
                <property name="icon">
                 <iconset resource="../icons.qrc">
@@ -780,8 +800,8 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1023</width>
-     <height>25</height>
+     <width>828</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">

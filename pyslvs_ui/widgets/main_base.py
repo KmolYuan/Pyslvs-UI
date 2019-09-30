@@ -26,13 +26,7 @@ from typing import (
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
 from dataclasses import dataclass, field, fields, Field, astuple
-from qtpy.QtCore import (
-    Slot,
-    Qt,
-    QPoint,
-    QDir,
-    QSettings,
-)
+from qtpy.QtCore import Slot, Qt, QPoint, QDir, QSettings
 from qtpy.QtWidgets import (
     QAction,
     QMenu,
@@ -44,7 +38,11 @@ from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink, color_rgb
 from pyslvs_ui.info import ARGUMENTS, logger, kernel_list
 from pyslvs_ui.io import ProjectWidget
-from pyslvs_ui.synthesis import StructureSynthesis, Collections, DimensionalSynthesis
+from pyslvs_ui.synthesis import (
+    StructureSynthesis,
+    Collections,
+    DimensionalSynthesis,
+)
 from .main_abc import MainWindowABC
 from .main_canvas import DynamicCanvas
 from .tables import (
@@ -199,6 +197,8 @@ class MainWindowBase(MainWindowABC, ABC):
         super(MainWindowBase, self).__init__()
         # Environment path
         self.env = ""
+        # Alignment mode
+        self.alignment_mode = 0
         # Entities list
         self.vpoint_list: List[VPoint] = []
         self.vlink_list = [VLink('ground', 'White', (), color_rgb)]
@@ -206,7 +206,6 @@ class MainWindowBase(MainWindowABC, ABC):
         self.context = _Context()
         # Preference
         self.prefer = Preferences()
-
         # Set path from command line
         home_dir = QDir.home()
         self.settings = QSettings(
@@ -224,6 +223,7 @@ class MainWindowBase(MainWindowABC, ABC):
         # Initialize custom UI
         self.__undo_redo()
         self.__appearance()
+        self.__alignment()
         self.__free_move()
         self.__options()
         self.__zoom()
@@ -238,7 +238,7 @@ class MainWindowBase(MainWindowABC, ABC):
         if locate == self.env or not QDir(locate).exists():
             return
         self.env = locate
-        logger.debug(f"~Set workplace to: [\"{self.env}\"]")
+        logger.debug(f"~Set workplace to: \"{self.env}\"")
 
     def __undo_redo(self) -> None:
         """Undo list settings.
@@ -426,10 +426,29 @@ class MainWindowBase(MainWindowABC, ABC):
         # New main window function
         self.action_new_window.triggered.connect(self.new)
 
+    def __alignment(self) -> None:
+        """Menu of alignment function."""
+        def switch_icon(m: int, icon_name: str) -> Callable[[], None]:
+            @Slot()
+            def func() -> None:
+                self.alignment_mode = m
+                self.alignment_button.setIcon(QIcon(QPixmap(icon_name)))
+            return func
+
+        menu = QMenu(self)
+        for i, (text, icon) in enumerate([
+            ("Vertical alignment", "vertical_align"),
+            ("Horizontal alignment", "horizontal_align"),
+        ]):
+            icon = f":/icons/{icon}.png"
+            action = QAction(QIcon(QPixmap(icon)), text, self)
+            action.triggered.connect(switch_icon(i, icon))
+            menu.addAction(action)
+        self.alignment_button.setMenu(menu)
+        self.alignment_button.clicked.connect(self.point_alignment)
+
     def __free_move(self) -> None:
         """Menu of free move mode."""
-        free_move_mode_menu = QMenu(self)
-
         def free_move_mode_func(j: int, icon_qt: QIcon) -> Callable[[], None]:
             @Slot()
             def func() -> None:
@@ -439,6 +458,7 @@ class MainWindowBase(MainWindowABC, ABC):
                 self.inputs_widget.variable_stop.click()
             return func
 
+        menu = QMenu(self)
         for i, (text, icon, tip) in enumerate([
             ("View mode", "free_move_off", "Disable free move mode."),
             ("Translate mode", "translate", "Edit by 2 DOF moving."),
@@ -450,10 +470,10 @@ class MainWindowBase(MainWindowABC, ABC):
             action.setShortcut(f"Ctrl+{i + 1}")
             action.setShortcutContext(Qt.WindowShortcut)
             action.setStatusTip(tip)
-            free_move_mode_menu.addAction(action)
+            menu.addAction(action)
             if i == 0:
                 self.free_move_disable = action
-        self.free_move_button.setMenu(free_move_mode_menu)
+        self.free_move_button.setMenu(menu)
 
     def __options(self) -> None:
         """Signal connection for option widgets.
@@ -473,9 +493,6 @@ class MainWindowBase(MainWindowABC, ABC):
         + 'zoom to fit' function connections.
         + Zoom text buttons
         """
-        self.action_zoom_to_fit.triggered.connect(self.main_canvas.zoom_to_fit)
-        self.ResetCanvas.clicked.connect(self.main_canvas.zoom_to_fit)
-
         def zoom_level(value: int) -> Callable[[], None]:
             """Return a function that set the specified zoom value."""
             @Slot()
@@ -483,6 +500,8 @@ class MainWindowBase(MainWindowABC, ABC):
                 self.zoom_bar.setValue(value)
             return func
 
+        self.action_zoom_to_fit.triggered.connect(self.main_canvas.zoom_to_fit)
+        self.reset_canvas_button.clicked.connect(self.main_canvas.zoom_to_fit)
         zoom_menu = QMenu(self)
         zoom_min = self.zoom_bar.minimum()
         zoom_min = zoom_min - zoom_min % 100 + 100

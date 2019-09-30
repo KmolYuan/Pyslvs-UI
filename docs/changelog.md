@@ -5,6 +5,7 @@
 **Features**:
 
 + Pyslvs can only start one instance.
++ Add "points alignment" function. (github issue #21)
 
 **Development**:
 

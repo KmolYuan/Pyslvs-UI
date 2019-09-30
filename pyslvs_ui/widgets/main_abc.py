@@ -297,3 +297,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     @abstractmethod
     def new() -> MainWindowABC:
         ...
+
+    @abstractmethod
+    def point_alignment(self) -> None:
+        ...

@@ -28,6 +28,7 @@ from qtpy.QtWidgets import (
     QVBoxLayout,
     QComboBox,
     QMessageBox,
+    QInputDialog,
 )
 from pyslvs import (
     VJoint,
@@ -723,3 +724,47 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             (row, (vpoint.cx, vpoint.cy, vpoint.angle))
             for row, vpoint in enumerate(self.vpoint_list)
         ))
+
+    @Slot()
+    def point_alignment(self) -> None:
+        """Alignment function."""
+        selected_rows = self.entities_point.selected_rows()
+        if not selected_rows:
+            QMessageBox.warning(
+                self,
+                "Points alignment",
+                "No selected points with this operation."
+            )
+            return
+        if self.alignment_mode == 0:
+            axis = "x"
+            index = 4
+        elif self.alignment_mode == 1:
+            axis = "y"
+            index = 3
+        else:
+            raise ValueError("no such alignment option.")
+        value, ok = QInputDialog.getDouble(
+            self,
+            f"Set {axis} axis",
+            f"Align the selected points into {axis} axis:",
+            0,
+            -9999,
+            9999,
+            4
+        )
+        if not ok:
+            return
+        self.command_stack.beginMacro(f"Align points with {axis}")
+        for row in selected_rows:
+            args = self.entities_point.row_data(row)
+            args[index] = value
+            self.command_stack.push(EditPointTable(
+                row,
+                self.vpoint_list,
+                self.vlink_list,
+                self.entities_point,
+                self.entities_link,
+                args
+            ))
+        self.command_stack.endMacro()

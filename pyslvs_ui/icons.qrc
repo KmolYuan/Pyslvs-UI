@@ -24,6 +24,8 @@
     <file>icons/history.png</file>
     <file>icons/synthesis.png</file>
     <!--Free move mode icons-->
+    <file>icons/horizontal_align.png</file>
+    <file>icons/vertical_align.png</file>
     <file>icons/free_move_off.png</file>
     <file>icons/reflect.png</file>
     <file>icons/rotate.png</file>
