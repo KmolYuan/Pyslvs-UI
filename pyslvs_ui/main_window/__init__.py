@@ -59,7 +59,7 @@ class MainWindow(IOMethodInterface):
     def new() -> MainWindow:
         """Create a new main window."""
         m = MainWindow()
-        m.showMaximized()
+        m.show()
         m.main_canvas.zoom_to_fit()
         if not ARGUMENTS.debug_mode:
             m.console_connect()
