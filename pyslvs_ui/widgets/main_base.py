@@ -44,7 +44,7 @@ from pyslvs_ui.synthesis import (
     DimensionalSynthesis,
 )
 from .main_abc import MainWindowABC
-from .main_canvas import DynamicCanvas
+from .canvas import MainCanvas
 from .tables import (
     PointTableWidget,
     LinkTableWidget,
@@ -299,7 +299,7 @@ class MainWindowBase(MainWindowABC, ABC):
         self.addAction(select_all_action)
 
         # QPainter canvas window
-        self.main_canvas = DynamicCanvas(self)
+        self.main_canvas = MainCanvas(self)
         self.entities_tab.currentChanged.connect(self.main_canvas.set_selection_mode)
         select_tips = QLabel(self, Qt.ToolTip)
 

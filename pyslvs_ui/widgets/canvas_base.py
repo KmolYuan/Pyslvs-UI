@@ -65,15 +65,15 @@ class _Selector:
     + picking: Is selecting (for drawing function).
     """
 
-    x = 0.
-    y = 0.
-    sx = 0.
-    sy = 0.
+    x: float = 0.
+    y: float = 0.
+    sx: float = 0.
+    sy: float = 0.
     selection_rect: List[int] = field(default_factory=list)
     selection_old: List[int] = field(default_factory=list)
-    middle_dragged = False
-    left_dragged = False
-    picking = False
+    middle_dragged: bool = False
+    left_dragged: bool = False
+    picking: bool = False
 
     def release(self) -> None:
         """Release the dragging status."""
@@ -133,7 +133,7 @@ _selection_unit = {
 }
 
 
-class DynamicCanvasInterface(BaseCanvas, ABC):
+class MainCanvasBase(BaseCanvas, ABC):
 
     """Abstract class for wrapping main canvas class."""
 
@@ -154,7 +154,7 @@ class DynamicCanvasInterface(BaseCanvas, ABC):
 
     @abstractmethod
     def __init__(self, parent: MainWindowBase) -> None:
-        super(DynamicCanvasInterface, self).__init__(parent)
+        super(MainCanvasBase, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         # The current mouse coordinates

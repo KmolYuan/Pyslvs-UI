@@ -34,14 +34,14 @@ from qtpy.QtGui import (
     QPixmap,
     QImage,
 )
-from .main_canvas_method import DynamicCanvasInterface, FreeMode, SelectMode
+from .canvas_base import MainCanvasBase, FreeMode, SelectMode
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
 
 
-class DynamicCanvas(DynamicCanvasInterface):
+class MainCanvas(MainCanvasBase):
 
     """The canvas in main window.
 
@@ -53,7 +53,7 @@ class DynamicCanvas(DynamicCanvasInterface):
     """
 
     def __init__(self, parent: MainWindowBase) -> None:
-        super(DynamicCanvas, self).__init__(parent)
+        super(MainCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar
         self.set_zoom_bar = parent.zoom_bar.setValue
         self.zoom_value = parent.zoom_bar.value
