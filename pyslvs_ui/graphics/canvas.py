@@ -240,10 +240,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             is_ten = x % 10 == 0
             end = QPointF(x * self.zoom, -10 if is_ten else -5)
-            self.painter.drawLine(
-                QPointF(x, 0) * self.zoom,
-                end
-            )
+            self.painter.drawLine(QPointF(x, 0) * self.zoom, end)
             if self.show_ticks == _TickMark.show_num and is_ten:
                 self.painter.drawText(end + QPointF(0, 3), f"{x}")
         for y in range(indexing(y_b), indexing(y_t) + 1, 5):
@@ -251,10 +248,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             is_ten = y % 10 == 0
             end = QPointF(10 if is_ten else 5, y * self.zoom)
-            self.painter.drawLine(
-                QPointF(0, y) * self.zoom,
-                end
-            )
+            self.painter.drawLine(QPointF(0, y) * self.zoom, end)
             if self.show_ticks == _TickMark.show_num and is_ten:
                 self.painter.drawText(end + QPointF(3, 0), f"{-y}")
         # Please to call the "end" method when ending paint event.
@@ -424,7 +418,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 p = QPointF(x, -y) * self.zoom
                 if i == 0:
                     painter_path.moveTo(p)
-                    self.draw_circle(p, 5)
+                    self.draw_circle(p, 2)
                     continue
                 if error:
                     painter_path.moveTo(p)
@@ -442,7 +436,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             p = QPointF(x, -y) * self.zoom
             if i == 0:
-                self.draw_circle(p, 5)
+                self.draw_circle(p, 2)
             else:
                 self.painter.drawPoint(p)
 
