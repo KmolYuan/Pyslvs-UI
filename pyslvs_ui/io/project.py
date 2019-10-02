@@ -9,8 +9,8 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING
-from qtpy.QtCore import Signal, QFileInfo, QDateTime
+from typing import TYPE_CHECKING, Dict, Union
+from qtpy.QtCore import Signal, Slot, QFileInfo, QDateTime
 from qtpy.QtWidgets import (
     QUndoView,
     QVBoxLayout,
@@ -21,6 +21,7 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QPixmap, QIcon
 from pyslvs import example_list
 from pyslvs_ui.info import logger, size_format
+from pyslvs_ui.qt_patch import qt_image_format
 from .yaml import YamlEditor
 from .hdf5 import HDF5Editor
 from .project_ui import Ui_Form
@@ -41,7 +42,7 @@ class ProjectWidget(QWidget, Ui_Form):
         # Undo view
         self.command_stack = parent.command_stack
         undo_view = QUndoView(self.command_stack)
-        undo_view.setEmptyLabel("~ Start Pyslvs")
+        undo_view.setEmptyLabel("~Start Pyslvs")
         w = QWidget(self)
         layout = QVBoxLayout(w)
         layout.addWidget(undo_view)
@@ -51,6 +52,8 @@ class ProjectWidget(QWidget, Ui_Form):
         self.prefer = parent.prefer
         # Check workbook saved function
         self.workbook_saved = parent.workbook_saved
+        # Open file dialog
+        self.input_from = parent.input_from
         # Parse function
         self.parse_expression = parent.parse_expression
         # Call to load inputs variables data
@@ -72,9 +75,15 @@ class ProjectWidget(QWidget, Ui_Form):
         self.im_pmks_button.clicked.connect(parent.import_pmks_url)
         self.im_example_button.clicked.connect(lambda: self.load_example(is_import=True))
 
+        self.background_option.textChanged.connect(parent.main_canvas.set_background)
+        self.background_opacity_option.valueChanged.connect(parent.main_canvas.set_background_opacity)
+        self.background_x_option.valueChanged.connect(parent.main_canvas.set_background_offset_x)
+        self.background_y_option.valueChanged.connect(parent.main_canvas.set_background_offset_y)
+        self.background_scale_option.valueChanged.connect(parent.main_canvas.set_background_scale)
+
         # Editors
-        self.yaml_editor = YamlEditor(parent)
-        self.hdf5_editor = HDF5Editor(parent)
+        self.yaml_editor = YamlEditor(self, parent)
+        self.hdf5_editor = HDF5Editor(self, parent)
         # Reset
         self.__file_name = QFileInfo("")
         self.__changed = False
@@ -191,3 +200,28 @@ class ProjectWidget(QWidget, Ui_Form):
         self.workbook_saved()
         logger.info(f"Example \"{example_name}\" has been loaded.")
         return True
+
+    @Slot(name='on_background_choose_dir_clicked')
+    def __background_choose_dir(self) -> None:
+        """Choose background directory."""
+        file_name = self.input_from("background image", qt_image_format)
+        if file_name:
+            self.background_option.setText(file_name)
+
+    def background_config(self) -> Dict[str, Union[str, float]]:
+        """Return background config."""
+        return {
+            'background': self.background_option.text(),
+            'background_x': self.background_x_option.value(),
+            'background_y': self.background_y_option.value(),
+            'background_scale': self.background_scale_option.value(),
+            'background_opacity': self.background_opacity_option.value(),
+        }
+
+    def set_background_config(self, config: Dict[str, Union[str, float]]) -> None:
+        """Set background config by dict object."""
+        self.background_option.setText(config.get('background', ""))
+        self.background_x_option.setValue(config.get('background_x', 0.))
+        self.background_y_option.setValue(config.get('background_y', 0.))
+        self.background_scale_option.setValue(config.get('background_scale', 1.))
+        self.background_scale_opacity.setValue(config.get('background_opacity', 1.))

@@ -4,14 +4,12 @@ from __future__ import annotations
 
 """HDF5 format processing function."""
 
-from typing import TYPE_CHECKING, Dict, Union, Any
+from typing import Dict, Union, Any
 from zlib import compress, decompress
 from h5py import File, Dataset, Group
 from numpy import ndarray, array, int8, void
 from qtpy.QtWidgets import QMessageBox
 from .format_editor import FormatEditor
-if TYPE_CHECKING:
-    from pyslvs_ui.widgets import MainWindowBase
 
 
 def _compress(b: bytes) -> ndarray:
@@ -71,8 +69,8 @@ class HDF5Editor(FormatEditor):
 
     """HDF5 reader and writer."""
 
-    def __init__(self, parent: MainWindowBase):
-        super(HDF5Editor, self).__init__(parent)
+    def __init__(self, *args):
+        super(HDF5Editor, self).__init__(*args)
 
     @staticmethod
     def test(file_name: str) -> bool:

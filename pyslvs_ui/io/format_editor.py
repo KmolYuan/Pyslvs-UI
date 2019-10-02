@@ -11,6 +11,7 @@ from typing import (
     List,
     Sequence,
     Dict,
+    Union,
     Any,
 )
 from qtpy.QtCore import QObject, QFileInfo, QCoreApplication
@@ -20,6 +21,7 @@ from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.info import logger
 from .overview import OverviewDialog
 if TYPE_CHECKING:
+    from pyslvs_ui.io import ProjectWidget
     from pyslvs_ui.widgets import MainWindowBase
 
 PROJECT_FORMAT = (
@@ -33,7 +35,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     """Genetic reader and writer."""
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, project_widget: ProjectWidget, parent: MainWindowBase) -> None:
         super(FormatEditor, self).__init__(parent)
         # Undo stack
         self.command_stack = parent.command_stack
@@ -55,6 +57,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.algorithm_data = parent.dimensional_synthesis.mechanism_data
         # Call to get path data
         self.path_data = parent.inputs_widget.path_data
+        # Call to get background options
+        self.background_config = project_widget.background_config
 
         # Add empty links function
         self.add_empty_links = parent.add_empty_links
@@ -74,6 +78,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.load_config = parent.collections.configure_widget.add_collections
         # Call to load algorithm results
         self.load_algorithm = parent.dimensional_synthesis.load_results
+        # Call to load background options
+        self.set_background_config = project_widget.set_background_config
 
         # Clear function for main window
         self.main_clear = parent.clear
@@ -91,6 +97,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             'triangle': self.config_data(),
             'algorithm': self.algorithm_data,
             'path': self.path_data(),
+            'background': self.background_config(),
         }
         for k, v in tuple(data.items()):
             if not v:
@@ -191,6 +198,10 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.load_algorithm(algorithm_data)
         self.__end_group()
 
+        # Set background
+        background_data: Dict[str, Union[str, float]] = data.get('background', {})
+        self.background_config(background_data)
+
         # Workbook loaded
         dlg.setValue(8)
         dlg.deleteLater()
@@ -207,7 +218,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             path_data,
             collection_data,
             config_data,
-            algorithm_data
+            algorithm_data,
+            background_data
         )
         dlg.show()
         dlg.exec_()

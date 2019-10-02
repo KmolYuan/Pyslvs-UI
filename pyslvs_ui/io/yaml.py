@@ -9,20 +9,17 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING
 from re import sub
 from yaml import safe_dump, safe_load
 from .format_editor import FormatEditor
-if TYPE_CHECKING:
-    from pyslvs_ui.widgets import MainWindowBase
 
 
 class YamlEditor(FormatEditor):
 
     """YAML reader and writer."""
 
-    def __init__(self, parent: MainWindowBase) -> None:
-        super(YamlEditor, self).__init__(parent)
+    def __init__(self, *args) -> None:
+        super(YamlEditor, self).__init__(*args)
 
     def save(self, file_name: str) -> None:
         """Save YAML file."""

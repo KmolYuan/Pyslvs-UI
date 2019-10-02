@@ -12,6 +12,7 @@ from typing import (
     List,
     Sequence,
     Dict,
+    Union,
     Any,
 )
 from qtpy.QtCore import Qt
@@ -35,7 +36,8 @@ class OverviewDialog(QDialog, Ui_Dialog):
         path_data: Dict[str, Sequence[Tuple[float, float]]],
         collection_data: List[Tuple[Tuple[int, int], ...]],
         config_data: Dict[str, Dict[str, Any]],
-        algorithm_data: List[Dict[str, Any]]
+        algorithm_data: List[Dict[str, Any]],
+        background_data: Dict[str, Union[str, float]]
     ):
         """Data come from commit."""
         super(OverviewDialog, self).__init__(parent)

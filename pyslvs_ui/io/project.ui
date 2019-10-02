@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>781</height>
+    <width>326</width>
+    <height>588</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -84,6 +84,106 @@
      </item>
      <item row="5" column="1">
       <widget class="QLabel" name="type_label"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="background_label">
+       <property name="text">
+        <string>Background</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <layout class="QHBoxLayout" name="background_layout">
+       <item>
+        <widget class="QLineEdit" name="background_option">
+         <property name="placeholderText">
+          <string>Disabled</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="background_choose_dir">
+         <property name="icon">
+          <iconset resource="../icons.qrc">
+           <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="background_scale_label">
+       <property name="text">
+        <string>Background scale</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QDoubleSpinBox" name="background_scale_option">
+       <property name="minimum">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>10.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.020000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="background_offset_label">
+       <property name="text">
+        <string>Background offset</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <layout class="QHBoxLayout" name="background_offset_layout">
+       <item>
+        <widget class="QDoubleSpinBox" name="background_x_option">
+         <property name="minimum">
+          <double>-999999.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>999999.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="background_y_option">
+         <property name="minimum">
+          <double>-999999.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>999999.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="background_opacity_label">
+       <property name="text">
+        <string>Background opacity</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDoubleSpinBox" name="background_opacity_option">
+       <property name="maximum">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

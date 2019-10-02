@@ -151,11 +151,6 @@ class Preferences:
     joint_size_option: int = 10
     zoom_by_option: int = 0
     snap_option: float = 1
-    background_option: str = ""
-    background_opacity_option: float = 1
-    background_scale_option: float = 1
-    background_offset_x_option: float = 0
-    background_offset_y_option: float = 0
     tick_mark_option: int = 1
     nav_toolbar_pos_option: int = 1
     grab_no_background_option: bool = True

@@ -171,8 +171,11 @@ class MainCanvas(MainCanvasBase):
     @Slot(str)
     def set_background(self, path: str) -> None:
         """Set background from file path."""
-        if path and self.background.load(path):
-            self.update()
+        if path:
+            self.background.load(path)
+        else:
+            self.background = QImage()
+        self.update()
 
     @Slot(float)
     def set_background_opacity(self, opacity: float) -> None:

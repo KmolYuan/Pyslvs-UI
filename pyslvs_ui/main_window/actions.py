@@ -247,16 +247,6 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.__set_nav_toolbar_pos(value)
             elif name == 'snap_option':
                 self.main_canvas.set_snap(value)
-            elif name == 'background_option':
-                self.main_canvas.set_background(value)
-            elif name == 'background_opacity_option':
-                self.main_canvas.set_background_opacity(value)
-            elif name == 'background_scale_option':
-                self.main_canvas.set_background_scale(value)
-            elif name == 'background_offset_x_option':
-                self.main_canvas.set_background_offset_x(value)
-            elif name == 'background_offset_y_option':
-                self.main_canvas.set_background_offset_y(value)
             elif name == 'title_full_path_option':
                 self.set_window_title_full_path()
             for canvas in (

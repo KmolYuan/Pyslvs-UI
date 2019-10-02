@@ -22,7 +22,6 @@ from qtpy.QtWidgets import (
     QMessageBox,
 )
 from qtpy.QtGui import QCloseEvent
-from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.info import kernel_list
 from pyslvs_ui.widgets import Preferences
 from .format_editor import PROJECT_FORMAT
@@ -37,7 +36,6 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         super(PreferencesDialog, self).__init__(parent)
         self.setupUi(self)
         self.file_type_option.addItems(PROJECT_FORMAT)
-        self.input_from = parent.input_from
         self.planar_solver_option.addItems(kernel_list)
         self.path_preview_option.addItems(kernel_list + ("Same as solver kernel",))
         self.prefer = parent.prefer.copy()
@@ -116,10 +114,3 @@ class PreferencesDialog(QDialog, Ui_Dialog):
             return True
         else:
             return False
-
-    @Slot(name='on_background_choose_dir_clicked')
-    def __background_choose_dir(self) -> None:
-        """Choose background directory."""
-        file_name = self.input_from("background image", qt_image_format)
-        if file_name:
-            self.background_option.setText(file_name)
