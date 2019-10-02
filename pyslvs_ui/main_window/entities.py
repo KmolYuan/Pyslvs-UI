@@ -409,7 +409,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.add_point(x, y)
 
         ground: Optional[int] = None
-        for link in graph.nodes:
+        for link in graph.vertices:
             self.add_link(self.__get_link_serial_number(), 'Blue', [
                 base_count + n for n, edge in edges_view(graph) if link in edge
             ])

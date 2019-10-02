@@ -301,7 +301,7 @@
          <item>
           <widget class="QCheckBox" name="graph_link_as_node">
            <property name="statusTip">
-            <string>Show the edges as nodes.</string>
+            <string>Show the edges as vertices.</string>
            </property>
            <property name="text">
             <string>Link as node</string>

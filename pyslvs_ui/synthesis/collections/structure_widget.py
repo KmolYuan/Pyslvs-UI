@@ -354,7 +354,7 @@ class StructureWidget(QWidget, Ui_Form):
 
         # Set attributes
         self.edges_text.setText(str(list(g.edges)))
-        self.nl_label.setText(str(len(g.nodes)))
+        self.nl_label.setText(str(len(g.vertices)))
         self.nj_label.setText(str(len(g.edges)))
         self.dof_label.setText(str(g.dof()))
         self.is_degenerate_label.setText(str(g.is_degenerate()))
@@ -416,10 +416,10 @@ class StructureWidget(QWidget, Ui_Form):
 
         graph = self.collections[row]
         dlg = TargetsDialog(
-            "Select the nodes (links) you want to copy.\n"
+            "Select the vertices (links) you want to copy.\n"
             "The duplication will keep adjacency",
             "",
-            graph.nodes,
+            graph.vertices,
             (),
             self
         )

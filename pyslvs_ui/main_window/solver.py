@@ -480,7 +480,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         """Generalization Algorithm
 
         Return edges data, grounded list, variable list and multiple joints.
-        VLinks will become graph nodes.
+        VLinks will become graph vertices.
         """
         link_names = [vlink.name for vlink in self.vlink_list]
         input_pair = set()
@@ -566,7 +566,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         graph, grounded_list, input_list, pos, cus, same = self.get_graph()
 
-        links: List[Set[int]] = [set() for _ in range(len(graph.nodes))]
+        links: List[Set[int]] = [set() for _ in range(len(graph.vertices))]
         for joint, link in edges_view(graph):
             for node in link:
                 links[node].add(joint)

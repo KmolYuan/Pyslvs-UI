@@ -681,8 +681,8 @@ The undirected graph class, support multigraph.
 
 | name | type | description |
 |:----:|:----:|:------------|
-| edges | Tuple[Tuple[int, int], ...] | The edges of graph. |
-| nodes | Tuple[int, ...] | The nodes of graph. |
+| edges | Tuple[Tuple[int, int], ...] | The edges of the graph. |
+| vertices | Tuple[int, ...] | The vertices of the graph. |
 
 #### Graph.\_\_init__()
 
@@ -700,13 +700,13 @@ Input edges of the graph. The vertices symbols are positive continuously integer
 
 Add edge `n1` to `n2`.
 
-#### Graph.add_nodes()
+#### Graph.add_vertices()
 
-| self | nodes | return |
+| self | vertices | return |
 |:----:|:-----:|:----:|
 | | Iterable[int] | None |
 
-Add nodes from iterable object `nodes`.
+Add vertices from iterable object `vertices`.
 
 #### Graph.dof()
 
@@ -770,11 +770,11 @@ Return `True` if the graph is isomorphic to `graph`.
 
 #### Graph.duplicate()
 
-| self | nodes | return |
+| self | vertices | return |
 |:----:|:-----:|:----:|
 | | Iterable[int] | [Graph] |
 
-Make the graph duplicate specific nodes (from `nodes`). Return a new graph.
+Make the graph duplicate specific vertices (from `vertices`). Return a new graph.
 
 #### Graph.copy()
 

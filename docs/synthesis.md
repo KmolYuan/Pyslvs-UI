@@ -92,7 +92,7 @@ The graphs can be input to the collection list.
 There has some graph filter of the input graph(s):
 
 + Is empty: The Edge Set of the graph is empty.
-+ Is not connected: The nodes is not connect as one graph.
++ Is not connected: The vertices is not connect as one graph.
 + Is not planar: The graph is not a planar graph.
 + Has cut-link: The graph has cut-vertex.
 + Can't draw: The graph is unsupported with layout system.

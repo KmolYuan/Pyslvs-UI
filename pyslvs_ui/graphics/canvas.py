@@ -535,7 +535,7 @@ class PreviewCanvas(BaseCanvas):
         + Name dict: Dict['P0', 'A']
         """
         super(PreviewCanvas, self).__init__(parent)
-        self.G = Graph([])
+        self.graph = Graph([])
         self.cus: Dict[int, int] = {}
         self.same: Dict[int, int] = {}
         self.pos: Dict[int, _Coord] = {}
@@ -550,7 +550,7 @@ class PreviewCanvas(BaseCanvas):
 
     def clear(self) -> None:
         """Clear the attributes."""
-        self.G = Graph([])
+        self.graph = Graph([])
         self.cus.clear()
         self.same.clear()
         self.pos.clear()
@@ -597,12 +597,12 @@ class PreviewCanvas(BaseCanvas):
         self.painter.setBrush(QBrush(color))
 
         # Links
-        for link in self.G.nodes:
+        for link in self.graph.vertices:
             if link == self.grounded:
                 continue
             points = []
             # Points that is belong with the link.
-            for num, edge in edges_view(self.G):
+            for num, edge in edges_view(self.graph):
                 if link in edge:
                     if num in self.same:
                         num = self.same[num]
@@ -672,7 +672,7 @@ class PreviewCanvas(BaseCanvas):
 
     def set_graph(self, graph: Graph, pos: Dict[int, _Coord]) -> None:
         """Set the graph from NetworkX graph type."""
-        self.G = graph
+        self.graph = graph
         self.pos = pos
         self.status = {k: False for k in pos}
         self.update()
@@ -680,7 +680,7 @@ class PreviewCanvas(BaseCanvas):
     def set_grounded(self, link: int) -> None:
         """Set the grounded link number."""
         self.grounded = link
-        for n, edge in edges_view(self.G):
+        for n, edge in edges_view(self.graph):
             self.status[n] = self.grounded in edge
         for n, link in self.cus.items():
             self.status[n] = self.grounded == link
@@ -692,10 +692,10 @@ class PreviewCanvas(BaseCanvas):
         self.driver.update(pair[0] for pair in input_list)
         self.update()
 
-    def set_target(self, nodes: Sequence[int]) -> None:
+    def set_target(self, points: Sequence[int]) -> None:
         """Set target nodes."""
         self.target.clear()
-        self.target.update(nodes)
+        self.target.update(points)
         self.update()
 
     def set_status(self, point: str, status: bool) -> None:
@@ -714,7 +714,7 @@ class PreviewCanvas(BaseCanvas):
         same: Dict[int, int]
     ) -> Iterator[int]:
         """Find the grounded link."""
-        links: List[Set[int]] = [set() for _ in range(len(g.nodes))]
+        links: List[Set[int]] = [set() for _ in range(len(g.vertices))]
         for joint, link in edges_view(g):
             for node in link:
                 links[node].add(joint)

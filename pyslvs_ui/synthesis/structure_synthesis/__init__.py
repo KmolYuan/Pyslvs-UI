@@ -184,7 +184,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.edges_text.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
-        self.nl_input.setValue(len(graph.nodes))
+        self.nl_input.setValue(len(graph.vertices))
         self.nj_input.setValue(len(graph.edges))
         self.keep_dof.setChecked(keep_dof_checked)
 

@@ -256,7 +256,7 @@ class Ui_Form(object):
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
         self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX."))
         self.reload_atlas.setToolTip(_translate("Form", "Re-layout"))
-        self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
+        self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as vertices."))
         self.graph_link_as_node.setText(_translate("Form", "Link as node"))
         self.graph_show_label.setText(_translate("Form", "Show labels"))
         self.structure_synthesis_all_button.setStatusTip(_translate("Form", "Find the structure of mechanism from all numbers."))

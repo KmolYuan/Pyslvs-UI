@@ -121,7 +121,7 @@ def graph2icon(
     _font.setPixelSize(r * 6)
     painter.setFont(_font)
 
-    # Draw edges.
+    # Draw edges
     if node_mode:
         for l1, l2 in g.edges:
             if except_node in {l1, l2}:
@@ -141,7 +141,7 @@ def graph2icon(
             color = LINK_COLOR
         color.setAlpha(150)
         painter.setBrush(QBrush(color))
-        for link in g.nodes:
+        for link in g.vertices:
             if link == except_node:
                 pen.setColor(Qt.gray)
             else:
@@ -153,7 +153,7 @@ def graph2icon(
                 for n, edge in edges_view(g) if link in edge
             ], as_qpoint=True))
 
-    # Draw nodes.
+    # Draw vertices
     for k, (x, y) in pos.items():
         if node_mode:
             color = color_num(len(list(g.neighbors(k))) - 1)

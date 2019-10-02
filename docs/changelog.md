@@ -11,6 +11,7 @@
 
 **Development**:
 
++ Change the term "nodes" to "vertices".
 + Create main window using `new` static method.
 + Remove `core` namespace.
 + Move `icons` folder into `pyslvs_ui/icons`.

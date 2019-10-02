@@ -188,7 +188,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     @Slot(name='on_clear_button_clicked')
     def __user_clear(self) -> bool:
         """Ask user before clear."""
-        if not self.configure_canvas.G.nodes:
+        if not self.configure_canvas.graph.vertices:
             return True
 
         if QMessageBox.question(
@@ -205,7 +205,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     @Slot(name='on_add_collection_button_clicked')
     def __add_collection(self) -> None:
         """Add the graph back to structure collections."""
-        self.add_collection(tuple(self.configure_canvas.G.edges))
+        self.add_collection(tuple(self.configure_canvas.graph.edges))
 
     @Slot(Graph, dict)
     def set_graph(
@@ -219,7 +219,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         self.configure_canvas.set_graph(graph, pos)
 
-        links: List[List[str]] = [[] for _ in range(len(graph.nodes))]
+        links: List[List[str]] = [[] for _ in range(len(graph.vertices))]
         for joint, link in edges_view(graph):
             for node in link:
                 links[node].append(f'P{joint}')
@@ -266,7 +266,7 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         def find_friends(node: int) -> List[str]:
             """Find all the nodes that are same link with input node."""
-            ev = dict(edges_view(self.configure_canvas.G))
+            ev = dict(edges_view(self.configure_canvas.graph))
             link = set(ev[node])
             tmp_list = []
             for node_, link_ in ev.items():
@@ -347,7 +347,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         return {
             'Expression': self.expr_show.text(),
             'input': input_list,
-            'Graph': self.configure_canvas.G.edges,
+            'Graph': self.configure_canvas.graph.edges,
             'Placement': place_list,
             'Target': target_list,
             'cus': self.configure_canvas.cus.copy(),
@@ -454,7 +454,7 @@ class ConfigureWidget(QWidget, Ui_Form):
                     link_expr_list.append(link_expr_str)
 
         vpoint_exprs = [vpoint.expr() for vpoint in graph2vpoints(
-            self.configure_canvas.G,
+            self.configure_canvas.graph,
             self.configure_canvas.pos,
             self.configure_canvas.cus,
             self.configure_canvas.same,
