@@ -36,7 +36,7 @@ from qtpy.QtGui import (
     QDropEvent,
 )
 from pyslvs import __version__, parse_params, PMKSLexer
-from pyslvs_ui.qt_patch import qt_image_format
+from pyslvs_ui.qt_patch import qt_image_format, qt_image_suffix
 from pyslvs_ui.info import (
     ARGUMENTS,
     logger,
@@ -115,13 +115,16 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         urls = mime_data.urls()
         if len(urls) == 1:
             suffix = QFileInfo(urls[0].toLocalFile()).suffix()
-            if suffix in {'yml', 'pyslvs', 'slvs'}:
+            if suffix in {'yml', 'pyslvs', 'slvs'} | set(qt_image_suffix):
                 event.acceptProposedAction()
 
     def dropEvent(self, event: QDropEvent) -> None:
         """Drop file in to our window."""
-        mime_data: QMimeData = event.mimeData()
-        self.__load_file(mime_data.urls()[0].toLocalFile())
+        file = event.mimeData().urls()[0].toLocalFile()
+        if QFileInfo(file).suffix() in set(qt_image_suffix):
+            self.project_widget.set_background_config({'background': file})
+        else:
+            self.__load_file(file)
         event.acceptProposedAction()
 
     def workbook_no_save(self) -> None:

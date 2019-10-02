@@ -25,20 +25,26 @@ del API_NAME
 
 QT_VERSION = QtCore.__version__
 
-__all__ = ['API', 'QT_VERSION', 'qt_image_format', 'QABCMeta']
+__all__ = ['API', 'QT_VERSION', 'qt_image_suffix', 'qt_image_format', 'QABCMeta']
 
 
-qt_image_format = (
-    "Portable Network Graphics (*.png)",
-    "Joint Photographic Experts Group (*.jpg)",
-    "Bitmap Image file (*.bmp)",
-    "Business Process Model (*.bpm)",
-    "Tagged Image File Format (*.tiff)",
-    "Windows Icon (*.ico)",
-    "Wireless Application Protocol Bitmap (*.wbmp)",
-    "X Bitmap (*.xbm)",
-    "X Pixmap (*.xpm)",
-)
+qt_image_suffix = ('png', 'jpg', 'bmp', 'bpm', 'tiff', 'ico', 'wbmp', 'xbm', 'xpm')
+qt_image_format = []
+suffix = name = ""
+for suffix, name in zip(qt_image_suffix, (
+    "Portable Network Graphics",
+    "Joint Photographic Experts Group",
+    "Bitmap Image file",
+    "Business Process Model",
+    "Tagged Image File Format",
+    "Windows Icon",
+    "Wireless Application Protocol Bitmap",
+    "X Bitmap",
+    "X Pixmap",
+)):
+    qt_image_format.append(f"{name} (*.{suffix})")
+qt_image_format = tuple(qt_image_format)
+del suffix, name
 
 
 class QABCMeta(type(QtCore.QObject), ABCMeta):
