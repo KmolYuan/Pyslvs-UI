@@ -95,6 +95,7 @@ class ProjectWidget(QWidget, Ui_Form):
         self.__changed = False
         self.command_stack.clear()
         self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
+        self.set_background_config({})
 
     def set_file_name(self, file_name: str, *, is_example: bool = False) -> None:
         """Set file name."""
@@ -210,8 +211,9 @@ class ProjectWidget(QWidget, Ui_Form):
 
     def background_config(self) -> Dict[str, Union[str, float]]:
         """Return background config."""
+        env = self.__file_name.absoluteDir()
         return {
-            'background': self.background_option.text(),
+            'background': env.relativeFilePath(self.background_option.text()),
             'background_x': self.background_x_option.value(),
             'background_y': self.background_y_option.value(),
             'background_scale': self.background_scale_option.value(),
@@ -220,8 +222,10 @@ class ProjectWidget(QWidget, Ui_Form):
 
     def set_background_config(self, config: Dict[str, Union[str, float]]) -> None:
         """Set background config by dict object."""
-        self.background_option.setText(config.get('background', ""))
+        env = self.__file_name.absoluteDir()
+        path = QFileInfo(env, config.get('background', ""))
+        self.background_option.setText(path.absoluteFilePath())
         self.background_x_option.setValue(config.get('background_x', 0.))
         self.background_y_option.setValue(config.get('background_y', 0.))
         self.background_scale_option.setValue(config.get('background_scale', 1.))
-        self.background_scale_opacity.setValue(config.get('background_opacity', 1.))
+        self.background_opacity_option.setValue(config.get('background_opacity', 1.))
