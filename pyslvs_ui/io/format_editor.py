@@ -24,11 +24,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.io import ProjectWidget
     from pyslvs_ui.widgets import MainWindowBase
 
-PROJECT_FORMAT = (
-    "YAML",
-    "Compressed YAML",
-    "HDF5",
-)
+PROJECT_FORMAT = ("YAML", "Compressed YAML", "HDF5")
 
 
 class FormatEditor(QObject, metaclass=QABCMeta):
@@ -59,6 +55,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.path_data = parent.inputs_widget.path_data
         # Call to get background options
         self.background_config = project_widget.background_config
+        self.get_background_path = project_widget.get_background_path
 
         # Add empty links function
         self.add_empty_links = parent.add_empty_links
@@ -220,7 +217,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             collection_data,
             config_data,
             algorithm_data,
-            background_data
+            self.get_background_path()
         )
         dlg.show()
         dlg.exec_()

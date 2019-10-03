@@ -12,7 +12,6 @@ from typing import (
     List,
     Sequence,
     Dict,
-    Union,
     Any,
 )
 from qtpy.QtCore import Qt
@@ -38,7 +37,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         collection_data: List[Tuple[Tuple[int, int], ...]],
         config_data: Dict[str, Dict[str, Any]],
         algorithm_data: List[Dict[str, Any]],
-        background_data: Dict[str, Union[str, float]]
+        background_path: str
     ):
         """Data come from commit."""
         super(OverviewDialog, self).__init__(parent)
@@ -82,6 +81,9 @@ class OverviewDialog(QDialog, Ui_Dialog):
         for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
         self.__set_item_text(3, len(algorithm_data))
+
+        self.image_path.setText(background_path)
+        self.__set_item_text(4, 1 if background_path else 0)
 
     def __set_item_text(self, i: int, *count: int) -> None:
         """Set the title for a specified tab."""

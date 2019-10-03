@@ -29,7 +29,7 @@
         <x>0</x>
         <y>0</y>
         <width>420</width>
-        <height>345</height>
+        <height>310</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -72,7 +72,7 @@
         <x>0</x>
         <y>0</y>
         <width>420</width>
-        <height>345</height>
+        <height>310</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -119,7 +119,7 @@
         <x>0</x>
         <y>0</y>
         <width>420</width>
-        <height>345</height>
+        <height>310</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -166,7 +166,7 @@
         <x>0</x>
         <y>0</y>
         <width>420</width>
-        <height>345</height>
+        <height>310</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -186,6 +186,44 @@
        </item>
        <item>
         <widget class="QListWidget" name="results_list"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page">
+      <attribute name="icon">
+       <iconset resource="../icons.qrc">
+        <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+      </attribute>
+      <attribute name="label">
+       <string>Background Image</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QLabel" name="image_path_label">
+         <property name="text">
+          <string>Image path:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="image_path">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

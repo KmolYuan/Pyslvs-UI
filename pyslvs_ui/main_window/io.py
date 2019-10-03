@@ -664,7 +664,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.collections.collect_data(),
             self.collections.config_data(),
             self.dimensional_synthesis.mechanism_data,
-            self.project_widget.background_config()
+            self.project_widget.get_background_path()
         )
         dlg.show()
         dlg.exec_()

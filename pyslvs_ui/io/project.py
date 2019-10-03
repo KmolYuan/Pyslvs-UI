@@ -223,9 +223,15 @@ class ProjectWidget(QWidget, Ui_Form):
     def set_background_config(self, config: Dict[str, Union[str, float]]) -> None:
         """Set background config by dict object."""
         env = self.__file_name.absoluteDir()
-        path = QFileInfo(env, config.get('background', ""))
-        self.background_option.setText(path.absoluteFilePath())
+        file = QFileInfo(env, config.get('background', ""))
+        path = file.absoluteFilePath()
+        self.background_option.setText(path if file.isFile() else "")
         self.background_x_option.setValue(config.get('background_x', 0.))
         self.background_y_option.setValue(config.get('background_y', 0.))
         self.background_scale_option.setValue(config.get('background_scale', 1.))
         self.background_opacity_option.setValue(config.get('background_opacity', 1.))
+
+    def get_background_path(self) -> str:
+        """Get background path."""
+        path = self.background_option.text()
+        return path if QFileInfo(path).isFile() else ""
