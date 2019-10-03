@@ -1,46 +1,39 @@
-# Releated Modules
+# Powered By
 
-If there is no special reason, Pyslvs is follow with the newest version of the kits.
-
-## Python modules
-
-* [SIP] (GPLv2, GPLv3)
-* [PyQt5], [PyQtChart] (GPLv3), [Qt5] (LGPL)
-* [ezdxf] (MIT)
-* [numpy] (BSD 3-Clause)
-* [Cython] (Apache 2.0)
-* [openpyxl] (MIT)
-* [psutil] (BSD)
-* [Lark-parser] (MIT)
-* [Pygments] (BSD)
-* [PyYAML] (MIT)
-
-## Inspired From
-
-* [NetworkX] (BSD 3-Clause)
-* [PMKS] (MIT)
+The dependencies and sponsors of Pyslvs project.
 
 ## Kernel Repository
 
-* [Pyslvs]
-* [Python-solvespace]
+Those project are related with Pyslvs-UI.
 
-[PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
-[PyQtChart]: https://www.riverbankcomputing.com/software/pyqtchart/download
-[Qt5]: https://www.qt.io/download/
-[SIP]: https://riverbankcomputing.com/software/sip/download
+* [Pyslvs](https://github.com/KmolYuan/pyslvs)
+* [Python-solvespace](https://github.com/KmolYuan/solvespace)
 
-[numpy]: http://www.numpy.org/
-[ezdxf]: https://ezdxf.readthedocs.io/en/latest/index.html
-[Cython]: http://cython.org/
-[openpyxl]: http://openpyxl.readthedocs.io/
-[psutil]: https://github.com/giampaolo/psutil
-[Lark-parser]: https://github.com/erezsh/lark
-[Pygments]: http://pygments.org/
-[PyYAML]: https://pyyaml.org/
+## Python Modules
 
-[NetworkX]: https://networkx.github.io/
-[PMKS]: http://designengrlab.github.io/PMKS/
+If there is no special reason, Pyslvs is follow with the newest version of the kits.
 
-[Python-Solvespace]: https://github.com/KmolYuan/solvespace
-[Pyslvs]: https://github.com/KmolYuan/pyslvs
++ [QtPy](https://github.com/spyder-ide/qtpy)
++ [PyQt5 (GPLv3)](https://www.riverbankcomputing.com/software/pyqt/intro)
+    + [SIP (GPLv2, GPLv3)](https://www.riverbankcomputing.com/software/sip/intro)
+    + [PyQtChart (GPLv3)](https://www.riverbankcomputing.com/software/pyqtchart/intro)
+    + [Qt5 (LGPL)](https://www.qt.io)
++ [ezdxf (MIT)](https://ezdxf.readthedocs.io/en/latest/index.html)
++ [numpy (BSD 3-Clause)](http://www.numpy.org)
++ [Cython (Apache 2.0)](http://cython.org)
++ [openpyxl (MIT)](http://openpyxl.readthedocs.io)
++ [psutil (BSD)](https://github.com/giampaolo/psutil)
++ [Lark-parser (MIT)](https://github.com/erezsh/lark)
++ [Pygments (BSD)](http://pygments.org)
++ [PyYAML (MIT)](https://pyyaml.org)
++ [h5py](https://www.h5py.org/)
+
+## Inspired From
+
+* [NetworkX (BSD 3-Clause)](https://networkx.github.io)
+* [PMKS (MIT)](http://designengrlab.github.io/PMKS)
+
+## IDE
+
+[![](img/sponsor-jetbrains.png){: style="width:30%"}](https://www.jetbrains.com/?from=Pyslvs)
+[![](img/sponsor-pycharm.png){: style="width:30%"}](https://www.jetbrains.com/pycharm/?from=Pyslvs)
