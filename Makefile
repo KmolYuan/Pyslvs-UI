@@ -5,7 +5,7 @@
 # email: pyslvs@gmail.com
 
 LAUNCHER = launch_pyslvs.py
-PYSLVS_PATH = depend/pyslvs
+PYSLVS_PATH = pyslvs
 
 ifeq ($(OS),Windows_NT)
     PY = python

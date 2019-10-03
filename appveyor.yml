@@ -29,7 +29,7 @@ install:
 before_build:
   # Clone submodules
   - git submodule update --init
-  - git submodule update --init --recursive depend/pyslvs
+  - git submodule update --init --recursive pyslvs
 
 build_script:
   - mingw32-make

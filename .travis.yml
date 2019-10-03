@@ -10,11 +10,11 @@ matrix:
       dist: xenial
       before_install:
         - git submodule update --init
-        - git submodule update --init --recursive depend/pyslvs
+        - git submodule update --init --recursive pyslvs
         - python3 -m pip install -r requirements.txt -U
       install:
         - make
-        - cd depend/pyslvs; python3 setup.py install; cd -
+        - cd pyslvs; python3 setup.py install; cd -
         - python3 setup.py install
       deploy:
         - &executable-deploy
@@ -50,7 +50,7 @@ matrix:
       env: PYTHON=3.7.0
       before_install:
         - git submodule update --init
-        - git submodule update --init --recursive depend/pyslvs
+        - git submodule update --init --recursive pyslvs
         - brew update
         - brew upgrade pyenv
         - export PATH="/Users/travis/.pyenv/shims:${PATH}"

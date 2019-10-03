@@ -3,7 +3,7 @@
 A no-GUI module of mechanism synthesis system and
 a 2D geometric constraint solver.
 
-The submodule is located at `depend/pyslvs`.
+The submodule is located at `pyslvs`.
 
 Pyslvs is now available on
 [![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs/),

@@ -18,7 +18,9 @@
 + Remove `core` namespace.
 + Move `icons` folder into `pyslvs_ui/icons`.
 + Replace `*-pyslvs` command with `*-kernel` in Makefile.
-+ Treat `python-solvespace` as normal module.
++ Dependents:
+    + Treat `python-solvespace` as normal module.
+    + Moved `depend/pyslvs` into `pyslvs`.
 + Refactor `main_canvas` to `canvas`.
 
 ## Version 19.09

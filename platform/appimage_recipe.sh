@@ -37,7 +37,7 @@ pip --version
 
 # Install python dependencies into the virtualenv
 pip install -r "${BASEDIR}/requirements.txt"
-cd "${BASEDIR}/depend/pyslvs" || exit
+cd "${BASEDIR}/pyslvs" || exit
 python setup.py install && python tests
 cd "${APPDIR}" || exit
 
