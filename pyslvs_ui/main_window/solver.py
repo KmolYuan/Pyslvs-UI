@@ -579,13 +579,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         else:
             raise ValueError("no grounded link")
 
-        vpoint_exprs = [
-            vpoint.expr()
-            for vpoint in graph2vpoints(graph, pos, cus, same, grounded)
-        ]
-
+        vpoints = graph2vpoints(graph, pos, cus, same, grounded)
         return {
-            'Expression': "M[" + ", ".join(vpoint_exprs) + "]",
+            'Expression': self.get_expression(vpoints),
             'input': input_list,
             'Graph': graph.edges,
             'Placement': {p: None for p in grounded_list},

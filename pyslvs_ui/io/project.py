@@ -85,7 +85,7 @@ class ProjectWidget(QWidget, Ui_Form):
         self.yaml_editor = YamlEditor(self, parent)
         self.hdf5_editor = HDF5Editor(self, parent)
         # Reset
-        self.__file_name = QFileInfo("")
+        self.__file_name = QFileInfo()
         self.__changed = False
         self.reset()
 

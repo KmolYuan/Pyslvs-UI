@@ -15,6 +15,7 @@ from typing import (
     Sequence,
     Dict,
     Union,
+    Optional,
     Any,
 )
 from abc import abstractmethod
@@ -300,4 +301,12 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
 
     @abstractmethod
     def point_alignment(self) -> None:
+        ...
+
+    @abstractmethod
+    def get_expression(
+        self,
+        points: Optional[Sequence[VPoint]] = None,
+        indent: int = -1
+    ) -> str:
         ...

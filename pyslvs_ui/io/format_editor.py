@@ -42,7 +42,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Action group settings
         self.prefer = parent.prefer
         # Call to get point expressions
-        self.vpoints = parent.vpoint_list
+        self.get_expression = parent.get_expression
         # Call to get link data
         self.vlinks = parent.vlink_list
         # Call to get storage data
@@ -89,7 +89,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         data = {
             'pyslvs_ver': __version__,
             'file_type': self.prefer.file_type_option,
-            'mechanism': "M[" + ", ".join(p.expr() for p in self.vpoints) + "]",
+            'mechanism': self.get_expression(),
             'links': {l.name: l.color_str for l in self.vlinks},
             'input': [(b, d) for b, d, _ in self.input_pairs()],
             'storage': self.get_storage(),
@@ -213,6 +213,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         dlg = OverviewDialog(
             self.parent(),
             QFileInfo(file_name).baseName(),
+            mechanism_data,
             storage_data,
             i_attr,
             path_data,

@@ -104,7 +104,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         file_format: List[str],
         parent: MainWindowBase,
         *,
-        compressed_script: str = ""
+        compressed_script: str = "M[]"
     ):
         """Input parameters:
 
@@ -136,7 +136,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
 
         # Compressed script
         self.compressed_script = compressed_script
-        if not self.compressed_script:
+        if self.compressed_script == "M[]":
             self.show_qrcode.setVisible(False)
             self.image = None
             return

@@ -516,21 +516,15 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot()
     def show_expr(self) -> None:
         """Output as expression."""
-        expr = [vpoint.expr() for vpoint in self.vpoint_list]
-        context = ",\n".join(" " * 4 + e for e in expr)
-        script = _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
-        if context:
-            script += f"M[\n{context}\n]"
-        else:
-            script += "M[]"
         dlg = ScriptDialog(
             QIcon(QPixmap(":/icons/id.png")),
-            script,
+            _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
+            + self.get_expression(indent=4),
             PMKSLexer,
             "Pyslvs expression",
             ["Text file (*.txt)"],
             self,
-            compressed_script="M[" + ','.join(expr).replace(", ", ",") + "]" if expr else ""
+            compressed_script=self.get_expression().replace(", ", ",")
         )
         dlg.show()
         dlg.exec_()
@@ -663,6 +657,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         dlg = OverviewDialog(
             self,
             self.project_widget.base_file_name(),
+            self.get_expression(),
             self.get_storage(),
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             self.inputs_widget.path_data(),

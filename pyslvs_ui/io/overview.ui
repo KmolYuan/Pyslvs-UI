@@ -22,7 +22,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QToolBox" name="toolBox">
+    <widget class="QToolBox" name="tab_box">
      <widget class="QWidget" name="page0">
       <property name="geometry">
        <rect>
@@ -41,6 +41,20 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
+        <widget class="QLabel" name="main_expr_label">
+         <property name="text">
+          <string>Current:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="main_expr">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="storage_label">
          <property name="text">
           <string>Storage:</string>
@@ -57,8 +71,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>211</width>
-        <height>135</height>
+        <width>420</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -104,8 +118,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>237</width>
-        <height>135</height>
+        <width>420</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -151,8 +165,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>111</width>
-        <height>133</height>
+        <width>420</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">

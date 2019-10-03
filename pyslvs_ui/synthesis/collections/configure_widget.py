@@ -146,6 +146,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.get_configure = parent.get_configure
         self.add_collection = add_collection
         self.prefer = parent.prefer
+        self.get_expression = parent.get_expression
 
         # Iteration data
         self.collections: Dict[str, Dict[str, Any]] = {}
@@ -453,15 +454,13 @@ class ConfigureWidget(QWidget, Ui_Form):
                 else:
                     link_expr_list.append(link_expr_str)
 
-        vpoint_exprs = [vpoint.expr() for vpoint in graph2vpoints(
+        self.expr_show.setText(self.get_expression(graph2vpoints(
             self.configure_canvas.graph,
             self.configure_canvas.pos,
             self.configure_canvas.cus,
             self.configure_canvas.same,
             self.grounded_list.currentRow()
-        )]
-
-        self.expr_show.setText("M[" + ", ".join(vpoint_exprs) + "]")
+        )))
 
     @Slot(name='on_save_button_clicked')
     def __save(self) -> None:

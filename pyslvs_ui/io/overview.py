@@ -31,6 +31,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         self,
         parent: QWidget,
         title: str,
+        main_expr: str,
         storage_data: Dict[str, str],
         input_data: Sequence[Tuple[int, int]],
         path_data: Dict[str, Sequence[Tuple[float, float]]],
@@ -46,14 +47,18 @@ class OverviewDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"Project: {title}")
 
-        # Expression of storage data.
+        # Expression of storage data
+        self.main_expr.setText(main_expr)
         for name, expr in storage_data.items():
-            item = QListWidgetItem(f"[Storage] - {name}")
+            item = QListWidgetItem(f"[{name}]: {expr}")
             item.setToolTip(expr)
             self.storage_list.addItem(item)
-        self.__set_item_text(0, len(storage_data))
+        size = len(storage_data)
+        if main_expr != "M[]":
+            size += 1
+        self.__set_item_text(0, size)
 
-        # Expression of inputs variable data and Path data.
+        # Expression of inputs variable data and Path data
         for a, b in input_data:
             self.variables_list.addItem(f"Point{a}->Point{b}")
         for name, paths in path_data.items():
@@ -64,7 +69,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
             self.records_list.addItem(item)
         self.__set_item_text(1, len(input_data), len(path_data))
 
-        # Structure collections and Triangle collections.
+        # Structure collections and Triangle collections
         for edges in collection_data:
             self.structures_list.addItem(str(edges))
         for name, data in config_data.items():
@@ -73,7 +78,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
             self.triangular_iteration_list.addItem(item)
         self.__set_item_text(2, len(collection_data), len(config_data))
 
-        # Dimensional synthesis.
+        # Dimensional synthesis
         for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
         self.__set_item_text(3, len(algorithm_data))
@@ -81,4 +86,4 @@ class OverviewDialog(QDialog, Ui_Dialog):
     def __set_item_text(self, i: int, *count: int) -> None:
         """Set the title for a specified tab."""
         text = " / ".join(str(c) for c in count)
-        self.toolBox.setItemText(i, f"{self.toolBox.itemText(i)} - ({text})")
+        self.tab_box.setItemText(i, f"{self.tab_box.itemText(i)} - ({text})")

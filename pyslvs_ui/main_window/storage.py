@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Optional
+from typing import Sequence, Dict, Optional
 from abc import ABC
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import (
@@ -16,7 +16,7 @@ from qtpy.QtWidgets import (
     QInputDialog,
     QMessageBox,
 )
-from pyslvs import parse_params
+from pyslvs import parse_params, VPoint
 from pyslvs_ui.widgets import (
     AddStorage,
     DeleteStorage,
@@ -46,8 +46,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             or self.mechanism_storage_name_tag.placeholderText()
         )
         self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
-        exprs = ", ".join(vpoint.expr() for vpoint in self.vpoint_list)
-        self.__add_storage(name, f"M[{exprs}]")
+        self.__add_storage(name, self.get_expression())
         self.command_stack.push(ClearStorageName(self.mechanism_storage_name_tag))
         self.command_stack.endMacro()
 
@@ -156,3 +155,21 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         """Add storage data from database."""
         for name, expr in exprs.items():
             self.__add_storage(name, expr)
+
+    def get_expression(
+        self,
+        points: Optional[Sequence[VPoint]] = None,
+        indent: int = -1
+    ) -> str:
+        """Get current mechanism expression."""
+        if points is None:
+            points = self.vpoint_list
+        if not points:
+            return "M[]"
+        sep = ",\n" if indent > 0 else ", "
+        head = "M["
+        end = "]"
+        if indent > 0:
+            head += '\n'
+            end = '\n' + end
+        return head + sep.join(" " * indent + p.expr() for p in points) + end
