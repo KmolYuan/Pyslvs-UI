@@ -1,26 +1,19 @@
 # -*- coding: utf-8 -*-
 
-"""Compile the Cython libraries of Pyslvs."""
+"""Pack the distribution of Pyslvs."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from os.path import (
-    abspath,
-    dirname,
-    join as pth_join,
-)
 import re
-import codecs
+from os.path import join as pth_join
 from setuptools import setup, find_packages
-
-here = abspath(dirname(__file__))
 
 
 def read(*parts):
-    with codecs.open(pth_join(here, *parts), 'r') as f:
+    with open(pth_join(*parts), 'r') as f:
         return f.read()
 
 
