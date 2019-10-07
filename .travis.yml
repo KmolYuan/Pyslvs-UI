@@ -1,6 +1,9 @@
 # Travis-CI for Pyslvs-UI
 language: python
 
+git:
+  depth: 1
+
 matrix:
   include:
     - &linux
@@ -14,24 +17,22 @@ matrix:
         - make
         - cd pyslvs; python3 setup.py install; cd -
         - python3 setup.py install
+      after_success: &pypi-deploy
+        # PyPI deployment
+        - if [[ "$TRAVIS_REPO_SLUG" == "KmolYuan/Pyslvs-UI" && -n "$TRAVIS_TAG" ]]; then
+          python3 -m pip install twine;
+          python3 setup.py bdist_wheel;
+          python3 -m twine upload dist/*.whl --skip-existing;
+          fi
       deploy:
         - &executable-deploy
           provider: releases
           overwrite: true
           api_key: $TRAVIS_TOKEN
           file_glob: true
-          file: out/pyslvs-*.AppImage
+          file: out/pyslvs*.AppImage
           skip_cleanup: true
           on:
-            tags: true
-        - provider: pypi
-          user: $TWINE_USERNAME
-          password: $TWINE_PASSWORD
-          skip_cleanup: true
-          skip_existing: true
-          distributions: bdist_wheel
-          on:
-            repo: KmolYuan/Pyslvs-UI
             tags: true
 
     - <<: *linux
@@ -65,16 +66,10 @@ matrix:
         - make
         - python3 setup.py install
         - pyenv rehash
-      after_success:
-        # PyPI deployment
-        - if [[ "$TRAVIS_REPO_SLUG" == "KmolYuan/Pyslvs-UI" && -n "$TRAVIS_TAG" ]]; then
-          python3 -m pip install twine;
-          python3 setup.py bdist_wheel;
-          python3 -m twine upload dist/*.whl --skip-existing;
-          fi
+      after_success: *pypi-deploy
       deploy:
         - <<: *executable-deploy
-          file: dist/pyslvs-*.app.zip
+          file: dist/pyslvs*.app.zip
 
 script:
   - pyslvs --test
