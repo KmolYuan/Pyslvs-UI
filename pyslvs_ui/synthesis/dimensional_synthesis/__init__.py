@@ -545,7 +545,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Using result data to generate paths of mechanism."""
         result = self.mechanism_data[row]
         expression: str = result['Expression']
-        same: Dict[int: int] = result['same']
+        same: Dict[int, int] = result['same']
         inputs: List[Tuple[int, int]] = result['input']
         input_list = []
         for b, d in inputs:

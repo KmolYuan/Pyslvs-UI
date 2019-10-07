@@ -48,7 +48,7 @@ from .tables import (
     LinkTableWidget,
 )
 
-_Path = Sequence[Tuple[float, float]]
+_Paths = Sequence[Sequence[Tuple[float, float]]]
 _ITEM_FLAGS = Qt.ItemIsSelectable | Qt.ItemIsEnabled
 
 
@@ -364,8 +364,8 @@ class AddPath(QUndoCommand):
         self,
         widget: QListWidget,
         name: str,
-        data: Dict[str, _Path],
-        path: _Path,
+        data: Dict[str, _Paths],
+        path: _Paths,
         parent: Optional[QWidget] = None
     ) -> None:
         super(AddPath, self).__init__(parent)
@@ -374,7 +374,7 @@ class AddPath(QUndoCommand):
         self.name = name
         self.data = data
         self.path = path
-        self.targets = [i for i, d in enumerate(self.path) if len(set(d)) > 1]
+        self.targets = [i for i, p in enumerate(self.path) if len(set(p)) > 1]
 
     def redo(self) -> None:
         """Add new path data."""
@@ -395,7 +395,7 @@ class DeletePath(QUndoCommand):
         self,
         row: int,
         widget: QListWidget,
-        data: Dict[str, _Path],
+        data: Dict[str, _Paths],
         parent: Optional[QWidget] = None
     ) -> None:
         super(DeletePath, self).__init__(parent)

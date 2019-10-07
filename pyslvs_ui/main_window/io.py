@@ -427,28 +427,33 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def input_from(
         self,
         format_name: str,
-        format_choose: Sequence[str],
-        multiple: bool = False
-    ) -> Union[str, List[str]]:
-        """Get file name(s)."""
-        if multiple:
-            func = QFileDialog.getOpenFileNames
-        else:
-            func = QFileDialog.getOpenFileName
-        file_names: Union[str, List[str]]
-        file_names, suffix = func(
+        format_choose: Sequence[str]
+    ) -> str:
+        """Get external file name."""
+        file_name, suffix = QFileDialog.getOpenFileName(
             self,
-            f"Open {format_name} file{'s' if multiple else ''}...",
+            f"Open {format_name} file ...",
+            self.env,
+            ';;'.join(format_choose)
+        )
+        if file_name:
+            self.set_locate(QFileInfo(file_name).absolutePath())
+        return file_name
+
+    def input_from_multiple(
+        self,
+        format_name: str,
+        format_choose: Sequence[str]
+    ) -> List[str]:
+        """Get external file names."""
+        file_names, suffix = QFileDialog.getOpenFileNames(
+            self,
+            f"Open {format_name} files ...",
             self.env,
             ';;'.join(format_choose)
         )
         if file_names:
-            if type(file_names) is str:
-                self.set_locate(QFileInfo(file_names).absolutePath())
-            else:
-                self.set_locate(QFileInfo(file_names[0]).absolutePath())
-            suffix = str_between(suffix, '(', ')').split('*')[-1]
-            logger.debug(f"Format: {suffix}")
+            self.set_locate(QFileInfo(file_names[0]).absolutePath())
         return file_names
 
     def save_reply_box(self, title: str, file_name: str) -> None:

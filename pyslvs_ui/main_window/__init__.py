@@ -127,7 +127,11 @@ class MainWindow(IOMethodInterface):
         """Use context menu to add a target path coordinate."""
         self.dimensional_synthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
-    def merge_result(self, expr: str, path: Sequence[Sequence[Tuple[float, float]]]) -> None:
+    def merge_result(
+        self,
+        expr: str,
+        path: Sequence[Sequence[Tuple[float, float]]]
+    ) -> None:
         """Merge result function of dimensional synthesis."""
         if not self.ask_add_storage(expr):
             return
