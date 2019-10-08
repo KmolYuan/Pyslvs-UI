@@ -215,7 +215,7 @@ class MainCanvas(MainCanvasBase):
 
     def set_solving_path(
         self,
-        target_path: Dict[str, Tuple[_Coord]]
+        target_path: Dict[str, Sequence[_Coord]]
     ):
         """Update target path."""
         self.target_path = target_path

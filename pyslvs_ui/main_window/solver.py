@@ -43,15 +43,30 @@ from .entities import EntitiesMethodInterface
 _Coord = Tuple[float, float]
 
 
-def slvs_solve(
+def _offset(p: VPoint) -> _Coord:
+    """Make offset coordinate."""
+    x, y = p.c[1]
+    if p.has_offset() and p.true_offset() <= 0.1:
+        if p.offset() > 0:
+            x += 0.1
+            y += 0.1
+        else:
+            x -= 0.1
+            y -= 0.1
+    return x, y
+
+
+def _slvs_solve(
     vpoints: Sequence[VPoint],
     inputs: Dict[Tuple[int, int], float]
 ) -> Tuple[List[Union[_Coord, Tuple[_Coord, _Coord]]], int]:
-    """Use element module to convert into solvespace expression."""
+    """Use element module to convert into Solvespace expression."""
     if not vpoints:
         return [], 0
 
-    vlinks: Dict[str, VLink] = {vlink.name: vlink for vlink in get_vlinks(vpoints)}
+    vlinks = {}
+    for vlink in get_vlinks(vpoints):
+        vlinks[vlink.name] = vlink
 
     # Solvespace kernel
     sys = PySolver()
@@ -71,7 +86,7 @@ def slvs_solve(
 
     for i, vpoint in enumerate(vpoints):
         if vpoint.no_link():
-            x, y = vpoint.c[0]  # type: float
+            x, y = vpoint.c[0]
             point = sys.add_point_2d(x, y, wp)
             sys.dragged(point, wp)
             points.append(point)
@@ -90,14 +105,7 @@ def slvs_solve(
                 y += sin(vpoint.angle)
                 slider_slots.append(sys.add_point_2d(x, y, wp))
                 # Pin is movable
-                x, y = vpoint.c[1]
-                if vpoint.has_offset() and vpoint.true_offset() <= 0.1:
-                    if vpoint.offset() > 0:
-                        x += 0.1
-                        y += 0.1
-                    else:
-                        x -= 0.1
-                        y -= 0.1
+                x, y = _offset(vpoint)
                 points.append(sys.add_point_2d(x, y, wp))
             else:
                 point = sys.add_point_2d(x, y, wp)
@@ -123,52 +131,55 @@ def slvs_solve(
                 points.append(point)
             else:
                 # Pin is movable
-                x, y = vpoint.c[1]
-                if vpoint.has_offset() and vpoint.true_offset() <= 0.1:
-                    if vpoint.offset() > 0:
-                        x += 0.1
-                        y += 0.1
-                    else:
-                        x -= 0.1
-                        y -= 0.1
+                x, y = _offset(vpoint)
                 points.append(sys.add_point_2d(x, y, wp))
             continue
         # Point is movable
         points.append(point)
+
+    def pick_slider(i1: int, i2: int) -> Tuple[Entity, Entity, float]:
+        n1 = vpoints[i1]
+        n2 = vpoints[i2]
+        if n1.is_slot_link(vlink.name):
+            e1 = slider_bases[sliders[i1]]
+        else:
+            e1 = points[i1]
+        if n2.is_slot_link(vlink.name):
+            e2 = slider_bases[sliders[i2]]
+        else:
+            e2 = points[i2]
+        return e1, e2, n1.distance(n2)
 
     for vlink in vlinks.values():
         if len(vlink.points) < 2:
             continue
         if vlink.name == 'ground':
             continue
-
         a = vlink.points[0]
         b = vlink.points[1]
-        vp1 = vpoints[a]
-        vp2 = vpoints[b]
-        if vp1.is_slot_link(vlink.name):
-            p1 = slider_bases[sliders[a]]
-        else:
-            p1 = points[a]
-        if vp2.is_slot_link(vlink.name):
-            p2 = slider_bases[sliders[b]]
-        else:
-            p2 = points[b]
-        sys.distance(p1, p2, vp1.distance(vp2), wp)
-
-        for c in vlink.points[2:]:  # type: int
+        p1, p2, d = pick_slider(a, b)
+        sys.distance(p1, p2, d, wp)
+        for c in vlink.points[2:]:
             for d in (a, b):
-                vp1 = vpoints[c]
-                vp2 = vpoints[d]
-                if vp1.is_slot_link(vlink.name):
-                    p1 = slider_bases[sliders[c]]
-                else:
-                    p1 = points[c]
-                if vp2.is_slot_link(vlink.name):
-                    p2 = slider_bases[sliders[d]]
-                else:
-                    p2 = points[d]
-                sys.distance(p1, p2, vp1.distance(vp2), wp)
+                p1, p2, d = pick_slider(c, d)
+                sys.distance(p1, p2, d, wp)
+
+    def get_friend(group: VLink, base: int) -> Optional[Tuple[VPoint, Entity]]:
+        """Get friend for slider."""
+        # A base link friend
+        index = group.points[0]
+        if index == base:
+            if len(group.points) < 2:
+                # If no any friend
+                return None
+            index = group.points[1]
+        vp = vpoints[index]
+        if vp.is_slot_link(group.name):
+            # c is a slider, and it is be connected with slot link.
+            return vp, slider_bases[sliders[index]]
+        else:
+            # c is a R joint or it is not connected with slot link.
+            return vp, points[index]
 
     for a, b in sliders.items():
         # Base point
@@ -188,23 +199,12 @@ def slvs_solve(
                     sys.coincident(p2, p1, wp)
         else:
             # Slider between links
-            for name in vp1.links[:1]:  # type: str
+            for name in vp1.links[:1]:
                 vlink = vlinks[name]
-                # A base link friend
-                c = vlink.points[0]
-                if c == a:
-                    if len(vlink.points) < 2:
-                        # If no any friend
-                        continue
-                    c = vlink.points[1]
-
-                vp2 = vpoints[c]
-                if vp2.is_slot_link(vlink.name):
-                    # c is a slider, and it is be connected with slot link.
-                    p2 = slider_bases[sliders[c]]
-                else:
-                    # c is a R joint or it is not connected with slot link.
-                    p2 = points[c]
+                ret = get_friend(vlink, a)
+                if ret is None:
+                    continue
+                vp2, p2 = ret
                 sys.angle(
                     slider_slot,
                     sys.add_line_2d(slider_bases[b], p2, wp),
@@ -212,7 +212,6 @@ def slvs_solve(
                     wp
                 )
                 sys.coincident(p1, slider_slot, wp)
-
                 if vp1.has_offset():
                     p2 = slider_bases[b]
                     if vp1.offset():
@@ -225,21 +224,10 @@ def slvs_solve(
 
             for name in vp1.links[1:]:
                 vlink = vlinks[name]
-                # A base link friend
-                c = vlink.points[0]
-                if c == a:
-                    if len(vlink.points) < 2:
-                        # If no any friend
-                        continue
-                    c = vlink.points[1]
-
-                vp2 = vpoints[c]
-                if vp2.is_slot_link(vlink.name):
-                    # c is a slider, and it is be connected with slot link.
-                    p2 = slider_bases[sliders[c]]
-                else:
-                    # c is a R joint or it is not connected with slot link.
-                    p2 = points[c]
+                ret = get_friend(vlink, a)
+                if ret is None:
+                    continue
+                vp2, p2 = ret
                 sys.angle(
                     slider_slot,
                     sys.add_line_2d(p1, p2, wp),
@@ -253,13 +241,11 @@ def slvs_solve(
         # The 'base points' are shaft center
         if b == d:
             continue
-
         vp1 = vpoints[b]
         if vp1.type == VJoint.R:
             p1 = points[b]
         else:
             p1 = slider_bases[sliders[b]]
-
         angle = radians(angle)
         p2 = sys.add_point_2d(vp1.cx + cos(angle), vp1.cy + sin(angle), wp)
         sys.dragged(p2, wp)
@@ -340,7 +326,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     tuple(a for b, d, a in self.inputs_widget.input_pairs() if b != d)
                 )
             elif solve_kernel == 1:
-                result, _ = slvs_solve(
+                result, _ = _slvs_solve(
                     self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
                     if not self.free_move_button.isChecked() else ()
@@ -434,7 +420,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             inputs = {}
                         else:
                             inputs = {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
-                        result, _ = slvs_solve(vpoints, inputs)
+                        result, _ = _slvs_solve(vpoints, inputs)
                     elif solve_kernel == 2:
                         result = SolverSystem(
                             vpoints,
@@ -597,7 +583,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         """
         if vpoints is None:
             vpoints = self.vpoint_list
-        status = {}
+        status: Dict[int, bool] = {}
         exprs = vpoints_configure(
             vpoints,
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],

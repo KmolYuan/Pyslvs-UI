@@ -191,9 +191,16 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     def input_from(
         self,
         format_name: str,
-        format_choose: Sequence[str],
-        multiple: bool = False
-    ) -> Union[str, List[str]]:
+        format_choose: Sequence[str]
+    ) -> str:
+        ...
+
+    @abstractmethod
+    def input_from_multiple(
+        self,
+        format_name: str,
+        format_choose: Sequence[str]
+    ) -> List[str]:
         ...
 
     @abstractmethod

@@ -109,7 +109,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Function references
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
-        self.input_from = parent.input_from
+        self.input_from_multiple = parent.input_from_multiple
         self.vpoints = parent.vpoint_list
         self.vlinks = parent.vlink_list
         self.get_graph = parent.get_graph
@@ -540,10 +540,9 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         This operation will load all edges to list widget first.
         """
-        file_names = self.input_from(
+        file_names = self.input_from_multiple(
             "edges data",
-            ["Text file (*.txt)"],
-            multiple=True
+            ["Text file (*.txt)"]
         )
         if not file_names:
             return

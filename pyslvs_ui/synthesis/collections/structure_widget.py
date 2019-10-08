@@ -69,7 +69,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.setupUi(self)
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
-        self.input_from = parent.input_from
+        self.input_from_multiple = parent.input_from_multiple
         self.add_points_by_graph = parent.add_points_by_graph
         self.workbook_no_save = parent.workbook_no_save
         self.prefer = parent.prefer
@@ -226,10 +226,9 @@ class StructureWidget(QWidget, Ui_Form):
     @Slot(name='on_add_by_files_button_clicked')
     def __add_from_files(self) -> None:
         """Append atlas by text files."""
-        file_names = self.input_from(
+        file_names = self.input_from_multiple(
             "edges data",
-            ["Text File (*.txt)"],
-            multiple=True
+            ["Text File (*.txt)"]
         )
         if not file_names:
             return

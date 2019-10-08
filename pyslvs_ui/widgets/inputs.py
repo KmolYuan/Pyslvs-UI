@@ -42,6 +42,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
+_Paths = Sequence[Sequence[_Coord]]
 
 
 def _variable_int(text: str) -> int:
@@ -104,7 +105,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.customContextMenuRequested.connect(
             self.__record_list_context_menu
         )
-        self.__path_data: Dict[str, Sequence[_Coord]] = {}
+        self.__path_data: Dict[str, _Paths] = {}
 
     def clear(self) -> None:
         """Clear function to reset widget status."""
@@ -127,7 +128,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.setMinimum(-500)
         self.dial_spinbox.setMaximum(500)
 
-    def path_data(self) -> Dict[str, Sequence[_Coord]]:
+    def path_data(self) -> Dict[str, _Paths]:
         """Return current path data."""
         return self.__path_data
 
@@ -398,7 +399,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.add_path(name, path)
 
-    def add_path(self, name: str, path: Sequence[_Coord]) -> None:
+    def add_path(self, name: str, path: _Paths) -> None:
         """Add path function."""
         self.command_stack.push(AddPath(
             self.record_list,
@@ -408,7 +409,7 @@ class InputsWidget(QWidget, Ui_Form):
         ))
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
-    def load_paths(self, paths: Dict[str, Sequence[_Coord]]) -> None:
+    def load_paths(self, paths: Dict[str, _Paths]) -> None:
         """Add multiple path."""
         for name, path in paths.items():
             self.add_path(name, path)

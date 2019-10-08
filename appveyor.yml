@@ -50,7 +50,7 @@ after_build:
     )
 
 artifacts:
-  - path: dist\pyslvs-*.exe
+  - path: dist\pyslvs*.exe
     name: pyslvs
 
 deploy:
