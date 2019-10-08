@@ -6,6 +6,9 @@ environment:
   MSYS_DIR: C:\msys64
   matrix:
     - PYTHON_DIR: C:\Python37-x64
+      COMPILER: mingw32
+    - PYTHON_DIR: C:\Python37-x64
+      COMPILER: msvc
 
 install:
   # Environment variables
@@ -17,7 +20,7 @@ install:
   # Upgrade setuptools
   - pip install setuptools -U
   # Set Python compiler to MinGW
-  - platform\set_pycompiler %PYTHON_DIR%
+  - pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
   # Install modules
   - pip install -r requirements.txt
   - pip install pyinstaller
@@ -37,6 +40,15 @@ build_script:
 test_script:
   - pyslvs --test
 
+after_build:
+  # PyPI deployment
+  - IF "%APPVEYOR_REPO_TAG%"=="true"
+    IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
+    pip install twine &&
+    python setup.py bdist_wheel &&
+    twine upload dist\*.whl --skip-existing
+    )
+
 artifacts:
   - path: dist\pyslvs-*.exe
     name: pyslvs
@@ -52,12 +64,4 @@ deploy:
     on:
       appveyor_repo_tag: true
       PYTHON_DIR: C:\Python37-x64
-
-after_build:
-  # PyPI deployment
-  - IF "%APPVEYOR_REPO_TAG%"=="true"
-    IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
-    pip install twine &&
-    python setup.py bdist_wheel &&
-    twine upload dist\*.whl --skip-existing
-    )
+      COMPILER: mingw32
