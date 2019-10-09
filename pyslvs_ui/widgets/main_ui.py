@@ -619,7 +619,7 @@ class Ui_MainWindow(object):
         self.action_about_qt.setText(_translate("MainWindow", "About &Qt"))
         self.action_about_qt.setStatusTip(_translate("MainWindow", "Show Qt about."))
         self.action_load_file.setText(_translate("MainWindow", "L&oad File"))
-        self.action_load_file.setStatusTip(_translate("MainWindow", "Load Workbook from *.pyslvs database or *.slvs file."))
+        self.action_load_file.setStatusTip(_translate("MainWindow", "Load Workbook from *.pyslvs project or *.slvs file."))
         self.action_load_file.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.action_zoom_to_fit.setText(_translate("MainWindow", "&Zoom to Fit"))
         self.action_zoom_to_fit.setStatusTip(_translate("MainWindow", "Zoom in as mechanism size."))

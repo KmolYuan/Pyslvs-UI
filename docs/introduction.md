@@ -149,7 +149,6 @@ Pyslvs can support for following format.
 
 **Output formats**:
 
-+ Pyslvs [YAML] based workbook (*.pyslvs.yml).
 + Pyslvs workbook database (*.pyslvs).
 + Expression (just a string).
 + [Solvespace] format (*.slvs).
@@ -160,7 +159,6 @@ Pyslvs can support for following format.
 
 **Input formats**:
 
-+ Pyslvs [YAML] based workbook (*.pyslvs.yml).
 + Pyslvs workbook database (*.pyslvs).
 + Expression (just a string).
 + [Solvespace] format (*.slvs, only supports very few of constraints).

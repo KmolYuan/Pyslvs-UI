@@ -309,14 +309,14 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
         if not file_name:
             file_name = self.input_from("workbook", [
-                "Pyslvs YAML file (*.pyslvs)",
-                "Solvespace module (*.slvs)",
+                "Pyslvs project (*.pyslvs)",
+                "Solvespace 2.x (*.slvs)",
             ])
             if not file_name:
                 return
 
         suffix = QFileInfo(file_name).suffix()
-        if suffix in {'yml', 'pyslvs'}:
+        if suffix == 'pyslvs':
             self.project_widget.read(file_name)
         elif suffix == 'slvs':
             self.__read_slvs(file_name)
@@ -324,7 +324,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             QMessageBox.warning(
                 self,
                 "Invalid file suffix",
-                "Only support '*.yml' or '*.pyslvs'."
+                "Only support '*.pyslvs' or '*.slvs'."
             )
             return
 
@@ -342,8 +342,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     @Slot(name='on_action_save_as_triggered')
     def __save_as(self) -> None:
-        """Save as action. (YAML)"""
-        file_name = self.output_to("YAML file", ["Pyslvs YAML file (*.pyslvs)", "YAML file (*.yml)"])
+        """Save as action."""
+        file_name = self.output_to("Pyslvs project", ["Pyslvs project (*.pyslvs)"])
         if not file_name:
             return
         self.project_widget.save(file_name)
@@ -637,7 +637,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if not ARGUMENTS.filepath:
             return
         suffix = QFileInfo(ARGUMENTS.filepath).suffix()
-        if suffix in {'yml', 'pyslvs'}:
+        if suffix == 'pyslvs':
             self.project_widget.read(ARGUMENTS.filepath)
         elif suffix == 'slvs':
             self.__read_slvs(ARGUMENTS.filepath)
@@ -645,7 +645,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             QMessageBox.warning(
                 self,
                 "Invalid file suffix",
-                "Only support '*.yml' or '*.pyslvs'."
+                "Only support '*.pyslvs' or '*.slvs'."
             )
 
     @Slot(int)

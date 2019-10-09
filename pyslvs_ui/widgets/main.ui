@@ -1030,7 +1030,7 @@ QProgressBar::chunk {
     <string>L&amp;oad File</string>
    </property>
    <property name="statusTip">
-    <string>Load Workbook from *.pyslvs database or *.slvs file.</string>
+    <string>Load Workbook from *.pyslvs project or *.slvs file.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
