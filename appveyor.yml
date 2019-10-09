@@ -7,6 +7,7 @@ environment:
   matrix:
     - PYTHON_DIR: C:\Python37-x64
       COMPILER: mingw32
+      DEPLOY: "true"
     - PYTHON_DIR: C:\Python37-x64
       COMPILER: msvc
 
@@ -61,5 +62,4 @@ deploy:
     force_update: true
     on:
       appveyor_repo_tag: true
-      PYTHON_DIR: C:\Python37-x64
-      COMPILER: mingw32
+      DEPLOY: "true"
