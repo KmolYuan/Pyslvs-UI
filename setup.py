@@ -36,6 +36,7 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/KmolYuan/Pyslvs-UI",
     packages=find_packages(),
+    package_data={'pyslvs_ui': ['py.typed']},
     entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
     zip_safe=False,
     python_requires=">=3.7",
