@@ -8,14 +8,14 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     Tuple,
-    List,
     Sequence,
     FrozenSet,
     Dict,
     Union,
     Optional,
-)
+    Set)
 from abc import ABC
 from itertools import chain
 from qtpy.QtCore import Slot
@@ -45,6 +45,8 @@ from pyslvs_ui.widgets import (
     FixSequenceNumber,
 )
 from pyslvs_ui.widgets import MainWindowBase
+
+_Coord = Tuple[float, float]
 
 
 class _ScaleDialog(QDialog):
@@ -122,7 +124,7 @@ class _LinkLengthDialog(QDialog):
         """Set follower options."""
         self.follower.clear()
         n = int(leader.replace('P', ''))
-        options = set()
+        options: Set[int] = set()
         for name, points in self.vlinks.items():
             if name == 'ground':
                 continue
@@ -360,7 +362,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         y: float,
         links: str = "",
         color: str = 'Green',
-        type_num: VJoint = VJoint.R,
+        type_num: Union[int, VJoint] = VJoint.R,
         angle: float = 0.
     ) -> int:
         """Add an ordinary point. Return the row count of new point."""
@@ -427,7 +429,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     def add_link(self, name: str, color: str, points: Optional[Sequence[int]] = None) -> None:
         """Push a new link command to stack."""
         if points is None:
-            points: List[int] = []
+            points = []
         link_args = [name, color, ','.join(f'Point{i}' for i in points)]
         self.command_stack.beginMacro(f"Add {{Link: {name}}}")
         self.command_stack.push(AddTable(self.vlink_list, self.entities_link))
@@ -544,9 +546,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         for row, c in enumerate(result):
             args = self.entities_point.row_data(row)
             if type(c[0]) is float:
-                args[3], args[4] = c
+                args[3], args[4] = cast(_Coord, c)
             else:
-                (args[3], args[4]), _ = c
+                (args[3], args[4]), _ = cast(Tuple[_Coord, _Coord], c)
             self.command_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
@@ -566,18 +568,18 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         points_text = ", ".join(f"Point{c[0]}" for c in args)
         self.command_stack.beginMacro(f"Moved {{{points_text}}}")
         for row, (x, y, angle) in args:
-            args = self.entities_point.row_data(row)
-            args[3] = x
-            args[4] = y
-            if args[1] != 'R':
-                args[1] = f"{args[1].split(':')[0]}:{angle:.02f}"
+            arg = self.entities_point.row_data(row)
+            arg[3] = x
+            arg[4] = y
+            if arg[1] != 'R':
+                arg[1] = f"{arg[1].split(':')[0]}:{angle:.02f}"
             self.command_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
                 self.vlink_list,
                 self.entities_point,
                 self.entities_link,
-                args
+                arg
             ))
         self.command_stack.endMacro()
 

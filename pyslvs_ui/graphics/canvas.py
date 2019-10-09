@@ -730,8 +730,10 @@ class PreviewCanvas(BaseCanvas):
         g = Graph(params['Graph'])
         expression: str = params['Expression']
         pos_list = parse_pos(expression)
-        self.cus: Dict[int, int] = params['cus']
-        self.same: Dict[int, int] = params['same']
+        cus: Dict[int, int] = params['cus']
+        same: Dict[int, int] = params['same']
+        self.cus = cus
+        self.same = same
         for node, ref in sorted(self.same.items()):
             pos_list.insert(node, pos_list[ref])
         self.set_graph(g, {i: (x, y) for i, (x, y) in enumerate(pos_list)})

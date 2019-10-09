@@ -172,7 +172,11 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_add.setEnabled(driver != -1)
 
     @Slot(name='on_variable_add_clicked')
-    def __add_inputs_variable(self, p0: Optional[int] = None, p1: Optional[int] = None) -> None:
+    def __add_inputs_variable(
+        self,
+        p0: Optional[int] = None,
+        p1: Optional[int] = None
+    ) -> None:
         """Add variable with '->' sign."""
         if p0 is None:
             item: Optional[QListWidgetItem] = self.joint_list.currentItem()
@@ -180,7 +184,7 @@ class InputsWidget(QWidget, Ui_Form):
                 return
             p0 = _variable_int(item.text())
         if p1 is None:
-            item: Optional[QListWidgetItem] = self.driver_list.currentItem()
+            item = self.driver_list.currentItem()
             if item is None:
                 return
             p1 = _variable_int(item.text())

@@ -92,7 +92,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Optional
+from typing import List, Optional
 
 
 def _shift16(num: int) -> int:
@@ -129,7 +129,7 @@ class SlvsWriter:
         self.group_normal(0x3, "comments")
 
         self.param_num = 0x40000
-        self.script_param = []
+        self.script_param: List[str] = []
         for n in range(3):
             self.param(0x10010 + n)
         self.param_val(0x10020, 1)
@@ -145,7 +145,7 @@ class SlvsWriter:
             self.param_val(0x30020 + n, 0.5 if (n == 0) else -0.5)
 
         self.request_num = 0x4
-        self.script_request = []
+        self.script_request: List[str] = []
         for n in range(1, 4):
             self.request_workplane(n)
 
@@ -162,7 +162,7 @@ class SlvsWriter:
         self.entity_normal_3d_wxyz(0x30020, 0x30001, reverse=True)
 
         self.constraint_num = 0x1
-        self.script_constraint = []
+        self.script_constraint: List[str] = []
 
     def set_group(self, num: int) -> None:
         """Set the group number."""

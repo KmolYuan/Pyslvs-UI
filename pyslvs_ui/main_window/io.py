@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     Tuple,
     List,
     Sequence,
@@ -276,7 +277,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             )
         else:
             for args in args_list:
-                links = args[0].split(',')
+                links = cast(str, args[0]).split(',')
                 link_names = {vlink.name for vlink in self.vlink_list}
                 for link_name in links:
                     # If link name not exist.

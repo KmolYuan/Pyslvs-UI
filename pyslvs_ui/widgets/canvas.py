@@ -11,8 +11,10 @@ __email__ = "pyslvs@gmail.com"
 
 from collections import deque
 from typing import (
+    cast,
     TYPE_CHECKING,
     List,
+    Deque,
     Tuple,
     Sequence,
     Dict,
@@ -62,7 +64,11 @@ class MainCanvas(MainCanvasBase):
         self.selection_mode_wheel = parent.entities_tab.setCurrentIndex
         self.selection_mode = parent.entities_tab.currentIndex
 
-    def update_figure(self, exprs: List[Tuple[str, ...]], path: List[_Coord]) -> None:
+    def update_figure(
+        self,
+        exprs: Sequence[Tuple[str, ...]],
+        path: Sequence[_Coord]
+    ) -> None:
         """Update with Point and Links data."""
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
@@ -242,7 +248,7 @@ class MainCanvas(MainCanvasBase):
 
     def record_start(self, limit: int) -> None:
         """Start a limit from main window."""
-        self.path_record = []
+        self.path_record: List[Deque[_Coord]] = []
         for _ in range(len(self.vpoints)):
             self.path_record.append(deque([], limit))
 
@@ -267,9 +273,9 @@ class MainCanvas(MainCanvasBase):
         """Change points coordinates."""
         for i, c in enumerate(coords):
             if type(c[0]) is float:
-                self.vpoints[i].move(c)
+                self.vpoints[i].move(cast(_Coord, c))
             else:
-                self.vpoints[i].move(*c)
+                self.vpoints[i].move(*cast(Tuple[_Coord, _Coord], c))
         self.update_preview_path()
 
     def wheelEvent(self, event: QWheelEvent) -> None:

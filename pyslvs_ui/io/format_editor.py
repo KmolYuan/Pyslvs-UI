@@ -25,6 +25,8 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 PROJECT_FORMAT = ("YAML", "Compressed YAML", "HDF5")
+_Paths = Sequence[Sequence[Tuple[float, float]]]
+_Pairs = Sequence[Tuple[int, int]]
 
 
 class FormatEditor(QObject, metaclass=QABCMeta):
@@ -158,7 +160,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             dlg.deleteLater()
             return self.main_clear()
         self.__set_group("Add paths")
-        path_data: Dict[str, Sequence[Tuple[float, float]]] = data.get('path', {})
+        path_data: Dict[str, _Paths] = data.get('path', {})
         self.load_paths(path_data)
         self.__end_group()
 
@@ -169,7 +171,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             dlg.deleteLater()
             return self.main_clear()
         self.__set_group("Add graph collections")
-        collection_data: List[Tuple[Tuple[int, int], ...]] = data.get('collection', [])
+        collection_data: List[_Pairs] = data.get('collection', [])
         self.load_collections(collection_data)
         self.__end_group()
 

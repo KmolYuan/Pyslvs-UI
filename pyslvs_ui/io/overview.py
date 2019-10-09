@@ -18,6 +18,9 @@ from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QDialog, QListWidgetItem
 from .overview_ui import Ui_Dialog
 
+_Paths = Sequence[Sequence[Tuple[float, float]]]
+_Pairs = Sequence[Tuple[int, int]]
+
 
 class OverviewDialog(QDialog, Ui_Dialog):
 
@@ -33,8 +36,8 @@ class OverviewDialog(QDialog, Ui_Dialog):
         main_expr: str,
         storage_data: Dict[str, str],
         input_data: Sequence[Tuple[int, int]],
-        path_data: Dict[str, Sequence[Tuple[float, float]]],
-        collection_data: List[Tuple[Tuple[int, int], ...]],
+        path_data: Dict[str, _Paths],
+        collection_data: List[_Pairs],
         config_data: Dict[str, Dict[str, Any]],
         algorithm_data: List[Dict[str, Any]],
         background_path: str
@@ -56,7 +59,6 @@ class OverviewDialog(QDialog, Ui_Dialog):
         if main_expr != "M[]":
             size += 1
         self.__set_item_text(0, size)
-
         # Expression of inputs variable data and Path data
         for a, b in input_data:
             self.variables_list.addItem(f"Point{a}->Point{b}")
@@ -67,7 +69,6 @@ class OverviewDialog(QDialog, Ui_Dialog):
             ))
             self.records_list.addItem(item)
         self.__set_item_text(1, len(input_data), len(path_data))
-
         # Structure collections and Triangle collections
         for edges in collection_data:
             self.structures_list.addItem(str(edges))
@@ -76,12 +77,11 @@ class OverviewDialog(QDialog, Ui_Dialog):
             item.setToolTip(data['Expression'])
             self.triangular_iteration_list.addItem(item)
         self.__set_item_text(2, len(collection_data), len(config_data))
-
         # Dimensional synthesis
         for data in algorithm_data:
             self.results_list.addItem(data['Algorithm'])
         self.__set_item_text(3, len(algorithm_data))
-
+        # Background image
         self.image_path.setText(background_path)
         self.__set_item_text(4, 1 if background_path else 0)
 

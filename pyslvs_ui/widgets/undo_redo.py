@@ -20,6 +20,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     Sequence,
     List,
     Dict,
@@ -50,6 +51,7 @@ from .tables import (
 
 _Paths = Sequence[Sequence[Tuple[float, float]]]
 _ITEM_FLAGS = Qt.ItemIsSelectable | Qt.ItemIsEnabled
+_Data = Union[VPoint, VLink, None]
 
 
 def _no_empty(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
@@ -59,19 +61,16 @@ def _no_empty(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
 
 def _args2vpoint(args: Sequence[Union[str, float]]) -> Optional[VPoint]:
     """Make arguments as a VPoint object."""
-    link = _no_empty(args[0].split(','))
+    link = _no_empty(cast(str, args[0]).split(','))
     if args[1] == '':
         return None
     elif args[1] == 'R':
         type_int = VJoint.R
         angle = 0
     else:
-        t, angle_str = args[1].split(':')
-        angle = float(angle_str)
-        if t == 'P':
-            type_int = VJoint.P
-        else:
-            type_int = VJoint.RP
+        angle_pair = cast(str, args[1]).split(':')
+        angle = float(angle_pair[1])
+        type_int = VJoint.P if angle_pair[0] == 'P' else VJoint.RP
     return VPoint(link, type_int, angle, args[2], args[3], args[4], color_rgb)
 
 
@@ -90,7 +89,7 @@ class _FusedTable(QUndoCommand, metaclass=QABCMeta):
     @abstractmethod
     def __init__(
         self,
-        entities_list: List[Union[VPoint, VLink, None]],
+        entities_list: Sequence[_Data],
         table: BaseTableWidget,
         parent: Optional[QWidget] = None
     ):
@@ -106,7 +105,7 @@ class AddTable(_FusedTable):
 
     def __init__(
         self,
-        entities_list: List[Union[VPoint, VLink, None]],
+        entities_list: Sequence[_Data],
         table: BaseTableWidget,
         parent: Optional[QWidget] = None
     ):
@@ -114,7 +113,7 @@ class AddTable(_FusedTable):
 
     def redo(self) -> None:
         """Add a empty row and add empty text strings into table items."""
-        self.entities_list.append(None)
+        cast(List[_Data], self.entities_list).append(None)
         row = self.table.rowCount()
         self.table.insertRow(row)
         for column in range(row):
@@ -123,7 +122,7 @@ class AddTable(_FusedTable):
     def undo(self) -> None:
         """Remove the last row directly."""
         self.table.removeRow(self.table.rowCount() - 1)
-        self.entities_list.pop()
+        cast(List[_Data], self.entities_list).pop()
 
 
 class DeleteTable(_FusedTable):
@@ -136,7 +135,7 @@ class DeleteTable(_FusedTable):
     def __init__(
         self,
         row: int,
-        entities_list: List[Union[VPoint, VLink, None]],
+        entities_list: Sequence[_Data],
         table: BaseTableWidget,
         is_rename: bool,
         parent: Optional[QWidget] = None
@@ -147,7 +146,7 @@ class DeleteTable(_FusedTable):
 
     def redo(self) -> None:
         """Remove the row and rename sequence."""
-        self.entities_list.pop(self.row)
+        cast(List[_Data], self.entities_list).pop(self.row)
         self.table.removeRow(self.row)
         if self.is_rename:
             self.table.rename(self.row)
@@ -156,7 +155,7 @@ class DeleteTable(_FusedTable):
         """Rename again then insert a empty row."""
         if self.is_rename:
             self.table.rename(self.row)
-        self.entities_list.insert(self.row, None)
+        cast(List[_Data], self.entities_list).insert(self.row, None)
         self.table.insertRow(self.row)
         for column in range(self.table.columnCount()):
             self.table.setItem(self.row, column, QTableWidgetItem(''))

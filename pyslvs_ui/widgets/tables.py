@@ -320,7 +320,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
 
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Row range that can be delete."""
-        return range(self.columnCount())
+        yield from range(self.columnCount())
 
     def clear(self) -> None:
         """We should keep the 'ground' left."""
@@ -388,7 +388,7 @@ class ExprTableWidget(BaseTableWidget[None]):
 
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Return column count."""
-        return range(self.columnCount())
+        yield from range(self.columnCount())
 
     def clear(self) -> None:
         """Emit to close the link free move widget."""

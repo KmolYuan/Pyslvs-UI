@@ -221,8 +221,8 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.configure_canvas.set_graph(graph, pos)
 
         links: List[List[str]] = [[] for _ in range(len(graph.vertices))]
-        for joint, link in edges_view(graph):
-            for node in link:
+        for joint, nodes in edges_view(graph):
+            for node in nodes:
                 links[node].append(f'P{joint}')
 
         for link in links:
@@ -327,21 +327,21 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Get the current mechanism parameters."""
         self.__set_parm_bind()
 
-        input_list = []
+        input_list: List[Tuple[int, int]] = []
         for s in list_texts(self.driver_list):
             pair: Tuple[int, int] = eval(s.replace('P', ''))
             if set(pair) & set(self.configure_canvas.same):
                 continue
             input_list.append(pair)
 
-        place_list = {}
+        place_list: Dict[int, None] = {}
         for i in range(self.driver_base.count()):
             joint = int(self.driver_base.itemText(i).replace('P', ''))
             if joint in self.configure_canvas.same:
                 continue
             place_list[joint] = None
 
-        target_list = {}
+        target_list: Dict[int, None] = {}
         for s in list_texts(self.target_list):
             target_list[int(s.replace('P', ''))] = None
 
@@ -400,7 +400,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.configure_canvas.set_driver(input_list)
         _set_warning(self.driver_label, self.driver_list.count() == 0)
         target_list: Dict[int, Sequence[_Coord]] = params['Target']
-        self.configure_canvas.set_target(target_list)
+        self.configure_canvas.set_target(sorted(target_list))
         self.target_list.addItems(f"P{n}" for n in target_list)
         _set_warning(self.target_label, self.target_list.count() == 0)
 

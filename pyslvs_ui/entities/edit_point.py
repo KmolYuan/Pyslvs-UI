@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List
+from typing import List, Union
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
     QDialog,
@@ -32,7 +32,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self,
         vpoints: List[VPoint],
         vlinks: List[VLink],
-        pos: bool,
+        pos: Union[int, bool],
         parent: QWidget,
     ):
         """Input data reference from main window.

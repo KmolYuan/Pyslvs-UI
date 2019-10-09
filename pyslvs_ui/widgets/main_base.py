@@ -14,6 +14,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     TypeVar,
     Tuple,
     List,
@@ -29,6 +30,7 @@ from dataclasses import dataclass, field, fields, Field, astuple
 from qtpy.QtCore import Slot, Qt, QPoint, QDir, QSettings
 from qtpy.QtWidgets import (
     QAction,
+    QWidget,
     QMenu,
     QLabel,
     QPushButton,
@@ -46,6 +48,7 @@ from pyslvs_ui.synthesis import (
 from .main_abc import MainWindowABC
 from .canvas import MainCanvas
 from .tables import (
+    BaseTableWidget,
     PointTableWidget,
     LinkTableWidget,
     ExprTableWidget,
@@ -272,7 +275,11 @@ class MainWindowBase(MainWindowABC, ABC):
         self.entities_link_layout.addWidget(self.entities_link)
         self.entities_expr = ExprTableWidget(self.EntitiesExpr_widget)
         self.entities_expr_layout.insertWidget(0, self.entities_expr)
-        self.__tables = (self.entities_point, self.entities_link, self.entities_expr)
+        self.__tables: Sequence[BaseTableWidget] = (
+            self.entities_point,
+            self.entities_link,
+            self.entities_expr,
+        )
 
         # Select all button on the Point and Link tab as corner widget.
         select_all_button = QPushButton()
@@ -372,7 +379,7 @@ class MainWindowBase(MainWindowABC, ABC):
         for widget, name in [
             (self.structure_synthesis, "Structural"),
             (self.collections, "Collections"),
-        ]:
+        ]:  # type: QWidget, str
             self.synthesis_tab_widget.addTab(widget, widget.windowIcon(), name)
 
         # Dimensional synthesis
@@ -535,11 +542,11 @@ class MainWindowBase(MainWindowABC, ABC):
             for target in self.context[enable]:
                 if type(target) is QMenu:
                     if is_menu:
-                        target.addMenu(menu)
+                        cast(QMenu, target).addMenu(menu)
                     else:
-                        target.addAction(action)
+                        cast(QMenu, target).addAction(action)
                 elif type(target) is list:
-                    target.append(action)
+                    cast(List[QAction], target).append(action)
                 else:
                     raise ValueError("not a list or menu")
         if is_menu:

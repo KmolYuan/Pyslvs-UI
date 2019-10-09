@@ -13,7 +13,7 @@ from typing import (
     Callable,
     Sequence,
     Optional,
-)
+    Set, Dict)
 from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
@@ -114,7 +114,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
                 self.accept()
 
     @abstractmethod
-    def do(self, dir_str: QDir) -> Optional[bool]:
+    def do(self, dir_str: QDir) -> bool:
         """Do the saving work here, return True if done."""
         ...
 
@@ -153,7 +153,7 @@ class SlvsOutputDialog(_OutputDialog):
         file_name = dir_str.filePath(_get_name(self.filename_edit) + '.slvs')
         if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
-            return
+            return False
 
         # Wire frame
         slvs_frame(self.vpoints, self.v_to_slvs, file_name)
@@ -165,10 +165,10 @@ class SlvsOutputDialog(_OutputDialog):
 
         if self.frame_radio.isChecked():
             self.accept()
-            return
+            return False
 
         # Assembly
-        vlinks = {}
+        vlinks: Dict[str, Set[int]] = {}
         for i, vpoint in enumerate(self.vpoints):
             for link in vpoint.links:
                 if link in vlinks:
@@ -181,7 +181,7 @@ class SlvsOutputDialog(_OutputDialog):
             file_name = dir_str.filePath(name + '.slvs')
             if isfile(file_name) and self.warn_radio.isChecked():
                 self.exist_warning(file_name)
-                return
+                return False
             slvs_part([
                 self.vpoints[i] for i in points
             ], self.link_radius.value(), file_name)
@@ -231,7 +231,7 @@ class DxfOutputDialog(_OutputDialog):
         dxf_interval_layout.addWidget(self.interval_option)
         self.assembly_layout.insertLayout(2, dxf_interval_layout)
 
-    def do(self, dir_str: QDir) -> Optional[bool]:
+    def do(self, dir_str: QDir) -> bool:
         """Output types:
 
         + Boundary
@@ -240,7 +240,7 @@ class DxfOutputDialog(_OutputDialog):
         file_name = dir_str.filePath(_get_name(self.filename_edit) + '.dxf')
         if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
-            return
+            return False
 
         version = self.version_option.currentText().split()[0]
 

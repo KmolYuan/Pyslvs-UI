@@ -7,10 +7,11 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence, Callable, Union
+from typing import cast, Sequence, Callable, Union
 from abc import ABC, abstractmethod
 from qtpy.QtCore import Slot, QPoint
 from qtpy.QtWidgets import QAction, QApplication, QTableWidget
+from pyslvs_ui.graphics import BaseCanvas
 from pyslvs_ui.widgets import (
     AddTable,
     EditPointTable,
@@ -228,36 +229,36 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             value: Union[bool, int, float, str] = getattr(prefer, name)
             setattr(self.prefer, name, value)
             if name == 'line_width_option':
-                self.main_canvas.set_link_width(value)
+                self.main_canvas.set_link_width(cast(int, value))
             elif name == 'path_width_option':
-                self.main_canvas.set_path_width(value)
+                self.main_canvas.set_path_width(cast(int, value))
             elif name == 'font_size_option':
-                self.main_canvas.set_font_size(value)
+                self.main_canvas.set_font_size(cast(int, value))
             elif name == 'selection_radius_option':
-                self.main_canvas.set_selection_radius(value)
+                self.main_canvas.set_selection_radius(cast(int, value))
             elif name == 'link_trans_option':
-                self.main_canvas.set_transparency(value)
+                self.main_canvas.set_transparency(cast(int, value))
             elif name == 'margin_factor_option':
-                self.main_canvas.set_margin_factor(value)
+                self.main_canvas.set_margin_factor(cast(int, value))
             elif name == 'joint_size_option':
-                self.main_canvas.set_joint_size(value)
+                self.main_canvas.set_joint_size(cast(int, value))
             elif name == 'zoom_by_option':
-                self.main_canvas.set_zoom_by(value)
+                self.main_canvas.set_zoom_by(cast(int, value))
             elif name == 'nav_toolbar_pos_option':
-                self.__set_nav_toolbar_pos(value)
+                self.__set_nav_toolbar_pos(cast(int, value))
             elif name == 'snap_option':
-                self.main_canvas.set_snap(value)
+                self.main_canvas.set_snap(cast(float, value))
             elif name == 'title_full_path_option':
                 self.set_window_title_full_path()
             for canvas in (
                 self.main_canvas,
                 self.collections.configure_widget.configure_canvas,
                 self.dimensional_synthesis.preview_canvas,
-            ):
+            ):  # type: BaseCanvas
                 if name == 'tick_mark_option':
-                    canvas.set_show_ticks(value)
+                    canvas.set_show_ticks(cast(int, value))
                 elif name == 'monochrome_option':
-                    canvas.set_monochrome_mode(value)
+                    canvas.set_monochrome_mode(cast(bool, value))
 
     def __set_nav_toolbar_pos(self, pos: int) -> None:
         """Set the position of toolbar. (0: top, 1: bottom)"""

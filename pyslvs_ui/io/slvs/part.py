@@ -55,17 +55,17 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     # Synchronous the point coordinates after using convex hull
     centers_ch: List[_Coord] = convex_hull(centers)
     _boundary = centers_ch.copy()
-    for c in centers:
-        if c not in centers_ch:
-            centers_ch.append(c)
+    for x, y in centers:
+        if (x, y) not in centers_ch:
+            centers_ch.append((x, y))
     centers = centers_ch
     del vpoints, min_x, min_y
 
     # Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
     frame: List[_CoordsPair] = [tuple(Coordinate(*c) for c in centers[:2])]
-    for c in centers[2:]:
-        frame.append((frame[0][0], Coordinate(*c)))
-        frame.append((frame[0][1], Coordinate(*c)))
+    for x, y in centers[2:]:
+        frame.append((frame[0][0], Coordinate(x, y)))
+        frame.append((frame[0][1], Coordinate(x, y)))
 
     # Boundary
     boundary = boundary_loop(_boundary, radius)
@@ -188,7 +188,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.constraint_num += 1
     # Add "Constraint" of position
     for i in range(2):
-        c = frame[0][i]
+        c: Coordinate = frame[0][i]
         writer.constraint_fix(writer.constraint_num, point_num[i][0], c.x, c.y)
         if i == 1:
             writer.script_constraint.pop()

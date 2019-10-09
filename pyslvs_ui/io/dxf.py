@@ -15,7 +15,7 @@ from typing import (
     Tuple,
     Sequence,
     Callable,
-)
+    Dict, List)
 from math import degrees, atan2
 import ezdxf
 from ezdxf.lldxf.const import versions_supported_by_new, acad_release
@@ -55,7 +55,7 @@ def dxf_boundary(
     file_name: str
 ):
     """Create parts sketch in same file."""
-    vlinks = {}
+    vlinks: Dict[str, List[int]] = {}
     for i, vpoint in enumerate(vpoints):
         for link in vpoint.links:
             if link in vlinks:

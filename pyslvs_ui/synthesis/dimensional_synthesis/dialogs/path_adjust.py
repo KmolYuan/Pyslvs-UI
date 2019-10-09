@@ -35,7 +35,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         # Get the current path from parent widget.
         self.path = parent.current_path()
 
-        self.r_path = []
+        self.r_path: List[Tuple[float, float]] = []
         for x, y in self.path:
             self.path_list.addItem(f"({x}, {y})")
         self.points_num.setText(str(len(self.path)))

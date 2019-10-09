@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     Tuple,
     List,
     Sequence,
@@ -41,6 +42,7 @@ from pyslvs_ui.info import logger, kernel_list
 from .entities import EntitiesMethodInterface
 
 _Coord = Tuple[float, float]
+_Inputs = Dict[Tuple[int, int], float]
 
 
 def _offset(p: VPoint) -> _Coord:
@@ -161,8 +163,8 @@ def _slvs_solve(
         sys.distance(p1, p2, d, wp)
         for c in vlink.points[2:]:
             for d in (a, b):
-                p1, p2, d = pick_slider(c, d)
-                sys.distance(p1, p2, d, wp)
+                p1, p2, x = pick_slider(c, d)
+                sys.distance(p1, p2, x, wp)
 
     def get_friend(group: VLink, base: int) -> Optional[Tuple[VPoint, Entity]]:
         """Get friend for slider."""
@@ -291,7 +293,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
     @abstractmethod
     def __init__(self) -> None:
         super(SolverMethodInterface, self).__init__()
-        self.dof = 0
+        self.__dof = 0
 
     def get_back_position(self) -> None:
         """Make current position back."""
@@ -351,12 +353,12 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             self.entities_point.update_current_position(result)
             for i, c in enumerate(result):
                 if type(c[0]) is float:
-                    self.vpoint_list[i].move(c)
+                    self.vpoint_list[i].move(cast(_Coord, c))
                 else:
-                    c1, c2 = c
+                    c1, c2 = cast(Tuple[_Coord, _Coord], c)
                     self.vpoint_list[i].move(c1, c2)
-            self.dof = vpoint_dof(self.vpoint_list)
-            self.dof_view.setText(f"{self.dof} ({self.inputs_widget.input_count()})")
+            self.__dof = vpoint_dof(self.vpoint_list)
+            self.dof_view.setText(f"{self.__dof} ({self.inputs_widget.input_count()})")
             self.conflict.setVisible(False)
             self.dof_view.setVisible(True)
         self.reload_canvas()
@@ -374,8 +376,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             return
 
         vpoints = tuple(vpoint.copy() for vpoint in vpoints)
-        vpoint_count = len(vpoints)
-
         solve_kernel = self.prefer.path_preview_option
         if solve_kernel == len(kernel_list):
             solve_kernel = self.prefer.planar_solver_option
@@ -384,9 +384,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
         auto_preview.clear()
         slider_auto_preview.clear()
-        for i in range(vpoint_count):
+        for i, vpoint in enumerate(vpoints):
             auto_preview.append([])
-            if vpoints[i].type in {VJoint.P, VJoint.RP}:
+            if vpoint.type in {VJoint.P, VJoint.RP}:
                 slider_auto_preview[i] = []
 
         bases = []
@@ -411,43 +411,46 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     if solve_kernel == 0:
                         result = expr_solving(
                             self.get_triangle(vpoints),
-                            {n: f'P{n}' for n in range(vpoint_count)},
+                            {n: f'P{n}' for n in range(len(vpoints))},
                             vpoints,
                             angles
                         )
                     elif solve_kernel == 1:
                         if self.free_move_button.isChecked():
-                            inputs = {}
+                            inputs: _Inputs = {}
                         else:
-                            inputs = {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
+                            inputs = {
+                                (bases[i], drivers[i]): angles[i]
+                                for i in range(i_count)
+                            }
                         result, _ = _slvs_solve(vpoints, inputs)
                     elif solve_kernel == 2:
-                        result = SolverSystem(
-                            vpoints,
-                            {(bases[i], drivers[i]): angles[i] for i in range(i_count)}
-                        ).solve()
+                        result = SolverSystem(vpoints, {
+                            (bases[i], drivers[i]): angles[i]
+                            for i in range(i_count)
+                        }).solve()
                     else:
                         raise ValueError("incorrect kernel")
                 except ValueError:
                     # Update with error sign
-                    for i in range(vpoint_count):
+                    for i in range(len(vpoints)):
                         auto_preview[i].append((nan, nan))
                     # Back to last feasible solution
                     angles[dp] -= interval
                     dp += 1
                 else:
                     # Update with result
-                    for i in range(vpoint_count):
-                        if vpoints[i].type == VJoint.R:
-                            auto_preview[i].append(result[i])
-                            vpoints[i].move(result[i])
-                        elif vpoints[i].type in {VJoint.P, VJoint.RP}:
-                            slot, pin = result[i]
+                    for i, vpoint in enumerate(vpoints):
+                        if vpoint.type == VJoint.R:
+                            auto_preview[i].append(cast(_Coord, result[i]))
+                            vpoint.move(cast(_Coord, result[i]))
+                        elif vpoint.type in {VJoint.P, VJoint.RP}:
+                            slot, pin = cast(Tuple[_Coord, _Coord], result[i])
                             # Pin path
                             auto_preview[i].append(pin)
                             # Slot path
                             slider_auto_preview[i].append(slot)
-                            vpoints[i].move(slot, pin)
+                            vpoint.move(slot, pin)
                     angles[dp] += interval
                     angles[dp] %= 360
                     angles_cum[dp] += abs(interval)
@@ -480,7 +483,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         grounded_list = []
         pos = {}
         same = {}
-        used_point = set()
+        used_point: Set[int] = set()
         mapping = {}
         # Link names will change to index number
         for i, vlink in enumerate(self.vlink_list):
@@ -553,8 +556,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         graph, grounded_list, input_list, pos, cus, same = self.get_graph()
 
         links: List[Set[int]] = [set() for _ in range(len(graph.vertices))]
-        for joint, link in edges_view(graph):
-            for node in link:
+        for joint, pair in edges_view(graph):
+            for node in pair:
                 links[node].add(joint)
 
         placement = set(grounded_list)
@@ -603,7 +606,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
     def right_input(self) -> bool:
         """Is input same as DOF?"""
-        inputs = self.inputs_widget.input_count() == self.dof
+        inputs = self.inputs_widget.input_count() == self.__dof
         if not inputs:
             self.entities_expr.clear()
         return inputs
@@ -617,4 +620,4 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
     def dof(self) -> int:
         """Return DOF."""
-        return self.dof
+        return self.__dof

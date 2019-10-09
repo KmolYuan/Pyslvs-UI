@@ -226,7 +226,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         if not file_name:
             return
-        data = []
+        data: List[str] = []
         with open(file_name, 'r', encoding='utf-8', newline='') as f:
             for row in csv.reader(f, delimiter=' ', quotechar='|'):
                 data += " ".join(row).split(',')
@@ -655,13 +655,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         expression: str = self.mech_params['Expression']
         self.expression_string.setText(expression)
         target: Dict[int, List[_Coord]] = self.mech_params['Target']
-        for name in sorted(target):
-            self.target_points.addItem(f"P{name}")
-            path = target[name]
+        for p in sorted(target):
+            self.target_points.addItem(f"P{p}")
+            path = target[p]
             if path:
-                self.path[name] = path.copy()
+                self.path[p] = path.copy()
             else:
-                self.path[name] = []
+                self.path[p] = []
         if self.has_target():
             self.target_points.setCurrentRow(0)
         self.target_label.setVisible(self.has_target())
@@ -712,11 +712,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             pos_list.insert(node, pos_list[ref])
 
         row = 0
-        for name in sorted(placement):
-            coord = placement[name]
-            self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{name}"))
+        for p in sorted(placement):
+            coord = placement[p]
+            self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{p}"))
             self.parameter_list.setItem(row, 1, QTableWidgetItem('Placement'))
-            x, y = self.preview_canvas.pos[name]
+            x, y = self.preview_canvas.pos[p]
             for i, s in enumerate([
                 spinbox(coord[0] if coord else x, minimum=-9999.),
                 spinbox(coord[1] if coord else y, minimum=-9999.),
@@ -770,8 +770,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             lower = lower_list[i]
             if name in link_list:
                 type_name = "Link"
-                n1, n2 = (int(n.replace('P', '')) for n in name.split('<->'))
-                link_length = self.preview_canvas.distance(n1, n2)
+                pair = name.split('<->')
+                link_length = self.preview_canvas.distance(
+                    int(pair[0].replace('P', '')),
+                    int(pair[1].replace('P', ''))
+                )
                 if upper == 0.:
                     upper = link_length + 50
                 if lower <= 0.:
