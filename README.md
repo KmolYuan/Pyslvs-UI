@@ -32,7 +32,7 @@
     - Cross three platforms.
     - CAD-like user interface.
     - Auto layout of generalized chain.
-    - The code complies with PEP8.
+    - The code complies with PEP 8 and PEP 561.
 
 If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
 
