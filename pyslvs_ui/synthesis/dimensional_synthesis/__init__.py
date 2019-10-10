@@ -12,6 +12,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     TYPE_CHECKING,
     List,
     Tuple,
@@ -562,7 +563,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         b, d = input_list[0]
         base_angle = vpoints[b].slope_angle(vpoints[d])
 
-        path = [[] for _ in range(len(vpoints))]
+        path: List[List[_Coord]] = [[] for _ in range(len(vpoints))]
         for angle in range(360 + 1):
             try:
                 result_list = expr_solving(
@@ -579,7 +580,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 for i in range(len(vpoints)):
                     coord = result_list[i]
                     if type(coord[0]) is tuple:
-                        path[i].append(coord[1])
+                        path[i].append(cast(_Coord, coord[1]))
                     else:
                         path[i].append(coord)
         return path
@@ -911,13 +912,17 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         def t(x: int, y: int) -> Union[str, float]:
             item = self.parameter_list.item(x, y)
             if item is None:
-                return self.parameter_list.cellWidget(x, y).value()
+                w: QDoubleSpinBox = self.parameter_list.cellWidget(x, y)
+                return w.value()
             else:
                 return item.text()
 
         self.update_ranges({
-            t(row, 0): (t(row, 2), t(row, 3), t(row, 4))
-            for row in range(self.parameter_list.rowCount())
+            cast(str, t(row, 0)): (
+                cast(float, t(row, 2)),
+                cast(float, t(row, 3)),
+                cast(float, t(row, 4)),
+            ) for row in range(self.parameter_list.rowCount())
             if t(row, 1) == 'Placement'
         })
 

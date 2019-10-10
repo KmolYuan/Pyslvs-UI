@@ -15,6 +15,7 @@ from typing import (
     TYPE_CHECKING,
     List,
     Tuple,
+    Sequence,
     Dict,
     Any,
 )
@@ -72,7 +73,7 @@ class Collections(QWidget):
         self.structure_widget.clear()
         self.configure_widget.clear()
 
-    def collect_data(self) -> List[Tuple[Tuple[int, int], ...]]:
+    def collect_data(self) -> List[Sequence[Tuple[int, int]]]:
         """Return collections to database."""
         return [tuple(G.edges) for G in self.structure_widget.collections]
 

@@ -254,11 +254,11 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.main_canvas,
                 self.collections.configure_widget.configure_canvas,
                 self.dimensional_synthesis.preview_canvas,
-            ):  # type: BaseCanvas
+            ):
                 if name == 'tick_mark_option':
-                    canvas.set_show_ticks(cast(int, value))
+                    cast(BaseCanvas, canvas).set_show_ticks(cast(int, value))
                 elif name == 'monochrome_option':
-                    canvas.set_monochrome_mode(cast(bool, value))
+                    cast(BaseCanvas, canvas).set_monochrome_mode(cast(bool, value))
 
     def __set_nav_toolbar_pos(self, pos: int) -> None:
         """Set the position of toolbar. (0: top, 1: bottom)"""

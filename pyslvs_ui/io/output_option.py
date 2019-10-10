@@ -12,8 +12,9 @@ from typing import (
     Tuple,
     Callable,
     Sequence,
-    Optional,
-    Set, Dict)
+    Set,
+    Dict,
+)
 from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
@@ -144,7 +145,7 @@ class SlvsOutputDialog(_OutputDialog):
             *args
         )
 
-    def do(self, dir_str: QDir) -> Optional[bool]:
+    def do(self, dir_str: QDir) -> bool:
         """Output types:
 
         + Assembly

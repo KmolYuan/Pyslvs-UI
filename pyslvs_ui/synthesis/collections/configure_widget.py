@@ -431,7 +431,7 @@ class ConfigureWidget(QWidget, Ui_Form):
     @Slot(QListWidgetItem)
     def __set_parm_bind(self, _=None) -> None:
         """Set parameters binding."""
-        link_expr_list = []
+        link_expr_list: List[str] = []
         for row, gs in enumerate(list_texts(self.grounded_list)):
             try:
                 link_expr = []

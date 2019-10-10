@@ -329,7 +329,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         self.edit_link(0, 'ground', 'White', '')
 
 
-class ExprTableWidget(BaseTableWidget[None]):
+class ExprTableWidget(BaseTableWidget):
 
     """Expression table.
 
@@ -346,7 +346,7 @@ class ExprTableWidget(BaseTableWidget[None]):
         self,
         exprs: ExpressionStack,
         data_dict: Dict[str, Union[Coordinate, float]],
-        unsolved: Tuple[int, ...]
+        unsolved: Sequence[int]
     ):
         """Set the table items for new coming expression."""
         exprs = exprs.as_list()
@@ -365,7 +365,7 @@ class ExprTableWidget(BaseTableWidget[None]):
                         text = f"{e}:{data_dict[e]:.02f}"
                     else:
                         # Coordinate
-                        c = data_dict[e]
+                        c: Coordinate = data_dict[e]
                         text = f"{e}:({c.x:.02f}, {c.y:.02f})"
                 else:
                     # Function name
@@ -381,10 +381,6 @@ class ExprTableWidget(BaseTableWidget[None]):
             self.setItem(row, self.columnCount() - 1, QTableWidgetItem(f"P{p}"))
             row += 1
         self.exprs = exprs
-
-    def item_data(self, _=None) -> None:
-        """Not used generator."""
-        ...
 
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Return column count."""

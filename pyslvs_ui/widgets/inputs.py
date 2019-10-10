@@ -315,7 +315,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial.setValue(int(value * 100 % self.dial.maximum()))
 
     @Slot(int)
-    def __update_var(self, value: int) -> None:
+    def __update_var(self, value: float) -> None:
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
         value /= 100.
