@@ -100,7 +100,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 if link not in links:
                     links.append(link)
             self.delete_point(point)
-        args[0] = ','.join(links)
+        args.links = ','.join(links)
         self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
         self.command_stack.push(EditPointTable(
             self.entities_point.rowCount() - 1,
@@ -130,7 +130,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 if point not in points:
                     points.append(point)
             self.delete_link(link)
-        args[2] = ','.join(f'Point{p}' for p in points)
+        args.points = ','.join(f'Point{p}' for p in points)
         row = [vlink.name for vlink in self.vlink_list].index(args[0])
         self.command_stack.push(EditLinkTable(
             row,

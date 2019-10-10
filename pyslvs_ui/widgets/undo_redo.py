@@ -46,6 +46,8 @@ from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint, VPoint, VLink, color_rgb
 from pyslvs_ui.qt_patch import QABCMeta
 from .tables import (
+    PointArgs,
+    LinkArgs,
     BaseTableWidget,
     PointTableWidget,
     LinkTableWidget,
@@ -54,34 +56,37 @@ from .tables import (
 _Paths = Sequence[Sequence[Tuple[float, float]]]
 _ITEM_FLAGS = Qt.ItemIsSelectable | Qt.ItemIsEnabled
 _Data = TypeVar('_Data', VPoint, VLink)
+_Args = TypeVar('_Args', PointArgs, LinkArgs)
 
 
-def _no_empty(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
+def _no_empty(str_list: Iterable[str]) -> Iterator[str]:
     """Filter to exclude empty string."""
     yield from (s for s in str_list if s)
 
 
-def _args2vpoint(args: Sequence[Union[str, float]]) -> Optional[VPoint]:
+def _args2vpoint(args: PointArgs) -> VPoint:
     """Make arguments as a VPoint object."""
-    link = _no_empty(cast(str, args[0]).split(','))
-    if args[1] == '':
-        return None
-    elif args[1] == 'R':
+    link = _no_empty(cast(str, args.links).split(','))
+    if args.type == '':
+        return VPoint.HOLDER
+    elif args.type == 'R':
         type_int = VJoint.R
         angle = 0
     else:
-        angle_pair = cast(str, args[1]).split(':')
+        angle_pair = cast(str, args.type).split(':')
         angle = float(angle_pair[1])
         type_int = VJoint.P if angle_pair[0] == 'P' else VJoint.RP
-    return VPoint(link, type_int, angle, args[2], args[3], args[4], color_rgb)
+    return VPoint(link, type_int, angle, args.color, args.x, args.y, color_rgb)
 
 
-def _args2vlink(args: Sequence[str]) -> Optional[VLink]:
+def _args2vlink(args: LinkArgs) -> VLink:
     """Make arguments as a VLink object."""
-    if args[0] == '':
-        return None
-    points = [int(p.replace('Point', '')) for p in _no_empty(args[2].split(','))]
-    return VLink(args[0], args[1], points, color_rgb)
+    if args.name == '':
+        return VLink.HOLDER
+    return VLink(args.name, args.color, [
+        int(p.replace('Point', ''))
+        for p in _no_empty(args.points.split(','))
+    ], color_rgb)
 
 
 class _FusedTable(QUndoCommand, Generic[_Data], metaclass=QABCMeta):
@@ -211,7 +216,7 @@ class FixSequenceNumber(QUndoCommand):
         item.setText(','.join([f'Point{p}' for p in points]))
 
 
-class _EditFusedTable(QUndoCommand, metaclass=QABCMeta):
+class _EditFusedTable(QUndoCommand, Generic[_Args], metaclass=QABCMeta):
 
     """Edit table command of fused type."""
 
@@ -223,7 +228,7 @@ class _EditFusedTable(QUndoCommand, metaclass=QABCMeta):
         vlink_list: List[VLink],
         point_table: PointTableWidget,
         link_table: LinkTableWidget,
-        args_list: Sequence[Union[str, float]],
+        args_list: _Args,
         parent: Optional[QWidget] = None
     ):
         super(_EditFusedTable, self).__init__(parent)
@@ -232,10 +237,10 @@ class _EditFusedTable(QUndoCommand, metaclass=QABCMeta):
         self.vlink_list = vlink_list
         self.point_table = point_table
         self.link_table = link_table
-        self.args = tuple(args_list)
+        self.args = args_list
 
 
-class EditPointTable(_EditFusedTable):
+class EditPointTable(_EditFusedTable[PointArgs]):
 
     """Edit Point table.
 
@@ -246,8 +251,8 @@ class EditPointTable(_EditFusedTable):
         super(EditPointTable, self).__init__(row, *args)
         self.old_args = self.point_table.row_data(row)
         # Links: Set[str]
-        new_links = set(self.args[0].split(','))
-        old_links = set(self.old_args[0].split(','))
+        new_links = set(self.args.links.split(','))
+        old_links = set(self.old_args.links.split(','))
         new_link_items = []
         old_link_items = []
         for row, vlink in enumerate(self.vlink_list):
@@ -262,13 +267,13 @@ class EditPointTable(_EditFusedTable):
     def redo(self) -> None:
         """Write arguments then rewrite the dependents."""
         self.vpoint_list[self.row] = _args2vpoint(self.args)
-        self.point_table.edit_point(self.row, *self.args)
+        self.point_table.edit_point(self.row, self.args)
         self.__write_links(self.new_link_items, self.old_link_items)
 
     def undo(self) -> None:
         """Rewrite the dependents then write arguments."""
         self.__write_links(self.old_link_items, self.new_link_items)
-        self.point_table.edit_point(self.row, *self.old_args)
+        self.point_table.edit_point(self.row, self.old_args)
         self.vpoint_list[self.row] = _args2vpoint(self.old_args)
 
     def __write_links(self, add: Sequence[int], sub: Sequence[int]) -> None:
@@ -293,7 +298,7 @@ class EditPointTable(_EditFusedTable):
         self.vlink_list[row].set_points(points)
 
 
-class EditLinkTable(_EditFusedTable):
+class EditLinkTable(_EditFusedTable[LinkArgs]):
 
     """Edit Link table.
 
@@ -306,11 +311,11 @@ class EditLinkTable(_EditFusedTable):
         # Points: Set[int]
         new_points = {
             int(index.replace('Point', ''))
-            for index in _no_empty(self.args[2].split(','))
+            for index in _no_empty(self.args.points.split(','))
         }
         old_points = {
             int(index.replace('Point', ''))
-            for index in _no_empty(self.old_args[2].split(','))
+            for index in _no_empty(self.old_args.points.split(','))
         }
         self.new_point_items = tuple(new_points - old_points)
         self.old_point_items = tuple(old_points - new_points)
@@ -318,30 +323,30 @@ class EditLinkTable(_EditFusedTable):
     def redo(self) -> None:
         """Write arguments then rewrite the dependents."""
         self.vlink_list[self.row] = _args2vlink(self.args)
-        self.link_table.edit_link(self.row, *self.args)
-        self.__rename(self.args[0], self.old_args)
-        self.__write_points(self.args[0], self.new_point_items, self.old_point_items)
+        self.link_table.edit_link(self.row, self.args)
+        self.__rename(self.args.name, self.old_args)
+        self.__write_points(self.args.name, self.new_point_items, self.old_point_items)
 
     def undo(self) -> None:
         """Rewrite the dependents then write arguments."""
-        self.__write_points(self.old_args[0], self.old_point_items, self.new_point_items)
-        self.__rename(self.old_args[0], self.args)
-        self.link_table.edit_link(self.row, *self.old_args)
+        self.__write_points(self.old_args.name, self.old_point_items, self.new_point_items)
+        self.__rename(self.old_args.name, self.args)
+        self.link_table.edit_link(self.row, self.old_args)
         self.vlink_list[self.row] = _args2vlink(self.old_args)
 
-    def __rename(self, new_name: str, args: Sequence[str]) -> None:
+    def __rename(self, new_name: str, args: LinkArgs) -> None:
         """Adjust link name in all dependents, if link name are changed."""
-        if args[0] == new_name:
+        if args.name == new_name:
             return
-        for index in _no_empty(args[2].split(',')):
+        for index in _no_empty(args.points.split(',')):
             row = int(index.replace('Point', ''))
             item = QTableWidgetItem(','.join(
-                link.replace(args[0], new_name)
+                link.replace(args.name, new_name)
                 for link in self.vpoint_list[row].links
             ))
             item.setFlags(_ITEM_FLAGS)
             self.point_table.setItem(row, 1, item)
-            self.vpoint_list[row].replace_link(args[0], new_name)
+            self.vpoint_list[row].replace_link(args.name, new_name)
 
     def __write_points(self, name: str, add: Sequence[int], sub: Sequence[int]) -> None:
         """Write table function.

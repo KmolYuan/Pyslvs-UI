@@ -10,7 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .main_base import MainWindowBase, Preferences
-from .tables import PointTableWidget, LinkTableWidget
+from .tables import PointArgs, LinkArgs, PointTableWidget, LinkTableWidget
 from .undo_redo import (
     AddTable,
     AddPath,
@@ -30,6 +30,8 @@ from .undo_redo import (
 __all__ = [
     'MainWindowBase',
     'Preferences',
+    'PointArgs',
+    'LinkArgs',
     'PointTableWidget',
     'LinkTableWidget',
     'AddTable',

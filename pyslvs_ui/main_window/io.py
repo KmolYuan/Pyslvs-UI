@@ -53,7 +53,7 @@ from pyslvs_ui.io import (
     OverviewDialog,
     str_between,
 )
-from pyslvs_ui.widgets import AddTable, EditPointTable, Preferences
+from pyslvs_ui.widgets import AddTable, EditPointTable, Preferences, PointArgs
 from .actions import ActionMethodInterface
 
 _PREFIX = f"# Generate by Pyslvs {__version__}\n# Project "
@@ -275,16 +275,20 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 f"Your expression is in an incorrect format."
             )
         else:
-            for args in args_list:
-                links = cast(str, args[0]).split(',')
+            for _args in args_list:
+                args = PointArgs(*_args)
+                links = cast(str, args.links).split(',')
                 link_names = {vlink.name for vlink in self.vlink_list}
                 for link_name in links:
-                    # If link name not exist.
+                    # If link name not exist
                     if link_name not in link_names:
                         self.add_link(link_name, 'Blue')
                 row_count = self.entities_point.rowCount()
                 self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
-                self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
+                self.command_stack.push(AddTable(
+                    self.vpoint_list,
+                    self.entities_point
+                ))
                 self.command_stack.push(EditPointTable(
                     row_count,
                     self.vpoint_list,

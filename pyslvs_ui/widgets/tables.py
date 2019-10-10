@@ -12,6 +12,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
+from dataclasses import dataclass, astuple
 from time import perf_counter
 from typing import (
     TYPE_CHECKING,
@@ -46,6 +47,28 @@ if TYPE_CHECKING:
 
 _Data = TypeVar('_Data', VPoint, VLink)
 _Coord = Tuple[float, float]
+
+
+@dataclass(repr=False, eq=False)
+class PointArgs:
+
+    """Point table argument."""
+
+    links: str
+    type: str
+    color: str
+    x: float
+    y: float
+
+
+@dataclass(repr=False, eq=False)
+class LinkArgs:
+
+    """Link table argument."""
+
+    name: str
+    color: str
+    points: str
 
 
 class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
@@ -189,21 +212,21 @@ class PointTableWidget(BaseTableWidget[VPoint]):
     def __init__(self, parent: QWidget) -> None:
         super(PointTableWidget, self).__init__(0, parent)
 
-    def edit_point(self, row: int, links: str, type_str: str, color: str, x: float, y: float) -> None:
+    def edit_point(self, row: int, arg: PointArgs) -> None:
         """Edit a point."""
-        for i, e in enumerate([f'Point{row}', links, type_str, color, x, y, f"({x}, {y})"]):
+        for i, e in enumerate((f'Point{row}',) + astuple(arg) + (f"({arg.x}, {arg.y})",)):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 3:
                 item.setIcon(color_icon(e))
             self.setItem(row, i, item)
 
-    def row_data(self, row: int) -> List[Union[str, float]]:
+    def row_data(self, row: int) -> PointArgs:
         """Return row data for 'edit_point' method."""
         row_text: List[Union[str, float]] = self.row_text(row, has_name=False)
         for i in (3, 4):
             row_text[i] = float(row_text[i]) if row_text[i] else 0.
-        return row_text
+        return PointArgs(*row_text)
 
     def rename(self, row: int) -> None:
         """When index changed, the points need to rename."""
@@ -276,26 +299,20 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         super(LinkTableWidget, self).__init__(1, parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
-        self.edit_link(0, VLink.FRAME, 'White', '')
+        self.edit_link(0, LinkArgs(VLink.FRAME, 'White', ''))
 
-    def edit_link(
-        self,
-        row: int,
-        name: str,
-        color: str,
-        points: str
-    ):
+    def edit_link(self, row: int, arg: LinkArgs):
         """Edit a link."""
-        for i, e in enumerate((name, color, points)):
+        for i, e in enumerate(astuple(arg)):
             item = QTableWidgetItem(e)
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 1:
                 item.setIcon(color_icon(e))
             self.setItem(row, i, item)
 
-    def row_data(self, row: int) -> List[str]:
+    def row_data(self, row: int) -> LinkArgs:
         """Return row data for 'edit_link' method."""
-        return self.row_text(row, has_name=True)
+        return LinkArgs(*self.row_text(row, has_name=True))
 
     def find_name(self, name: str) -> int:
         """Return row index by input name."""
@@ -311,7 +328,8 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         item = self.item(row, 2)
         if not item:
             return []
-        return [int(s.replace('Point', '')) for s in item.text().split(',') if s]
+        link_str = item.text()
+        return [int(s.replace('Point', '')) for s in link_str.split(',') if s]
 
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Row range that can be delete."""
@@ -321,7 +339,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         """We should keep the frame left."""
         super(LinkTableWidget, self).clear()
         self.setRowCount(1)
-        self.edit_link(0, VLink.FRAME, 'White', '')
+        self.edit_link(0, LinkArgs(VLink.FRAME, 'White', ''))
 
 
 class ExprTableWidget(BaseTableWidget):
