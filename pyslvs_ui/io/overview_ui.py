@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/io/overview.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -24,7 +24,7 @@ class Ui_Dialog(object):
         self.tab_box = QtWidgets.QToolBox(Dialog)
         self.tab_box.setObjectName("tab_box")
         self.page0 = QtWidgets.QWidget()
-        self.page0.setGeometry(QtCore.QRect(0, 0, 420, 310))
+        self.page0.setGeometry(QtCore.QRect(0, 0, 424, 345))
         self.page0.setObjectName("page0")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.page0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -45,7 +45,7 @@ class Ui_Dialog(object):
         icon1.addPixmap(QtGui.QPixmap(":/icons/mechanism.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tab_box.addItem(self.page0, icon1, "")
         self.page1 = QtWidgets.QWidget()
-        self.page1.setGeometry(QtCore.QRect(0, 0, 420, 310))
+        self.page1.setGeometry(QtCore.QRect(0, 0, 424, 345))
         self.page1.setObjectName("page1")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.page1)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -71,7 +71,7 @@ class Ui_Dialog(object):
         icon2.addPixmap(QtGui.QPixmap(":/icons/motor.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tab_box.addItem(self.page1, icon2, "")
         self.page2 = QtWidgets.QWidget()
-        self.page2.setGeometry(QtCore.QRect(0, 0, 420, 310))
+        self.page2.setGeometry(QtCore.QRect(0, 0, 424, 345))
         self.page2.setObjectName("page2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.page2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -97,7 +97,7 @@ class Ui_Dialog(object):
         icon3.addPixmap(QtGui.QPixmap(":/icons/collections.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tab_box.addItem(self.page2, icon3, "")
         self.page3 = QtWidgets.QWidget()
-        self.page3.setGeometry(QtCore.QRect(0, 0, 420, 310))
+        self.page3.setGeometry(QtCore.QRect(0, 0, 424, 345))
         self.page3.setObjectName("page3")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page3)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
@@ -111,6 +111,7 @@ class Ui_Dialog(object):
         icon4.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tab_box.addItem(self.page3, icon4, "")
         self.page = QtWidgets.QWidget()
+        self.page.setGeometry(QtCore.QRect(0, 0, 424, 345))
         self.page.setObjectName("page")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.page)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
@@ -121,6 +122,9 @@ class Ui_Dialog(object):
         self.image_path.setReadOnly(True)
         self.image_path.setObjectName("image_path")
         self.verticalLayout_8.addWidget(self.image_path)
+        self.background_preview = QtWidgets.QLabel(self.page)
+        self.background_preview.setObjectName("background_preview")
+        self.verticalLayout_8.addWidget(self.background_preview)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_8.addItem(spacerItem)
         icon5 = QtGui.QIcon()

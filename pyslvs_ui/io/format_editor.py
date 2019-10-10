@@ -120,12 +120,13 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add mechanism")
         links_data: Dict[str, str] = data.get('links', {})
-        self.add_empty_links(links_data)
-        mechanism_data: str = data.get('mechanism', "")
-        self.parse_expression(mechanism_data)
-        self.__end_group()
+        mechanism_data: str = data.get('mechanism', "M[]")
+        if len(links_data) > 1 or mechanism_data != "M[]":
+            self.__set_group("Add mechanism")
+            self.add_empty_links(links_data)
+            self.parse_expression(mechanism_data)
+            self.__end_group()
 
         # Input data
         dlg.setValue(2)
@@ -133,14 +134,15 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add inputs data")
         input_data: List[Dict[str, int]] = data.get('input', [])
         i_attr = []
-        for b, d in input_data:
-            QCoreApplication.processEvents()
-            i_attr.append((b, d))
-        self.load_inputs(i_attr)
-        self.__end_group()
+        if input_data:
+            self.__set_group("Add inputs data")
+            for b, d in input_data:
+                QCoreApplication.processEvents()
+                i_attr.append((b, d))
+            self.load_inputs(i_attr)
+            self.__end_group()
 
         # Storage data
         dlg.setValue(3)
@@ -148,10 +150,11 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add storage")
         storage_data: Dict[str, str] = data.get('storage', {})
-        self.load_storage(storage_data)
-        self.__end_group()
+        if storage_data:
+            self.__set_group("Add storage")
+            self.load_storage(storage_data)
+            self.__end_group()
 
         # Path data
         dlg.setValue(4)
@@ -159,10 +162,11 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add paths")
         path_data: Dict[str, _Paths] = data.get('path', {})
-        self.load_paths(path_data)
-        self.__end_group()
+        if path_data:
+            self.__set_group("Add paths")
+            self.load_paths(path_data)
+            self.__end_group()
 
         # Collection data
         dlg.setValue(5)
@@ -170,10 +174,11 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add graph collections")
         collection_data: List[_Pairs] = data.get('collection', [])
-        self.load_collections(collection_data)
-        self.__end_group()
+        if collection_data:
+            self.__set_group("Add graph collections")
+            self.load_collections(collection_data)
+            self.__end_group()
 
         # Configuration data
         dlg.setValue(6)
@@ -181,10 +186,11 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add synthesis configurations")
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
-        self.load_config(config_data)
-        self.__end_group()
+        if config_data:
+            self.__set_group("Add synthesis configurations")
+            self.load_config(config_data)
+            self.__end_group()
 
         # Algorithm data
         dlg.setValue(7)
@@ -192,10 +198,11 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        self.__set_group("Add synthesis results")
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
-        self.load_algorithm(algorithm_data)
-        self.__end_group()
+        if algorithm_data:
+            self.__set_group("Add synthesis results")
+            self.load_algorithm(algorithm_data)
+            self.__end_group()
 
         # Set background
         background_data: Dict[str, Union[str, float]] = data.get('background', {})

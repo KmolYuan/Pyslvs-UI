@@ -16,6 +16,7 @@ from typing import (
 )
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QDialog, QListWidgetItem
+from qtpy.QtGui import QPixmap
 from .overview_ui import Ui_Dialog
 
 _Paths = Sequence[Sequence[Tuple[float, float]]]
@@ -84,6 +85,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         # Background image
         self.image_path.setText(background_path)
         self.__set_item_text(4, 1 if background_path else 0)
+        self.background_preview.setPixmap(QPixmap(background_path))
 
     def __set_item_text(self, i: int, *count: int) -> None:
         """Set the title for a specified tab."""

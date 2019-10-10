@@ -28,8 +28,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>310</height>
+        <width>424</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -71,8 +71,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>310</height>
+        <width>424</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -118,8 +118,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>310</height>
+        <width>424</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -165,8 +165,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>420</width>
-        <height>310</height>
+        <width>424</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -190,6 +190,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>424</width>
+        <height>345</height>
+       </rect>
+      </property>
       <attribute name="icon">
        <iconset resource="../icons.qrc">
         <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
@@ -211,6 +219,9 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="background_preview"/>
        </item>
        <item>
         <spacer name="verticalSpacer">

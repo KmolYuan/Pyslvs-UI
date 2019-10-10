@@ -177,10 +177,7 @@ class MainCanvas(MainCanvasBase):
     @Slot(str)
     def set_background(self, path: str) -> None:
         """Set background from file path."""
-        if path:
-            self.background.load(path)
-        else:
-            self.background = QImage()
+        self.background.load(path)
         self.update()
 
     @Slot(float)
