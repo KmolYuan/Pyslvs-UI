@@ -255,12 +255,18 @@ Enumeration values of Joint types.
 
 Mechanism expression class.
 
+#### Class attributes of VPoint
+
+| name | type | description |
+|:----:|:----:|:------------|
+| HOLDER | [VPoint] | A placeholder of VPoint type. |
+
 #### Object attributes of VPoint
 
 | name | type | description |
 |:----:|:----:|:------------|
-| links | Tuple[str, ...] | Link list of the joint. |
-| c | numpy.ndarray | Current coordinates of the joint. |
+| links | Sequence[str] | Link list of the joint. |
+| c | Tuple[Tuple[float, float], Tuple[float, float]] | Current coordinates of the joint. |
 | type | [VJoint] | The type of the joint. |
 | type_str | str | The type string of the joint. |
 | color | Optional[Tuple[int, int, int]] | The RGB color data of the joint. |
@@ -515,6 +521,13 @@ Over loaded method to print the objects.
 
 Mechanism expression class in link's view.
 
+#### Class attributes of VLink
+
+| name | type | description |
+|:----:|:----:|:------------|
+| HOLDER | [VLink] | A placeholder of VLink type. |
+| FRAME | str | The name of frame. ("ground") |
+
 #### Object attributes of VLink
 
 | name | type | description |
@@ -522,7 +535,7 @@ Mechanism expression class in link's view.
 | name | str | The name tag of the link. |
 | color | Optional[Tuple[int, int, int]] | The RGB color data of the joint. |
 | color_str | str | The color string of the joint. |
-| points | Tuple[int, ...] | The points of the link. |
+| points | Sequence[int] | The points of the link. |
 
 #### VLink.\_\_init__()
 
