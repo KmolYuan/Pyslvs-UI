@@ -163,7 +163,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         # Background
         self.background = QImage()
         self.background_opacity = 1.
-        self.background_scale = 1
+        self.background_scale = 1.
         self.background_offset = QPointF(0, 0)
         # Monochrome mode
         self.monochrome = False

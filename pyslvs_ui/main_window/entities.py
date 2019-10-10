@@ -11,11 +11,12 @@ from typing import (
     cast,
     Tuple,
     Sequence,
+    Set,
     FrozenSet,
     Dict,
     Union,
     Optional,
-    Set)
+)
 from abc import ABC
 from itertools import chain
 from qtpy.QtCore import Slot

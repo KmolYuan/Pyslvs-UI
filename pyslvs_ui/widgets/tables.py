@@ -38,12 +38,7 @@ from qtpy.QtWidgets import (
     QWidget,
 )
 from qtpy.QtGui import QKeyEvent
-from pyslvs import (
-    ExpressionStack,
-    Coordinate,
-    VPoint,
-    VLink,
-)
+from pyslvs import ExpressionStack, Coordinate, VPoint, VLink
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.graphics import color_icon
 if TYPE_CHECKING:
@@ -344,12 +339,12 @@ class ExprTableWidget(BaseTableWidget):
 
     def set_expr(
         self,
-        exprs: ExpressionStack,
+        es: ExpressionStack,
         data_dict: Dict[str, Union[Coordinate, float]],
         unsolved: Sequence[int]
     ):
         """Set the table items for new coming expression."""
-        exprs = exprs.as_list()
+        exprs = es.as_list()
         if exprs != self.exprs:
             self.clear()
             self.setRowCount(len(exprs) + len(unsolved))
