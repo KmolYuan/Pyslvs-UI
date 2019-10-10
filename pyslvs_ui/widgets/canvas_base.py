@@ -216,7 +216,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                 if not vpoint.links:
                     grounded = False
                 else:
-                    grounded = vpoint.links[j] == 'ground'
+                    grounded = vpoint.links[j] == VLink.FRAME
                 # Slot point
                 if j == 0 or vpoint.type == VJoint.P:
                     if self.monochrome:
@@ -291,7 +291,7 @@ class MainCanvasBase(BaseCanvas, ABC):
 
     def __draw_link(self, vlink: VLink) -> None:
         """Draw a link."""
-        if vlink.name == 'ground' or (not vlink.points):
+        if vlink.name == VLink.FRAME or not vlink.points:
             return
         points = self.__points_pos(vlink)
         pen = QPen()

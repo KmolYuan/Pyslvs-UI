@@ -11,6 +11,7 @@ from typing import cast, Sequence, Callable, Union
 from abc import ABC, abstractmethod
 from qtpy.QtCore import Slot, QPoint
 from qtpy.QtWidgets import QAction, QApplication, QTableWidget
+from pyslvs import VLink
 from pyslvs_ui.graphics import BaseCanvas
 from pyslvs_ui.widgets import (
     AddTable,
@@ -49,7 +50,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         # Set grounded state
         if selection:
             self.action_p_lock.setChecked(all(
-                'ground' in self.vpoint_list[row].links for row in selection
+                VLink.FRAME in self.vpoint_list[row].links for row in selection
             ))
         self.context.point_enable(len(selection))
 

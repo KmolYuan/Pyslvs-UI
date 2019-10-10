@@ -201,7 +201,7 @@ class MainWindowBase(MainWindowABC, ABC):
         self.alignment_mode = 0
         # Entities list
         self.vpoint_list: List[VPoint] = []
-        self.vlink_list = [VLink('ground', 'White', (), color_rgb)]
+        self.vlink_list = [VLink(VLink.FRAME, 'White', (), color_rgb)]
         # Condition list of context menus
         self.context = _Context()
         # Preference

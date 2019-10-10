@@ -36,7 +36,7 @@ from qtpy.QtGui import (
     QDragEnterEvent,
     QDropEvent,
 )
-from pyslvs import __version__, parse_params, PMKSLexer
+from pyslvs import __version__, parse_params, PMKSLexer, VLink
 from pyslvs_ui.qt_patch import qt_image_format, qt_image_suffix
 from pyslvs_ui.info import (
     ARGUMENTS,
@@ -69,7 +69,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Solvespace edges."""
         def func() -> Iterator[Tuple[int, int]]:
             for vlink in self.vlink_list:
-                if vlink.name == 'ground':
+                if vlink.name == VLink.FRAME:
                     continue
                 for i, p in enumerate(vlink.points):
                     if i == 0:
@@ -299,7 +299,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def add_empty_links(self, link_color: Dict[str, str]) -> None:
         """Use to add empty link when loading database."""
         for name, color in link_color.items():
-            if name != 'ground':
+            if name != VLink.FRAME:
                 self.add_link(name, color)
 
     @Slot(name='on_action_load_file_triggered')

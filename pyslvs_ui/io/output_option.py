@@ -34,7 +34,7 @@ from qtpy.QtWidgets import (
     QSpacerItem,
 )
 from qtpy.QtGui import QIcon, QPixmap
-from pyslvs import VPoint
+from pyslvs import VPoint, VLink
 from pyslvs_ui.qt_patch import QABCMeta
 from .slvs import slvs_frame, slvs_part
 from .dxf import (
@@ -177,7 +177,7 @@ class SlvsOutputDialog(_OutputDialog):
                 else:
                     vlinks[link] = {i}
         for name, points in vlinks.items():
-            if name == 'ground':
+            if name == VLink.FRAME:
                 continue
             file_name = dir_str.filePath(name + '.slvs')
             if isfile(file_name) and self.warn_radio.isChecked():

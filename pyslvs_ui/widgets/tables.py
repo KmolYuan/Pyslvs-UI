@@ -276,7 +276,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         super(LinkTableWidget, self).__init__(1, parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
-        self.edit_link(0, 'ground', 'White', '')
+        self.edit_link(0, VLink.FRAME, 'White', '')
 
     def edit_link(
         self,
@@ -318,10 +318,10 @@ class LinkTableWidget(BaseTableWidget[VLink]):
         yield from range(self.columnCount())
 
     def clear(self) -> None:
-        """We should keep the 'ground' left."""
+        """We should keep the frame left."""
         super(LinkTableWidget, self).clear()
         self.setRowCount(1)
-        self.edit_link(0, 'ground', 'White', '')
+        self.edit_link(0, VLink.FRAME, 'White', '')
 
 
 class ExprTableWidget(BaseTableWidget):

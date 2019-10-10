@@ -19,7 +19,7 @@ from typing import (
 from math import degrees, atan2
 import ezdxf
 from ezdxf.lldxf.const import versions_supported_by_new, acad_release
-from pyslvs import VPoint
+from pyslvs import VPoint, VLink
 from pyslvs_ui.graphics import convex_hull
 from .slvs import boundary_loop
 
@@ -75,7 +75,7 @@ def dxf_boundary(
         vlinks,
         key=lambda n: min(vpoints[p].cx for p in vlinks[n])
     ):
-        if name == 'ground':
+        if name == VLink.FRAME:
             continue
         # Draw joint holes.
         x_min = min(vpoints[p].cx for p in vlinks[name])

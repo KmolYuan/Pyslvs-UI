@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, List, Dict
+from pyslvs import VLink
 
 
 class SlvsParser:
@@ -115,7 +116,7 @@ class SlvsParser:
         # Rename link names.
         for i, name in enumerate(sorted(vlinks)):
             if i == 0:
-                vlinks['ground'] = vlinks.pop(name)
+                vlinks[VLink.FRAME] = vlinks.pop(name)
             else:
                 vlinks[f'link_{i - 1}'] = vlinks.pop(name)
 

@@ -155,7 +155,7 @@ def _slvs_solve(
     for vlink in vlinks.values():
         if len(vlink.points) < 2:
             continue
-        if vlink.name == 'ground':
+        if vlink.name == VLink.FRAME:
             continue
         a = vlink.points[0]
         b = vlink.points[1]
@@ -501,7 +501,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                         continue
 
                     m = link_names.index(link_name)
-                    grounded = 'ground' in {vlink.name, link_name}
+                    grounded = VLink.FRAME in {vlink.name, link_name}
                     ref_num = len(graph.edges)
                     if ref_num != base_num:
                         pos[ref_num] = (vpoint.x, vpoint.y)

@@ -33,6 +33,7 @@ from qtpy.QtWidgets import (
 )
 from pyslvs import (
     VJoint,
+    VLink,
     Graph,
     edges_view,
     SolverSystem,
@@ -127,7 +128,7 @@ class _LinkLengthDialog(QDialog):
         n = int(leader.replace('P', ''))
         options: Set[int] = set()
         for name, points in self.vlinks.items():
-            if name == 'ground':
+            if name == VLink.FRAME:
                 continue
             if n in points:
                 options.update(points)
@@ -355,7 +356,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
 
     def add_fixed_point(self) -> None:
         """Add a point (fixed)."""
-        self.add_point(self.mouse_pos_x, self.mouse_pos_y, 'ground', 'Blue')
+        self.add_point(self.mouse_pos_x, self.mouse_pos_y, VLink.FRAME, 'Blue')
 
     def add_point(
         self,
@@ -464,10 +465,10 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         for row in selected_rows:
             new_links = list(self.vpoint_list[row].links)
             if to_fixed:
-                if 'ground' not in new_links:
-                    new_links.append('ground')
-            elif 'ground' in new_links:
-                new_links.remove('ground')
+                if VLink.FRAME not in new_links:
+                    new_links.append(VLink.FRAME)
+            elif VLink.FRAME in new_links:
+                new_links.remove(VLink.FRAME)
             args = self.entities_point.row_data(row)
             args[0] = ','.join(s for s in new_links if s)
             self.command_stack.push(EditPointTable(
@@ -654,7 +655,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.vlink_list,
             self.entities_point,
             self.entities_link,
-            ['ground', 'White', '']
+            [VLink.FRAME, 'White', '']
         ))
         # Create new link.
         self.command_stack.push(AddTable(self.vlink_list, self.entities_link))
@@ -721,7 +722,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Delete empty link names."""
         self.delete_links([
             i for i, vlink in enumerate(self.vlink_list)
-            if vlink.name != 'ground' and len(vlink.points) < 2
+            if vlink.name != VLink.FRAME and len(vlink.points) < 2
         ])
 
     def set_coords_as_current(self) -> None:

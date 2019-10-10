@@ -152,7 +152,7 @@ class _DynamicCanvas(BaseCanvas):
 
         # Draw links.
         for vlink in self.vlinks:
-            if vlink.name == 'ground':
+            if vlink.name == VLink.FRAME:
                 continue
             self.__draw_link(vlink.name, vlink.points)
 
@@ -212,7 +212,7 @@ class _DynamicCanvas(BaseCanvas):
         if len(qpoints) == len(points):
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.show_point_mark and name != 'ground' and qpoints:
+        if self.show_point_mark and name != VLink.FRAME and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.font_size))
