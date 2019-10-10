@@ -20,7 +20,6 @@ from typing import (
 from abc import ABC
 from dataclasses import Field, fields
 from lark.exceptions import LarkError
-from pygments.lexers.python import Python3Lexer
 from qtpy.QtCore import Slot, QUrl, QFile, QFileInfo, QMimeData
 from qtpy.QtWidgets import (
     QApplication,
@@ -36,7 +35,7 @@ from qtpy.QtGui import (
     QDragEnterEvent,
     QDropEvent,
 )
-from pyslvs import __version__, parse_params, PMKSLexer, VLink
+from pyslvs import __version__, parse_params, VLink
 from pyslvs_ui.qt_patch import qt_image_format, qt_image_suffix
 from pyslvs_ui.info import (
     ARGUMENTS,
@@ -526,7 +525,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             QIcon(QPixmap(":/icons/id.png")),
             _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
             + self.get_expression(indent=4),
-            PMKSLexer,
             "Pyslvs expression",
             ["Text file (*.txt)"],
             self,
@@ -546,7 +544,6 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
                 tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
             ),
-            Python3Lexer,
             "Python script",
             ["Python3 Script (*.py)"],
             self

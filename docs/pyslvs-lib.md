@@ -45,7 +45,7 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 + **parser** module:
 
-    Analysis expression from strings, turn into symbols object. There also including highlighting function with [Pygments](http://pygments.org/).
+    Analysis expression from strings, turn into symbols object.
 
 + **expression** library:
 

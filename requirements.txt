@@ -12,7 +12,6 @@ python-solvespace
 openpyxl
 psutil
 lark-parser
-pygments
 pyyaml
 h5py
 pillow

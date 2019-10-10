@@ -9,19 +9,9 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    Type,
-    Tuple,
-    List,
-    Sequence,
-)
+from typing import TYPE_CHECKING, Tuple, List, Sequence
 import qrcode
 from PIL.ImageQt import ImageQt
-from pygments import highlight
-from pygments.lexer import RegexLexer
-from pygments.formatters.html import HtmlFormatter
-from pygments.styles import get_style_by_name, get_all_styles
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
     QApplication,
@@ -33,7 +23,7 @@ from qtpy.QtWidgets import (
     QLineEdit,
     QSizePolicy,
 )
-from qtpy.QtGui import QIcon, QPixmap, QWheelEvent
+from qtpy.QtGui import QIcon, QPixmap, QWheelEvent, QFont
 from .script_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
@@ -78,6 +68,8 @@ class _ScriptBrowser(QTextEdit):
 
     def __init__(self, parent: QWidget) -> None:
         super(_ScriptBrowser, self).__init__(parent)
+        self.setLineWrapMode(QTextEdit.NoWrap)
+        self.setFont(QFont("Consolas"))
         self.setReadOnly(True)
         self.zoomIn(3)
 
@@ -99,7 +91,6 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self,
         icon: QIcon,
         script: str,
-        lexer: Type[RegexLexer],
         filename: str,
         file_format: List[str],
         parent: MainWindowBase,
@@ -122,17 +113,13 @@ class ScriptDialog(QDialog, Ui_Dialog):
         )
         self.setWindowIcon(icon)
         self.script_view = _ScriptBrowser(self)
-        self.main_layout.insertWidget(1, self.script_view)
-        self.code = highlight(script, lexer(), HtmlFormatter())
+        self.script_view.setText(script)
+        self.main_layout.insertWidget(0, self.script_view)
         self.filename = filename
         self.file_format = file_format
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.setWindowTitle(self.filename)
-        styles = sorted(get_all_styles())
-        styles.insert(0, styles.pop(styles.index('default')))
-        self.style_option.addItems(styles)
-        self.style_option.setCurrentIndex(0)
 
         # Compressed script
         self.compressed_script = compressed_script
@@ -140,21 +127,13 @@ class ScriptDialog(QDialog, Ui_Dialog):
             self.show_qrcode.setVisible(False)
             self.image = None
             return
-
         line_edit = QLineEdit(self)
         line_edit.setText(self.compressed_script)
         line_edit.setReadOnly(True)
-        self.main_layout.insertWidget(2, line_edit)
-
+        self.main_layout.insertWidget(1, line_edit)
         # Image display
         image = qrcode.make(self.compressed_script)
         self.image: QPixmap = QPixmap.fromImage(ImageQt(image.resize((500, 500))))
-
-    @Slot(str, name='on_style_option_currentIndexChanged')
-    def __set_style(self, style: str) -> None:
-        """Redefine the CSS script of the html."""
-        style_code = HtmlFormatter(style=get_style_by_name(style)).get_style_defs()
-        self.script_view.setHtml(f"<style>{style_code}</style>" + self.code)
 
     @Slot(name='on_copy_clicked')
     def __copy(self) -> None:

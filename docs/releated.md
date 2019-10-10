@@ -24,7 +24,6 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [openpyxl (MIT)](http://openpyxl.readthedocs.io)
 + [psutil (BSD)](https://github.com/giampaolo/psutil)
 + [Lark-parser (MIT)](https://github.com/erezsh/lark)
-+ [Pygments (BSD)](http://pygments.org)
 + [PyYAML (MIT)](https://pyyaml.org)
 + [h5py](https://www.h5py.org/)
 

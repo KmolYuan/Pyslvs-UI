@@ -648,14 +648,6 @@ Transform `graph` into [VPoint] objects. The vertices are mapped to links.
 + `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
 + `grounded`: The ground link of vertices.
 
-### PMKSLexer
-
-| type | inherit |
-|:----:|:-------:|
-| type | pygments.lexer.RegexLexer |
-
-The lexer class for [Pygments](http://pygments.org/) module.
-
 ## Module `graph`
 
 ### link_assortment()
