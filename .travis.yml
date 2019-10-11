@@ -56,7 +56,7 @@ matrix:
         - env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON}
         - pyenv global ${PYTHON}
         - python3 -m pip install pip -U
-        - python3 -m pip install pyinstaller
+        - python3 -m pip install https://github.com/pyinstaller/pyinstaller/tarball/develop
         - pyenv rehash
         - python3 --version
         - python3 -m pip --version
