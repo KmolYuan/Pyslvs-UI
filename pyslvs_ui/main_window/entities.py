@@ -37,11 +37,11 @@ from pyslvs import (
     Graph,
     edges_view,
     SolverSystem,
+    PointArgs,
+    LinkArgs,
 )
 from pyslvs_ui.entities import EditPointDialog, EditLinkDialog
 from pyslvs_ui.widgets import (
-    PointArgs,
-    LinkArgs,
     AddTable,
     DeleteTable,
     EditPointTable,

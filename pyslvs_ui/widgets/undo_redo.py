@@ -27,7 +27,6 @@ from typing import (
     Tuple,
     Iterator,
     Iterable,
-    Union,
     Generic,
     Optional,
     TypeVar,
@@ -43,15 +42,9 @@ from qtpy.QtWidgets import (
     QWidget,
 )
 from qtpy.QtGui import QIcon, QPixmap
-from pyslvs import VJoint, VPoint, VLink, color_rgb
+from pyslvs import VJoint, VPoint, VLink, color_rgb, PointArgs, LinkArgs
 from pyslvs_ui.qt_patch import QABCMeta
-from .tables import (
-    PointArgs,
-    LinkArgs,
-    BaseTableWidget,
-    PointTableWidget,
-    LinkTableWidget,
-)
+from .tables import BaseTableWidget, PointTableWidget, LinkTableWidget
 
 _Paths = Sequence[Sequence[Tuple[float, float]]]
 _ITEM_FLAGS = Qt.ItemIsSelectable | Qt.ItemIsEnabled
@@ -71,7 +64,7 @@ def _args2vpoint(args: PointArgs) -> VPoint:
         return VPoint.HOLDER
     elif args.type == 'R':
         type_int = VJoint.R
-        angle = 0
+        angle = 0.
     else:
         angle_pair = cast(str, args.type).split(':')
         angle = float(angle_pair[1])
@@ -247,8 +240,25 @@ class EditPointTable(_EditFusedTable[PointArgs]):
     Copy old data and put it back when called undo.
     """
 
-    def __init__(self, row: int, *args) -> None:
-        super(EditPointTable, self).__init__(row, *args)
+    def __init__(
+        self,
+        row: int,
+        vpoint_list: List[VPoint],
+        vlink_list: List[VLink],
+        point_table: PointTableWidget,
+        link_table: LinkTableWidget,
+        args_list: PointArgs,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(EditPointTable, self).__init__(
+            row,
+            vpoint_list,
+            vlink_list,
+            point_table,
+            link_table,
+            args_list,
+            parent
+        )
         self.old_args = self.point_table.row_data(row)
         # Links: Set[str]
         new_links = set(self.args.links.split(','))
@@ -305,8 +315,25 @@ class EditLinkTable(_EditFusedTable[LinkArgs]):
     Copy old data and put it back when called undo.
     """
 
-    def __init__(self, row: int, *args) -> None:
-        super(EditLinkTable, self).__init__(row, *args)
+    def __init__(
+        self,
+        row: int,
+        vpoint_list: List[VPoint],
+        vlink_list: List[VLink],
+        point_table: PointTableWidget,
+        link_table: LinkTableWidget,
+        args_list: LinkArgs,
+        parent: Optional[QWidget] = None
+    ) -> None:
+        super(EditLinkTable, self).__init__(
+            row,
+            vpoint_list,
+            vlink_list,
+            point_table,
+            link_table,
+            args_list,
+            parent
+        )
         self.old_args = self.link_table.row_data(row)
         # Points: Set[int]
         new_points = {

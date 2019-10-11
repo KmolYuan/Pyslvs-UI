@@ -12,9 +12,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from dataclasses import dataclass, astuple
+from dataclasses import astuple
 from time import perf_counter
 from typing import (
+    cast,
     TYPE_CHECKING,
     Tuple,
     List,
@@ -39,7 +40,14 @@ from qtpy.QtWidgets import (
     QWidget,
 )
 from qtpy.QtGui import QKeyEvent
-from pyslvs import ExpressionStack, Coordinate, VPoint, VLink
+from pyslvs import (
+    ExpressionStack,
+    Coordinate,
+    VPoint,
+    VLink,
+    PointArgs,
+    LinkArgs,
+)
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.graphics import color_icon
 if TYPE_CHECKING:
@@ -47,28 +55,6 @@ if TYPE_CHECKING:
 
 _Data = TypeVar('_Data', VPoint, VLink)
 _Coord = Tuple[float, float]
-
-
-@dataclass(repr=False, eq=False)
-class PointArgs:
-
-    """Point table argument."""
-
-    links: str
-    type: str
-    color: str
-    x: float
-    y: float
-
-
-@dataclass(repr=False, eq=False)
-class LinkArgs:
-
-    """Link table argument."""
-
-    name: str
-    color: str
-    points: str
 
 
 class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
@@ -223,10 +209,10 @@ class PointTableWidget(BaseTableWidget[VPoint]):
 
     def row_data(self, row: int) -> PointArgs:
         """Return row data for 'edit_point' method."""
-        row_text: List[Union[str, float]] = self.row_text(row, has_name=False)
-        for i in (3, 4):
-            row_text[i] = float(row_text[i]) if row_text[i] else 0.
-        return PointArgs(*row_text)
+        args = self.row_text(row, has_name=False)
+        x = float(args[3]) if args[3] else 0.
+        y = float(args[4]) if args[4] else 0.
+        return PointArgs(args[0], args[1], args[2], x, y)
 
     def rename(self, row: int) -> None:
         """When index changed, the points need to rename."""
@@ -276,9 +262,9 @@ class PointTableWidget(BaseTableWidget[VPoint]):
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Row range that can be delete."""
         if has_name:
-            return range(self.columnCount())
+            yield from range(self.columnCount())
         else:
-            return range(1, self.columnCount() - 1)
+            yield from range(1, self.columnCount() - 1)
 
     @Slot()
     def clearSelection(self) -> None:
@@ -353,7 +339,7 @@ class ExprTableWidget(BaseTableWidget):
 
     def __init__(self, parent: QWidget) -> None:
         super(ExprTableWidget, self).__init__(0, parent)
-        self.exprs = []
+        self.exprs: List[Tuple[str, ...]] = []
 
     def set_expr(
         self,
@@ -378,7 +364,7 @@ class ExprTableWidget(BaseTableWidget):
                         text = f"{e}:{data_dict[e]:.02f}"
                     else:
                         # Coordinate
-                        c: Coordinate = data_dict[e]
+                        c = cast(Coordinate, data_dict[e])
                         text = f"{e}:({c.x:.02f}, {c.y:.02f})"
                 else:
                     # Function name

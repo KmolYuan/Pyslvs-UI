@@ -275,8 +275,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 f"Your expression is in an incorrect format."
             )
         else:
-            for _args in args_list:
-                args = PointArgs(*_args)
+            for args in args_list:
                 links = cast(str, args.links).split(',')
                 link_names = {vlink.name for vlink in self.vlink_list}
                 for link_name in links:
