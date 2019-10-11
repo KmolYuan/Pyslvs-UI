@@ -13,8 +13,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Lint with mypy
-        run: |
           pip install mypy
-          mypy -m pyslvs_ui
-          mypy -m pyslvs
+      - name: "Lint with mypy: Pyslvs-UI"
+        run: |
+          mypy -m pyslvs_ui || true
+      - name: "Lint with mypy: Pyslvs"
+        run: |
+          cd pyslvs
+          mypy -m pyslvs || true

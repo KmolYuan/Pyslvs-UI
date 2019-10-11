@@ -20,6 +20,7 @@ from typing import (
     Dict,
     Callable,
     Union,
+    Optional,
     Any,
 )
 from math import hypot
@@ -687,7 +688,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         angle_count = len(angle_list)
 
         self.parameter_list.setRowCount(0)
-        placement: Dict[int, Tuple[float, float, float]] = self.mech_params['Placement']
+        placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech_params['Placement']
         self.parameter_list.setRowCount(len(placement) + link_count + angle_count)
 
         def spinbox(
