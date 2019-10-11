@@ -23,6 +23,7 @@
     + Treat `python-solvespace` as normal module.
     + Moved `depend/pyslvs` into `pyslvs`.
 + Refactor `main_canvas` to `canvas`.
++ Add MyPy checking to GitHub workflow.
 + Support PEP 561.
 
 ## Version 19.09
