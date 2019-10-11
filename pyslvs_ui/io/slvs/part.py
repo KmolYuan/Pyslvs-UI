@@ -126,9 +126,9 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
 
     point_count = len(centers)
     # The number of same points
-    point_num = [[] for _ in range(point_count)]
+    point_num: List[List[int]] = [[] for _ in range(point_count)]
     # The number of same lines
-    line_num = [[] for _ in range(len(frame))]
+    line_num: List[List[int]] = [[] for _ in range(len(frame))]
 
     def segment_processing(edges: Sequence[_CoordsPair]) -> None:
         """Add edges to work plane. (No any constraint.)"""

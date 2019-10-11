@@ -41,6 +41,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
+_Paths = Sequence[Sequence[_Coord]]
 
 
 class MainCanvas(MainCanvasBase):
@@ -67,7 +68,7 @@ class MainCanvas(MainCanvasBase):
     def update_figure(
         self,
         exprs: Sequence[Tuple[str, ...]],
-        path: Sequence[_Coord]
+        path: _Paths
     ) -> None:
         """Update with Point and Links data."""
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)

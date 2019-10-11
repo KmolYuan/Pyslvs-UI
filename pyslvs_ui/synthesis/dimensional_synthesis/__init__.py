@@ -583,7 +583,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     if type(coord[0]) is tuple:
                         path[i].append(cast(_Coord, coord[1]))
                     else:
-                        path[i].append(coord)
+                        path[i].append(cast(_Coord, coord))
         return path
 
     @Slot(name='on_result_clipboard_clicked')

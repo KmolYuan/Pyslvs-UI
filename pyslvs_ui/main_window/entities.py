@@ -577,7 +577,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             arg.x = x
             arg.y = y
             if arg.type != 'R':
-                angle_tag = cast(str, arg.type).split(':')[0]
+                angle_tag = arg.type.split(':')[0]
                 arg.type = f"{angle_tag}:{angle:.02f}"
             self.command_stack.push(EditPointTable(
                 row,

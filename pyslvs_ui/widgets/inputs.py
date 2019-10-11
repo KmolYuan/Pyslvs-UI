@@ -529,7 +529,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.record_show.setChecked(True)
         self.reload_canvas()
 
-    def current_path(self) -> Sequence[_Coord]:
+    def current_path(self) -> _Paths:
         """Return current path data to main canvas.
 
         + No path.

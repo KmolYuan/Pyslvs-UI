@@ -259,7 +259,7 @@ class DxfOutputDialog(_OutputDialog):
                 self.vpoints,
                 self.link_radius.value(),
                 self.interval_option.value()
-                if self.interval_enable.isChecked() else None,
+                if self.interval_enable.isChecked() else 0.,
                 version,
                 file_name
             )

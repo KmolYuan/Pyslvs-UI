@@ -276,7 +276,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             )
         else:
             for args in args_list:
-                links = cast(str, args.links).split(',')
+                links = args.links.split(',')
                 link_names = {vlink.name for vlink in self.vlink_list}
                 for link_name in links:
                     # If link name not exist

@@ -230,13 +230,18 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             coords.append(coords[0])
         return coords
 
-    def update_current_position(self, coords: Sequence[Union[_Coord, Tuple[_Coord, _Coord]]]) -> None:
+    def update_current_position(
+        self,
+        coords: Sequence[Union[_Coord, Tuple[_Coord, _Coord]]]
+    ) -> None:
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
             if type(c[0]) is float:
-                text = f"({c[0]:.06f}, {c[1]:.06f})"
+                x, y = cast(_Coord, c)
+                text = f"({x:.06f}, {y:.06f})"
             else:
-                text = "; ".join(f"({x:.06f}, {y:.06f})" for x, y in c)
+                (x1, y1), (x2, y2) = cast(Tuple[_Coord, _Coord], c)
+                text = f"({x1:.06f}, {y1:.06f}); ({x2:.06f}, {y2:.06f})"
             item = QTableWidgetItem(text)
             item.setToolTip(text)
             self.setItem(i, 6, item)
@@ -308,6 +313,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
                 continue
             if name == item.text():
                 return row
+        return -1
 
     def get_points(self, row: int) -> List[int]:
         """Get all point names."""

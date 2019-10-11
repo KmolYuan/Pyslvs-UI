@@ -15,7 +15,9 @@ from typing import (
     Tuple,
     Sequence,
     Callable,
-    Dict, List)
+    Dict,
+    List,
+)
 from math import degrees, atan2
 import ezdxf
 from ezdxf.lldxf.const import versions_supported_by_new, acad_release
@@ -81,8 +83,6 @@ def dxf_boundary(
         x_min = min(vpoints[p].cx for p in vlinks[name])
 
         centers = [(
-            vpoints[p].cx
-            if (interval is None) else
             x_max + interval + (vpoints[p].cx - x_min),
             vpoints[p].cy
         ) for p in vlinks[name]]
@@ -90,9 +90,7 @@ def dxf_boundary(
         for coord in centers:
             msp.add_circle(coord, radius / 2)
 
-        if interval is not None:
-            x_max = max(coord[0] for coord in centers)
-
+        x_max = max(coord[0] for coord in centers)
         # Sort the centers.
         centers_ch = convex_hull(centers)
         boundary = centers_ch.copy()

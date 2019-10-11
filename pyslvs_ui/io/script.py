@@ -125,7 +125,6 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.compressed_script = compressed_script
         if self.compressed_script == "M[]":
             self.show_qrcode.setVisible(False)
-            self.image = None
             return
         line_edit = QLineEdit(self)
         line_edit.setText(self.compressed_script)

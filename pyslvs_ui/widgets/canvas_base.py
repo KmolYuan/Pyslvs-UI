@@ -48,6 +48,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
+_Paths = List[List[_Coord]]
 
 
 @dataclass(repr=False, eq=False)
@@ -176,11 +177,11 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Free move mode
         self.free_move = FreeMode.NoFreeMove
         # Path preview
-        self.path_preview: List[List[_Coord]] = []
+        self.path_preview: _Paths = []
         self.slider_path_preview: Dict[int, List[_Coord]] = {}
         self.preview_path = parent.preview_path
         # Path record
-        self.path_record = []
+        self.path_record: _Paths = []
         # Zooming center
         # 0: By cursor
         # 1: By canvas center
@@ -369,7 +370,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         self.selector.selection_rect.clear()
         if self.select_mode == SelectMode.Joint:
 
-            def catch(x: float, y: float) -> bool:
+            def catch_p(x: float, y: float) -> bool:
                 """Detection function for points."""
                 if rect:
                     return self.selector.in_rect(x, y)
@@ -377,12 +378,12 @@ class MainCanvasBase(BaseCanvas, ABC):
                     return self.selector.is_close(x, y, self.sr / self.zoom)
 
             for i, vpoint in enumerate(self.vpoints):
-                if catch(vpoint.cx, vpoint.cy) and i not in self.selector.selection_rect:
+                if catch_p(vpoint.cx, vpoint.cy) and i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.Link:
 
-            def catch(link: VLink) -> bool:
+            def catch_l(link: VLink) -> bool:
                 """Detection function for links.
 
                 + Is polygon: Using Qt polygon geometry.
@@ -406,7 +407,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     )
 
             for i, vlink in enumerate(self.vlinks):
-                if i != 0 and catch(vlink) and i not in self.selector.selection_rect:
+                if i != 0 and catch_l(vlink) and i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.Solution:

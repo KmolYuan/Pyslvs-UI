@@ -20,7 +20,6 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    cast,
     Sequence,
     List,
     Dict,
@@ -59,14 +58,14 @@ def _no_empty(str_list: Iterable[str]) -> Iterator[str]:
 
 def _args2vpoint(args: PointArgs) -> VPoint:
     """Make arguments as a VPoint object."""
-    link = _no_empty(cast(str, args.links).split(','))
+    link = _no_empty(args.links.split(','))
     if args.type == '':
         return VPoint.HOLDER
     elif args.type == 'R':
         type_int = VJoint.R
         angle = 0.
     else:
-        angle_pair = cast(str, args.type).split(':')
+        angle_pair = args.type.split(':')
         angle = float(angle_pair[1])
         type_int = VJoint.P if angle_pair[0] == 'P' else VJoint.RP
     return VPoint(link, type_int, angle, args.color, args.x, args.y, color_rgb)
@@ -266,7 +265,7 @@ class EditPointTable(_EditFusedTable[PointArgs]):
         new_link_items = []
         old_link_items = []
         for row, vlink in enumerate(self.vlink_list):
-            name = '' if vlink is None else vlink.name
+            name = vlink.name
             if name in (new_links - old_links):
                 new_link_items.append(row)
             if name in (old_links - new_links):

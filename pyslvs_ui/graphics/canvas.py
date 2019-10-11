@@ -110,7 +110,7 @@ class _PathOption:
     + The path will be the curve, otherwise using the points.
     """
 
-    path: Tuple[Tuple[_Coord, ...], ...] = ()
+    path: Tuple[Sequence[_Coord, ...]] = ()
     show: int = -1
     curve: bool = True
 

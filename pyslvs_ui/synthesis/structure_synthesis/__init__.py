@@ -235,6 +235,8 @@ class StructureSynthesis(QWidget, Ui_Form):
             if n1 == 0 or n2 == 0:
                 break
 
+        n1 = int(n1)
+        n2 = int(n2)
         # Return the result values.
         # + Value of widgets.
         # + Setting old value record.
@@ -302,7 +304,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         item = self.link_assortment_list.currentItem()
         if item is None:
             self.__number_synthesis()
-            item: QTreeWidgetItem = self.link_assortment_list.currentItem()
+            item = self.link_assortment_list.currentItem()
 
         root = item.parent()
         if root is None:
@@ -428,9 +430,9 @@ class StructureSynthesis(QWidget, Ui_Form):
     def __atlas_image(self, row: Optional[int] = None) -> QImage:
         """Capture a result item icon to image."""
         if row is None:
-            item: QListWidgetItem = self.structure_list.currentItem()
+            item = self.structure_list.currentItem()
         else:
-            item: QListWidgetItem = self.structure_list.item(row)
+            item = self.structure_list.item(row)
         return item.icon().pixmap(self.structure_list.iconSize()).toImage()
 
     @Slot(QPoint)

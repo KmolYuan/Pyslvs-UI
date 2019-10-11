@@ -26,11 +26,11 @@ __all__ = [
 kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
 
 
-def size_format(num: int) -> str:
+def size_format(num: float) -> str:
     if num <= 0:
         return "0 B"
     for u in ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z'):
-        if abs(num) < 1024.0:
+        if abs(num) < 1024:
             return f"{num:3.1f} {u}B"
-        num /= 1024.0
+        num /= 1024
     return f"{num:.1f} YB"
