@@ -13,6 +13,7 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
     List,
+    Deque,
     Sequence,
     Dict,
 )
@@ -181,7 +182,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         self.slider_path_preview: Dict[int, List[_Coord]] = {}
         self.preview_path = parent.preview_path
         # Path record
-        self.path_record: _Paths = []
+        self.path_record: List[Deque[_Coord]] = []
         # Zooming center
         # 0: By cursor
         # 1: By canvas center

@@ -16,6 +16,7 @@ from typing import (
     Iterator,
     Any,
     Union,
+    Optional,
     ClassVar,
 )
 from abc import abstractmethod
@@ -110,7 +111,7 @@ class _PathOption:
     + The path will be the curve, otherwise using the points.
     """
 
-    path: Tuple[Sequence[_Coord, ...]] = ()
+    path: Sequence[Sequence[_Coord]] = ()
     show: int = -1
     curve: bool = True
 
@@ -260,14 +261,18 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
     def draw_point(
         self,
         i: int,
-        cx,
-        cy,
+        cx: float,
+        cy: float,
         fixed: bool,
-        color: Tuple[int, int, int],
+        color: Optional[Tuple[int, int, int]],
         mul: int = 1
     ) -> None:
         """Draw a joint."""
-        pen = QPen(Qt.black if self.monochrome else QColor(*color))
+        if self.monochrome or color is None:
+            color = Qt.black
+        else:
+            color = QColor(*color)
+        pen = QPen(color)
         pen.setWidth(2)
         self.painter.setPen(pen)
         x = cx * self.zoom

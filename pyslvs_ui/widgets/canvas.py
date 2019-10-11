@@ -14,7 +14,6 @@ from typing import (
     cast,
     TYPE_CHECKING,
     List,
-    Deque,
     Tuple,
     Sequence,
     Dict,
@@ -246,7 +245,7 @@ class MainCanvas(MainCanvasBase):
 
     def record_start(self, limit: int) -> None:
         """Start a limit from main window."""
-        self.path_record: List[Deque[_Coord]] = []
+        self.path_record.clear()
         for _ in range(len(self.vpoints)):
             self.path_record.append(deque([], limit))
 
