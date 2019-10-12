@@ -17,7 +17,3 @@ jobs:
       - name: "Lint with mypy: Pyslvs-UI"
         run: |
           mypy -m pyslvs_ui || true
-      - name: "Lint with mypy: Pyslvs"
-        run: |
-          cd pyslvs
-          mypy -m pyslvs || true

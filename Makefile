@@ -75,7 +75,7 @@ else
 endif
 	@echo Done
 
-install:
+install: build-kernel
 	$(PY) setup.py install
 
 uninstall:
