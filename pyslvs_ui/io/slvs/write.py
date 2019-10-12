@@ -99,15 +99,14 @@ def _shift16(num: int) -> int:
     """Left shift with 16 bit.
 
     Usage:
-    >>> a = 0x20009
-    >>> hex(_shift16(a))
+    >>> hex(_shift16(0x20009))
     0x30000
     """
     ten = 1 << 16
     return num + ten - (num % ten)
 
 
-class SlvsWriter:
+class SlvsWriter2:
 
     """Use to save data with solvespace file format."""
 

@@ -8,7 +8,6 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    cast,
     Tuple,
     List,
     Sequence,
@@ -47,13 +46,13 @@ from pyslvs_ui.info import (
 from pyslvs_ui.io import (
     ScriptDialog,
     slvs_process_script,
-    SlvsParser,
+    SlvsParser2,
     SlvsOutputDialog,
     DxfOutputDialog,
     OverviewDialog,
     str_between,
 )
-from pyslvs_ui.widgets import AddTable, EditPointTable, Preferences, PointArgs
+from pyslvs_ui.widgets import AddTable, EditPointTable, Preferences
 from .actions import ActionMethodInterface
 
 _PREFIX = f"# Generate by Pyslvs {__version__}\n# Project "
@@ -78,13 +77,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                         yield (vlink.points[i - 1], p)
         return func
 
-    def __read_slvs(self, file_name: str) -> None:
+    def __read_slvs2(self, file_name: str) -> None:
         """Read slvs format.
 
         + Choose a group.
         + Read the entities of the group.
         """
-        parser = SlvsParser(file_name)
+        parser = SlvsParser2(file_name)
         if not parser.is_valid():
             QMessageBox.warning(self, "Format error", "The format is not support.")
             return
@@ -322,7 +321,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if suffix == 'pyslvs':
             self.project_widget.read(file_name)
         elif suffix == 'slvs':
-            self.__read_slvs(file_name)
+            self.__read_slvs2(file_name)
         else:
             QMessageBox.warning(
                 self,
@@ -641,7 +640,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if suffix == 'pyslvs':
             self.project_widget.read(ARGUMENTS.filepath)
         elif suffix == 'slvs':
-            self.__read_slvs(ARGUMENTS.filepath)
+            self.__read_slvs2(ARGUMENTS.filepath)
         else:
             QMessageBox.warning(
                 self,

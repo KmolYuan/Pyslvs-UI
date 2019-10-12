@@ -36,7 +36,7 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink
 from pyslvs_ui.qt_patch import QABCMeta
-from .slvs import slvs_frame, slvs_part
+from .slvs import slvs2_frame, slvs2_part
 from .dxf import (
     DXF_VERSIONS,
     DXF_VERSIONS_MAP,
@@ -157,7 +157,7 @@ class SlvsOutputDialog(_OutputDialog):
             return False
 
         # Wire frame
-        slvs_frame(self.vpoints, self.v_to_slvs, file_name)
+        slvs2_frame(self.vpoints, self.v_to_slvs, file_name)
 
         # Open Solvespace by commend line if available.
         cmd = shutil.which("solvespace")
@@ -183,7 +183,7 @@ class SlvsOutputDialog(_OutputDialog):
             if isfile(file_name) and self.warn_radio.isChecked():
                 self.exist_warning(file_name)
                 return False
-            slvs_part([
+            slvs2_part([
                 self.vpoints[i] for i in points
             ], self.link_radius.value(), file_name)
 

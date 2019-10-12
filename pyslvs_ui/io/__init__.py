@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .script import ScriptDialog, slvs_process_script
-from .slvs import SlvsParser
+from .slvs import SlvsParser2
 from .output_option import SlvsOutputDialog, DxfOutputDialog
 from .overview import OverviewDialog
 from .project import ProjectWidget
@@ -17,7 +17,7 @@ from .preferences import PreferencesDialog
 __all__ = [
     'ScriptDialog',
     'slvs_process_script',
-    'SlvsParser',
+    'SlvsParser2',
     'SlvsOutputDialog',
     'DxfOutputDialog',
     'OverviewDialog',

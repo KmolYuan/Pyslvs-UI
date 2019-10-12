@@ -21,7 +21,7 @@ from math import (
 )
 from pyslvs import VPoint, Coordinate
 from pyslvs_ui.graphics import convex_hull
-from .write import SlvsWriter
+from .write import SlvsWriter2
 
 _Coord = Tuple[float, float]
 _CoordsPair = Tuple[Coordinate, Coordinate]
@@ -46,7 +46,7 @@ def boundary_loop(
     return boundary_tmp
 
 
-def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
+def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     """Generate a linkage sketch by specified radius."""
     # Translate
     min_x = min(vpoint.cx for vpoint in vpoints)
@@ -72,7 +72,7 @@ def slvs_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     del _boundary
 
     # Writer object
-    writer = SlvsWriter()
+    writer = SlvsWriter2()
     writer.script_group.pop()
     writer.group_normal(0x3, "boundary")
 
