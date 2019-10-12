@@ -422,7 +422,8 @@ class StructureSynthesis(QWidget, Ui_Form):
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"
             f"Link assortment: {link_assortment(g)}\n"
-            f"Contracted Link assortment: {contracted_link_assortment(g)}"
+            f"Contracted Link assortment: {contracted_link_assortment(g)}\n"
+            f"Degree code: {g.degree_code()}"
         )
         self.structure_list.addItem(item)
         return True
