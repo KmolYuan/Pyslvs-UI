@@ -739,6 +739,38 @@ Return DOF of the graph.
 
 Return the neighbors of the vertex `n`.
 
+#### Graph.degrees()
+
+| self | return |
+|:----:|:------:|
+| | Dict[int, int] |
+
+Return the degrees of each vertex.
+
+#### Graph.degree_code()
+
+| self | return |
+|:----:|:------:|
+| | int |
+
+Generate a degree code.
+
+With a sorted vertices mapping by the degrees of each vertex,
+regenerate a new adjacency matrix.
+A binary code can be found by concatenating the upper right elements.
+The degree code is the maximum value of the permutation.
+
+#### Graph.adjacency_matrix()
+
+| self | return |
+|:----:|:------:|
+| | ndarray |
+
+Generate a adjacency matrix.
+
+Assume the matrix $A[i, j] = A[j, i]$.
+Where $A[i, j] = 1$ if edge `(i, j)` exist.
+
 #### Graph.is_connected()
 
 | self | without | return |
