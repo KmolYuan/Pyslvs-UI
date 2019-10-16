@@ -804,6 +804,27 @@ Return `True` if the graph is degenerate.
 | | [Graph] | bool |
 
 Return `True` if the graph is isomorphic to `graph`.
+Default is using VF2 algorithm.
+
+#### Graph.is_isomorphic_vf2()
+
+| self | graph | return |
+|:----:|:-----:|:------:|
+| | [Graph] | bool |
+
+Return `True` if the graph is isomorphic to `graph`.
+Compare with VF2 algorithm, one of the high performance isomorphic algorithms.
+
+#### Graph.is_isomorphic_degree_code()
+
+| self | graph | return |
+|:----:|:-----:|:------:|
+| | [Graph] | bool |
+
+Return `True` if the graph is isomorphic to `graph`.
+Compare with degree code algorithm.
+
++ <https://doi.org/10.1115/1.2919236>
 
 #### Graph.duplicate()
 
