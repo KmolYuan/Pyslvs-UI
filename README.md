@@ -40,10 +40,16 @@ If you have any question, please post on GitHub issue or contact <pyslvs@gmail.c
 
 Download [portable executable file](https://github.com/KmolYuan/Pyslvs-UI/releases) of your platform.
 
-Or simply install Pyslvs-UI from PyPI:
+Or install from PyPI:
 
 ```bash
 pip install pyslvs-ui
+```
+
+Or install from source:
+
+```bash
+python setup.py install
 ```
 
 # Documentation
