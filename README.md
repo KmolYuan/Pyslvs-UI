@@ -32,7 +32,7 @@
     - Cross three platforms.
     - CAD-like user interface.
     - Auto layout of generalized chain.
-    - The code complies with PEP 8 and PEP 561.
+    - The code complies with [PEP 8] and [PEP 561].
 
 If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
 
@@ -73,6 +73,7 @@ Please see the [reference](https://pyslvs-ui.readthedocs.io/en/stable/references
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
-
+[PEP 8]: https://www.python.org/dev/peps/pep-0008
+[PEP 561]: https://www.python.org/dev/peps/pep-0561
 [stable]: https://pyslvs-ui.readthedocs.io/en/stable/
 [latest]: https://pyslvs-ui.readthedocs.io/en/latest/

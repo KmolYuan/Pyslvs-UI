@@ -20,7 +20,7 @@ A GUI-based tool used to design 2D linkage mechanism.
     - Cross three platforms.
     - CAD-like user interface.
     - Auto layout of generalized chain.
-    - The code complies with PEP8.
+    - The code complies with [PEP 8] and [PEP 561].
 
 ## Previews
 
@@ -198,3 +198,5 @@ Here's the concepts that will shown in this manual:
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace/tree/python
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
+[PEP 8]: https://www.python.org/dev/peps/pep-0008
+[PEP 561]: https://www.python.org/dev/peps/pep-0561
