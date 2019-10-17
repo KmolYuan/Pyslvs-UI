@@ -248,7 +248,7 @@ class Ui_Form(object):
         self.record_interval_label.setText(_translate("Form", "Interval:"))
         self.record_interval.setStatusTip(_translate("Form", "Each coordinate will be recorded after this angle value."))
         self.record_interval.setSuffix(_translate("Form", "°"))
-        self.record_list.setStatusTip(_translate("Form", "All recorded path data of this workbook."))
+        self.record_list.setStatusTip(_translate("Form", "All recorded path data of this project."))
         __sortingEnabled = self.record_list.isSortingEnabled()
         self.record_list.setSortingEnabled(False)
         item = self.record_list.item(0)

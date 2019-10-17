@@ -128,7 +128,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         self.path_label.setText(_translate("Dialog", "Directory:"))
         self.choose_dir_button.setText(_translate("Dialog", "..."))
-        self.newfolder_option.setText(_translate("Dialog", "Export to a folder with workbook name (it will be create if not exist)"))
+        self.newfolder_option.setText(_translate("Dialog", "Export to a folder with project name (it will be create if not exist)"))
         self.filename_label.setText(_translate("Dialog", "Main file name:"))
         self.filename_suffix_label.setText(_translate("Dialog", ".slvs"))
         self.output_group.setTitle(_translate("Dialog", "Output types"))

@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 class ProjectWidget(QWidget, Ui_Form):
 
-    """The table that stored workbook data and changes."""
+    """The table that stored project data and changes."""
 
     load_id = Signal(int)
 
@@ -50,8 +50,8 @@ class ProjectWidget(QWidget, Ui_Form):
         self.history_tabs.addTab(w, history_icon, "Mechanism")
         # Settings
         self.prefer = parent.prefer
-        # Check workbook saved function
-        self.workbook_saved = parent.workbook_saved
+        # Check project saved function
+        self.project_saved = parent.project_saved
         # Open file dialog
         self.input_from = parent.input_from
         # Parse function
@@ -167,7 +167,7 @@ class ProjectWidget(QWidget, Ui_Form):
         self.set_file_name(file_name)
 
     def load_example(self, is_import: bool = False) -> bool:
-        """Load example to new workbook."""
+        """Load example to new project."""
         # load example by expression
         example_name, ok = QInputDialog.getItem(
             self,
@@ -198,7 +198,7 @@ class ProjectWidget(QWidget, Ui_Form):
             elif self.prefer.open_project_actions_option == 1:
                 self.command_stack.endMacro()
         self.set_file_name(example_name, is_example=True)
-        self.workbook_saved()
+        self.project_saved()
         logger.info(f"Example \"{example_name}\" has been loaded.")
         return True
 

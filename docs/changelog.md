@@ -12,6 +12,7 @@
 + Move background option into project file. (github issue #26)
 + The background image can be set by dragging in.
 + Show the current mechanism in the overview dialog.  (github issue #25)
++ Replace term "workbook" into "project".
 
 **Development**:
 

@@ -71,7 +71,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
         parent: QWidget
     ):
-        """Comes in environment variable and workbook name."""
+        """Comes in environment variable and project name."""
         super(_OutputDialog, self).__init__(parent)
         self.setupUi(self)
         flags = self.windowFlags()

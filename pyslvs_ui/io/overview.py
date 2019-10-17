@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Use to present workbook data."""
+"""Use to present project data."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2019"

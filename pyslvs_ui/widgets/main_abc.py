@@ -219,11 +219,11 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def workbook_no_save(self) -> None:
+    def project_no_save(self) -> None:
         ...
 
     @abstractmethod
-    def workbook_saved(self) -> None:
+    def project_saved(self) -> None:
         ...
 
     @abstractmethod

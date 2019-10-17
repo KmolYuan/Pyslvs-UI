@@ -126,13 +126,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.__load_file(file)
         event.acceptProposedAction()
 
-    def workbook_no_save(self) -> None:
-        """Workbook not saved signal."""
+    def project_no_save(self) -> None:
+        """Project not saved signal."""
         self.project_widget.set_changed(True)
         self.set_window_title_full_path()
 
-    def workbook_saved(self) -> None:
-        """Workbook saved signal."""
+    def project_saved(self) -> None:
+        """Project saved signal."""
         self.project_widget.set_changed(False)
         self.set_window_title_full_path()
 
@@ -187,13 +187,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.show_expr()
             self.main_canvas.zoom_to_fit()
 
-    @Slot(name='on_action_new_workbook_triggered')
-    def __new_workbook(self) -> None:
-        """Create (Clean) a new workbook."""
+    @Slot(name='on_action_new_project_triggered')
+    def __new_project(self) -> None:
+        """Create (Clean) a new project."""
         if self.check_file_changed():
             return
         self.clear()
-        logger.info("Created a new workbook.")
+        logger.info("Created a new project.")
 
     def clear(self) -> None:
         """Clear to create commit stage."""
@@ -211,7 +211,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.entities_expr.clear()
         self.solve()
         self.project_widget.reset()
-        self.workbook_saved()
+        self.project_saved()
 
     @Slot()
     def import_pmks_url(self) -> None:
@@ -310,7 +310,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
 
         if not file_name:
-            file_name = self.input_from("workbook", [
+            file_name = self.input_from("project", [
                 "Pyslvs project (*.pyslvs)",
                 "Solvespace 2.x (*.slvs)",
             ])
@@ -330,7 +330,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             )
             return
 
-        self.workbook_saved()
+        self.project_saved()
         self.main_canvas.zoom_to_fit()
 
     @Slot(name='on_action_save_triggered')
@@ -338,7 +338,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Save action. (YAML)"""
         if self.project_widget.file_exist():
             self.project_widget.save()
-            self.workbook_saved()
+            self.project_saved()
         else:
             self.__save_as()
 
@@ -349,7 +349,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         if not file_name:
             return
         self.project_widget.save(file_name)
-        self.workbook_saved()
+        self.project_saved()
         self.save_reply_box("YAML Profile", file_name)
 
     @Slot()
@@ -651,7 +651,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(int)
     def command_reload(self, index: int) -> None:
         """The time of withdrawal and redo action."""
-        self.workbook_no_save()
+        self.project_no_save()
         self.entities_point.clearSelection()
         self.inputs_widget.variable_reload()
         self.solve()

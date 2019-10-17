@@ -246,7 +246,7 @@
                  <item>
                   <widget class="QListWidget" name="mechanism_storage">
                    <property name="statusTip">
-                    <string>All expressions of this workbook. They will be saving with database.</string>
+                    <string>All expressions of this project. They will be saving with database.</string>
                    </property>
                   </widget>
                  </item>
@@ -760,7 +760,7 @@ QProgressBar::chunk {
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="action_new_workbook"/>
+    <addaction name="action_new_project"/>
     <addaction name="action_load_file"/>
     <addaction name="action_example"/>
     <addaction name="separator"/>
@@ -826,13 +826,13 @@ QProgressBar::chunk {
    <addaction name="menu_help"/>
   </widget>
   <widget class="QStatusBar" name="status_bar"/>
-  <action name="action_new_workbook">
+  <action name="action_new_project">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/new_file.png</normaloff>:/icons/new_file.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;New Workbook</string>
+    <string>&amp;New Project</string>
    </property>
    <property name="statusTip">
     <string>Reset to a new wrokbook.</string>
@@ -1030,7 +1030,7 @@ QProgressBar::chunk {
     <string>L&amp;oad File</string>
    </property>
    <property name="statusTip">
-    <string>Load Workbook from *.pyslvs project or *.slvs file.</string>
+    <string>Load Project from *.pyslvs project or *.slvs file.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>

@@ -390,7 +390,7 @@
            <enum>Qt::CustomContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>All recorded path data of this workbook.</string>
+           <string>All recorded path data of this project.</string>
           </property>
           <property name="currentRow">
            <number>0</number>

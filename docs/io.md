@@ -16,7 +16,7 @@ The following data will saved in the files.
 + Configuration collections
 + Dimensional synthesis results
 
-These data called "workbook" or "Pyslvs project" in the UI.
+These data called "project" or "Pyslvs project" in the UI.
 
 ## Features of Formats
 

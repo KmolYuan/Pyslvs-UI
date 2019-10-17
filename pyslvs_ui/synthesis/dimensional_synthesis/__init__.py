@@ -28,7 +28,7 @@ import csv
 import pprint
 from copy import deepcopy
 from re import split as char_split
-from openpyxl import load_workbook
+from openpyxl import load_project
 from qtpy.QtCore import Slot, QModelIndex
 from qtpy.QtWidgets import (
     QWidget,
@@ -94,7 +94,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.collections = parent.collections.configure_widget.collections
         self.get_collection = parent.get_configure
         self.input_from = parent.input_from
-        self.workbook_no_save = parent.workbook_no_save
+        self.project_no_save = parent.project_no_save
         self.merge_result = parent.merge_result
         self.update_ranges = parent.main_canvas.update_ranges
         self.set_solving_path = parent.main_canvas.set_solving_path
@@ -164,7 +164,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.__clear_settings()
 
     def load_results(self, mechanism_data: Sequence[Dict[str, Any]]) -> None:
-        """Append results of workbook database to memory."""
+        """Append results of project database to memory."""
         for e in mechanism_data:
             self.mechanism_data.append(e)
             self.__add_result(e)
@@ -256,12 +256,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __import_xlsx(self) -> None:
         """Paste path data from a Excel file."""
         file_name = self.input_from(
-            "Excel workbook",
+            "Excel project",
             ["Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)"]
         )
         if not file_name:
             return
-        wb = load_workbook(file_name)
+        wb = load_project(file_name)
         ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
         data = []
         # Keep finding until there is no value
@@ -448,7 +448,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.mechanism_data.append(data)
             self.__add_result(data)
         self.__set_time(dlg.time_spend)
-        self.workbook_no_save()
+        self.project_no_save()
         dlg.deleteLater()
 
         dlg = ChartDialog("Convergence Data", mechanisms_plot, self)
@@ -501,7 +501,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.mechanism_data.pop(row)
         self.result_list.takeItem(row)
-        self.workbook_no_save()
+        self.project_no_save()
         self.__has_result()
 
     @Slot(QModelIndex, name='on_result_list_clicked')
@@ -616,7 +616,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 mech_params[key][mp] = None
 
         self.collections[name] = mech_params
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(name='on_load_profile_clicked')
     def __load_profile(self) -> None:
@@ -624,7 +624,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg = CollectionsDialog(
             self.collections,
             self.get_collection,
-            self.workbook_no_save,
+            self.project_no_save,
             self.prefer.tick_mark_option,
             self.preview_canvas.monochrome,
             self

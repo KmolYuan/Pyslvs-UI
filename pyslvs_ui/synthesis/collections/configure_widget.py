@@ -142,7 +142,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         """We need some function from structure collections."""
         super(ConfigureWidget, self).__init__(parent)
         self.setupUi(self)
-        self.workbook_no_save = parent.workbook_no_save
+        self.project_no_save = parent.project_no_save
         self.get_configure = parent.get_configure
         self.add_collection = add_collection
         self.prefer = parent.prefer
@@ -361,7 +361,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg = CollectionsDialog(
             self.collections,
             self.get_configure,
-            self.workbook_no_save,
+            self.project_no_save,
             self.prefer.tick_mark_option,
             self.configure_canvas.monochrome,
             self
@@ -481,7 +481,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             name = f"Structure_{i}"
         self.collections[name] = self.__get_current_mechanism_params()
         self.profile_name.setText(name)
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(name='on_clipboard_button_clicked')
     def __copy(self) -> None:

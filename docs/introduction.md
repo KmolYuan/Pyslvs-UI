@@ -149,7 +149,7 @@ Pyslvs can support for following format.
 
 **Output formats**:
 
-+ Pyslvs workbook database (*.pyslvs).
++ Pyslvs project database (*.pyslvs).
 + Expression (just a string).
 + [Solvespace] format (*.slvs).
 + DXF format (*.dxf).
@@ -159,11 +159,11 @@ Pyslvs can support for following format.
 
 **Input formats**:
 
-+ Pyslvs workbook database (*.pyslvs).
++ Pyslvs project database (*.pyslvs).
 + Expression (just a string).
 + [Solvespace] format (*.slvs, only supports very few of constraints).
 
-The workbook mechanism will generate the sketch frame as \*.slvs format like follow:
+The project mechanism will generate the sketch frame as \*.slvs format like follow:
 
 ![](img/io-slvs-origin.png)
 

@@ -35,7 +35,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self,
         collections: Dict[str, Any],
         get_collection: Callable[[], Dict[str, Any]],
-        workbook_no_save: Callable[[], None],
+        project_no_save: Callable[[], None],
         show_ticks: int,
         monochrome: bool,
         parent: QWidget
@@ -51,7 +51,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         self.collections = collections
         self.get_collection = get_collection
-        self.workbook_no_save = workbook_no_save
+        self.project_no_save = project_no_save
 
         # Current profile name
         self.name = ""
@@ -114,7 +114,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         item = self.collections_list.item(row)
         self.collections[name] = self.collections.pop(item.text())
         item.setText(name)
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(name='on_copy_button_clicked')
     def __copy(self) -> None:
@@ -142,7 +142,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         name_old = self.collections_list.item(row).text()
         self.collections[name] = self.collections[name_old].copy()
         self.collections_list.addItem(name)
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(name='on_delete_button_clicked')
     def __delete(self) -> None:
@@ -162,7 +162,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections.pop(item.text())
         self.preview_canvas.clear()
         self.__has_collection()
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(QListWidgetItem, name='on_common_list_itemClicked')
     def __choose_common(self, _=None) -> None:
@@ -177,7 +177,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
     @Slot(QListWidgetItem, name='on_collections_list_itemClicked')
     def __choose_collections(self, _=None) -> None:
-        """Update preview canvas for a workbook data."""
+        """Update preview canvas for a project data."""
         item = self.collections_list.currentItem()
         if not item:
             return
@@ -186,7 +186,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.params = deepcopy(self.collections[self.name])
         self.preview_canvas.from_profile(self.params)
 
-    @Slot(name='on_workbook_button_clicked')
+    @Slot(name='on_project_button_clicked')
     def __from_canvas(self) -> None:
         """Get a collection data from current mechanism."""
         try:
@@ -202,7 +202,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             num += 1
         self.collections[name] = collection.copy()
         self.collections_list.addItem(name)
-        self.workbook_no_save()
+        self.project_no_save()
         self.__has_collection()
 
     @Slot(name='on_common_load_clicked')
@@ -215,6 +215,6 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     @Slot(name='on_button_box_accepted')
     @Slot(QListWidgetItem, name='on_collections_list_itemDoubleClicked')
     def __load_collections(self, _=None) -> None:
-        """Load a workbook data and close."""
+        """Load a project data and close."""
         self.__choose_collections()
         self.accept()

@@ -71,7 +71,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.save_reply_box = parent.save_reply_box
         self.input_from_multiple = parent.input_from_multiple
         self.add_points_by_graph = parent.add_points_by_graph
-        self.workbook_no_save = parent.workbook_no_save
+        self.project_no_save = parent.project_no_save
         self.prefer = parent.prefer
 
         # Data structures
@@ -106,7 +106,7 @@ class StructureWidget(QWidget, Ui_Form):
         ) != QMessageBox.Yes:
             return
         self.clear()
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(name='on_reload_atlas_clicked')
     @Slot(bool, name='on_graph_link_as_node_toggled')
@@ -191,7 +191,7 @@ class StructureWidget(QWidget, Ui_Form):
             QMessageBox.warning(self, "Add Collection Error", f"Error: {error}")
             return
         self.collections.append(Graph(edges))
-        self.workbook_no_save()
+        self.project_no_save()
         if reload:
             self.__reload_atlas()
 
@@ -404,7 +404,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.collections.pop(row)
         self.collections_layouts.pop(row)
         self.__clear_selection()
-        self.workbook_no_save()
+        self.project_no_save()
 
     @Slot(name='on_duplicate_button_clicked')
     def __make_duplicate(self) -> None:

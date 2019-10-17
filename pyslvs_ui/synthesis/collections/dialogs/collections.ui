@@ -87,7 +87,7 @@
         <item>
          <widget class="QLabel" name="Collections_label">
           <property name="text">
-           <string>Workbook Collections:</string>
+           <string>Project Collections:</string>
           </property>
          </widget>
         </item>
@@ -99,7 +99,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="QPushButton" name="workbook_button">
+             <widget class="QPushButton" name="project_button">
               <property name="text">
                <string>Mechanism</string>
               </property>

@@ -208,7 +208,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         background_data: Dict[str, Union[str, float]] = data.get('background', {})
         self.set_background_config(background_data)
 
-        # Workbook loaded
+        # Project loaded
         dlg.setValue(8)
         dlg.deleteLater()
 

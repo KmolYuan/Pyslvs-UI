@@ -51,7 +51,7 @@ class MainWindow(IOMethodInterface):
 
         # Start first solve function calling
         self.solve()
-        # Load workbook from argument
+        # Load project from argument
         self.load_from_args()
 
     @staticmethod

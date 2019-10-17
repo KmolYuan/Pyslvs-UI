@@ -48,7 +48,7 @@ g.add_argument(
     default=None,
     nargs='?',
     type=str,
-    help="read a specific workbook from the file path"
+    help="read a specific project from the file path"
 )
 g.add_argument(
     '-c',
