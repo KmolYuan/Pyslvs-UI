@@ -94,7 +94,7 @@ class _Selector:
         x_left = min(self.x, self.sx)
         y_top = max(self.y, self.sy)
         y_button = min(self.y, self.sy)
-        return (x_left <= x <= x_right) and (y_button <= y <= y_top)
+        return x_left <= x <= x_right and y_button <= y <= y_top
 
     def to_rect(self, zoom: float) -> QRectF:
         """Return limit as QRectF type."""
@@ -444,13 +444,24 @@ class MainCanvasBase(BaseCanvas, ABC):
             times += 1
         return snap_val * times
 
-    def __zoom_to_fit_limit(self) -> Tuple[float, float, float, float]:
+    def __zoom_to_fit_size(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
         inf = float('inf')
         x_right = inf
         x_left = -inf
         y_top = -inf
         y_bottom = inf
+
+        def set_range(r: float, l: float, b: float, t: float) -> None:
+            nonlocal x_right, x_left, y_top, y_bottom
+            if r < x_right:
+                x_right = r
+            if l > x_left:
+                x_left = l
+            if b < y_bottom:
+                y_bottom = b
+            if t > y_top:
+                y_top = t
 
         # Paths
         if self.path.show != -2:
@@ -466,54 +477,34 @@ class MainCanvasBase(BaseCanvas, ABC):
                 if self.path.show != -1 and self.path.show != i:
                     continue
                 for x, y in path:
-                    if x < x_right:
-                        x_right = x
-                    if x > x_left:
-                        x_left = x
-                    if y < y_bottom:
-                        y_bottom = y
-                    if y > y_top:
-                        y_top = y
-
+                    set_range(x, x, y, y)
         # Points
         for vpoint in self.vpoints:
-            if vpoint.cx < x_right:
-                x_right = vpoint.cx
-            if vpoint.cx > x_left:
-                x_left = vpoint.cx
-            if vpoint.cy < y_bottom:
-                y_bottom = vpoint.cy
-            if vpoint.cy > y_top:
-                y_top = vpoint.cy
-
+            set_range(vpoint.cx, vpoint.cx, vpoint.cy, vpoint.cy)
         # Synthesis page
         if self.show_target_path:
             # Solving paths
             for path in self.target_path.values():
                 for x, y in path:
-                    if x < x_right:
-                        x_right = x
-                    if x > x_left:
-                        x_left = x
-                    if y < y_bottom:
-                        y_bottom = y
-                    if y > y_top:
-                        y_top = y
+                    set_range(x, x, y, y)
             # Ranges
             for rect in self.ranges.values():
-                x_r = rect.x()
-                x_l = rect.x() + rect.width()
-                y_t = rect.y()
-                y_b = rect.y() - rect.height()
-                if x_r < x_right:
-                    x_right = x_r
-                if x_l > x_left:
-                    x_left = x_l
-                if y_b < y_bottom:
-                    y_bottom = y_b
-                if y_t > y_top:
-                    y_top = y_t
-
+                set_range(
+                    rect.x(),
+                    rect.x() + rect.width(),
+                    rect.y() - rect.height(),
+                    rect.y()
+                )
+        # Background image
+        if not self.background.isNull():
+            x_r = self.background_offset.x()
+            y_t = self.background_offset.y()
+            set_range(
+                x_r,
+                x_r + self.background.width(),
+                y_t - self.background.height(),
+                y_t
+            )
         return x_right, x_left, y_top, y_bottom
 
     def emit_free_move_all(self) -> None:
@@ -767,7 +758,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         height = self.height()
         width = width if width else 1
         height = height if height else 1
-        x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_limit()
+        x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_size()
         inf = float('inf')
         if (inf in {x_right, y_bottom}) or (-inf in {x_left, y_top}):
             # Default scale value
