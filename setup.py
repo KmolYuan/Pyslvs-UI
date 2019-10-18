@@ -37,7 +37,7 @@ setup(
     url="https://github.com/KmolYuan/Pyslvs-UI",
     packages=find_packages(),
     package_data={'pyslvs_ui': ['py.typed']},
-    entry_points={'console_scripts': ['pyslvs=pyslvs_ui:main']},
+    entry_points={'console_scripts': ['pyslvs=pyslvs_ui.__main__:main']},
     zip_safe=False,
     python_requires=">=3.7",
     options={'bdist_wheel': {'python_tag': 'cp37.cp38'}},

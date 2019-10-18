@@ -8,5 +8,5 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 if __name__ == '__main__':
-    from pyslvs_ui import main
+    from pyslvs_ui.__main__ import main
     main()

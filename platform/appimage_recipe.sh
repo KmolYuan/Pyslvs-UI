@@ -80,7 +80,6 @@ chmod +x "${APPDIR}/usr/bin/${LOWERAPP}"
 
 cd "${BASEDIR}/pyslvs_ui" || exit
 find . -name "*.py" -exec install -v -D {} "${APPDIR}/usr/bin/pyslvs_ui"/{} \;
-rm -fr "${APPDIR}/usr/bin/pyslvs_ui/__main__.py"
 
 ########################################################################
 # Finalize the AppDir
