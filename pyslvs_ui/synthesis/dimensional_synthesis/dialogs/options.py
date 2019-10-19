@@ -8,13 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from enum import Enum, unique
-from typing import (
-    List,
-    Tuple,
-    Dict,
-    Optional,
-    Any,
-)
+from typing import List, Tuple, Dict, Optional, Any
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
     QDialog,
@@ -25,7 +19,6 @@ from qtpy.QtWidgets import (
 )
 from pyslvs_ui.info import html
 from .options_ui import Ui_Dialog
-
 
 GeneticPrams = {
     'nPop': 500,

@@ -15,7 +15,6 @@ from .info import SYS_INFO, ARGUMENTS
 from .logging_handler import logger
 from .about_ui import Ui_Dialog
 
-
 LICENSE_STRING = (
     "This program is free software; "
     "you can redistribute it and/or modify it under the terms of the "

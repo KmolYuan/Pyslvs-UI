@@ -10,14 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 import csv
-from typing import (
-    TYPE_CHECKING,
-    Tuple,
-    Dict,
-    Sequence,
-    Iterator,
-    Optional,
-)
+from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
 from qtpy.QtCore import Signal, Slot, QTimer, QPoint
 from qtpy.QtWidgets import (
     QWidget,
@@ -32,12 +25,7 @@ from pyslvs import VJoint
 from pyslvs_ui.info import logger
 from .rotatable import RotatableView
 from .inputs_ui import Ui_Form
-from .undo_redo import (
-    AddInput,
-    DeleteInput,
-    AddPath,
-    DeletePath,
-)
+from .undo_redo import AddInput, DeleteInput, AddPath, DeletePath
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 

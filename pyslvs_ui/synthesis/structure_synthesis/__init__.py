@@ -11,13 +11,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    List,
-    Sequence,
-    Dict,
-    Optional,
-)
+from typing import TYPE_CHECKING, List, Sequence, Dict, Optional
 from time import perf_counter
 from qtpy.QtCore import (
     Slot,
@@ -41,18 +35,10 @@ from qtpy.QtWidgets import (
     QHeaderView,
 )
 from qtpy.QtGui import QIcon, QPixmap, QImage, QPainter
-from pyslvs import (
-    Graph,
-    link_assortment,
-    contracted_link_assortment,
-)
+from pyslvs import Graph, link_assortment, contracted_link_assortment
 from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engines
-from .thread import (
-    assortment_eval,
-    LinkSynthesisThread,
-    GraphEnumerateThread,
-)
+from .thread import assortment_eval, LinkSynthesisThread, GraphEnumerateThread
 from .structure_widget_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase

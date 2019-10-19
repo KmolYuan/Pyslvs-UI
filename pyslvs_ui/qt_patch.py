@@ -13,6 +13,7 @@ __email__ = "pyslvs@gmail.com"
 from abc import ABCMeta
 from qtpy import QtCore, API_NAME
 from importlib import import_module
+
 if API_NAME == 'PyQt5':
     API = f"{API_NAME} {QtCore.PYQT_VERSION_STR}"
 elif API_NAME == 'PySide2':

@@ -7,12 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Dict,
-    Tuple,
-    Union,
-    Optional,
-)
+from typing import Dict, Tuple, Union, Optional
 from qtpy.QtCore import Qt, QSize, QPointF
 from qtpy.QtGui import (
     QImage,
@@ -24,11 +19,7 @@ from qtpy.QtGui import (
     QPixmap,
     QFont,
 )
-from pyslvs import (
-    Graph,
-    external_loop_layout,
-    edges_view,
-)
+from pyslvs import Graph, external_loop_layout, edges_view
 from pyslvs_ui.info import logger
 from .color import color_qt, color_num
 from .canvas import convex_hull, LINK_COLOR

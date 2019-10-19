@@ -28,7 +28,6 @@ from .script_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
-
 _SCRIPT = """
 from pyslvs import (
     parse_vpoints,

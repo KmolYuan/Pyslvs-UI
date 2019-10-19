@@ -22,14 +22,7 @@ from typing import (
 from abc import abstractmethod
 from dataclasses import dataclass
 from enum import auto, unique, IntEnum
-from math import (
-    radians,
-    sin,
-    cos,
-    atan2,
-    hypot,
-    isnan,
-)
+from math import radians, sin, cos, atan2, hypot, isnan
 from functools import reduce
 from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QWidget, QSizePolicy
@@ -44,18 +37,9 @@ from qtpy.QtGui import (
     QImage,
     QPaintEvent,
 )
-from pyslvs import (
-    VPoint,
-    Graph,
-    edges_view,
-    parse_pos,
-)
+from pyslvs import VPoint, Graph, edges_view, parse_pos
 from pyslvs_ui.qt_patch import QABCMeta
-from .color import (
-    color_num,
-    color_qt,
-    target_path_style,
-)
+from .color import color_num, color_qt, target_path_style
 
 LINK_COLOR = QColor(226, 219, 190)
 _Coord = Tuple[float, float]

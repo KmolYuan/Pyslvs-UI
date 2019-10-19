@@ -10,31 +10,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from collections import deque
-from typing import (
-    cast,
-    TYPE_CHECKING,
-    List,
-    Tuple,
-    Sequence,
-    Dict,
-    Union,
-)
-from qtpy.QtCore import (
-    Slot,
-    Qt,
-    QRectF,
-    QPoint,
-    QPointF,
-    QSizeF,
-)
+from typing import cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Union
+from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
 from qtpy.QtWidgets import QApplication, QToolTip, QWidget
-from qtpy.QtGui import (
-    QRegion,
-    QCursor,
-    QWheelEvent,
-    QPixmap,
-    QImage,
-)
+from qtpy.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
 from .canvas_base import MainCanvasBase, FreeMode, SelectMode
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
@@ -73,12 +52,6 @@ class MainCanvas(MainCanvasBase):
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
         self.path.path = path
-        self.update()
-
-    @Slot()
-    def update_preview_path(self) -> None:
-        """Update preview path."""
-        self.preview_path(self.path_preview, self.slider_path_preview, self.vpoints)
         self.update()
 
     @Slot(int)

@@ -14,12 +14,7 @@ from psutil import virtual_memory
 from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
-from pyslvs import (
-    Genetic,
-    Firefly,
-    Differential,
-    Planar,
-)
+from pyslvs import Genetic, Firefly, Differential, Planar
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
 from .options import AlgorithmType

@@ -9,42 +9,17 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    Tuple,
-    List,
-    Deque,
-    Sequence,
-    Dict,
-)
+from typing import TYPE_CHECKING, Tuple, List, Deque, Sequence, Dict
 from abc import ABC, abstractmethod
 from enum import IntEnum, auto, unique
 from dataclasses import dataclass, field
-from math import (
-    degrees,
-    sin,
-    cos,
-    atan2,
-    hypot,
-)
+from math import degrees, sin, cos, atan2, hypot
 from itertools import chain
-from qtpy.QtCore import Signal, Qt, QRectF, QPoint, QPointF, QLineF
+from qtpy.QtCore import Signal, Slot, Qt, QRectF, QPoint, QPointF, QLineF
 from qtpy.QtWidgets import QApplication
-from qtpy.QtGui import (
-    QPolygonF,
-    QFont,
-    QPen,
-    QColor,
-    QPaintEvent,
-    QMouseEvent,
-)
+from qtpy.QtGui import QPolygonF, QFont, QPen, QColor, QPaintEvent, QMouseEvent
 from pyslvs import VJoint, VPoint, VLink
-from pyslvs_ui.graphics import (
-    convex_hull,
-    BaseCanvas,
-    color_qt,
-    LINK_COLOR,
-)
+from pyslvs_ui.graphics import convex_hull, BaseCanvas, color_qt, LINK_COLOR
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -774,6 +749,8 @@ class MainCanvasBase(BaseCanvas, ABC):
         self.oy = (height + (y_top + y_bottom) * self.zoom) / 2
         self.update()
 
-    @abstractmethod
+    @Slot()
     def update_preview_path(self) -> None:
-        ...
+        """Update preview path."""
+        self.preview_path(self.path_preview, self.slider_path_preview, self.vpoints)
+        self.update()

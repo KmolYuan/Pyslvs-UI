@@ -11,19 +11,12 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Optional, ClassVar
 import sys
-import os
+from os import remove
+from os.path import join, expanduser
 from platform import system
-from logging import (
-    DEBUG,
-    INFO,
-    basicConfig,
-    getLogger,
-    Handler,
-    StreamHandler,
-)
+from logging import DEBUG, INFO, basicConfig, getLogger, Handler, StreamHandler
 from qtpy.QtCore import QObject, Signal
 from .info import ARGUMENTS, SYS_INFO
-
 
 logger = getLogger()
 _SYS_STDOUT = sys.stdout
@@ -32,7 +25,7 @@ _std_handler = StreamHandler(_SYS_STDOUT)
 _log_path = "pyslvs.log"
 if system() not in {'Windows', 'Darwin'}:
     # Cause of AppImages can't use related path
-    _log_path = os.path.join(os.path.expanduser("~"), _log_path)
+    _log_path = join(expanduser("~"), _log_path)
 
 
 def _sign_in_logger() -> None:
@@ -64,7 +57,7 @@ class _QtHandler(Handler):
     def close(self) -> None:
         """Remove log file if exit."""
         super(_QtHandler, self).close()
-        os.remove(_log_path)
+        remove(_log_path)
 
 
 class XStream(QObject):

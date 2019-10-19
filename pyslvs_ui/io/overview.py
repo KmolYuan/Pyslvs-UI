@@ -7,13 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    List,
-    Sequence,
-    Dict,
-    Any,
-)
+from typing import Tuple, List, Sequence, Dict, Any
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QDialog, QListWidgetItem
 from qtpy.QtGui import QPixmap

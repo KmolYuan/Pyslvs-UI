@@ -13,16 +13,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from sys import version_info as _vi
-from platform import (
-    system,
-    release,
-    machine,
-    python_compiler,
-)
+from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from pyslvs import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
-
 
 SYS_INFO = (
     f"Pyslvs {__version__}",

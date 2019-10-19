@@ -8,13 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from typing import (
-    Tuple,
-    Callable,
-    Sequence,
-    Set,
-    Dict,
-)
+from typing import Tuple, Callable, Sequence, Set, Dict
 from os.path import isdir, isfile
 import shutil
 from subprocess import Popen, DEVNULL
@@ -37,12 +31,7 @@ from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink
 from pyslvs_ui.qt_patch import QABCMeta
 from .slvs import slvs2_frame, slvs2_part
-from .dxf import (
-    DXF_VERSIONS,
-    DXF_VERSIONS_MAP,
-    dxf_frame,
-    dxf_boundary,
-)
+from .dxf import DXF_VERSIONS, DXF_VERSIONS_MAP, dxf_frame, dxf_boundary
 from .output_option_ui import Ui_Dialog
 
 

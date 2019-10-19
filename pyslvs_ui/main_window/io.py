@@ -7,15 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    List,
-    Sequence,
-    Dict,
-    Callable,
-    Iterator,
-    Union,
-)
+from typing import Tuple, List, Sequence, Dict, Callable, Iterator, Union
 from abc import ABC
 from dataclasses import Field, fields
 from lark.exceptions import LarkError

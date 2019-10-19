@@ -7,17 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    cast,
-    Tuple,
-    List,
-    Sequence,
-    Set,
-    Dict,
-    Union,
-    Optional,
-    Any,
-)
+from typing import cast, Tuple, List, Sequence, Set, Dict, Union, Optional, Any
 from math import radians, cos, sin
 from abc import ABC, abstractmethod
 from traceback import format_exc

@@ -11,14 +11,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    List,
-    Tuple,
-    Sequence,
-    Dict,
-    Any,
-)
+from typing import TYPE_CHECKING, List, Tuple, Sequence, Dict, Any
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QTabWidget
 from qtpy.QtGui import QIcon, QPixmap
 from .structure_widget import StructureWidget

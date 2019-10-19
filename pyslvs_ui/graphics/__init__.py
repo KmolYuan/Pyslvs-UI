@@ -15,17 +15,8 @@ from .color import (
     target_path_style
 )
 from .chart import DataChart
-from .canvas import (
-    LINK_COLOR,
-    BaseCanvas,
-    PreviewCanvas,
-    convex_hull,
-)
-from .nx_layout import (
-    graph2icon,
-    engine_picker,
-    engines,
-)
+from .canvas import LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull
+from .nx_layout import graph2icon, engine_picker, engines
 
 __all__ = [
     'color_num',

@@ -9,14 +9,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING,
-    List,
-    Tuple,
-    Sequence,
-    Dict,
-    Iterable,
-)
+from typing import TYPE_CHECKING, List, Tuple, Sequence, Dict, Iterable
 from qtpy.QtCore import (
     Signal,
     Slot,
@@ -43,14 +36,9 @@ from pyslvs import (
     external_loop_layout,
 )
 from pyslvs_ui.qt_patch import qt_image_format
-from pyslvs_ui.graphics import (
-    graph2icon,
-    engine_picker,
-    engines,
-)
+from pyslvs_ui.graphics import graph2icon, engine_picker, engines
 from .dialogs.targets import TargetsDialog
 from .structure_widget_ui import Ui_Form
-
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 

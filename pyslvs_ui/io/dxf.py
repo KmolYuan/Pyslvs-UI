@@ -11,20 +11,13 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    Sequence,
-    Callable,
-    Dict,
-    List,
-)
+from typing import Tuple, Sequence, Callable, Dict, List
 from math import degrees, atan2
 import ezdxf
 from ezdxf.lldxf.const import versions_supported_by_new, acad_release
 from pyslvs import VPoint, VLink
 from pyslvs_ui.graphics import convex_hull
 from .slvs import boundary_loop
-
 
 # A list of support versions with "ezdxf" module.
 DXF_VERSIONS = versions_supported_by_new

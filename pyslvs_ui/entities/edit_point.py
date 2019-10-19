@@ -9,12 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import List, Union
 from qtpy.QtCore import Slot, Qt
-from qtpy.QtWidgets import (
-    QDialog,
-    QListWidgetItem,
-    QColorDialog,
-    QWidget,
-)
+from qtpy.QtWidgets import QDialog, QListWidgetItem, QColorDialog, QWidget
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink
 from pyslvs_ui.graphics import color_names, color_qt, color_icon

@@ -9,15 +9,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    List,
-    Sequence,
-    Dict,
-    Union,
-    Optional,
-    Any,
-)
+from typing import Tuple, List, Sequence, Dict, Optional, Any
 from abc import abstractmethod
 from qtpy.QtCore import Qt, QPoint
 from qtpy.QtWidgets import QMainWindow
