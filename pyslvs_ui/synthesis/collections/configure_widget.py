@@ -51,7 +51,7 @@ class _ConfigureCanvas(PreviewCanvas):
     edit_size = 1000
     set_joint_number = Signal(int)
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: ConfigureWidget) -> None:
         """Add a function use to get current point from parent."""
         super(_ConfigureCanvas, self).__init__(parent)
         self.pressed = False
@@ -79,15 +79,12 @@ class _ConfigureCanvas(PreviewCanvas):
         """Drag to move the joint."""
         if not self.pressed:
             return
-
         row = self.get_joint_number()
         if not row > -1:
             return
-
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
         hv = _ConfigureCanvas.edit_size / 2
-
         if -hv <= mx <= hv:
             self.pos[row] = (mx, self.pos[row][1])
         else:
@@ -96,7 +93,6 @@ class _ConfigureCanvas(PreviewCanvas):
             else:
                 x = -hv
             self.pos[row] = (x, self.pos[row][1])
-
         if -hv <= my <= hv:
             self.pos[row] = (self.pos[row][0], my)
         else:
@@ -105,7 +101,6 @@ class _ConfigureCanvas(PreviewCanvas):
             else:
                 y = -hv
             self.pos[row] = (self.pos[row][0], y)
-
         self.update()
 
 
@@ -128,7 +123,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self,
         add_collection: Callable[[Sequence[Tuple[int, int]]], None],
         parent: MainWindowBase
-    ):
+    ) -> None:
         """We need some function from structure collections."""
         super(ConfigureWidget, self).__init__(parent)
         self.setupUi(self)
@@ -137,18 +132,15 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.add_collection = add_collection
         self.prefer = parent.prefer
         self.get_expression = parent.get_expression
-
         # Iteration data
         self.collections: Dict[str, Dict[str, Any]] = {}
-
         # Customized preview canvas
-        self.configure_canvas = _ConfigureCanvas(self)
+        self.configure_canvas = _ConfigureCanvas(self)  # type: _ConfigureCanvas
         self.configure_canvas.set_joint_number.connect(
             self.joint_name.setCurrentIndex
         )
         self.main_layout.insertWidget(0, self.configure_canvas)
         self.main_splitter.setSizes([300, 300])
-
         self.__clear_panel()
 
     def add_collections(self, collections: Dict[str, Dict[str, Any]]) -> None:
@@ -181,7 +173,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Ask user before clear."""
         if not self.configure_canvas.graph.vertices:
             return True
-
         if QMessageBox.question(
             self,
             "New profile",
@@ -190,7 +181,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         ) == QMessageBox.Yes:
             self.__clear_panel()
             return True
-
         return False
 
     @Slot(name='on_add_collection_button_clicked')
