@@ -16,4 +16,4 @@ jobs:
           pip install mypy
       - name: "Lint with mypy: Pyslvs-UI"
         run: |
-          mypy -m pyslvs_ui || true
+          mypy -m launch_pyslvs || true
