@@ -9,12 +9,20 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Optional, ClassVar
+from typing import cast, Optional, ClassVar
 import sys
 from os import remove
 from os.path import join, expanduser
 from platform import system
-from logging import DEBUG, INFO, basicConfig, getLogger, Handler, StreamHandler
+from logging import (
+    DEBUG,
+    INFO,
+    basicConfig,
+    getLogger,
+    Handler,
+    StreamHandler,
+    LogRecord,
+)
 from qtpy.QtCore import QObject, Signal
 from .info import ARGUMENTS, SYS_INFO
 
@@ -48,11 +56,11 @@ class _QtHandler(Handler):
     def __init__(self) -> None:
         super(_QtHandler, self).__init__()
 
-    def emit(self, record: str) -> None:
+    def emit(self, record: LogRecord) -> None:
         """Output to the other side."""
-        record = self.format(record)
-        if record and XStream.replaced():
-            XStream.stdout().write(record + '\n')
+        msg = self.format(record)
+        if msg and XStream.replaced():
+            XStream.stdout().write(msg + '\n')
 
     def close(self) -> None:
         """Remove log file if exit."""
@@ -92,7 +100,7 @@ class XStream(QObject):
             XStream.__stdout = XStream()
             sys.stdout = XStream.__stdout
             logger.removeHandler(_std_handler)
-        return XStream.__stdout
+        return cast(XStream, XStream.__stdout)
 
     @staticmethod
     def back() -> None:

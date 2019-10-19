@@ -70,8 +70,8 @@ def convex_hull(
         return hull
 
     points.sort()
-    lower = reduce(keep_left, points, [])
-    upper = reduce(keep_left, reversed(points), [])
+    lower: List[Tuple[float, float]] = reduce(keep_left, points, [])
+    upper: List[Tuple[float, float]] = reduce(keep_left, reversed(points), [])
     lower.extend(upper[i] for i in range(1, len(upper) - 1))
 
     result = []
@@ -528,7 +528,7 @@ class PreviewCanvas(BaseCanvas):
         self.cus: Dict[int, int] = {}
         self.same: Dict[int, int] = {}
         self.pos: Dict[int, _Coord] = {}
-        self.status = {}
+        self.status: Dict[int, bool] = {}
 
         # Additional attributes.
         self.grounded = -1

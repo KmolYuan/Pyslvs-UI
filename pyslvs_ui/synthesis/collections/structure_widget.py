@@ -128,16 +128,16 @@ class StructureWidget(QWidget, Ui_Form):
                 return
 
             item = QListWidgetItem(f"No. {i + 1}")
-            engine = engine_picker(g, engine_str, self.graph_link_as_node.isChecked())
+            pos = engine_picker(g, engine_str, self.graph_link_as_node.isChecked())
             item.setIcon(graph2icon(
                 g,
                 self.collection_list.iconSize().width(),
-                engine,
                 self.graph_link_as_node.isChecked(),
                 self.graph_show_label.isChecked(),
-                self.prefer.monochrome_option
+                self.prefer.monochrome_option,
+                pos=pos
             ))
-            self.collections_layouts.append(engine)
+            self.collections_layouts.append(pos)
             item.setToolTip(f"{g.edges}")
             self.collection_list.addItem(item)
             dlg.setValue(i + 1)
@@ -322,7 +322,6 @@ class StructureWidget(QWidget, Ui_Form):
         self.selection_window.clear()
         if item is None:
             return
-
         # Preview item
         link_is_node = self.graph_link_as_node.isChecked()
         item_preview = QListWidgetItem(item.text())
@@ -332,13 +331,12 @@ class StructureWidget(QWidget, Ui_Form):
         item_preview.setIcon(graph2icon(
             g,
             self.selection_window.iconSize().width(),
-            self.ground_engine,
             link_is_node,
             self.graph_show_label.isChecked(),
-            self.prefer.monochrome_option
+            self.prefer.monochrome_option,
+            pos=self.ground_engine
         ))
         self.selection_window.addItem(item_preview)
-
         # Set attributes
         self.edges_text.setText(str(list(g.edges)))
         self.nl_label.setText(str(len(g.vertices)))
@@ -347,11 +345,10 @@ class StructureWidget(QWidget, Ui_Form):
         self.is_degenerate_label.setText(str(g.is_degenerate()))
         self.link_assortment_label.setText(str(link_assortment(g)))
         self.contracted_link_assortment_label.setText(str(contracted_link_assortment(g)))
-
+        # Buttons
         self.duplicate_button.setEnabled(link_is_node)
         self.configure_button.setEnabled(not link_is_node)
         self.merge_button.setEnabled(not link_is_node)
-
         self.__grounded()
 
     def __clear_selection(self) -> None:
@@ -446,10 +443,10 @@ class StructureWidget(QWidget, Ui_Form):
         icon = graph2icon(
             g,
             self.grounded_list.iconSize().width(),
-            self.ground_engine,
             self.graph_link_as_node.isChecked(),
             self.graph_show_label.isChecked(),
-            self.prefer.monochrome_option
+            self.prefer.monochrome_option,
+            pos=self.ground_engine
         )
         item.setIcon(icon)
         self.collections_grounded.append(g)
@@ -460,11 +457,11 @@ class StructureWidget(QWidget, Ui_Form):
             icon = graph2icon(
                 g,
                 self.grounded_list.iconSize().width(),
-                self.ground_engine,
                 self.graph_link_as_node.isChecked(),
                 self.graph_show_label.isChecked(),
                 self.prefer.monochrome_option,
-                except_node=node
+                except_node=node,
+                pos=self.ground_engine
             )
             item.setIcon(icon)
             self.collections_grounded.append(graph_)

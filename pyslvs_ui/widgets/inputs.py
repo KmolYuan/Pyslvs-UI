@@ -288,7 +288,7 @@ class InputsWidget(QWidget, Ui_Form):
             p0 = int(var[0].replace('Point', ''))
             p1 = int(var[1].replace('Point', ''))
             angle = float(var[2])
-            yield (p0, p1, angle)
+            yield p0, p1, angle
 
     def variable_reload(self) -> None:
         """Auto check the points and type."""

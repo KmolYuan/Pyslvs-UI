@@ -10,7 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Tuple, Callable
-import numpy as np
+from numpy import sum as np_sum, polyfit, poly1d, arange, ndarray, array
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog, QMessageBox
 from .path_adjust_ui import Ui_Dialog
@@ -68,18 +68,18 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         length = len(self.path)
         if length == 0:
             return
-        index = list(range(length))
+        index = arange(length, dtype=float)
 
         def poly_fit(
-            x: List[float],
-            y: List[float],
+            x: ndarray,
+            y: ndarray,
             d: int
         ) -> Tuple[Callable[[float], float], float]:
             """Return a 2D fitting equation."""
-            coefficient = np.polyfit(x, y, d)
+            coefficient = polyfit(x, y, d)
             # Fit values and mean.
-            y_hat = np.poly1d(coefficient)(x)
-            y_bar: np.ndarray = np.sum(y) / len(y)
+            y_hat = poly1d(coefficient)(x)
+            y_bar = np_sum(y) / len(y)
 
             def func(t: float) -> float:
                 """Return y(x) function."""
@@ -87,10 +87,11 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
 
             yh_yb = y_hat - y_bar
             y_yb = y - y_bar
-            return func, np.sum(yh_yb * yh_yb) / np.sum(y_yb * y_yb)
+            return func, np_sum(yh_yb * yh_yb) / np_sum(y_yb * y_yb)
 
-        x_func, x_accuracy = poly_fit(index, [x for x, y in self.path], 4)
-        y_func, y_accuracy = poly_fit(index, [y for x, y in self.path], 4)
+        path = array(self.path, dtype=float)
+        x_func, x_accuracy = poly_fit(index, path[:, 0], 4)
+        y_func, y_accuracy = poly_fit(index, path[:, 1], 4)
         QMessageBox.information(
             self,
             "Curve fitting",

@@ -131,7 +131,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                     points.append(point)
             self.delete_link(link)
         args.points = ','.join(f'Point{p}' for p in points)
-        row = [vlink.name for vlink in self.vlink_list].index(args[0])
+        row = [vlink.name for vlink in self.vlink_list].index(args.name)
         self.command_stack.push(EditLinkTable(
             row,
             self.vpoint_list,

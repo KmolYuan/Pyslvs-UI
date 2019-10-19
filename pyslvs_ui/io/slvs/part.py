@@ -7,18 +7,8 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Sequence,
-    List,
-    Tuple,
-    Iterator,
-)
-from math import (
-    radians,
-    sin,
-    cos,
-    atan2,
-)
+from typing import Sequence, List, Tuple, Iterator
+from math import radians, sin, cos, atan2
 from pyslvs import VPoint, Coordinate
 from pyslvs_ui.graphics import convex_hull
 from .write import SlvsWriter2
@@ -62,7 +52,10 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     del vpoints, min_x, min_y
 
     # Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
-    frame: List[_CoordsPair] = [tuple(Coordinate(*c) for c in centers[:2])]
+    frame: List[_CoordsPair] = [(
+        Coordinate(centers[-2][0], centers[-2][1]),
+        Coordinate(centers[-1][0], centers[-1][1]),
+    )]
     for x, y in centers[2:]:
         frame.append((frame[0][0], Coordinate(x, y)))
         frame.append((frame[0][1], Coordinate(x, y)))
@@ -187,8 +180,7 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.constraint_distance(writer.constraint_num, n1, n2, p1.distance(p2))
         writer.constraint_num += 1
     # Add "Constraint" of position
-    for i in range(2):
-        c: Coordinate = frame[0][i]
+    for i, c in enumerate(frame[0]):
         writer.constraint_fix(writer.constraint_num, point_num[i][0], c.x, c.y)
         if i == 1:
             writer.script_constraint.pop()
@@ -253,7 +245,8 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.entity_normal_2d(writer.entity_num, p3[0])
         writer.entity_shift16()
         # Add "Constraint" for three points
-        num1, num2 = point_num[index]
+        num1 = point_num[index][0]
+        num2 = point_num[index][1]
         if (num1 % 16) < (num2 % 16):
             num1, num2 = num2, num1
         for j, num in enumerate((
@@ -271,8 +264,12 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.constraint_num += 1
         # Add "Constraint" for become tangent line
         for j, num in enumerate((num1 - num1 % 16, num2 - num2 % 16)):
-            r = j == 1
-            writer.constraint_arc_line_tangent(writer.constraint_num, circles[-1], num, reverse=r)
+            writer.constraint_arc_line_tangent(
+                writer.constraint_num,
+                circles[-1],
+                num,
+                reverse=(j == 1)
+            )
             writer.constraint_num += 1
 
     for i, (x, y) in enumerate(centers):

@@ -45,7 +45,7 @@ class MainCanvas(MainCanvasBase):
 
     def update_figure(
         self,
-        exprs: Sequence[Tuple[str, ...]],
+        exprs: List[Tuple[str, ...]],
         path: _Paths
     ) -> None:
         """Update with Point and Links data."""
@@ -230,7 +230,7 @@ class MainCanvas(MainCanvasBase):
     def get_record_path(self) -> Tuple[Tuple[_Coord, ...], ...]:
         """Return paths."""
         paths = tuple(
-            tuple(path) if len(set(path)) > 1 else ()
+            cast(Tuple[_Coord, ...], tuple(path) if len(set(path)) > 1 else ())
             for path in self.path_record
         )
         self.path_record.clear()

@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from enum import Enum, unique
-from typing import List, Tuple, Dict, Optional, Any
+from typing import cast, List, Tuple, Dict, Union, Optional
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
     QDialog,
@@ -20,30 +20,28 @@ from qtpy.QtWidgets import (
 from pyslvs_ui.info import html
 from .options_ui import Ui_Dialog
 
-GeneticPrams = {
+_Value = Union[int, float]
+GENETIC_PARAMS = {
     'nPop': 500,
     'pCross': 0.95,
     'pMute': 0.05,
     'pWin': 0.95,
     'bDelta': 5.,
 }
-
-FireflyPrams = {
+FIREFLY_PARAMS = {
     'n': 80,
     'alpha': 0.01,
     'beta_min': 0.2,
     'gamma': 1.,
     'beta0': 1.,
 }
-
-DifferentialPrams = {
+DIFFERENTIAL_PARAMS = {
     'strategy': 1,
     'NP': 400,
     'F': 0.6,
     'CR': 0.9,
 }
-
-defaultSettings = {'max_gen': 1000, 'report': 50}
+DEFAULT_PARAMS = {'max_gen': 1000, 'report': 50}
 
 
 @unique
@@ -69,7 +67,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
     def __init__(
         self,
         algorithm: AlgorithmType,
-        settings: Dict[str, Any],
+        settings: Dict[str, _Value],
         parent: QWidget
     ):
         """Load the settings to user interface."""
@@ -155,7 +153,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                 ]
             )
 
-    def __set_args(self, settings: Dict[str, Any]) -> None:
+    def __set_args(self, settings: Dict[str, _Value]) -> None:
         """Set arguments by settings dict."""
         if 'max_gen' in settings:
             self.max_gen.setValue(settings['max_gen'])
@@ -165,7 +163,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         elif 'max_time' in settings:
             self.max_time_option.setChecked(True)
             # In second (int)
-            max_time = settings['max_time']
+            max_time = cast(int, settings['max_time'])
             self.max_time_h.setValue(max_time // 3600)
             self.max_time_m.setValue((max_time % 3600) // 60)
             self.max_time_s.setValue(max_time % 3600 % 60)
@@ -187,11 +185,12 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
     def __reset(self) -> None:
         """Reset the settings to default."""
         # Differential Evolution (Default)
-        d = defaultSettings.copy()
+        d: Dict[str, _Value] = {}
+        d.update(DEFAULT_PARAMS)
         if self.__algorithm == AlgorithmType.RGA:
-            d.update(GeneticPrams)
+            d.update(GENETIC_PARAMS)
         elif self.__algorithm == AlgorithmType.Firefly:
-            d.update(FireflyPrams)
+            d.update(FIREFLY_PARAMS)
         elif self.__algorithm == AlgorithmType.DE:
-            d.update(DifferentialPrams)
+            d.update(DIFFERENTIAL_PARAMS)
         self.__set_args(d)

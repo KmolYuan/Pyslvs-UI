@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Set, Dict
+from typing import Tuple, List, Set, Dict, Any, Union
 from pyslvs import VLink
 
 
@@ -21,7 +21,7 @@ class SlvsParser:
         self.requests: List[Dict[str, str]] = []
         self.entities: List[Dict[str, str]] = []
         self.constraints: List[Dict[str, str]] = []
-        dataset = {
+        dataset: Dict[str, List[Dict[str, str]]] = {
             'AddGroup': self.groups,
             'AddParam': [],
             'AddRequest': self.requests,
@@ -32,7 +32,6 @@ class SlvsParser:
         with open(file_name, 'r', encoding="iso-8859-15") as f:
             if f.readline() != "±²³SolveSpaceREVa\n":
                 return
-
             for line in f:
                 if line == '\n':
                     args = {}
@@ -53,7 +52,7 @@ class SlvsParser:
             # Number code and group name
             groups.append((
                 group['Group.h.v'],
-                "".join(x for x in group['Group.name'] if x.isalnum() or (x in "._- "))
+                "".join(x for x in group['Group.name'] if x.isalnum() or x in "._- ")
             ))
         return groups[1:]
 
@@ -96,11 +95,11 @@ class SlvsParser:
             elif constraint['Constraint.type'] == '31':
                 links[0].add(int16(constraint['Constraint.ptA.v']))
 
-        pos = {}
+        pos: Dict[int, Tuple[str, str]] = {}
         for vlink in links.values():
             for point in vlink:
                 if point not in pos:
-                    pos[point] = (0., 0.)
+                    pos[point] = ('0', '0')
 
         # Entities: Get positions
         for entity in self.entities:
@@ -109,8 +108,8 @@ class SlvsParser:
             num = int16(entity['Entity.h.v'])
             if num in pos:
                 pos[num] = (
-                    entity.get('Entity.actPoint.x', 0.),
-                    entity.get('Entity.actPoint.y', 0.),
+                    entity.get('Entity.actPoint.x', '0'),
+                    entity.get('Entity.actPoint.y', '0'),
                 )
 
         # Rename link names

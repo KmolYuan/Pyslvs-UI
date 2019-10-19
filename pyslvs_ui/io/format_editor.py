@@ -134,7 +134,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if dlg.wasCanceled():
             dlg.deleteLater()
             return self.main_clear()
-        input_data: List[Dict[str, int]] = data.get('input', [])
+        input_data: List[Tuple[int, int]] = data.get('input', [])
         i_attr = []
         if input_data:
             self.__set_group("Add inputs data")

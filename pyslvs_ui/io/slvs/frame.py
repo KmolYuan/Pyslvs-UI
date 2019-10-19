@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence, Callable
+from typing import Tuple, Sequence, Callable, List
 from pyslvs import VPoint
 from .write import SlvsWriter2
 
@@ -39,9 +39,9 @@ def slvs2_frame(
         writer.request_num += 1
 
     # The number of same points
-    point_num = [[] for _ in range(len(vpoints))]
+    point_num: List[List[int]] = [[] for _ in range(len(vpoints))]
     # The number of same lines.
-    line_num = [[] for _ in range(len(edges))]
+    line_num: List[List[int]] = [[] for _ in range(len(edges))]
 
     # Add "Entity"
     for i, edge in enumerate(edges):
@@ -55,9 +55,9 @@ def slvs2_frame(
 
     # Add "Constraint
     # Same point constraint
-    for p in point_num:
-        for p_ in p[1:]:
-            writer.constraint_point(writer.constraint_num, p[0], p_)
+    for ps in point_num:
+        for p in ps[1:]:
+            writer.constraint_point(writer.constraint_num, ps[0], p)
             writer.constraint_num += 1
     # Position constraint
     for i, vpoint in enumerate(vpoints):

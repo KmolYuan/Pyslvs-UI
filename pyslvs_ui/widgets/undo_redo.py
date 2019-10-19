@@ -20,6 +20,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
+    cast,
     Sequence,
     List,
     Dict,
@@ -93,7 +94,7 @@ class _FusedTable(QUndoCommand, Generic[_Data], metaclass=QABCMeta):
         parent: Optional[QWidget] = None
     ):
         super(_FusedTable, self).__init__(parent)
-        self.entities_list = entities_list
+        self.entities_list: List[_Data] = entities_list
         self.table = table
         self.table_type = type(table)
 
@@ -112,11 +113,12 @@ class AddTable(_FusedTable[_Data]):
 
     def redo(self) -> None:
         """Add a empty row and add empty text strings into table items."""
-        self.entities_list.append(
+        self.entities_list.append(cast(
+            _Data,
             VPoint.HOLDER
             if self.table_type is PointTableWidget else
             VLink.HOLDER
-        )
+        ))
         row = self.table.rowCount()
         self.table.insertRow(row)
         for column in range(row):
@@ -158,12 +160,12 @@ class DeleteTable(_FusedTable[_Data]):
         """Rename again then insert a empty row."""
         if self.is_rename:
             self.table.rename(self.row)
-        self.entities_list.insert(
-            self.row,
+        self.entities_list.insert(self.row, cast(
+            _Data,
             VPoint.HOLDER
             if self.table_type is PointTableWidget else
             VLink.HOLDER
-        )
+        ))
         self.table.insertRow(self.row)
         for column in range(self.table.columnCount()):
             self.table.setItem(self.row, column, QTableWidgetItem(''))
@@ -229,7 +231,7 @@ class _EditFusedTable(QUndoCommand, Generic[_Args], metaclass=QABCMeta):
         self.vlink_list = vlink_list
         self.point_table = point_table
         self.link_table = link_table
-        self.args = args_list
+        self.args: _Args = args_list
 
 
 class EditPointTable(_EditFusedTable[PointArgs]):

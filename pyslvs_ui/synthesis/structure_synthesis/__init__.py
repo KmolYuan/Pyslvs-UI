@@ -400,10 +400,10 @@ class StructureSynthesis(QWidget, Ui_Form):
         item.setIcon(graph2icon(
             g,
             self.structure_list.iconSize().width(),
-            self.graph_engine.currentText(),
             self.graph_link_as_node.isChecked(),
             self.graph_show_label.isChecked(),
-            self.prefer.monochrome_option
+            self.prefer.monochrome_option,
+            engine=self.graph_engine.currentText()
         ))
         item.setToolTip(
             f"Edge Set: {list(g.edges)}\n"

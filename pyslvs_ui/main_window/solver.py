@@ -321,7 +321,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 result, _ = _slvs_solve(
                     self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
-                    if not self.free_move_button.isChecked() else ()
+                    if not self.free_move_button.isChecked() else {}
                 )
             elif solve_kernel == 2:
                 result = SolverSystem(

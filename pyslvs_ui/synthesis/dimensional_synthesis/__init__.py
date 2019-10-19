@@ -51,10 +51,10 @@ from pyslvs import (
 from pyslvs_ui.graphics import PreviewCanvas
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
-    GeneticPrams,
-    FireflyPrams,
-    defaultSettings,
-    DifferentialPrams,
+    GENETIC_PARAMS,
+    FIREFLY_PARAMS,
+    DEFAULT_PARAMS,
+    DIFFERENTIAL_PARAMS,
     AlgorithmType,
     AlgorithmOptionDialog,
     PathAdjustDialog,
@@ -103,8 +103,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Data and functions
         self.mechanism_data: List[Dict[str, Any]] = []
         self.alg_options: Dict[str, Union[int, float]] = {}
-        self.alg_options.update(defaultSettings)
-        self.alg_options.update(DifferentialPrams)
+        self.alg_options.update(DEFAULT_PARAMS)
+        self.alg_options.update(DIFFERENTIAL_PARAMS)
         self.__set_algorithm_default()
 
         self.preview_canvas = PreviewCanvas(self)
@@ -136,8 +136,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mech_params.clear()
         self.preview_canvas.clear()
         self.alg_options.clear()
-        self.alg_options.update(defaultSettings)
-        self.alg_options.update(DifferentialPrams)
+        self.alg_options.update(DEFAULT_PARAMS)
+        self.alg_options.update(DIFFERENTIAL_PARAMS)
         self.profile_name.clear()
         self.type2.setChecked(True)
         self.parameter_list.setRowCount(0)
@@ -845,13 +845,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __set_algorithm_default(self) -> None:
         """Set the algorithm settings to default."""
         self.alg_options.clear()
-        self.alg_options.update(defaultSettings)
+        self.alg_options.update(DEFAULT_PARAMS)
         if self.type0.isChecked():
-            self.alg_options.update(GeneticPrams)
+            self.alg_options.update(GENETIC_PARAMS)
         elif self.type1.isChecked():
-            self.alg_options.update(FireflyPrams)
+            self.alg_options.update(FIREFLY_PARAMS)
         elif self.type2.isChecked():
-            self.alg_options.update(DifferentialPrams)
+            self.alg_options.update(DIFFERENTIAL_PARAMS)
 
     @Slot(name='on_advance_button_clicked')
     def __show_advance(self) -> None:

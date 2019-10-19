@@ -308,15 +308,11 @@ class MainCanvasBase(BaseCanvas, ABC):
         paths = self.path_record or self.path.path or self.path_preview
         if len(self.vpoints) != len(paths):
             return
-        if paths is self.path_preview:
-            o_path = chain(
-                enumerate(self.path_preview),
-                self.slider_path_preview.items()
-            )
-        else:
-            o_path = enumerate(paths)
         pen = QPen()
-        for i, path in o_path:
+        for i, path in enumerate(self.path_preview + [v for k, v in sorted(
+            self.slider_path_preview.items(),
+            key=lambda e: e[1]
+        )] if paths is self.path_preview else paths):
             if self.path.show != i and self.path.show != -1:
                 continue
             if self.monochrome:
@@ -441,14 +437,10 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Paths
         if self.path.show != -2:
             paths = self.path_record or self.path.path or self.path_preview
-            if paths is self.path_preview:
-                o_path = chain(
-                    enumerate(self.path_preview),
-                    self.slider_path_preview.items()
-                )
-            else:
-                o_path = enumerate(paths)
-            for i, path in o_path:
+            for i, path in enumerate(self.path_preview + [v for k, v in sorted(
+                self.slider_path_preview.items(),
+                key=lambda e: e[1]
+            )] if paths is self.path_preview else paths):
                 if self.path.show != -1 and self.path.show != i:
                     continue
                 for x, y in path:

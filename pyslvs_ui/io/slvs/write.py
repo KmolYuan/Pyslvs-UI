@@ -92,7 +92,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List, Optional
+from typing import List
 
 
 def _shift16(num: int) -> int:
@@ -149,7 +149,7 @@ class SlvsWriter2:
             self.request_workplane(n)
 
         self.entity_num = 0x40000
-        self.script_entity = []
+        self.script_entity: List[str] = []
         self.entity_plane(0x10000, 0x10001, 0x10020)
         self.entity_point(0x10001)
         self.entity_normal_3d(0x10020, 0x10001)
@@ -494,10 +494,10 @@ class SlvsWriter2:
         e1: int,
         val: float,
         *,
-        offset: Optional[int] = None
+        offset: float = -1
     ):
         """Constraint the diameter of a circle."""
-        if offset is None:
+        if offset < 0:
             offset = val / 2
         self.script_constraint.append('\n'.join([
             f"Constraint.h.v={num:08x}",

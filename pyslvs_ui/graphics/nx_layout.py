@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Tuple, Union, Optional
+from typing import Dict, Tuple, Optional
 from qtpy.QtCore import Qt, QSize, QPointF
 from qtpy.QtGui import (
     QImage,
@@ -24,9 +24,9 @@ from pyslvs_ui.info import logger
 from .color import color_qt, color_num
 from .canvas import convex_hull, LINK_COLOR
 
-Pos = Dict[int, Tuple[float, float]]
+_Pos = Dict[int, Tuple[float, float]]
 
-engines: Tuple[str, ...] = (
+engines = (
     "external loop",
 )
 
@@ -35,14 +35,11 @@ _font.setBold(True)
 _font.setStyleHint(QFont.TypeWriter)
 
 
-def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[str, Pos]:
+def engine_picker(g: Graph, engine: str, node_mode: bool) -> _Pos:
     """Generate a position dict."""
-    if type(engine) is not str:
-        return engine
-
     if engine == "external loop":
         try:
-            layout: Pos = external_loop_layout(g, node_mode, scale=30)
+            layout: _Pos = external_loop_layout(g, node_mode, scale=30)
         except ValueError as error:
             logger.warn(error)
             return {}
@@ -67,7 +64,7 @@ def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[s
             y_min = y
     x_cen = (x_max + x_min) / 2
     y_cen = (y_max + y_min) / 2
-    pos: Pos = {node: (
+    pos: _Pos = {node: (
         round(float(x), 4) - x_cen,
         round(float(y), 4) - y_cen
     ) for node, (x, y) in layout.items()}
@@ -77,15 +74,19 @@ def engine_picker(g: Graph, engine: Union[str, Pos], node_mode: bool) -> Union[s
 def graph2icon(
     g: Graph,
     width: int,
-    engine: Union[str, Pos],
     node_mode: bool,
     show_label: bool,
     monochrome: bool,
     *,
-    except_node: Optional[int] = None
+    except_node: Optional[int] = None,
+    engine: str = "",
+    pos: Optional[_Pos] = None
 ) -> QIcon:
     """Draw a generalized chain graph."""
-    pos: Pos = engine_picker(g, engine, node_mode)
+    if engine:
+        pos = engine_picker(g, engine, node_mode)
+    if pos is None:
+        raise ValueError("no engine selected")
     if not pos:
         pixmap = QPixmap(width, width)
         pixmap.fill(Qt.transparent)

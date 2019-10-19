@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence
+from typing import Sequence, Dict, List
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget, QTreeWidgetItem
 from pyslvs import (
@@ -15,6 +15,7 @@ from pyslvs import (
     contracted_link_synthesis,
     contracted_graph,
     conventional_graph,
+    Graph,
 )
 from pyslvs_ui.synthesis.thread import BaseThread
 
@@ -75,7 +76,7 @@ class GraphEnumerateThread(BaseThread):
 
     def run(self) -> None:
         """Run and return conventional graph."""
-        cg_list = {}
+        cg_list: Dict[Sequence[int], List[Graph]] = {}
         answers = []
         for i, item in enumerate(self.jobs):
             if self.is_stop:

@@ -7,14 +7,14 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Type, Any, Optional
 from time import perf_counter
 from platform import system, release, machine
 from psutil import virtual_memory
 from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
-from pyslvs import Genetic, Firefly, Differential, Planar
+from pyslvs import Genetic, Firefly, Differential, Planar, AlgorithmBase
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
 from .options import AlgorithmType
@@ -41,7 +41,7 @@ class WorkerThread(BaseThread):
         self.settings = settings
         self.loop = 1
         self.current_loop = 0
-        self.fun = None
+        self.fun: Optional[AlgorithmBase] = None
 
     def is_two_kernel(self) -> bool:
         return self.planar.is_two_kernel()
@@ -94,7 +94,7 @@ class WorkerThread(BaseThread):
     def __generate_process(self) -> Tuple[str, List[Tuple[int, float, float]]]:
         """Re-create function object then execute algorithm."""
         if self.type_num == AlgorithmType.RGA:
-            foo = Genetic
+            foo: Type[AlgorithmBase] = Genetic
         elif self.type_num == AlgorithmType.Firefly:
             foo = Firefly
         else:

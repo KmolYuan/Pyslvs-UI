@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import List, Sequence, Dict, Any
 from qtpy.QtCore import Qt, QSize, QPointF
 from qtpy.QtWidgets import (
     QDialog,
@@ -19,6 +20,8 @@ from qtpy.QtGui import QColor, QIcon
 from qtpy.QtCharts import QtCharts
 from pyslvs_ui.graphics import DataChart
 
+_Plot = List[List[List[float]]]
+
 
 class ChartDialog(QDialog):
 
@@ -29,7 +32,12 @@ class ChartDialog(QDialog):
     + Fitness / Time Chart.
     """
 
-    def __init__(self, title, algorithm_data, parent: QWidget) -> None:
+    def __init__(
+        self,
+        title: str,
+        algorithm_data: Sequence[Dict[str, Any]],
+        parent: QWidget
+    ) -> None:
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")
@@ -37,9 +45,8 @@ class ChartDialog(QDialog):
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
-
-        self.__title = title
-        self.__algorithm_data = algorithm_data
+        self.title = title
+        self.algorithm_data = algorithm_data
 
         # Widgets
         main_layout = QVBoxLayout(self)
@@ -62,10 +69,9 @@ class ChartDialog(QDialog):
         axis_x.setMin(0)
         axis_y.setTickCount(11)
 
-        if self.__algorithm_data:
+        if self.algorithm_data:
             # Just copy references from algorithm data
-            plot = [data['time_fitness'] for data in self.__algorithm_data]
-
+            plot: _Plot = [data['time_fitness'] for data in self.algorithm_data]
             # X max
             max_x = int(max([max([tnf[pos_x] for tnf in data]) for data in plot]) * 100)
             axis_x.setMax(max_x)
@@ -76,30 +82,30 @@ class ChartDialog(QDialog):
             else:
                 for i in range(0, 1000, 100):
                     axis_x.append(str(i / 100), i)
-
             # Y max
             max_y = max(max([tnf[pos_y] for tnf in data]) for data in plot) + 10
         else:
-            plot = None
+            plot = []
             # Y max
             max_y = 100
 
         max_y -= max_y % 10
         axis_y.setRange(0., max_y)
-        chart = DataChart(self.__title, axis_x, axis_y)
+        chart = DataChart(self.title, axis_x, axis_y)
 
         # Append data set.
-        for i, data in enumerate(self.__algorithm_data):
+        for i, data in enumerate(self.algorithm_data):
             line = QtCharts.QLineSeries()
             scatter = QtCharts.QScatterSeries()
             line.setName(f"{i}: {data['Algorithm']}")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
-            for e in plot[self.__algorithm_data.index(data)]:
-                y = e[pos_y]
-                x = e[pos_x] * 100
-                line.append(QPointF(x, y))
-                scatter.append(QPointF(x, y))
+            if plot:
+                for e in plot[self.algorithm_data.index(data)]:
+                    y = e[pos_y]
+                    x = e[pos_x] * 100
+                    line.append(QPointF(x, y))
+                    scatter.append(QPointF(x, y))
             for series in (line, scatter):
                 chart.addSeries(series)
                 series.attachAxis(axis_x)

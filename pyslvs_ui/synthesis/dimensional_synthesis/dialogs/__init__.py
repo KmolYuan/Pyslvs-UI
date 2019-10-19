@@ -10,10 +10,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .options import (
-    GeneticPrams,
-    FireflyPrams,
-    defaultSettings,
-    DifferentialPrams,
+    GENETIC_PARAMS,
+    FIREFLY_PARAMS,
+    DEFAULT_PARAMS,
+    DIFFERENTIAL_PARAMS,
     AlgorithmType,
     AlgorithmOptionDialog
 )
@@ -23,10 +23,10 @@ from .preview import PreviewDialog
 from .chart import ChartDialog
 
 __all__ = [
-    'GeneticPrams',
-    'FireflyPrams',
-    'defaultSettings',
-    'DifferentialPrams',
+    'GENETIC_PARAMS',
+    'FIREFLY_PARAMS',
+    'DEFAULT_PARAMS',
+    'DIFFERENTIAL_PARAMS',
     'AlgorithmType',
     'AlgorithmOptionDialog',
     'PathAdjustDialog',

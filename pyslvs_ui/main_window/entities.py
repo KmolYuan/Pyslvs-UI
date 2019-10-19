@@ -739,12 +739,10 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             return
         if self.alignment_mode == 0:
             axis = "x"
-            index = 4
         elif self.alignment_mode == 1:
             axis = "y"
-            index = 3
         else:
-            raise ValueError("no such alignment option.")
+            raise ValueError("no such alignment option")
         value, ok = QInputDialog.getDouble(
             self,
             f"Set {axis} axis",
@@ -759,7 +757,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.beginMacro(f"Align points with {axis}")
         for row in selected_rows:
             args = self.entities_point.row_data(row)
-            args[index] = value
+            if self.alignment_mode == 0:
+                args.x = value
+            elif self.alignment_mode == 1:
+                args.y = value
+            else:
+                raise ValueError("no such alignment option")
             self.command_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
