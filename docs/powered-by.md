@@ -31,7 +31,7 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 
 + [NetworkX (BSD 3-Clause)](https://networkx.github.io)
 + [PMKS (MIT)](http://designengrlab.github.io/PMKS)
-+ [spatial_efd (MIT)](https://github.com/sgrieve/spatial_efd)
++ [Spatial EFD (MIT)](https://github.com/sgrieve/spatial_efd)
 
 ## IDE
 
