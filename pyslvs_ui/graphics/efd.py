@@ -8,9 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence
-from math import sin, cos
+from math import pi, sin, cos
 from numpy import (
-    pi,
     sqrt,
     abs,
     radians,
