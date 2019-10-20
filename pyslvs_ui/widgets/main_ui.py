@@ -182,20 +182,6 @@ class Ui_MainWindow(object):
         self.synthesis_tab_widget = QtWidgets.QTabWidget(self.synthesis_tab)
         self.synthesis_tab_widget.setObjectName("synthesis_tab_widget")
         self.verticalLayout_10.addWidget(self.synthesis_tab_widget)
-        self.synthesis_progress = QtWidgets.QProgressBar(self.synthesis_tab)
-        self.synthesis_progress.setStyleSheet("QProgressBar {\n"
-"    border: 2px solid grey;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"\n"
-"QProgressBar::chunk {\n"
-"    background-color: #05B8CC;\n"
-"    width: 20px;\n"
-"}")
-        self.synthesis_progress.setMaximum(3)
-        self.synthesis_progress.setTextVisible(False)
-        self.synthesis_progress.setObjectName("synthesis_progress")
-        self.verticalLayout_10.addWidget(self.synthesis_progress)
         icon11 = QtGui.QIcon()
         icon11.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.main_panel.addTab(self.synthesis_tab, icon11, "")

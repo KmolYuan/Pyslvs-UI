@@ -21,6 +21,9 @@
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QTabWidget" name="options_tab">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
@@ -191,72 +194,72 @@
              <number>3</number>
             </property>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QLabel" name="point_num">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="path_paste">
-                <property name="statusTip">
-                 <string>Past path data from string format.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="path_copy">
-                <property name="statusTip">
-                 <string>Copy the path data as a string.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="path_clear">
-                <property name="statusTip">
-                 <string>Clear all points.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-                </property>
-                <property name="autoDefault">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="point_num">
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_7">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="path_paste">
+                    <property name="statusTip">
+                     <string>Past path data from string format.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../icons.qrc">
+                      <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="path_copy">
+                    <property name="statusTip">
+                     <string>Copy the path data as a string.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../icons.qrc">
+                      <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="path_clear">
+                    <property name="statusTip">
+                     <string>Clear all points.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../icons.qrc">
+                      <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                    </property>
+                    <property name="autoDefault">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
                 <item>
                  <widget class="QListWidget" name="path_list"/>
                 </item>
@@ -343,17 +346,6 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
-                 <widget class="QPushButton" name="path_adjust_button">
-                  <property name="statusTip">
-                   <string>Adjust the target path.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QPushButton" name="import_xlsx_button">
                   <property name="toolTip">
                    <string>Microsoft Excel</string>
@@ -370,8 +362,8 @@
                   </property>
                   <property name="iconSize">
                    <size>
-                    <width>20</width>
-                    <height>20</height>
+                    <width>40</width>
+                    <height>40</height>
                    </size>
                   </property>
                  </widget>
@@ -393,8 +385,46 @@
                   </property>
                   <property name="iconSize">
                    <size>
-                    <width>20</width>
-                    <height>20</height>
+                    <width>40</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="path_adjust_button">
+                  <property name="statusTip">
+                   <string>Adjust the target path.</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../icons.qrc">
+                    <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>40</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="efd_button">
+                  <property name="icon">
+                   <iconset resource="../../icons.qrc">
+                    <normaloff>:/icons/efd.png</normaloff>:/icons/efd.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>40</width>
+                    <height>40</height>
                    </size>
                   </property>
                  </widget>

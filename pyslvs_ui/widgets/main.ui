@@ -380,27 +380,6 @@
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QProgressBar" name="synthesis_progress">
-           <property name="styleSheet">
-            <string notr="true">QProgressBar {
-    border: 2px solid grey;
-    border-radius: 5px;
-}
-
-QProgressBar::chunk {
-    background-color: #05B8CC;
-    width: 20px;
-}</string>
-           </property>
-           <property name="maximum">
-            <number>3</number>
-           </property>
-           <property name="textVisible">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="project_tab">

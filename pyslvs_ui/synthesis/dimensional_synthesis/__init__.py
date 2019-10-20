@@ -39,6 +39,7 @@ from qtpy.QtWidgets import (
     QInputDialog,
     QDoubleSpinBox,
     QTableWidgetItem,
+    QProgressDialog,
 )
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import (
@@ -48,7 +49,16 @@ from pyslvs import (
     parse_vpoints,
     parse_vlinks,
 )
-from pyslvs_ui.graphics import PreviewCanvas
+from pyslvs_ui.graphics import (
+    PreviewCanvas,
+    normalize_efd,
+    calculate_dc_coefficients,
+    inverse_transform,
+    nyquist,
+    calculate_efd,
+    fourier_power,
+    rotate_contour,
+)
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
     GENETIC_PARAMS,
@@ -295,11 +305,45 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-
         self.__clear_path(ask=False)
-        for e in dlg.r_path:
-            self.add_point(e[0], e[1])
+        for x, y in dlg.r_path:
+            self.add_point(x, y)
+        dlg.deleteLater()
+        self.__current_path_changed()
 
+    @Slot(name='on_efd_button_clicked')
+    def __efd_path(self) -> None:
+        """Elliptical Fourier Descriptors."""
+        zx: List[float] = []
+        zy: List[float] = []
+        for x, y in self.current_path():
+            zx.append(x)
+            zy.append(y)
+        n = len(zx)
+        if n < 3:
+            return
+        n, ok = QInputDialog.getInt(
+            self,
+            "Elliptical Fourier Descriptors",
+            "The number of points:",
+            n, 3
+        )
+        if not ok:
+            return
+        dlg = QProgressDialog("Path transform.", "Cancel", 0, 8, self)
+        dlg.setWindowTitle("Elliptical Fourier Descriptors")
+        dlg.show()
+        harmonic = fourier_power(calculate_efd(zx, zy, nyquist(zx)), zx)
+        coeffs = calculate_efd(zx, zy, harmonic)
+        coeffs, rotation = normalize_efd(coeffs, size_invariant=False)
+        locus = calculate_dc_coefficients(zx, zy)
+        # New path
+        zx, zy = inverse_transform(coeffs, locus, n, harmonic)
+        if rotation:
+            zx, zy = rotate_contour(zx, zy, -rotation, locus)
+        self.__clear_path(ask=False)
+        for x, y in zip(zx, zy):
+            self.add_point(x, y)
         dlg.deleteLater()
         self.__current_path_changed()
 
@@ -867,7 +911,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-
         self.alg_options['report'] = dlg.report.value()
         self.alg_options.pop('max_gen', None)
         self.alg_options.pop('min_fit', None)
@@ -903,13 +946,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.alg_options['NP'] = pop_size
             for i, tag in enumerate(('strategy', 'F', 'CR')):
                 self.alg_options[tag] = from_table(i)
-
         dlg.deleteLater()
 
     @Slot()
     def update_range(self) -> None:
         """Update range values to main canvas."""
-
         def t(x: int, y: int) -> Union[str, float]:
             item = self.parameter_list.item(x, y)
             if item is None:

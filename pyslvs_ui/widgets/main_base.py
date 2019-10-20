@@ -390,20 +390,6 @@ class MainWindowBase(MainWindowABC, ABC):
             self.dimensional_synthesis.windowIcon(),
             "Dimensional"
         )
-
-        @Slot()
-        def set_design_progress() -> None:
-            """Synthesis progress bar."""
-            pos = self.synthesis_tab_widget.currentIndex()
-            if pos == 1:
-                pos += self.collections.tab_widget.currentIndex()
-            elif pos == 2:
-                pos += 1
-            self.synthesis_progress.setValue(pos)
-
-        self.synthesis_tab_widget.currentChanged.connect(set_design_progress)
-        self.collections.tab_widget.currentChanged.connect(set_design_progress)
-
         # Same options of structure previews
         as_node1 = self.collections.structure_widget.graph_link_as_node
         as_node2 = self.structure_synthesis.graph_link_as_node

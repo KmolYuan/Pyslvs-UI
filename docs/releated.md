@@ -13,7 +13,7 @@ Those project are related with Pyslvs-UI.
 
 If there is no special reason, Pyslvs is follow with the newest version of the kits.
 
-+ [QtPy](https://github.com/spyder-ide/qtpy)
++ [QtPy (MIT)](https://github.com/spyder-ide/qtpy)
 + [PyQt5 (GPLv3)](https://www.riverbankcomputing.com/software/pyqt/intro)
     + [SIP (GPLv2, GPLv3)](https://www.riverbankcomputing.com/software/sip/intro)
     + [PyQtChart (GPLv3)](https://www.riverbankcomputing.com/software/pyqtchart/intro)
@@ -25,12 +25,13 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [psutil (BSD)](https://github.com/giampaolo/psutil)
 + [Lark-parser (MIT)](https://github.com/erezsh/lark)
 + [PyYAML (MIT)](https://pyyaml.org)
-+ [h5py](https://www.h5py.org/)
++ [h5py (BSD 3-Clause)](https://www.h5py.org/)
 
 ## Inspired From
 
-* [NetworkX (BSD 3-Clause)](https://networkx.github.io)
-* [PMKS (MIT)](http://designengrlab.github.io/PMKS)
++ [NetworkX (BSD 3-Clause)](https://networkx.github.io)
++ [PMKS (MIT)](http://designengrlab.github.io/PMKS)
++ [spatial_efd (MIT)](https://github.com/sgrieve/spatial_efd)
 
 ## IDE
 

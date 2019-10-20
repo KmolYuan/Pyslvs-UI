@@ -12,11 +12,20 @@ from .color import (
     color_names,
     color_icon,
     color_qt,
-    target_path_style
+    target_path_style,
 )
 from .chart import DataChart
 from .canvas import LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull
 from .nx_layout import graph2icon, engine_picker, engines
+from .spatial_efd import (
+    normalize_efd,
+    calculate_dc_coefficients,
+    inverse_transform,
+    nyquist,
+    calculate_efd,
+    fourier_power,
+    rotate_contour,
+)
 
 __all__ = [
     'color_num',
@@ -32,4 +41,11 @@ __all__ = [
     'graph2icon',
     'engine_picker',
     'engines',
+    'normalize_efd',
+    'calculate_dc_coefficients',
+    'inverse_transform',
+    'nyquist',
+    'calculate_efd',
+    'fourier_power',
+    'rotate_contour',
 ]
