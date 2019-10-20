@@ -31,9 +31,8 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         flags = self.windowFlags()
         self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         # Get the current path from parent widget
-        self.path = parent.current_path()
-        self.clear_path = parent.clear_path
-        self.add_point = parent.add_point
+        self.path = parent.current_path().copy()
+        self.set_path = parent.set_path
         for x, y in self.path:
             self.path_list.addItem(f"({x}, {y})")
 
@@ -45,9 +44,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         ry = self.scaling_ry.value()
         sh = self.scaling_h.value()
         sv = self.scaling_v.value()
-        self.clear_path(ask=False)
-        for x, y in self.path:
-            self.add_point(ox + (x - rx) * sh, oy + (y - ry) * sv)
+        self.set_path((ox + (x - rx) * sh, oy + (y - ry) * sv) for x, y in self.path)
         self.accept()
 
     @Slot(name='on_moving_button_clicked')
@@ -55,7 +52,5 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
         """Translate functions."""
         mx = self.moving_x_coordinate.value()
         my = self.moving_y_coordinate.value()
-        self.clear_path(ask=False)
-        for x, y in self.path:
-            self.add_point(x + mx, y + my)
+        self.set_path((x + mx, y + my) for x, y in self.path)
         self.accept()

@@ -8,15 +8,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence
-from math import pi, sin, cos
+from math import pi, sin, cos, atan2, degrees, radians
 from numpy import (
     sqrt,
     abs,
-    radians,
-    degrees,
     cos as np_cos,
     sin as np_sin,
-    arctan2,
     dot,
     sum as np_sum,
     array,
@@ -33,7 +30,7 @@ from numpy import (
 def normalize_efd(
     coeffs: ndarray,
     size_invariant: bool = True
-) -> Tuple[ndarray, ndarray]:
+) -> Tuple[ndarray, float]:
     """
     Normalize the Elliptical Fourier Descriptor coefficients for a polygon.
 
@@ -62,7 +59,7 @@ def normalize_efd(
     """
     # Make the coefficients have a zero phase shift from
     # the first major axis. Theta_1 is that shift angle.
-    theta_1 = arctan2(
+    theta_1 = atan2(
         2 * (coeffs[0, 0] * coeffs[0, 1] + coeffs[0, 2] * coeffs[0, 3]),
         coeffs[0, 0] ** 2 - coeffs[0, 1] ** 2 + coeffs[0, 2] ** 2 - coeffs[0, 3] ** 2
     ) * 0.5
@@ -80,7 +77,7 @@ def normalize_efd(
         ).flatten()
     # Make the coefficients rotation invariant by rotating so that
     # the semi-major axis is parallel to the x-axis.
-    psi_1 = arctan2(coeffs[0, 2], coeffs[0, 0])
+    psi_1 = atan2(coeffs[0, 2], coeffs[0, 0])
     psi_r = array([
         [np_cos(psi_1), np_sin(psi_1)],
         [-np_sin(psi_1), np_cos(psi_1)],

@@ -18,6 +18,7 @@ from typing import (
     Tuple,
     Sequence,
     Dict,
+    Iterable,
     Callable,
     Union,
     Optional,
@@ -191,7 +192,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         item = self.target_points.currentItem()
         if item is None:
             return []
-
         return self.path[int(item.text().replace('P', ''))]
 
     @Slot(str, name='on_target_points_currentTextChanged')
@@ -332,13 +332,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         locus = calculate_dc_coefficients(zx, zy)
         # New path
         zx, zy = inverse_transform(coeffs, locus, n, harmonic)
-        if rotation:
-            zx, zy = rotate_contour(zx, zy, -rotation, locus)
-        self.clear_path(ask=False)
-        for x, y in zip(zx, zy):
-            self.add_point(x, y)
+        zx, zy = rotate_contour(zx, zy, -rotation, locus)
+        self.set_path(zip(zx, zy))
         dlg.deleteLater()
-        self.__current_path_changed()
 
     def add_point(self, x: float, y: float) -> None:
         """Add path data to list widget and current target path."""
@@ -347,6 +343,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.current_path().append((x, y))
         self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.path_list.setCurrentRow(self.path_list.count() - 1)
+        self.__current_path_changed()
+
+    def set_path(self, path: Iterable[Tuple[float, float]]) -> None:
+        """Set the current path."""
+        self.clear_path(ask=False)
+        for x, y in path:
+            self.add_point(x, y)
         self.__current_path_changed()
 
     @Slot(float, float)
