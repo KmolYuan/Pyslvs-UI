@@ -141,7 +141,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __clear_settings(self) -> None:
         """Clear sub-widgets that contain the setting."""
-        self.__clear_path(ask=False)
+        self.clear_path(ask=False)
         self.path.clear()
         self.mech_params.clear()
         self.preview_canvas.clear()
@@ -203,7 +203,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__current_path_changed()
 
     @Slot(name='on_path_clear_clicked')
-    def __clear_path(self, *, ask: bool = True) -> None:
+    def clear_path(self, *, ask: bool = True) -> None:
         """Clear the current target path."""
         if ask:
             if QMessageBox.question(
@@ -302,12 +302,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """
         dlg = PathAdjustDialog(self)
         dlg.show()
-        if not dlg.exec_():
-            dlg.deleteLater()
-            return
-        self.__clear_path(ask=False)
-        for x, y in dlg.r_path:
-            self.add_point(x, y)
+        dlg.exec_()
         dlg.deleteLater()
         self.__current_path_changed()
 
@@ -320,8 +315,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             zx.append(x)
             zy.append(y)
         n = len(zx)
-        if n < 3:
-            return
         n, ok = QInputDialog.getInt(
             self,
             "Elliptical Fourier Descriptors",
@@ -341,7 +334,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         zx, zy = inverse_transform(coeffs, locus, n, harmonic)
         if rotation:
             zx, zy = rotate_contour(zx, zy, -rotation, locus)
-        self.__clear_path(ask=False)
+        self.clear_path(ask=False)
         for x, y in zip(zx, zy):
             self.add_point(x, y)
         dlg.deleteLater()
@@ -428,8 +421,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "<p><span style=\"font-size:12pt;"
             f"color:#00aa00;\">{self.path_list.count()}</span></p>"
         )
-        n = bool(self.mech_params and (self.path_list.count() > 1) and self.expression_string.text())
+        n = bool(
+            self.mech_params and
+            self.path_list.count() > 2 and
+            self.expression_string.text()
+        )
         self.path_adjust_button.setEnabled(n)
+        self.efd_button.setEnabled(n)
         self.synthesis_button.setEnabled(n)
 
     @Slot(name='on_synthesis_button_clicked')

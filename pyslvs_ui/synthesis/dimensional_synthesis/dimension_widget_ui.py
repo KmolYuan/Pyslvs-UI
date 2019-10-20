@@ -365,6 +365,7 @@ class Ui_Form(object):
         self.import_csv_button.setToolTip(_translate("Form", "CSV"))
         self.import_csv_button.setStatusTip(_translate("Form", "Import path from CSV format."))
         self.path_adjust_button.setStatusTip(_translate("Form", "Adjust the target path."))
+        self.efd_button.setStatusTip(_translate("Form", "Using Elliptical Fourier Descriptor to regenerate the path."))
         self.target_label.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">※ Use &quot;Alt + left button&quot; or &quot;context menu of canvas&quot; to add the path points.</span></p></body></html>"))
         self.options_tab.setTabText(self.options_tab.indexOf(self.target_path), _translate("Form", "Target path"))
         self.type0.setText(_translate("Form", "Real-coded Genetic Algorithm"))

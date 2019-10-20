@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
+    <width>533</width>
     <height>654</height>
    </rect>
   </property>
@@ -250,9 +250,6 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7"/>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QLabel" name="graph_engine_text">
@@ -390,6 +387,55 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="save_edges">
+           <property name="statusTip">
+            <string>Save the edges of atlas to text file.</string>
+           </property>
+           <property name="text">
+            <string>Save as list</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="save_atlas">
+           <property name="statusTip">
+            <string>Save the atlas to image file.</string>
+           </property>
+           <property name="text">
+            <string>Save as image</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="edges2atlas_button">
+           <property name="statusTip">
+            <string>Load the edges data from text file, then save them to image files.</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/edges_to_atlas.png</normaloff>:/icons/edges_to_atlas.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>16</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QLabel" name="time_title_label">
@@ -423,51 +469,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="save_atlas">
-           <property name="statusTip">
-            <string>Save the atlas to image file.</string>
-           </property>
-           <property name="text">
-            <string>Save as image</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="save_edges">
-           <property name="statusTip">
-            <string>Save the edges of atlas to text file.</string>
-           </property>
-           <property name="text">
-            <string>Save as list</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="edges2atlas_button">
-           <property name="statusTip">
-            <string>Load the edges data from text file, then save them to image files.</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/edges_to_atlas.png</normaloff>:/icons/edges_to_atlas.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>16</height>
-            </size>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>

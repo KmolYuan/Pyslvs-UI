@@ -63,7 +63,7 @@ def normalize_efd(
     # Make the coefficients have a zero phase shift from
     # the first major axis. Theta_1 is that shift angle.
     theta_1 = arctan2(
-        2 * ((coeffs[0, 0] * coeffs[0, 1]) + (coeffs[0, 2] * coeffs[0, 3])),
+        2 * (coeffs[0, 0] * coeffs[0, 1] + coeffs[0, 2] * coeffs[0, 3]),
         coeffs[0, 0] ** 2 - coeffs[0, 1] ** 2 + coeffs[0, 2] ** 2 - coeffs[0, 3] ** 2
     ) * 0.5
     # Rotate all coefficients by theta_1.
@@ -81,7 +81,10 @@ def normalize_efd(
     # Make the coefficients rotation invariant by rotating so that
     # the semi-major axis is parallel to the x-axis.
     psi_1 = arctan2(coeffs[0, 2], coeffs[0, 0])
-    psi_r = array([[np_cos(psi_1), np_sin(psi_1)], [-np_sin(psi_1), np_cos(psi_1)]])
+    psi_r = array([
+        [np_cos(psi_1), np_sin(psi_1)],
+        [-np_sin(psi_1), np_cos(psi_1)],
+    ])
     # Rotate all coefficients by -psi_1.
     for n in range(1, coeffs.shape[0] + 1):
         rot = array([
@@ -98,7 +101,7 @@ def normalize_efd(
 def calculate_dc_coefficients(
     zx: Sequence[float],
     zy: Sequence[float]
-) -> Tuple[ndarray, ndarray]:
+) -> Tuple[float, float]:
     """
     Compute the dc coefficients, used as the locus when calling
     inverse_transform().
@@ -118,13 +121,13 @@ def calculate_dc_coefficients(
     contour = array([(x, y) for x, y in zip(zx, zy)])
     dxy = diff(contour, axis=0)
     dt = sqrt((dxy ** 2).sum(axis=1))
-    t = concatenate([([0, ]), cumsum(dt)])
+    t = concatenate(([0], cumsum(dt)))
     zt = t[-1]
     diffs = diff(t ** 2)
-    xi = cumsum(dxy[:, 0]) - (dxy[:, 0] / dt) * t[1:]
-    a0 = (1 / zt) * np_sum(((dxy[:, 0] / (2 * dt)) * diffs) + xi * dt)
-    delta = cumsum(dxy[:, 1]) - (dxy[:, 1] / dt) * t[1:]
-    c0 = (1 / zt) * np_sum(((dxy[:, 1] / (2 * dt)) * diffs) + delta * dt)
+    xi = cumsum(dxy[:, 0]) - dxy[:, 0] / dt * t[1:]
+    a0 = 1 / zt * np_sum(dxy[:, 0] / (2 * dt) * diffs + xi * dt)
+    delta = cumsum(dxy[:, 1]) - dxy[:, 1] / dt * t[1:]
+    c0 = 1 / zt * np_sum(dxy[:, 1] / (2 * dt) * diffs + delta * dt)
     # A0 and CO relate to the first point of the contour array as origin.
     # Adding those values to the coeffs to make them relate to true origin
     return contour[0, 0] + a0, contour[0, 1] + c0
@@ -164,16 +167,16 @@ def inverse_transform(
         four coefficients for each harmonic computed.
     """
     t = linspace(0, 1, n)
-    xt = ones((n,)) * locus[0]
-    yt = ones((n,)) * locus[1]
+    xt = ones(n) * locus[0]
+    yt = ones(n) * locus[1]
     for n in range(harmonic):
         xt += (
-            (coeffs[n, 2] * np_cos(2. * (n + 1) * pi * t)) +
-            (coeffs[n, 3] * np_sin(2. * (n + 1) * pi * t))
+            coeffs[n, 2] * np_cos(2. * (n + 1) * pi * t) +
+            coeffs[n, 3] * np_sin(2. * (n + 1) * pi * t)
         )
         yt += (
-            (coeffs[n, 0] * np_cos(2. * (n + 1) * pi * t)) +
-            (coeffs[n, 1] * np_sin(2. * (n + 1) * pi * t))
+            coeffs[n, 0] * np_cos(2. * (n + 1) * pi * t) +
+            coeffs[n, 1] * np_sin(2. * (n + 1) * pi * t)
         )
     return xt, yt
 
@@ -220,7 +223,7 @@ def calculate_efd(
     """
     dxy = diff(array([(x, y) for x, y in zip(zx, zy)]), axis=0)
     dt = sqrt((dxy ** 2).sum(axis=1))
-    t = concatenate([([0, ]), cumsum(dt)])
+    t = concatenate(([0], cumsum(dt)))
     zt = t[-1]
     phi = (2. * pi * t) / zt
     coeffs = zeros((harmonic, 4))
@@ -229,10 +232,10 @@ def calculate_efd(
         phi_n = phi * n
         d_np_cos_phi_n = np_cos(phi_n[1:]) - np_cos(phi_n[:-1])
         d_np_sin_phi_n = np_sin(phi_n[1:]) - np_sin(phi_n[:-1])
-        a_n = const * np_sum((dxy[:, 1] / dt) * d_np_cos_phi_n)
-        b_n = const * np_sum((dxy[:, 1] / dt) * d_np_sin_phi_n)
-        c_n = const * np_sum((dxy[:, 0] / dt) * d_np_cos_phi_n)
-        d_n = const * np_sum((dxy[:, 0] / dt) * d_np_sin_phi_n)
+        a_n = const * np_sum(dxy[:, 1] / dt * d_np_cos_phi_n)
+        b_n = const * np_sum(dxy[:, 1] / dt * d_np_sin_phi_n)
+        c_n = const * np_sum(dxy[:, 0] / dt * d_np_cos_phi_n)
+        d_n = const * np_sum(dxy[:, 0] / dt * d_np_sin_phi_n)
         coeffs[n - 1, :] = a_n, b_n, c_n, d_n
     return coeffs
 
@@ -268,15 +271,15 @@ def fourier_power(
     current_power = 0
     for n in range(nyq):
         total_power += 0.5 * (
-            (coeffs[n, 0] ** 2) + (coeffs[n, 1] ** 2) +
-            (coeffs[n, 2] ** 2) + (coeffs[n, 3] ** 2)
+            coeffs[n, 0] ** 2 + coeffs[n, 1] ** 2 +
+            coeffs[n, 2] ** 2 + coeffs[n, 3] ** 2
         )
     for i in range(nyq):
         current_power += 0.5 * (
-            (coeffs[i, 0] ** 2) + (coeffs[i, 1] ** 2) +
-            (coeffs[i, 2] ** 2) + (coeffs[i, 3] ** 2)
+            coeffs[i, 0] ** 2 + coeffs[i, 1] ** 2 +
+            coeffs[i, 2] ** 2 + coeffs[i, 3] ** 2
         )
-        if (current_power / total_power) > threshold:
+        if current_power / total_power > threshold:
             return i + 1
     return nyq
 
