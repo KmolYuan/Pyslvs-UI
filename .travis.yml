@@ -36,7 +36,7 @@ matrix:
             tags: true
 
     - <<: *linux
-      python: "3.8-dev"
+      python: "3.8"
       addons:
         apt:
           update: true
@@ -48,8 +48,7 @@ matrix:
       language: generic
       env: PYTHON=3.7.0
       before_install:
-        - git submodule update --init
-        - git submodule update --init --recursive pyslvs
+        - git submodule update --init --recursive
         - brew update
         - brew upgrade pyenv
         - export PATH="/Users/travis/.pyenv/shims:${PATH}"
