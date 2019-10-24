@@ -30,6 +30,7 @@ import pprint
 from copy import deepcopy
 from re import split as char_split
 from openpyxl import load_workbook
+from numpy import array
 from qtpy.QtCore import Slot, QModelIndex
 from qtpy.QtWidgets import (
     QWidget,
@@ -301,31 +302,30 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_efd_button_clicked')
     def __efd_path(self) -> None:
         """Elliptical Fourier Descriptors."""
-        zx: List[float] = []
-        zy: List[float] = []
-        for x, y in self.current_path():
-            zx.append(x)
-            zy.append(y)
-        n = len(zx)
+        contour = array(self.current_path(), dtype=float)
         n, ok = QInputDialog.getInt(
             self,
             "Elliptical Fourier Descriptors",
             "The number of points:",
-            n, 3
+            contour.shape[0], 3
         )
         if not ok:
             return
-        dlg = QProgressDialog("Path transform.", "Cancel", 0, 8, self)
+        dlg = QProgressDialog("Path transform.", "Cancel", 0, 1, self)
         dlg.setWindowTitle("Elliptical Fourier Descriptors")
         dlg.show()
-        harmonic = fourier_power(calculate_efd(zx, zy, nyquist(zx)), zx)
-        coeffs = calculate_efd(zx, zy, harmonic)
+        harmonic = fourier_power(
+            calculate_efd(contour, nyquist(contour)),
+            nyquist(contour)
+        )
+        coeffs = calculate_efd(contour, harmonic)
         coeffs, rotation = normalize_efd(coeffs, size_invariant=False)
-        locus = calculate_dc_coefficients(zx, zy)
+        locus = calculate_dc_coefficients(contour)
         # New path
-        zx, zy = inverse_transform(coeffs, locus, n, harmonic)
-        zx, zy = rotate_contour(zx, zy, -rotation, locus)
-        self.set_path(zip(zx, zy))
+        contour = inverse_transform(coeffs, locus, n, harmonic)
+        contour = rotate_contour(contour, -rotation, locus)
+        self.set_path(contour)
+        dlg.setValue(1)
         dlg.deleteLater()
 
     def add_point(self, x: float, y: float) -> None:
