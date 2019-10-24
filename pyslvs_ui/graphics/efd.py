@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence
+from typing import Tuple, Sized
 from math import pi, sin, cos, atan2, degrees, radians
 from numpy import (
     sqrt,
@@ -64,15 +64,16 @@ def normalize_efd(
         coeffs[0, 0] ** 2 - coeffs[0, 1] ** 2 + coeffs[0, 2] ** 2 - coeffs[0, 3] ** 2
     ) * 0.5
     # Rotate all coefficients by theta_1.
-    for n in range(1, coeffs.shape[0] + 1):
-        coeffs[n - 1, :] = dot(
+    for n in range(coeffs.shape[0]):
+        angle = (n + 1) * theta_1
+        coeffs[n, :] = dot(
             array([
-                [coeffs[n - 1, 0], coeffs[n - 1, 1]],
-                [coeffs[n - 1, 2], coeffs[n - 1, 3]],
+                [coeffs[n, 0], coeffs[n, 1]],
+                [coeffs[n, 2], coeffs[n, 3]],
             ]),
             array([
-                [np_cos(n * theta_1), -np_sin(n * theta_1)],
-                [np_sin(n * theta_1), np_cos(n * theta_1)],
+                [np_cos(angle), -np_sin(angle)],
+                [np_sin(angle), np_cos(angle)],
             ])
         ).flatten()
     # Make the coefficients rotation invariant by rotating so that
@@ -83,22 +84,19 @@ def normalize_efd(
         [-np_sin(psi_1), np_cos(psi_1)],
     ])
     # Rotate all coefficients by -psi_1.
-    for n in range(1, coeffs.shape[0] + 1):
+    for n in range(coeffs.shape[0]):
         rot = array([
-            [coeffs[n - 1, 0], coeffs[n - 1, 1]],
-            [coeffs[n - 1, 2], coeffs[n - 1, 3]],
+            [coeffs[n, 0], coeffs[n, 1]],
+            [coeffs[n, 2], coeffs[n, 3]],
         ])
-        coeffs[n - 1, :] = psi_r.dot(rot).flatten()
+        coeffs[n, :] = psi_r.dot(rot).flatten()
     if size_invariant:
         # Obtain size-invariance by normalizing.
         coeffs /= abs(coeffs[0, 0])
     return coeffs, degrees(psi_1)
 
 
-def calculate_dc_coefficients(
-    zx: Sequence[float],
-    zy: Sequence[float]
-) -> Tuple[float, float]:
+def calculate_dc_coefficients(contour: ndarray) -> Tuple[float, float]:
     """
     Compute the dc coefficients, used as the locus when calling
     inverse_transform().
@@ -110,12 +108,10 @@ def calculate_dc_coefficients(
     contour. Computer graphics and image procesnp_sing, 18(3), 236-258.
 
     Args:
-        zx: A list (or numpy array) of x coordinate values.
-        zy: A list (or numpy array) of y coordinate values.
+        contour: A n x 2 numpy array represents a path.
     Returns:
         A tuple containing the c and d coefficients.
     """
-    contour = array([(x, y) for x, y in zip(zx, zy)])
     dxy = diff(contour, axis=0)
     dt = sqrt((dxy ** 2).sum(axis=1))
     t = concatenate(([0], cumsum(dt)))
@@ -126,7 +122,7 @@ def calculate_dc_coefficients(
     delta = cumsum(dxy[:, 1]) - dxy[:, 1] / dt * t[1:]
     c0 = 1 / zt * np_sum(dxy[:, 1] / (2 * dt) * diffs + delta * dt)
     # A0 and CO relate to the first point of the contour array as origin.
-    # Adding those values to the coeffs to make them relate to true origin
+    # Adding those values to the coefficients to make them relate to true origin
     return contour[0, 0] + a0, contour[0, 1] + c0
 
 
@@ -135,7 +131,7 @@ def inverse_transform(
     locus: Tuple[float, float] = (0., 0.),
     n: int = 300,
     harmonic: int = 10
-) -> Tuple[ndarray, ndarray]:
+) -> ndarray:
     """
     Perform an inverse fourier transform to convert the coefficients back into
     spatial coordinates.
@@ -160,25 +156,22 @@ def inverse_transform(
             coordinates, defaults to 10. Must be <= coeffs.shape[0]. Supply a
             smaller value to produce coordinates for a more generalized shape.
     Returns:
-        A numpy array of shape (harmonics, 4) representing the
-        four coefficients for each harmonic computed.
+        A n x 2 numpy array represents a contour.
     """
     t = linspace(0, 1, n)
-    xt = ones(n) * locus[0]
-    yt = ones(n) * locus[1]
+    contour = ones((n, 2), dtype=float)
+    contour[:, 0] *= locus[0]
+    contour[:, 1] *= locus[1]
     for n in range(harmonic):
-        xt += (
-            coeffs[n, 2] * np_cos(2. * (n + 1) * pi * t) +
-            coeffs[n, 3] * np_sin(2. * (n + 1) * pi * t)
-        )
-        yt += (
-            coeffs[n, 0] * np_cos(2. * (n + 1) * pi * t) +
-            coeffs[n, 1] * np_sin(2. * (n + 1) * pi * t)
-        )
-    return xt, yt
+        angle = 2 * (n + 1) * pi * t
+        cosine = np_cos(angle)
+        sine = np_sin(angle)
+        contour[:, 0] += coeffs[n, 2] * cosine + coeffs[n, 3] * sine
+        contour[:, 1] += coeffs[n, 0] * cosine + coeffs[n, 1] * sine
+    return contour
 
 
-def nyquist(zx: Sequence[float]) -> int:
+def nyquist(zx: Sized) -> int:
     """
     Returns the maximum number of harmonics that can be computed for a given
     contour, the Nyquist Frequency.
@@ -194,11 +187,7 @@ def nyquist(zx: Sequence[float]) -> int:
     return len(zx) // 2
 
 
-def calculate_efd(
-    zx: Sequence[float],
-    zy: Sequence[float],
-    harmonic: int = 10
-) -> ndarray:
+def calculate_efd(contour: ndarray, harmonic: int = 10) -> ndarray:
     """
     Compute the Elliptical Fourier Descriptors for a polygon.
 
@@ -210,15 +199,14 @@ def calculate_efd(
     contour. Computer graphics and image procesnp_sing, 18(3), 236-258.
 
     Args:
-        zx (list): A list (or numpy array) of x coordinate values.
-        zy (list): A list (or numpy array) of y coordinate values.
-        harmonic (int): The number of harmonics to compute for the given
+        contour: A n x 2 numpy array represents a path.
+        harmonic: The number of harmonics to compute for the given
             shape, defaults to 10.
     Returns:
-        numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
+        A numpy array of shape (harmonics, 4) representing the
         four coefficients for each harmonic computed.
     """
-    dxy = diff(array([(x, y) for x, y in zip(zx, zy)]), axis=0)
+    dxy = diff(contour, axis=0)
     dt = sqrt((dxy ** 2).sum(axis=1))
     t = concatenate(([0], cumsum(dt)))
     zt = t[-1]
@@ -229,17 +217,18 @@ def calculate_efd(
         phi_n = phi * n
         d_np_cos_phi_n = np_cos(phi_n[1:]) - np_cos(phi_n[:-1])
         d_np_sin_phi_n = np_sin(phi_n[1:]) - np_sin(phi_n[:-1])
-        a_n = const * np_sum(dxy[:, 1] / dt * d_np_cos_phi_n)
-        b_n = const * np_sum(dxy[:, 1] / dt * d_np_sin_phi_n)
-        c_n = const * np_sum(dxy[:, 0] / dt * d_np_cos_phi_n)
-        d_n = const * np_sum(dxy[:, 0] / dt * d_np_sin_phi_n)
-        coeffs[n - 1, :] = a_n, b_n, c_n, d_n
+        coeffs[n - 1, :] = (
+            const * np_sum(dxy[:, 1] / dt * d_np_cos_phi_n),
+            const * np_sum(dxy[:, 1] / dt * d_np_sin_phi_n),
+            const * np_sum(dxy[:, 0] / dt * d_np_cos_phi_n),
+            const * np_sum(dxy[:, 0] / dt * d_np_sin_phi_n),
+        )
     return coeffs
 
 
 def fourier_power(
     coeffs: ndarray,
-    zx: Sequence[float],
+    nyq: int,
     threshold: float = 0.9999
 ) -> int:
     """
@@ -256,37 +245,29 @@ def fourier_power(
     Args:
         coeffs: A numpy array of shape (n, 4) representing the
             four coefficients for each harmonic computed.
-        zx: A list (or numpy array) of x coordinate values.
+        nyq: The Nyquist Frequency.
         threshold: The threshold fraction of the total Fourier power,
             the default is 0.9999.
     Returns:
         The number of harmonics required to represent the contour above
         the threshold Fourier power.
     """
-    nyq = nyquist(zx)
     total_power = 0
     current_power = 0
-    for n in range(nyq):
-        total_power += 0.5 * (
-            coeffs[n, 0] ** 2 + coeffs[n, 1] ** 2 +
-            coeffs[n, 2] ** 2 + coeffs[n, 3] ** 2
-        )
     for i in range(nyq):
-        current_power += 0.5 * (
-            coeffs[i, 0] ** 2 + coeffs[i, 1] ** 2 +
-            coeffs[i, 2] ** 2 + coeffs[i, 3] ** 2
-        )
+        total_power += 0.5 * np_sum(coeffs[i, :] ** 2)
+    for i in range(nyq):
+        current_power += 0.5 * np_sum(coeffs[i, :] ** 2)
         if current_power / total_power > threshold:
             return i + 1
     return nyq
 
 
 def rotate_contour(
-    zx: Sequence[float],
-    zy: Sequence[float],
+    contour: ndarray,
     rotation: float,
     centroid: Tuple[float, float]
-) -> Tuple[Sequence[float], Sequence[float]]:
+) -> ndarray:
     """
     Rotates a contour about a point by a given amount expressed in degrees.
 
@@ -294,21 +275,17 @@ def rotate_contour(
     have the same dimensions.
 
     Args:
-        zx: A list (or numpy array) of x coordinate values.
-        zy: A list (or numpy array) of y coordinate values.
+        contour: A n x 2 numpy array represents a path.
         rotation: The angle in degrees for the contour to be rotated by.
         centroid: A tuple containing the x,y coordinates of the centroid to
             rotate the contour about.
     Returns:
-        A tuple containing a list of x coordinates and a list of y coordinates.
+        A n x 2 numpy array represents a contour.
     """
-    rxs = []
-    rys = []
-    for nx, ny in zip(zx, zy):
-        rx, ry = _rotate_point((nx, ny), centroid, rotation)
-        rxs.append(rx)
-        rys.append(ry)
-    return rxs, rys
+    new_contour = zeros(contour.shape, dtype=contour.dtype)
+    for i in range(len(contour)):
+        new_contour[i] = _rotate_point(tuple(contour[i]), centroid, rotation)
+    return new_contour
 
 
 def _rotate_point(
@@ -332,7 +309,9 @@ def _rotate_point(
     angle = radians(angle)
     px, py = point
     cpx, cpy = center_point
+    dx = px - cpx
+    dy = py - cpy
     return (
-        (px - cpx) * cos(angle) - (py - cpy) * sin(angle) + cpx,
-        (px - cpx) * sin(angle) + (py - cpy) * cos(angle) + cpy
+        dx * cos(angle) - dy * sin(angle) + cpx,
+        dx * sin(angle) + dy * cos(angle) + cpy
     )
