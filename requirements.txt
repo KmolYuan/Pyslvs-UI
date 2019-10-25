@@ -14,5 +14,4 @@ psutil
 lark-parser
 pyyaml
 h5py
-pillow
-qrcode[pil]
+qrcode

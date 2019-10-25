@@ -10,8 +10,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, Tuple, List, Sequence
-import qrcode
-from PIL.ImageQt import ImageQt
+from qrcode import make
+from qrcode.image.base import BaseImage
+from numpy import full, ndarray, uint8
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
     QApplication,
@@ -23,7 +24,7 @@ from qtpy.QtWidgets import (
     QLineEdit,
     QSizePolicy,
 )
-from qtpy.QtGui import QIcon, QPixmap, QWheelEvent, QFont
+from qtpy.QtGui import QIcon, QPixmap, QImage, QWheelEvent, QFont
 from .script_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
@@ -48,6 +49,39 @@ if __name__ == '__main__':
     print(f"DOF:{{dof}}")
     print(pos)
 """
+
+
+class _NpImage(BaseImage):
+
+    """NumPy image for QR code."""
+
+    def __init__(self, border, width, box_size, *args, **kwargs):
+        super(_NpImage, self).__init__(border, width, box_size, *args, **kwargs)
+
+    def new_image(self, **kwargs) -> ndarray:
+        """Build the image class."""
+        return full((self.pixel_size, self.pixel_size, 3), 255, dtype=uint8)
+
+    def drawrect(self, row: int, col: int) -> None:
+        """Draw a single rectangle of the QR code."""
+        (x, y), (x2, y2) = self.pixel_box(row, col)
+        for r in range(self.box_size):
+            self._img[y + r, x:x2 + 1] = (0, 0, 0)
+
+    def get_qimage(self) -> QImage:
+        """To QImage."""
+        height, width, color = self._img.shape
+        return QImage(
+            self._img.data,
+            width,
+            height,
+            color * height,
+            QImage.Format_RGB888
+        )
+
+    def save(self, stream, kind=None) -> None:
+        """Do nothing."""
+        pass
 
 
 def slvs_process_script(
@@ -130,8 +164,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
         line_edit.setReadOnly(True)
         self.main_layout.insertWidget(1, line_edit)
         # Image display
-        image = qrcode.make(self.compressed_script)
-        self.image: QPixmap = QPixmap.fromImage(ImageQt(image.resize((500, 500))))
+        image = make(self.compressed_script, image_factory=_NpImage)
+        self.image: QPixmap = QPixmap.fromImage(image.get_qimage())
 
     @Slot(name='on_copy_clicked')
     def __copy(self) -> None:

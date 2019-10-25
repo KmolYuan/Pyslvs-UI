@@ -26,6 +26,7 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [Lark-parser (MIT)](https://github.com/erezsh/lark)
 + [PyYAML (MIT)](https://pyyaml.org)
 + [h5py (BSD 3-Clause)](https://www.h5py.org/)
++ [qrcode (MIT)](https://github.com/lincolnloop/python-qrcode)
 
 ## Inspired From
 

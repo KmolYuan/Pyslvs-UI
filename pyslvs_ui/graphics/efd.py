@@ -284,7 +284,8 @@ def rotate_contour(
     """
     new_contour = zeros(contour.shape, dtype=contour.dtype)
     for i in range(len(contour)):
-        new_contour[i] = _rotate_point(tuple(contour[i]), centroid, rotation)
+        x, y = contour[i]
+        new_contour[i] = _rotate_point((x, y), centroid, rotation)
     return new_contour
 
 
