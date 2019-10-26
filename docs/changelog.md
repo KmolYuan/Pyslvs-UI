@@ -15,6 +15,7 @@
 + Show the current mechanism in the overview dialog.  (github issue #25)
 + Support Solvespace 3.x format.  (github issue #28)
 + Replace term "workbook" into "project".
++ Improvement of reading path from Excel projects.
 
 **Development**:
 

@@ -256,17 +256,20 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not file_name:
             return
         wb = load_workbook(file_name)
-        ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
-        data = []
+        sheets = wb.get_sheet_names()
+        name, ok = QInputDialog.getItem(self, "Sheets", "Select a sheet:", sheets, 0)
+        if not ok:
+            return
+        ws = wb.get_sheet_by_name(sheets.index(name))
         # Keep finding until there is no value
         i = 1
         while True:
-            x = ws.cell(row=i, column=1).value
-            y = ws.cell(row=i, column=2).value
-            if None in {x, y}:
+            sx = ws.cell(i, 1).value
+            sy = ws.cell(i, 2).value
+            if None in {sx, sy}:
                 break
             try:
-                data.append((float(x), float(y)))
+                self.add_point((float(sx), float(sy)))
             except (IndexError, AttributeError):
                 QMessageBox.warning(
                     self,
@@ -276,8 +279,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 )
                 break
             i += 1
-        for x, y in data:
-            self.add_point(x, y)
 
     @Slot(name='on_edit_path_button_clicked')
     def __adjust_path(self) -> None:
