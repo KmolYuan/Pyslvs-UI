@@ -52,8 +52,6 @@ def engine_picker(g: Graph, engine: str, node_mode: bool) -> _Pos:
     y_max = -inf
     y_min = inf
     for x, y in layout.values():
-        x = round(float(x), 4)
-        y = round(float(y), 4)
         if x > x_max:
             x_max = x
         if x < x_min:
@@ -64,10 +62,7 @@ def engine_picker(g: Graph, engine: str, node_mode: bool) -> _Pos:
             y_min = y
     x_cen = (x_max + x_min) / 2
     y_cen = (y_max + y_min) / 2
-    pos: _Pos = {node: (
-        round(float(x), 4) - x_cen,
-        round(float(y), 4) - y_cen
-    ) for node, (x, y) in layout.items()}
+    pos: _Pos = {node: (x - x_cen, y - y_cen) for node, (x, y) in layout.items()}
     return pos
 
 

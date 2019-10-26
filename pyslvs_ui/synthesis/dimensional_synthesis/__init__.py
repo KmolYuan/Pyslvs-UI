@@ -232,7 +232,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Turn string to float then add them to current target path."""
         try:
             data = [
-                (round(float(raw_data[i]), 4), round(float(raw_data[i + 1]), 4))
+                (float(raw_data[i]), float(raw_data[i + 1]))
                 for i in range(0, len(raw_data), 2)
             ]
         except (IndexError, ValueError):
@@ -266,7 +266,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if None in {x, y}:
                 break
             try:
-                data.append((round(float(x), 4), round(float(y), 4)))
+                data.append((float(x), float(y)))
             except (IndexError, AttributeError):
                 QMessageBox.warning(
                     self,
@@ -311,8 +311,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def add_point(self, x: float, y: float) -> None:
         """Add path data to list widget and current target path."""
-        x = round(x, 4)
-        y = round(y, 4)
         self.current_path().append((x, y))
         self.path_list.addItem(f"({x:.04f}, {y:.04f})")
         self.path_list.setCurrentRow(self.path_list.count() - 1)
