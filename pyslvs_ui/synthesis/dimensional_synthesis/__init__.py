@@ -59,7 +59,7 @@ from .dialogs import (
     DIFFERENTIAL_PARAMS,
     AlgorithmType,
     AlgorithmOptionDialog,
-    PathAdjustDialog,
+    EditPathDialog,
     ProgressDialog,
     PreviewDialog,
     ChartDialog,
@@ -278,12 +278,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for x, y in data:
             self.add_point(x, y)
 
-    @Slot(name='on_path_adjust_button_clicked')
+    @Slot(name='on_edit_path_button_clicked')
     def __adjust_path(self) -> None:
         """Show up path adjust dialog and
         get back the changes of current target path.
         """
-        dlg = PathAdjustDialog(self)
+        dlg = EditPathDialog(self)
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
@@ -401,7 +401,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.path_list.count() > 2 and
             self.expression_string.text()
         )
-        self.path_adjust_button.setEnabled(n)
+        self.edit_path_button.setEnabled(n)
         self.efd_button.setEnabled(n)
         self.synthesis_button.setEnabled(n)
 

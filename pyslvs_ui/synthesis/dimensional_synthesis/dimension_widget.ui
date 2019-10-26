@@ -399,9 +399,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="path_adjust_button">
+                 <widget class="QPushButton" name="edit_path_button">
                   <property name="statusTip">
-                   <string>Adjust the target path.</string>
+                   <string>Edit the target path.</string>
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">

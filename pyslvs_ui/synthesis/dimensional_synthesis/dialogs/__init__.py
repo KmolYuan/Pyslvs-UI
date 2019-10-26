@@ -17,7 +17,7 @@ from .options import (
     AlgorithmType,
     AlgorithmOptionDialog
 )
-from .path_adjust import PathAdjustDialog
+from .edit_path import EditPathDialog
 from .progress import ProgressDialog
 from .preview import PreviewDialog
 from .chart import ChartDialog
@@ -29,7 +29,7 @@ __all__ = [
     'DIFFERENTIAL_PARAMS',
     'AlgorithmType',
     'AlgorithmOptionDialog',
-    'PathAdjustDialog',
+    'EditPathDialog',
     'ProgressDialog',
     'PreviewDialog',
     'ChartDialog'

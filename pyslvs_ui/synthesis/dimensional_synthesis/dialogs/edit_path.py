@@ -12,12 +12,12 @@ __email__ = "pyslvs@gmail.com"
 from typing import TYPE_CHECKING
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog
-from .path_adjust_ui import Ui_Dialog
+from .edit_path_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.synthesis import DimensionalSynthesis
 
 
-class PathAdjustDialog(QDialog, Ui_Dialog):
+class EditPathDialog(QDialog, Ui_Dialog):
 
     """Option dialog.
 
@@ -26,7 +26,7 @@ class PathAdjustDialog(QDialog, Ui_Dialog):
 
     def __init__(self, parent: DimensionalSynthesis) -> None:
         """Just load in path data."""
-        super(PathAdjustDialog, self).__init__(parent)
+        super(EditPathDialog, self).__init__(parent)
         self.setupUi(self)
         flags = self.windowFlags()
         self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
