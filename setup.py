@@ -12,13 +12,13 @@ from os.path import join as pth_join
 from setuptools import setup, find_packages
 
 
-def read(*parts):
-    with open(pth_join(*parts), 'r') as f:
+def read(*path):
+    with open(pth_join(*path), 'r') as f:
         return f.read()
 
 
-def find_version(*file_paths):
-    m = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", read(*file_paths), re.M)
+def find_version(*path):
+    m = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", read(*path), re.M)
     if m:
         return m.group(1)
     raise RuntimeError("Unable to find version string.")
