@@ -55,11 +55,10 @@ def _slvs_solve(
     """Use element module to convert into Solvespace expression."""
     if not vpoints:
         return [], 0
-
+    # VLinks with strings
     vlinks = {}
     for vlink in get_vlinks(vpoints):
         vlinks[vlink.name] = vlink
-
     # Solvespace kernel
     sys = PySolver()
     sys.set_group(1)
@@ -75,7 +74,6 @@ def _slvs_solve(
     sliders: Dict[int, int] = {}
     slider_bases: List[Entity] = []
     slider_slots: List[Entity] = []
-
     for i, vpoint in enumerate(vpoints):
         if vpoint.no_link():
             x, y = vpoint.c[0]
@@ -83,7 +81,6 @@ def _slvs_solve(
             sys.dragged(point, wp)
             points.append(point)
             continue
-
         if vpoint.grounded():
             x, y = vpoint.c[0]
             if vpoint.type in {VJoint.P, VJoint.RP}:
@@ -104,7 +101,6 @@ def _slvs_solve(
                 sys.dragged(point, wp)
                 points.append(point)
             continue
-
         x, y = vpoint.c[0]
         point = sys.add_point_2d(x, y, wp)
         if vpoint.type in {VJoint.P, VJoint.RP}:
@@ -210,10 +206,8 @@ def _slvs_solve(
                         sys.distance(p2, p1, vp1.offset(), wp)
                     else:
                         sys.coincident(p2, p1, wp)
-
             if vp1.type != VJoint.P:
                 continue
-
             for name in vp1.links[1:]:
                 vlink = vlinks[name]
                 ret = get_friend(vlink, a)
@@ -226,7 +220,6 @@ def _slvs_solve(
                     vp1.slope_angle(vp2) - vp1.angle,
                     wp
                 )
-
     for (b, d), angle in inputs.items():
         # The constraints of drive shaft
         # Simulate the input variables to the mechanism
@@ -251,11 +244,10 @@ def _slvs_solve(
             p2 = slider_bases[sliders[d]]
         link = sys.add_line_2d(p1, p2, wp)
         sys.angle(link, leader, 0.5, wp)
-
     # Solve
     result_flag = sys.solve()
     if result_flag == ResultFlag.OKAY:
-        result_list = []
+        result_list: List[Union[_Coord, Tuple[_Coord, _Coord]]] = []
         for i, vpoint in enumerate(vpoints):
             p1 = points[i]
             x1, y1 = sys.params(p1.params)
@@ -266,7 +258,6 @@ def _slvs_solve(
                 x2, y2 = sys.params(p2.params)
                 result_list.append(((x2, y2), (x1, y1)))
         return result_list, sys.dof()
-
     if result_flag == ResultFlag.INCONSISTENT:
         error = "inconsistent"
     elif result_flag == ResultFlag.DIDNT_CONVERGE:

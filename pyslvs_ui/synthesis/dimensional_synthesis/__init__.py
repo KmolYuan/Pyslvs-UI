@@ -269,7 +269,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if None in {sx, sy}:
                 break
             try:
-                self.add_point((float(sx), float(sy)))
+                self.add_point(float(sx), float(sy))
             except (IndexError, AttributeError):
                 QMessageBox.warning(
                     self,
