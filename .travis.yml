@@ -17,7 +17,15 @@ matrix:
         - make
         - cd pyslvs; python3 setup.py install; cd -
         - python3 setup.py install
-      after_success: &pypi-deploy
+
+    - <<: *linux
+      python: "3.8"
+      addons:
+        apt:
+          update: true
+          packages:
+            - libhdf5-dev
+      after_success:
         # PyPI deployment
         - if [[ "$TRAVIS_REPO_SLUG" == "KmolYuan/Pyslvs-UI" && -n "$TRAVIS_TAG" ]]; then
           python3 -m pip install twine;
@@ -34,14 +42,6 @@ matrix:
           skip_cleanup: true
           on:
             tags: true
-
-    - <<: *linux
-      python: "3.8"
-      addons:
-        apt:
-          update: true
-          packages:
-            - libhdf5-dev
 
     - &osx
       os: osx
@@ -67,13 +67,12 @@ matrix:
         - make
         - python3 setup.py install
         - pyenv rehash
-      after_success: *pypi-deploy
-      deploy:
-        - <<: *executable-deploy
-          file: dist/pyslvs*.app.zip
 
     - <<: *osx
       env: PYTHON=3.8.0
+      deploy:
+        - <<: *executable-deploy
+          file: dist/pyslvs*.app.zip
 
 script:
   - pyslvs --test
