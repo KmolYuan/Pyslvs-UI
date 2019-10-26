@@ -30,7 +30,6 @@ import pprint
 from copy import deepcopy
 from re import split as char_split
 from openpyxl import load_workbook
-from numpy import array
 from qtpy.QtCore import Slot, QModelIndex
 from qtpy.QtWidgets import (
     QWidget,
@@ -51,16 +50,7 @@ from pyslvs import (
     parse_vpoints,
     parse_vlinks,
 )
-from pyslvs_ui.graphics import (
-    PreviewCanvas,
-    normalize_efd,
-    calculate_dc_coefficients,
-    inverse_transform,
-    nyquist,
-    calculate_efd,
-    fourier_power,
-    rotate_contour,
-)
+from pyslvs_ui.graphics import PreviewCanvas, efd_fitting
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
     GENETIC_PARAMS,
@@ -302,29 +292,19 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_efd_button_clicked')
     def __efd_path(self) -> None:
         """Elliptical Fourier Descriptors."""
-        contour = array(self.current_path(), dtype=float)
+        path = self.current_path()
         n, ok = QInputDialog.getInt(
             self,
             "Elliptical Fourier Descriptors",
             "The number of points:",
-            contour.shape[0], 3
+            len(path), 3
         )
         if not ok:
             return
         dlg = QProgressDialog("Path transform.", "Cancel", 0, 1, self)
         dlg.setWindowTitle("Elliptical Fourier Descriptors")
         dlg.show()
-        harmonic = fourier_power(
-            calculate_efd(contour, nyquist(contour)),
-            nyquist(contour)
-        )
-        coeffs = calculate_efd(contour, harmonic)
-        coeffs, rotation = normalize_efd(coeffs, size_invariant=False)
-        locus = calculate_dc_coefficients(contour)
-        # New path
-        contour = inverse_transform(coeffs, locus, n, harmonic)
-        contour = rotate_contour(contour, -rotation, locus)
-        self.set_path(contour)
+        self.set_path(efd_fitting(path, n))
         dlg.setValue(1)
         dlg.deleteLater()
 

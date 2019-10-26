@@ -17,15 +17,7 @@ from .color import (
 from .chart import DataChart
 from .canvas import LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull
 from .nx_layout import graph2icon, engine_picker, engines
-from .efd import (
-    normalize_efd,
-    calculate_dc_coefficients,
-    inverse_transform,
-    nyquist,
-    calculate_efd,
-    fourier_power,
-    rotate_contour,
-)
+from .efd import efd_fitting
 
 __all__ = [
     'color_num',
@@ -41,11 +33,5 @@ __all__ = [
     'graph2icon',
     'engine_picker',
     'engines',
-    'normalize_efd',
-    'calculate_dc_coefficients',
-    'inverse_transform',
-    'nyquist',
-    'calculate_efd',
-    'fourier_power',
-    'rotate_contour',
+    'efd_fitting',
 ]

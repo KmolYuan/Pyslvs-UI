@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sized
+from typing import Tuple, Sized, Sequence
 from math import pi, sin, cos, atan2, degrees, radians
 from numpy import (
     sqrt,
@@ -25,6 +25,22 @@ from numpy import (
     concatenate,
     cumsum,
 )
+
+
+def efd_fitting(path: Sequence[Tuple[float, float]], n: int) -> ndarray:
+    """Curve fitting using Elliptical Fourier Descriptor."""
+    contour = array(path, dtype=float)
+    harmonic = fourier_power(
+        calculate_efd(contour, nyquist(contour)),
+        nyquist(contour)
+    )
+    coeffs = calculate_efd(contour, harmonic)
+    coeffs, rotation = normalize_efd(coeffs, size_invariant=False)
+    locus = calculate_dc_coefficients(contour)
+    # New path
+    contour = inverse_transform(coeffs, locus, n, harmonic)
+    contour = rotate_contour(contour, -rotation, locus)
+    return contour
 
 
 def normalize_efd(
