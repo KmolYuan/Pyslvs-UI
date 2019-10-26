@@ -165,13 +165,26 @@ The format of each configuration is:
 + `same`: The multiple joints setting.
     + type: Dict[int, int]
 
+## Module `efd`
+
+### efd_fitting
+
+| path | n | return |
+|:----:|:---:|:----:|
+| Sequence[Tuple[float, float]] | int | ndarray |
+
+Curve fitting using Elliptical Fourier Descriptor.
+
+The path `path` will be translate to Fourier descriptor coefficients,
+then regenerate a new paths as a `n` x 4 NumPy array.
+
 ## Module `example`
 
 ### example_list
 
 | type |
 |:----:|
-| Dict[str, Tuple[str, Tuple[Tuple[int, int], ...]]] |
+| Dict[str, Tuple[str, Sequence[Tuple[int, int]]]] |
 
 The example data of mechanisms.
 
