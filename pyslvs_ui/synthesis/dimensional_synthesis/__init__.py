@@ -49,8 +49,9 @@ from pyslvs import (
     parse_pos,
     parse_vpoints,
     parse_vlinks,
+    efd_fitting,
 )
-from pyslvs_ui.graphics import PreviewCanvas, efd_fitting
+from pyslvs_ui.graphics import PreviewCanvas
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
     GENETIC_PARAMS,

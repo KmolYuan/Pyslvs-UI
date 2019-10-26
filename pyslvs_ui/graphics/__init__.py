@@ -17,7 +17,6 @@ from .color import (
 from .chart import DataChart
 from .canvas import LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull
 from .nx_layout import graph2icon, engine_picker, engines
-from .efd import efd_fitting
 
 __all__ = [
     'color_num',
@@ -33,5 +32,4 @@ __all__ = [
     'graph2icon',
     'engine_picker',
     'engines',
-    'efd_fitting',
 ]
