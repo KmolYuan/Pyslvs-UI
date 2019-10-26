@@ -98,7 +98,7 @@ The `data_dict` parameter will reformat its keys into `frozenset` type.
 |:----:|:------:|
 | | FrozenSet[Tuple[int, int]] |
 
-Show the current [input pairs] keys from original constructor.
+Show the current input pairs keys from original constructor.
 
 #### SolverSystem.show_data()
 
@@ -1113,7 +1113,7 @@ Over loaded method to print the objects.
 
 Generate the Triangle solution stack by mechanism expression `vpoints_`.
 
-The argument `inputs` is a list of [input pairs].
+The argument `inputs` is a list of input pairs.
 
 The argument `status` will track the configuration of each point, which is optional.
 
@@ -1193,7 +1193,6 @@ The first of them is generation,
 the second is fitness, and the last one is time in second.
 
 [SolverSystem]: #solversystem
-[input pairs]: #solversystem9595init__
 [Coordinate]: #coordinate
 [VJoint]: #vjoint
 [VPoint]: #vpoint
