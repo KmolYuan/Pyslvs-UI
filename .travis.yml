@@ -43,7 +43,8 @@ matrix:
           packages:
             - libhdf5-dev
 
-    - os: osx
+    - &osx
+      os: osx
       osx_image: xcode10
       language: generic
       env: PYTHON=3.7.0
@@ -69,6 +70,9 @@ matrix:
       deploy:
         - <<: *executable-deploy
           file: dist/pyslvs*.app.zip
+
+    - <<: *osx
+      env: PYTHON=3.8.0
 
 script:
   - pyslvs --test
