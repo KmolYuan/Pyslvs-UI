@@ -19,5 +19,5 @@ jobs:
       - name: Install kernel
         working-directory: pyslvs
         run: python setup.py install
-      - name: "Lint with mypy: Pyslvs-UI"
+      - name: Lint with mypy
         run: mypy -m launch_pyslvs || true
