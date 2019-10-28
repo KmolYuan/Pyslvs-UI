@@ -18,7 +18,7 @@ The actual test and deployment platforms on CI/CD service:
 | Service | [AppVeyor][ci1] | [Travis][ci2] | [Travis][ci3] |
 | OS version | Windows Server 2019 | Xcode 10.0 (10.13) | Xenial (16.04) |
 | Python 3.7 | O | O | O |
-| Python 3.8 | X (Some of modules haven't upgraded) | $\Delta$ (PyInstaller) | O |
+| Python 3.8 | $\Delta$ (not support MinGW) | O | O |
 
 **Please note that the other platforms may be available but I have not tested before.**
 
@@ -32,7 +32,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-**Ubuntu and macOS**:
+### Ubuntu and macOS
 
 It is recommended to use [pyenv](https://github.com/pyenv/pyenv),
 which will be more easier to handle Python version instead of using system Python.
@@ -48,11 +48,73 @@ python --version  # Python 3.7.4
 pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.7.4/lib/python3.7/site-packages/pip (python 3.7)
 ```
 
-**Windows**:
+### Windows
 
 Python 3: [Official Python] for Windows 64 bit.
 
-Makefile tool: [MinGW] or [Msys 2][msys].
+Makefile tool: MinGW or Msys 2.
+
+#### Msys 2
+
+Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/projects/mingw-w64/),
+they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
+
+```batch
+choco install msys2
+```
+
+When you are using Msys2, following command might be helpful:
+
+```bash
+# Install tools for Msys.
+# Open the "mingw64.exe" shell.
+
+# Install MinGW
+pacman -S mingw-w64-x86_64-gcc
+# Install Make
+pacman -S mingw-w64-x86_64-make
+# The "make" command is named as "mingw32-make". You can rename it by:
+mv /mingw64/bin/mingw32-make /mingw64/bin/make
+
+# Install patch
+pacman -S patch
+```
+
+And the programs should be added in to environment variable (with administrator).
+
+```batch
+setx Path "C:\tools\msys64\usr\bin;%Path%" /M
+```
+
+Setup Python compiler as GCC / G++ of MinGW64:
+
+```batch
+platform\set_pycompiler C:\Python37 mingw32
+```
+
+And it will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
+
+```makefile
+ifeq ($(OS),Windows_NT)
+    # Rewrite "SHELL" variable.
+    SHELL = cmd
+endif
+```
+
+#### Visual C++
+
+Install from [official website](https://visualstudio.microsoft.com/downloads)
+or Chocolatey:
+
+```batch
+choco install visualstudio2017buildtools windows-sdk-10.0
+```
+
+And setup Python compiler:
+
+```batch
+platform\set_pycompiler C:\Python37 msvc
+```
 
 ### Qt Designer (Development)
 
@@ -118,57 +180,6 @@ Make command:
 make build-pyslvs
 ```
 
-#### Ubuntu and macOS
-
-User can compile the kernel by [Cython](http://cython.org/) directly.
-
-#### Windows
-
-Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/projects/mingw-w64/),
-they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
-
-```batch
-choco install msys2
-```
-
-When you are using Msys2, following command might be helpful:
-
-```bash
-# Install tools for Msys.
-# Open the "mingw64.exe" shell.
-
-# Install MinGW
-pacman -S mingw-w64-x86_64-gcc
-# Install Make
-pacman -S mingw-w64-x86_64-make
-# The "make" command is named as "mingw32-make". You can rename it by:
-mv /mingw64/bin/mingw32-make /mingw64/bin/make
-
-# Install patch
-pacman -S patch
-```
-
-And the programs should be added in to environment variable (with administrator).
-
-```batch
-setx Path "C:\tools\msys64\usr\bin;%Path%" /M
-```
-
-Setup Python compiler as GCC / G++ of MinGW64:
-
-```batch
-platform\set_pycompiler C:\Python37
-```
-
-And it will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
-
-```makefile
-ifeq ($(OS),Windows_NT)
-    # Rewrite "SHELL" variable.
-    SHELL = cmd
-endif
-```
-
 ### Python-Solvespace Kernel
 
 [Python-Solvespace]: Python bundle of [Solvespace] library.
@@ -179,51 +190,40 @@ Make command:
 make build-solvespace
 ```
 
-The compile steps of this kernel has same way as Pyslvs kernel.
-
-### Stand-alone Executable File
+## Stand-alone Executable File
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
-#### Ubuntu
+Make command:
+
+```bash
+make
+```
+
+### Ubuntu
 
 Use shell command to build as [AppImage].
 Because of it is more suitable with PyQt module than [PyInstaller].
 
 After following operation, the executable file is in a folder named `out`.
-
-Make command:
-
-```bash
-pip install virtualenv
-make
-```
+The script also install `virtualenv` automatically if no executable command.
 
 !!! warning
 
     Check the `glibc` version from `ldd --version`,
     it must be equal or higher than package's.
 
-#### Windows and macOS
+### Windows and macOS
 
-Use [PyInstaller] to build.
+Use [PyInstaller] with `virtualenv`, they will install automatically if no executable command.
 
 After following operation, the executable file is in a folder named `dist`.
-
-Make command:
-
-```bash
-pip install pyinstaller
-make
-```
 
 !!! note
 
     The Windows platform version requirement is same as the Python that packed.
 
-On macOS, PyInstaller will generate two executable files (refer [here][pinstaller-mac]).
-
-[pinstaller-mac]: https://pyinstaller.readthedocs.io/en/stable/usage.html#building-mac-os-x-app-bundles
+On macOS, PyInstaller will generate two executable files (refer [here](https://pyinstaller.readthedocs.io/en/stable/usage.html#building-mac-os-x-app-bundles)).
 
 ```bash
 # Run Unix-like executable file.
@@ -264,7 +264,6 @@ The markdown files are the resources of this site.
 [Qt5]: https://www.qt.io/download/
 
 [Official Python]: https://www.python.org/
-[MinGW]: https://sourceforge.net/projects/mingw-w64/files/
 [AppImage]: http://appimage.org
 
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace/tree/python

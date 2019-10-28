@@ -55,7 +55,7 @@ after_build:
     )
 
 artifacts:
-  - path: dist\pyslvs*.zip
+  - path: dist\*.zip
     name: pyslvs
 
 deploy:
