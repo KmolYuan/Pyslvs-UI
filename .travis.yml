@@ -15,7 +15,7 @@ matrix:
         - python3 -m pip install -r requirements.txt -U
       install:
         - make
-        - cd pyslvs; python3 setup.py install; cd -
+        - make build-kernel
         - python3 setup.py install
 
     - <<: *linux

@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Download submodules
+        run: git submodule update --init --recursive
       - name: Set up Python 3.7
         uses: actions/setup-python@v1
         with:
@@ -14,6 +16,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install mypy
+      - name: Install kernel
+        working-directory: pyslvs
+        run: python setup.py install
       - name: "Lint with mypy: Pyslvs-UI"
-        run: |
-          mypy -m launch_pyslvs || true
+        run: mypy -m launch_pyslvs || true
