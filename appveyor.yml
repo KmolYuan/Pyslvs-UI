@@ -20,6 +20,7 @@ install:
   # Clone submodules
   - git submodule update --init --recursive
   # Install Python-dev
+  - choco install -y zip
   - IF DEFINED PYTHON_DEV choco install -y python --version %PYTHON_DEV%
   # Environment variables
   - set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
@@ -33,9 +34,7 @@ install:
   - pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
   # Install modules
   - pip install -r requirements.txt
-  - pip install https://github.com/pyinstaller/pyinstaller/tarball/develop
   # Show tool kits
-  - pyinstaller --version
   - gcc --version
   - mingw32-make --version
 
@@ -56,7 +55,7 @@ after_build:
     )
 
 artifacts:
-  - path: dist\pyslvs*.exe
+  - path: dist\pyslvs*.zip
     name: pyslvs
 
 deploy:

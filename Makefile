@@ -7,24 +7,13 @@
 LAUNCHER = launch_pyslvs.py
 PYSLVS_PATH = pyslvs
 
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS), Windows_NT)
     PY = python
     SHELL = cmd
-    _NEEDS_BUILD = true
 else
     PY = python3
-ifeq ($(shell uname),Darwin)
-    _NEEDS_BUILD = true
-endif
 endif
 PIP = $(PY) -m pip
-ifdef _NEEDS_BUILD
-    PYSLVSVER = $(shell $(PY) -c "from pyslvs import __version__; print(__version__)")
-    COMPILERVER = $(shell $(PY) -c \
-"import platform; print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())")
-    SYSVER = $(shell $(PY) -c "import platform; print(platform.machine().lower())")
-    EXENAME = pyslvs-$(PYSLVSVER).$(COMPILERVER)-$(SYSVER)
-endif
 
 .PHONY: help install uninstall \
     build build-kernel test test-kernel clean clean-kernel clean-all
@@ -52,24 +41,13 @@ build-kernel:
 	cd $(PYSLVS_PATH) && $(PY) setup.py install
 	@echo Done
 
-ifdef _NEEDS_BUILD
-_build: build-kernel test-kernel
-else
-_build:
-endif
-
-build: $(LAUNCHER) clean _build
+build: $(LAUNCHER) clean
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
-ifeq ($(OS),Windows_NT)
-	pyinstaller -F $< -i pyslvs_ui/icons/main.ico -n Pyslvs
-	rename .\dist\Pyslvs.exe $(EXENAME).exe
-else ifeq ($(shell uname),Darwin)
-	pyinstaller -w -F $< -i pyslvs_ui/icons/main.icns -n Pyslvs
-	mv dist/Pyslvs dist/$(EXENAME)
-	chmod +x dist/$(EXENAME)
-	mv dist/Pyslvs.app dist/$(EXENAME).app
-	zip -r dist/$(EXENAME).app.zip dist/$(EXENAME).app
+ifeq ($(OS), Windows_NT)
+	bash platform/pyinstaller_recipe.sh
+else ifeq ($(shell uname), Darwin)
+	bash platform/pyinstaller_recipe.sh
 else
 	bash platform/appimage_recipe.sh
 endif
@@ -87,28 +65,29 @@ test-kernel:
 	@echo Done
 
 test: build
-ifeq ($(OS),Windows_NT)
-	./dist/$(EXENAME) --test
-else ifeq ($(shell uname),Darwin)
-	./dist/$(EXENAME) --test
+ifeq ($(OS), Windows_NT)
+	$(wildcard dist/*.exe) --test
+else ifeq ($(shell uname), Darwin)
+	$(wildcard dist/*.run) --test
 else
 	$(wildcard out/*.AppImage) --test
 endif
 
 clean:
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS), Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
 	-rd pyslvs_ui.egg-info /s /q
+	-rd ENV /s /q
 	-del *.spec /q
 else
 	-rm -f -r build
 	-rm -f -r dist
 	-rm -f -r pyslvs_ui.egg-info
-ifeq ($(shell uname),Darwin)
+	-rm -f -r ENV
+ifeq ($(shell uname), Darwin)
 	-rm -f *.spec
 else
-	-rm -f -r ENV
 	-rm -f -r out
 endif
 endif
@@ -116,7 +95,7 @@ endif
 clean-kernel:
 	-$(PIP) uninstall pyslvs -y
 	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS), Windows_NT)
 	-rd "$(PYSLVS_PATH)/dist" /s /q
 	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del *.cpp /q

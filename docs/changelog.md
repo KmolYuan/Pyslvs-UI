@@ -28,6 +28,7 @@
     + Treat `python-solvespace` as normal module.
     + Moved `depend/pyslvs` into `pyslvs`.
 + Refactor `main_canvas` to `canvas`.
++ Add PyInstaller recipe instead of Makefile.
 + Add MyPy checking to GitHub workflow.
 + Support PEP 561.
 

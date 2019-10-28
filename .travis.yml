@@ -53,18 +53,18 @@ matrix:
         - brew update
         - brew upgrade pyenv
         - brew install hdf5
+        - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink
         - export PATH="/Users/travis/.pyenv/shims:${PATH}"
         - env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON}
         - pyenv global ${PYTHON}
         - python3 -m pip install pip -U
-        - python3 -m pip install https://github.com/pyinstaller/pyinstaller/tarball/develop
         - pyenv rehash
         - python3 --version
         - python3 -m pip --version
-        - pyinstaller --version
         - python3 -m pip install -r requirements.txt -U
       install:
         - make
+        - make build-kernel
         - python3 setup.py install
         - pyenv rehash
 
@@ -72,7 +72,7 @@ matrix:
       env: PYTHON=3.8.0
       deploy:
         - <<: *executable-deploy
-          file: dist/pyslvs*.app.zip
+          file: dist/pyslvs*.zip
 
 script:
   - pyslvs --test
