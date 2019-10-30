@@ -474,7 +474,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Set the time label."""
         self.timeShow.setText(
             f"<html><head/><body><p><span style=\"font-size:16pt\">"
-            f"{time // 60}[min] {time % 60:.02f}[s]"
+            f"{int(time // 60):02d}min {time % 60:05.02f}s"
             f"</span></p></body></html>"
         )
 
