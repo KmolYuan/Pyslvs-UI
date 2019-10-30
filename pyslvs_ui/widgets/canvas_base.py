@@ -14,7 +14,6 @@ from abc import ABC, abstractmethod
 from enum import IntEnum, auto, unique
 from dataclasses import dataclass, field
 from math import degrees, sin, cos, atan2, hypot
-from itertools import chain
 from qtpy.QtCore import Signal, Slot, Qt, QRectF, QPoint, QPointF, QLineF
 from qtpy.QtWidgets import QApplication
 from qtpy.QtGui import QPolygonF, QFont, QPen, QColor, QPaintEvent, QMouseEvent

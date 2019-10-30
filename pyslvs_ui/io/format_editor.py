@@ -165,7 +165,10 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         path_data: Dict[str, _Paths] = data.get('path', {})
         if path_data:
             self.__set_group("Add paths")
-            self.load_paths(path_data)
+            self.load_paths({
+                n: [[tuple(c) for c in p] for p in ps]
+                for n, ps in path_data.items()
+            })
             self.__end_group()
 
         # Collection data
