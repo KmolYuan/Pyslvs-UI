@@ -492,7 +492,7 @@ class InputsWidget(QWidget, Ui_Form):
             while name_copy in self.__path_data:
                 name_copy = f"{name}_{num}"
                 num += 1
-            self.add_path(name_copy, data)
+            self.add_path(name_copy, data.copy())
         elif text.startswith("Copy data from"):
             # Copy data to clipboard (csv)
             QApplication.clipboard().setText('\n'.join(
