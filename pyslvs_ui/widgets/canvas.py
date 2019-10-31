@@ -94,7 +94,7 @@ class MainCanvas(MainCanvasBase):
     def set_zoom(self, zoom: int) -> None:
         """Update zoom factor."""
         zoom_old = self.zoom
-        self.zoom = zoom / 100 * self.rate
+        self.zoom = zoom / 50.
         zoom_old -= self.zoom
         if self.zoomby == 0:
             pos = self.mapFromGlobal(QCursor.pos())

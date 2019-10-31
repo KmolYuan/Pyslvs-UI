@@ -126,8 +126,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.ox = self.width() / 2
         self.oy = self.height() / 2
         # Canvas zoom rate
-        self.rate = 2.
-        self.zoom = 2. * self.rate
+        self.zoom = 1.
         # Joint size
         self.joint_size = 5
         # Canvas line width

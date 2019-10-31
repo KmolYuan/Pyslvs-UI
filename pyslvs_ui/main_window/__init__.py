@@ -89,8 +89,8 @@ class MainWindow(IOMethodInterface):
             self,
             "Zoom",
             "Enter a zoom value:",
-            self.zoom_bar.minimum(),
             self.zoom_bar.value(),
+            self.zoom_bar.minimum(),
             self.zoom_bar.maximum(),
             10
         )

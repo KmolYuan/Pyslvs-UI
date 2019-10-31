@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/widgets/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -218,11 +218,11 @@ class Ui_MainWindow(object):
         self.nav_layout.setContentsMargins(3, 3, 3, 3)
         self.nav_layout.setObjectName("nav_layout")
         self.zoom_bar = QtWidgets.QSlider(self.nav_toolbar)
-        self.zoom_bar.setMinimum(10)
-        self.zoom_bar.setMaximum(2000)
+        self.zoom_bar.setMinimum(50)
+        self.zoom_bar.setMaximum(5000)
         self.zoom_bar.setSingleStep(50)
         self.zoom_bar.setPageStep(50)
-        self.zoom_bar.setSliderPosition(10)
+        self.zoom_bar.setSliderPosition(50)
         self.zoom_bar.setOrientation(QtCore.Qt.Horizontal)
         self.zoom_bar.setInvertedControls(False)
         self.zoom_bar.setTickPosition(QtWidgets.QSlider.TicksBelow)

@@ -455,10 +455,10 @@
                <string>Adjust the slider to change demo size.</string>
               </property>
               <property name="minimum">
-               <number>10</number>
+               <number>50</number>
               </property>
               <property name="maximum">
-               <number>2000</number>
+               <number>5000</number>
               </property>
               <property name="singleStep">
                <number>50</number>
@@ -467,7 +467,7 @@
                <number>50</number>
               </property>
               <property name="sliderPosition">
-               <number>10</number>
+               <number>50</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>

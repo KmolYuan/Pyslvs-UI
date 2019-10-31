@@ -4,7 +4,8 @@
 
 **Features**:
 
-+ None
++ UI adjustments.
++ Correction of zoom value.
 
 **Development**:
 
