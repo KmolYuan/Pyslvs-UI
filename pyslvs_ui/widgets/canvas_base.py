@@ -113,8 +113,6 @@ class MainCanvasBase(BaseCanvas, ABC):
 
     """Abstract class for wrapping main canvas class."""
 
-    default_zoom = 400
-
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)
@@ -147,6 +145,8 @@ class MainCanvasBase(BaseCanvas, ABC):
         self.selections: List[int] = []
         # Link transparency
         self.transparency = 1.
+        # Default zoom rate
+        self.default_zoom = 400
         # Show dimension
         self.show_dimension = False
         # Free move mode

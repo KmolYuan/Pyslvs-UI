@@ -247,6 +247,8 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
                 self.main_canvas.set_zoom_by(cast(int, value))
             elif name == 'nav_toolbar_pos_option':
                 self.__set_nav_toolbar_pos(cast(int, value))
+            elif name == 'default_zoom_option':
+                self.main_canvas.set_default_zoom(cast(int, value))
             elif name == 'snap_option':
                 self.main_canvas.set_snap(cast(float, value))
             elif name == 'title_full_path_option':

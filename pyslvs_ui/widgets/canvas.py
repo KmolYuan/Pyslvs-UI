@@ -55,27 +55,27 @@ class MainCanvas(MainCanvasBase):
         self.update()
 
     @Slot(int)
-    def set_link_width(self, link_width: int) -> None:
+    def set_link_width(self, width: int) -> None:
         """Update width of links."""
-        self.link_width = link_width
+        self.link_width = width
         self.update()
 
     @Slot(int)
-    def set_path_width(self, path_width: int) -> None:
+    def set_path_width(self, width: int) -> None:
         """Update width of links."""
-        self.path_width = path_width
+        self.path_width = width
         self.update()
 
     @Slot(bool)
-    def set_point_mark(self, show_point_mark: bool) -> None:
+    def set_point_mark(self, show: bool) -> None:
         """Update show point mark or not."""
-        self.show_point_mark = show_point_mark
+        self.show_point_mark = show
         self.update()
 
     @Slot(bool)
-    def set_show_dimension(self, show_dimension: bool) -> None:
+    def set_show_dimension(self, show: bool) -> None:
         """Update show dimension or not."""
-        self.show_dimension = show_dimension
+        self.show_dimension = show
         self.update()
 
     @Slot(bool)
@@ -104,9 +104,13 @@ class MainCanvas(MainCanvasBase):
         self.oy += (pos.y() - self.oy) / self.zoom * zoom_old
         self.update()
 
-    def set_show_target_path(self, show_target_path: bool) -> None:
+    def set_default_zoom(self, zoom: int) -> None:
+        """Set default zoom value."""
+        self.default_zoom = zoom
+
+    def set_show_target_path(self, show: bool) -> None:
         """Update show target path or not."""
-        self.show_target_path = show_target_path
+        self.show_target_path = show
         self.update()
 
     def set_free_move(self, free_move: int) -> None:
@@ -126,15 +130,15 @@ class MainCanvas(MainCanvasBase):
         self.update()
 
     @Slot(int)
-    def set_margin_factor(self, margin_factor: int) -> None:
+    def set_margin_factor(self, factor: int) -> None:
         """Update margin factor when zoom to fit."""
-        self.margin_factor = 1 - margin_factor / 100
+        self.margin_factor = 1 - factor / 100
         self.update()
 
     @Slot(int)
-    def set_joint_size(self, joint_size: int) -> None:
+    def set_joint_size(self, size: int) -> None:
         """Update size for each joint."""
-        self.joint_size = joint_size
+        self.joint_size = size
         self.update()
 
     @Slot(int)
@@ -178,9 +182,9 @@ class MainCanvas(MainCanvasBase):
         self.update()
 
     @Slot(int)
-    def set_selection_mode(self, select_mode: int) -> None:
+    def set_selection_mode(self, mode: int) -> None:
         """Update the selection."""
-        self.select_mode = SelectMode(select_mode + 1)
+        self.select_mode = SelectMode(mode + 1)
         self.update()
 
     @Slot(list)
@@ -189,12 +193,9 @@ class MainCanvas(MainCanvasBase):
         self.selections = selections
         self.update()
 
-    def set_solving_path(
-        self,
-        target_path: Dict[str, Sequence[_Coord]]
-    ):
+    def set_solving_path(self, path: Dict[str, Sequence[_Coord]]):
         """Update target path."""
-        self.target_path = target_path
+        self.target_path = path
         self.update()
 
     def set_path_show(self, p: int) -> None:

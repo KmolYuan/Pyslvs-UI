@@ -156,6 +156,7 @@ class Preferences:
     snap_option: float = 1
     tick_mark_option: int = 1
     nav_toolbar_pos_option: int = 1
+    default_zoom_option: int = 500
     grab_no_background_option: bool = True
     monochrome_option: bool = False
     undo_limit_option: int = 60

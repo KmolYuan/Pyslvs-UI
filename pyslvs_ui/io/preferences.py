@@ -41,6 +41,8 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.prefer = parent.prefer.copy()
         self.prefer_applied = parent.prefer.copy()
 
+        self.default_zoom_option.setMaximum(parent.zoom_bar.maximum())
+        self.default_zoom_option.setMinimum(parent.zoom_bar.minimum())
         self.accepted.connect(self.__get_settings)
         self.button_box.button(QDialogButtonBox.Apply).clicked.connect(self.__get_settings)
         self.button_box.button(QDialogButtonBox.Cancel).clicked.connect(self.__cancel)

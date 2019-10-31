@@ -108,7 +108,6 @@ class StructureWidget(QWidget, Ui_Form):
         self.__clear_selection()
         if not self.collections:
             return
-
         dlg = QProgressDialog(
             "Drawing atlas...",
             "Cancel",
@@ -126,7 +125,6 @@ class StructureWidget(QWidget, Ui_Form):
             if dlg.wasCanceled():
                 dlg.deleteLater()
                 return
-
             item = QListWidgetItem(f"No. {i + 1}")
             pos = engine_picker(g, engine_str, self.graph_link_as_node.isChecked())
             item.setIcon(graph2icon(
@@ -141,7 +139,6 @@ class StructureWidget(QWidget, Ui_Form):
             item.setToolTip(f"{g.edges}")
             self.collection_list.addItem(item)
             dlg.setValue(i + 1)
-
         dlg.deleteLater()
         if current_pos > -1:
             self.collection_list.setCurrentRow(current_pos)
@@ -161,12 +158,10 @@ class StructureWidget(QWidget, Ui_Form):
             return "is not a planar chain"
         if g.has_cut_link():
             return "has cut link"
-
         try:
             external_loop_layout(g, True)
         except ValueError as error:
             return str(error)
-
         for h in self.collections:
             if g.is_isomorphic(h):
                 return f"is isomorphic with: {h.edges}"
@@ -220,13 +215,11 @@ class StructureWidget(QWidget, Ui_Form):
         )
         if not file_names:
             return
-
         read_data = []
         for file_name in file_names:
             with open(file_name, 'r', encoding='utf-8') as f:
                 for line in f:
                     read_data.append(line)
-
         errors = []
         for edges_str in read_data:
             try:
@@ -246,11 +239,9 @@ class StructureWidget(QWidget, Ui_Form):
         """Save the current graph."""
         if self.selection_window.count() != 1:
             return
-
         file_name = self.output_to("atlas image", qt_image_format)
         if not file_name:
             return
-
         pixmap: QPixmap = self.selection_window.item(0).icon().pixmap(self.selection_window.iconSize())
         pixmap.save(file_name)
         self.save_reply_box("Graph", file_name)
@@ -261,7 +252,6 @@ class StructureWidget(QWidget, Ui_Form):
         count = self.collection_list.count()
         if count < 1:
             return
-
         lateral, ok = QInputDialog.getInt(
             self,
             "Atlas",
@@ -270,11 +260,9 @@ class StructureWidget(QWidget, Ui_Form):
         )
         if not ok:
             return
-
         file_name = self.output_to("atlas image", qt_image_format)
         if not file_name:
             return
-
         icon_size = self.collection_list.iconSize()
         width = icon_size.width()
         image = self.collection_list.item(0).icon().pixmap(icon_size).toImage()
@@ -377,14 +365,12 @@ class StructureWidget(QWidget, Ui_Form):
         row = self.collection_list.currentRow()
         if not row > -1:
             return
-
         if QMessageBox.question(
             self,
             "Delete",
             f"Sure to remove #{row} from your collections?"
         ) != QMessageBox.Yes:
             return
-
         self.collection_list.takeItem(row)
         self.collections.pop(row)
         self.collections_layouts.pop(row)
@@ -397,7 +383,6 @@ class StructureWidget(QWidget, Ui_Form):
         row = self.collection_list.currentRow()
         if not row > -1:
             return
-
         graph = self.collections[row]
         dlg = TargetsDialog(
             "Select the vertices (links) you want to copy.\n"
@@ -411,7 +396,6 @@ class StructureWidget(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-
         targets = dlg.targets()
         dlg.deleteLater()
         times, ok = QInputDialog.getInt(
@@ -451,7 +435,6 @@ class StructureWidget(QWidget, Ui_Form):
         item.setIcon(icon)
         self.collections_grounded.append(g)
         self.grounded_list.addItem(item)
-
         for node, graph_ in labeled_enumerate(g):
             item = QListWidgetItem(f"link_{node}")
             icon = graph2icon(
@@ -473,7 +456,6 @@ class StructureWidget(QWidget, Ui_Form):
         item = self.grounded_list.currentItem()
         if not item:
             return
-
         graph = self.collections_grounded[0]
         text = item.text()
         if text == "Released":
