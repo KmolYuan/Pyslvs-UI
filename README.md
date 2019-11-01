@@ -37,19 +37,26 @@ If you have any question, please post on GitHub issue or contact <pyslvs@gmail.c
 
 # Getting Started
 
+## Executables
+
 Download [portable executable file](https://github.com/KmolYuan/Pyslvs-UI/releases) of your platform.
 
-Or install from PyPI:
+## PyPI
 
 ```bash
 pip install pyslvs-ui
 ```
 
-Or install from source:
+## Source
+
+Branch `master` is in development, use `stable` branch to install stable dependencies directly.
 
 ```bash
+git checkout stable
 python setup.py install
 ```
+
+Or, build `master` branch step by step follow the documentation.
 
 # Documentation
 
