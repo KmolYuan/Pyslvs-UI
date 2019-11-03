@@ -12,7 +12,7 @@
 
 **Development**:
 
-+ None
++ Remove "*.run" file from macOS release.
 
 ## Version 19.10
 
