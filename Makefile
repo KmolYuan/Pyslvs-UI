@@ -106,9 +106,9 @@ else
 	-rm -fr $(PYSLVS_PATH)/dist
 	-rm -fr $(PYSLVS_PATH)/pyslvs.egg-info
 	-rm -f $(PYSLVS_PATH)/pyslvs/*.cpp
-	-rm -f $(PYSLVS_PATH)/pyslvs/*.pyd
+	-rm -f $(PYSLVS_PATH)/pyslvs/*.so
 	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.cpp
-	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.pyd
+	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.so
 endif
 
 clean-all: clean clean-kernel
