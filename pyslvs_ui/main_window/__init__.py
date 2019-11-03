@@ -80,15 +80,15 @@ class MainWindow(IOMethodInterface):
     @Slot(int, name='on_zoom_bar_valueChanged')
     def __set_zoom(self, value: int) -> None:
         """Reset the text when zoom bar changed."""
-        self.zoom_button.setText(f'{value}%')
+        self.zoom_button.setText(f'{value}px')
 
-    @Slot()
-    def customize_zoom(self) -> None:
+    @Slot(name='on_zoom_button_clicked')
+    def __customize_zoom(self) -> None:
         """Customize zoom value."""
         value, ok = QInputDialog.getInt(
             self,
-            "Zoom",
-            "Enter a zoom value:",
+            "Zooming",
+            "Enter a zoom value: (px)",
             self.zoom_bar.value(),
             self.zoom_bar.minimum(),
             self.zoom_bar.maximum(),
@@ -96,6 +96,11 @@ class MainWindow(IOMethodInterface):
         )
         if ok:
             self.zoom_bar.setValue(value)
+
+    @Slot(name='on_reset_canvas_button_clicked')
+    def __reset_zoom(self) -> None:
+        """Reset to default zoom."""
+        self.main_canvas.zoom_to_fit()
 
     @Slot(bool, name='on_action_show_dimensions_toggled')
     def __set_show_dimensions(self, toggled: bool) -> None:

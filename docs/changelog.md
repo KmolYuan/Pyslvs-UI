@@ -5,8 +5,10 @@
 **Features**:
 
 + UI adjustments.
-+ Correction of zoom value.
-+ Add "default zoom value" option.
++ Zooming:
+    + Redesign zoom button.
+    + Correction of zoom value.
+    + Add "default zoom value" option.
 
 **Development**:
 
