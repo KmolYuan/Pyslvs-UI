@@ -5,13 +5,15 @@
 **Features**:
 
 + UI adjustments.
-+ Correction of zoom value.
-+ Add "default zoom value" option.
++ Zooming:
+    + Redesign zoom button.
+    + Correction of zoom value.
+    + Add "default zoom value" option.
 + Add "reduce" function for synthesis target path.
 
 **Development**:
 
-+ None
++ Remove "*.run" file from macOS release.
 
 ## Version 19.10
 

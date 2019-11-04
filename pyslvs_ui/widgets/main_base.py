@@ -227,7 +227,6 @@ class MainWindowBase(MainWindowABC, ABC):
         self.__alignment()
         self.__free_move()
         self.__options()
-        self.__zoom()
         self.__context_menu()
 
     def env_path(self) -> str:
@@ -477,33 +476,6 @@ class MainWindowBase(MainWindowABC, ABC):
         self.zoom_bar.valueChanged.connect(self.main_canvas.set_zoom)
         self.action_show_point_mark.toggled.connect(self.main_canvas.set_point_mark)
         self.action_show_dimensions.toggled.connect(self.main_canvas.set_show_dimension)
-
-    def __zoom(self) -> None:
-        """Zoom functions.
-
-        + 'zoom to fit' function connections.
-        + Zoom text buttons
-        """
-        def zoom_level(value: int) -> Callable[[], None]:
-            """Return a function that set the specified zoom value."""
-            @Slot()
-            def func() -> None:
-                self.zoom_bar.setValue(value)
-            return func
-
-        self.action_zoom_to_fit.triggered.connect(self.main_canvas.zoom_to_fit)
-        self.reset_canvas_button.clicked.connect(self.main_canvas.zoom_to_fit)
-        zoom_menu = QMenu(self)
-        zoom_min = self.zoom_bar.minimum()
-        zoom_min = zoom_min - zoom_min % 100 + 100
-        for level in range(zoom_min, 500 + 1, 100):
-            action = QAction(f'{level}%', self)
-            action.triggered.connect(zoom_level(level))
-            zoom_menu.addAction(action)
-        action = QAction("customize", self)
-        action.triggered.connect(self.customize_zoom)
-        zoom_menu.addAction(action)
-        self.zoom_button.setMenu(zoom_menu)
 
     def __action(
         self,

@@ -143,10 +143,6 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def customize_zoom(self) -> None:
-        ...
-
-    @abstractmethod
     def preview_path(
         self,
         auto_preview: List[List[_Coord]],

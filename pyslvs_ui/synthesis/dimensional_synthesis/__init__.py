@@ -110,8 +110,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
         # Splitter
-        self.main_splitter.setStretchFactor(0, 100)
-        self.main_splitter.setStretchFactor(1, 10)
+        self.main_splitter.setStretchFactor(0, 10)
+        self.main_splitter.setStretchFactor(1, 100)
         self.up_splitter.setSizes([80, 100])
         self.down_splitter.setSizes([20, 80])
         # Table widget column width
