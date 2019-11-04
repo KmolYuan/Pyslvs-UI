@@ -33,24 +33,30 @@ class EditPathDialog(QDialog, Ui_Dialog):
         # Get the current path from parent widget
         self.path = parent.current_path().copy()
         self.set_path = parent.set_path
-        for x, y in self.path:
-            self.path_list.addItem(f"({x}, {y})")
-
-    @Slot(name='on_scaling_button_clicked')
-    def __scale(self) -> None:
-        ox = self.scaling_rx.value()
-        oy = self.scaling_ry.value()
-        rx = self.scaling_rx.value()
-        ry = self.scaling_ry.value()
-        sh = self.scaling_h.value()
-        sv = self.scaling_v.value()
-        self.set_path((ox + (x - rx) * sh, oy + (y - ry) * sv) for x, y in self.path)
-        self.accept()
 
     @Slot(name='on_moving_button_clicked')
     def __move(self) -> None:
-        """Translate functions."""
-        mx = self.moving_x_coordinate.value()
-        my = self.moving_y_coordinate.value()
+        """Translate function."""
+        mx = self.move_x.value()
+        my = self.move_y.value()
         self.set_path((x + mx, y + my) for x, y in self.path)
+        self.accept()
+
+    @Slot(name='on_scaling_button_clicked')
+    def __scale(self) -> None:
+        """Scale function."""
+        ox = self.scale_rx.value()
+        oy = self.scale_ry.value()
+        rx = self.scale_rx.value()
+        ry = self.scale_ry.value()
+        sh = self.scale_h.value()
+        sv = self.scale_v.value()
+        self.set_path((ox + (x - rx) * sh, oy + (y - ry) * sv) for x, y in self.path)
+        self.accept()
+
+    @Slot(name='on_reduce_button_clicked')
+    def __reduce(self) -> None:
+        """Reduce function."""
+        n = self.reduce_n.value()
+        self.set_path(self.path[::n])
         self.accept()
