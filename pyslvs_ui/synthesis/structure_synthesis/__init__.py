@@ -38,7 +38,7 @@ from qtpy.QtGui import QIcon, QPixmap, QImage, QPainter
 from pyslvs import Graph, link_assortment, contracted_link_assortment
 from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engines
-from .thread import assortment_eval, LinkSynthesisThread, GraphEnumerateThread
+from .thread import assortment_eval, LinkThread, GraphThread
 from .structure_widget_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
@@ -268,7 +268,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.link_assortment_list.setCurrentItem(first_item)
             dlg.deleteLater()
 
-        work = LinkSynthesisThread(nl, nj, dlg)
+        work = LinkThread(nl, nj, dlg)
         work.progress_update.connect(dlg.setValue)
         work.size_update.connect(dlg.setMaximum)
         work.result.connect(update_result)
@@ -351,7 +351,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.__set_time_count(perf_counter() - t0, len(self.answer))
             self.__reload_atlas()
 
-        work = GraphEnumerateThread(jobs, self.graph_degenerate.currentIndex(), dlg)
+        work = GraphThread(jobs, self.graph_degenerate.currentIndex(), dlg)
         work.count_update.connect(update_count)
         work.progress_update.connect(dlg.setValue)
         work.result.connect(update_result)

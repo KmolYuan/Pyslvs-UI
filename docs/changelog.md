@@ -10,6 +10,7 @@
     + Correction of zoom value.
     + Add "default zoom value" option.
 + Add "reduce" function for synthesis target path.
++ Ensure close the QThread before accept the dialog.
 
 **Development**:
 

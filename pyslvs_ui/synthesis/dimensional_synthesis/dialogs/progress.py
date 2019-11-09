@@ -12,7 +12,7 @@ from qtpy.QtCore import Qt, QTimer, Signal, Slot
 from qtpy.QtWidgets import QDialog
 from pyslvs_ui.info import logger
 from .progress_ui import Ui_Dialog
-from .thread import WorkerThread
+from .thread import DimensionalThread
 from .options import AlgorithmType
 
 
@@ -75,7 +75,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.time_spend = 0.
 
         # Worker thread
-        self.work = WorkerThread(type_num, mech_params, setting, self)
+        self.work = DimensionalThread(type_num, mech_params, setting, self)
         self.stop_signal.connect(self.work.stop)
         if self.work.is_two_kernel():
             self.fast_kernel_label.hide()
@@ -130,6 +130,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __finish(self) -> None:
         """Finish the process."""
         self.timer.stop()
+        self.work.wait()
         self.accept()
 
     @Slot(name='on_interrupt_button_clicked')

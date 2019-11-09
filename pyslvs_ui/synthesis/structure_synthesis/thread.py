@@ -27,7 +27,7 @@ def assortment_eval(links_expr: str) -> Assortment:
     return tuple(int(n.split('=')[-1]) for n in links_expr.split(", "))
 
 
-class LinkSynthesisThread(BaseThread):
+class LinkThread(BaseThread):
 
     """Link assortment synthesis thread."""
 
@@ -36,7 +36,7 @@ class LinkSynthesisThread(BaseThread):
     size_update = Signal(int)
 
     def __init__(self, nl: int, nj: int, parent: QWidget) -> None:
-        super(LinkSynthesisThread, self).__init__(parent)
+        super(LinkThread, self).__init__(parent)
         self.nl = nl
         self.nj = nj
 
@@ -61,7 +61,7 @@ class LinkSynthesisThread(BaseThread):
         self.finished.emit()
 
 
-class GraphEnumerateThread(BaseThread):
+class GraphThread(BaseThread):
 
     """Graphs enumeration thread."""
 
@@ -70,7 +70,7 @@ class GraphEnumerateThread(BaseThread):
     result = Signal(list)
 
     def __init__(self, jobs: Sequence[QTreeWidgetItem], degenerate: int, parent: QWidget) -> None:
-        super(GraphEnumerateThread, self).__init__(parent)
+        super(GraphThread, self).__init__(parent)
         self.jobs = jobs
         self.degenerate = degenerate
 

@@ -20,7 +20,7 @@ from pyslvs_ui.synthesis.thread import BaseThread
 from .options import AlgorithmType
 
 
-class WorkerThread(BaseThread):
+class DimensionalThread(BaseThread):
 
     """The QThread class to handle algorithm."""
 
@@ -34,7 +34,7 @@ class WorkerThread(BaseThread):
         settings: Dict[str, Any],
         parent: QWidget
     ):
-        super(WorkerThread, self).__init__(parent)
+        super(DimensionalThread, self).__init__(parent)
         self.type_num = type_num
         self.mech_params = mech_params
         self.planar = Planar(self.mech_params)
