@@ -11,6 +11,7 @@
     + Add "default zoom value" option.
 + Add "reduce" function for synthesis target path.
 + Ensure close the QThread before accept the dialog.
++ Remove the QMutex lock, which caused crash on Windows platform.
 
 **Development**:
 

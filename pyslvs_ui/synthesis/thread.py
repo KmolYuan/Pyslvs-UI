@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from qtpy.QtCore import Slot, QThread, QMutex
+from qtpy.QtCore import Slot, QThread
 from qtpy.QtWidgets import QWidget
 from pyslvs_ui.qt_patch import QABCMeta
 
@@ -22,11 +22,8 @@ class BaseThread(QThread, metaclass=QABCMeta):
         super(BaseThread, self).__init__(parent)
         self.finished.connect(self.deleteLater)
         self.is_stop = False
-        self.mutex = QMutex()
 
     @Slot()
     def stop(self) -> None:
         """Stop the algorithm."""
-        self.mutex.unlock()
         self.is_stop = True
-        self.mutex.lock()
