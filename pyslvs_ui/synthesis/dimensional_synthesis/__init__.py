@@ -343,9 +343,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_close_path_clicked')
     def __close_path(self) -> None:
         """Add a the last point same as first point."""
-        current_path = self.current_path()
-        if self.path_list.count() > 1 and current_path[0] != current_path[-1]:
-            self.add_point(*current_path[0])
+        path = self.current_path()
+        if self.path_list.count() > 1 and path[0] != path[-1]:
+            self.add_point(*path[0])
 
     @Slot(name='on_point_up_clicked')
     def __move_up_point(self) -> None:
@@ -356,8 +356,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         path = self.current_path()
         path.insert(row - 1, (path[row][0], path[row][1]))
         path.pop(row + 1)
-        x, y = self.path_list.currentItem().text()[1:-1].split(", ")
-        self.path_list.insertItem(row - 1, f"({x}, {y})")
+        c = self.path_list.currentItem().text()[1:-1].split(", ")
+        self.path_list.insertItem(row - 1, f"({c[0]}, {c[1]})")
         self.path_list.takeItem(row + 1)
         self.path_list.setCurrentRow(row - 1)
         self.__current_path_changed()
@@ -374,8 +374,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         path = self.current_path()
         path.insert(row + 2, (path[row][0], path[row][1]))
         path.pop(row)
-        x, y = self.path_list.currentItem().text()[1:-1].split(", ")
-        self.path_list.insertItem(row + 2, f"({x}, {y})")
+        c = self.path_list.currentItem().text()[1:-1].split(", ")
+        self.path_list.insertItem(row + 2, f"{c[0]}, {c[1]}")
         self.path_list.takeItem(row)
         self.path_list.setCurrentRow(row + 1)
         self.__current_path_changed()
@@ -453,9 +453,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-        mechanisms = dlg.mechanisms
         mechanisms_plot: List[Dict[str, Any]] = []
-        for data in mechanisms:
+        for data in dlg.mechanisms:
             mechanisms_plot.append({
                 'time_fitness': data.pop('time_fitness'),
                 'Algorithm': data['Algorithm'],
@@ -662,9 +661,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         target: Dict[int, List[_Coord]] = self.mech_params['Target']
         for p in sorted(target):
             self.target_points.addItem(f"P{p}")
-            path = target[p]
-            if path:
-                self.path[p] = path.copy()
+            if target[p]:
+                self.path[p] = target[p].copy()
             else:
                 self.path[p] = []
         if self.has_target():
