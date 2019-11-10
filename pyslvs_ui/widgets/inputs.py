@@ -11,6 +11,7 @@ __email__ = "pyslvs@gmail.com"
 
 import csv
 from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
+from copy import copy
 from qtpy.QtCore import Signal, Slot, QTimer, QPoint
 from qtpy.QtWidgets import (
     QWidget,
@@ -492,7 +493,7 @@ class InputsWidget(QWidget, Ui_Form):
             while name_copy in self.__path_data:
                 name_copy = f"{name}_{num}"
                 num += 1
-            self.add_path(name_copy, data.copy())
+            self.add_path(name_copy, copy(data))
         elif text.startswith("Copy data from"):
             # Copy data to clipboard (csv)
             QApplication.clipboard().setText('\n'.join(
