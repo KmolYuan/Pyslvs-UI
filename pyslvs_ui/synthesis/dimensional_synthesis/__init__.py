@@ -44,6 +44,7 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import (
+    VLink,
     vpoints_configure,
     expr_solving,
     parse_pos,
@@ -669,25 +670,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.target_points.setCurrentRow(0)
         self.target_label.setVisible(self.has_target())
         # Parameter of link length and input angle.
-        link_list = set()
+        link_list = []
         for vlink in parse_vlinks(expression):
-            if len(vlink.points) < 2 or vlink.name == "ground":
+            if len(vlink.points) < 2 or vlink.name == VLink.FRAME:
                 continue
             a = vlink.points[0]
             b = vlink.points[1]
-            link_list.add(f"P{a}<->P{b}")
+            link_list.append((a, b))
             for c in vlink.points[2:]:
                 for d in (a, b):
-                    link_list.add(f"P{c}<->P{d}")
+                    link_list.append((c, d))
         link_count = len(link_list)
-        angle_list = set()
-        input_list: List[Tuple[int, int]] = self.mech_params['input']
-        for b, d in input_list:
-            angle_list.add(f"P{b}->P{d}")
-        angle_count = len(angle_list)
+        input_list: Dict[Tuple[int, int], Tuple[float, float]] = self.mech_params['input']
         self.parameter_list.setRowCount(0)
         placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech_params['Placement']
-        self.parameter_list.setRowCount(len(placement) + link_count + angle_count)
+        self.parameter_list.setRowCount(len(input_list) + len(placement) + link_count)
+
+        # Table settings
+        row = 0
 
         def spinbox(
             v: float,
@@ -705,12 +705,37 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 double_spinbox.setPrefix("±")
             return double_spinbox
 
-        # Position
+        def set_angle(
+            n1: int,
+            n2: int,
+            is_start: bool
+        ) -> Callable[[float], None]:
+            """Return a slot function use to set angle value."""
+            @Slot(float)
+            def func(value: float) -> None:
+                if is_start:
+                    input_list[n1, n2] = (value, input_list[n1, n2][1])
+                else:
+                    input_list[n1, n2] = (input_list[n1, n2][0], value)
+            return func
+
+        # Angles
+        for (b, d), (start, end) in input_list.items():
+            self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{b}->P{d}"))
+            self.parameter_list.setItem(row, 1, QTableWidgetItem('Input'))
+            s1 = spinbox(start, maximum=360.)
+            s2 = spinbox(end, maximum=360.)
+            self.parameter_list.setCellWidget(row, 2, s1)
+            self.parameter_list.setCellWidget(row, 3, s2)
+            s1.valueChanged.connect(set_angle(b, d, True))
+            s2.valueChanged.connect(set_angle(b, d, False))
+            row += 1
+
+        # Grounded joints
         self.preview_canvas.from_profile(self.mech_params)
         pos_list = parse_pos(expression)
         for node, ref in sorted(self.preview_canvas.same.items()):
             pos_list.insert(node, pos_list[ref])
-        row = 0
         for p in sorted(placement):
             coord = placement[p]
             self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{p}"))
@@ -727,7 +752,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Default value of upper and lower
         for name in ('upper', 'lower'):
             if name not in self.mech_params:
-                self.mech_params[name] = [0.] * (link_count + angle_count)
+                self.mech_params[name] = [0.] * link_count
         upper_list: List[float] = self.mech_params['upper']
         lower_list: List[float] = self.mech_params['lower']
 
@@ -755,43 +780,25 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 lower_list[index] = center - value
             return func
 
-        for i, name in enumerate(sorted(link_list) + sorted(angle_list)):
-            name_item = QTableWidgetItem(name)
-            name_item.setToolTip(name)
-            self.parameter_list.setItem(row, 0, name_item)
+        # Links
+        for i, (a, b) in enumerate(sorted(link_list)):
+            self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{a}<->P{b}"))
             upper = upper_list[i]
             lower = lower_list[i]
-            if name in link_list:
-                type_name = "Link"
-                pair = name.split('<->')
-                link_length = self.preview_canvas.distance(
-                    int(pair[0].replace('P', '')),
-                    int(pair[1].replace('P', ''))
-                )
-                if upper == 0.:
-                    upper = link_length + 50
-                if lower <= 0.:
-                    lower = link_length - 50
-                    lower = 0. if lower < 0 else lower
-            else:
-                type_name = "Input"
-                if upper == 0.:
-                    upper = 360.
-            self.parameter_list.setItem(row, 1, QTableWidgetItem(type_name))
+            link_length = self.preview_canvas.distance(a, b)
+            self.parameter_list.setItem(row, 1, QTableWidgetItem('Link'))
             # Set values
-            upper_list[i] = upper
-            lower_list[i] = lower
-            # Spin box
+            if upper_list[i] == 0.:
+                upper_list[i] = link_length + 50
+            if lower_list[i] <= 0.:
+                lower_list[i] = link_length - 50
+                lower_list[i] = 0. if lower_list[i] < 0 else lower_list[i]
+            # Spinbox
             error_range = (upper - lower) / 2
-            default_value = error_range + lower
-            if name in link_list:
-                s1 = spinbox(default_value)
-            else:
-                s1 = spinbox(default_value, maximum=360.)
-            self.parameter_list.setCellWidget(row, 2, s1)
+            s1 = spinbox(error_range + lower)
             s2 = spinbox(error_range, prefix=True)
+            self.parameter_list.setCellWidget(row, 2, s1)
             self.parameter_list.setCellWidget(row, 4, s2)
-            # Signals
             s1.valueChanged.connect(set_by_center(i, s2.value))
             s2.valueChanged.connect(set_by_range(i, s1.value))
             row += 1
