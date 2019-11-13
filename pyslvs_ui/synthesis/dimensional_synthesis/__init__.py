@@ -25,10 +25,9 @@ from typing import (
     Any,
 )
 from math import hypot
-import csv
 import pprint
 from copy import deepcopy
-from re import split as char_split
+from re import finditer
 from openpyxl import load_workbook
 from qtpy.QtCore import Slot, QModelIndex
 from qtpy.QtWidgets import (
@@ -72,6 +71,7 @@ if TYPE_CHECKING:
 
 __all__ = ['DimensionalSynthesis']
 _Coord = Tuple[float, float]
+_PATH_PATTERN = r"(\d+\.?\d*)[\t ]*[,+/]?[\t ]*(\d+\.?\d*)\s*"
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
@@ -212,7 +212,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_path_paste_clicked')
     def __paste_path(self) -> None:
         """Paste path data from clipboard."""
-        self.__read_path_from_csv(char_split(r"[;,\n]", QApplication.clipboard().text()))
+        self.__read_path_from_csv(QApplication.clipboard().text())
 
     @Slot(name='on_import_csv_button_clicked')
     def __import_csv(self) -> None:
@@ -223,29 +223,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         if not file_name:
             return
-        data: List[str] = []
         with open(file_name, 'r', encoding='utf-8', newline='') as f:
-            for row in csv.reader(f, delimiter=' ', quotechar='|'):
-                data += " ".join(row).split(',')
+            data = f.read()
         self.__read_path_from_csv(data)
 
-    def __read_path_from_csv(self, raw_data: List[str]) -> None:
+    def __read_path_from_csv(self, raw_data: str) -> None:
         """Turn string to float then add them to current target path."""
-        try:
-            data = [
-                (float(raw_data[i]), float(raw_data[i + 1]))
-                for i in range(0, len(raw_data), 2)
-            ]
-        except (IndexError, ValueError):
-            QMessageBox.warning(
-                self,
-                "File error",
-                "Wrong format.\nIt should be look like this:"
-                + ("\n0.0,0.0[\\n]" * 3)
-            )
-            return
-        for x, y in data:
-            self.add_point(x, y)
+        for m in finditer(_PATH_PATTERN, raw_data):
+            self.add_point(float(m.group(1) or 0), float(m.group(2) or 0))
 
     @Slot(name='on_import_xlsx_button_clicked')
     def __import_xlsx(self) -> None:
