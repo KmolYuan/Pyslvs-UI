@@ -71,7 +71,7 @@ if TYPE_CHECKING:
 
 __all__ = ['DimensionalSynthesis']
 _Coord = Tuple[float, float]
-_PATH_PATTERN = r"(\d+\.?\d*)[\t ]*[,+/]?[\t ]*(\d+\.?\d*)\s*"
+_PATH_PATTERN = r"([+-]?\d+\.?\d*)[\t ]*[,/]?[\t ]*([+-]?\d+\.?\d*)[ji]?;?\s*"
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
@@ -96,6 +96,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.collections = parent.collections.configure_widget.collections
         self.get_collection = parent.get_configure
         self.input_from = parent.input_from
+        self.output_to = parent.output_to
+        self.save_reply_box = parent.save_reply_box
         self.project_no_save = parent.project_no_save
         self.merge_result = parent.merge_result
         self.update_ranges = parent.main_canvas.update_ranges
@@ -227,10 +229,23 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             data = f.read()
         self.__read_path_from_csv(data)
 
-    def __read_path_from_csv(self, raw_data: str) -> None:
+    def __read_path_from_csv(self, raw: str) -> None:
         """Turn string to float then add them to current target path."""
-        for m in finditer(_PATH_PATTERN, raw_data):
+        for m in finditer(_PATH_PATTERN, raw):
             self.add_point(float(m.group(1) or 0), float(m.group(2) or 0))
+
+    @Slot(name='on_save_path_button_clicked')
+    def __save_path(self):
+        """Save current path."""
+        path = self.current_path()
+        if not path:
+            return
+        file_name = self.output_to("Path file", ["Text file (*.txt)"])
+        if not file_name:
+            return
+        with open(file_name, 'w+', encoding='utf-8') as f:
+            f.write("\n".join(f"{x}, {y}" for x, y in path))
+        self.save_reply_box("Path file", file_name)
 
     @Slot(name='on_import_xlsx_button_clicked')
     def __import_xlsx(self) -> None:
@@ -387,9 +402,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.path_list.count() > 2 and
             self.expression_string.text()
         )
-        self.edit_path_button.setEnabled(n)
-        self.efd_button.setEnabled(n)
-        self.synthesis_button.setEnabled(n)
+        for button in (
+            self.save_path_button,
+            self.edit_path_button,
+            self.efd_button,
+            self.synthesis_button,
+        ):
+            button.setEnabled(n)
 
     @Slot(name='on_synthesis_button_clicked')
     def __synthesis(self) -> None:

@@ -13,6 +13,7 @@
 + Ensure close the QThread before accept the dialog.
 + Remove the QMutex lock, which caused crash on Windows platform.
 + Improve the pattern of path file format.
++ Add "save path" function.
 
 **Development**:
 

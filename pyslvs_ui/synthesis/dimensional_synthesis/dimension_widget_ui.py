@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/synthesis/dimensional_synthesis/dimension_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(564, 682)
+        Form.resize(564, 795)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -235,6 +235,11 @@ class Ui_Form(object):
         self.horizontalLayout_5.addLayout(self.verticalLayout_8)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.save_path_button = QtWidgets.QPushButton(self.layoutWidget)
+        self.save_path_button.setIcon(icon6)
+        self.save_path_button.setIconSize(QtCore.QSize(40, 40))
+        self.save_path_button.setObjectName("save_path_button")
+        self.verticalLayout_3.addWidget(self.save_path_button)
         self.import_xlsx_button = QtWidgets.QPushButton(self.layoutWidget)
         self.import_xlsx_button.setText("")
         icon14 = QtGui.QIcon()
@@ -329,7 +334,6 @@ class Ui_Form(object):
         self.verticalLayout_4.addWidget(self.main_splitter)
 
         self.retranslateUi(Form)
-        self.options_tab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -364,9 +368,8 @@ class Ui_Form(object):
         self.point_delete.setStatusTip(_translate("Form", "Remove the point."))
         self.close_path.setStatusTip(_translate("Form", "Close the path."))
         self.edit_target_point_button.setStatusTip(_translate("Form", "User can edit target point immediately."))
-        self.import_xlsx_button.setToolTip(_translate("Form", "Microsoft Excel"))
+        self.save_path_button.setStatusTip(_translate("Form", "Save current path as csv file."))
         self.import_xlsx_button.setStatusTip(_translate("Form", "Import path from Microsoft Excel format."))
-        self.import_csv_button.setToolTip(_translate("Form", "CSV"))
         self.import_csv_button.setStatusTip(_translate("Form", "Import path from CSV format."))
         self.edit_path_button.setStatusTip(_translate("Form", "Edit the target path."))
         self.efd_button.setStatusTip(_translate("Form", "Using Elliptical Fourier Descriptor to regenerate the path."))

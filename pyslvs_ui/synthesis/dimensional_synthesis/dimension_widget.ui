@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>564</width>
-    <height>682</height>
+    <height>795</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -112,9 +112,6 @@
       </layout>
      </widget>
      <widget class="QTabWidget" name="options_tab">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
@@ -437,10 +434,24 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
-                 <widget class="QPushButton" name="import_xlsx_button">
-                  <property name="toolTip">
-                   <string>Microsoft Excel</string>
+                 <widget class="QPushButton" name="save_path_button">
+                  <property name="statusTip">
+                   <string>Save current path as csv file.</string>
                   </property>
+                  <property name="icon">
+                   <iconset resource="../../icons.qrc">
+                    <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>40</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="import_xlsx_button">
                   <property name="statusTip">
                    <string>Import path from Microsoft Excel format.</string>
                   </property>
@@ -461,9 +472,6 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="import_csv_button">
-                  <property name="toolTip">
-                   <string>CSV</string>
-                  </property>
                   <property name="statusTip">
                    <string>Import path from CSV format.</string>
                   </property>
