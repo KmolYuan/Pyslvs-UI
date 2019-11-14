@@ -91,9 +91,9 @@ Most of classes and functions can be work with a generic Python format (just lik
 
     Graph combination algorithm.
 
-#### Adesign (Dimensional Synthesis)
+#### metaheuristics (Dimensional Synthesis)
 
-[Adesign](https://github.com/KmolYuan/Adesign) module: Cython algorithms libraries provide evolution designing.
+[metaheuristics](https://github.com/KmolYuan/metaheuristics) module: Cython algorithms libraries provide evolution designing.
 
 + **verify** library:
 

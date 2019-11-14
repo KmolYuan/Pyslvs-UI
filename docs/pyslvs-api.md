@@ -1127,7 +1127,7 @@ The argument `status` will track the configuration of each point, which is optio
 
 Verification function base class.
 It is used to build the verification function for Metaheuristic Random Algorithms.
-See the sections of [Adesign API](adesign-api.md).
+See the sections of [metaheuristics API](metaheuristics-api.md).
 
 #### Verification.fitness()
 
@@ -1160,7 +1160,7 @@ Return the result from the variable list `v`.
 
 Algorithm base class.
 It is used to build the Metaheuristic Random Algorithms.
-See the sections of [Adesign API](adesign-api.md).
+See the sections of [metaheuristics API](metaheuristics-api.md).
 
 #### AlgorithmBase.\_\_init__()
 

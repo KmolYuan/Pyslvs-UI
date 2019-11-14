@@ -100,15 +100,15 @@ ifeq ($(OS), Windows_NT)
 	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del *.cpp /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del *.pyd /q
-	-cd "$(PYSLVS_PATH)/pyslvs" && del Adesign\*.cpp /q
-	-cd "$(PYSLVS_PATH)/pyslvs" && del Adesign\*.pyd /q
+	-cd "$(PYSLVS_PATH)/pyslvs" && del metaheuristics\*.cpp /q
+	-cd "$(PYSLVS_PATH)/pyslvs" && del metaheuristics\*.pyd /q
 else
 	-rm -fr $(PYSLVS_PATH)/dist
 	-rm -fr $(PYSLVS_PATH)/pyslvs.egg-info
 	-rm -f $(PYSLVS_PATH)/pyslvs/*.cpp
 	-rm -f $(PYSLVS_PATH)/pyslvs/*.so
-	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.cpp
-	-rm -f $(PYSLVS_PATH)/pyslvs/Adesign/*.so
+	-rm -f $(PYSLVS_PATH)/pyslvs/metaheuristics/*.cpp
+	-rm -f $(PYSLVS_PATH)/pyslvs/metaheuristics/*.so
 endif
 
 clean-all: clean clean-kernel

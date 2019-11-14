@@ -1,8 +1,8 @@
-# Adesign API
+# metaheuristics API
 
 ## Namespace
 
-The namespace of Adesign is included in `pyslvs`.
+The namespace of metaheuristics is included in `pyslvs`.
 
 The modules are:
 
