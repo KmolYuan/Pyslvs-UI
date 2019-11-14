@@ -30,14 +30,14 @@ class DimensionalThread(BaseThread):
     def __init__(
         self,
         type_num: AlgorithmType,
-        mech_params: Dict[str, Any],
+        mech: Dict[str, Any],
         settings: Dict[str, Any],
         parent: QWidget
     ):
         super(DimensionalThread, self).__init__(parent)
         self.type_num = type_num
-        self.mech_params = mech_params
-        self.planar = Planar(self.mech_params)
+        self.mech = mech
+        self.planar = Planar(self.mech)
         self.settings = settings
         self.loop = 1
         self.current_loop = 0
@@ -52,7 +52,7 @@ class DimensionalThread(BaseThread):
 
     def run(self) -> None:
         """Start the algorithm loop."""
-        for name, path in self.mech_params['Target'].items():
+        for name, path in self.mech['Target'].items():
             logger.debug(f"- [P{name}] ({len(path)})")
         t0 = perf_counter()
         for self.current_loop in range(self.loop):
@@ -86,7 +86,7 @@ class DimensionalThread(BaseThread):
             },
             'time_fitness': tf,
         }
-        mechanism.update(self.mech_params)
+        mechanism.update(self.mech)
         mechanism['Expression'] = expression
         logger.info(f"cost time: {time_spend:.02f} [s]")
         return mechanism

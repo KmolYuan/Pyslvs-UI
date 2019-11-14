@@ -90,7 +90,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
-        self.mech_params: Dict[str, Any] = {}
+        self.mech: Dict[str, Any] = {}
         self.path: Dict[int, List[_Coord]] = {}
         # Some reference of 'collections'
         self.collections = parent.collections.configure_widget.collections
@@ -133,7 +133,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Clear sub-widgets that contain the setting."""
         self.clear_path(ask=False)
         self.path.clear()
-        self.mech_params.clear()
+        self.mech.clear()
         self.preview_canvas.clear()
         self.alg_options.clear()
         self.alg_options.update(DEFAULT_PARAMS)
@@ -398,7 +398,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             f"color:#00aa00;\">{self.path_list.count()}</span></p>"
         )
         n = bool(
-            self.mech_params
+            self.mech
             and self.path_list.count() > 2
             and self.expression_string.text()
         )
@@ -433,9 +433,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         else:
             type_num = AlgorithmType.DE
         # Deep copy it so the pointer will not the same
-        mech_params = deepcopy(self.mech_params)
-        mech_params['Expression'] = parse_vpoints(mech_params.pop('Expression', []))
-        mech_params['Target'] = deepcopy(self.path)
+        mech = deepcopy(self.mech)
+        mech['Expression'] = parse_vpoints(mech.pop('Expression', []))
+        mech['Target'] = deepcopy(self.path)
 
         def name_in_table(target_name: str) -> int:
             """Find a target_name and return the row from the table."""
@@ -444,7 +444,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     return r
             return -1
 
-        placement: Dict[int, Tuple[float, float, float]] = mech_params['Placement']
+        placement: Dict[int, Tuple[float, float, float]] = mech['Placement']
         for name in placement:
             row = name_in_table(f"P{name}")
             placement[name] = (
@@ -453,7 +453,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.parameter_list.cellWidget(row, 4).value(),
             )
         # Start progress dialog
-        dlg = ProgressDialog(type_num, mech_params, self.alg_options, self)
+        dlg = ProgressDialog(type_num, mech, self.alg_options, self)
         dlg.show()
         if not dlg.exec_():
             dlg.deleteLater()
@@ -608,7 +608,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_save_profile_clicked')
     def __save_profile(self) -> None:
         """Save as new profile to collection widget."""
-        if not self.mech_params:
+        if not self.mech:
             return
         name, ok = QInputDialog.getText(
             self,
@@ -621,11 +621,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         while (not name) and (name not in self.collections):
             name = f"Structure_{i}"
             i += 1
-        mech_params = deepcopy(self.mech_params)
+        mech = deepcopy(self.mech)
         for key in ('Placement', 'Target'):
-            for mp in mech_params[key]:
-                mech_params[key][mp] = None
-        self.collections[name] = mech_params
+            for mp in mech[key]:
+                mech[key][mp] = None
+        self.collections[name] = mech
         self.project_no_save()
 
     @Slot(name='on_load_profile_clicked')
@@ -660,10 +660,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __set_profile(self, profile_name: str, params: Dict[str, Any]) -> None:
         """Set profile to sub-widgets."""
         self.__clear_settings()
-        self.mech_params = deepcopy(params)
-        expression: str = self.mech_params['Expression']
+        self.mech = deepcopy(params)
+        expression: str = self.mech['Expression']
         self.expression_string.setText(expression)
-        target: Dict[int, List[_Coord]] = self.mech_params['Target']
+        target: Dict[int, List[_Coord]] = self.mech['Target']
         for p in sorted(target):
             self.target_points.addItem(f"P{p}")
             if target[p]:
@@ -685,9 +685,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 for d in (a, b):
                     link_list.append((c, d))
         link_count = len(link_list)
-        input_list: Dict[Tuple[int, int], Tuple[float, float]] = self.mech_params['input']
+        input_list: Dict[Tuple[int, int], Tuple[float, float]] = self.mech['input']
         self.parameter_list.setRowCount(0)
-        placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech_params['Placement']
+        placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech['Placement']
         self.parameter_list.setRowCount(len(input_list) + len(placement) + link_count)
 
         # Table settings
@@ -736,7 +736,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             row += 1
 
         # Grounded joints
-        self.preview_canvas.from_profile(self.mech_params)
+        self.preview_canvas.from_profile(self.mech)
         pos_list = parse_pos(expression)
         for node, ref in sorted(self.preview_canvas.same.items()):
             pos_list.insert(node, pos_list[ref])
@@ -755,10 +755,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             row += 1
         # Default value of upper and lower
         for name in ('upper', 'lower'):
-            if name not in self.mech_params:
-                self.mech_params[name] = [0.] * link_count
-        upper_list: List[float] = self.mech_params['upper']
-        lower_list: List[float] = self.mech_params['lower']
+            if name not in self.mech:
+                self.mech[name] = [0.] * link_count
+        upper_list: List[float] = self.mech['upper']
+        lower_list: List[float] = self.mech['lower']
 
         def set_by_center(
             index: int,
@@ -809,8 +809,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.update_range()
         self.profile_name.setText(profile_name)
         # Default value of algorithm option.
-        if 'settings' in self.mech_params:
-            self.alg_options.update(self.mech_params['settings'])
+        if 'settings' in self.mech:
+            self.alg_options.update(self.mech['settings'])
         else:
             self.__set_algorithm_default()
         self.__able_to_generate()

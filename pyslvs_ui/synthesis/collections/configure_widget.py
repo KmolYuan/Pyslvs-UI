@@ -307,21 +307,21 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Get the current mechanism parameters."""
         self.__set_parm_bind()
 
-        input_list: List[Tuple[int, int]] = []
+        input_list = {}
         for s in list_texts(self.driver_list):
             pair: Tuple[int, int] = eval(s.replace('P', ''))
             if set(pair) & set(self.configure_canvas.same):
                 continue
-            input_list.append(pair)
+            input_list[pair] = (0, 360)
 
-        place_list: Dict[int, None] = {}
+        place_list = {}
         for i in range(self.driver_base.count()):
             joint = int(self.driver_base.itemText(i).replace('P', ''))
             if joint in self.configure_canvas.same:
                 continue
             place_list[joint] = None
 
-        target_list: Dict[int, None] = {}
+        target_list = {}
         for s in list_texts(self.target_list):
             target_list[int(s.replace('P', ''))] = None
 

@@ -29,7 +29,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     def __init__(
         self,
         type_num: AlgorithmType,
-        mech_params: Dict[str, Any],
+        mech: Dict[str, Any],
         setting: Dict[str, Any],
         parent
     ):
@@ -75,7 +75,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.time_spend = 0.
 
         # Worker thread
-        self.work = DimensionalThread(type_num, mech_params, setting, self)
+        self.work = DimensionalThread(type_num, mech, setting, self)
         self.stop_signal.connect(self.work.stop)
         if self.work.is_two_kernel():
             self.fast_kernel_label.hide()
