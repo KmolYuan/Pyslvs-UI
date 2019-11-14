@@ -298,12 +298,12 @@ class ConfigureWidget(QWidget, Ui_Form):
     def __get_current_mech(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.__set_parm_bind()
-        input_list = {}
+        input_list = []
         for s in list_texts(self.driver_list):
             pair: Tuple[int, int] = eval(s.replace('P', ''))
             if set(pair) & set(self.configure_canvas.same):
                 continue
-            input_list[pair] = (0, 360)
+            input_list.append((pair, [0, 360]))
         place_list = {}
         for i in range(self.driver_base.count()):
             joint = int(self.driver_base.itemText(i).replace('P', ''))
@@ -359,7 +359,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         for row in PreviewCanvas.grounded_detect(set(params['placement']), graph, same):
             self.__set_grounded(row)
         # Driver, Target
-        input_list: List[Tuple[int, int]] = params['input']
+        input_list: List[Tuple[Tuple[int, int], Tuple[float, float]]] = params['input']
         self.driver_list.addItems(f"(P{b}, P{d})" for b, d in input_list)
         self.configure_canvas.set_driver(input_list)
         _set_warning(self.driver_label, self.driver_list.count() == 0)

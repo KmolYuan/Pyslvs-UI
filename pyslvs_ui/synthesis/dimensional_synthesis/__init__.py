@@ -562,9 +562,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         result = self.mechanism_data[row]
         expression: str = result['expression']
         same: Dict[int, int] = result['same']
-        inputs: List[Tuple[int, int]] = result['input']
+        inputs: List[Tuple[Tuple[int, int], Tuple[float, float]]] = result['input']
         input_list = []
-        for b, d in inputs:
+        for (b, d), _ in inputs:
             for i in range(b):
                 if i in same:
                     b -= 1
@@ -685,7 +685,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 for d in (a, b):
                     link_list.append((c, d))
         link_count = len(link_list)
-        inputs: Dict[Tuple[int, int], List[float]] = self.mech['input']
+        inputs: List[Tuple[Tuple[int, int], List[float]]] = self.mech['input']
         self.parameter_list.setRowCount(0)
         placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech['placement']
         # Table settings
@@ -707,30 +707,23 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 double_spinbox.setPrefix("±")
             return double_spinbox
 
-        def set_angle(
-            n1: int,
-            n2: int,
-            is_start: bool
-        ) -> Callable[[float], None]:
+        def set_angle(index1: int, index2: int) -> Callable[[float], None]:
             """Return a slot function use to set angle value."""
             @Slot(float)
             def func(value: float) -> None:
-                if is_start:
-                    inputs[n1, n2][0] = value
-                else:
-                    inputs[n1, n2][1] = value
+                inputs[index1][1][index2] = value
             return func
 
         # Angles
-        for (b, d), (start, end) in inputs.items():
+        for i, ((b, d), se) in enumerate(inputs):
             self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{b}->P{d}"))
             self.parameter_list.setItem(row, 1, QTableWidgetItem('input'))
-            s1 = spinbox(start, maximum=360.)
-            s2 = spinbox(end, maximum=360.)
+            s1 = spinbox(se[0], maximum=360.)
+            s2 = spinbox(se[1], maximum=360.)
             self.parameter_list.setCellWidget(row, 2, s1)
             self.parameter_list.setCellWidget(row, 3, s2)
-            s1.valueChanged.connect(set_angle(b, d, True))
-            s2.valueChanged.connect(set_angle(b, d, False))
+            s1.valueChanged.connect(set_angle(i, 0))
+            s2.valueChanged.connect(set_angle(i, 1))
             row += 1
 
         # Grounded joints

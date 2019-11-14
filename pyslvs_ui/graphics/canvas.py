@@ -731,9 +731,9 @@ class PreviewCanvas(BaseCanvas):
             self.set_grounded(row)
 
         # Driver setting
-        input_list: List[Tuple[int, int]] = params['input']
+        input_list: List[Tuple[Tuple[int, int], Tuple[float, float]]] = params['input']
         self.driver.clear()
-        self.driver.update(pair[0] for pair in input_list)
+        self.driver.update(b for (b, _), _ in input_list)
 
         # Target setting
         target: Dict[int, Sequence[_Coord]] = params['target']
