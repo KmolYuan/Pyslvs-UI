@@ -398,9 +398,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             f"color:#00aa00;\">{self.path_list.count()}</span></p>"
         )
         n = bool(
-            self.mech_params and
-            self.path_list.count() > 2 and
-            self.expression_string.text()
+            self.mech_params
+            and self.path_list.count() > 2
+            and self.expression_string.text()
         )
         for button in (
             self.save_path_button,

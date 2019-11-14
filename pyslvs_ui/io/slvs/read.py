@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Set, Dict, Any, Union
+from typing import Tuple, List, Set, Dict
 from pyslvs import VLink
 
 
