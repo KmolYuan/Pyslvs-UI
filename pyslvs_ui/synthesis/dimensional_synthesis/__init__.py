@@ -434,8 +434,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             type_num = AlgorithmType.DE
         # Deep copy it so the pointer will not the same
         mech = deepcopy(self.mech)
-        mech['Expression'] = parse_vpoints(mech.pop('Expression', []))
-        mech['Target'] = deepcopy(self.path)
+        mech['expression'] = parse_vpoints(mech.pop('expression', []))
+        mech['target'] = deepcopy(self.path)
 
         def name_in_table(target_name: str) -> int:
             """Find a target_name and return the row from the table."""
@@ -444,7 +444,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     return r
             return -1
 
-        placement: Dict[int, Tuple[float, float, float]] = mech['Placement']
+        placement: Dict[int, Tuple[float, float, float]] = mech['placement']
         for name in placement:
             row = name_in_table(f"P{name}")
             placement[name] = (
@@ -554,13 +554,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             "Merge",
             "Add the result expression into storage?"
         ) == QMessageBox.Yes:
-            expression: str = self.mechanism_data[row]['Expression']
+            expression: str = self.mechanism_data[row]['expression']
             self.merge_result(expression, self.__get_path(row))
 
     def __get_path(self, row: int) -> List[List[_Coord]]:
         """Using result data to generate paths of mechanism."""
         result = self.mechanism_data[row]
-        expression: str = result['Expression']
+        expression: str = result['expression']
         same: Dict[int, int] = result['same']
         inputs: List[Tuple[int, int]] = result['input']
         input_list = []
@@ -622,7 +622,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             name = f"Structure_{i}"
             i += 1
         mech = deepcopy(self.mech)
-        for key in ('Placement', 'Target'):
+        for key in ('placement', 'target'):
             for mp in mech[key]:
                 mech[key][mp] = None
         self.collections[name] = mech
@@ -648,7 +648,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.deleteLater()
         del dlg
         # Check the profile
-        if not (params['Target'] and params['input'] and params['Placement']):
+        if not (params['target'] and params['input'] and params['placement']):
             QMessageBox.warning(
                 self,
                 "Invalid profile",
@@ -661,9 +661,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Set profile to sub-widgets."""
         self.__clear_settings()
         self.mech = deepcopy(params)
-        expression: str = self.mech['Expression']
+        expression: str = self.mech['expression']
         self.expression_string.setText(expression)
-        target: Dict[int, List[_Coord]] = self.mech['Target']
+        target: Dict[int, List[_Coord]] = self.mech['target']
         for p in sorted(target):
             self.target_points.addItem(f"P{p}")
             if target[p]:
@@ -685,10 +685,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 for d in (a, b):
                     link_list.append((c, d))
         link_count = len(link_list)
-        input_list: Dict[Tuple[int, int], Tuple[float, float]] = self.mech['input']
+        inputs: Dict[Tuple[int, int], List[float]] = self.mech['input']
         self.parameter_list.setRowCount(0)
-        placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech['Placement']
-        self.parameter_list.setRowCount(len(input_list) + len(placement) + link_count)
+        placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech['placement']
+        self.parameter_list.setRowCount(len(inputs) + len(placement) + link_count)
 
         # Table settings
         row = 0
@@ -717,15 +717,15 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             @Slot(float)
             def func(value: float) -> None:
                 if is_start:
-                    input_list[n1, n2] = (value, input_list[n1, n2][1])
+                    inputs[n1, n2][0] = value
                 else:
-                    input_list[n1, n2] = (input_list[n1, n2][0], value)
+                    inputs[n1, n2][1] = value
             return func
 
         # Angles
-        for (b, d), (start, end) in input_list.items():
+        for (b, d), (start, end) in inputs.items():
             self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{b}->P{d}"))
-            self.parameter_list.setItem(row, 1, QTableWidgetItem('Input'))
+            self.parameter_list.setItem(row, 1, QTableWidgetItem('input'))
             s1 = spinbox(start, maximum=360.)
             s2 = spinbox(end, maximum=360.)
             self.parameter_list.setCellWidget(row, 2, s1)
@@ -742,7 +742,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for p in sorted(placement):
             coord = placement[p]
             self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{p}"))
-            self.parameter_list.setItem(row, 1, QTableWidgetItem('Placement'))
+            self.parameter_list.setItem(row, 1, QTableWidgetItem('placement'))
             x, y = self.preview_canvas.pos[p]
             for i, s in enumerate([
                 spinbox(coord[0] if coord else x, minimum=-9999.),
@@ -789,7 +789,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             upper = upper_list[i]
             lower = lower_list[i]
             link_length = self.preview_canvas.distance(a, b)
-            self.parameter_list.setItem(row, 1, QTableWidgetItem('Link'))
+            self.parameter_list.setItem(row, 1, QTableWidgetItem('link'))
             # Set values
             if upper_list[i] == 0.:
                 upper_list[i] = link_length + 50
@@ -918,7 +918,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 cast(float, t(row, 3)),
                 cast(float, t(row, 4)),
             ) for row in range(self.parameter_list.rowCount())
-            if t(row, 1) == 'Placement'
+            if t(row, 1) == 'placement'
         })
 
     @Slot(name='on_expr_copy_clicked')

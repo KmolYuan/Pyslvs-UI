@@ -18,6 +18,8 @@
 **Development**:
 
 + Remove "*.run" file from macOS release.
++ Projects are not backward compatible:
+    + All setting keys turn into lowercase.
 
 ## Version 19.10
 

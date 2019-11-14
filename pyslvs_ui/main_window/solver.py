@@ -551,11 +551,11 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
         vpoints = graph2vpoints(graph, pos, cus, same, grounded)
         return {
-            'Expression': self.get_expression(vpoints),
+            'expression': self.get_expression(vpoints),
             'input': input_list,
-            'Graph': graph.edges,
-            'Placement': {p: None for p in grounded_list},
-            'Target': {p: None for p in cus},
+            'graph': graph.edges,
+            'placement': {p: None for p in grounded_list},
+            'target': {p: None for p in cus},
             'cus': cus,
             'same': same,
         }

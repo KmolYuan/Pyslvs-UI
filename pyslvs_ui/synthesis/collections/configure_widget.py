@@ -326,11 +326,11 @@ class ConfigureWidget(QWidget, Ui_Form):
             target_list[int(s.replace('P', ''))] = None
 
         return {
-            'Expression': self.expr_show.text(),
+            'expression': self.expr_show.text(),
             'input': input_list,
-            'Graph': self.configure_canvas.graph.edges,
-            'Placement': place_list,
-            'Target': target_list,
+            'graph': self.configure_canvas.graph.edges,
+            'placement': place_list,
+            'target': target_list,
             'cus': self.configure_canvas.cus.copy(),
             'same': self.configure_canvas.same.copy(),
         }
@@ -353,8 +353,8 @@ class ConfigureWidget(QWidget, Ui_Form):
 
         # Add customize joints
         params = dlg.params
-        graph = Graph(params['Graph'])
-        expression: str = params['Expression']
+        graph = Graph(params['graph'])
+        expression: str = params['expression']
         pos_list = parse_pos(expression)
         cus: Dict[int, int] = params['cus']
         same: Dict[int, int] = params['same']
@@ -371,7 +371,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.configure_canvas.same = same
 
         # Grounded setting
-        for row in PreviewCanvas.grounded_detect(set(params['Placement']), graph, same):
+        for row in PreviewCanvas.grounded_detect(set(params['placement']), graph, same):
             self.__set_grounded(row)
 
         # Driver, Target
@@ -379,13 +379,13 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.driver_list.addItems(f"(P{b}, P{d})" for b, d in input_list)
         self.configure_canvas.set_driver(input_list)
         _set_warning(self.driver_label, self.driver_list.count() == 0)
-        target_list: Dict[int, Sequence[_Coord]] = params['Target']
+        target_list: Dict[int, Sequence[_Coord]] = params['target']
         self.configure_canvas.set_target(sorted(target_list))
         self.target_list.addItems(f"P{n}" for n in target_list)
         _set_warning(self.target_label, self.target_list.count() == 0)
 
         # Expression
-        self.expr_show.setText(params['Expression'])
+        self.expr_show.setText(params['expression'])
 
     @Slot(name='on_target_button_clicked')
     def __set_target(self) -> None:

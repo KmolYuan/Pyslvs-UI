@@ -36,13 +36,13 @@ class _DynamicCanvas(BaseCanvas):
         self.path.path = path
         self.vpoints = vpoints
         self.vlinks = vlinks
-        ranges: Dict[int, Tuple[float, float, float]] = self.mechanism['Placement']
+        ranges: Dict[int, Tuple[float, float, float]] = self.mechanism['placement']
         self.ranges.update({f"P{i}": QRectF(
             QPointF(values[0] - values[2], values[1] + values[2]),
             QSizeF(values[2] * 2, values[2] * 2)
         ) for i, values in ranges.items()})
         same: Dict[int, int] = self.mechanism['same']
-        target_path: Dict[int, List[Tuple[float, float]]] = self.mechanism['Target']
+        target_path: Dict[int, List[Tuple[float, float]]] = self.mechanism['target']
         for i, path in target_path.items():
             for j in range(i):
                 if j in same:
@@ -132,7 +132,7 @@ class _DynamicCanvas(BaseCanvas):
         # Points that in the current angle section.
         self.pos.clear()
         for i in range(len(self.vpoints)):
-            if i in self.mechanism['Placement']:
+            if i in self.mechanism['placement']:
                 self.pos.append(self.vpoints[i].c[0])
             else:
                 x, y = self.path.path[i][self.__index]
@@ -176,7 +176,7 @@ class _DynamicCanvas(BaseCanvas):
         fixed = False
         if f"P{i}" in self.target_path:
             color = color_rgb('Dark-Orange')
-        elif k in self.mechanism['Placement']:
+        elif k in self.mechanism['placement']:
             color = color_rgb('Blue')
             fixed = True
         self.draw_point(i, x, y, fixed, color)
@@ -256,7 +256,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([400, 150])
         self.splitter.setSizes([100, 100, 100])
-        vpoints = parse_vpoints(mechanism['Expression'])
+        vpoints = parse_vpoints(mechanism['expression'])
         vlinks = get_vlinks(vpoints)
         preview_widget = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
         self.left_layout.insertWidget(0, preview_widget)
@@ -264,7 +264,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         labels = []
         for tag, data in chain(
             [('Algorithm', mechanism['Algorithm']), ('time', mechanism['time'])],
-            [(f"P{i}", vpoints[i].c[0]) for i in mechanism['Placement']]
+            [(f"P{i}", vpoints[i].c[0]) for i in mechanism['placement']]
         ):
             if type(data) is tuple:
                 label = f"({data[0]:.02f}, {data[1]:.02f})"

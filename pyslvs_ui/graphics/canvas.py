@@ -715,8 +715,8 @@ class PreviewCanvas(BaseCanvas):
     def from_profile(self, params: Dict[str, Any]) -> None:
         """Simple load by dict object."""
         # Customize points and multiple joints
-        g = Graph(params['Graph'])
-        expression: str = params['Expression']
+        g = Graph(params['graph'])
+        expression: str = params['expression']
         pos_list = parse_pos(expression)
         cus: Dict[int, int] = params['cus']
         same: Dict[int, int] = params['same']
@@ -727,7 +727,7 @@ class PreviewCanvas(BaseCanvas):
         self.set_graph(g, {i: (x, y) for i, (x, y) in enumerate(pos_list)})
 
         # Grounded setting
-        for row in self.grounded_detect(set(params['Placement']), g, self.same):
+        for row in self.grounded_detect(set(params['placement']), g, self.same):
             self.set_grounded(row)
 
         # Driver setting
@@ -736,7 +736,7 @@ class PreviewCanvas(BaseCanvas):
         self.driver.update(pair[0] for pair in input_list)
 
         # Target setting
-        target: Dict[int, Sequence[_Coord]] = params['Target']
+        target: Dict[int, Sequence[_Coord]] = params['target']
         self.target.clear()
         self.target.update(target)
 

@@ -69,7 +69,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
             self.structures_list.addItem(str(edges))
         for name, data in config_data.items():
             item = QListWidgetItem(name)
-            item.setToolTip(data['Expression'])
+            item.setToolTip(data['expression'])
             self.triangular_iteration_list.addItem(item)
         self.__set_item_text(2, len(collection_data), len(config_data))
         # Dimensional synthesis

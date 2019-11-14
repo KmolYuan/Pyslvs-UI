@@ -52,7 +52,7 @@ class DimensionalThread(BaseThread):
 
     def run(self) -> None:
         """Start the algorithm loop."""
-        for name, path in self.mech['Target'].items():
+        for name, path in self.mech['target'].items():
             logger.debug(f"- [P{name}] ({len(path)})")
         t0 = perf_counter()
         for self.current_loop in range(self.loop):
@@ -87,7 +87,7 @@ class DimensionalThread(BaseThread):
             'time_fitness': tf,
         }
         mechanism.update(self.mech)
-        mechanism['Expression'] = expression
+        mechanism['expression'] = expression
         logger.info(f"cost time: {time_spend:.02f} [s]")
         return mechanism
 
