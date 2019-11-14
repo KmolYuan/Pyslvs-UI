@@ -12,7 +12,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Sequence, Dict, Optional
-from time import perf_counter
+from time import process_time
 from qtpy.QtCore import (
     Slot,
     Qt,
@@ -320,7 +320,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     def __structural_combine(self, jobs: Sequence[QTreeWidgetItem]) -> None:
         """Structural combine by iterator."""
-        t0 = perf_counter()
+        t0 = process_time()
         dlg = SynthesisProgressDialog(
             "Structural Synthesis",
             f"Number of cases: {len(jobs)}",
@@ -348,7 +348,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                     except ValueError:
                         pass
                 root.setText(1, f"{count}")
-            self.__set_time_count(perf_counter() - t0, len(self.answer))
+            self.__set_time_count(process_time() - t0, len(self.answer))
             self.__reload_atlas()
 
         work = GraphThread(jobs, self.graph_degenerate.currentIndex(), dlg)
@@ -379,7 +379,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self
         )
         dlg.show()
-        t0 = perf_counter()
+        t0 = process_time()
         for i, G in enumerate(self.answer):
             QCoreApplication.processEvents()
             if dlg.wasCanceled():
@@ -388,7 +388,7 @@ class StructureSynthesis(QWidget, Ui_Form):
                 dlg.setValue(i + 1)
             else:
                 break
-        self.__set_paint_time(perf_counter() - t0)
+        self.__set_paint_time(process_time() - t0)
         dlg.setValue(dlg.maximum())
         dlg.deleteLater()
         scroll_bar.setSliderPosition(scroll_pos)

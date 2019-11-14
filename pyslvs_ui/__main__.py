@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from time import perf_counter
+from time import process_time
 from sys import argv, exit
 from os.path import join
 from logging import shutdown
@@ -19,6 +19,7 @@ _app = None
 def main() -> None:
     """Startup function."""
     global _app
+    t0 = process_time()
     from qtpy.QtCore import Qt, QDir, QLockFile
     from qtpy.QtWidgets import QApplication, QSplashScreen
     from qtpy.QtGui import QPixmap
@@ -27,7 +28,7 @@ def main() -> None:
         from importlib import import_module
         import_module('pyslvs_ui.main_window')
         logger.info("All module loaded successfully.")
-        logger.info(f"Loaded with: {perf_counter():.02f}s")
+        logger.info(f"Loaded with: {process_time() - t0:.02f}s")
         shutdown()
         exit(0)
 
@@ -50,9 +51,8 @@ def main() -> None:
     from .main_window import MainWindow
     sp.finish(MainWindow.new())
     sp.deleteLater()
-    logger.info(f"Startup with: {perf_counter():.02f}s")
     del sp
-
+    logger.info(f"Startup with: {process_time() - t0:.02f}s")
     qt_exit_code = _app.exec_()
     shutdown()
     exit(qt_exit_code)

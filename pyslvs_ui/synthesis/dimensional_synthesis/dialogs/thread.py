@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, List, Dict, Type, Any, Optional
-from time import perf_counter
+from time import process_time
 from platform import system, release, machine
 from psutil import virtual_memory
 from numpy.distutils.cpuinfo import cpu
@@ -55,7 +55,7 @@ class DimensionalThread(BaseThread):
         """Start the algorithm loop."""
         for name, path in self.mech['target'].items():
             logger.debug(f"- [P{name}] ({len(path)})")
-        t0 = perf_counter()
+        t0 = process_time()
         for self.current_loop in range(self.loop):
             logger.info(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
             if self.is_stop:
@@ -63,14 +63,14 @@ class DimensionalThread(BaseThread):
                 logger.info("Canceled.")
                 continue
             self.result.emit(self.__algorithm())
-        logger.info(f"total cost time: {perf_counter() - t0:.02f} [s]")
+        logger.info(f"total cost time: {process_time() - t0:.02f} [s]")
         self.finished.emit()
 
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
-        t0 = perf_counter()
+        t0 = process_time()
         expression, tf = self.__generate_process()
-        time_spend = perf_counter() - t0
+        time_spend = process_time() - t0
         cpu_info = cpu.info[0]
         last_gen = tf[-1][0]
         mechanism = {
