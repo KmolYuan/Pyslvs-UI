@@ -703,7 +703,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             double_spinbox = QDoubleSpinBox()
             double_spinbox.setMinimum(minimum)
             double_spinbox.setMaximum(maximum)
-            double_spinbox.setSingleStep(10.0)
             double_spinbox.setValue(v)
             if prefix:
                 double_spinbox.setPrefix("±")
