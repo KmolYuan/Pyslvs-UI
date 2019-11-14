@@ -197,21 +197,16 @@ class ConfigureWidget(QWidget, Ui_Form):
         """Set the graph to preview canvas, return False if no clear."""
         if not self.__user_clear():
             return False
-
         self.configure_canvas.set_graph(graph, pos)
-
         links: List[List[str]] = [[] for _ in range(len(graph.vertices))]
         for joint, nodes in edges_view(graph):
             for node in nodes:
                 links[node].append(f'P{joint}')
-
         for link in links:
             self.grounded_list.addItem("(" + ", ".join(link) + ")")
-
         # Point name is (P1, P2, P3, ...)
         for node in pos:
             self.joint_name.addItem(f'P{node}')
-
         return True
 
     @Slot(int, name='on_grounded_list_currentRowChanged')
@@ -267,12 +262,10 @@ class ConfigureWidget(QWidget, Ui_Form):
         d2 = self.driver_rotator.currentText()
         if d1 == d2 == "":
             return
-
         d1_d2 = f"({d1}, {d2})"
         for n in list_texts(self.driver_list):
             if n == d1_d2:
                 return
-
         self.driver_list.addItem(d1_d2)
         self.__update_driver()
         _set_warning(self.driver_label, False)
@@ -283,7 +276,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         row = self.driver_list.currentRow()
         if not row > -1:
             return
-
         self.driver_list.takeItem(row)
         self.__update_driver()
         _set_warning(self.driver_label, self.driver_list.count() == 0)
@@ -303,28 +295,24 @@ class ConfigureWidget(QWidget, Ui_Form):
         dlg.deleteLater()
         self.configure_canvas.update()
 
-    def __get_current_mechanism_params(self) -> Dict[str, Any]:
+    def __get_current_mech(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.__set_parm_bind()
-
         input_list = {}
         for s in list_texts(self.driver_list):
             pair: Tuple[int, int] = eval(s.replace('P', ''))
             if set(pair) & set(self.configure_canvas.same):
                 continue
             input_list[pair] = (0, 360)
-
         place_list = {}
         for i in range(self.driver_base.count()):
             joint = int(self.driver_base.itemText(i).replace('P', ''))
             if joint in self.configure_canvas.same:
                 continue
             place_list[joint] = None
-
         target_list = {}
         for s in list_texts(self.target_list):
             target_list[int(s.replace('P', ''))] = None
-
         return {
             'expression': self.expr_show.text(),
             'input': input_list,
@@ -350,7 +338,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-
         # Add customize joints
         params = dlg.params
         graph = Graph(params['graph'])
@@ -363,17 +350,14 @@ class ConfigureWidget(QWidget, Ui_Form):
         if not self.set_graph(graph, {i: (x, y) for i, (x, y) in enumerate(pos_list)}):
             dlg.deleteLater()
             return
-
         self.profile_name.setText(dlg.name)
         dlg.deleteLater()
         del dlg
         self.configure_canvas.cus = cus
         self.configure_canvas.same = same
-
         # Grounded setting
         for row in PreviewCanvas.grounded_detect(set(params['placement']), graph, same):
             self.__set_grounded(row)
-
         # Driver, Target
         input_list: List[Tuple[int, int]] = params['input']
         self.driver_list.addItems(f"(P{b}, P{d})" for b, d in input_list)
@@ -383,7 +367,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.configure_canvas.set_target(sorted(target_list))
         self.target_list.addItems(f"P{n}" for n in target_list)
         _set_warning(self.target_label, self.target_list.count() == 0)
-
         # Expression
         self.expr_show.setText(params['expression'])
 
@@ -401,7 +384,6 @@ class ConfigureWidget(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-
         self.target_list.clear()
         self.target_list.addItems(list_texts(dlg.targets_list))
         self.configure_canvas.set_target(dlg.targets())
@@ -433,7 +415,6 @@ class ConfigureWidget(QWidget, Ui_Form):
                     link_expr_list.insert(0, link_expr_str)
                 else:
                     link_expr_list.append(link_expr_str)
-
         self.expr_show.setText(self.get_expression(graph2vpoints(
             self.configure_canvas.graph,
             self.configure_canvas.pos,
@@ -459,13 +440,13 @@ class ConfigureWidget(QWidget, Ui_Form):
         i = 0
         while (name not in self.collections) and (not name):
             name = f"Structure_{i}"
-        self.collections[name] = self.__get_current_mechanism_params()
+        self.collections[name] = self.__get_current_mech()
         self.profile_name.setText(name)
         self.project_no_save()
 
     @Slot(name='on_clipboard_button_clicked')
     def __copy(self) -> None:
-        """Copy the mechanism params."""
+        """Copy the mechanism params into clipboard."""
         QApplication.clipboard().setText(
-            pprint.pformat(self.__get_current_mechanism_params())
+            pprint.pformat(self.__get_current_mech())
         )

@@ -112,6 +112,9 @@
       </layout>
      </widget>
      <widget class="QTabWidget" name="options_tab">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
@@ -451,16 +454,16 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="import_xlsx_button">
+                 <widget class="QPushButton" name="import_csv_button">
                   <property name="statusTip">
-                   <string>Import path from Microsoft Excel format.</string>
+                   <string>Import path from CSV format.</string>
                   </property>
                   <property name="text">
                    <string/>
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/excel.png</normaloff>:/icons/excel.png</iconset>
+                    <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -471,16 +474,16 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="import_csv_button">
+                 <widget class="QPushButton" name="import_xlsx_button">
                   <property name="statusTip">
-                   <string>Import path from CSV format.</string>
+                   <string>Import path from Microsoft Excel format.</string>
                   </property>
                   <property name="text">
                    <string/>
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/csv.png</normaloff>:/icons/csv.png</iconset>
+                    <normaloff>:/icons/excel.png</normaloff>:/icons/excel.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>

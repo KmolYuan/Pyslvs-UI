@@ -688,9 +688,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         inputs: Dict[Tuple[int, int], List[float]] = self.mech['input']
         self.parameter_list.setRowCount(0)
         placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech['placement']
-        self.parameter_list.setRowCount(len(inputs) + len(placement) + link_count)
-
         # Table settings
+        self.parameter_list.setRowCount(len(inputs) + len(placement) + link_count)
         row = 0
 
         def spinbox(

@@ -426,7 +426,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """Get external file name."""
         file_name, suffix = QFileDialog.getOpenFileName(
             self,
-            f"Open {format_name} file ...",
+            f"Open {format_name}",
             self.env,
             ';;'.join(format_choose)
         )
