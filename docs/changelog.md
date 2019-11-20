@@ -17,7 +17,7 @@
 
 **Development**:
 
-+ Remove "*.run" file from macOS release.
++ Remove "*.run" file from macOS releases.
 + Projects are not backward compatible:
     + All setting keys turn into lowercase.
 + Correction of the random seed in Cython module.
