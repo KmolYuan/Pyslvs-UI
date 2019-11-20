@@ -20,6 +20,7 @@
 + Remove "*.run" file from macOS release.
 + Projects are not backward compatible:
     + All setting keys turn into lowercase.
++ Correction of the random seed in Cython module.
 
 ## Version 19.10
 
