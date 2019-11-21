@@ -104,11 +104,6 @@ endif
 #### Visual C++
 
 Install from [official website](https://visualstudio.microsoft.com/downloads)
-or Chocolatey:
-
-```batch
-choco install visualstudio2017buildtools windows-sdk-10.0
-```
 
 And setup Python compiler:
 
