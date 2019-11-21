@@ -23,7 +23,8 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
-_Paths = List[List[_Coord]]
+_MutPaths = List[List[_Coord]]
+_Path = Sequence[_Coord]
 
 
 @dataclass(repr=False, eq=False)
@@ -152,7 +153,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Free move mode
         self.free_move = FreeMode.NoFreeMove
         # Path preview
-        self.path_preview: _Paths = []
+        self.path_preview: _MutPaths = []
         self.slider_path_preview: Dict[int, List[_Coord]] = {}
         self.preview_path = parent.preview_path
         # Path record
@@ -308,10 +309,10 @@ class MainCanvasBase(BaseCanvas, ABC):
         if len(self.vpoints) != len(paths):
             return
         pen = QPen()
-        for i, path in enumerate(self.path_preview + [v for k, v in sorted(
-            self.slider_path_preview.items(),
-            key=lambda e: e[1]
-        )] if paths is self.path_preview else paths):
+        fmt_paths: List[Tuple[int, _Path]] = list(enumerate(paths))
+        if paths is self.path_preview:
+            fmt_paths.extend(self.slider_path_preview.items())
+        for i, path in fmt_paths:
             if self.path.show != i and self.path.show != -1:
                 continue
             if self.monochrome:
