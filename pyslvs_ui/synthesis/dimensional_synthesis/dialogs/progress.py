@@ -40,7 +40,6 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.rejected.connect(self.__close_work)
 
         self.mechanisms: List[Dict[str, Any]] = []
-
         # Batch label
         if 'max_gen' in setting:
             self.limit = setting['max_gen']
@@ -87,7 +86,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
     @Slot(int, str)
     def __set_progress(self, progress: int, fitness: str) -> None:
-        """Progress bar will always full."""
+        """Progress bar will always full if no generation counter."""
         value = progress + self.limit * self.work.current_loop
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
             self.progress_bar.setMaximum(value)

@@ -15,7 +15,13 @@ from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
 from pyslvs import Planar
-from pyslvs.metaheuristics import Genetic, Firefly, Differential, AlgorithmBase
+from pyslvs.metaheuristics import (
+    Genetic,
+    Firefly,
+    Differential,
+    TeachingLearning,
+    AlgorithmBase,
+)
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
 from .options import AlgorithmType
@@ -98,8 +104,12 @@ class DimensionalThread(BaseThread):
             foo: Type[AlgorithmBase] = Genetic
         elif self.type_num == AlgorithmType.Firefly:
             foo = Firefly
-        else:
+        elif self.type_num == AlgorithmType.DE:
             foo = Differential
+        elif self.type_num == AlgorithmType.TLBO:
+            foo = TeachingLearning
+        else:
+            raise ValueError("invalid algorithm")
         self.fun = foo(
             self.planar,
             self.settings,

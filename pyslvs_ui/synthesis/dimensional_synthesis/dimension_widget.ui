@@ -112,9 +112,6 @@
       </layout>
      </widget>
      <widget class="QTabWidget" name="options_tab">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
@@ -575,33 +572,9 @@
        <attribute name="title">
         <string>Algorithm</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <widget class="QRadioButton" name="type0">
-          <property name="text">
-           <string>Real-coded Genetic Algorithm</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="type1">
-          <property name="text">
-           <string>Firefly Algorithm</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="type2">
-          <property name="text">
-           <string>Differential Evolution</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <layout class="QVBoxLayout" name="algorithm_layout"/>
         </item>
         <item>
          <widget class="QPushButton" name="advance_button">

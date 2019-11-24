@@ -21,40 +21,47 @@ from pyslvs_ui.info import html
 from .options_ui import Ui_Dialog
 
 _Value = Union[int, float]
-GENETIC_PARAMS = {
-    'nPop': 500,
-    'pCross': 0.95,
-    'pMute': 0.05,
-    'pWin': 0.95,
-    'bDelta': 5.,
-}
-FIREFLY_PARAMS = {
-    'n': 80,
-    'alpha': 0.01,
-    'beta_min': 0.2,
-    'gamma': 1.,
-    'beta0': 1.,
-}
-DIFFERENTIAL_PARAMS = {
-    'strategy': 1,
-    'NP': 400,
-    'F': 0.6,
-    'CR': 0.9,
-}
-DEFAULT_PARAMS = {'max_gen': 1000, 'report': 50}
 
 
 @unique
 class AlgorithmType(Enum):
-
     """Enum type of algorithms."""
 
     RGA = "Real-coded Genetic Algorithm"
     Firefly = "Firefly Algorithm"
     DE = "Differential Evolution"
+    TLBO = "Teaching Learning Based Optimization"
 
     def __str__(self) -> str:
         return str(self.value)
+
+
+PARAMS = {
+    AlgorithmType.RGA: {
+        'nPop': 500,
+        'pCross': 0.95,
+        'pMute': 0.05,
+        'pWin': 0.95,
+        'bDelta': 5.,
+    },
+    AlgorithmType.Firefly: {
+        'n': 80,
+        'alpha': 0.01,
+        'beta_min': 0.2,
+        'gamma': 1.,
+        'beta0': 1.,
+    },
+    AlgorithmType.DE: {
+        'strategy': 1,
+        'NP': 400,
+        'F': 0.6,
+        'CR': 0.9,
+    },
+    AlgorithmType.TLBO: {
+        'class_size': 50,
+    }
+}
+DEFAULT_PARAMS = {'max_gen': 1000, 'report': 50}
 
 
 class AlgorithmOptionDialog(QDialog, Ui_Dialog):
@@ -77,7 +84,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"{algorithm.value} Options")
 
-        self.__algorithm = algorithm
+        self.algorithm = algorithm
         self.__init_alg_table()
         self.alg_table.setColumnWidth(0, 200)
         self.alg_table.setColumnWidth(1, 90)
@@ -85,7 +92,6 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
 
     def __init_alg_table(self) -> None:
         """Initialize the algorithm table widgets."""
-
         def write_table(
             integers: Optional[List[Tuple[str, str, str]]] = None,
             floats: Optional[List[Tuple[str, str, str]]] = None
@@ -111,7 +117,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                     self.alg_table.setCellWidget(i, 1, spinbox)
                     i += 1
 
-        if self.__algorithm == AlgorithmType.RGA:
+        if self.algorithm == AlgorithmType.RGA:
             write_table(
                 floats=[
                     ("Crossover Rate", 'pCross',
@@ -124,7 +130,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("The power value when matching chromosome."))
                 ]
             )
-        elif self.__algorithm == AlgorithmType.Firefly:
+        elif self.algorithm == AlgorithmType.Firefly:
             write_table(
                 floats=[
                     ("Alpha value", 'alpha', html(
@@ -138,7 +144,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         "The attraction of two firefly in 0 distance."))
                 ]
             )
-        elif self.__algorithm == AlgorithmType.DE:
+        elif self.algorithm == AlgorithmType.DE:
             write_table(
                 integers=[
                     ("Evolutionary strategy (0-9)", 'strategy',
@@ -168,18 +174,20 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.max_time_m.setValue((max_time % 3600) // 60)
             self.max_time_s.setValue(max_time % 3600 % 60)
         self.report.setValue(settings['report'])
-        if self.__algorithm == AlgorithmType.RGA:
+        if self.algorithm == AlgorithmType.RGA:
             self.pop_size.setValue(settings['nPop'])
-            for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']):
+            for i, tag in enumerate(('pCross', 'pMute', 'pWin', 'bDelta')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-        elif self.__algorithm == AlgorithmType.Firefly:
+        elif self.algorithm == AlgorithmType.Firefly:
             self.pop_size.setValue(settings['n'])
-            for i, tag in enumerate(['alpha', 'beta_min', 'gamma', 'beta0']):
+            for i, tag in enumerate(('alpha', 'beta_min', 'gamma', 'beta0')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-        elif self.__algorithm == AlgorithmType.DE:
+        elif self.algorithm == AlgorithmType.DE:
             self.pop_size.setValue(settings['NP'])
-            for i, tag in enumerate(['strategy', 'F', 'CR']):
+            for i, tag in enumerate(('strategy', 'F', 'CR')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
+        elif self.algorithm == AlgorithmType.TLBO:
+            self.pop_size.setValue(settings['class_size'])
 
     @Slot(name='on_reset_button_clicked')
     def __reset(self) -> None:
@@ -187,10 +195,5 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         # Differential Evolution (Default)
         d: Dict[str, _Value] = {}
         d.update(DEFAULT_PARAMS)
-        if self.__algorithm == AlgorithmType.RGA:
-            d.update(GENETIC_PARAMS)
-        elif self.__algorithm == AlgorithmType.Firefly:
-            d.update(FIREFLY_PARAMS)
-        elif self.__algorithm == AlgorithmType.DE:
-            d.update(DIFFERENTIAL_PARAMS)
+        d.update(PARAMS[self.algorithm])
         self.__set_args(d)

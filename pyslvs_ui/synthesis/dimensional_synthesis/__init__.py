@@ -40,6 +40,7 @@ from qtpy.QtWidgets import (
     QDoubleSpinBox,
     QTableWidgetItem,
     QProgressDialog,
+    QRadioButton,
 )
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import (
@@ -54,10 +55,8 @@ from pyslvs import (
 from pyslvs_ui.graphics import PreviewCanvas
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
-    GENETIC_PARAMS,
-    FIREFLY_PARAMS,
+    PARAMS,
     DEFAULT_PARAMS,
-    DIFFERENTIAL_PARAMS,
     AlgorithmType,
     AlgorithmOptionDialog,
     EditPathDialog,
@@ -107,8 +106,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mechanism_data: List[Dict[str, Any]] = []
         self.alg_options: Dict[str, Union[int, float]] = {}
         self.alg_options.update(DEFAULT_PARAMS)
-        self.alg_options.update(DIFFERENTIAL_PARAMS)
-        self.__set_algorithm_default()
+        self.alg_options.update(PARAMS[AlgorithmType.DE])
         # Canvas
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
@@ -120,6 +118,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Table widget column width
         header = self.parameter_list.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.algorithm_options = {}
+        for option in PARAMS:
+            button = QRadioButton(option.value, self)
+            button.clicked.connect(self.__set_algorithm_default)
+            self.algorithm_options[option] = button
+            self.algorithm_layout.addWidget(button)
         self.clear()
 
     def clear(self) -> None:
@@ -135,11 +139,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path.clear()
         self.mech.clear()
         self.preview_canvas.clear()
-        self.alg_options.clear()
-        self.alg_options.update(DEFAULT_PARAMS)
-        self.alg_options.update(DIFFERENTIAL_PARAMS)
         self.profile_name.clear()
-        self.type2.setChecked(True)
+        self.algorithm_options[AlgorithmType.DE].setChecked(True)
+        self.__set_algorithm_default()
         self.parameter_list.setRowCount(0)
         self.target_points.clear()
         self.target_label.setVisible(self.has_target())
@@ -426,12 +428,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 )
                 return
         # Get the algorithm type
-        if self.type0.isChecked():
-            type_num = AlgorithmType.RGA
-        elif self.type1.isChecked():
-            type_num = AlgorithmType.Firefly
+        for option, button in self.algorithm_options.items():
+            if button.isChecked():
+                type_num = option
+                break
         else:
-            type_num = AlgorithmType.DE
+            raise ValueError("no option")
         # Deep copy it so the pointer will not the same
         mech = deepcopy(self.mech)
         mech['expression'] = parse_vpoints(mech.pop('expression', []))
@@ -778,8 +780,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Links
         for i, (a, b) in enumerate(sorted(link_list)):
             self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{a}<->P{b}"))
-            upper = upper_list[i]
-            lower = lower_list[i]
             link_length = self.preview_canvas.distance(a, b)
             self.parameter_list.setItem(row, 1, QTableWidgetItem('link'))
             # Set values
@@ -789,8 +789,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 lower_list[i] = link_length - 50
                 lower_list[i] = 0. if lower_list[i] < 0 else lower_list[i]
             # Spinbox
-            error_range = (upper - lower) / 2
-            s1 = spinbox(error_range + lower)
+            error_range = (upper_list[i] - lower_list[i]) / 2
+            s1 = spinbox(error_range + lower_list[i])
             s2 = spinbox(error_range, prefix=True)
             self.parameter_list.setCellWidget(row, 2, s1)
             self.parameter_list.setCellWidget(row, 4, s2)
@@ -815,12 +815,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         self.__clear_settings()
         result = self.mechanism_data[row]
-        if result['Algorithm'] == str(AlgorithmType.RGA):
-            self.type0.setChecked(True)
-        elif result['Algorithm'] == str(AlgorithmType.Firefly):
-            self.type1.setChecked(True)
-        elif result['Algorithm'] == str(AlgorithmType.DE):
-            self.type2.setChecked(True)
+        for option, button in self.algorithm_options.items():
+            if result['Algorithm'] == option.value:
+                button.setChecked(True)
+                break
+        else:
+            raise ValueError("no option")
         # Copy to mechanism params
         self.__set_profile("External setting", result)
         self.__set_time(result['time'])
@@ -828,29 +828,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.clear()
         self.alg_options.update(result['settings'])
 
-    @Slot(name='on_type0_clicked')
-    @Slot(name='on_type1_clicked')
-    @Slot(name='on_type2_clicked')
+    @Slot()
     def __set_algorithm_default(self) -> None:
         """Set the algorithm settings to default."""
         self.alg_options.clear()
         self.alg_options.update(DEFAULT_PARAMS)
-        if self.type0.isChecked():
-            self.alg_options.update(GENETIC_PARAMS)
-        elif self.type1.isChecked():
-            self.alg_options.update(FIREFLY_PARAMS)
-        elif self.type2.isChecked():
-            self.alg_options.update(DIFFERENTIAL_PARAMS)
+        for option, button in self.algorithm_options.items():
+            if button.isChecked():
+                self.alg_options.update(PARAMS[option])
 
     @Slot(name='on_advance_button_clicked')
     def __show_advance(self) -> None:
         """Get the settings from advance dialog."""
-        if self.type0.isChecked():
-            type_num = AlgorithmType.RGA
-        elif self.type1.isChecked():
-            type_num = AlgorithmType.Firefly
+        for option, button in self.algorithm_options.items():
+            if button.isChecked():
+                type_num = option
+                break
         else:
-            type_num = AlgorithmType.DE
+            raise ValueError("no option")
         dlg = AlgorithmOptionDialog(type_num, self.alg_options, self)
         dlg.show()
         if not dlg.exec_():
@@ -873,24 +868,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             )
         else:
             raise ValueError("invalid option")
-
-        def from_table(row: int) -> Union[int, float]:
-            """Get algorithm data from table."""
-            return dlg.alg_table.cellWidget(row, 1).value()
-
         pop_size = dlg.pop_size.value()
         if type_num == AlgorithmType.RGA:
             self.alg_options['nPop'] = pop_size
-            for i, tag in enumerate(('pCross', 'pMute', 'pWin', 'bDelta')):
-                self.alg_options[tag] = from_table(i)
         elif type_num == AlgorithmType.Firefly:
             self.alg_options['n'] = pop_size
-            for i, tag in enumerate(('alpha', 'beta_min', 'gamma', 'beta0')):
-                self.alg_options[tag] = from_table(i)
         elif type_num == AlgorithmType.DE:
             self.alg_options['NP'] = pop_size
-            for i, tag in enumerate(('strategy', 'F', 'CR')):
-                self.alg_options[tag] = from_table(i)
+        elif type_num == AlgorithmType.TLBO:
+            self.alg_options['class_size'] = pop_size
+        for row in range(dlg.alg_table.rowCount()):
+            option = dlg.alg_table.item(row, 0).text()
+            self.alg_options[option] = dlg.alg_table.cellWidget(row, 1).value()
         dlg.deleteLater()
 
     @Slot()

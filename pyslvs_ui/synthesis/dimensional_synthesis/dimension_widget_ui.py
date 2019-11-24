@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/synthesis/dimensional_synthesis/dimension_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -287,27 +287,19 @@ class Ui_Form(object):
         self.options_tab.addTab(self.target_path, icon, "")
         self.algorithm = QtWidgets.QWidget()
         self.algorithm.setObjectName("algorithm")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.algorithm)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.type0 = QtWidgets.QRadioButton(self.algorithm)
-        self.type0.setChecked(False)
-        self.type0.setObjectName("type0")
-        self.verticalLayout.addWidget(self.type0)
-        self.type1 = QtWidgets.QRadioButton(self.algorithm)
-        self.type1.setObjectName("type1")
-        self.verticalLayout.addWidget(self.type1)
-        self.type2 = QtWidgets.QRadioButton(self.algorithm)
-        self.type2.setChecked(True)
-        self.type2.setObjectName("type2")
-        self.verticalLayout.addWidget(self.type2)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.algorithm)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.algorithm_layout = QtWidgets.QVBoxLayout()
+        self.algorithm_layout.setObjectName("algorithm_layout")
+        self.verticalLayout_7.addLayout(self.algorithm_layout)
         self.advance_button = QtWidgets.QPushButton(self.algorithm)
         icon18 = QtGui.QIcon()
         icon18.addPixmap(QtGui.QPixmap(":/icons/properties.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.advance_button.setIcon(icon18)
         self.advance_button.setObjectName("advance_button")
-        self.verticalLayout.addWidget(self.advance_button)
+        self.verticalLayout_7.addWidget(self.advance_button)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem4)
+        self.verticalLayout_7.addItem(spacerItem4)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label_7 = QtWidgets.QLabel(self.algorithm)
@@ -318,7 +310,7 @@ class Ui_Form(object):
         self.timeShow = QtWidgets.QLabel(self.algorithm)
         self.timeShow.setObjectName("timeShow")
         self.horizontalLayout.addWidget(self.timeShow)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout_7.addLayout(self.horizontalLayout)
         self.synthesis_button = QtWidgets.QPushButton(self.algorithm)
         self.synthesis_button.setEnabled(False)
         self.synthesis_button.setMinimumSize(QtCore.QSize(120, 0))
@@ -327,14 +319,13 @@ class Ui_Form(object):
         self.synthesis_button.setIcon(icon19)
         self.synthesis_button.setAutoDefault(True)
         self.synthesis_button.setObjectName("synthesis_button")
-        self.verticalLayout.addWidget(self.synthesis_button)
+        self.verticalLayout_7.addWidget(self.synthesis_button)
         icon20 = QtGui.QIcon()
         icon20.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.options_tab.addTab(self.algorithm, icon20, "")
         self.verticalLayout_4.addWidget(self.main_splitter)
 
         self.retranslateUi(Form)
-        self.options_tab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -376,9 +367,6 @@ class Ui_Form(object):
         self.efd_button.setStatusTip(_translate("Form", "Using Elliptical Fourier Descriptor to regenerate the path."))
         self.target_label.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">※ Use &quot;Alt + left button&quot; or &quot;context menu of canvas&quot; to add the path points.</span></p></body></html>"))
         self.options_tab.setTabText(self.options_tab.indexOf(self.target_path), _translate("Form", "Target path"))
-        self.type0.setText(_translate("Form", "Real-coded Genetic Algorithm"))
-        self.type1.setText(_translate("Form", "Firefly Algorithm"))
-        self.type2.setText(_translate("Form", "Differential Evolution"))
         self.advance_button.setStatusTip(_translate("Form", "More algorithm settings."))
         self.advance_button.setText(_translate("Form", "Advance ..."))
         self.label_7.setText(_translate("Form", "Time spent:"))
