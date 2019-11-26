@@ -52,12 +52,10 @@ from pyslvs import (
     parse_vlinks,
     efd_fitting,
 )
+from pyslvs.metaheuristics import PARAMS, DEFAULT_PARAMS, AlgorithmType
 from pyslvs_ui.graphics import PreviewCanvas
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
-    PARAMS,
-    DEFAULT_PARAMS,
-    AlgorithmType,
     AlgorithmOptionDialog,
     EditPathDialog,
     ProgressDialog,

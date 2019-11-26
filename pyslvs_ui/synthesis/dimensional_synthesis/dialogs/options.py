@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from enum import Enum, unique
 from typing import cast, List, Tuple, Dict, Union, Optional
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
@@ -17,51 +16,11 @@ from qtpy.QtWidgets import (
     QSpinBox,
     QWidget,
 )
+from pyslvs.metaheuristics import PARAMS, DEFAULT_PARAMS, AlgorithmType
 from pyslvs_ui.info import html
 from .options_ui import Ui_Dialog
 
 _Value = Union[int, float]
-
-
-@unique
-class AlgorithmType(Enum):
-    """Enum type of algorithms."""
-
-    RGA = "Real-coded Genetic Algorithm"
-    Firefly = "Firefly Algorithm"
-    DE = "Differential Evolution"
-    TLBO = "Teaching Learning Based Optimization"
-
-    def __str__(self) -> str:
-        return str(self.value)
-
-
-PARAMS = {
-    AlgorithmType.RGA: {
-        'nPop': 500,
-        'pCross': 0.95,
-        'pMute': 0.05,
-        'pWin': 0.95,
-        'bDelta': 5.,
-    },
-    AlgorithmType.Firefly: {
-        'n': 80,
-        'alpha': 0.01,
-        'beta_min': 0.2,
-        'gamma': 1.,
-        'beta0': 1.,
-    },
-    AlgorithmType.DE: {
-        'strategy': 1,
-        'NP': 400,
-        'F': 0.6,
-        'CR': 0.9,
-    },
-    AlgorithmType.TLBO: {
-        'class_size': 50,
-    }
-}
-DEFAULT_PARAMS = {'max_gen': 1000, 'report': 50}
 
 
 class AlgorithmOptionDialog(QDialog, Ui_Dialog):
