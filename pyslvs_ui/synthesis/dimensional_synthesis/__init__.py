@@ -747,11 +747,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.parameter_list.setCellWidget(row, i + 2, s)
             row += 1
         # Default value of upper and lower
-        for name in ('upper', 'lower'):
-            if name not in self.mech:
-                self.mech[name] = [0.] * link_count
-        upper_list: List[float] = self.mech['upper']
-        lower_list: List[float] = self.mech['lower']
+        upper_list: List[float] = self.mech.get('upper', [0.] * link_count)
+        lower_list: List[float] = self.mech.get('lower', [0.] * link_count)
+        self.mech['upper'] = upper_list
+        self.mech['lower'] = lower_list
 
         def set_by_center(
             index: int,

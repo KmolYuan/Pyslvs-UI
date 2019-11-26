@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>564</width>
-    <height>795</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -634,35 +634,35 @@
           </item>
          </layout>
         </item>
-        <item>
-         <widget class="QPushButton" name="synthesis_button">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="statusTip">
-           <string>Start dimesional synthesis.</string>
-          </property>
-          <property name="text">
-           <string>Synthesis</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../icons.qrc">
-            <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="synthesis_button">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>120</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="statusTip">
+      <string>Start dimesional synthesis.</string>
+     </property>
+     <property name="text">
+      <string>Synthesis</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../icons.qrc">
+       <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>
