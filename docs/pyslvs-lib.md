@@ -95,30 +95,30 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 [metaheuristics](https://github.com/KmolYuan/metaheuristics) module: Cython algorithms libraries provide evolution designing.
 
-+ **verify** library:
++ **utility** library:
 
     Provide base fitness function class for algorithm.
 
 + **planar_linkage** library:
 
-    **preload**: `expression`, `triangulation`, `bfgs`, `tinycadlib`, `verify`
+    **preload**: `expression`, `triangulation`, `bfgs`, `tinycadlib`, `utility`
 
     Dimensional synthesis verification function objects.
 
 + **rga** library:
 
-    **preload**: `verify`
+    **preload**: `utility`
 
     Real-coded genetic algorithm for dimensional synthesis.
 
 + **firefly** library:
 
-    **preload**: `verify`
+    **preload**: `utility`
 
     Firefly algorithm for dimensional synthesis.
 
 + **de** library:
 
-    **preload**: `verify`
+    **preload**: `utility`
 
     Differential Evolution for dimensional synthesis.

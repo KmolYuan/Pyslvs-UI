@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Dict, Type, Any, Optional
+from typing import Dict, Type, Any, Optional
 from time import process_time
 from platform import system, release, machine
 from psutil import virtual_memory
@@ -48,7 +48,7 @@ class DimensionalThread(BaseThread):
         self.settings = settings
         self.loop = 1
         self.current_loop = 0
-        self.fun: Optional[AlgorithmBase] = None
+        self.algorithm: Optional[AlgorithmBase] = None
 
     def is_two_kernel(self) -> bool:
         return self.planar.is_two_kernel()
@@ -75,7 +75,9 @@ class DimensionalThread(BaseThread):
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
         t0 = process_time()
-        expression, tf = self.__generate_process()
+        self.__generate_process()
+        expression = self.algorithm.run()
+        tf = self.algorithm.history()
         time_spend = process_time() - t0
         cpu_info = cpu.info[0]
         last_gen = tf[-1][0]
@@ -98,7 +100,7 @@ class DimensionalThread(BaseThread):
         logger.info(f"cost time: {time_spend:.02f} [s]")
         return mechanism
 
-    def __generate_process(self) -> Tuple[str, List[Tuple[int, float, float]]]:
+    def __generate_process(self) -> None:
         """Re-create function object then execute algorithm."""
         if self.type_num == AlgorithmType.RGA:
             foo: Type[AlgorithmBase] = Genetic
@@ -110,10 +112,9 @@ class DimensionalThread(BaseThread):
             foo = TeachingLearning
         else:
             raise ValueError("invalid algorithm")
-        self.fun = foo(
+        self.algorithm = foo(
             self.planar,
             self.settings,
             progress_fun=self.progress_update.emit,
             interrupt_fun=lambda: self.is_stop,
         )
-        return self.fun.run()

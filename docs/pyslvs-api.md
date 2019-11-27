@@ -19,7 +19,7 @@ The modules are:
 + [`planar_linkage`](#module-planar_check)
 + [`tinycadlib`](#module-tinycadlib)
 + [`triangulation`](#module-triangulation)
-+ [`verify`](#module-verify)
++ [`utility`](#module-utility)
 
 ## Module `atlas`
 
@@ -1117,7 +1117,7 @@ The argument `inputs` is a list of input pairs.
 
 The argument `status` will track the configuration of each point, which is optional.
 
-## Module `verify`
+## Module `utility`
 
 ### Verification
 
