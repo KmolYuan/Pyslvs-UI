@@ -51,6 +51,7 @@ matrix:
       before_install:
         - git submodule update --init --recursive
         - brew update
+        - brew install pyenv || brew link --overwrite pyenv
         - brew upgrade pyenv
         - brew install hdf5
         - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink
