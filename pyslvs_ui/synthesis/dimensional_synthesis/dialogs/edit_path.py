@@ -34,7 +34,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
         self.path = parent.current_path().copy()
         self.set_path = parent.set_path
 
-    @Slot(name='on_moving_button_clicked')
+    @Slot(name='on_move_button_clicked')
     def __move(self) -> None:
         """Translate function."""
         mx = self.move_x.value()
@@ -42,7 +42,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
         self.set_path((x + mx, y + my) for x, y in self.path)
         self.accept()
 
-    @Slot(name='on_scaling_button_clicked')
+    @Slot(name='on_scale_button_clicked')
     def __scale(self) -> None:
         """Scale function."""
         ox = self.scale_rx.value()
