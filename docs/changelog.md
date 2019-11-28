@@ -15,6 +15,7 @@
 + Improve the pattern of path file format.
 + Add "save path" function.
 + Allow multiple cased file suffix.
++ Add TLBO Algorithm.
 
 **Development**:
 
@@ -22,6 +23,7 @@
 + Projects are not backward compatible:
     + All setting keys turn into lowercase.
 + Correction of the random seed in Cython module.
++ Several kernel API changes.
 
 ## Version 19.10
 
