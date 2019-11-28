@@ -912,7 +912,7 @@ Return `True` if graph `g` is a planar graph.
 
 | type | inherit |
 |:----:|:-------:|
-| type | [Verification] |
+| type | [Objective] |
 
 #### Planar.\_\_init__()
 
@@ -920,7 +920,7 @@ Return `True` if graph `g` is a planar graph.
 |:----:|:-----------:|:------:|
 | | Dict[str, Any] | None |
 
-The constructor of verification object.
+The constructor of objective object.
 
 Options of `mech_params`:
 
@@ -1119,17 +1119,17 @@ The argument `status` will track the configuration of each point, which is optio
 
 ## Module `utility`
 
-### Verification
+### Objective
 
 | type | inherit |
 |:----:|:-------:|
 | type | object |
 
-Verification function base class.
-It is used to build the verification function for Metaheuristic Random Algorithms.
+Objective function base class.
+It is used to build the objective function for Metaheuristic Random Algorithms.
 See the sections of [metaheuristics API](metaheuristics-api.md).
 
-#### Verification.fitness()
+#### Objective.fitness()
 
 **Cython `cdef` method**
 
@@ -1142,7 +1142,7 @@ See the sections of [metaheuristics API](metaheuristics-api.md).
 Return the fitness from the variable list `v`.
 This function will be directly called in the algorithms.
 
-#### Verification.result()
+#### Objective.result()
 
 `@abstractmethod`
 
@@ -1166,10 +1166,10 @@ See the sections of [metaheuristics API](metaheuristics-api.md).
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-| | [Verification] | Dict[str, Any] | Optional[Callable[[int, str], None]] | Optional[Callable[[], bool]] | None |
+| | [Objective] | Dict[str, Any] | Optional[Callable[[int, str], None]] | Optional[Callable[[], bool]] | None |
 | | | | None | None | |
 
-The argument `func` is a object inherit from [Verification],
+The argument `func` is a object inherit from [Objective],
 and all abstract methods should be implemented.
 
 The format of argument `settings` can be customized.
@@ -1185,7 +1185,7 @@ and the argument `interrupt_fun` will check the interrupt status from GUI or sub
 
 Run and return the result and convergence history.
 
-The first place of `return` is came from calling [`Verification.result()`](#verificationresult).
+The first place of `return` is came from calling [`Objective.result()`](#objectiveresult).
 
 The second place of `return` is a list of generation data,
 which type is `Tuple[int, float, float]]`.
@@ -1198,5 +1198,5 @@ the second is fitness, and the last one is time in second.
 [VPoint]: #vpoint
 [VLink]: #vlink
 [Graph]: #graph
-[Verification]: #verification
+[Objective]: #objective
 [ExpressionStack]: #expressionstack

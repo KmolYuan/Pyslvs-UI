@@ -2,14 +2,16 @@
 
 ## Namespace
 
-The namespace of metaheuristics is included in `pyslvs`.
+The namespace of metaheuristics is `pyslvs.metaheuristics`,
+which is not included in `pyslvs`.
+It must be imported explicitly.
 
 The modules are:
 
 + [`de`](#module-de)
 + [`firefly`](#module-firefly)
 + [`rga`](#module-rga)
-+ [`verify`](#module-verify)
++ [`utility`](#module-utility)
 
 ## Module `de`
 
@@ -146,11 +148,11 @@ The format of argument `settings`:
 
 Others arguments are same as [`Differential.__init__()`](#differential9595init__).
 
-## Module `verify`
+## Module `utility`
 
 ### Reference
 
-See the sections of [Pyslvs API](pyslvs-api.md#module-verify)
+See the sections of [Pyslvs API](pyslvs-api.md#module-utility)
 
-[Verification]: pyslvs-api.md#verification
+[Verification]: pyslvs-api.md#objective
 [AlgorithmBase]: pyslvs-api.md#algorithmbase
