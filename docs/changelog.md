@@ -14,6 +14,7 @@
 + Remove the QMutex lock, which caused crash on Windows platform.
 + Improve the pattern of path file format.
 + Add "save path" function.
++ Allow multiple cased file suffix.
 
 **Development**:
 

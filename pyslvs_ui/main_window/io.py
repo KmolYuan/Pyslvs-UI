@@ -105,14 +105,14 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             return
         urls = mime_data.urls()
         if len(urls) == 1:
-            suffix = QFileInfo(urls[0].toLocalFile()).suffix()
+            suffix = QFileInfo(urls[0].toLocalFile()).suffix().lower()
             if suffix in {'yml', 'pyslvs', 'slvs'} | set(qt_image_suffix):
                 event.acceptProposedAction()
 
     def dropEvent(self, event: QDropEvent) -> None:
         """Drop file in to our window."""
         file = event.mimeData().urls()[0].toLocalFile()
-        if QFileInfo(file).suffix() in set(qt_image_suffix):
+        if QFileInfo(file).suffix().lower() in set(qt_image_suffix):
             self.project_widget.set_background_config({'background': file})
         else:
             self.__load_file(file)
@@ -309,7 +309,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             if not file_name:
                 return
 
-        suffix = QFileInfo(file_name).suffix()
+        suffix = QFileInfo(file_name).suffix().lower()
         if suffix == 'pyslvs':
             self.project_widget.read(file_name)
         elif suffix == 'slvs':
@@ -406,7 +406,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             suffix = str_between(suffix, '(', ')').split('*')[-1]
             logger.debug(f"Format: {suffix}")
             info = QFileInfo(file_name)
-            if info.suffix() != suffix[1:]:
+            if info.suffix().lower() != suffix[1:]:
                 file_name += suffix
                 info = QFileInfo(file_name)
                 if info.isFile() and QMessageBox.question(
@@ -628,7 +628,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def load_from_args(self) -> None:
         if not ARGUMENTS.filepath:
             return
-        suffix = QFileInfo(ARGUMENTS.filepath).suffix()
+        suffix = QFileInfo(ARGUMENTS.filepath).suffix().lower()
         if suffix == 'pyslvs':
             self.project_widget.read(ARGUMENTS.filepath)
         elif suffix == 'slvs':
