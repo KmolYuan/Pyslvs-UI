@@ -28,7 +28,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
 
     def __init__(
         self,
-        type_num: AlgorithmType,
+        algorithm: AlgorithmType,
         mech: Dict[str, Any],
         setting: Dict[str, Any],
         parent
@@ -74,7 +74,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.time_spend = 0.
 
         # Worker thread
-        self.work = DimensionalThread(type_num, mech, setting, self)
+        self.work = DimensionalThread(algorithm, mech, setting, self)
         self.stop_signal.connect(self.work.stop)
         if self.work.is_two_kernel():
             self.fast_kernel_label.hide()
@@ -87,7 +87,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     @Slot(int, str)
     def __set_progress(self, progress: int, fitness: str) -> None:
         """Progress bar will always full if no generation counter."""
-        value = progress + self.limit * self.work.current_loop
+        value = progress + self.limit * self.work.loop
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
             self.progress_bar.setMaximum(value)
         self.progress_bar.setValue(value)

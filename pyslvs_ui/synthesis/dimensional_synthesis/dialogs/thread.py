@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2019"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Type, Any, Optional
+from typing import Dict, Any
 from time import process_time
 from platform import system, release, machine
 from psutil import virtual_memory
@@ -15,13 +15,7 @@ from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
 from pyslvs import Planar
-from pyslvs.metaheuristics import (
-    Genetic,
-    Firefly,
-    Differential,
-    TeachingLearning,
-    AlgorithmBase,
-)
+from pyslvs.metaheuristics import ALGORITHM
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
 from .options import AlgorithmType
@@ -36,19 +30,17 @@ class DimensionalThread(BaseThread):
 
     def __init__(
         self,
-        type_num: AlgorithmType,
+        algorithm: AlgorithmType,
         mech: Dict[str, Any],
         settings: Dict[str, Any],
         parent: QWidget
     ):
         super(DimensionalThread, self).__init__(parent)
-        self.type_num = type_num
+        self.algorithm = algorithm
         self.mech = mech
         self.planar = Planar(self.mech)
         self.settings = settings
         self.loop = 1
-        self.current_loop = 0
-        self.algorithm: Optional[AlgorithmBase] = None
 
     def is_two_kernel(self) -> bool:
         return self.planar.is_two_kernel()
@@ -62,8 +54,8 @@ class DimensionalThread(BaseThread):
         for name, path in self.mech['target'].items():
             logger.debug(f"- [P{name}] ({len(path)})")
         t0 = process_time()
-        for self.current_loop in range(self.loop):
-            logger.info(f"Algorithm [{self.current_loop + 1}]: {self.type_num}")
+        for self.loop in range(self.loop):
+            logger.info(f"Algorithm [{self.loop + 1}]: {self.algorithm}")
             if self.is_stop:
                 # Cancel the remaining tasks
                 logger.info("Canceled.")
@@ -75,14 +67,20 @@ class DimensionalThread(BaseThread):
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
         t0 = process_time()
-        self.__generate_process()
-        expression = self.algorithm.run()
-        tf = self.algorithm.history()
+        algorithm = ALGORITHM[self.algorithm](
+            self.planar,
+            self.settings,
+            progress_fun=self.progress_update.emit,
+            interrupt_fun=lambda: self.is_stop,
+        )
+        expression = algorithm.run()
+        tf = algorithm.history()
         time_spend = process_time() - t0
-        cpu_info = cpu.info[0]
+        info = cpu.info[0]
+        my_cpu = info.get("model name", info.get('ProcessorNameString', ''))
         last_gen = tf[-1][0]
         mechanism = {
-            'Algorithm': self.type_num.value,
+            'Algorithm': self.algorithm.value,
             'time': time_spend,
             'last_gen': last_gen,
             'last_fitness': tf[-1][1],
@@ -91,7 +89,7 @@ class DimensionalThread(BaseThread):
             'hardware_info': {
                 'os': f"{system()} {release()} {machine()}",
                 'memory': f"{virtual_memory().total / (1 << 30):.04f} GB",
-                'cpu': cpu_info.get("model name", cpu_info.get('ProcessorNameString', '')),
+                'cpu': my_cpu,
             },
             'time_fitness': tf,
         }
@@ -99,22 +97,3 @@ class DimensionalThread(BaseThread):
         mechanism['expression'] = expression
         logger.info(f"cost time: {time_spend:.02f} [s]")
         return mechanism
-
-    def __generate_process(self) -> None:
-        """Re-create function object then execute algorithm."""
-        if self.type_num == AlgorithmType.RGA:
-            foo: Type[AlgorithmBase] = Genetic
-        elif self.type_num == AlgorithmType.Firefly:
-            foo = Firefly
-        elif self.type_num == AlgorithmType.DE:
-            foo = Differential
-        elif self.type_num == AlgorithmType.TLBO:
-            foo = TeachingLearning
-        else:
-            raise ValueError("invalid algorithm")
-        self.algorithm = foo(
-            self.planar,
-            self.settings,
-            progress_fun=self.progress_update.emit,
-            interrupt_fun=lambda: self.is_stop,
-        )

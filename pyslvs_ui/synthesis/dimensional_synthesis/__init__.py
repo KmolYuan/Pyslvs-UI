@@ -116,7 +116,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Table widget column width
         header = self.parameter_list.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.algorithm_options = {}
+        self.algorithm_options: Dict[AlgorithmType, QRadioButton] = {}
         for option in PARAMS:
             button = QRadioButton(option.value, self)
             button.clicked.connect(self.__set_algorithm_default)
@@ -428,7 +428,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Get the algorithm type
         for option, button in self.algorithm_options.items():
             if button.isChecked():
-                type_num = option
+                algorithm = option
                 break
         else:
             raise ValueError("no option")
@@ -453,7 +453,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.parameter_list.cellWidget(row, 4).value(),
             )
         # Start progress dialog
-        dlg = ProgressDialog(type_num, mech, self.alg_options, self)
+        dlg = ProgressDialog(algorithm, mech, self.alg_options, self)
         dlg.show()
         if not dlg.exec_():
             dlg.deleteLater()
@@ -839,11 +839,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Get the settings from advance dialog."""
         for option, button in self.algorithm_options.items():
             if button.isChecked():
-                type_num = option
+                algorithm = option
                 break
         else:
             raise ValueError("no option")
-        dlg = AlgorithmOptionDialog(type_num, self.alg_options, self)
+        dlg = AlgorithmOptionDialog(algorithm, self.alg_options, self)
         dlg.show()
         if not dlg.exec_():
             dlg.deleteLater()
@@ -866,13 +866,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         else:
             raise ValueError("invalid option")
         pop_size = dlg.pop_size.value()
-        if type_num == AlgorithmType.RGA:
+        if algorithm == AlgorithmType.RGA:
             self.alg_options['nPop'] = pop_size
-        elif type_num == AlgorithmType.Firefly:
+        elif algorithm == AlgorithmType.Firefly:
             self.alg_options['n'] = pop_size
-        elif type_num == AlgorithmType.DE:
+        elif algorithm == AlgorithmType.DE:
             self.alg_options['NP'] = pop_size
-        elif type_num == AlgorithmType.TLBO:
+        elif algorithm == AlgorithmType.TLBO:
             self.alg_options['class_size'] = pop_size
         for row in range(dlg.alg_table.rowCount()):
             option = dlg.alg_table.item(row, 0).text()
