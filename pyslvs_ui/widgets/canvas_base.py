@@ -468,8 +468,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             y_t = self.background_offset.y()
             set_range(
                 x_r,
-                x_r + self.background.width(),
-                y_t - self.background.height(),
+                x_r + self.background.width() * self.background_scale,
+                y_t - self.background.height() * self.background_scale,
                 y_t
             )
         return x_right, x_left, y_top, y_bottom
