@@ -53,5 +53,5 @@ if [[ "$(uname)" == "Darwin" ]]; then
   zip -r "${EXENAME}.app.zip" "${EXENAME}.app"
 else
   mv ${APP}.exe "${EXENAME}.exe"
-  zip -r "${EXENAME}.zip" "${EXENAME}.exe"
+  7z a -tzip "${EXENAME}.zip" "${EXENAME}.exe"
 fi

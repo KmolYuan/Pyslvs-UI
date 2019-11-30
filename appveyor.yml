@@ -19,7 +19,6 @@ install:
   # Clone submodules
   - git submodule update --init --recursive
   # Install Python-dev
-  - choco install -y zip
   - IF DEFINED PYTHON_DEV choco install -y python --version %PYTHON_DEV%
   # Environment variables
   - set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
