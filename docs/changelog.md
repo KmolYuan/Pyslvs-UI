@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 19.12
+
+**Features**:
+
++ None
+
+**Development**:
+
++ None
+
 ## Version 19.11
 
 **Features**:
