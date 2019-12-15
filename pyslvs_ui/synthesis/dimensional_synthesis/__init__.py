@@ -413,7 +413,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_synthesis_button_clicked')
     def __synthesis(self) -> None:
         """Start synthesis."""
-        # Check if the number of target points are same.
+        # Check if the amount of the target points are same.
         length = -1
         for path in self.path.values():
             if length < 0:
@@ -432,7 +432,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 break
         else:
             raise ValueError("no option")
-        # Deep copy it so the pointer will not the same
         mech = deepcopy(self.mech)
         mech['expression'] = parse_vpoints(mech.pop('expression', []))
         mech['target'] = deepcopy(self.path)

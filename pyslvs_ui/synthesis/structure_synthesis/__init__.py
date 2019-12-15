@@ -291,7 +291,6 @@ class StructureSynthesis(QWidget, Ui_Form):
         if item is None:
             self.__number_synthesis()
             item = self.link_assortment_list.currentItem()
-
         root = item.parent()
         if root is None:
             # Find by link assortment
@@ -301,7 +300,6 @@ class StructureSynthesis(QWidget, Ui_Form):
             except ValueError:
                 return
             jobs = [item.child(i) for i in range(item.childCount())]
-            self.__structural_combine(jobs)
         else:
             # Find by contracted link assortment
             jobs = [item]

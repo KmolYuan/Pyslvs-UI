@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Fix the bug of synthesizing assortment.
 
 **Development**:
 
