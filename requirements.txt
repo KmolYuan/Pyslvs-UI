@@ -5,7 +5,7 @@ qtpy
 pyqt5
 pyqtchart
 ezdxf
-numpy
+numpy<1.18
 cython
 python-solvespace
 openpyxl
