@@ -1,6 +1,8 @@
 # What is Pyslvs?
 
-<img src="img/favicon.png" width="10%"/> Pyslvs \[`paɪsɑlvz] is an Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System,
+<img width="7%" src="https://github.com/KmolYuan/Pyslvs-UI/raw/master/docs/img/favicon.png" alt="pyslvs-icon"/>
+Pyslvs \[`paɪsɑlvz] is an
+**open source planar linkage mechanism simulation and mechanical synthesis system**,
 which is named from "Python" and "Solvers".
 
 The project is maintained on GitHub: <https://github.com/KmolYuan/Pyslvs-UI>
@@ -74,7 +76,7 @@ After installed package, Pyslvs provides a launcher command `pyslvs` for your te
 The command `python -m pyslvs_ui` or write a python script also works:
 
 ```python
-from pyslvs_ui import main
+from pyslvs_ui.__main__ import main
 main()
 ```
 
