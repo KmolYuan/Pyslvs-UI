@@ -14,7 +14,7 @@ Abstract classes (ordered):
 from __future__ import annotations
 
 __author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2019"
+__copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
