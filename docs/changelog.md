@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None
++ Fix dependencies compatibility.
 
 ## Version 19.12
 
