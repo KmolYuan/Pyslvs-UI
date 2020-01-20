@@ -54,6 +54,7 @@ def main() -> None:
     del sp
     logger.info(f"Startup with: {process_time() - t0:.02f}s")
     qt_exit_code = _app.exec_()
+    del lf
     shutdown()
     exit(qt_exit_code)
 

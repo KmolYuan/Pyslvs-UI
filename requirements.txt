@@ -2,8 +2,8 @@ setuptools
 wheel
 requests
 qtpy
-pyqt5
-pyqtchart
+pyqt5<5.14
+pyqtchart<5.14
 ezdxf
 numpy<1.18
 cython

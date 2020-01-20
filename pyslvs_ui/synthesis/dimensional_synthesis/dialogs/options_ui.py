@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/synthesis/dimensional_synthesis/dialogs/options.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
