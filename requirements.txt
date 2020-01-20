@@ -5,7 +5,7 @@ qtpy
 pyqt5<5.14
 pyqtchart<5.14
 ezdxf
-numpy<1.18
+numpy
 cython
 python-solvespace
 openpyxl
