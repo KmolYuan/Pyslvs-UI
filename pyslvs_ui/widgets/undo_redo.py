@@ -368,10 +368,10 @@ class EditLinkTable(_EditFusedTable[LinkArgs]):
             return
         for index in _no_empty(args.points.split(',')):
             row = int(index.replace('Point', ''))
-            item = QTableWidgetItem(','.join(
+            item = QTableWidgetItem(','.join(_no_empty(
                 link.replace(args.name, new_name)
                 for link in self.vpoint_list[row].links
-            ))
+            )))
             item.setFlags(_ITEM_FLAGS)
             self.point_table.setItem(row, 1, item)
             self.vpoint_list[row].replace_link(args.name, new_name)

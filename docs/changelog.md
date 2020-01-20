@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Fix commas error of expression table on GUI.
 
 **Development**:
 
