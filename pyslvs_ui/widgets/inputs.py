@@ -15,7 +15,6 @@ from copy import copy
 from qtpy.QtCore import Signal, Slot, QTimer, QPoint
 from qtpy.QtWidgets import (
     QWidget,
-    QDial,
     QMenu,
     QMessageBox,
     QInputDialog,
@@ -24,7 +23,7 @@ from qtpy.QtWidgets import (
 )
 from pyslvs import VJoint
 from pyslvs_ui.info import logger
-from .rotatable import RotatableView
+from .rotatable import QRotatableView
 from .inputs_ui import Ui_Form
 from .undo_redo import AddInput, DeleteInput, AddPath, DeletePath
 if TYPE_CHECKING:
@@ -71,12 +70,12 @@ class InputsWidget(QWidget, Ui_Form):
         self.get_back_position = parent.get_back_position
 
         # Angle panel
-        self.dial = QDial()
+        self.dial = QRotatableView(self)
         self.dial.setStatusTip("Input widget of rotatable joint.")
         self.dial.setEnabled(False)
-        self.dial.valueChanged.connect(self.__update_var)
+        self.dial.value_changed.connect(self.__update_var)
         self.dial_spinbox.valueChanged.connect(self.__set_var)
-        self.inputs_dial_layout.addWidget(RotatableView(self.dial))
+        self.inputs_dial_layout.addWidget(self.dial)
 
         # Play button
         self.variable_stop.clicked.connect(self.variable_value_reset)
@@ -105,15 +104,15 @@ class InputsWidget(QWidget, Ui_Form):
 
     def __set_angle_mode(self) -> None:
         """Change to angle input."""
-        self.dial.setMinimum(0)
-        self.dial.setMaximum(36000)
+        self.dial.set_minimum(0)
+        self.dial.set_maximum(360)
         self.dial_spinbox.setMinimum(0)
         self.dial_spinbox.setMaximum(360)
 
     def __set_unit_mode(self) -> None:
         """Change to unit input."""
-        self.dial.setMinimum(-50000)
-        self.dial.setMaximum(50000)
+        self.dial.set_minimum(-500)
+        self.dial.set_maximum(500)
         self.dial_spinbox.setMinimum(-500)
         self.dial_spinbox.setMaximum(500)
 
@@ -237,7 +236,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.dial.setEnabled(rotatable)
         self.dial_spinbox.setEnabled(rotatable)
-        self.oldVar = self.dial.value() / 100.
+        self.oldVar = self.dial.value()
         self.variable_play.setEnabled(rotatable)
         self.variable_speed.setEnabled(rotatable)
         item: Optional[QListWidgetItem] = self.variable_list.currentItem()
@@ -251,7 +250,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.__set_unit_mode()
         else:
             self.__set_angle_mode()
-        self.dial.setValue(value * 100 if enabled else 0)
+        self.dial.set_value(value if enabled else 0)
 
     def variable_excluding(self, row: Optional[int] = None) -> None:
         """Remove variable if the point was been deleted. Default: all."""
@@ -301,13 +300,12 @@ class InputsWidget(QWidget, Ui_Form):
 
     @Slot(float)
     def __set_var(self, value: float) -> None:
-        self.dial.setValue(int(value * 100 % self.dial.maximum()))
+        self.dial.set_value(value)
 
-    @Slot(int)
+    @Slot(float)
     def __update_var(self, value: float) -> None:
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
-        value /= 100.
         self.dial_spinbox.blockSignals(True)
         self.dial_spinbox.setValue(value)
         self.dial_spinbox.blockSignals(False)
@@ -362,9 +360,8 @@ class InputsWidget(QWidget, Ui_Form):
         if extreme_rebound:
             speed = -speed
             self.variable_speed.setValue(speed)
-        index += int(speed * 6 * (3 if extreme_rebound else 1))
-        index %= self.dial.maximum()
-        self.dial.setValue(index)
+        index += speed * 0.06 * (3 if extreme_rebound else 1)
+        self.dial.set_value(index)
 
     @Slot(bool, name='on_record_start_toggled')
     def __start_record(self, toggled: bool) -> None:

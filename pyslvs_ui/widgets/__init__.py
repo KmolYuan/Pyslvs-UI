@@ -11,6 +11,7 @@ __email__ = "pyslvs@gmail.com"
 
 from .main_base import MainWindowBase, Preferences
 from .tables import PointArgs, LinkArgs, PointTableWidget, LinkTableWidget
+from .rotatable import QRotatableView
 from .undo_redo import (
     AddTable,
     AddPath,
@@ -34,6 +35,7 @@ __all__ = [
     'LinkArgs',
     'PointTableWidget',
     'LinkTableWidget',
+    'QRotatableView',
     'AddTable',
     'AddPath',
     'AddStorage',

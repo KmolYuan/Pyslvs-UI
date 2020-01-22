@@ -25,10 +25,7 @@ from .edit_link_ui import Ui_Dialog
 
 class EditLinkDialog(QDialog, Ui_Dialog):
 
-    """Option dialog.
-
-    Only edit the target path after closed.
-    """
+    """Option dialog."""
 
     def __init__(
         self,
