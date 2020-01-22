@@ -120,7 +120,7 @@ class MainCanvasBase(BaseCanvas, ABC):
     selected_tips = Signal(QPoint, str)
     selected_tips_hide = Signal()
     free_moved = Signal(tuple)
-    noselected = Signal()
+    no_selected = Signal()
     alt_add = Signal(float, float)
     doubleclick_edit = Signal(int)
     zoom_changed = Signal(int)
@@ -616,7 +616,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     and km != Qt.ControlModifier
                     and km != Qt.ShiftModifier
                 ):
-                    self.noselected.emit()
+                    self.no_selected.emit()
             else:
                 if km == Qt.AltModifier:
                     # Add Point
@@ -629,7 +629,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     and km != Qt.ControlModifier
                     and km != Qt.ShiftModifier
                 ):
-                    self.noselected.emit()
+                    self.no_selected.emit()
         self.selected_tips_hide.emit()
         self.selector.release()
         self.update()
@@ -660,7 +660,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     if selection:
                         self.selected.emit(selection, False)
                     else:
-                        self.noselected.emit()
+                        self.no_selected.emit()
 
                     self.selected_tips.emit(
                         event.globalPos(),

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""The option dialog use to create or edit the link."""
+"""The option dialog used to create or edit the link."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
@@ -20,6 +20,7 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink
 from pyslvs_ui.graphics import color_names, color_qt, color_icon
+from .utility import set_custom_color, add_custom_color
 from .edit_link_ui import Ui_Dialog
 
 
@@ -52,7 +53,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         for i, e in enumerate(color_names):
             self.color_box.insertItem(i, color_icon(e), e)
         for i in range(len(self.vpoints)):
-            self.noSelected.addItem(QListWidgetItem(self.icon, f'Point{i}'))
+            self.no_selected.addItem(QListWidgetItem(self.icon, f'Point{i}'))
         if row is False:
             self.name_box.addItem(icon, "New link")
             self.name_box.setEnabled(False)
@@ -88,21 +89,15 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         if len(self.vlinks) > index:
             vlink = self.vlinks[index]
             self.name_edit.setText(vlink.name)
-            color_text = vlink.color_str
-            color_index = self.color_box.findText(color_text)
-            if color_index > -1:
-                self.color_box.setCurrentIndex(color_index)
-            else:
-                self.color_box.addItem(color_icon(color_text), color_text)
-                self.color_box.setCurrentIndex(self.color_box.count() - 1)
-            self.noSelected.clear()
+            set_custom_color(self.color_box, vlink.color_str)
+            self.no_selected.clear()
             self.selected.clear()
             for p in vlink.points:
                 self.selected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
             for p in range(len(self.vpoints)):
                 if p in vlink.points:
                     continue
-                self.noSelected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
+                self.no_selected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.color_pick_button):
             widget.setEnabled(not_ground)
@@ -119,22 +114,19 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         """Add a custom color from current color."""
         color = color_qt(self.color_box.currentText())
         color = QColorDialog.getColor(color, self)
-        if not color.isValid():
-            return
-        rgb_str = str((color.red(), color.green(), color.blue()))
-        self.color_box.addItem(color_icon(rgb_str), rgb_str)
-        self.color_box.setCurrentIndex(self.color_box.count() - 1)
+        if color.isValid():
+            add_custom_color(self.color_box, color)
 
-    @Slot(QListWidgetItem, name='on_noSelected_itemDoubleClicked')
+    @Slot(QListWidgetItem, name='on_no_selected_itemDoubleClicked')
     def __add_selected(self, item: QListWidgetItem) -> None:
         """Add item to selected list."""
         self.selected.addItem(
-            self.noSelected.takeItem(self.noSelected.row(item))
+            self.no_selected.takeItem(self.no_selected.row(item))
         )
 
     @Slot(QListWidgetItem, name='on_selected_itemDoubleClicked')
     def __add_no_selected(self, item: QListWidgetItem) -> None:
         """Add item to no selected list."""
-        self.noSelected.addItem(
+        self.no_selected.addItem(
             self.selected.takeItem(self.selected.row(item))
         )

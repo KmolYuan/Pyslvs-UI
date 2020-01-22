@@ -80,7 +80,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QListWidget" name="noSelected">
+        <widget class="QListWidget" name="no_selected">
          <property name="dragEnabled">
           <bool>true</bool>
          </property>

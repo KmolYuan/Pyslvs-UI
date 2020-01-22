@@ -11,6 +11,7 @@
 
 + Create QRotatableView API.
 + Fix dependencies compatibility.
++ Add utility modules for entities dialogs.
 
 ## Version 19.12
 
