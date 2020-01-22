@@ -5,6 +5,7 @@
 **Features**:
 
 + Fix commas error of expression table on GUI.
++ Fix "Add Point" action on menu bar.
 
 **Development**:
 

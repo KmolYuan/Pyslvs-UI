@@ -439,6 +439,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.command_stack.endMacro()
 
+    @Slot(name='on_action_new_point_triggered')
     def new_point(self) -> None:
         """Create a point with arguments."""
         self.__edit_point()

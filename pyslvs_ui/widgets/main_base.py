@@ -69,6 +69,8 @@ def _set_actions(actions: Sequence[QAction], state: bool) -> None:
 @unique
 class _Enable(Flag):
 
+    # Conditions
+    # No / One / Any / Multiple / Ground / Not ground
     P_NO = auto()
     P_ONE = auto()
     P_ANY = auto()
@@ -80,6 +82,8 @@ class _Enable(Flag):
     L_GND = auto()
     L_N_GND = auto()
 
+    # Menus
+    # Table / Context menu
     T_P = auto()
     T_L = auto()
     C_P = auto()
