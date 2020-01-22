@@ -52,7 +52,6 @@ matrix:
         - git submodule update --init --recursive
         - brew update
         - brew upgrade pyenv || true
-        - brew install hdf5
         - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink
         - export PATH="/Users/travis/.pyenv/shims:${PATH}"
         - env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON}
