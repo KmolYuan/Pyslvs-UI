@@ -163,7 +163,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QPushButton" name="locate_option">
+         <widget class="QPushButton" name="relocate_option">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -175,7 +175,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+            <normaloff>:/icons/calculator.png</normaloff>:/icons/calculator.png</iconset>
           </property>
           <property name="iconSize">
            <size>

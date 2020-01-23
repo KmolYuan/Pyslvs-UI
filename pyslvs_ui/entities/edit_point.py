@@ -14,6 +14,7 @@ from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink
 from pyslvs_ui.graphics import color_names, color_qt, color_icon
 from .utility import set_custom_color, add_custom_color
+from .relocate_point import RelocateDialog
 from .edit_point_ui import Ui_Dialog
 
 
@@ -118,3 +119,12 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.no_selected.addItem(
             self.selected.takeItem(self.selected.row(item))
         )
+
+    @Slot(name='on_relocate_option_clicked')
+    def __relocate(self) -> None:
+        """Relocate option."""
+        dlg = RelocateDialog(self)
+        dlg.show()
+        if dlg.exec():
+            self.x_box.setValue(dlg.get_x())
+            self.y_box.setValue(dlg.get_y())
