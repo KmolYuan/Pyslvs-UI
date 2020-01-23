@@ -38,14 +38,14 @@ class EditPointDialog(QDialog, Ui_Dialog):
         flags = self.windowFlags()
         self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
-        self.link_icon = QIcon(QPixmap(":/icons/link.png"))
+        self.icon = QIcon(QPixmap(":/icons/link.png"))
         self.vpoints = vpoints
         self.vlinks = vlinks
         vpoints_count = len(vpoints)
         for i, e in enumerate(color_names):
             self.color_box.insertItem(i, color_icon(e), e)
         for vlink in vlinks:
-            self.no_selected.addItem(QListWidgetItem(self.link_icon, vlink.name))
+            self.no_selected.addItem(QListWidgetItem(self.icon, vlink.name))
         if pos is False:
             self.name_box.addItem(icon, f'Point{vpoints_count}')
             self.name_box.setEnabled(False)
@@ -56,6 +56,10 @@ class EditPointDialog(QDialog, Ui_Dialog):
             self.name_box.setCurrentIndex(pos)
         self.type_box.currentIndexChanged.connect(self.__check_angle)
         self.__check_angle()
+
+    def __link_item(self, name: str) -> QListWidgetItem:
+        """Create a list item for a link."""
+        return QListWidgetItem(self.icon, name)
 
     @Slot(int, name='on_name_box_currentIndexChanged')
     def __set_name(self, index: int) -> None:
@@ -70,12 +74,12 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.angle_box.setValue(vpoint.angle)
         self.no_selected.clear()
         self.selected.clear()
-        for linkName in vpoint.links:
-            self.selected.addItem(QListWidgetItem(self.link_icon, linkName))
-        for vlink in self.vlinks:
-            if vlink.name in vpoint.links:
-                continue
-            self.no_selected.addItem(QListWidgetItem(self.link_icon, vlink.name))
+        names = {vlink.name for vlink in self.vlinks}
+        for name in vpoint.links:
+            names.remove(name)
+            self.selected.addItem(self.__link_item(name))
+        for name in names:
+            self.no_selected.addItem(self.__link_item(name))
 
     @Slot(int, name='on_color_box_currentIndexChanged')
     def __set_color(self, _=None) -> None:

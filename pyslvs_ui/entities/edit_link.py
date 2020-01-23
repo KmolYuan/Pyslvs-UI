@@ -55,8 +55,15 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         for i in range(len(self.vpoints)):
             self.no_selected.addItem(QListWidgetItem(self.icon, f'Point{i}'))
         if row is False:
-            self.name_box.addItem(icon, "New link")
+            names = {vlink.name for vlink in self.vlinks}
+            n = 1
+            name = f"link_{n}"
+            while name in names:
+                n += 1
+                name = f"link_{n}"
+            self.name_edit.setText(name)
             self.name_box.setEnabled(False)
+            self.name_box.addItem(icon, "New link")
             self.color_box.setCurrentIndex(self.color_box.findText('Blue'))
         else:
             for i, vlink in enumerate(self.vlinks):
@@ -81,6 +88,10 @@ class EditLinkDialog(QDialog, Ui_Dialog):
                 return False
         return True
 
+    def __point_item(self, p: int) -> QListWidgetItem:
+        """Create a list item for a point."""
+        return QListWidgetItem(self.icon, f'Point{p}')
+
     @Slot(int, name='on_name_box_currentIndexChanged')
     def __set_name(self, index: int) -> None:
         """Load the parameters of the link."""
@@ -92,12 +103,12 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             set_custom_color(self.color_box, vlink.color_str)
             self.no_selected.clear()
             self.selected.clear()
+            points = set(range(len(self.vpoints)))
             for p in vlink.points:
-                self.selected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
-            for p in range(len(self.vpoints)):
-                if p in vlink.points:
-                    continue
-                self.no_selected.addItem(QListWidgetItem(self.icon, f'Point{p}'))
+                points.remove(p)
+                self.selected.addItem(self.__point_item(p))
+            for p in points:
+                self.no_selected.addItem(self.__point_item(p))
         not_ground = index > 0
         for widget in (self.name_edit, self.color_box, self.color_pick_button):
             widget.setEnabled(not_ground)
