@@ -96,7 +96,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="angle_label">
             <property name="text">
-             <string>Angle</string>
+             <string>Slider angle</string>
             </property>
            </widget>
           </item>

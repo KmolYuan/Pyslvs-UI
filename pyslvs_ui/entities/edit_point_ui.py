@@ -160,7 +160,7 @@ class Ui_Dialog(object):
         self.type_box.setItemText(0, _translate("Dialog", "R (pin)"))
         self.type_box.setItemText(1, _translate("Dialog", "P (slider block)"))
         self.type_box.setItemText(2, _translate("Dialog", "RP (pin in slot)"))
-        self.angle_label.setText(_translate("Dialog", "Angle"))
+        self.angle_label.setText(_translate("Dialog", "Slider angle"))
         self.pos_group.setTitle(_translate("Dialog", "Position"))
         self.x_label.setText(_translate("Dialog", "X"))
         self.y_label.setText(_translate("Dialog", "Y"))

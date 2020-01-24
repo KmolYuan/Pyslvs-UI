@@ -330,7 +330,7 @@
        <item>
         <widget class="QCheckBox" name="pllp_inversed_box">
          <property name="text">
-          <string>Inverse two points</string>
+          <string>Inverse the position to another side.</string>
          </property>
         </widget>
        </item>
