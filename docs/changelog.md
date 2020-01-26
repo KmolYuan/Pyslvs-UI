@@ -7,6 +7,7 @@
 + "Relocate" dialog options for editing point position.
 + Fix commas error of expression table on GUI.
 + Fix "Add Point" action on menu bar.
++ UI contraction of synthesis panels.
 
 **Development**:
 

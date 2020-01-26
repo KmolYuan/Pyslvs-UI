@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
+    <width>444</width>
     <height>654</height>
    </rect>
   </property>
@@ -151,20 +151,11 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QCheckBox" name="keep_dof">
-           <property name="statusTip">
-            <string>Keep the degrees of freedom when adjusting numbers.</string>
-           </property>
-           <property name="text">
-            <string>Keep the DOF</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="3">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
           <widget class="QComboBox" name="graph_degenerate">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -190,6 +181,32 @@
              <string>All</string>
             </property>
            </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="keep_dof">
+           <property name="statusTip">
+            <string>Keep the degrees of freedom when adjusting numbers.</string>
+           </property>
+           <property name="text">
+            <string>Keep DOF</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -235,7 +252,7 @@
          </property>
          <column>
           <property name="text">
-           <string>Link Assortment / Contracted Link Assortment</string>
+           <string>Link Assortment</string>
           </property>
          </column>
          <column>
@@ -251,13 +268,6 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="graph_engine_text">
-           <property name="text">
-            <string>Engine: </string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QComboBox" name="graph_engine">
            <property name="statusTip">
@@ -308,7 +318,7 @@
          <item>
           <widget class="QCheckBox" name="graph_show_label">
            <property name="text">
-            <string>Show labels</string>
+            <string>Labels</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -418,6 +428,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="edges2atlas_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="statusTip">
             <string>Load the edges data from text file, then save them to image files.</string>
            </property>
@@ -450,7 +466,7 @@
          <item>
           <widget class="QLabel" name="paint_time_title_label">
            <property name="text">
-            <string>Painted in:</string>
+            <string>Rendered in:</string>
            </property>
           </widget>
          </item>

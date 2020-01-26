@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
-    <height>662</height>
+    <width>518</width>
+    <height>745</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,20 +50,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="save_atlas">
-       <property name="statusTip">
-        <string>Save the atlas to image file.</string>
-       </property>
-       <property name="text">
-        <string>Save as image</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="save_edges">
        <property name="statusTip">
         <string>Save the edges of atlas to text file.</string>
@@ -74,6 +60,20 @@
        <property name="icon">
         <iconset resource="../../icons.qrc">
          <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="save_atlas">
+       <property name="statusTip">
+        <string>Save the atlas to image file.</string>
+       </property>
+       <property name="text">
+        <string>Save as image</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons.qrc">
+         <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
        </property>
       </widget>
      </item>
@@ -153,13 +153,6 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
-          <widget class="QLabel" name="graph_engine_text">
-           <property name="text">
-            <string>Engine: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QComboBox" name="graph_engine">
            <property name="statusTip">
             <string>Layout engine from NetworkX.</string>
@@ -206,7 +199,7 @@
          <item>
           <widget class="QCheckBox" name="graph_show_label">
            <property name="text">
-            <string>Show labels</string>
+            <string>Labels</string>
            </property>
            <property name="checked">
             <bool>true</bool>

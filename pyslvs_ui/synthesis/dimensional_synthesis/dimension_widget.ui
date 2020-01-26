@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
+    <width>450</width>
     <height>700</height>
    </rect>
   </property>
@@ -582,7 +582,7 @@
            <string>More algorithm settings.</string>
           </property>
           <property name="text">
-           <string>Advance ...</string>
+           <string>Advance Options</string>
           </property>
           <property name="icon">
            <iconset resource="../../icons.qrc">

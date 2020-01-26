@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(564, 700)
+        Form.resize(450, 700)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -368,7 +368,7 @@ class Ui_Form(object):
         self.target_label.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">※ Use &quot;Alt + left button&quot; or &quot;context menu of canvas&quot; to add the path points.</span></p></body></html>"))
         self.options_tab.setTabText(self.options_tab.indexOf(self.target_path), _translate("Form", "Target path"))
         self.advance_button.setStatusTip(_translate("Form", "More algorithm settings."))
-        self.advance_button.setText(_translate("Form", "Advance ..."))
+        self.advance_button.setText(_translate("Form", "Advance Options"))
         self.label_7.setText(_translate("Form", "Time spent:"))
         self.timeShow.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:16pt;\">[N/A]</span></p></body></html>"))
         self.options_tab.setTabText(self.options_tab.indexOf(self.algorithm), _translate("Form", "Algorithm"))
