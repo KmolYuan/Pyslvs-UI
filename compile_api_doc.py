@@ -18,8 +18,8 @@ from inspect import isfunction, isclass, getfullargspec, FullArgSpec
 
 
 class StandardModule(ModuleType):
-    __all__: List[str] = ...
-    __path__: List[str] = ...
+    __all__: List[str]
+    __path__: List[str]
 
 
 def get_name(obj: Any) -> str:
