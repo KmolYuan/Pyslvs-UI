@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""Generate source code files from UI files."""
+"""Compile source code files from UI files."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2020"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from os import walk
 from os.path import join
@@ -14,6 +19,7 @@ else:
 
 
 def gen_ui():
+    """Compile GUIs."""
     count = 0
     for root, _, files in walk("pyslvs_ui"):
         for file in files:
@@ -41,6 +47,7 @@ def gen_ui():
 
 
 def gen_qrc():
+    """Compile icons."""
     count = 0
     for root, _, files in walk("pyslvs_ui"):
         for file in files:
