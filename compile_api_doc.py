@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import get_type_hints, List, Iterator, Iterable, Any
+from typing import get_type_hints, List, Dict, Iterator, Iterable, Any
 from types import ModuleType
 from os import walk
 from os.path import join
@@ -142,9 +142,11 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
                     + table_row(get_name(v) for v in type_doc) + '\n')
         for attr_name in public(dir(obj)):
             sub_doc.append(switch_types(obj, attr_name, level + 1, name))
+    elif hasattr(obj, '__call__'):
+        doc += '()\n\n'
     else:
         doc += '\n\n'
-    doc += doc_dedent(obj.__doc__ or "")
+    doc += doc_dedent(obj.__doc__ or "").rstrip()
     if sub_doc:
         doc += '\n\n' + '\n\n'.join(sub_doc)
     return doc
@@ -152,24 +154,44 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
 
 def find_objs(module: StandardModule) -> Iterator[str]:
     """Find all names and output doc."""
-    if not hasattr(module, '__all__'):
-        return
     load_stubs(module)
     for name in public(module.__all__):
         yield switch_types(module, name, 3).rstrip()
 
 
-def gen_api(root_name: str) -> None:
-    doc = ""
-    modules: List[StandardModule] = [import_module(root_name)]
+def replace_keywords(doc: str, ignore_module: List[str]) -> str:
+    """Replace keywords from docstring."""
+    for name in reversed(ignore_module):
+        doc = doc.replace(name + '.', "")
+    for word, re_word in (
+        ('NoneType', 'None'),
+        ('Ellipsis', '...'),
+    ):
+        doc = doc.replace(word, re_word)
+    return doc
+
+
+def root_module(name: str, module: str) -> str:
+    """Root module docstring."""
+    modules: List[StandardModule] = [import_module(module)]
     root_path = modules[0].__path__
-    for _, name, _ in walk_packages(root_path, root_name + '.'):  # type: str
-        modules.append(import_module(name))
-    for m in modules:
-        doc += '\n\n'.join(find_objs(m))
-    print(doc)
+    ignore_module = ['typing']
+    for _, n, _ in walk_packages(root_path, module + '.'):  # type: str
+        m = import_module(n)
+        if hasattr(m, '__all__'):
+            modules.append(m)
+    ignore_module.extend(m.__name__ for m in modules)
+    return f"# {name} API\n\n" + '\n\n'.join(
+        f"## Module `{m.__name__}`\n\n{m.__doc__.rstrip()}\n\n"
+        + replace_keywords('\n\n'.join(find_objs(m)), ignore_module)
+        for m in modules
+    )
+
+
+def gen_api(root_names: Dict[str, str]) -> None:
+    for name, module in root_names.items():
+        print(root_module(name, module))
 
 
 if __name__ == '__main__':
-    gen_api('pyslvs')
-    gen_api('python_solvespace')
+    gen_api({"Pyslvs": 'pyslvs', "Python-Solvespace": 'python_solvespace'})
