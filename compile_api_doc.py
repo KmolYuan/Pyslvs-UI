@@ -26,13 +26,17 @@ def get_name(obj: Any) -> str:
     """Get a real name from an object."""
     if hasattr(obj, '__name__'):
         return obj.__name__ if obj.__module__ == 'builtins' else obj.__module__ + '.' + obj.__name__
+    elif type(obj) is str:
+        return obj
     else:
         return repr(obj)
 
 
-def public(names: Iterable[str]) -> Iterator[str]:
+def public(obj: Any) -> Iterator[str]:
     """Yield public names only."""
-    yield from (name for name in names if not name.startswith('_'))
+    for name in dir(obj):
+        if name == '__init__' or not name.startswith('_'):
+            yield name
 
 
 def doc_dedent(text: str) -> str:
@@ -140,12 +144,18 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
             title_doc, type_doc = zip(*hints.items())
             doc += (table_row(title_doc) + table_line(title_doc)
                     + table_row(get_name(v) for v in type_doc) + '\n')
-        for attr_name in public(dir(obj)):
-            sub_doc.append(switch_types(obj, attr_name, level + 1, name))
+        for attr_name in public(obj):
+            if attr_name not in hints:
+                sub_doc.append(switch_types(obj, attr_name, level + 1, name))
     elif hasattr(obj, '__call__'):
         doc += '()\n\n'
     else:
         doc += '\n\n'
+        if hasattr(obj, '__name__'):
+            hints = get_type_hints(parent)
+            if obj.__name__ in hints:
+                doc += (table_row(['type']) + table_line(['type'])
+                        + table_row(get_name(hints[obj.__name__])))
     doc += doc_dedent(obj.__doc__ or "").rstrip()
     if sub_doc:
         doc += '\n\n' + '\n\n'.join(sub_doc)
@@ -155,7 +165,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
 def find_objs(module: StandardModule) -> Iterator[str]:
     """Find all names and output doc."""
     load_stubs(module)
-    for name in public(module.__all__):
+    for name in module.__all__:
         yield switch_types(module, name, 3).rstrip()
 
 
