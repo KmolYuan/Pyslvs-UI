@@ -9,12 +9,19 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import get_type_hints, List, Dict, Iterator, Iterable, Any
 from types import ModuleType
+from sys import stdout
 from os import walk
 from os.path import join
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
 from inspect import isfunction, isclass, getfullargspec, FullArgSpec
+from logging import getLogger, basicConfig, DEBUG
+
+__all__ = ['gen_api']
+
+basicConfig(stream=stdout, level=DEBUG, format="%(message)s")
+logger = getLogger()
 
 
 class StandardModule(ModuleType):
@@ -32,20 +39,19 @@ def get_name(obj: Any) -> str:
         return repr(obj)
 
 
-def public(obj: Any) -> Iterator[str]:
+def public(names: Iterable[str]) -> Iterator[str]:
     """Yield public names only."""
-    for name in dir(obj):
+    for name in names:
         if name == '__init__' or not name.startswith('_'):
             yield name
 
 
-def doc_dedent(text: str) -> str:
+def docstring(text: str) -> str:
     """Remove first indent of the docstring."""
     two_parts = text.split('\n', maxsplit=1)
     if len(two_parts) == 2:
-        return two_parts[0] + '\n' + dedent(two_parts[1])
-    else:
-        return text
+        text = two_parts[0] + '\n' + dedent(two_parts[1])
+    return text.lstrip().rstrip()
 
 
 def load_stubs(module: StandardModule) -> None:
@@ -70,8 +76,7 @@ def load_stubs(module: StandardModule) -> None:
         except NameError:
             modules.insert(0, code)
         except Exception as e:
-            print(code)
-            raise RuntimeError from e
+            logger.error(code, exc_info=e)
 
 
 def table_row(items: Iterable[str], space: bool = True) -> str:
@@ -144,7 +149,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
             title_doc, type_doc = zip(*hints.items())
             doc += (table_row(title_doc) + table_line(title_doc)
                     + table_row(get_name(v) for v in type_doc) + '\n')
-        for attr_name in public(obj):
+        for attr_name in public(dir(obj)):
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
     elif hasattr(obj, '__call__'):
@@ -156,17 +161,10 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
             if obj.__name__ in hints:
                 doc += (table_row(['type']) + table_line(['type'])
                         + table_row(get_name(hints[obj.__name__])))
-    doc += doc_dedent(obj.__doc__ or "").rstrip()
+    doc += docstring(obj.__doc__ or "")
     if sub_doc:
         doc += '\n\n' + '\n\n'.join(sub_doc)
     return doc
-
-
-def find_objs(module: StandardModule) -> Iterator[str]:
-    """Find all names and output doc."""
-    load_stubs(module)
-    for name in module.__all__:
-        yield switch_types(module, name, 3).rstrip()
 
 
 def replace_keywords(doc: str, ignore_module: List[str]) -> str:
@@ -191,17 +189,59 @@ def root_module(name: str, module: str) -> str:
         if hasattr(m, '__all__'):
             modules.append(m)
     ignore_module.extend(m.__name__ for m in modules)
-    return f"# {name} API\n\n" + '\n\n'.join(
-        f"## Module `{m.__name__}`\n\n{m.__doc__.rstrip()}\n\n"
-        + replace_keywords('\n\n'.join(find_objs(m)), ignore_module)
-        for m in modules
-    )
+    doc = f"# {name} API\n\n"
+    for m in modules:
+        load_stubs(m)
+        doc += f"## Module `{m.__name__}`\n\n{docstring(m.__doc__)}\n\n"
+        doc += replace_keywords('\n\n'.join(
+            switch_types(m, name, 3) for name in public(m.__all__)
+        ), ignore_module)
+        doc += '\n\n'
+    return doc[:-2]
 
 
-def gen_api(root_names: Dict[str, str]) -> None:
+def gen_api(root_names: Dict[str, str], prefix: str) -> None:
     for name, module in root_names.items():
-        print(root_module(name, module))
+        path = join(prefix, f"{module.replace('_', '-')}-api.md")
+        logger.debug(f"Write file: {path}")
+        logger.debug(root_module(name, module))
+
+
+def main() -> None:
+    """Main function."""
+    from argparse import ArgumentParser
+    parser = ArgumentParser(
+        description="Compile Python public API into Generic Markdown.",
+        epilog=f"{__copyright__} {__license__} {__author__} {__email__}"
+    )
+    parser.add_argument(
+        'module',
+        default=None,
+        nargs='+',
+        type=str,
+        help="the module name that installed or in the current path, "
+             "syntax real_name=module_name can specify a package name for it"
+    )
+    parser.add_argument(
+        '-d',
+        '--dir',
+        metavar="DIR",
+        default='docs',
+        nargs='?',
+        type=str,
+        help="output to a specific directory"
+    )
+    arg = parser.parse_args()
+    root_names = {}
+    for m in arg.module:  # type: str
+        n = m.split('=', maxsplit=1)
+        if len(n) == 1:
+            n.append(n[0])
+        if n[1] == "":
+            n[1] = n[0]
+        root_names[n[0]] = n[1]
+    gen_api(root_names, arg.dir)
 
 
 if __name__ == '__main__':
-    gen_api({"Pyslvs": 'pyslvs', "Python-Solvespace": 'python_solvespace'})
+    main()
