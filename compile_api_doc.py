@@ -10,8 +10,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import get_type_hints, List, Dict, Iterator, Iterable, Any
 from types import ModuleType
 from sys import stdout
-from os import walk
-from os.path import join
+from os import listdir
+from os.path import join, sep, splitext
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
@@ -20,6 +20,7 @@ from logging import getLogger, basicConfig, DEBUG
 
 __all__ = ['gen_api']
 
+loaded_path = set()
 basicConfig(stream=stdout, level=DEBUG, format="%(message)s")
 logger = getLogger()
 
@@ -39,6 +40,12 @@ def get_name(obj: Any) -> str:
         return repr(obj)
 
 
+def to_module(path: str) -> str:
+    """Turn to Python module name."""
+    path, _ = splitext(path)
+    return path.replace(sep, '.')
+
+
 def public(names: Iterable[str]) -> Iterator[str]:
     """Yield public names only."""
     for name in names:
@@ -54,40 +61,19 @@ def docstring(text: str) -> str:
     return text.lstrip().rstrip()
 
 
-def load_stubs(module: StandardModule) -> None:
-    """Load all pyi files."""
-    modules = []
-    for root, _, files in walk(module.__path__[0]):
-        for file in files:
-            if not file.endswith('.pyi'):
-                continue
-            with open(join(root, file), 'r', encoding='utf-8') as f:
-                code = f.read()
-            code_list = code.splitlines()
-            for line in reversed(range(len(code_list))):
-                if code_list[line].startswith("from ."):
-                    code_list.pop(line)
-            code = '\n'.join(code_list)
-            modules.append(code)
-    while modules:
-        code = modules.pop()
-        try:
-            exec(code, module.__dict__)
-        except NameError:
-            modules.insert(0, code)
-        except Exception as e:
-            logger.error(code, exc_info=e)
+def table_row(*items: Iterable[str]) -> str:
+    """Make the rows to a pipe table."""
+    def table(_items: Iterable[str], space: bool = True) -> str:
+        s = " " if space else ""
+        return '|' + s + (s + '|' + s).join(_items) + s + '|\n'
 
-
-def table_row(items: Iterable[str], space: bool = True) -> str:
-    """Make a row of a Markdown table."""
-    s = " " if space else ""
-    return '|' + s + (s + '|' + s).join(items) + s + '|\n'
-
-
-def table_line(items: Iterable[str]) -> str:
-    """Make a line of a Markdown table."""
-    return table_row((':' + '-' * (len(s) if len(s) > 3 else 3) + ':' for s in items), False)
+    if len(items) < 2:
+        raise ValueError("the number of rows is not enough")
+    line = (':' + '-' * (len(s) if len(s) > 3 else 3) + ':' for s in items[0])
+    doc = table(items[0]) + table(line, False)
+    for item in items[0:]:
+        doc += table(item)
+    return doc
 
 
 def make_table(args: FullArgSpec) -> str:
@@ -118,7 +104,7 @@ def make_table(args: FullArgSpec) -> str:
             type_doc.append(get_name(args.annotations[arg]))
         else:
             type_doc.append(" ")
-    doc = table_row(args_doc) + table_line(args_doc) + table_row(type_doc)
+    tb = [args_doc, type_doc]
     df = []
     if args.defaults is not None:
         df.extend([" "] * (len(args.args) - len(args.defaults)))
@@ -127,9 +113,8 @@ def make_table(args: FullArgSpec) -> str:
         df.extend(args.kwonlydefaults.get(arg, " ") for arg in args.kwonlyargs)
     if df:
         df.append(" ")
-        doc += table_row(f"{v}" for v in df)
-    doc += '\n'
-    return doc
+        tb.append([f"{v}" for v in df])
+    return table_row(*tb) + '\n'
 
 
 def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
@@ -147,8 +132,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         hints = get_type_hints(obj)
         if hints:
             title_doc, type_doc = zip(*hints.items())
-            doc += (table_row(title_doc) + table_line(title_doc)
-                    + table_row(get_name(v) for v in type_doc) + '\n')
+            doc += table_row(title_doc, [get_name(v) for v in type_doc]) + '\n'
         for attr_name in public(dir(obj)):
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
@@ -159,8 +143,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         if hasattr(obj, '__name__'):
             hints = get_type_hints(parent)
             if obj.__name__ in hints:
-                doc += (table_row(['type']) + table_line(['type'])
-                        + table_row(get_name(hints[obj.__name__])))
+                doc += table_row(['type'], [get_name(hints[obj.__name__])]) + '\n'
     doc += docstring(obj.__doc__ or "")
     if sub_doc:
         doc += '\n\n' + '\n\n'.join(sub_doc)
@@ -179,6 +162,34 @@ def replace_keywords(doc: str, ignore_module: List[str]) -> str:
     return doc
 
 
+def load_stubs(module: StandardModule) -> None:
+    """Load all pyi files."""
+    modules = []
+    root = module.__path__[0]
+    if root in loaded_path:
+        return
+    loaded_path.add(root)
+    for files in listdir(root):
+        for file in files:
+            if not file.endswith('.pyi'):
+                continue
+            with open(join(root, file), 'r', encoding='utf-8') as f:
+                code = f.read()
+            code_list = code.splitlines()
+            for line in reversed(range(len(code_list))):
+                if code_list[line].startswith("from ."):
+                    code_list.pop(line)
+            modules.append('\n'.join(code_list))
+    while modules:
+        code = modules.pop()
+        try:
+            exec(code, module.__dict__)
+        except NameError:
+            modules.insert(0, code)
+        except Exception as e:
+            logger.error(code, exc_info=e)
+
+
 def root_module(name: str, module: str) -> str:
     """Root module docstring."""
     modules: List[StandardModule] = [import_module(module)]
@@ -195,8 +206,7 @@ def root_module(name: str, module: str) -> str:
         doc += f"## Module `{m.__name__}`\n\n{docstring(m.__doc__)}\n\n"
         doc += replace_keywords('\n\n'.join(
             switch_types(m, name, 3) for name in public(m.__all__)
-        ), ignore_module)
-        doc += '\n\n'
+        ), ignore_module) + '\n\n'
     return doc[:-2]
 
 
