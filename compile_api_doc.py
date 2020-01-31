@@ -15,6 +15,7 @@ from os.path import join, sep, splitext
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
+from dataclasses import is_dataclass
 from inspect import isfunction, isclass, getfullargspec, FullArgSpec
 from logging import getLogger, basicConfig, DEBUG
 
@@ -46,10 +47,12 @@ def to_module(path: str) -> str:
     return path.replace(sep, '.')
 
 
-def public(names: Iterable[str]) -> Iterator[str]:
+def public(names: Iterable[str], init: bool = True) -> Iterator[str]:
     """Yield public names only."""
     for name in names:
-        if name == '__init__' or not name.startswith('_'):
+        if init:
+            init = name == '__init__'
+        if init or not name.startswith('_'):
             yield name
 
 
@@ -67,11 +70,14 @@ def table_row(*items: Iterable[str]) -> str:
         s = " " if space else ""
         return '|' + s + (s + '|' + s).join(_items) + s + '|\n'
 
-    if len(items) < 2:
+    if len(items) == 0:
         raise ValueError("the number of rows is not enough")
+    doc = table(items[0])
+    if len(items) == 1:
+        return doc
     line = (':' + '-' * (len(s) if len(s) > 3 else 3) + ':' for s in items[0])
-    doc = table(items[0]) + table(line, False)
-    for item in items[0:]:
+    doc += table(line, False)
+    for item in items[1:]:
         doc += table(item)
     return doc
 
@@ -104,7 +110,7 @@ def make_table(args: FullArgSpec) -> str:
             type_doc.append(get_name(args.annotations[arg]))
         else:
             type_doc.append(" ")
-    tb = [args_doc, type_doc]
+    doc = table_row(args_doc, type_doc)
     df = []
     if args.defaults is not None:
         df.extend([" "] * (len(args.args) - len(args.defaults)))
@@ -113,8 +119,8 @@ def make_table(args: FullArgSpec) -> str:
         df.extend(args.kwonlydefaults.get(arg, " ") for arg in args.kwonlyargs)
     if df:
         df.append(" ")
-        tb.append([f"{v}" for v in df])
-    return table_row(*tb) + '\n'
+        doc += table_row([f"{v}" for v in df])
+    return doc + '\n'
 
 
 def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
@@ -128,12 +134,15 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     if isfunction(obj):
         doc += "()\n\n" + make_table(getfullargspec(obj))
     elif isclass(obj):
-        doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`.\n\n"
+        doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`."
+        if is_dataclass(obj):
+            doc += " Is a data class."
+        doc += '\n\n'
         hints = get_type_hints(obj)
         if hints:
             title_doc, type_doc = zip(*hints.items())
             doc += table_row(title_doc, [get_name(v) for v in type_doc]) + '\n'
-        for attr_name in public(dir(obj)):
+        for attr_name in public(dir(obj), not is_dataclass(obj)):
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
     elif hasattr(obj, '__call__'):
@@ -197,9 +206,9 @@ def root_module(name: str, module: str) -> str:
     ignore_module = ['typing']
     for _, n, _ in walk_packages(root_path, module + '.'):  # type: str
         m = import_module(n)
+        ignore_module.append(m.__name__)
         if hasattr(m, '__all__'):
             modules.append(m)
-    ignore_module.extend(m.__name__ for m in modules)
     doc = f"# {name} API\n\n"
     for m in modules:
         load_stubs(m)
