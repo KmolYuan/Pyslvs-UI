@@ -7,7 +7,8 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import get_type_hints, List, Dict, Iterator, Iterable, Any
+from typing import (cast, get_type_hints, List, Set, Dict, Iterable,
+                    Optional, Any)
 from types import ModuleType
 from sys import stdout
 from os import listdir
@@ -21,7 +22,7 @@ from logging import getLogger, basicConfig, DEBUG
 
 __all__ = ['gen_api']
 
-loaded_path = set()
+loaded_path: Set[str] = set()
 basicConfig(stream=stdout, level=DEBUG, format="%(message)s")
 logger = getLogger()
 
@@ -47,7 +48,7 @@ def to_module(path: str) -> str:
     return path.replace(sep, '.')
 
 
-def public(names: Iterable[str], init: bool = True) -> Iterator[str]:
+def public(names: Iterable[str], init: bool = True) -> Iterable[str]:
     """Yield public names only."""
     for name in names:
         if init:
@@ -56,8 +57,10 @@ def public(names: Iterable[str], init: bool = True) -> Iterator[str]:
             yield name
 
 
-def docstring(text: str) -> str:
+def docstring(text: Optional[str]) -> str:
     """Remove first indent of the docstring."""
+    if text is None:
+        return ""
     two_parts = text.split('\n', maxsplit=1)
     if len(two_parts) == 2:
         text = two_parts[0] + '\n' + dedent(two_parts[1])
@@ -153,7 +156,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
             hints = get_type_hints(parent)
             if obj.__name__ in hints:
                 doc += table_row(['type'], [get_name(hints[obj.__name__])]) + '\n'
-    doc += docstring(obj.__doc__ or "")
+    doc += docstring(obj.__doc__)
     if sub_doc:
         doc += '\n\n' + '\n\n'.join(sub_doc)
     return doc
@@ -169,6 +172,15 @@ def replace_keywords(doc: str, ignore_module: List[str]) -> str:
     ):
         doc = doc.replace(word, re_word)
     return doc
+
+
+def import_from(name: str) -> StandardModule:
+    """Import the module from name."""
+    try:
+        return cast(StandardModule, import_module(name))
+    except ImportError:
+        logger.warn(f"load module failed: {name}")
+        return StandardModule(name)
 
 
 def load_stubs(module: StandardModule) -> None:
@@ -201,11 +213,11 @@ def load_stubs(module: StandardModule) -> None:
 
 def root_module(name: str, module: str) -> str:
     """Root module docstring."""
-    modules: List[StandardModule] = [import_module(module)]
+    modules = [import_from(module)]
     root_path = modules[0].__path__
     ignore_module = ['typing']
-    for _, n, _ in walk_packages(root_path, module + '.'):  # type: str
-        m = import_module(n)
+    for info in walk_packages(root_path, module + '.'):
+        m = import_from(info.name)
         ignore_module.append(m.__name__)
         if hasattr(m, '__all__'):
             modules.append(m)
