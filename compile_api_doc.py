@@ -7,8 +7,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (cast, get_type_hints, List, Set, Dict, Iterable,
-                    Optional, Any)
+from typing import cast, get_type_hints, List, Set, Dict, Iterable, Any
 from types import ModuleType
 from sys import stdout
 from os import listdir
@@ -35,7 +34,12 @@ class StandardModule(ModuleType):
 def get_name(obj: Any) -> str:
     """Get a real name from an object."""
     if hasattr(obj, '__name__'):
-        return obj.__name__ if obj.__module__ == 'builtins' else obj.__module__ + '.' + obj.__name__
+        if hasattr(obj, '__module__'):
+            if obj.__module__ == 'builtins':
+                return obj.__name__
+            else:
+                return f"{obj.__module__}.{obj.__name__}"
+        return obj.__name__
     elif type(obj) is str:
         return obj
     else:
@@ -57,14 +61,15 @@ def public(names: Iterable[str], init: bool = True) -> Iterable[str]:
             yield name
 
 
-def docstring(text: Optional[str]) -> str:
+def docstring(obj: object) -> str:
     """Remove first indent of the docstring."""
-    if text is None:
+    doc = obj.__doc__
+    if doc is None:
         return ""
-    two_parts = text.split('\n', maxsplit=1)
+    two_parts = doc.split('\n', maxsplit=1)
     if len(two_parts) == 2:
-        text = two_parts[0] + '\n' + dedent(two_parts[1])
-    return text.lstrip().rstrip()
+        doc = two_parts[0] + '\n' + dedent(two_parts[1])
+    return doc.lstrip().rstrip()
 
 
 def table_row(*items: Iterable[str]) -> str:
@@ -138,25 +143,22 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         doc += "()\n\n" + make_table(getfullargspec(obj))
     elif isclass(obj):
         doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`."
-        if is_dataclass(obj):
+        is_data_cls = is_dataclass(obj)
+        if is_data_cls:
             doc += " Is a data class."
         doc += '\n\n'
         hints = get_type_hints(obj)
         if hints:
             title_doc, type_doc = zip(*hints.items())
             doc += table_row(title_doc, [get_name(v) for v in type_doc]) + '\n'
-        for attr_name in public(dir(obj), not is_dataclass(obj)):
+        for attr_name in public(dir(obj), not is_data_cls):
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
     elif hasattr(obj, '__call__'):
-        doc += '()\n\n'
+        doc += '()\n\n' + make_table(getfullargspec(obj))
     else:
-        doc += '\n\n'
-        if hasattr(obj, '__name__'):
-            hints = get_type_hints(parent)
-            if obj.__name__ in hints:
-                doc += table_row(['type'], [get_name(hints[obj.__name__])]) + '\n'
-    doc += docstring(obj.__doc__)
+        return ""
+    doc += docstring(obj)
     if sub_doc:
         doc += '\n\n' + '\n\n'.join(sub_doc)
     return doc
@@ -183,48 +185,44 @@ def import_from(name: str) -> StandardModule:
         return StandardModule(name)
 
 
-def load_stubs(module: StandardModule) -> None:
+def load_stubs(m: StandardModule) -> None:
     """Load all pyi files."""
     modules = []
-    root = module.__path__[0]
+    root = m.__path__[0]
     if root in loaded_path:
         return
     loaded_path.add(root)
-    for files in listdir(root):
-        for file in files:
-            if not file.endswith('.pyi'):
-                continue
-            with open(join(root, file), 'r', encoding='utf-8') as f:
-                code = f.read()
-            code_list = code.splitlines()
-            for line in reversed(range(len(code_list))):
-                if code_list[line].startswith("from ."):
-                    code_list.pop(line)
-            modules.append('\n'.join(code_list))
+    for file in listdir(root):
+        if not file.endswith('.pyi'):
+            continue
+        with open(join(root, file), 'r', encoding='utf-8') as f:
+            code = f.read()
+        modules.append(code.replace("from .", f"from {get_name(m)}."))
     while modules:
         code = modules.pop()
         try:
-            exec(code, module.__dict__)
+            exec(code, m.__dict__)
         except NameError:
             modules.insert(0, code)
         except Exception as e:
-            logger.error(code, exc_info=e)
+            print(code)
+            raise e
 
 
 def root_module(name: str, module: str) -> str:
     """Root module docstring."""
     modules = [import_from(module)]
     root_path = modules[0].__path__
-    ignore_module = ['typing']
+    ignore_module = ['typing', module]
     for info in walk_packages(root_path, module + '.'):
         m = import_from(info.name)
-        ignore_module.append(m.__name__)
+        ignore_module.append(get_name(m))
         if hasattr(m, '__all__'):
             modules.append(m)
     doc = f"# {name} API\n\n"
-    for m in modules:
+    for m in reversed(modules):
         load_stubs(m)
-        doc += f"## Module `{m.__name__}`\n\n{docstring(m.__doc__)}\n\n"
+        doc += f"## Module `{get_name(m)}`\n\n{docstring(m)}\n\n"
         doc += replace_keywords('\n\n'.join(
             switch_types(m, name, 3) for name in public(m.__all__)
         ), ignore_module) + '\n\n'
