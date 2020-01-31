@@ -16,7 +16,7 @@ from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
 from dataclasses import is_dataclass
-from inspect import isfunction, isclass, getfullargspec, FullArgSpec
+from inspect import isfunction, isclass, isgenerator, getfullargspec, FullArgSpec
 from logging import getLogger, basicConfig, DEBUG
 
 __all__ = ['gen_api']
@@ -139,7 +139,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         doc += f"{prefix}."
     doc += f"{name}"
     sub_doc = []
-    if isfunction(obj):
+    if isfunction(obj) or isgenerator(obj):
         doc += "()\n\n" + make_table(getfullargspec(obj))
     elif isclass(obj):
         doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`."
@@ -154,8 +154,12 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         for attr_name in public(dir(obj), not is_data_cls):
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
-    elif hasattr(obj, '__call__'):
+    elif callable(obj):
         doc += '()\n\n' + make_table(getfullargspec(obj))
+    elif type(obj) is property:
+        doc += "\n\nIs a property."
+    elif type(obj) is staticmethod:
+        doc += "\n\nIs a static method."
     else:
         return ""
     doc += docstring(obj)
