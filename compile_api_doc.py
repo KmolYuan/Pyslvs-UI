@@ -2,21 +2,23 @@
 
 """Compile documentation from modules."""
 
+from __future__ import annotations
+
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import cast, get_type_hints, List, Set, Dict, Iterable, Any
+from typing import cast, get_type_hints, List, Set, Dict, Iterable, Callable, Any
 from types import ModuleType
-from sys import stdout
+from sys import stdout, modules as sys_modules
 from os import listdir
 from os.path import join, sep, splitext
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
 from dataclasses import is_dataclass
-from inspect import isfunction, isclass, isgenerator, getfullargspec, FullArgSpec
+from inspect import isfunction, isclass, isgenerator, getfullargspec
 from logging import getLogger, basicConfig, DEBUG
 
 __all__ = ['gen_api']
@@ -66,6 +68,8 @@ def docstring(obj: object) -> str:
     doc = obj.__doc__
     if doc is None:
         return ""
+    elif not isinstance(obj, ModuleType) and doc.__doc__ == type(doc).__doc__:
+        return ""
     two_parts = doc.split('\n', maxsplit=1)
     if len(two_parts) == 2:
         doc = two_parts[0] + '\n' + dedent(two_parts[1])
@@ -74,6 +78,7 @@ def docstring(obj: object) -> str:
 
 def table_row(*items: Iterable[str]) -> str:
     """Make the rows to a pipe table."""
+
     def table(_items: Iterable[str], space: bool = True) -> str:
         s = " " if space else ""
         return '|' + s + (s + '|' + s).join(_items) + s + '|\n'
@@ -90,8 +95,10 @@ def table_row(*items: Iterable[str]) -> str:
     return doc
 
 
-def make_table(args: FullArgSpec) -> str:
+def make_table(obj: Callable) -> str:
     """Make an argument table for function or method."""
+    args = getfullargspec(obj)
+    hints = get_type_hints(obj)
     args_doc = []
     type_doc = []
     all_args = []
@@ -100,7 +107,7 @@ def make_table(args: FullArgSpec) -> str:
     # The name of '*'
     if args.varargs is not None:
         new_name = f'**{args.varargs}'
-        args.annotations[new_name] = args.annotations[args.varargs]
+        hints[new_name] = hints[args.varargs]
         all_args.append(new_name)
     elif args.kwonlyargs:
         all_args.append('*')
@@ -109,13 +116,13 @@ def make_table(args: FullArgSpec) -> str:
     # The name of '**'
     if args.varkw is not None:
         new_name = f'**{args.varkw}'
-        args.annotations[new_name] = args.annotations[args.varkw]
+        hints[new_name] = hints[args.varkw]
         all_args.append(new_name)
     all_args.append('return')
     for arg in all_args:  # type: str
         args_doc.append(arg)
-        if arg in args.annotations:
-            type_doc.append(get_name(args.annotations[arg]))
+        if arg in hints:
+            type_doc.append(get_name(hints[arg]))
         else:
             type_doc.append(" ")
     doc = table_row(args_doc, type_doc)
@@ -140,7 +147,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     doc += f"{name}"
     sub_doc = []
     if isfunction(obj) or isgenerator(obj):
-        doc += "()\n\n" + make_table(getfullargspec(obj))
+        doc += "()\n\n" + make_table(obj)
     elif isclass(obj):
         doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`."
         is_data_cls = is_dataclass(obj)
@@ -155,7 +162,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
     elif callable(obj):
-        doc += '()\n\n' + make_table(getfullargspec(obj))
+        doc += '()\n\n' + make_table(obj)
     elif type(obj) is property:
         doc += "\n\nIs a property."
     elif type(obj) is staticmethod:
@@ -189,9 +196,22 @@ def import_from(name: str) -> StandardModule:
         return StandardModule(name)
 
 
+def load_file(code: str, mod: ModuleType) -> bool:
+    """Load file into the module."""
+    try:
+        sys_modules[get_name(mod)] = mod
+        exec(compile(code, '', 'exec', flags=annotations.compiler_flag), mod.__dict__)
+    except ImportError:
+        return False
+    except Exception as e:
+        logger.debug(code)
+        raise e
+    return True
+
+
 def load_stubs(m: StandardModule) -> None:
     """Load all pyi files."""
-    modules = []
+    modules = {}
     root = m.__path__[0]
     if root in loaded_path:
         return
@@ -201,31 +221,44 @@ def load_stubs(m: StandardModule) -> None:
             continue
         with open(join(root, file), 'r', encoding='utf-8') as f:
             code = f.read()
-        modules.append(code.replace("from .", f"from {get_name(m)}."))
-    while modules:
-        code = modules.pop()
-        try:
-            exec(code, m.__dict__)
-        except NameError:
-            modules.insert(0, code)
-        except Exception as e:
-            print(code)
-            raise e
+        modules[get_name(m) + '.' + file[:-len('.pyi')]] = code
+    module_names = list(modules)
+    while module_names:
+        name = module_names.pop()
+        logger.debug(f"Load stub: {name}")
+        code = modules[name]
+        mod = ModuleType(name)
+        if not load_file(code, mod):
+            module_names.insert(0, name)
+    # Reload root module
+    name = get_name(m)
+    with open(m.__file__, 'r', encoding='utf-8') as f:
+        load_file(f.read(), m)
+    sys_modules[name] = m
 
 
-def root_module(name: str, module: str) -> str:
+def get_level(name: str) -> int:
+    """Return the level of the module name."""
+    return name.count('.')
+
+
+def load_root(root_name: str, root_module: str) -> str:
     """Root module docstring."""
-    modules = [import_from(module)]
-    root_path = modules[0].__path__
-    ignore_module = ['typing', module]
-    for info in walk_packages(root_path, module + '.'):
+    modules = {root_name: import_from(root_module)}
+    root_path = modules[root_name].__path__
+    ignore_module = ['typing', root_module]
+    for info in walk_packages(root_path, root_module + '.'):
         m = import_from(info.name)
-        ignore_module.append(get_name(m))
+        del sys_modules[info.name]
+        name = get_name(m)
+        ignore_module.append(name)
         if hasattr(m, '__all__'):
-            modules.append(m)
-    doc = f"# {name} API\n\n"
-    for m in reversed(modules):
-        load_stubs(m)
+            modules[name] = m
+    doc = f"# {root_name} API\n\n"
+    for n in sorted(modules, key=get_level, reverse=True):
+        load_stubs(modules[n])
+    for n in sorted(modules, key=get_level):
+        m = modules[n]
         doc += f"## Module `{get_name(m)}`\n\n{docstring(m)}\n\n"
         doc += replace_keywords('\n\n'.join(
             switch_types(m, name, 3) for name in public(m.__all__)
@@ -237,7 +270,8 @@ def gen_api(root_names: Dict[str, str], prefix: str) -> None:
     for name, module in root_names.items():
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Write file: {path}")
-        logger.debug(root_module(name, module))
+        doc = load_root(name, module)
+        logger.debug(doc)
 
 
 def main() -> None:
