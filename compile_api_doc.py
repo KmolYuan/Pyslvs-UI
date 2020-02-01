@@ -17,6 +17,7 @@ from os.path import join, sep, splitext
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
+from re import sub
 from dataclasses import is_dataclass
 from inspect import isfunction, isclass, isgenerator, getfullargspec
 from logging import getLogger, basicConfig, DEBUG
@@ -24,6 +25,7 @@ from logging import getLogger, basicConfig, DEBUG
 __all__ = ['gen_api']
 
 loaded_path: Set[str] = set()
+unload_modules = set(sys_modules)
 basicConfig(stream=stdout, level=DEBUG, format="%(message)s")
 logger = getLogger()
 
@@ -67,8 +69,6 @@ def docstring(obj: object) -> str:
     """Remove first indent of the docstring."""
     doc = obj.__doc__
     if doc is None:
-        return ""
-    elif not isinstance(obj, ModuleType) and doc.__doc__ == type(doc).__doc__:
         return ""
     two_parts = doc.split('\n', maxsplit=1)
     if len(two_parts) == 2:
@@ -271,7 +271,10 @@ def gen_api(root_names: Dict[str, str], prefix: str) -> None:
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Write file: {path}")
         doc = load_root(name, module)
-        logger.debug(doc)
+        logger.debug(sub(r"\n\n+", "\n\n", doc))
+        # Unload modules
+        for m_name in set(sys_modules) - unload_modules:
+            del sys_modules[m_name]
 
 
 def main() -> None:
