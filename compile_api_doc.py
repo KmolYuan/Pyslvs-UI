@@ -19,6 +19,7 @@ from pkgutil import walk_packages
 from textwrap import dedent
 from re import sub
 from dataclasses import is_dataclass
+from enum import Enum
 from inspect import isfunction, isclass, isgenerator, getfullargspec
 from logging import getLogger, basicConfig, DEBUG
 
@@ -138,9 +139,18 @@ def make_table(obj: Callable) -> str:
     return doc + '\n'
 
 
+def is_abstractmethod(obj: Any) -> bool:
+    """Return True if it is a abstract method."""
+    return hasattr(obj, '__isabstractmethod__')
+
+
 def is_staticmethod(parent: type, obj: Any) -> bool:
     """Return True if it is a static method."""
-    return type(parent.__dict__[get_name(obj)]) is staticmethod
+    name = get_name(obj)
+    if name in parent.__dict__:
+        return type(parent.__dict__[name]) is staticmethod
+    else:
+        raise NotImplementedError(f"please implement abstract member {name}")
 
 
 def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
@@ -152,9 +162,11 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     doc += f"{name}"
     sub_doc = []
     if isfunction(obj) or isgenerator(obj):
-        doc += "()\n\n" + make_table(obj)
+        doc += "()\n\n" + make_table(obj) + '\n'
+        if isclass(parent) and is_abstractmethod(obj):
+            doc += "Is a abstract method."
         if isclass(parent) and is_staticmethod(parent, obj):
-            doc += "\nIs a static method.\n\n"
+            doc += "Is a static method.\n\n"
     elif isclass(obj):
         doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`."
         is_data_cls = is_dataclass(obj)
@@ -165,6 +177,9 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         if hints:
             title_doc, type_doc = zip(*hints.items())
             doc += table_row(title_doc, [get_name(v) for v in type_doc]) + '\n'
+        elif Enum in obj.__mro__:
+            title_doc, value_doc = zip(*[(e.name, f"{e.value}") for e in obj])
+            doc += table_row(title_doc, value_doc) + '\n'
         for attr_name in public(dir(obj), not is_data_cls):
             if attr_name not in hints:
                 sub_doc.append(switch_types(obj, attr_name, level + 1, name))
@@ -276,7 +291,8 @@ def gen_api(root_names: Dict[str, str], prefix: str) -> None:
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Write file: {path}")
         doc = load_root(name, module)
-        logger.debug(sub(r"\n\n+", "\n\n", doc))
+        with open(path, 'w+', encoding='utf-8') as f:
+            f.write(sub(r"\n\n+", "\n\n", doc))
         # Unload modules
         for m_name in set(sys_modules) - unload_modules:
             del sys_modules[m_name]
