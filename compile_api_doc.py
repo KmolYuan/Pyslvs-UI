@@ -38,7 +38,7 @@ class StandardModule(ModuleType):
 def get_name(obj: Any) -> str:
     """Get a real name from an object."""
     if hasattr(obj, '__name__'):
-        if hasattr(obj, '__module__'):
+        if hasattr(obj, '__module__') and not hasattr(obj, '__class__'):
             if obj.__module__ == 'builtins':
                 return obj.__name__
             else:
@@ -138,6 +138,11 @@ def make_table(obj: Callable) -> str:
     return doc + '\n'
 
 
+def is_staticmethod(parent: type, obj: Any) -> bool:
+    """Return True if it is a static method."""
+    return type(parent.__dict__[get_name(obj)]) is staticmethod
+
+
 def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     """Generate docstring by type."""
     obj = getattr(parent, name)
@@ -148,6 +153,8 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     sub_doc = []
     if isfunction(obj) or isgenerator(obj):
         doc += "()\n\n" + make_table(obj)
+        if isclass(parent) and is_staticmethod(parent, obj):
+            doc += "\nIs a static method.\n\n"
     elif isclass(obj):
         doc += f"\n\nInherited from `{get_name(obj.__mro__[1])}`."
         is_data_cls = is_dataclass(obj)
@@ -164,9 +171,7 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     elif callable(obj):
         doc += '()\n\n' + make_table(obj)
     elif type(obj) is property:
-        doc += "\n\nIs a property."
-    elif type(obj) is staticmethod:
-        doc += "\n\nIs a static method."
+        doc += "\n\nIs a property.\n\n"
     else:
         return ""
     doc += docstring(obj)
