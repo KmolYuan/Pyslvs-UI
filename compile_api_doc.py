@@ -290,6 +290,17 @@ def linker(name: str) -> str:
 
 
 def gen_api(root_names: Dict[str, str], prefix: str) -> None:
+    """Generate API.
+
+    Module format:
+    Parsing `__all__` list in each module, mark the public names.
+    Other names and the module don't has `__all__` will be ignored.
+    If an object has no docstring, the object will be ignored.
+    Please try to pack into a class, a function or a generator.
+
+    Inner links syntax:
+    Use `[name]` or `[class.attribute]` syntax to link the name or attributes in the same module.
+    """
     for name, module in root_names.items():
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Write file: {path}")
