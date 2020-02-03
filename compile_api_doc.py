@@ -13,7 +13,7 @@ from typing import cast, get_type_hints, List, Set, Dict, Iterable, Callable, An
 from types import ModuleType
 from sys import stdout, modules as sys_modules
 from os import listdir
-from os.path import join, sep, splitext
+from os.path import join
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
@@ -26,6 +26,7 @@ from logging import getLogger, basicConfig, DEBUG
 __all__ = ['gen_api']
 
 loaded_path: Set[str] = set()
+inner_links: Dict[str, str] = {}
 unload_modules = set(sys_modules)
 basicConfig(stream=stdout, level=DEBUG, format="%(message)s")
 logger = getLogger()
@@ -49,12 +50,6 @@ def get_name(obj: Any) -> str:
         return obj
     else:
         return repr(obj)
-
-
-def to_module(path: str) -> str:
-    """Turn to Python module name."""
-    path, _ = splitext(path)
-    return path.replace(sep, '.')
 
 
 def public(names: Iterable[str], init: bool = True) -> Iterable[str]:
@@ -156,15 +151,17 @@ def is_staticmethod(parent: type, obj: Any) -> bool:
 def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     """Generate docstring by type."""
     obj = getattr(parent, name)
-    doc = '#' * level + " "
     if prefix:
-        doc += f"{prefix}."
-    doc += f"{name}"
+        full_name = f"{prefix}.{name}"
+        ref = linker(full_name)
+        inner_links.update({name: ref, full_name: ref})
+        name = full_name
+    doc = '#' * level + f" {name}"
     sub_doc = []
     if isfunction(obj) or isgenerator(obj):
         doc += "()\n\n" + make_table(obj) + '\n'
         if isclass(parent) and is_abstractmethod(obj):
-            doc += "Is a abstract method."
+            doc += "Is a abstract method.\n\n"
         if isclass(parent) and is_staticmethod(parent, obj):
             doc += "Is a static method.\n\n"
     elif isclass(obj):
@@ -175,10 +172,11 @@ def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
         doc += '\n\n'
         hints = get_type_hints(obj)
         if hints:
-            title_doc, type_doc = zip(*hints.items())
-            doc += table_row(title_doc, [get_name(v) for v in type_doc]) + '\n'
+            for attr in hints.keys():
+                inner_links[f"{name}.{attr}"] = linker(name)
+            doc += table_row(hints.keys(), [get_name(v) for v in hints.values()]) + '\n'
         elif Enum in obj.__mro__:
-            title_doc, value_doc = zip(*[(e.name, f"{e.value}") for e in obj])
+            title_doc, value_doc = zip(*[(e.name, f"`{e.value!r}`") for e in obj])
             doc += table_row(title_doc, value_doc) + '\n'
         for attr_name in public(dir(obj), not is_data_cls):
             if attr_name not in hints:
@@ -283,7 +281,12 @@ def load_root(root_name: str, root_module: str) -> str:
         doc += replace_keywords('\n\n'.join(
             switch_types(m, name, 3) for name in public(m.__all__)
         ), ignore_module) + '\n\n'
-    return doc[:-2]
+    return doc.rstrip() + '\n'
+
+
+def linker(name: str) -> str:
+    """Return inner link format."""
+    return name.lower().replace('.', '')
 
 
 def gen_api(root_names: Dict[str, str], prefix: str) -> None:
@@ -291,8 +294,17 @@ def gen_api(root_names: Dict[str, str], prefix: str) -> None:
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Write file: {path}")
         doc = load_root(name, module)
+        ref = "".join(
+            f"[{title}]: #{reformat}\n"
+            for title, reformat in inner_links.items()
+            if f"[{title}]" in doc
+        )
+        if ref:
+            doc += '\n' + ref
         with open(path, 'w+', encoding='utf-8') as f:
             f.write(sub(r"\n\n+", "\n\n", doc))
+        # Remove inner link
+        inner_links.clear()
         # Unload modules
         for m_name in set(sys_modules) - unload_modules:
             del sys_modules[m_name]
