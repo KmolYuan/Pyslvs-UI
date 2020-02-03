@@ -19,7 +19,7 @@ from qtpy.QtWidgets import (
     QMessageBox,
 )
 from qtpy.QtGui import QPixmap, QIcon
-from pyslvs import example_list
+from pyslvs import example_list, all_examples
 from pyslvs_ui.info import logger, size_format
 from pyslvs_ui.qt_patch import qt_image_format
 from .yaml import YamlEditor
@@ -173,7 +173,7 @@ class ProjectWidget(QWidget, Ui_Form):
             self,
             "Examples",
             "Select an example to load:",
-            sorted(example_list),
+            all_examples(),
             0,
             False
         )
@@ -184,7 +184,7 @@ class ProjectWidget(QWidget, Ui_Form):
             self.main_clear()
             if self.prefer.open_project_actions_option == 1:
                 self.command_stack.beginMacro("Add mechanism")
-        expr, inputs = example_list[example_name]
+        expr, inputs = example_list(example_name)
         self.parse_expression(expr)
         if not is_import:
             if self.prefer.open_project_actions_option == 1:

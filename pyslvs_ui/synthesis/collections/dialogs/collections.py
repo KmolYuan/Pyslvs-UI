@@ -18,7 +18,7 @@ from qtpy.QtWidgets import (
     QListWidgetItem,
     QWidget,
 )
-from pyslvs import collection_list
+from pyslvs import collection_list, all_collections
 from pyslvs_ui.graphics import PreviewCanvas
 from .collections_ui import Ui_Dialog
 
@@ -56,12 +56,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         # Current profile name
         self.name = ""
         self.params: Dict[str, Any] = {}
-
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
         self.preview_canvas.set_show_ticks(show_ticks)
         self.preview_canvas.set_monochrome_mode(monochrome)
-        self.common_list.addItems(collection_list)
+        self.common_list.addItems(all_collections())
         self.collections_list.addItems(self.collections)
 
         # Splitter
@@ -172,7 +171,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             return
 
         self.name = item.text()
-        self.params = deepcopy(collection_list[self.name])
+        self.params = collection_list(self.name)
         self.preview_canvas.from_profile(self.params)
 
     @Slot(QListWidgetItem, name='on_collections_list_itemClicked')
