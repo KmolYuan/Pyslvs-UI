@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None
++ Recompile API from stub files.
 
 ## Version 20.01
 
