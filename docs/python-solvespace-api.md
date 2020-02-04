@@ -9,7 +9,7 @@ Python binding Solvespace solver libraries.
 
 | qw | qx | qy | qz | return |
 |:---:|:---:|:---:|:---:|:------:|
-| float | float | float | float | Tuple[float, float, float] |
+| float | float | float | float | Tuple\[float, float, float] |
 
 Input quaternion, return unit vector of U axis.
 
@@ -19,7 +19,7 @@ Where `qw`, `qx`, `qy`, `qz` are corresponded to the W, X, Y, Z value of quatern
 
 | qw | qx | qy | qz | return |
 |:---:|:---:|:---:|:---:|:------:|
-| float | float | float | float | Tuple[float, float, float] |
+| float | float | float | float | Tuple\[float, float, float] |
 
 Input quaternion, return unit vector of V axis.
 
@@ -29,7 +29,7 @@ Signature is same as [quaternion_u](#quaternion_u).
 
 | qw | qx | qy | qz | return |
 |:---:|:---:|:---:|:---:|:------:|
-| float | float | float | float | Tuple[float, float, float] |
+| float | float | float | float | Tuple\[float, float, float] |
 
 Input quaternion, return unit vector of normal.
 
@@ -39,7 +39,7 @@ Signature is same as [quaternion_u](#quaternion_u).
 
 | ux | uy | uz | vx | vy | vz | return |
 |:---:|:---:|:---:|:---:|:---:|:---:|:------:|
-| float | float | float | float | float | float | Tuple[float, float, float, float] |
+| float | float | float | float | float | float | Tuple\[float, float, float, float] |
 
 Input two unit vector, return quaternion.
 
@@ -78,7 +78,7 @@ Inherited from `object`.
 
 | FREE_IN_3D | NONE | params |
 |:----------:|:----:|:------:|
-| ClassVar[Entity] | ClassVar[Entity] | Params |
+| ClassVar\[Entity] | ClassVar\[Entity] | Params |
 
 The handles of entities.
 
@@ -384,7 +384,7 @@ Coincident two entities.
 
 | self | return |
 |:----:|:------:|
-|   | Counter[str] |
+|   | Counter\[str] |
 
 Return the number of each constraint type.
 The name of constraints is represented by string.
@@ -496,7 +496,7 @@ point 2 (`e3`) and line 2  (`e4`) must have same distance on work plane `wp`.
 
 | self | return |
 |:----:|:------:|
-|   | List[int] |
+|   | List\[int] |
 
 Return a list of failed constraint numbers.
 
@@ -541,7 +541,7 @@ the work plane (`wp`).
 
 | self | p | return |
 |:----:|:---:|:------:|
-|   | Params | Tuple[float, ...] |
+|   | Params | Tuple\[float, ...] |
 
 Get the parameters from a [Params] handle (`p`) belong to this system.
 The length of tuple is decided by handle.
@@ -584,7 +584,7 @@ Set the current group (`g`).
 
 | self | p | params | return |
 |:----:|:---:|:------:|:------:|
-|   | Params | Sequence[float] | None |
+|   | Params | Sequence\[float] | None |
 
 Set the parameters from a [Params] handle (`p`) belong to this system.
 The values is come from `params`, length must be equal to the handle.
@@ -656,6 +656,8 @@ Parallel constraint between two entities (`e1` and `e2`) on the work plane (`wp`
 Vertical constraint of a 2d point (`e1`) on
 work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
+[quaternion_u]: #quaternion_u
+[Params]: #params
 [Entity.FREE_IN_3D]: #entity
 [is_arc]: #entityis_arc
 [is_circle]: #entityis_circle

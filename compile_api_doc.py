@@ -17,7 +17,7 @@ from os.path import join
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
-from re import sub
+from re import sub, search
 from dataclasses import is_dataclass
 from enum import Enum
 from inspect import isfunction, isclass, isgenerator, getfullargspec
@@ -42,14 +42,16 @@ def get_name(obj: Any) -> str:
     if hasattr(obj, '__name__'):
         if hasattr(obj, '__module__') and not hasattr(obj, '__class__'):
             if obj.__module__ == 'builtins':
-                return obj.__name__
+                name = obj.__name__
             else:
-                return f"{obj.__module__}.{obj.__name__}"
-        return obj.__name__
+                name = f"{obj.__module__}.{obj.__name__}"
+        else:
+            name = obj.__name__
     elif type(obj) is str:
-        return obj
+        name = obj
     else:
-        return repr(obj)
+        name = repr(obj)
+    return name.replace('[', r'\[')
 
 
 def public(names: Iterable[str], init: bool = True) -> Iterable[str]:
@@ -148,14 +150,17 @@ def is_staticmethod(parent: type, obj: Any) -> bool:
         raise NotImplementedError(f"please implement abstract member {name}")
 
 
+def linker(name: str) -> str:
+    """Return inner link format."""
+    return name.lower().replace('.', '')
+
+
 def switch_types(parent: Any, name: str, level: int, prefix: str = "") -> str:
     """Generate docstring by type."""
     obj = getattr(parent, name)
     if prefix:
-        full_name = f"{prefix}.{name}"
-        ref = linker(full_name)
-        inner_links.update({name: ref, full_name: ref})
-        name = full_name
+        name = f"{prefix}.{name}"
+    inner_links[name] = linker(name)
     doc = '#' * level + f" {name}"
     sub_doc = []
     if isfunction(obj) or isgenerator(obj):
@@ -273,9 +278,10 @@ def load_root(root_name: str, root_module: str) -> str:
         if hasattr(m, '__all__'):
             modules[name] = m
     doc = f"# {root_name} API\n\n"
-    for n in sorted(modules, key=get_level, reverse=True):
+    module_names = sorted(modules, key=get_level)
+    for n in reversed(module_names):
         load_stubs(modules[n])
-    for n in sorted(modules, key=get_level):
+    for n in module_names:
         m = modules[n]
         doc += f"## Module `{get_name(m)}`\n\n{docstring(m)}\n\n"
         doc += replace_keywords('\n\n'.join(
@@ -284,9 +290,29 @@ def load_root(root_name: str, root_module: str) -> str:
     return doc.rstrip() + '\n'
 
 
-def linker(name: str) -> str:
-    """Return inner link format."""
-    return name.lower().replace('.', '')
+def basename(name: str) -> str:
+    """Get base name."""
+    sname = name.rsplit('.', maxsplit=1)
+    if len(sname) == 1:
+        return name
+    else:
+        return sname[1]
+
+
+def ref_link(doc: str) -> str:
+    """Create the reference and clear the links."""
+    ref = ""
+    for title, reformat in inner_links.items():
+        if search(rf"(?<!\\)\[{title}]", doc):
+            ref += f"[{title}]: #{reformat}\n"
+            continue
+        title = basename(title)
+        if title in inner_links:
+            continue
+        if search(rf"(?<!\\)\[{title}]", doc):
+            ref += f"[{title}]: #{reformat}\n"
+    inner_links.clear()
+    return ref
 
 
 def gen_api(root_names: Dict[str, str], prefix: str) -> None:
@@ -305,11 +331,7 @@ def gen_api(root_names: Dict[str, str], prefix: str) -> None:
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Write file: {path}")
         doc = load_root(name, module)
-        ref = "".join(
-            f"[{title}]: #{reformat}\n"
-            for title, reformat in inner_links.items()
-            if f"[{title}]" in doc
-        )
+        ref = ref_link(doc)
         if ref:
             doc += '\n' + ref
         with open(path, 'w+', encoding='utf-8') as f:

@@ -34,7 +34,7 @@ Return True if the coordinate value is not a number.
 
 | c1 | d0 | a0 | c2 | inverse | return |
 |:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coordinate | float | float | Union[Coordinate, None] | bool | Coordinate |
+| Coordinate | float | float | Union\[Coordinate, None] | bool | Coordinate |
 |   |   |   | None | False |   |
 
 The PLAP function requires two points, one distance and one angle,
@@ -99,7 +99,7 @@ correspond to coordinate system.
 
 | exprs | data_dict | return |
 |:-----:|:---------:|:------:|
-| Sequence[Tuple[str, ...]] | Dict[str, float] | None |
+| Sequence\[Tuple\[str, ...]] | Dict\[str, float] | None |
 
 Solve and update information of the triangle expression `exprs` to `data_dict`.
 The argument `exprs` can be obtained by [`vpoints_configure`](#vpoints_configure)
@@ -112,7 +112,7 @@ not recommended for direct use.
 
 | exprs | mapping | vpoints | angles | return |
 |:-----:|:-------:|:-------:|:------:|:------:|
-| ExpressionStack | Dict[Union[int, Tuple[int, int]], Union[str, float]] | Sequence[VPoint] | Union[Sequence[float], None] | List[Union[Tuple[float, float], Tuple[Tuple[float, float], Tuple[float, float]]]] |
+| ExpressionStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
 |   |   |   | None |   |
 
 Solver function of Triangular method and BFGS method, for mechanism expression `vpoints`.
@@ -130,7 +130,7 @@ can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
 
 | exprs | mapping | vpoints_ | return |
 |:-----:|:-------:|:--------:|:------:|
-| ExpressionStack | Dict[int, str] | Sequence[VPoint] | Tuple[Dict[str, Union[Coordinate, float]], int] |
+| ExpressionStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coordinate, float]], int] |
 
 Data transform function of Triangular method.
 The triangle expression stack `expr` is generated from [`vpoints_configure`](#vpoints_configure).
@@ -143,7 +143,7 @@ not recommended for direct use.
 
 | vpoints | return |
 |:-------:|:------:|
-| Iterable[VPoint] | List[VLink] |
+| Iterable\[VPoint] | List\[VLink] |
 
 Get VLinks from a list of VPoint `vpoints`.
 
@@ -163,7 +163,7 @@ Inherited from `object`.
 
 | links | c | type | color | color_str | type_str | x | y | angle | HOLDER |
 |:-----:|:---:|:----:|:-----:|:---------:|:--------:|:---:|:---:|:-----:|:------:|
-| Sequence[str] | Tuple[Tuple[float, float], Tuple[float, float]] | VJoint | Union[Tuple[int, int, int], None] | str | str | float | float | float | ClassVar[VPoint] |
+| Sequence\[str] | Tuple\[Tuple\[float, float], Tuple\[float, float]] | VJoint | Union\[Tuple\[int, int, int], None] | str | str | float | float | float | ClassVar\[VPoint] |
 
 Mechanism expression class.
 
@@ -250,7 +250,7 @@ It will call `self.move((x, y))` after set the position.
 
 | self | c1 | c2 | return |
 |:----:|:---:|:---:|:------:|
-|   | Tuple[float, float] | Union[Tuple[float, float], None] | None |
+|   | Tuple\[float, float] | Union\[Tuple\[float, float], None] | None |
 |   |   | None |   |
 
 The update function of current coordinate(s).
@@ -287,7 +287,7 @@ Return True if the point is at the same link.
 
 | links | x | y | return |
 |:-----:|:---:|:---:|:------:|
-| Iterable[str] | float | float | VPoint |
+| Iterable\[str] | float | float | VPoint |
 
 Is a static method.
 
@@ -321,7 +321,7 @@ Return True if the point is at the same link.
 
 | self | links | return |
 |:----:|:-----:|:------:|
-|   | Iterable[str] | None |
+|   | Iterable\[str] | None |
 
 The update function of links attribute.
 
@@ -338,7 +338,7 @@ It will also enable offset value after called.
 
 | links | type_int | angle | x | y | return |
 |:-----:|:--------:|:-----:|:---:|:---:|:------:|
-| Iterable[str] | VJoint | float | float | float | VPoint |
+| Iterable\[str] | VJoint | float | float | float | VPoint |
 
 Is a static method.
 
@@ -371,7 +371,7 @@ Inherited from `object`.
 
 | name | color_str | color | points | HOLDER | FRAME |
 |:----:|:---------:|:-----:|:------:|:------:|:-----:|
-| str | str | Union[Tuple[int, int, int], None] | Sequence[int] | ClassVar[VLink] | ClassVar[str] |
+| str | str | Union\[Tuple\[int, int, int], None] | Sequence\[int] | ClassVar\[VLink] | ClassVar\[str] |
 
 Mechanism expression class in link's view.
 
@@ -379,7 +379,7 @@ Mechanism expression class in link's view.
 
 | self | points | return |
 |:----:|:------:|:------:|
-|   | Iterable[int] | None |
+|   | Iterable\[int] | None |
 
 The update function of points attribute.
 
@@ -396,7 +396,7 @@ Sketch Solve solver.
 
 | self | vpoints_ | return |
 |:----:|:--------:|:------:|
-|   | Sequence[VPoint] | bool |
+|   | Sequence\[VPoint] | bool |
 
 Return True if two expressions are same.
 
@@ -404,7 +404,7 @@ Return True if two expressions are same.
 
 | self | data_dict | return |
 |:----:|:---------:|:------:|
-|   | Union[Dict[Tuple[int, int], float], Dict[int, Coordinate]] | None |
+|   | Union\[Dict\[Tuple\[int, int], float], Dict\[int, Coordinate]] | None |
 
 Set the values of `data_dict` parameter from original constructor.
 Two groups of `dict` keys must be the same or subset.
@@ -413,7 +413,7 @@ Two groups of `dict` keys must be the same or subset.
 
 | self | inputs | return |
 |:----:|:------:|:------:|
-|   | Dict[Tuple[int, int], float] | None |
+|   | Dict\[Tuple\[int, int], float] | None |
 
 Set the values of `inputs` parameter from original constructor.
 Two groups of `dict` keys must be the same or subset.
@@ -422,7 +422,7 @@ Two groups of `dict` keys must be the same or subset.
 
 | self | return |
 |:----:|:------:|
-|   | FrozenSet[Union[int, Tuple[int, int]]] |
+|   | FrozenSet\[Union\[int, Tuple\[int, int]]] |
 
 Show the current keys of `data_dict` parameter from original constructor.
 
@@ -430,7 +430,7 @@ Show the current keys of `data_dict` parameter from original constructor.
 
 | self | return |
 |:----:|:------:|
-|   | FrozenSet[Tuple[int, int]] |
+|   | FrozenSet\[Tuple\[int, int]] |
 
 Show the current input pairs keys from original constructor.
 
@@ -438,7 +438,7 @@ Show the current input pairs keys from original constructor.
 
 | self | return |
 |:----:|:------:|
-|   | List[Union[Tuple[float, float], Tuple[Tuple[float, float], Tuple[float, float]]]] |
+|   | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
 
 Solve the conditions and return the result, raise ValueError if not succeeded.
 The joint position will returned by its index correspondingly.
@@ -496,7 +496,7 @@ Input a generic data (variable array), return the mechanism expression.
 
 | nl | nj | stop_func | return |
 |:---:|:---:|:---------:|:------:|
-| int | int | Union[Callable[[], bool], None] | List[Tuple[int, ...]] |
+| int | int | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
 |   |   | None |   |
 
 Return link assortment by number of links `nl` and number of joints `nj`.
@@ -508,7 +508,7 @@ return `True` to terminate this function.
 
 | link_num_list | stop_func | return |
 |:-------------:|:---------:|:------:|
-| Sequence[int] | Union[Callable[[], bool], None] | List[Tuple[int, ...]] |
+| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
 |   | None |   |
 
 Return contracted link assortment by link assortment `link_num_list`.
@@ -528,7 +528,7 @@ Return True if the graph is a planar graph.
 
 | graph | node_mode | scale | return |
 |:-----:|:---------:|:-----:|:------:|
-| Graph | bool | float | Dict[int, Tuple[float, float]] |
+| Graph | bool | float | Dict\[int, Tuple\[float, float]] |
 |   |   | 1.0 |   |
 
 Layout position decided by outer loop (max cycle).
@@ -541,7 +541,7 @@ Argument `scale` will resize the position by scale factor.
 
 | cg_list | c_j_list | no_degenerate | stop_func | return |
 |:-------:|:--------:|:-------------:|:---------:|:------:|
-| List[Graph] | Sequence[int] | int | Union[Callable[[], bool], None] | List[Graph] |
+| List\[Graph] | Sequence\[int] | int | Union\[Callable\[\[], bool], None] | List\[Graph] |
 |   |   | 1 | None |   |
 
 Generate conventional graphs by contracted graphs `cg_list` and
@@ -560,7 +560,7 @@ return `True` to terminate this function.
 
 | link_num | stop_func | return |
 |:--------:|:---------:|:------:|
-| Sequence[int] | Union[Callable[[], bool], None] | List[Graph] |
+| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Graph] |
 |   | None |   |
 
 Generate contracted graphs by link assortment `link_num`.
@@ -574,7 +574,7 @@ Inherited from `object`.
 
 | edges | vertices |
 |:-----:|:--------:|
-| Tuple[Tuple[int, int], ...] | Tuple[int, ...] |
+| Tuple\[Tuple\[int, int], ...] | Tuple\[int, ...] |
 
 The undirected graph class, support multigraph.
 
@@ -590,7 +590,7 @@ Add edge `n1` to `n2`.
 
 | self | vertices | return |
 |:----:|:--------:|:------:|
-|   | Iterable[int] | None |
+|   | Iterable\[int] | None |
 
 Add vertices from iterable object `vertices`.
 
@@ -630,7 +630,7 @@ The degree code is the maximum value of the permutation.
 
 | self | return |
 |:----:|:------:|
-|   | Dict[int, int] |
+|   | Dict\[int, int] |
 
 Return the degrees of each vertex.
 
@@ -655,7 +655,7 @@ Return DOF of the graph.
 
 | self | vertices | times | return |
 |:----:|:--------:|:-----:|:------:|
-|   | Iterable[int] | int | Graph |
+|   | Iterable\[int] | int | Graph |
 
 Make graph duplicate by specific `vertices`. Return a new graph.
 
@@ -729,7 +729,7 @@ one of the high performance isomorphic algorithms.
 
 | self | n | return |
 |:----:|:---:|:------:|
-|   | int | Tuple[int, ...] |
+|   | int | Tuple\[int, ...] |
 
 Return the neighbors of the vertex `n`.
 
@@ -737,7 +737,7 @@ Return the neighbors of the vertex `n`.
 
 | g | return |
 |:---:|:------:|
-| Graph | List[int] |
+| Graph | List\[int] |
 
 Return link assortment of the graph.
 
@@ -745,7 +745,7 @@ Return link assortment of the graph.
 
 | g | return |
 |:---:|:------:|
-| Graph | List[int] |
+| Graph | List\[int] |
 
 Return contracted link assortment of the graph.
 
@@ -753,7 +753,7 @@ Return contracted link assortment of the graph.
 
 | g | return |
 |:---:|:------:|
-| Graph | List[Tuple[int, Graph]] |
+| Graph | List\[Tuple\[int, Graph]] |
 
 Enumerate each node with labeled except isomorphism.
 
@@ -761,7 +761,7 @@ Enumerate each node with labeled except isomorphism.
 
 | vpoints_ | inputs | status | return |
 |:--------:|:------:|:------:|:------:|
-| Sequence[VPoint] | Sequence[Tuple[int, int]] | Union[Dict[int, bool], None] | ExpressionStack |
+| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | ExpressionStack |
 |   |   | None |   |
 
 Generate the Triangle solution stack by mechanism expression `vpoints_`.
@@ -780,7 +780,7 @@ It is pointless to call the constructor.
 
 | self | return |
 |:----:|:------:|
-|   | List[Tuple[str, ...]] |
+|   | List\[Tuple\[str, ...]] |
 
 Copy the dataset as list object.
 
@@ -788,7 +788,7 @@ Copy the dataset as list object.
 
 | vpoints | return |
 |:-------:|:------:|
-| Sequence[VPoint] | int |
+| Sequence\[VPoint] | int |
 
 Return the DOF of the mechanism expression `vpoints`.
 
@@ -796,7 +796,7 @@ Return the DOF of the mechanism expression `vpoints`.
 
 | name | return |
 |:----:|:------:|
-| str | Tuple[int, int, int] |
+| str | Tuple\[int, int, int] |
 
 Get color by name.
 
@@ -807,7 +807,7 @@ Also support `"(R, G, B)"` string format.
 
 | expr | return |
 |:----:|:------:|
-| str | List[PointArgs] |
+| str | List\[PointArgs] |
 
 Parse mechanism expression into VPoint constructor arguments.
 
@@ -815,7 +815,7 @@ Parse mechanism expression into VPoint constructor arguments.
 
 | expr | return |
 |:----:|:------:|
-| str | List[Tuple[float, float]] |
+| str | List\[Tuple\[float, float]] |
 
 Parse mechanism expression into coordinates.
 
@@ -823,7 +823,7 @@ Parse mechanism expression into coordinates.
 
 | expr | return |
 |:----:|:------:|
-| str | List[VPoint] |
+| str | List\[VPoint] |
 
 Parse mechanism expression into VPoint objects.
 
@@ -831,7 +831,7 @@ Parse mechanism expression into VPoint objects.
 
 | expr | return |
 |:----:|:------:|
-| str | List[VLink] |
+| str | List\[VLink] |
 
 Parse mechanism expression into VLink objects.
 
@@ -839,7 +839,7 @@ Parse mechanism expression into VLink objects.
 
 | graph | return |
 |:-----:|:------:|
-| Graph | Iterator[Tuple[int, Tuple[int, int]]] |
+| Graph | Iterator\[Tuple\[int, Tuple\[int, int]]] |
 
 The iterator will yield the sorted edges from `graph`.
 
@@ -847,7 +847,7 @@ The iterator will yield the sorted edges from `graph`.
 
 | graph | pos | cus | same | grounded | return |
 |:-----:|:---:|:---:|:----:|:--------:|:------:|
-| Graph | Dict[int, Tuple[float, float]] | Union[Dict[int, int], None] | Union[Dict[int, int], None] | Union[int, None] | List[VPoint] |
+| Graph | Dict\[int, Tuple\[float, float]] | Union\[Dict\[int, int], None] | Union\[Dict\[int, int], None] | Union\[int, None] | List\[VPoint] |
 |   |   | None | None | None |   |
 
 Transform `graph` into [VPoint] objects. The vertices are mapped to links.
@@ -881,7 +881,7 @@ Link table argument.
 
 | key | return |
 |:---:|:------:|
-| str | Tuple[str, Sequence[Tuple[int, int]]] |
+| str | Tuple\[str, Sequence\[Tuple\[int, int]]] |
 
 The example data of mechanisms.
 
@@ -889,14 +889,14 @@ The format of each mechanism is:
 
 + `[0]`: Mechanism expression.
     + type: str
-+ `[1]`: [Input pairs].
++ `[1]`: Input pairs.
     + type: Tuple[Tuple[int, int], ...]]
 
 ### all_examples()
 
 | return |
 |:------:|
-| Iterator[str] |
+| Iterator\[str] |
 
 Get all example names.
 
@@ -904,7 +904,7 @@ Get all example names.
 
 | key | return |
 |:---:|:------:|
-| str | Dict[str, Any] |
+| str | Dict\[str, Any] |
 
 The example data of collections.
 
@@ -929,7 +929,7 @@ The format of each configuration is:
 
 | return |
 |:------:|
-| Iterator[str] |
+| Iterator\[str] |
 
 Get all collection names.
 
@@ -937,7 +937,7 @@ Get all collection names.
 
 | path | n | return |
 |:----:|:---:|:------:|
-| Sequence[Tuple[float, float]] | int | ndarray |
+| Sequence\[Tuple\[float, float]] | int | ndarray |
 
 Curve fitting using Elliptical Fourier Descriptor.
 
@@ -1003,7 +1003,7 @@ Inherited from `Generic`.
 
 | func |
 |:----:|
-| Objective[~FVal] |
+| Objective\[~FVal] |
 
 Algorithm base class.
 
@@ -1013,7 +1013,7 @@ It is used to build the Metaheuristic Random Algorithms.
 
 | self | return |
 |:----:|:------:|
-|   | List[Tuple[int, float, float]] |
+|   | List\[Tuple\[int, float, float]] |
 
 Return the history of the process.
 
@@ -1047,3 +1047,7 @@ Inherited from `str`.
 | `'Real-coded Genetic Algorithm'` | `'Firefly Algorithm'` | `'Differential Evolution'` | `'Teaching Learning Based Optimization'` |
 
 Enum type of algorithms.
+
+[VPoint]: #vpoint
+[SolverSystem]: #solversystem
+[Graph]: #graph
