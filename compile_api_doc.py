@@ -12,8 +12,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import cast, get_type_hints, List, Set, Dict, Iterable, Callable, Any
 from types import ModuleType
 from sys import stdout, modules as sys_modules
-from os import listdir
-from os.path import join
+from os import listdir, mkdir
+from os.path import join, isdir
 from importlib import import_module
 from pkgutil import walk_packages
 from textwrap import dedent
@@ -315,7 +315,7 @@ def ref_link(doc: str) -> str:
     return ref
 
 
-def gen_api(root_names: Dict[str, str], prefix: str) -> None:
+def gen_api(root_names: Dict[str, str], prefix: str = 'doc') -> None:
     """Generate API.
 
     Module format:
@@ -325,15 +325,20 @@ def gen_api(root_names: Dict[str, str], prefix: str) -> None:
     Please try to pack into a class, a function or a generator.
 
     Inner links syntax:
-    Use `[name]` or `[class.attribute]` syntax to link the name or attributes in the same module.
+    Use `[name]`, `[attribute]` or `[class.attribute]` syntax to link
+    the name or attributes in the same module.
     """
+    if not isdir(prefix):
+        logger.debug(f"Create directory: {prefix}")
+        mkdir(prefix)
     for name, module in root_names.items():
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
-        logger.debug(f"Write file: {path}")
+        logger.debug(f"Load root: {module}")
         doc = load_root(name, module)
         ref = ref_link(doc)
         if ref:
             doc += '\n' + ref
+        logger.debug(f"Write file: {path}")
         with open(path, 'w+', encoding='utf-8') as f:
             f.write(sub(r"\n\n+", "\n\n", doc))
         # Remove inner link
@@ -356,7 +361,7 @@ def main() -> None:
         nargs='+',
         type=str,
         help="the module name that installed or in the current path, "
-             "syntax real_name=module_name can specify a package name for it"
+             "syntax Module-Name=module_name can specify a package name for it"
     )
     parser.add_argument(
         '-d',
