@@ -315,7 +315,11 @@ def ref_link(doc: str) -> str:
     return ref
 
 
-def gen_api(root_names: Dict[str, str], prefix: str = 'doc') -> None:
+def gen_api(
+    root_names: Dict[str, str],
+    prefix: str = 'docs',
+    dry: bool = False
+) -> None:
     """Generate API.
 
     Module format:
@@ -334,13 +338,16 @@ def gen_api(root_names: Dict[str, str], prefix: str = 'doc') -> None:
     for name, module in root_names.items():
         path = join(prefix, f"{module.replace('_', '-')}-api.md")
         logger.debug(f"Load root: {module}")
-        doc = load_root(name, module)
+        doc = sub(r"\n\n+", "\n\n", load_root(name, module))
         ref = ref_link(doc)
         if ref:
             doc += '\n' + ref
-        logger.debug(f"Write file: {path}")
-        with open(path, 'w+', encoding='utf-8') as f:
-            f.write(sub(r"\n\n+", "\n\n", doc))
+        if dry:
+            logger.debug(doc)
+        else:
+            logger.debug(f"Write file: {path}")
+            with open(path, 'w+', encoding='utf-8') as f:
+                f.write(doc)
         # Remove inner link
         inner_links.clear()
         # Unload modules
@@ -372,6 +379,11 @@ def main() -> None:
         type=str,
         help="output to a specific directory"
     )
+    parser.add_argument(
+        '--dry',
+        action='store_true',
+        help="print the result instead write the file"
+    )
     arg = parser.parse_args()
     root_names = {}
     for m in arg.module:  # type: str
@@ -381,7 +393,7 @@ def main() -> None:
         if n[1] == "":
             n[1] = n[0]
         root_names[n[0]] = n[1]
-    gen_api(root_names, arg.dir)
+    gen_api(root_names, arg.dir, arg.dry)
 
 
 if __name__ == '__main__':
