@@ -7,24 +7,24 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-import re
+from re import MULTILINE, search
 from os.path import join as pth_join
 from setuptools import setup, find_packages
 
 
-def read(*path):
-    with open(pth_join(*path), 'r') as f:
+def read(path: str):
+    with open(path, 'r') as f:
         return f.read()
 
 
-def find_version(*path):
-    m = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", read(*path), re.M)
+def find_version(path: str):
+    m = search(r"^__version__ = ['\"]([^'\"]*)['\"]", read(path), MULTILINE)
     if m:
         return m.group(1)
     raise RuntimeError("Unable to find version string.")
 
 
-version = find_version('pyslvs', 'pyslvs', '__init__.py')
+version = find_version(pth_join('pyslvs', 'pyslvs', '__init__.py'))
 setup(
     name='pyslvs_ui',
     version=version,
@@ -49,5 +49,6 @@ setup(
         "Topic :: Scientific/Engineering",
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Operating System :: OS Independent",
+        "Typing :: Typed",
     ]
 )
