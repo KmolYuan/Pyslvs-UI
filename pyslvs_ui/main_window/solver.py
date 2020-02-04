@@ -264,7 +264,7 @@ def _slvs_solve(
         error = "didn't converge"
     else:
         error = "too many unknowns"
-    raise ValueError(f"{error}: {sys.faileds()}\n{sys.constraints()}")
+    raise ValueError(f"{error}: {sys.failures()}\n{sys.constraints()}")
 
 
 class SolverMethodInterface(EntitiesMethodInterface, ABC):
