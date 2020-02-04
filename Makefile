@@ -73,6 +73,9 @@ else
 	$(wildcard out/*.AppImage) --test
 endif
 
+doc:
+	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
+
 clean:
 ifeq ($(OS), Windows_NT)
 	-rd build /s /q
