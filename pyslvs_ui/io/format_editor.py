@@ -14,8 +14,8 @@ from typing import (
     Union,
     Any,
 )
-from qtpy.QtCore import QObject, QFileInfo, QCoreApplication
-from qtpy.QtWidgets import QProgressDialog
+from qtpy.QtCore import QObject, QFileInfo
+from qtpy.QtWidgets import QProgressDialog, QMessageBox
 from pyslvs import __version__
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.info import logger
@@ -31,7 +31,7 @@ _Pairs = Sequence[Tuple[int, int]]
 
 class FormatEditor(QObject, metaclass=QABCMeta):
 
-    """Genetic reader and writer."""
+    """Generic loader and dumper."""
 
     def __init__(self, project_widget: ProjectWidget, parent: MainWindowBase) -> None:
         super(FormatEditor, self).__init__(parent)
@@ -79,9 +79,10 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.load_algorithm = parent.dimensional_synthesis.load_results
         # Call to load background options
         self.set_background_config = project_widget.set_background_config
-
         # Clear function for main window
         self.main_clear = parent.clear
+        # Dialog for loader
+        self.dlg: Union[QProgressDialog, OverviewDialog, None] = None
 
     def save_data(self) -> Dict[str, Any]:
         """Save file method."""
@@ -89,7 +90,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             'pyslvs_ver': __version__,
             'file_type': self.prefer.file_type_option,
             'mechanism': self.get_expression(),
-            'links': {l.name: l.color_str for l in self.vlinks},
+            'links': {link.name: link.color_str for link in self.vlinks},
             'input': [(b, d) for b, d, _ in self.input_pairs()],
             'storage': self.get_storage(),
             'collection': self.collect_data(),
@@ -110,16 +111,54 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if ver:
             logger.info(f"Load data from Pyslvs {ver}")
         del ver
-        dlg = QProgressDialog("Loading project", "Cancel", 0, 8, self.parent())
-        dlg.setLabelText("Reading file ...")
-        dlg.show()
+        self.dlg = QProgressDialog("Loading project", "Cancel", 0, 7, self.parent())
+        self.dlg.show()
+        try:
+            mechanism_data = self.__load_mech(data)
+            storage_data = self.__load_storage(data)
+            input_data = self.__load_input(data)
+            path_data = self.__load_path(data)
+            collection_data = self.__load_collection(data)
+            config_data = self.__load_config(data)
+            algorithm_data = self.__load_algorithm(data)
+            self.__load_background(data)
+        except Exception as e:
+            QMessageBox.warning(self.parent(), "Load error", f"Exception:\n{e}")
+            return
+        # File type option align (ignore previous one)
+        self.prefer.file_type_option = data.get('file_type', 0)
+        # Show overview dialog
+        self.dlg = OverviewDialog(
+            self.parent(),
+            QFileInfo(file_name).baseName(),
+            mechanism_data,
+            storage_data,
+            input_data,
+            path_data,
+            collection_data,
+            config_data,
+            algorithm_data,
+            self.get_background_path()
+        )
+        self.dlg.show()
+        self.dlg.exec_()
+        self.dlg.deleteLater()
+        self.dlg = None
 
-        # Mechanism data
-        dlg.setValue(1)
-        dlg.setLabelText("Loading mechanism ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
+    def __process(self, title: str) -> None:
+        """Increase progress."""
+        if not isinstance(self.dlg, QProgressDialog):
+            raise ValueError('not in process')
+        self.dlg.setValue(self.dlg.value() + 1)
+        self.dlg.setLabelText(f"{title}.")
+        if self.dlg.wasCanceled():
+            self.dlg.deleteLater()
+            self.main_clear()
+            raise ValueError('load failed')
+
+    def __load_mech(self, data: Dict[str, Any]) -> str:
+        """Load mechanism data."""
+        self.__process("Loading mechanism")
         links_data: Dict[str, str] = data.get('links', {})
         mechanism_data: str = data.get('mechanism', "M[]")
         if len(links_data) > 1 or mechanism_data != "M[]":
@@ -127,41 +166,33 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             self.add_empty_links(links_data)
             self.parse_expression(mechanism_data)
             self.__end_group()
+        return mechanism_data
 
-        # Input data
-        dlg.setValue(2)
-        dlg.setLabelText("Loading inputs data ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
-        input_data: List[Tuple[int, int]] = data.get('input', [])
-        i_attr = []
+    def __load_input(self, data: Dict[str, Any]) -> List[Tuple[int, int]]:
+        """Load input data."""
+        self.__process("Loading input data")
+        input_data: List[Sequence[int]] = data.get('input', [])
+        # Assert input
+        i_attr = [(i[0], i[1]) for i in input_data]
         if input_data:
             self.__set_group("Add inputs data")
-            for b, d in input_data:
-                QCoreApplication.processEvents()
-                i_attr.append((b, d))
             self.load_inputs(i_attr)
             self.__end_group()
+        return i_attr
 
-        # Storage data
-        dlg.setValue(3)
-        dlg.setLabelText("Loading storage ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
+    def __load_storage(self, data: Dict[str, Any]) -> Dict[str, str]:
+        """Load storage data."""
+        self.__process("Loading storage")
         storage_data: Dict[str, str] = data.get('storage', {})
         if storage_data:
             self.__set_group("Add storage")
             self.load_storage(storage_data)
             self.__end_group()
+        return storage_data
 
-        # Path data
-        dlg.setValue(4)
-        dlg.setLabelText("Loading paths ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
+    def __load_path(self, data: Dict[str, Any]) -> Dict[str, _Paths]:
+        """Load path data."""
+        self.__process("Loading paths")
         path_data: Dict[str, _Paths] = data.get('path', {})
         if path_data:
             self.__set_group("Add paths")
@@ -170,70 +201,43 @@ class FormatEditor(QObject, metaclass=QABCMeta):
                 for n, ps in path_data.items()
             })
             self.__end_group()
+        return path_data
 
-        # Collection data
-        dlg.setValue(5)
-        dlg.setLabelText("Loading graph collections ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
+    def __load_collection(self, data: Dict[str, Any]) -> List[_Pairs]:
+        """Load collection data."""
+        self.__process("Loading graph collections")
         collection_data: List[_Pairs] = data.get('collection', [])
         if collection_data:
             self.__set_group("Add graph collections")
             self.load_collections(collection_data)
             self.__end_group()
+        return collection_data
 
-        # Configuration data
-        dlg.setValue(6)
-        dlg.setLabelText("Loading synthesis configurations ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
+    def __load_config(self, data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+        """Load synthesis configurations."""
+        self.__process("Loading synthesis configurations")
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
         if config_data:
             self.__set_group("Add synthesis configurations")
             self.load_config(config_data)
             self.__end_group()
+        return config_data
 
-        # Algorithm data
-        dlg.setValue(7)
-        dlg.setLabelText("Loading synthesis results ...")
-        if dlg.wasCanceled():
-            dlg.deleteLater()
-            return self.main_clear()
+    def __load_algorithm(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Load algorithm data."""
+        self.__process("Loading synthesis results")
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
         if algorithm_data:
             self.__set_group("Add synthesis results")
             self.load_algorithm(algorithm_data)
             self.__end_group()
+        return algorithm_data
 
-        # Set background
+    def __load_background(self, data: Dict[str, Any]) -> None:
+        """Set background."""
+        self.__process("Set background")
         background_data: Dict[str, Union[str, float]] = data.get('background', {})
         self.set_background_config(background_data)
-
-        # Project loaded
-        dlg.setValue(8)
-        dlg.deleteLater()
-
-        # File type option align (ignore previous one)
-        self.prefer.file_type_option = data.get('file_type', 0)
-
-        # Show overview dialog
-        dlg = OverviewDialog(
-            self.parent(),
-            QFileInfo(file_name).baseName(),
-            mechanism_data,
-            storage_data,
-            i_attr,
-            path_data,
-            collection_data,
-            config_data,
-            algorithm_data,
-            self.get_background_path()
-        )
-        dlg.show()
-        dlg.exec_()
-        dlg.deleteLater()
 
     def __set_group(self, text: str) -> None:
         """Set group."""
