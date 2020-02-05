@@ -150,7 +150,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         if not isinstance(self.dlg, QProgressDialog):
             raise ValueError('not in process')
         self.dlg.setValue(self.dlg.value() + 1)
-        self.dlg.setLabelText(f"{title}.")
+        self.dlg.setLabelText(f"Loading {title}.")
         if self.dlg.wasCanceled():
             self.dlg.deleteLater()
             self.main_clear()
@@ -158,11 +158,11 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     def __load_mech(self, data: Dict[str, Any]) -> str:
         """Load mechanism data."""
-        self.__process("Loading mechanism")
+        self.__process("mechanism")
         links_data: Dict[str, str] = data.get('links', {})
         mechanism_data: str = data.get('mechanism', "M[]")
         if len(links_data) > 1 or mechanism_data != "M[]":
-            self.__set_group("Add mechanism")
+            self.__set_group("mechanism")
             self.add_empty_links(links_data)
             self.parse_expression(mechanism_data)
             self.__end_group()
@@ -170,32 +170,32 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     def __load_input(self, data: Dict[str, Any]) -> List[Tuple[int, int]]:
         """Load input data."""
-        self.__process("Loading input data")
+        self.__process("input data")
         input_data: List[Sequence[int]] = data.get('input', [])
         # Assert input
         i_attr = [(i[0], i[1]) for i in input_data]
         if input_data:
-            self.__set_group("Add inputs data")
+            self.__set_group("inputs data")
             self.load_inputs(i_attr)
             self.__end_group()
         return i_attr
 
     def __load_storage(self, data: Dict[str, Any]) -> Dict[str, str]:
         """Load storage data."""
-        self.__process("Loading storage")
+        self.__process("storage")
         storage_data: Dict[str, str] = data.get('storage', {})
         if storage_data:
-            self.__set_group("Add storage")
+            self.__set_group("storage")
             self.load_storage(storage_data)
             self.__end_group()
         return storage_data
 
     def __load_path(self, data: Dict[str, Any]) -> Dict[str, _Paths]:
         """Load path data."""
-        self.__process("Loading paths")
+        self.__process("paths")
         path_data: Dict[str, _Paths] = data.get('path', {})
         if path_data:
-            self.__set_group("Add paths")
+            self.__set_group("paths")
             self.load_paths({
                 n: [[(c[0], c[1]) for c in p] for p in ps]
                 for n, ps in path_data.items()
@@ -205,44 +205,47 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     def __load_collection(self, data: Dict[str, Any]) -> List[_Pairs]:
         """Load collection data."""
-        self.__process("Loading graph collections")
+        self.__process("graph collections")
         collection_data: List[_Pairs] = data.get('collection', [])
         if collection_data:
-            self.__set_group("Add graph collections")
+            self.__set_group("graph collections")
             self.load_collections(collection_data)
             self.__end_group()
         return collection_data
 
     def __load_config(self, data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
         """Load synthesis configurations."""
-        self.__process("Loading synthesis configurations")
+        self.__process("synthesis configurations")
         config_data: Dict[str, Dict[str, Any]] = data.get('triangle', {})
         if config_data:
-            self.__set_group("Add synthesis configurations")
+            self.__set_group("synthesis configurations")
             self.load_config(config_data)
             self.__end_group()
         return config_data
 
     def __load_algorithm(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Load algorithm data."""
-        self.__process("Loading synthesis results")
+        self.__process("synthesis results")
         algorithm_data: List[Dict[str, Any]] = data.get('algorithm', [])
         if algorithm_data:
-            self.__set_group("Add synthesis results")
+            self.__set_group("synthesis results")
+            # Assert input, it's a mappable object (consist of list)
+            for config in algorithm_data:
+                config['input'] = [((b, d), a) for (b, d), a in config['input']]
             self.load_algorithm(algorithm_data)
             self.__end_group()
         return algorithm_data
 
     def __load_background(self, data: Dict[str, Any]) -> None:
         """Set background."""
-        self.__process("Set background")
-        background_data: Dict[str, Union[str, float]] = data.get('background', {})
-        self.set_background_config(background_data)
+        self.__process("background")
+        background: Dict[str, Union[str, float]] = data.get('background', {})
+        self.set_background_config(background)
 
     def __set_group(self, text: str) -> None:
         """Set group."""
         if self.prefer.open_project_actions_option == 1:
-            self.command_stack.beginMacro(text)
+            self.command_stack.beginMacro(f"Add {text}")
 
     def __end_group(self) -> None:
         """End group."""
