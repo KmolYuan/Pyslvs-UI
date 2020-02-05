@@ -11,7 +11,7 @@
 
 # <img width="7%" src="https://github.com/KmolYuan/Pyslvs-UI/raw/master/docs/img/favicon.png" alt="pyslvs-icon"/> Pyslvs-UI
 
-A GUI-based [PyQt5][pyqt] tool used to design 2D linkage mechanism.
+A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
 + **Planar Linkages Simulation**
     + Python-Solvespace: Kernel from [Solvespace] with Cython bundle.
@@ -28,15 +28,25 @@ A GUI-based [PyQt5][pyqt] tool used to design 2D linkage mechanism.
     + Cross three platforms.
     + CAD-like user interface.
     + Auto layout of generalized chain.
-    + The code complies with [PEP 8] and [PEP 561].
+    + The code complies with [PEP 8] (code format), [PEP 484] (typing) and [PEP 561] (typed package).
 
 If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
+
+[PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
+[Solvespace]: http://solvespace.com
+[Pyslvs]: https://github.com/KmolYuan/pyslvs
+[Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
+[stable]: https://pyslvs-ui.readthedocs.io/en/stable/
+[latest]: https://pyslvs-ui.readthedocs.io/en/latest/
+[PEP 8]: https://www.python.org/dev/peps/pep-0008
+[PEP 484]: https://www.python.org/dev/peps/pep-0484
+[PEP 561]: https://www.python.org/dev/peps/pep-0561
 
 # Getting Started
 
 ## Executables
 
-Download portable [executable file][exe-ref] of your platform.
+Download portable [executable file](https://github.com/KmolYuan/Pyslvs-UI/releases) of your platform.
 
 ## PyPI
 
@@ -69,13 +79,3 @@ mkdocs serve
 # Cite
 
 Please see the [reference](https://pyslvs-ui.readthedocs.io/en/stable/references/#cite).
-
-[pyqt]: https://www.riverbankcomputing.com/software/pyqt/download5
-[Solvespace]: http://solvespace.com
-[Pyslvs]: https://github.com/KmolYuan/pyslvs
-[Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
-[PEP 8]: https://www.python.org/dev/peps/pep-0008
-[PEP 561]: https://www.python.org/dev/peps/pep-0561
-[stable]: https://pyslvs-ui.readthedocs.io/en/stable/
-[latest]: https://pyslvs-ui.readthedocs.io/en/latest/
-[exe-ref]: https://github.com/KmolYuan/Pyslvs-UI/releases
