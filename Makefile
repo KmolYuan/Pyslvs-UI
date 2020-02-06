@@ -10,12 +10,14 @@ PYSLVS_PATH = pyslvs
 ifeq ($(OS), Windows_NT)
     PY = python
     SHELL = cmd
+    NULL = NUL
 else
     PY = python3
+    NULL = /dev/null
 endif
 PIP = $(PY) -m pip
 
-.PHONY: help install uninstall \
+.PHONY: all help doc install uninstall \
     build build-kernel test test-kernel clean clean-kernel clean-all
 
 all: test
@@ -24,16 +26,23 @@ help:
 	@echo Pyslvs Makefile Help
 	@echo
 	@echo make target:
-	@echo   help: show this help message.
 	@echo   all: build Pyslvs and test binary.
+	@echo   help: show this help message.
+	@echo   doc: build the API documents.
 	@echo   build: build Pyslvs executable file.
-	@echo   build-kernel: build kernel(s).
+	@echo   build-kernel: build kernel only.
 	@echo   install: install Pyslvs by setuptools.
 	@echo   uninstall: uninstall Pyslvs by pip.
 	@echo   clean: clean up executable file and PyInstaller items,
 	@echo          but not to delete kernel binary files.
 	@echo   clean-kernel: clean up kernel binary files.
 	@echo   clean-all: clean every binary files and executable file.
+
+doc:
+ifeq (, $(shell which apimd > $(NULL)))
+	$(PIP) install apimd
+endif
+	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
 
 build-kernel:
 	@echo Build libraries
@@ -72,9 +81,6 @@ else ifeq ($(shell uname), Darwin)
 else
 	$(wildcard out/*.AppImage) --test
 endif
-
-doc:
-	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
 
 clean:
 ifeq ($(OS), Windows_NT)

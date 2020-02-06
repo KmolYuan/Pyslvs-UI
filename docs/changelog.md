@@ -4,11 +4,13 @@
 
 **Features**:
 
-+ None
++ Fix file loader error during loading algorithm results.
 
 **Development**:
 
-+ Recompile API from stub files.
++ Rewrite and fix file loader.
++ Use "apimd" module to generate the API doc.
+    + New Makefile command "doc".
 
 ## Version 20.01
 

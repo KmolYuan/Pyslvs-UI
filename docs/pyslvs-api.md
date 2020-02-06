@@ -912,7 +912,7 @@ The format of each configuration is:
 
 + `Expression`: Mechanism expression of the structure.
     + type: str
-+ `input`: [Input pairs].
++ `input`: Input pairs.
     + type: Sequence[Tuple[int, int]]
 + `Graph`: The generalized chain graph in edge set.
     + type: Sequence[Tuple[int, int]]
