@@ -124,10 +124,13 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             self.__load_background(data)
         except Exception as e:
             QMessageBox.warning(self.parent(), "Load error", f"Exception:\n{e}")
+            self.dlg.deleteLater()
+            self.dlg = None
             return
         # File type option align (ignore previous one)
         self.prefer.file_type_option = data.get('file_type', 0)
         # Show overview dialog
+        self.dlg.deleteLater()
         self.dlg = OverviewDialog(
             self.parent(),
             QFileInfo(file_name).baseName(),
