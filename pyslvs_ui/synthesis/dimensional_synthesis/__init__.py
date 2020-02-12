@@ -69,7 +69,7 @@ if TYPE_CHECKING:
 
 __all__ = ['DimensionalSynthesis']
 _Coord = Tuple[float, float]
-_PATH_PATTERN = r"([+-]?\d+\.?\d*)[\t ]*[,/]?[\t ]*([+-]?\d+\.?\d*)[ji]?;?\s*"
+_PATH_PATTERN = r"([+-]?\d+\.?\d*)[,/]?[\t ]*([+-]?\d+\.?\d*)[ji]?(?:[,/]?[\t ]*[+-]?\d+\.?\d*)?;?\s*"
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
