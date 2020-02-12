@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>700</height>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -522,6 +522,20 @@
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/efd.png</normaloff>:/icons/efd.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>40</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="norm_path_button">
+                  <property name="icon">
+                   <iconset resource="../../icons.qrc">
+                    <normaloff>:/icons/history.png</normaloff>:/icons/history.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>

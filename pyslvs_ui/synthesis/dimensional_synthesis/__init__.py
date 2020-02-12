@@ -51,6 +51,7 @@ from pyslvs import (
     parse_vpoints,
     parse_vlinks,
     efd_fitting,
+    norm_path,
 )
 from pyslvs.metaheuristics import PARAMS, DEFAULT_PARAMS, AlgorithmType
 from pyslvs_ui.graphics import PreviewCanvas
@@ -311,6 +312,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.setValue(1)
         dlg.deleteLater()
 
+    @Slot(name='on_norm_path_button_clicked')
+    def __norm_path(self) -> None:
+        """Normalize current path."""
+        self.set_path(norm_path(self.current_path()))
+
     def add_point(self, x: float, y: float) -> None:
         """Add path data to list widget and current target path."""
         self.current_path().append((x, y))
@@ -406,6 +412,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self.save_path_button,
             self.edit_path_button,
             self.efd_button,
+            self.norm_path_button,
             self.synthesis_button,
         ):
             button.setEnabled(n)

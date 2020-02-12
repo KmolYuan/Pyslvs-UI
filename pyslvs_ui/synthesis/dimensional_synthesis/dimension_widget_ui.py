@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/synthesis/dimensional_synthesis/dimension_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(450, 700)
+        Form.resize(450, 632)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -275,6 +275,13 @@ class Ui_Form(object):
         self.efd_button.setIconSize(QtCore.QSize(40, 40))
         self.efd_button.setObjectName("efd_button")
         self.verticalLayout_3.addWidget(self.efd_button)
+        self.norm_path_button = QtWidgets.QPushButton(self.layoutWidget)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap(":/icons/history.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.norm_path_button.setIcon(icon18)
+        self.norm_path_button.setIconSize(QtCore.QSize(40, 40))
+        self.norm_path_button.setObjectName("norm_path_button")
+        self.verticalLayout_3.addWidget(self.norm_path_button)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem3)
         self.horizontalLayout_5.addLayout(self.verticalLayout_3)
@@ -293,9 +300,9 @@ class Ui_Form(object):
         self.algorithm_layout.setObjectName("algorithm_layout")
         self.verticalLayout_7.addLayout(self.algorithm_layout)
         self.advance_button = QtWidgets.QPushButton(self.algorithm)
-        icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap(":/icons/properties.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.advance_button.setIcon(icon18)
+        icon19 = QtGui.QIcon()
+        icon19.addPixmap(QtGui.QPixmap(":/icons/properties.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.advance_button.setIcon(icon19)
         self.advance_button.setObjectName("advance_button")
         self.verticalLayout_7.addWidget(self.advance_button)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -311,16 +318,16 @@ class Ui_Form(object):
         self.timeShow.setObjectName("timeShow")
         self.horizontalLayout.addWidget(self.timeShow)
         self.verticalLayout_7.addLayout(self.horizontalLayout)
-        icon19 = QtGui.QIcon()
-        icon19.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.options_tab.addTab(self.algorithm, icon19, "")
+        icon20 = QtGui.QIcon()
+        icon20.addPixmap(QtGui.QPixmap(":/icons/synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.options_tab.addTab(self.algorithm, icon20, "")
         self.verticalLayout_4.addWidget(self.main_splitter)
         self.synthesis_button = QtWidgets.QPushButton(Form)
         self.synthesis_button.setEnabled(False)
         self.synthesis_button.setMinimumSize(QtCore.QSize(120, 0))
-        icon20 = QtGui.QIcon()
-        icon20.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.synthesis_button.setIcon(icon20)
+        icon21 = QtGui.QIcon()
+        icon21.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.synthesis_button.setIcon(icon21)
         self.synthesis_button.setAutoDefault(True)
         self.synthesis_button.setObjectName("synthesis_button")
         self.verticalLayout_4.addWidget(self.synthesis_button)
