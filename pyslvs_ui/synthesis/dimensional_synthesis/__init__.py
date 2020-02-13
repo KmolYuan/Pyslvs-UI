@@ -27,7 +27,6 @@ from typing import (
 from math import hypot
 import pprint
 from copy import deepcopy
-from re import finditer
 from openpyxl import load_workbook
 from qtpy.QtCore import Slot, QModelIndex
 from qtpy.QtWidgets import (
@@ -43,6 +42,7 @@ from qtpy.QtWidgets import (
     QRadioButton,
 )
 from qtpy.QtGui import QIcon, QPixmap
+from lark.exceptions import LarkError
 from pyslvs import (
     VLink,
     vpoints_configure,
@@ -54,7 +54,7 @@ from pyslvs import (
     norm_path,
 )
 from pyslvs.metaheuristics import PARAMS, DEFAULT_PARAMS, AlgorithmType
-from pyslvs_ui.graphics import PreviewCanvas
+from pyslvs_ui.graphics import PreviewCanvas, parse_path
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
     AlgorithmOptionDialog,
@@ -69,7 +69,6 @@ if TYPE_CHECKING:
 
 __all__ = ['DimensionalSynthesis']
 _Coord = Tuple[float, float]
-_PATH_PATTERN = r"([+-]?\d+\.?\d*)[,/]?[\t ]*([+-]?\d+\.?\d*)[ji]?(?:[,/]?[\t ]*[+-]?\d+\.?\d*)?;?\s*"
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
@@ -232,8 +231,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __read_path_from_csv(self, raw: str) -> None:
         """Turn string to float then add them to current target path."""
-        for m in finditer(_PATH_PATTERN, raw):
-            self.add_point(float(m.group(1) or 0), float(m.group(2) or 0))
+        try:
+            path = parse_path(raw)
+        except LarkError as e:
+            QMessageBox.warning(self, "Wrong format", f"{e}")
+        else:
+            for x, y in path:
+                self.add_point(x, y)
 
     @Slot(name='on_save_path_button_clicked')
     def __save_path(self):

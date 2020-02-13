@@ -37,7 +37,7 @@ install:
   - mingw32-make --version
 
 build_script:
-  - mingw32-make
+  - mingw32-make pack
   - python setup.py install
 
 test_script:
