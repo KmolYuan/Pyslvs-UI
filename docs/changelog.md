@@ -8,6 +8,17 @@
 
 **Development**:
 
++ Change Makefile command name:
+    + For package: suffix `pack`.
+        + `build` change to `pack`
+        + `clean` change to `clean-pack`
+        + `test` change to `test-pack`
+    + For kernel: no suffix.
+        + `build-kernel` change to `build`
+        + `clean-kernel` change to `clean`
+        + `test-kernel` change to `test`
+    + The default command `all` change to `build` only.
+      Use `make pack` instead of `make`.
 + Rewrite and fix file loader.
 + Use "apimd" module to generate the API doc.
     + New Makefile command "doc".
