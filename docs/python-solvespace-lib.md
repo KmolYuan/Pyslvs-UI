@@ -11,7 +11,6 @@ pip install python-solvespace
 ```
 
 !!!warning
-
     Pyslvs-UI is using global `python-solvespace` as kernel.
     Please make sure the version is meet the requirement.
 

@@ -14,7 +14,6 @@ pip install pyslvs
 ```
 
 !!!warning
-
     Pyslvs-UI is using global `pyslvs` as kernel.
     Please make sure the version is same with it.
 
@@ -23,8 +22,7 @@ pip install pyslvs
 Enter directory and execute the Makefile. Then, run the unit test script after compiling.
 
 ```bash
-make
-python tests
+python setup.py test
 ```
 
 ## Module parts

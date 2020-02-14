@@ -134,7 +134,7 @@ class DeleteTable(_FusedTable[_Data]):
 
     """Delete the specified row of table.
 
-    !!! When this class has been called, the item must be empty.
+    When this class has been called, the item must be empty.
     """
 
     def __init__(
