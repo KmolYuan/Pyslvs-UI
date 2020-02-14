@@ -61,7 +61,7 @@ matrix:
         - python3 -m pip --version
         - python3 -m pip install -r requirements.txt -U
       install:
-        - make pack
+        - make test-pack
         - python3 setup.py install
         - pyenv rehash
 

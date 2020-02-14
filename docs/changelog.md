@@ -18,7 +18,7 @@
         + `clean-kernel` change to `clean`
         + `test-kernel` change to `test`
     + The default command `all` change to `build` only.
-      Use `make pack` instead of `make`.
+      Use `make test-pack` instead of `make`.
 + Rewrite and fix file loader.
 + Use "apimd" module to generate the API doc.
     + New Makefile command "doc".

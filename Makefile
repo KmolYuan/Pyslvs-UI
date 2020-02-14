@@ -50,7 +50,7 @@ build:
 	cd $(PYSLVS_PATH) && $(PY) setup.py install
 	@echo Done
 
-pack: $(LAUNCHER) clean
+pack: $(LAUNCHER) clean build
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS), Windows_NT)
