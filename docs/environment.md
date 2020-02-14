@@ -144,7 +144,6 @@ Copy the libraries from `/usr/lib/x86_64-linux-gnu/qt5/plugins/` into `python/si
 The plugins is `platforminputcontexts/libfcitxplatforminputcontextplugin.so`.
 
 !!! warning
-
     Please note that some PyQt plugins are version depended,
     so the AppImage distributions are exclude these supports.
 
@@ -155,35 +154,28 @@ About the development tools, please see [Dependencies](#dependencies).
 Make command:
 
 ```bash
-make build-kernel
+make
 ```
 
 This project including two kernels should build.
 
 !!! note
-
     The kernels can also be installed from pip with specified version.
     The Makefile command will build them from source.
 
 ### Pyslvs Kernel
 
 [Pyslvs]: Core libraries of this project.
+The version should be same as Pyslvs-UI.
 
-Make command:
-
-```bash
-make build-pyslvs
-```
+Install it by `pip install pyslvs==xx.xx` to specify the version.
+Or just build from the submodule.
 
 ### Python-Solvespace Kernel
 
 [Python-Solvespace]: Python bundle of [Solvespace] library.
 
-Make command:
-
-```bash
-make build-solvespace
-```
+Install it by `pip install python-solvespace`.
 
 ## Stand-alone Executable File
 
@@ -192,7 +184,7 @@ As your wish, it can be renamed or moved out and operate independently in no-Pyt
 Make command:
 
 ```bash
-make
+make pack
 ```
 
 ### Ubuntu
@@ -204,7 +196,6 @@ After following operation, the executable file is in a folder named `out`.
 The script also install `virtualenv` automatically if no executable command.
 
 !!! warning
-
     Check the `glibc` version from `ldd --version`,
     it must be equal or higher than package's.
 
@@ -215,7 +206,6 @@ Use [PyInstaller] with `virtualenv`, they will install automatically if no execu
 After following operation, the executable file is in a folder named `dist`.
 
 !!! note
-
     The Windows platform version requirement is same as the Python that packed.
 
 On macOS, PyInstaller will generate two executable files (refer [here](https://pyinstaller.readthedocs.io/en/stable/usage.html#building-mac-os-x-app-bundles)).
@@ -231,7 +221,6 @@ open ./executable.app
 ```
 
 !!! warning
-
     The version of macOS must be equal or higher than executable's.
 
 ## Documentation

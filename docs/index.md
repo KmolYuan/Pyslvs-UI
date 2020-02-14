@@ -16,11 +16,9 @@ See the Ubuntu and macOS platform testing on Travis CI:
 ## Install
 
 !!! note
-
     Feel free to uninstall Pyslvs by [uninstall guide](#uninstall).
 
 !!! warning
-
     Pyslvs requires Python 3.7 or above.
 
 ### PyPI
@@ -39,7 +37,6 @@ pip install pyslvs-ui
 ```
 
 !!! note
-
     Pyslvs-UI is an universal (pure Python) package, which is cross-platform.
 
     But the core kernel is installed from PyPI,
@@ -132,13 +129,13 @@ git submodule update --init --recursive
 pip install -r requirements.txt
 
 # Compile and install submodules
-make build-kernel
+make
 
 # Open GUI by Python
 python launch_pyslvs.py
 
 # Pack into stand-alone executable file
-make
+make pack
 ```
 
 ## Uninstall
