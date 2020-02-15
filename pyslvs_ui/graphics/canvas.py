@@ -105,9 +105,9 @@ class _TickMark(IntEnum):
 
     """The status of tick mark."""
 
-    hide = auto()
-    show = auto()
-    show_num = auto()
+    HIDE = auto()
+    SHOW = auto()
+    SHOW_NUM = auto()
 
 
 class BaseCanvas(QWidget, metaclass=QABCMeta):
@@ -135,7 +135,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         # Font size
         self.font_size = 15
         # Show point mark or dimension
-        self.show_ticks = _TickMark.show
+        self.show_ticks = _TickMark.SHOW
         self.show_point_mark = True
         self.show_dimension = True
         # Path track
@@ -203,7 +203,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         self.painter.setFont(QFont("Arial", self.font_size))
         # Draw origin lines
-        if self.show_ticks not in {_TickMark.show, _TickMark.show_num}:
+        if self.show_ticks not in {_TickMark.SHOW, _TickMark.SHOW_NUM}:
             return
         pen.setColor(Qt.gray)
         self.painter.setPen(pen)
@@ -225,7 +225,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             is_ten = x % 10 == 0
             end = QPointF(x * self.zoom, -10 if is_ten else -5)
             self.painter.drawLine(QPointF(x, 0) * self.zoom, end)
-            if self.show_ticks == _TickMark.show_num and is_ten:
+            if self.show_ticks == _TickMark.SHOW_NUM and is_ten:
                 self.painter.drawText(end + QPointF(0, 3), f"{x}")
         for y in range(indexing(y_b), indexing(y_t) + 1, 5):
             if y == 0:
@@ -233,7 +233,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             is_ten = y % 10 == 0
             end = QPointF(10 if is_ten else 5, y * self.zoom)
             self.painter.drawLine(QPointF(0, y) * self.zoom, end)
-            if self.show_ticks == _TickMark.show_num and is_ten:
+            if self.show_ticks == _TickMark.SHOW_NUM and is_ten:
                 self.painter.drawText(end + QPointF(3, 0), f"{-y}")
         # Please to call the "end" method when ending paint event.
 

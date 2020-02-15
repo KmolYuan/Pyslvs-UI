@@ -5,9 +5,11 @@
 **Features**:
 
 + Fix file loader error during loading algorithm results.
++ Fix the touching area of target point moving.
 
 **Development**:
 
++ Renamed enum constant as uppercase.
 + Change Makefile command name:
     + For package: suffix `pack`.
         + `build` change to `pack`

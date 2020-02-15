@@ -14,7 +14,7 @@ from typing import cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Union
 from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
 from qtpy.QtWidgets import QApplication, QToolTip, QWidget
 from qtpy.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
-from .canvas_base import MainCanvasBase, FreeMode, SelectMode
+from .canvas_base import MainCanvasBase, FreeMode, SelectMode, ZoomBy
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -96,13 +96,17 @@ class MainCanvas(MainCanvasBase):
         zoom_old = self.zoom
         self.zoom = zoom / 50.
         zoom_old -= self.zoom
-        if self.zoomby == 0:
+        if self.zoomby == ZoomBy.CANVAS:
             pos = self.mapFromGlobal(QCursor.pos())
         else:
             pos = QPointF(self.width() / 2, self.height() / 2)
         self.ox += (pos.x() - self.ox) / self.zoom * zoom_old
         self.oy += (pos.y() - self.oy) / self.zoom * zoom_old
         self.update()
+
+    def get_zoom(self) -> float:
+        """Return zoom factor."""
+        return self.zoom
 
     def set_default_zoom(self, zoom: int) -> None:
         """Set default zoom value."""
@@ -143,8 +147,12 @@ class MainCanvas(MainCanvasBase):
 
     @Slot(int)
     def set_zoom_by(self, zoomby: int) -> None:
-        """Update zooming center option."""
-        self.zoomby = zoomby
+        """Update zooming center option.
+
+        + 0: Cursor
+        + 1: Canvas center
+        """
+        self.zoomby = ZoomBy(zoomby + 1)
 
     @Slot(float)
     def set_snap(self, snap: float) -> None:
