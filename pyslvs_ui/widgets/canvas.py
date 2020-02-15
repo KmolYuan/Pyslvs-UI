@@ -96,7 +96,7 @@ class MainCanvas(MainCanvasBase):
         zoom_old = self.zoom
         self.zoom = zoom / 50.
         zoom_old -= self.zoom
-        if self.zoomby == ZoomBy.Canvas:
+        if self.zoomby == ZoomBy.CANVAS:
             pos = self.mapFromGlobal(QCursor.pos())
         else:
             pos = QPointF(self.width() / 2, self.height() / 2)

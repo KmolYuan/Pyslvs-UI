@@ -9,6 +9,7 @@
 
 **Development**:
 
++ Renamed enum constant as uppercase.
 + Change Makefile command name:
     + For package: suffix `pack`.
         + `build` change to `pack`

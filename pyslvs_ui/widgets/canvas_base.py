@@ -89,31 +89,31 @@ class _Selector:
 @unique
 class FreeMode(IntEnum):
     """Free move mode"""
-    NoFreeMove = auto()
-    Translate = auto()
-    Rotate = auto()
-    Reflect = auto()
+    NO_FREE_MOVE = auto()
+    TRANSLATE = auto()
+    ROTATE = auto()
+    REFLECT = auto()
 
 
 @unique
 class SelectMode(IntEnum):
     """Selection mode"""
-    Joint = auto()
-    Link = auto()
-    Solution = auto()
+    JOINT = auto()
+    LINK = auto()
+    SOLUTION = auto()
 
 
 @unique
 class ZoomBy(IntEnum):
     """Zooming center option"""
-    Cursor = auto()
-    Canvas = auto()
+    CURSOR = auto()
+    CANVAS = auto()
 
 
 _selection_unit = {
-    SelectMode.Joint: 'point',
-    SelectMode.Link: 'link',
-    SelectMode.Solution: 'solution',
+    SelectMode.JOINT: 'point',
+    SelectMode.LINK: 'link',
+    SelectMode.SOLUTION: 'solution',
 }
 
 
@@ -148,7 +148,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Solution
         self.exprs: List[Tuple[str, ...]] = []
         # Select function
-        self.select_mode = SelectMode.Joint
+        self.select_mode = SelectMode.JOINT
         self.sr = 10
         self.selections: List[int] = []
         # Link transparency
@@ -158,7 +158,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Show dimension
         self.show_dimension = False
         # Free move mode
-        self.free_move = FreeMode.NoFreeMove
+        self.free_move = FreeMode.NO_FREE_MOVE
         # Path preview
         self.path_preview: _MutPaths = []
         self.slider_path_preview: Dict[int, List[_Coord]] = {}
@@ -168,7 +168,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Zooming center
         # 0: By cursor
         # 1: By canvas center
-        self.zoomby = ZoomBy.Canvas
+        self.zoomby = ZoomBy.CANVAS
         # Mouse snapping value
         self.snap = 5.
         # Default margin factor
@@ -244,7 +244,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color, connected)
 
         # For selects function
-        if self.select_mode == SelectMode.Joint and (i in self.selections):
+        if self.select_mode == SelectMode.JOINT and (i in self.selections):
             pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
             self.painter.setPen(pen)
@@ -280,7 +280,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Rearrange: Put the nearest point to the next position.
         qpoints = convex_hull(points, as_qpoint=True)
         if (
-            self.select_mode == SelectMode.Link
+            self.select_mode == SelectMode.LINK
             and self.vlinks.index(vlink) in self.selections
         ):
             pen.setWidth(self.link_width + 6)
@@ -345,7 +345,7 @@ class MainCanvasBase(BaseCanvas, ABC):
     def __select_func(self, *, rect: bool = False) -> None:
         """Select function."""
         self.selector.selection_rect.clear()
-        if self.select_mode == SelectMode.Joint:
+        if self.select_mode == SelectMode.JOINT:
             def catch_p(x: float, y: float) -> bool:
                 """Detection function for points."""
                 if rect:
@@ -357,7 +357,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                 if catch_p(vpoint.cx, vpoint.cy) and i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
-        elif self.select_mode == SelectMode.Link:
+        elif self.select_mode == SelectMode.LINK:
             def catch_l(link: VLink) -> bool:
                 """Detection function for links.
 
@@ -385,7 +385,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                 if i != 0 and catch_l(vlink) and i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
-        elif self.select_mode == SelectMode.Solution:
+        elif self.select_mode == SelectMode.SOLUTION:
             def catch(exprs: Sequence[str]) -> bool:
                 """Detection function for solution polygons."""
                 points, _ = self.solution_polygon(
@@ -509,7 +509,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         for i, vpoint in enumerate(self.vpoints):
             self.__draw_point(i, vpoint)
         # Draw solutions
-        if self.select_mode == SelectMode.Solution:
+        if self.select_mode == SelectMode.SOLUTION:
             for i, expr in enumerate(self.exprs):
                 func = expr[0]
                 params = expr[1:-1]
@@ -523,13 +523,13 @@ class MainCanvasBase(BaseCanvas, ABC):
                     self.painter.setPen(pen)
                     self.painter.drawPolygon(QPolygonF(pos))
         # Draw a colored frame for free move mode
-        if self.free_move != FreeMode.NoFreeMove:
+        if self.free_move != FreeMode.NO_FREE_MOVE:
             pen = QPen()
-            if self.free_move == FreeMode.Translate:
+            if self.free_move == FreeMode.TRANSLATE:
                 pen.setColor(QColor(161, 16, 229))
-            elif self.free_move == FreeMode.Rotate:
+            elif self.free_move == FreeMode.ROTATE:
                 pen.setColor(QColor(219, 162, 6))
-            elif self.free_move == FreeMode.Reflect:
+            elif self.free_move == FreeMode.REFLECT:
                 pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
@@ -582,7 +582,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.__select_func()
             if self.selector.selection_rect:
                 self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
-                if self.free_move == FreeMode.NoFreeMove:
+                if self.free_move == FreeMode.NO_FREE_MOVE:
                     self.doubleclick_edit.emit(self.selector.selection_rect[0])
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
@@ -596,8 +596,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             km = QApplication.keyboardModifiers()
             self.selector.selection_old = list(self.selections)
             if (
-                self.select_mode == SelectMode.Joint
-                and self.free_move != FreeMode.NoFreeMove
+                self.select_mode == SelectMode.JOINT
+                and self.free_move != FreeMode.NO_FREE_MOVE
             ):
                 x, y = self.__mouse_pos(event)
                 if self.selector.x != x and self.selector.y != y:
@@ -638,7 +638,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.oy = event.y() + self.selector.y * self.zoom
             self.update()
         elif self.selector.left_dragged:
-            if self.free_move == FreeMode.NoFreeMove:
+            if self.free_move == FreeMode.NO_FREE_MOVE:
                 if self.show_target_path:
                     self.set_target_point.emit(x, y)
                 else:
@@ -658,8 +658,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                         f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
                         f"{len(selection)} {_selection_unit[self.select_mode]}(s)"
                     )
-            elif self.select_mode == SelectMode.Joint:
-                if self.free_move == FreeMode.Translate:
+            elif self.select_mode == SelectMode.JOINT:
+                if self.free_move == FreeMode.TRANSLATE:
                     # Free move translate function.
                     mouse_x = self.__snap(x - self.selector.x, is_zoom=False)
                     mouse_y = self.__snap(y - self.selector.y, is_zoom=False)
@@ -670,7 +670,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     for num in self.selections:
                         vpoint = self.vpoints[num]
                         vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
-                elif self.free_move == FreeMode.Rotate:
+                elif self.free_move == FreeMode.ROTATE:
                     # Free move rotate function.
                     alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
                     self.selected_tips.emit(
@@ -684,7 +684,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                         vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
                         if vpoint.type in {VJoint.P, VJoint.RP}:
                             vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
-                elif self.free_move == FreeMode.Reflect:
+                elif self.free_move == FreeMode.REFLECT:
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
                     fy = 1 if y > 0 else -1
@@ -700,7 +700,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
                             if (x > 0) != (y > 0):
                                 vpoint.rotate(180 - self.vangles[num])
-                if self.free_move != FreeMode.NoFreeMove and self.selections:
+                if self.free_move != FreeMode.NO_FREE_MOVE and self.selections:
                     self.update_preview_path()
             self.update()
         self.tracking.emit(x, y)
