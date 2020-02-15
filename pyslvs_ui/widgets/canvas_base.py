@@ -103,6 +103,13 @@ class SelectMode(IntEnum):
     Solution = auto()
 
 
+@unique
+class ZoomBy(IntEnum):
+    """Zooming center option"""
+    Cursor = auto()
+    Canvas = auto()
+
+
 _selection_unit = {
     SelectMode.Joint: 'point',
     SelectMode.Link: 'link',
@@ -161,7 +168,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Zooming center
         # 0: By cursor
         # 1: By canvas center
-        self.zoomby = 0
+        self.zoomby = ZoomBy.Canvas
         # Mouse snapping value
         self.snap = 5.
         # Default margin factor
@@ -187,7 +194,6 @@ class MainCanvasBase(BaseCanvas, ABC):
         if vpoint.type in {VJoint.P, VJoint.RP}:
             pen = QPen(QColor(*vpoint.color))
             pen.setWidth(2)
-
             # Draw slot point and pin point
             for j, (cx, cy) in enumerate(vpoint.c):
                 if not vpoint.links:
@@ -215,7 +221,6 @@ class MainCanvasBase(BaseCanvas, ABC):
                         self.painter.drawText(cp + rp, text)
                 else:
                     self.draw_point(i, cx, cy, grounded, vpoint.color, connected)
-
             # Slider line
             pen.setColor(QColor(*vpoint.color).darker())
             self.painter.setPen(pen)
@@ -341,7 +346,6 @@ class MainCanvasBase(BaseCanvas, ABC):
         """Select function."""
         self.selector.selection_rect.clear()
         if self.select_mode == SelectMode.Joint:
-
             def catch_p(x: float, y: float) -> bool:
                 """Detection function for points."""
                 if rect:
@@ -354,7 +358,6 @@ class MainCanvasBase(BaseCanvas, ABC):
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.Link:
-
             def catch_l(link: VLink) -> bool:
                 """Detection function for links.
 
@@ -383,7 +386,6 @@ class MainCanvasBase(BaseCanvas, ABC):
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.Solution:
-
             def catch(exprs: Sequence[str]) -> bool:
                 """Detection function for solution polygons."""
                 points, _ = self.solution_polygon(
@@ -489,29 +491,23 @@ class MainCanvasBase(BaseCanvas, ABC):
         if self.width_old != width or self.height_old != height:
             self.ox += (width - self.width_old) / 2
             self.oy += (height - self.height_old) / 2
-
         # 'self' is the instance of 'DynamicCanvas'.
         BaseCanvas.paintEvent(self, event)
-
         # Draw links except ground
         for vlink in self.vlinks[1:]:
             self.__draw_link(vlink)
-
         # Draw path
         if self.path.show != -2:
             self.__draw_path()
-
         # Draw solving path
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
             self.draw_slvs_ranges()
             self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
-
         # Draw points
         for i, vpoint in enumerate(self.vpoints):
             self.__draw_point(i, vpoint)
-
         # Draw solutions
         if self.select_mode == SelectMode.Solution:
             for i, expr in enumerate(self.exprs):
@@ -526,7 +522,6 @@ class MainCanvasBase(BaseCanvas, ABC):
                     pen.setColor(QColor(161, 16, 239))
                     self.painter.setPen(pen)
                     self.painter.drawPolygon(QPolygonF(pos))
-
         # Draw a colored frame for free move mode
         if self.free_move != FreeMode.NoFreeMove:
             pen = QPen()
@@ -539,18 +534,15 @@ class MainCanvasBase(BaseCanvas, ABC):
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.__draw_frame()
-
         # Rectangular selection
         if self.selector.picking:
             pen = QPen(Qt.gray)
             pen.setWidth(1)
             self.painter.setPen(pen)
             self.painter.drawRect(self.selector.to_rect(self.zoom))
-
         # Show FPS
         self.fps_updated.emit()
         self.painter.end()
-
         # Record the widget size.
         self.width_old = width
         self.height_old = height
@@ -650,18 +642,16 @@ class MainCanvasBase(BaseCanvas, ABC):
                 if self.show_target_path:
                     self.set_target_point.emit(x, y)
                 else:
-                    # Rectangular selection.
+                    # Rectangular selection
                     self.selector.picking = True
                     self.selector.sx = self.__snap(x, is_zoom=False)
                     self.selector.sy = self.__snap(y, is_zoom=False)
                     self.__select_func(rect=True)
-
                     selection = self.selector.current_selection()
                     if selection:
                         self.selected.emit(selection, False)
                     else:
                         self.no_selected.emit()
-
                     self.selected_tips.emit(
                         event.globalPos(),
                         f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
@@ -680,7 +670,6 @@ class MainCanvasBase(BaseCanvas, ABC):
                     for num in self.selections:
                         vpoint = self.vpoints[num]
                         vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
-
                 elif self.free_move == FreeMode.Rotate:
                     # Free move rotate function.
                     alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
@@ -695,7 +684,6 @@ class MainCanvasBase(BaseCanvas, ABC):
                         vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
                         if vpoint.type in {VJoint.P, VJoint.RP}:
                             vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
-
                 elif self.free_move == FreeMode.Reflect:
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
@@ -712,10 +700,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
                             if (x > 0) != (y > 0):
                                 vpoint.rotate(180 - self.vangles[num])
-
                 if self.free_move != FreeMode.NoFreeMove and self.selections:
                     self.update_preview_path()
-
             self.update()
         self.tracking.emit(x, y)
 
@@ -734,7 +720,6 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.oy = height / 2
             self.update()
             return
-
         factor = BaseCanvas.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
         self.zoom_changed.emit(int(factor * self.margin_factor * 50))
         self.ox = (width - (x_left + x_right) * self.zoom) / 2

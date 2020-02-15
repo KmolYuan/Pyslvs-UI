@@ -98,6 +98,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.merge_result = parent.merge_result
         self.update_ranges = parent.main_canvas.update_ranges
         self.set_solving_path = parent.main_canvas.set_solving_path
+        self.get_zoom = parent.main_canvas.get_zoom
         self.prefer = parent.prefer
         # Data and functions
         self.mechanism_data: List[Dict[str, Any]] = []
@@ -335,7 +336,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not self.edit_target_point_button.isChecked():
             return
         for i, (cx, cy) in enumerate(self.current_path()):
-            if hypot(x - cx, y - cy) < 5:
+            if hypot(x - cx, y - cy) < 10 / self.get_zoom():
                 index = i
                 self.path_list.setCurrentRow(index)
                 break

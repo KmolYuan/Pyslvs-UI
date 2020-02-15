@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Union
+from typing import cast, Tuple, List, Union
 from lark import Lark, Transformer, Tree
 
 _GRAMMAR = Lark(r"""
@@ -57,7 +57,7 @@ class _Transformer(Transformer):
         elif type(n[1]) is float:
             return n[0], n[1]
         else:
-            return n[0], float(n[1].children[0])
+            return n[0], float(cast(Tree, n[1]).children[0])
 
     @staticmethod
     def line(n):
