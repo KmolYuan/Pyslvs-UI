@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(450, 632)
+        Form.resize(450, 716)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -277,7 +277,7 @@ class Ui_Form(object):
         self.verticalLayout_3.addWidget(self.efd_button)
         self.norm_path_button = QtWidgets.QPushButton(self.layoutWidget)
         icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap(":/icons/history.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon18.addPixmap(QtGui.QPixmap(":/icons/normalization.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.norm_path_button.setIcon(icon18)
         self.norm_path_button.setIconSize(QtCore.QSize(40, 40))
         self.norm_path_button.setObjectName("norm_path_button")
@@ -372,6 +372,7 @@ class Ui_Form(object):
         self.import_xlsx_button.setStatusTip(_translate("Form", "Import path from Microsoft Excel format."))
         self.edit_path_button.setStatusTip(_translate("Form", "Edit the target path."))
         self.efd_button.setStatusTip(_translate("Form", "Using Elliptical Fourier Descriptor to regenerate the path."))
+        self.norm_path_button.setStatusTip(_translate("Form", "Apply normalization on current path."))
         self.target_label.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">※ Use &quot;Alt + left button&quot; or &quot;context menu of canvas&quot; to add the path points.</span></p></body></html>"))
         self.options_tab.setTabText(self.options_tab.indexOf(self.target_path), _translate("Form", "Target path"))
         self.advance_button.setStatusTip(_translate("Form", "More algorithm settings."))

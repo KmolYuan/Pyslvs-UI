@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>632</height>
+    <height>716</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -533,9 +533,12 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="norm_path_button">
+                  <property name="statusTip">
+                   <string>Apply normalization on current path.</string>
+                  </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/history.png</normaloff>:/icons/history.png</iconset>
+                    <normaloff>:/icons/normalization.png</normaloff>:/icons/normalization.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
