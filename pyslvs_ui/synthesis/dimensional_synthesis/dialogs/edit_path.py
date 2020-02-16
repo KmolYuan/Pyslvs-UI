@@ -10,6 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING
+from math import cos, sin, atan2, radians, hypot
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog
 from .edit_path_ui import Ui_Dialog
@@ -40,6 +41,18 @@ class EditPathDialog(QDialog, Ui_Dialog):
         mx = self.move_x.value()
         my = self.move_y.value()
         self.set_path((x + mx, y + my) for x, y in self.path)
+        self.accept()
+
+    @Slot(name='on_rotate_button_clicked')
+    def __rotate(self) -> None:
+        """Rotate by origin."""
+        angle = radians(self.rotate_angle.value())
+        path = []
+        for x, y in self.path:
+            h = hypot(x, y)
+            a = atan2(y, x) + angle
+            path.append((h * cos(a), h * sin(a)))
+        self.set_path(path)
         self.accept()
 
     @Slot(name='on_scale_button_clicked')
