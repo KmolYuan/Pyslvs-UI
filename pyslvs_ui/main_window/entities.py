@@ -741,11 +741,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self,
             f"Set {axis} axis",
             f"Align the selected points into {axis} axis:",
-            0,
-            -9999,
-            9999,
-            4
-        )
+            0, -9999, 9999, 4)
         if not ok:
             return
         self.command_stack.beginMacro(f"Align points with {axis}")

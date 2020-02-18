@@ -319,7 +319,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_norm_path_button_clicked')
     def __norm_path(self) -> None:
         """Normalize current path."""
-        self.set_path(norm_path(self.current_path()))
+        scale, ok = QInputDialog.getDouble(
+            self,
+            "Scale",
+            "Length of unit vector:",
+            1, 0.01, 1000, 2)
+        if not ok:
+            return
+        self.set_path(norm_path(self.current_path(), scale))
 
     def add_point(self, x: float, y: float) -> None:
         """Add path data to list widget and current target path."""
