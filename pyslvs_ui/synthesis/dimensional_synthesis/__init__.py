@@ -18,6 +18,7 @@ from typing import (
     Tuple,
     Sequence,
     Dict,
+    Iterator,
     Iterable,
     Callable,
     Union,
@@ -237,8 +238,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         except LarkError as e:
             QMessageBox.warning(self, "Wrong format", f"{e}")
         else:
-            for x, y in path:
-                self.add_point(x, y)
+            self.set_path(path)
 
     @Slot(name='on_save_path_button_clicked')
     def __save_path(self):
@@ -267,25 +267,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         name, ok = QInputDialog.getItem(self, "Sheets", "Select a sheet:", sheets, 0)
         if not ok:
             return
-        ws = wb.get_sheet_by_name(sheets.index(name))
-        # Keep finding until there is no value
-        i = 1
-        while True:
-            sx = ws.cell(i, 1).value
-            sy = ws.cell(i, 2).value
-            if None in {sx, sy}:
-                break
-            try:
-                self.add_point(float(sx), float(sy))
-            except (IndexError, AttributeError):
-                QMessageBox.warning(
-                    self,
-                    "File error",
-                    "Wrong format.\n"
-                    "The data sheet seems to including non-digital cell."
-                )
-                break
-            i += 1
+
+        def get_path(sheet: str) -> Iterator[Tuple[float, float]]:
+            """Keep finding until there is no value"""
+            ws = wb.get_sheet_by_name(sheets.index(sheet))
+            i = 1
+            while True:
+                sx = ws.cell(i, 1).value
+                sy = ws.cell(i, 2).value
+                if None in {sx, sy}:
+                    break
+                try:
+                    yield float(sx), float(sy)
+                except Exception as e:
+                    QMessageBox.warning(self, "File error", f"{e}")
+                    return
+                i += 1
+
+        self.set_path(get_path(name))
 
     @Slot(name='on_edit_path_button_clicked')
     def __adjust_path(self) -> None:

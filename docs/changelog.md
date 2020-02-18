@@ -6,6 +6,7 @@
 
 + Fix file loader error during loading algorithm results.
 + Fix the touching area of target point moving.
++ Improve load target path function.
 
 **Development**:
 
