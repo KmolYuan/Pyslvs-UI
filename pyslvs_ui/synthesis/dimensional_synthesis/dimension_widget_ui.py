@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/synthesis/dimensional_synthesis/dimension_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -232,6 +232,9 @@ class Ui_Form(object):
         self.edit_target_point_button.setObjectName("edit_target_point_button")
         self.horizontalLayout_8.addWidget(self.edit_target_point_button)
         self.verticalLayout_8.addLayout(self.horizontalLayout_8)
+        self.shape_only_option = QtWidgets.QCheckBox(self.layoutWidget)
+        self.shape_only_option.setObjectName("shape_only_option")
+        self.verticalLayout_8.addWidget(self.shape_only_option)
         self.horizontalLayout_5.addLayout(self.verticalLayout_8)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -367,6 +370,7 @@ class Ui_Form(object):
         self.point_delete.setStatusTip(_translate("Form", "Remove the point."))
         self.close_path.setStatusTip(_translate("Form", "Close the path."))
         self.edit_target_point_button.setStatusTip(_translate("Form", "User can edit target point immediately."))
+        self.shape_only_option.setText(_translate("Form", "Compare shape only"))
         self.save_path_button.setStatusTip(_translate("Form", "Save current path as csv file."))
         self.import_csv_button.setStatusTip(_translate("Form", "Import path from CSV format."))
         self.import_xlsx_button.setStatusTip(_translate("Form", "Import path from Microsoft Excel format."))

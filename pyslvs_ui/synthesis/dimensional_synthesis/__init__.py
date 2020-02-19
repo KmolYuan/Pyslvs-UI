@@ -453,6 +453,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         mech = deepcopy(self.mech)
         mech['expression'] = parse_vpoints(mech.pop('expression', []))
         mech['target'] = deepcopy(self.path)
+        mech['shape_only'] = self.shape_only_option.isChecked()
 
         def name_in_table(target_name: str) -> int:
             """Find a target_name and return the row from the table."""
