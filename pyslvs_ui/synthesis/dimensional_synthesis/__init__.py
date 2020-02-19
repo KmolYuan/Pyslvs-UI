@@ -323,10 +323,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             self,
             "Scale",
             "Length of unit vector:",
-            1, 0.01, 1000, 2)
-        if not ok:
-            return
-        self.set_path(norm_path(self.current_path(), scale))
+            60, 0.01, 1000, 2)
+        if ok:
+            self.set_path(norm_path(self.current_path(), scale))
 
     def add_point(self, x: float, y: float) -> None:
         """Add path data to list widget and current target path."""
