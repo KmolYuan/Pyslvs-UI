@@ -5,6 +5,7 @@
 Customized class will define below.
 """
 
+__all__ = ['API', 'QT_VERSION', 'qt_image_suffix', 'qt_image_format', 'QABCMeta']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -14,8 +15,6 @@ from typing import Any
 from abc import ABCMeta
 from qtpy import QtCore, API_NAME
 from importlib import import_module
-
-__all__ = ['API', 'QT_VERSION', 'qt_image_suffix', 'qt_image_format', 'QABCMeta']
 
 if API_NAME == 'PyQt5':
     API = f"{API_NAME} {QtCore.PYQT_VERSION_STR}"

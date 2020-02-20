@@ -6,6 +6,12 @@ the result from type synthesis and triangular iteration by users.
 
 from __future__ import annotations
 
+__all__ = [
+    'Collections',
+    'StructureWidget',
+    'ConfigureWidget',
+    'CollectionsDialog',
+]
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -19,13 +25,6 @@ from .configure_widget import ConfigureWidget
 from .dialogs import CollectionsDialog
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
-
-__all__ = [
-    'Collections',
-    'StructureWidget',
-    'ConfigureWidget',
-    'CollectionsDialog',
-]
 
 
 class Collections(QWidget):

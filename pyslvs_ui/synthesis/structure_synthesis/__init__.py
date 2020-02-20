@@ -6,6 +6,7 @@ number and type synthesis functional interfaces.
 
 from __future__ import annotations
 
+__all__ = ['StructureSynthesis']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -42,8 +43,6 @@ from .thread import assortment_eval, LinkThread, GraphThread
 from .structure_widget_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
-
-__all__ = ['StructureSynthesis']
 
 Assortment = Sequence[int]
 
