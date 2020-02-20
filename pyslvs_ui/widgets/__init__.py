@@ -4,6 +4,28 @@
 that design without Qt designer.
 """
 
+__all__ = [
+    'MainWindowBase',
+    'Preferences',
+    'PointArgs',
+    'LinkArgs',
+    'PointTableWidget',
+    'LinkTableWidget',
+    'QRotatableView',
+    'AddTable',
+    'AddPath',
+    'AddStorage',
+    'AddStorageName',
+    'AddInput',
+    'ClearStorageName',
+    'DeletePath',
+    'DeleteStorage',
+    'DeleteTable',
+    'DeleteInput',
+    'EditPointTable',
+    'EditLinkTable',
+    'FixSequenceNumber',
+]
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -27,26 +49,3 @@ from .undo_redo import (
     EditLinkTable,
     FixSequenceNumber,
 )
-
-__all__ = [
-    'MainWindowBase',
-    'Preferences',
-    'PointArgs',
-    'LinkArgs',
-    'PointTableWidget',
-    'LinkTableWidget',
-    'QRotatableView',
-    'AddTable',
-    'AddPath',
-    'AddStorage',
-    'AddStorageName',
-    'AddInput',
-    'ClearStorageName',
-    'DeletePath',
-    'DeleteStorage',
-    'DeleteTable',
-    'DeleteInput',
-    'EditPointTable',
-    'EditLinkTable',
-    'FixSequenceNumber',
-]

@@ -2,15 +2,6 @@
 
 """'info' module contains Pyslvs program information."""
 
-__author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2020"
-__license__ = "AGPL"
-__email__ = "pyslvs@gmail.com"
-
-from .info import SYS_INFO, ARGUMENTS
-from .about import PyslvsAbout, html, check_update
-from .logging_handler import logger, XStream
-
 __all__ = [
     'SYS_INFO',
     'ARGUMENTS',
@@ -22,6 +13,14 @@ __all__ = [
     'kernel_list',
     'size_format',
 ]
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2020"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
+
+from .info import SYS_INFO, ARGUMENTS
+from .about import PyslvsAbout, html, check_update
+from .logging_handler import logger, XStream
 
 kernel_list = ("Pyslvs", "Python-Solvespace", "Sketch Solve")
 

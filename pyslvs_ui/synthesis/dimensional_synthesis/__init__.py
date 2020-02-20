@@ -6,6 +6,7 @@ dimensional synthesis functional interfaces.
 
 from __future__ import annotations
 
+__all__ = ['DimensionalSynthesis']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -68,7 +69,6 @@ from .dimension_widget_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
-__all__ = ['DimensionalSynthesis']
 _Coord = Tuple[float, float]
 
 

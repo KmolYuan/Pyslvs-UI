@@ -13,6 +13,7 @@ Abstract classes (ordered):
 
 from __future__ import annotations
 
+__all__ = ['MainWindow']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -24,8 +25,6 @@ from qtpy.QtWidgets import QMessageBox, QInputDialog
 from qtpy.QtGui import QTextCursor, QCloseEvent
 from pyslvs_ui.info import ARGUMENTS, XStream, logger
 from .io import IOMethodInterface
-
-__all__ = ['MainWindow']
 
 
 class MainWindow(IOMethodInterface):
