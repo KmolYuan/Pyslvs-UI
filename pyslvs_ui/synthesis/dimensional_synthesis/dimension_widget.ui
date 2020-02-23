@@ -436,6 +436,13 @@
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QCheckBox" name="wavelet_mode_option">
+                  <property name="text">
+                   <string>Wavelet transform</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
