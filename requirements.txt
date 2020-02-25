@@ -16,3 +16,4 @@ lark-parser
 pyyaml
 h5py
 qrcode
+PyWavelets
