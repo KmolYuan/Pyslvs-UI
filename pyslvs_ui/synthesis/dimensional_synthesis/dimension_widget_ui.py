@@ -374,7 +374,7 @@ class Ui_Form(object):
         self.close_path.setStatusTip(_translate("Form", "Close the path."))
         self.edit_target_point_button.setStatusTip(_translate("Form", "User can edit target point immediately."))
         self.shape_only_option.setText(_translate("Form", "Compare shape only"))
-        self.wavelet_mode_option.setText(_translate("Form", "Wavelet transform"))
+        self.wavelet_mode_option.setText(_translate("Form", "Wavelet transform (alpha)"))
         self.save_path_button.setStatusTip(_translate("Form", "Save current path as csv file."))
         self.import_csv_button.setStatusTip(_translate("Form", "Import path from CSV format."))
         self.import_xlsx_button.setStatusTip(_translate("Form", "Import path from Microsoft Excel format."))
