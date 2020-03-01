@@ -235,6 +235,7 @@ class Ui_Form(object):
         self.graph_link_as_node.setText(_translate("Form", "Link as node"))
         self.graph_show_label.setText(_translate("Form", "Labels"))
         self.expr_copy.setStatusTip(_translate("Form", "Copy expression."))
+        self.capture_graph.setStatusTip(_translate("Form", "Save current graph image."))
         self.nl_text.setToolTip(_translate("Form", "Number of links"))
         self.nl_text.setText(_translate("Form", "NL: (?)"))
         self.nl_label.setText(_translate("Form", "0"))

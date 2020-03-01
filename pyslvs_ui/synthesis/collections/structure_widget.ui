@@ -230,6 +230,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="capture_graph">
+           <property name="statusTip">
+            <string>Save current graph image.</string>
+           </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
              <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
