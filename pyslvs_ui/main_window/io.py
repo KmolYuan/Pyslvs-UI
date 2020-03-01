@@ -498,7 +498,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         elif reply == QMessageBox.Save:
             QApplication.clipboard().setText(url)
 
-    @Slot()
+    @Slot(name='on_action_screenshot_triggered')
     def save_picture_clipboard(self) -> None:
         """Capture the canvas image to clipboard."""
         if self.prefer.grab_no_background_option:

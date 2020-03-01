@@ -739,7 +739,7 @@
      <x>0</x>
      <y>0</y>
      <width>928</width>
-     <height>41</height>
+     <height>39</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -755,6 +755,7 @@
     <addaction name="separator"/>
     <addaction name="action_save"/>
     <addaction name="action_save_as"/>
+    <addaction name="action_screenshot"/>
     <addaction name="separator"/>
     <addaction name="action_full_screen"/>
     <addaction name="action_new_window"/>
@@ -1184,6 +1185,18 @@
    </property>
    <property name="shortcut">
     <string>F2</string>
+   </property>
+  </action>
+  <action name="action_screenshot">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/capture.png</normaloff>:/icons/capture.png</iconset>
+   </property>
+   <property name="text">
+    <string>Screenshot</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>
