@@ -134,8 +134,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setFocusPolicy(Qt.StrongFocus)
+        self.setMouseTracking(True)
         self.painter = QPainter()
-
         # Origin coordinate
         self.ox = self.width() / 2
         self.oy = self.height() / 2

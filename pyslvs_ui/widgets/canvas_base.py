@@ -138,7 +138,6 @@ class MainCanvasBase(BaseCanvas, ABC):
     @abstractmethod
     def __init__(self, parent: MainWindowBase) -> None:
         super(MainCanvasBase, self).__init__(parent)
-        self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         # The current mouse coordinates
         self.selector = _Selector()

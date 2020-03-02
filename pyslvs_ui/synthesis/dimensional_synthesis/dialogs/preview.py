@@ -10,9 +10,9 @@ __email__ = "pyslvs@gmail.com"
 from math import isnan
 from itertools import chain
 from typing import Tuple, List, Dict, Sequence, Any
-from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
+from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget, QVBoxLayout
-from qtpy.QtGui import QPen, QFont, QPaintEvent
+from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
                     norm_path)
 from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR, RangeDetector
@@ -25,6 +25,8 @@ _Range = Tuple[float, float, float]
 class _DynamicCanvas(BaseCanvas):
 
     """Custom canvas for preview algorithm result."""
+
+    update_pos = Signal(float, float)
 
     def __init__(
         self,
@@ -185,10 +187,12 @@ class _DynamicCanvas(BaseCanvas):
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.font_size))
-            text = f"[{name}]"
             cen_x = sum(self.pos[i][0] for i in points if self.pos[i])
             cen_y = sum(self.pos[i][1] for i in points if self.pos[i])
-            self.painter.drawText(QPointF(cen_x, -cen_y) * self.zoom / len(points), text)
+            self.painter.drawText(
+                QPointF(cen_x, -cen_y) * self.zoom / len(points),
+                f"[{name}]"
+            )
 
     def __draw_path(self) -> None:
         """Draw a path.
@@ -206,6 +210,11 @@ class _DynamicCanvas(BaseCanvas):
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
             self.draw_curve(path)
+
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        """Set mouse position."""
+        self.update_pos.emit((event.x() - self.ox) / self.zoom,
+                             (event.y() - self.oy) / self.zoom)
 
     @Slot()
     def __change_index(self) -> None:
@@ -241,12 +250,13 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.splitter.setSizes([100, 100, 100])
         vpoints = parse_vpoints(mechanism['expression'])
         vlinks = get_vlinks(vpoints)
-        self.left_layout.insertWidget(
-            0,
-            _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
-        )
+        canvas1 = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
+        canvas2 = _DynamicCanvas(mechanism, path, parent=self)
+        for c in (canvas1, canvas2):
+            c.update_pos.connect(self.__set_mouse_pos)
+        self.left_layout.insertWidget(0, canvas1)
         layout = QVBoxLayout(self.path_cmp_tab)
-        layout.addWidget(_DynamicCanvas(mechanism, path, parent=self))
+        layout.addWidget(canvas2)
         labels = []
         for tag, data in chain(
             [(tag, mechanism.get(tag, 'N/A'))
@@ -283,9 +293,14 @@ class PreviewDialog(QDialog, Ui_Dialog):
         for k, v in mechanism['settings'].items():
             text_list.append(f"{k}: {v}")
         text = "<br/>".join(text_list)
-        self.algorithm_label.setText(f"<html><head/><body><p>{text}</p></body></html>")
-
+        self.algorithm_label.setText(f"<html><p>{text}</p></html>")
         # Hardware information
         self.hardware_label.setText("\n".join([
-            f"{tag}: {mechanism['hardware_info'][tag]}" for tag in ('os', 'memory', 'cpu')
+            f"{tag}: {mechanism['hardware_info'][tag]}"
+            for tag in ('os', 'memory', 'cpu')
         ]))
+
+    @Slot(float, float)
+    def __set_mouse_pos(self, x: float, y: float) -> None:
+        """Set mouse position."""
+        self.mouse_pos.setText(f"({x:.04f}, {y:.04f})")

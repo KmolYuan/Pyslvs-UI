@@ -61,11 +61,9 @@ class _ConfigureCanvas(PreviewCanvas):
         """Check if get close to a joint."""
         mx = (event.x() - self.ox) / self.zoom
         my = (event.y() - self.oy) / -self.zoom
-
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
-
             if hypot(x - mx, y - my) <= 5:
                 self.set_joint_number.emit(node)
                 self.pressed = True
