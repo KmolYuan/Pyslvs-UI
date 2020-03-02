@@ -628,13 +628,13 @@ class PreviewCanvas(BaseCanvas):
             if self.monochrome:
                 color = Qt.black
             elif node in self.driver:
-                color = color_qt('Red')
+                color = color_qt('red')
             elif node in self.target:
-                color = color_qt('Orange')
+                color = color_qt('orange')
             elif self.get_status(node):
-                color = color_qt('Green')
+                color = color_qt('green')
             else:
-                color = color_qt('Blue')
+                color = color_qt('blue')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))

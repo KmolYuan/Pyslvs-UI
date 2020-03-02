@@ -169,7 +169,7 @@ class _DynamicCanvas(BaseCanvas):
 
         The link color will be the default color.
         """
-        color = color_qt('Blue')
+        color = color_qt('blue')
         pen = QPen(color)
         pen.setWidth(self.link_width)
         self.painter.setPen(pen)
@@ -201,9 +201,9 @@ class _DynamicCanvas(BaseCanvas):
         """
         pen = QPen()
         for i, path in enumerate(self.path.path):
-            color = color_qt('Green')
+            color = color_qt('green')
             if i in self.target_path:
-                color = color_qt('Dark-Orange')
+                color = color_qt('dark-orange')
             elif self.__no_mechanism:
                 continue
             pen.setColor(color)

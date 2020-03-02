@@ -150,9 +150,9 @@ def graph2icon(
             if monochrome:
                 color = Qt.black
             elif except_node in dict(edges_view(g))[k]:
-                color = color_qt('Green')
+                color = color_qt('green')
             else:
-                color = color_qt('Blue')
+                color = color_qt('blue')
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))
