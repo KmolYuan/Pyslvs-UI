@@ -7,18 +7,8 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    Tuple,
-    List,
-    Sequence,
-    Set,
-    Dict,
-    Iterator,
-    Any,
-    Union,
-    Optional,
-    ClassVar,
-)
+from typing import (Tuple, List, Sequence, Set, Dict, Iterator, Any, Union,
+                    Optional, ClassVar)
 from abc import abstractmethod
 from dataclasses import dataclass
 from enum import auto, unique, IntEnum
@@ -83,7 +73,31 @@ def convex_hull(
     return result
 
 
-@dataclass(repr=False, eq=False)
+@dataclass(init=False, repr=False, eq=False)
+class RangeDetector:
+
+    """Range detection of points."""
+
+    inf = float('inf')
+    right = inf
+    left = -inf
+    top = -inf
+    bottom = inf
+    del inf
+
+    def __call__(self, r: float, l: float, t: float, b: float) -> None:
+        """Set ranges from new point."""
+        if r < self.right:
+            self.right = r
+        if l > self.left:
+            self.left = l
+        if t > self.top:
+            self.top = t
+        if b < self.bottom:
+            self.bottom = b
+
+
+@dataclass(init=False, repr=False, eq=False)
 class _PathOption:
 
     """Path option class.

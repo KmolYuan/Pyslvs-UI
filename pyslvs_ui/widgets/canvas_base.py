@@ -18,7 +18,8 @@ from qtpy.QtCore import Signal, Slot, Qt, QRectF, QPoint, QPointF, QLineF
 from qtpy.QtWidgets import QApplication
 from qtpy.QtGui import QPolygonF, QFont, QPen, QColor, QPaintEvent, QMouseEvent
 from pyslvs import VJoint, VPoint, VLink
-from pyslvs_ui.graphics import convex_hull, BaseCanvas, color_qt, LINK_COLOR
+from pyslvs_ui.graphics import (convex_hull, BaseCanvas, color_qt, LINK_COLOR,
+                                RangeDetector)
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -419,23 +420,7 @@ class MainCanvasBase(BaseCanvas, ABC):
 
     def __zoom_to_fit_size(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
-        inf = float('inf')
-        x_right = inf
-        x_left = -inf
-        y_top = -inf
-        y_bottom = inf
-
-        def set_range(r: float, l: float, t: float, b: float) -> None:
-            nonlocal x_right, x_left, y_top, y_bottom
-            if r < x_right:
-                x_right = r
-            if l > x_left:
-                x_left = l
-            if t > y_top:
-                y_top = t
-            if b < y_bottom:
-                y_bottom = b
-
+        r = RangeDetector()
         # Paths
         if self.path.show != -2:
             paths = self.path_record or self.path.path or self.path_preview
@@ -446,35 +431,30 @@ class MainCanvasBase(BaseCanvas, ABC):
                 if self.path.show != -1 and self.path.show != i:
                     continue
                 for x, y in path:
-                    set_range(x, x, y, y)
+                    r(x, x, y, y)
         # Points
         for vpoint in self.vpoints:
-            set_range(vpoint.cx, vpoint.cx, vpoint.cy, vpoint.cy)
+            r(vpoint.cx, vpoint.cx, vpoint.cy, vpoint.cy)
         # Synthesis page
         if self.show_target_path:
             # Solving paths
             for path in self.target_path.values():
                 for x, y in path:
-                    set_range(x, x, y, y)
+                    r(x, x, y, y)
             # Ranges
             for rect in self.ranges.values():
-                set_range(
-                    rect.x(),
-                    rect.x() + rect.width(),
-                    rect.y(),
-                    rect.y() - rect.height()
-                )
+                r(rect.x(), rect.x() + rect.width(), rect.y(), rect.y() - rect.height())
         # Background image
         if not self.background.isNull():
             x_r = self.background_offset.x()
             y_t = self.background_offset.y()
-            set_range(
+            r(
                 x_r,
                 x_r + self.background.width() * self.background_scale,
                 y_t,
                 y_t - self.background.height() * self.background_scale
             )
-        return x_right, x_left, y_top, y_bottom
+        return r.right, r.left, r.top, r.bottom
 
     def emit_free_move_all(self) -> None:
         """Edit all points to edit."""

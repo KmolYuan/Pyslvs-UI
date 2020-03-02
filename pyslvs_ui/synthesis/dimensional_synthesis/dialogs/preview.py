@@ -14,7 +14,7 @@ from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget, QVBoxLayout
 from qtpy.QtGui import QPen, QFont, QPaintEvent
 from pyslvs import color_rgb, get_vlinks, VPoint, VLink, parse_vpoints
-from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR
+from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR, RangeDetector
 from .preview_ui import Ui_Dialog
 
 _Coord = Tuple[float, float]
@@ -71,37 +71,21 @@ class _DynamicCanvas(BaseCanvas):
 
     def __zoom_to_fit_size(self) -> Tuple[float, float, float, float]:
         """Limitations of four side."""
-        inf = float('inf')
-        x_right = inf
-        x_left = -inf
-        y_top = -inf
-        y_bottom = inf
-
-        def set_range(r: float, l: float, t: float, b: float) -> None:
-            nonlocal x_right, x_left, y_top, y_bottom
-            if r < x_right:
-                x_right = r
-            if l > x_left:
-                x_left = l
-            if t > y_top:
-                y_top = t
-            if b < y_bottom:
-                y_bottom = b
-
+        r = RangeDetector()
         # Paths
         for i, path in enumerate(self.path.path):
             if self.__no_mechanism and i not in self.target_path:
                 continue
             for x, y in path:
-                set_range(x, x, y, y)
+                r(x, x, y, y)
         # Solving paths
         for path in self.target_path.values():
             for x, y in path:
-                set_range(x, x, y, y)
+                r(x, x, y, y)
         # Ranges
         for rect in self.ranges.values():
-            set_range(rect.right(), rect.left(), rect.top(), rect.bottom())
-        return x_right, x_left, y_top, y_bottom
+            r(rect.right(), rect.left(), rect.top(), rect.bottom())
+        return r.right, r.left, r.top, r.bottom
 
     def paintEvent(self, event: QPaintEvent) -> None:
         """Drawing functions."""

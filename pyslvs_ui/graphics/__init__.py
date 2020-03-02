@@ -13,6 +13,7 @@ __all__ = [
     'BaseCanvas',
     'PreviewCanvas',
     'convex_hull',
+    'RangeDetector',
     'graph2icon',
     'engine_picker',
     'engines',
@@ -23,14 +24,10 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .color import (
-    color_num,
-    color_names,
-    color_icon,
-    color_qt,
-    target_path_style,
-)
+from .color import (color_num, color_names, color_icon, color_qt,
+                    target_path_style)
 from .chart import DataChart
-from .canvas import LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull
+from .canvas import (LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull,
+                     RangeDetector)
 from .nx_layout import graph2icon, engine_picker, engines
 from .path_parser import parse_path

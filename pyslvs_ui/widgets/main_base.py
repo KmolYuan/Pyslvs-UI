@@ -58,6 +58,7 @@ from .tables import (
 from .inputs import InputsWidget
 
 _N = TypeVar('_N')
+_Action = Union[List[QAction], QMenu]
 
 
 def _set_actions(actions: Sequence[QAction], state: bool) -> None:
@@ -132,14 +133,14 @@ class _Context:
             for action in actions:
                 action.setVisible(action.isVisible() and state)
 
-    def __getitem__(self, key: _Enable) -> Tuple[Union[List[QAction], QMenu], ...]:
+    def __getitem__(self, key: _Enable) -> Tuple[_Action, ...]:
         meta = []
         for enable in _Enable:  # type: _Enable
             if enable in key:
                 meta.append(getattr(self, enable.name.lower()))
         return tuple(meta)
 
-    def __setitem__(self, key: _Enable, value: Union[List[QAction], QMenu]) -> None:
+    def __setitem__(self, key: _Enable, value: _Action) -> None:
         self.__setattr__(key.name.lower(), value)
 
 
