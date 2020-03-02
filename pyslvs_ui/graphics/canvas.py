@@ -327,10 +327,12 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         pen.setWidth(self.path_width)
         for i, n in enumerate(sorted(self.target_path)):
             path = self.target_path[n]
-            road, dot, brush = target_path_style(i)
-            pen.setColor(road)
+            if self.monochrome:
+                line, dot = target_path_style(0)
+            else:
+                line, dot = target_path_style(i)
+            pen.setColor(line)
             self.painter.setPen(pen)
-            self.painter.setBrush(brush)
             if len(path) == 1:
                 x, y = path[0]
                 p = QPointF(x, -y) * self.zoom
@@ -350,7 +352,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                         x2, y2 = path[j - 1]
                         self.__draw_arrow(x, -y, x2, -y2, zoom=True)
                         painter_path.lineTo(p)
-                pen.setColor(road)
+                pen.setColor(line)
                 self.painter.setPen(pen)
                 self.painter.drawPath(painter_path)
                 for x, y in path:

@@ -236,6 +236,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self,
         mechanism: Dict[str, Any],
         path: Sequence[Sequence[_Coord]],
+        monochrome: bool,
         parent: QWidget
     ):
         """Show the information of results, and setup the preview canvas."""
@@ -254,6 +255,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         canvas2 = _DynamicCanvas(mechanism, path, parent=self)
         for c in (canvas1, canvas2):
             c.update_pos.connect(self.__set_mouse_pos)
+            c.set_monochrome_mode(monochrome)
         self.left_layout.insertWidget(0, canvas1)
         layout = QVBoxLayout(self.path_cmp_tab)
         layout.addWidget(canvas2)

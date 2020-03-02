@@ -201,7 +201,7 @@ class MainCanvas(MainCanvasBase):
         self.selections = selections
         self.update()
 
-    def set_solving_path(self, path: Dict[str, Sequence[_Coord]]):
+    def set_solving_path(self, path: Dict[int, Sequence[_Coord]]):
         """Update target path."""
         self.target_path = path
         self.update()

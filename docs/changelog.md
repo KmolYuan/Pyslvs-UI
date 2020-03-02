@@ -5,6 +5,7 @@
 **Features**:
 
 + Add path comparison page at synthesis result preview.
++ Change color of target path.
 
 **Development**:
 

@@ -70,6 +70,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
+_Range = Tuple[float, float, float]
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
@@ -172,9 +173,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __current_path_changed(self) -> None:
         """Call the canvas to update to current target path."""
-        self.set_solving_path({
-            f"P{name}": tuple(path) for name, path in self.path.items()
-        })
+        self.set_solving_path({n: tuple(p) for n, p in self.path.items()})
         self.__able_to_generate()
 
     def current_path(self) -> List[_Coord]:
@@ -268,7 +267,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not ok:
             return
 
-        def get_path(sheet: str) -> Iterator[Tuple[float, float]]:
+        def get_path(sheet: str) -> Iterator[_Coord]:
             """Keep finding until there is no value"""
             ws = wb.get_sheet_by_name(sheets.index(sheet))
             i = 1
@@ -334,7 +333,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path_list.setCurrentRow(self.path_list.count() - 1)
         self.__current_path_changed()
 
-    def set_path(self, path: Iterable[Tuple[float, float]]) -> None:
+    def set_path(self, path: Iterable[_Coord]) -> None:
         """Set the current path."""
         self.clear_path(ask=False)
         for x, y in path:
@@ -556,7 +555,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
-        dlg = PreviewDialog(self.mechanism_data[row], self.__get_path(row), self)
+        dlg = PreviewDialog(self.mechanism_data[row],
+                            self.__get_path(row),
+                            self.preview_canvas.monochrome,
+                            self)
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
@@ -580,7 +582,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         result = self.mechanism_data[row]
         expression: str = result['expression']
         same: Dict[int, int] = result['same']
-        inputs: List[Tuple[Tuple[int, int], Tuple[float, float]]] = result['input']
+        inputs: List[Tuple[Tuple[int, int], _Coord]] = result['input']
         input_list = []
         for (b, d), _ in inputs:
             for i in range(b):
@@ -705,7 +707,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         link_count = len(link_list)
         inputs: List[Tuple[Tuple[int, int], List[float]]] = self.mech['input']
         self.parameter_list.setRowCount(0)
-        placement: Dict[int, Optional[Tuple[float, float, float]]] = self.mech['placement']
+        placement: Dict[int, Optional[_Range]] = self.mech['placement']
         # Table settings
         self.parameter_list.setRowCount(len(inputs) + len(placement) + link_count)
         row = 0
