@@ -22,10 +22,7 @@
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QTabWidget" name="information_tab">
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
-     <widget class="QWidget" name="geometry">
+     <widget class="QWidget" name="geometry_tab">
       <attribute name="title">
        <string>Geometry</string>
       </attribute>
@@ -95,8 +92,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>717</width>
-                 <height>85</height>
+                 <width>722</width>
+                 <height>74</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -159,8 +156,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>717</width>
-                 <height>199</height>
+                 <width>722</width>
+                 <height>215</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -223,8 +220,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>717</width>
-                 <height>198</height>
+                 <width>722</width>
+                 <height>215</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -264,6 +261,11 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="path_cmp_tab">
+      <attribute name="title">
+       <string>Path Comparison</string>
+      </attribute>
      </widget>
     </widget>
    </item>

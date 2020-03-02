@@ -425,16 +425,16 @@ class MainCanvasBase(BaseCanvas, ABC):
         y_top = -inf
         y_bottom = inf
 
-        def set_range(r: float, l: float, b: float, t: float) -> None:
+        def set_range(r: float, l: float, t: float, b: float) -> None:
             nonlocal x_right, x_left, y_top, y_bottom
             if r < x_right:
                 x_right = r
             if l > x_left:
                 x_left = l
-            if b < y_bottom:
-                y_bottom = b
             if t > y_top:
                 y_top = t
+            if b < y_bottom:
+                y_bottom = b
 
         # Paths
         if self.path.show != -2:
@@ -461,8 +461,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                 set_range(
                     rect.x(),
                     rect.x() + rect.width(),
-                    rect.y() - rect.height(),
-                    rect.y()
+                    rect.y(),
+                    rect.y() - rect.height()
                 )
         # Background image
         if not self.background.isNull():
@@ -471,8 +471,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             set_range(
                 x_r,
                 x_r + self.background.width() * self.background_scale,
-                y_t - self.background.height() * self.background_scale,
-                y_t
+                y_t,
+                y_t - self.background.height() * self.background_scale
             )
         return x_right, x_left, y_top, y_bottom
 

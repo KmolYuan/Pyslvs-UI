@@ -142,7 +142,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.path = _PathOption()
         # Path solving
         self.ranges: Dict[str, QRectF] = {}
-        self.target_path: Dict[str, Sequence[_Coord]] = {}
+        self.target_path: Dict[int, Sequence[_Coord]] = {}
         self.show_target_path = False
         # Background
         self.background = QImage()
@@ -311,8 +311,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         """Draw solving path."""
         pen = QPen()
         pen.setWidth(self.path_width)
-        for i, name in enumerate(sorted(self.target_path)):
-            path = self.target_path[name]
+        for i, n in enumerate(sorted(self.target_path)):
+            path = self.target_path[n]
             road, dot, brush = target_path_style(i)
             pen.setColor(road)
             self.painter.setPen(pen)
@@ -320,7 +320,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             if len(path) == 1:
                 x, y = path[0]
                 p = QPointF(x, -y) * self.zoom
-                self.painter.drawText(p + QPointF(6, -6), name)
+                self.painter.drawText(p + QPointF(6, -6), f"P{n}")
                 pen.setColor(dot)
                 self.painter.setPen(pen)
                 self.draw_circle(p, self.joint_size)
@@ -330,7 +330,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                     p = QPointF(x, -y) * self.zoom
                     self.draw_circle(p, self.joint_size)
                     if j == 0:
-                        self.painter.drawText(p + QPointF(6, -6), name)
+                        self.painter.drawText(p + QPointF(6, -6), f"P{n}")
                         painter_path.moveTo(p)
                     else:
                         x2, y2 = path[j - 1]

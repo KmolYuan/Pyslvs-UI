@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Add path comparison page at synthesis result preview.
 
 **Development**:
 
