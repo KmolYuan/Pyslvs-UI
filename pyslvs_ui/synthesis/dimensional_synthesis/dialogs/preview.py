@@ -155,12 +155,12 @@ class _DynamicCanvas(BaseCanvas):
             if j in self.mechanism['same']:
                 k += 1
         x, y = self.pos[i]
-        color = color_rgb('Green')
+        color = color_rgb('green')
         fixed = False
         if i in self.target_path:
-            color = color_rgb('Dark-Orange')
+            color = color_rgb('dark-orange')
         elif k in self.mechanism['placement']:
-            color = color_rgb('Blue')
+            color = color_rgb('blue')
             fixed = True
         self.draw_point(i, x, y, fixed, color)
 
@@ -169,11 +169,10 @@ class _DynamicCanvas(BaseCanvas):
 
         The link color will be the default color.
         """
-        color = color_qt('blue')
-        pen = QPen(color)
+        pen = QPen(Qt.black if self.monochrome else color_qt('blue'))
         pen.setWidth(self.link_width)
         self.painter.setPen(pen)
-        brush = LINK_COLOR
+        brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
         brush.setAlphaF(0.70)
         self.painter.setBrush(brush)
         qpoints = tuple(
@@ -201,11 +200,18 @@ class _DynamicCanvas(BaseCanvas):
         """
         pen = QPen()
         for i, path in enumerate(self.path.path):
-            color = color_qt('green')
-            if i in self.target_path:
-                color = color_qt('dark-orange')
-            elif self.__no_mechanism:
+            if self.__no_mechanism and i not in self.target_path:
                 continue
+            if i in self.target_path:
+                if self.monochrome:
+                    color = color_qt('black')
+                else:
+                    color = color_qt('dark-orange')
+            else:
+                if self.monochrome:
+                    color = color_qt('gray')
+                else:
+                    color = color_qt('green')
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)

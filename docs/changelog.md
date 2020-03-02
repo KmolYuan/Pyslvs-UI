@@ -4,7 +4,9 @@
 
 **Features**:
 
-+ Add path comparison page at synthesis result preview.
++ Dimensional synthesis result preview:
+    + Add path comparison page.
+    + Support monochrome mode.
 + Change color of target path.
 
 **Development**:

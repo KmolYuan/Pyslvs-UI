@@ -330,7 +330,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             if self.monochrome:
                 line, dot = target_path_style(0)
             else:
-                line, dot = target_path_style(i)
+                line, dot = target_path_style(i + 1)
             pen.setColor(line)
             self.painter.setPen(pen)
             if len(path) == 1:
@@ -587,19 +587,13 @@ class PreviewCanvas(BaseCanvas):
                 self.zoom = height / PreviewCanvas.view_size
             self.ox = width / 2
             self.oy = height / 2
-
         super(PreviewCanvas, self).paintEvent(event)
-
         pen = QPen()
         pen.setWidth(self.joint_size)
         self.painter.setPen(pen)
-        if self.monochrome:
-            color = QColor(Qt.darkGray)
-        else:
-            color = LINK_COLOR
+        color = color_qt('dark-gray') if self.monochrome else LINK_COLOR
         color.setAlpha(150)
         self.painter.setBrush(QBrush(color))
-
         # Links
         for link in self.graph.vertices:
             if link == self.grounded:

@@ -33,8 +33,8 @@ def color_icon(name: str, size: int = 20) -> QIcon:
 # Target path color: (line, dot)
 _path_color = (
     (color_qt('dark-gray'), color_qt('black')),
-    (color_qt('blue'), color_qt('dark-blue')),
     (color_qt('red'), color_qt('dark-red')),
+    (color_qt('blue'), color_qt('dark-blue')),
 )
 
 

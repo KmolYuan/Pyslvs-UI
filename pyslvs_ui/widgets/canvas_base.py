@@ -290,7 +290,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         pen.setWidth(self.link_width)
         pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
         self.painter.setPen(pen)
-        brush = QColor(Qt.darkGray) if self.monochrome else LINK_COLOR
+        brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
         brush.setAlphaF(self.transparency)
         self.painter.setBrush(brush)
         self.painter.drawPolygon(*qpoints)

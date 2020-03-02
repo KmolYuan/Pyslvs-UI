@@ -122,10 +122,7 @@ def graph2icon(
                 QPointF(pos[l2][0], -pos[l2][1])
             )
     else:
-        if monochrome:
-            color = QColor(Qt.darkGray)
-        else:
-            color = LINK_COLOR
+        color = color_qt('dark-gray') if monochrome else LINK_COLOR
         color.setAlpha(150)
         painter.setBrush(QBrush(color))
         for link in g.vertices:

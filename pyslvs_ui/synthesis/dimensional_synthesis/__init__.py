@@ -555,10 +555,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         row = self.result_list.currentRow()
         if not row > -1:
             return
-        dlg = PreviewDialog(self.mechanism_data[row],
-                            self.__get_path(row),
-                            self.preview_canvas.monochrome,
-                            self)
+        dlg = PreviewDialog(self.mechanism_data[row], self.__get_path(row),
+                            self.preview_canvas.monochrome, self)
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
