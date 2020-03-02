@@ -97,7 +97,7 @@ class ChartDialog(QDialog):
         for i, data in enumerate(self.algorithm_data):
             line = QtCharts.QLineSeries()
             scatter = QtCharts.QScatterSeries()
-            line.setName(f"{i}: {data['Algorithm']}")
+            line.setName(f"{i}: {data['algorithm']}")
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             if plot:

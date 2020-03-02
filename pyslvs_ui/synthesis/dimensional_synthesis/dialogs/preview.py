@@ -13,7 +13,8 @@ from typing import Tuple, List, Dict, Sequence, Any
 from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget, QVBoxLayout
 from qtpy.QtGui import QPen, QFont, QPaintEvent
-from pyslvs import color_rgb, get_vlinks, VPoint, VLink, parse_vpoints
+from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
+                    norm_path)
 from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR, RangeDetector
 from .preview_ui import Ui_Dialog
 
@@ -36,9 +37,13 @@ class _DynamicCanvas(BaseCanvas):
         """Input link and path data."""
         super(_DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
-        self.path.path = path
         self.vpoints = vpoints or []
         self.vlinks = vlinks or []
+        self.__no_mechanism = not self.vpoints or not self.vlinks
+        use_norm = self.__no_mechanism and (
+            self.mechanism.get('shape_only', False)
+            or self.mechanism.get('wavelet_mode', False))
+        self.path.path = [norm_path(p) for p in path] if use_norm else path
         self.__index = 0
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.path.path) - 1
@@ -50,12 +55,10 @@ class _DynamicCanvas(BaseCanvas):
             for j in range(i):
                 if j in same:
                     i -= 1
-            self.target_path[i] = path
+            self.target_path[i] = norm_path(path) if use_norm else path
         # Error
         self.error = False
         self.__no_error = 0
-        # No mechanism mode
-        self.__no_mechanism = not self.vpoints or not self.vlinks
         if self.__no_mechanism:
             return
         # Ranges
@@ -230,7 +233,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(
-            f"Preview: {mechanism['Algorithm']} "
+            f"Preview: {mechanism['algorithm']} "
             f"(max {mechanism['last_gen']} generations)"
         )
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
@@ -246,7 +249,8 @@ class PreviewDialog(QDialog, Ui_Dialog):
         layout.addWidget(_DynamicCanvas(mechanism, path, parent=self))
         labels = []
         for tag, data in chain(
-            [(tag, mechanism[tag]) for tag in ('Algorithm', 'time')],
+            [(tag, mechanism.get(tag, 'N/A'))
+             for tag in ('algorithm', 'time', 'shape_only', 'wavelet_mode')],
             [(f"P{i}", vpoints[i].c[0]) for i in mechanism['placement']]
         ):
             if type(data) is tuple:

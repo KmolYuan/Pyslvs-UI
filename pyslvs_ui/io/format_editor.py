@@ -109,7 +109,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         self.main_clear()
         ver = data.get('pyslvs_ver', "")
         if ver:
-            logger.info(f"Load data from Pyslvs {ver}")
+            logger.info(f"Load data from version {ver}")
         del ver
         self.dlg = QProgressDialog("Loading project", "Cancel", 0, 7, self.parent())
         self.dlg.show()

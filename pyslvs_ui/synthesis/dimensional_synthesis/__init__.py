@@ -480,7 +480,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for data in dlg.mechanisms:
             mechanisms_plot.append({
                 'time_fitness': data.pop('time_fitness'),
-                'Algorithm': data['Algorithm'],
+                'algorithm': data['algorithm'],
             })
             self.mechanism_data.append(data)
             self.__add_result(data)
@@ -502,7 +502,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     def __add_result(self, result: Dict[str, Any]) -> None:
         """Add result items, except add to the list."""
-        item = QListWidgetItem(result['Algorithm'])
+        item = QListWidgetItem(result['algorithm'])
         interrupt = result['interrupted']
         if interrupt == 'False':
             interrupt_icon = "task_completed.png"
@@ -515,7 +515,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             interrupt_text = "No interrupt."
         else:
             interrupt_text = f"Interrupt at: {interrupt}"
-        text = f"{result['Algorithm']} ({interrupt_text})"
+        text = f"{result['algorithm']} ({interrupt_text})"
         if interrupt == 'N/A':
             text += "\n※Completeness is unknown."
         item.setToolTip(text)
@@ -831,7 +831,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__clear_settings()
         result = self.mechanism_data[row]
         for option, button in self.algorithm_options.items():
-            if result['Algorithm'] == option.value:
+            if result['algorithm'] == option.value:
                 button.setChecked(True)
                 break
         else:

@@ -74,7 +74,7 @@ class OverviewDialog(QDialog, Ui_Dialog):
         self.__set_item_text(2, len(collection_data), len(config_data))
         # Dimensional synthesis
         for data in algorithm_data:
-            self.results_list.addItem(data['Algorithm'])
+            self.results_list.addItem(data['algorithm'])
         self.__set_item_text(3, len(algorithm_data))
         # Background image
         self.image_path.setText(background_path)

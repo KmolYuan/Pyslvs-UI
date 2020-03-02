@@ -80,7 +80,7 @@ class DimensionalThread(BaseThread):
         my_cpu = info.get("model name", info.get('ProcessorNameString', ''))
         last_gen = tf[-1][0]
         mechanism = {
-            'Algorithm': self.algorithm.value,
+            'algorithm': self.algorithm.value,
             'time': time_spend,
             'last_gen': last_gen,
             'last_fitness': tf[-1][1],
