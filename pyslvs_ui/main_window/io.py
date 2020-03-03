@@ -599,18 +599,19 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             setting = self.settings.value(field.name, field.default)
             setattr(prefer, field.name, setting)
         # Specified solver setting
-        if ARGUMENTS.kernel:
-            if ARGUMENTS.kernel == "python_solvespace":
+        kernel = ARGUMENTS.get('kernel', '')
+        if kernel:
+            if kernel == "python_solvespace":
                 prefer.planar_solver_option = 1
-            elif ARGUMENTS.kernel == "sketch_solve":
+            elif kernel == "sketch_solve":
                 prefer.planar_solver_option = 2
-            elif ARGUMENTS.kernel == "pyslvs":
+            elif kernel == "pyslvs":
                 prefer.planar_solver_option = 0
             else:
                 QMessageBox.warning(
                     self,
                     "Kernel not found",
-                    f"No such kernel: {ARGUMENTS.kernel}"
+                    f"No such kernel: {kernel}"
                 )
         self.apply_preferences(prefer, force=True)
 
@@ -626,13 +627,14 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.settings.setValue(field.name, getattr(self.prefer, field.name))
 
     def load_from_args(self) -> None:
-        if not ARGUMENTS.filepath:
+        filepath = ARGUMENTS.get('filepath', '')
+        if not filepath:
             return
-        suffix = QFileInfo(ARGUMENTS.filepath).suffix().lower()
+        suffix = QFileInfo(filepath).suffix().lower()
         if suffix == 'pyslvs':
-            self.project_widget.read(ARGUMENTS.filepath)
+            self.project_widget.read(filepath)
         elif suffix == 'slvs':
-            self.__read_slvs(ARGUMENTS.filepath)
+            self.__read_slvs(filepath)
         else:
             QMessageBox.warning(
                 self,

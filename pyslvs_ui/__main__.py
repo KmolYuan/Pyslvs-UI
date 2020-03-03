@@ -24,39 +24,40 @@ def main() -> None:
     from qtpy.QtWidgets import QApplication, QSplashScreen
     from qtpy.QtGui import QPixmap
     from .info import ARGUMENTS, logger
-    if ARGUMENTS.test:
+    if ARGUMENTS['cmd'] == 'test':
         from importlib import import_module
         import_module('pyslvs_ui.main_window')
         logger.info("All module loaded successfully.")
         logger.info(f"Loaded with: {process_time() - t0:.02f}s")
         shutdown()
         exit(0)
-
-    _app = QApplication(argv)
-    lf = QLockFile(join(QDir.tempPath(), "pyslvs.lock"))
-    if not lf.tryLock(100):
-        logger.info("Pyslvs can only start one instance.")
+    if ARGUMENTS['cmd'] in {'gui', None}:
+        _app = QApplication(argv)
+        lf = QLockFile(join(QDir.tempPath(), "pyslvs.lock"))
+        if not lf.tryLock(100):
+            logger.info("Pyslvs can only start one instance.")
+            shutdown()
+            exit(0)
+        # Splash
+        sp = QSplashScreen(QPixmap(":/icons/splash.png"))
+        sp.showMessage(f"{__author__} {__copyright__}",
+                       Qt.AlignBottom | Qt.AlignRight)
+        sp.show()
+        # Force enable fusion style on macOS
+        if system() == 'Darwin':
+            ARGUMENTS['fusion'] = True
+        if ARGUMENTS.get('fusion', False):
+            _app.setStyle('fusion')
+        # Main window
+        from .main_window import MainWindow
+        sp.finish(MainWindow.new())
+        sp.deleteLater()
+        del sp
+        logger.info(f"Startup with: {process_time() - t0:.02f}s")
+        qt_exit_code = _app.exec_()
+        del lf
         shutdown()
-        exit(0)
-    sp = QSplashScreen(QPixmap(":/icons/splash.png"))
-    sp.showMessage(f"{__author__} {__copyright__}", Qt.AlignBottom | Qt.AlignRight)
-    sp.show()
-
-    # Force enable fusion style on macOS
-    if system() == 'Darwin':
-        ARGUMENTS.fusion = True
-    if ARGUMENTS.fusion:
-        _app.setStyle('fusion')
-
-    from .main_window import MainWindow
-    sp.finish(MainWindow.new())
-    sp.deleteLater()
-    del sp
-    logger.info(f"Startup with: {process_time() - t0:.02f}s")
-    qt_exit_code = _app.exec_()
-    del lf
-    shutdown()
-    exit(qt_exit_code)
+        exit(qt_exit_code)
 
 
 if __name__ == '__main__':

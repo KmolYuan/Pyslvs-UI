@@ -72,7 +72,7 @@ matrix:
           file: dist/*.zip
 
 script:
-  - pyslvs --test
+  - pyslvs test
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log

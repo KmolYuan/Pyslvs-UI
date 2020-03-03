@@ -171,7 +171,7 @@ class Preferences:
     path_preview_option: int = len(kernel_list)
     auto_remove_link_option: bool = True
     title_full_path_option: bool = False
-    console_error_option: bool = ARGUMENTS.debug_mode
+    console_error_option: bool = ARGUMENTS.get('debug_mode', False)
     # "Do not save the settings" by default
     not_save_option: bool = True
 
@@ -219,8 +219,8 @@ class MainWindowBase(MainWindowABC, ABC):
             QSettings.IniFormat,
             self
         )
-        if ARGUMENTS.c:
-            self.set_locate(QDir(ARGUMENTS.c).absolutePath())
+        if ARGUMENTS.get('c', ''):
+            self.set_locate(QDir(ARGUMENTS['c']).absolutePath())
         else:
             home_dir.cd("Desktop")
             env = self.settings.value("ENV", home_dir.absolutePath())
@@ -410,8 +410,9 @@ class MainWindowBase(MainWindowABC, ABC):
         # Console dock will hide when startup
         self.console_widget.hide()
         # Connect to GUI button
-        self.console_disconnect_button.setEnabled(not ARGUMENTS.debug_mode)
-        self.console_connect_button.setEnabled(ARGUMENTS.debug_mode)
+        debug_mode = ARGUMENTS.get('debug_mode', False)
+        self.console_disconnect_button.setEnabled(not debug_mode)
+        self.console_connect_button.setEnabled(debug_mode)
         # Splitter stretch factor
         self.main_splitter.setStretchFactor(0, 4)
         self.main_splitter.setStretchFactor(1, 15)

@@ -60,7 +60,7 @@ class MainWindow(IOMethodInterface):
         m = MainWindow()
         m.show()
         m.main_canvas.zoom_to_fit()
-        if not ARGUMENTS.debug_mode:
+        if not ARGUMENTS.get('debug_mode', False):
             m.console_connect()
         return m
 

@@ -41,7 +41,7 @@ build_script:
   - python setup.py install
 
 test_script:
-  - pyslvs --test
+  - pyslvs test
 
 after_build:
   # PyPI deployment

@@ -75,11 +75,11 @@ test:
 
 test-pack: pack
 ifeq ($(OS), Windows_NT)
-	$(wildcard dist/*.exe) --test
+	$(wildcard dist/*.exe) test
 else ifeq ($(shell uname), Darwin)
-	$(wildcard dist/*.run) --test
+	$(wildcard dist/*.run) test
 else
-	$(wildcard out/*.AppImage) --test
+	$(wildcard out/*.AppImage) test
 endif
 
 clean:

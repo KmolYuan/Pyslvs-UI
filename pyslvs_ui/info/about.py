@@ -69,11 +69,11 @@ class PyslvsAbout(QDialog, Ui_Dialog):
         self.license_text.setText(LICENSE_STRING)
         self.ver_text.setText(html(_order_list(*SYS_INFO)))
         self.args_text.setText(html(_content("Startup arguments are as follows:") + _order_list(
-            f"Open with: {ARGUMENTS.filepath}",
-            f"Start Path: {ARGUMENTS.c}",
-            f"Fusion style: {ARGUMENTS.fusion}",
-            f"Debug mode: {ARGUMENTS.debug_mode}",
-            f"Specified kernel: {ARGUMENTS.kernel}",
+            f"Open with: {ARGUMENTS.get('filepath', '')}",
+            f"Start Path: {ARGUMENTS.get('c', '')}",
+            f"Fusion style: {ARGUMENTS.get('fusion', False)}",
+            f"Debug mode: {ARGUMENTS.get('debug_mode', False)}",
+            f"Specified kernel: {ARGUMENTS.get('kernel', '')}",
         ) + _content("Use \"-h\" or \"--help\" argument to view the help.")))
 
 
