@@ -599,7 +599,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             setting = self.settings.value(field.name, field.default)
             setattr(prefer, field.name, setting)
         # Specified solver setting
-        kernel = ARGUMENTS.get('kernel', '')
+        kernel = ARGUMENTS.kernel
         if kernel:
             if kernel == "python_solvespace":
                 prefer.planar_solver_option = 1
@@ -627,7 +627,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.settings.setValue(field.name, getattr(self.prefer, field.name))
 
     def load_from_args(self) -> None:
-        filepath = ARGUMENTS.get('filepath', '')
+        filepath = ARGUMENTS.filepath
         if not filepath:
             return
         suffix = QFileInfo(filepath).suffix().lower()

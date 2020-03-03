@@ -38,7 +38,7 @@ if system() not in {'Windows', 'Darwin'}:
 
 def _sign_in_logger() -> None:
     basicConfig(
-        level=DEBUG if ARGUMENTS.get('debug_mode', False) else INFO,
+        level=DEBUG if ARGUMENTS.debug_mode else INFO,
         filename=_log_path,
         format="[%(asctime)s] [%(funcName)s]:%(levelname)s: %(message)s",
     )

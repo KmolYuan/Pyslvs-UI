@@ -24,14 +24,14 @@ def main() -> None:
     from qtpy.QtWidgets import QApplication, QSplashScreen
     from qtpy.QtGui import QPixmap
     from .info import ARGUMENTS, logger
-    if ARGUMENTS['cmd'] == 'test':
+    if ARGUMENTS.cmd == 'test':
         from importlib import import_module
         import_module('pyslvs_ui.main_window')
         logger.info("All module loaded successfully.")
         logger.info(f"Loaded with: {process_time() - t0:.02f}s")
         shutdown()
         exit(0)
-    if ARGUMENTS['cmd'] in {'gui', None}:
+    elif ARGUMENTS.cmd in {'gui', None}:
         _app = QApplication(argv)
         lf = QLockFile(join(QDir.tempPath(), "pyslvs.lock"))
         if not lf.tryLock(100):
@@ -45,8 +45,8 @@ def main() -> None:
         sp.show()
         # Force enable fusion style on macOS
         if system() == 'Darwin':
-            ARGUMENTS['fusion'] = True
-        if ARGUMENTS.get('fusion', False):
+            ARGUMENTS.fusion = True
+        if ARGUMENTS.fusion:
             _app.setStyle('fusion')
         # Main window
         from .main_window import MainWindow

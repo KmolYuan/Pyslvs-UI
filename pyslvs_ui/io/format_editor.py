@@ -33,7 +33,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     """Generic loader and dumper."""
 
-    def __init__(self, project_widget: ProjectWidget, parent: MainWindowBase) -> None:
+    def __init__(self, project_widget: ProjectWidget,
+                 parent: MainWindowBase) -> None:
         super(FormatEditor, self).__init__(parent)
         # Undo stack
         self.command_stack = parent.command_stack

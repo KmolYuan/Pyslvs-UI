@@ -12,9 +12,11 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Optional
 from sys import version_info as _vi
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser, Namespace
+from dataclasses import dataclass
 from pyslvs import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
 
@@ -50,7 +52,7 @@ def parse_args() -> Namespace:
         help="just test the module import states and exit",
         add_help=False
     )
-    gui_cmd = s.add_parser('gui', help="gui only command", add_help=False)
+    gui_cmd = s.add_parser('gui', help="arguments for gui only", add_help=False)
     gui_startup = gui_cmd.add_argument_group("startup options")
     gui_startup.add_argument(
         'filepath',
@@ -108,7 +110,6 @@ def parse_args() -> Namespace:
     extract_cmd.add_argument(
         'filepath',
         default="",
-        nargs=1,
         type=str,
         help="input file path"
     )
@@ -148,6 +149,22 @@ def parse_args() -> Namespace:
     return parser.parse_args()
 
 
+@dataclass(repr=False, eq=False)
+class Arguments:
+
+    """Argument container."""
+
+    cmd: Optional[str]
+    c: str = ""
+    filepath: str = ""
+    kernel: str = ""
+    debug_mode: bool = False
+    fusion: bool = False
+    appimage_extract: bool = False
+    appimage_mount: bool = False
+    appimage_offset: bool = False
+
+
 SYS_INFO = (
     f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
@@ -156,6 +173,5 @@ SYS_INFO = (
     f"Qt wrapper: {API}",
     f"Qt Version: {QT_VERSION}",
 )
-# TODO: Turn into dataclass
-ARGUMENTS = vars(parse_args())
+ARGUMENTS = Arguments(**vars(parse_args()))
 del parse_args
