@@ -107,7 +107,6 @@ def _shift16(num: int) -> int:
 
 
 class SlvsWriter2:
-
     """Use to save data with solvespace file format."""
 
     def __init__(

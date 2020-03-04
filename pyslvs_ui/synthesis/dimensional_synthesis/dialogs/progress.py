@@ -17,13 +17,11 @@ from .options import AlgorithmType
 
 
 class ProgressDialog(QDialog, Ui_Dialog):
-
     """Progress dialog.
 
     + Batch execute function.
     + Interrupt function.
     """
-
     stop_signal = Signal()
 
     def __init__(

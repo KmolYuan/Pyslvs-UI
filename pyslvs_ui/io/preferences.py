@@ -29,7 +29,6 @@ from .preference_ui import Ui_Dialog
 
 
 class PreferencesDialog(QDialog, Ui_Dialog):
-
     """Preference dialog."""
 
     def __init__(self, parent: MainWindowBase):

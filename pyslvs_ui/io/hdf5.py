@@ -66,7 +66,6 @@ def _h5py_load(f: Group) -> Dict[str, Any]:
 
 
 class HDF5Editor(FormatEditor):
-
     """HDF5 reader and writer."""
 
     def __init__(self, *args):

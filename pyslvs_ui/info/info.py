@@ -151,9 +151,7 @@ def parse_args() -> Namespace:
 
 @dataclass(repr=False, eq=False)
 class Arguments:
-
     """Argument container."""
-
     cmd: Optional[str]
     c: str = ""
     filepath: str = ""

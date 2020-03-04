@@ -28,7 +28,6 @@ if TYPE_CHECKING:
 
 
 class Collections(QWidget):
-
     """Just a widget contains a sub tab widget."""
 
     def __init__(self, parent: MainWindowBase) -> None:

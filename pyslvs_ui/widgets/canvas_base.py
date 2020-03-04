@@ -30,7 +30,6 @@ _Path = Sequence[_Coord]
 
 @dataclass(repr=False, eq=False)
 class _Selector:
-
     """Use to record mouse clicked point.
 
     Attributes:
@@ -42,7 +41,6 @@ class _Selector:
     + left_dragged: Is dragged by left button.
     + picking: Is selecting (for drawing function).
     """
-
     x: float = 0.
     y: float = 0.
     sx: float = 0.
@@ -119,9 +117,7 @@ _selection_unit = {
 
 
 class MainCanvasBase(BaseCanvas, ABC):
-
     """Abstract class for wrapping main canvas class."""
-
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)

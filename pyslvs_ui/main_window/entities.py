@@ -44,7 +44,6 @@ _Coord = Tuple[float, float]
 
 
 class _ScaleDialog(QDialog):
-
     """Scale mechanism dialog."""
 
     def __init__(self, parent: MainWindowBase) -> None:
@@ -80,7 +79,6 @@ class _ScaleDialog(QDialog):
 
 
 class _LinkLengthDialog(QDialog):
-
     """Link length dialog."""
 
     def __init__(self, parent: MainWindowBase) -> None:
@@ -150,7 +148,6 @@ class _LinkLengthDialog(QDialog):
 
 
 class EntitiesMethodInterface(MainWindowBase, ABC):
-
     """Abstract class for entities methods."""
 
     def __edit_point(self, row: Union[int, bool] = False) -> None:

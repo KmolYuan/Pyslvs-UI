@@ -83,7 +83,6 @@ def _args2vlink(args: LinkArgs) -> VLink:
 
 
 class _FusedTable(QUndoCommand, Generic[_Data], metaclass=QABCMeta):
-
     """Table command of fused type."""
 
     @abstractmethod
@@ -100,7 +99,6 @@ class _FusedTable(QUndoCommand, Generic[_Data], metaclass=QABCMeta):
 
 
 class AddTable(_FusedTable[_Data]):
-
     """Add a row at last of the table."""
 
     def __init__(
@@ -131,7 +129,6 @@ class AddTable(_FusedTable[_Data]):
 
 
 class DeleteTable(_FusedTable[_Data]):
-
     """Delete the specified row of table.
 
     When this class has been called, the item must be empty.
@@ -172,7 +169,6 @@ class DeleteTable(_FusedTable[_Data]):
 
 
 class FixSequenceNumber(QUndoCommand):
-
     """Fix sequence number when deleting a point."""
 
     def __init__(
@@ -211,7 +207,6 @@ class FixSequenceNumber(QUndoCommand):
 
 
 class _EditFusedTable(QUndoCommand, Generic[_Args], metaclass=QABCMeta):
-
     """Edit table command of fused type."""
 
     @abstractmethod
@@ -235,7 +230,6 @@ class _EditFusedTable(QUndoCommand, Generic[_Args], metaclass=QABCMeta):
 
 
 class EditPointTable(_EditFusedTable[PointArgs]):
-
     """Edit Point table.
 
     Copy old data and put it back when called undo.
@@ -310,7 +304,6 @@ class EditPointTable(_EditFusedTable[PointArgs]):
 
 
 class EditLinkTable(_EditFusedTable[LinkArgs]):
-
     """Edit Link table.
 
     Copy old data and put it back when called undo.
@@ -400,7 +393,6 @@ class EditLinkTable(_EditFusedTable[LinkArgs]):
 
 
 class AddPath(QUndoCommand):
-
     """Append a new path."""
 
     def __init__(
@@ -431,7 +423,6 @@ class AddPath(QUndoCommand):
 
 
 class DeletePath(QUndoCommand):
-
     """"Delete the specified row of path."""
 
     def __init__(
@@ -463,7 +454,6 @@ class DeletePath(QUndoCommand):
 
 
 class AddStorage(QUndoCommand):
-
     """Append a new storage."""
 
     def __init__(
@@ -492,7 +482,6 @@ class AddStorage(QUndoCommand):
 
 
 class DeleteStorage(QUndoCommand):
-
     """Delete the specified row of storage."""
 
     def __init__(
@@ -521,7 +510,6 @@ class DeleteStorage(QUndoCommand):
 
 
 class AddStorageName(QUndoCommand):
-
     """Update name of storage name."""
 
     def __init__(
@@ -544,7 +532,6 @@ class AddStorageName(QUndoCommand):
 
 
 class ClearStorageName(QUndoCommand):
-
     """Clear the storage name"""
 
     def __init__(self, widget: QLineEdit, parent: Optional[QWidget] = None) -> None:
@@ -562,7 +549,6 @@ class ClearStorageName(QUndoCommand):
 
 
 class AddInput(QUndoCommand):
-
     """Add a variable to list widget."""
 
     def __init__(
@@ -587,7 +573,6 @@ class AddInput(QUndoCommand):
 
 
 class DeleteInput(QUndoCommand):
-
     """Remove the variable item."""
 
     def __init__(

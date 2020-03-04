@@ -17,7 +17,6 @@ from qtpy.QtCharts import QtCharts
 
 
 class DataChart(QtCharts.QChart):
-
     """Two axises Qt chart widget."""
 
     def __init__(

@@ -48,7 +48,6 @@ def _order_list(*s: str) -> str:
 
 
 class PyslvsAbout(QDialog, Ui_Dialog):
-
     """Pyslvs about dialog."""
 
     def __init__(self, parent: QWidget) -> None:

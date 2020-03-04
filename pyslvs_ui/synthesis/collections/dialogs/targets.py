@@ -27,7 +27,6 @@ def list_texts(widget: QListWidget) -> Iterator[str]:
 
 
 class TargetsDialog(QDialog, Ui_Dialog):
-
     """Option dialog.
 
     Select the targets from a group of options.

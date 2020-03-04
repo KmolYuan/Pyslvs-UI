@@ -12,9 +12,7 @@ from qtpy.QtWidgets import QWidget, QDial, QGraphicsView, QGraphicsScene
 
 
 class QRotatableView(QGraphicsView):
-
     """Rotate QDial widget."""
-
     value_changed = Signal(float)
 
     def __init__(self, parent: QWidget) -> None:

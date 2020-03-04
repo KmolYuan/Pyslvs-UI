@@ -14,7 +14,6 @@ from pyslvs_ui.qt_patch import QABCMeta
 
 
 class BaseThread(QThread, metaclass=QABCMeta):
-
     """Base thread of Cython functions."""
 
     @abstractmethod

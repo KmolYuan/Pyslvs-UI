@@ -52,7 +52,6 @@ Settings = Union[int, float, bool, str]
 
 
 class IOMethodInterface(ActionMethodInterface, ABC):
-
     """Abstract class for action methods."""
 
     def __v_to_slvs(self) -> Callable[[], Iterator[Tuple[int, int]]]:

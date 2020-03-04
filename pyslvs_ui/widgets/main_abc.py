@@ -21,7 +21,6 @@ _Coord = Tuple[float, float]
 
 
 class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
-
     """Main window abstract class."""
 
     @abstractmethod

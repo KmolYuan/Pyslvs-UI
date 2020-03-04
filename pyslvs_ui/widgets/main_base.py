@@ -69,7 +69,6 @@ def _set_actions(actions: Sequence[QAction], state: bool) -> None:
 
 @unique
 class _Enable(Flag):
-
     # Conditions
     # No / One / Any / Multiple / Ground / Not ground
     P_NO = auto()
@@ -82,7 +81,6 @@ class _Enable(Flag):
     L_MUL = auto()
     L_GND = auto()
     L_N_GND = auto()
-
     # Menus
     # Table / Context menu
     T_P = auto()
@@ -93,9 +91,7 @@ class _Enable(Flag):
 
 @dataclass(repr=False, eq=False)
 class _Context:
-
     """Context menu actions."""
-
     p_no: List[QAction] = field(default_factory=list)
     p_one: List[QAction] = field(default_factory=list)
     p_any: List[QAction] = field(default_factory=list)
@@ -146,9 +142,7 @@ class _Context:
 
 @dataclass(repr=False)
 class Preferences:
-
     """The settings of Pyslvs."""
-
     line_width_option: int = 3
     font_size_option: int = 14
     path_width_option: int = 3
@@ -195,7 +189,6 @@ class Preferences:
 
 
 class MainWindowBase(MainWindowABC, ABC):
-
     """External UI settings."""
 
     @abstractmethod

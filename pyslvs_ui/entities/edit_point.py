@@ -19,7 +19,6 @@ from .edit_point_ui import Ui_Dialog
 
 
 class EditPointDialog(QDialog, Ui_Dialog):
-
     """Option dialog."""
 
     def __init__(

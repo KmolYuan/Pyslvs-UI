@@ -12,6 +12,7 @@
 
 **Development**:
 
++ Remove docstring gap between class definition.
 + Remove one instance limit.
 
 ## Version 20.02

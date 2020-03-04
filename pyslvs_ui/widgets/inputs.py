@@ -39,13 +39,11 @@ def _variable_int(text: str) -> int:
 
 
 class InputsWidget(QWidget, Ui_Form):
-
     """There has following functions:
 
     + Function of mechanism variables settings.
     + Path recording.
     """
-
     about_to_resolve = Signal()
 
     def __init__(self, parent: MainWindowBase) -> None:

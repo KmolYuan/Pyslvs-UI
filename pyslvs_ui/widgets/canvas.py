@@ -23,7 +23,6 @@ _Paths = Sequence[Sequence[_Coord]]
 
 
 class MainCanvas(MainCanvasBase):
-
     """The canvas in main window.
 
     + Parse and show PMKS expression.

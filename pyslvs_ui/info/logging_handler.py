@@ -50,7 +50,6 @@ def _sign_in_logger() -> None:
 
 
 class _QtHandler(Handler):
-
     """Logging handle."""
 
     def __init__(self) -> None:
@@ -69,9 +68,7 @@ class _QtHandler(Handler):
 
 
 class XStream(QObject):
-
     """Stream object to imitate Python output."""
-
     __stdout: ClassVar[Optional[XStream]] = None
     __stderr: ClassVar[Optional[XStream]] = None
     message_written = Signal(str)

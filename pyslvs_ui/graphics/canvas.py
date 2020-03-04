@@ -75,9 +75,7 @@ def convex_hull(
 
 @dataclass(init=False, repr=False, eq=False)
 class RangeDetector:
-
     """Range detection of points."""
-
     inf = float('inf')
     right = inf
     left = -inf
@@ -99,7 +97,6 @@ class RangeDetector:
 
 @dataclass(init=False, repr=False, eq=False)
 class _PathOption:
-
     """Path option class.
 
     Attributes:
@@ -108,7 +105,6 @@ class _PathOption:
     + Show mode parameter.
     + The path will be the curve, otherwise using the points.
     """
-
     path: Sequence[Sequence[_Coord]] = ()
     show: int = -1
     curve: bool = True
@@ -116,16 +112,13 @@ class _PathOption:
 
 @unique
 class _TickMark(IntEnum):
-
     """The status of tick mark."""
-
     HIDE = auto()
     SHOW = auto()
     SHOW_NUM = auto()
 
 
 class BaseCanvas(QWidget, metaclass=QABCMeta):
-
     """The subclass can draw a blank canvas more easier."""
 
     @abstractmethod
@@ -523,9 +516,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
 
 
 class PreviewCanvas(BaseCanvas):
-
     """A preview canvas use to show structure diagram."""
-
     view_size: ClassVar[int] = 240
 
     def __init__(self, parent: QWidget) -> None:

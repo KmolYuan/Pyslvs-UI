@@ -58,9 +58,7 @@ _Coord = Tuple[float, float]
 
 
 class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
-
     """Two tables has some shared function."""
-
     row_selection_changed = Signal(list)
     delete_request = Signal()
 
@@ -189,9 +187,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
 
 
 class PointTableWidget(BaseTableWidget[VPoint]):
-
     """Custom table widget for points."""
-
     headers = ('Number', 'Links', 'Type', 'Color', 'X', 'Y', 'Current')
     selectionLabelUpdate = Signal(list)
 
@@ -281,9 +277,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
 
 
 class LinkTableWidget(BaseTableWidget[VLink]):
-
     """Custom table widget for link."""
-
     headers = ('Name', 'Color', 'Points')
 
     def __init__(self, parent: QWidget) -> None:
@@ -335,12 +329,10 @@ class LinkTableWidget(BaseTableWidget[VLink]):
 
 
 class ExprTableWidget(BaseTableWidget):
-
     """Expression table.
 
     + Free move request: link name, length
     """
-
     headers = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
 
     def __init__(self, parent: QWidget) -> None:
@@ -397,7 +389,6 @@ class ExprTableWidget(BaseTableWidget):
 
 
 class SelectionLabel(QLabel):
-
     """This QLabel can show distance in status bar."""
 
     def __init__(self, parent: MainWindowBase) -> None:
@@ -439,7 +430,6 @@ class SelectionLabel(QLabel):
 
 
 class FPSLabel(QLabel):
-
     """This QLabel can show FPS of main canvas in status bar."""
 
     def __init__(self, parent: QWidget) -> None:
