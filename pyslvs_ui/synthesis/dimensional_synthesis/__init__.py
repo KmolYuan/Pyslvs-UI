@@ -448,10 +448,20 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         else:
             raise ValueError("no option")
         mech = deepcopy(self.mech)
-        mech['expression'] = parse_vpoints(mech.pop('expression', []))
-        mech['target'] = deepcopy(self.path)
         mech['shape_only'] = self.shape_only_option.isChecked()
         mech['wavelet_mode'] = self.wavelet_mode_option.isChecked()
+        if mech['shape_only']:
+            if QMessageBox.question(
+                self,
+                "Elliptical Fourier Descriptor",
+                "An even distribution will make the comparison more accurate.\n"
+                "Do you make sure yet?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.Yes
+            ) == QMessageBox.No:
+                return
+        mech['expression'] = parse_vpoints(mech.pop('expression', []))
+        mech['target'] = deepcopy(self.path)
 
         def name_in_table(target_name: str) -> int:
             """Find a target_name and return the row from the table."""
@@ -922,3 +932,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         text = self.expression_string.text()
         if text:
             QApplication.clipboard().setText(text)
+
+    @Slot(bool, name='on_wavelet_mode_option_clicked')
+    def __set_norm(self, enabled: bool) -> None:
+        """Set normalization."""
+        self.shape_only_option.setChecked(enabled)
+        self.shape_only_option.setEnabled(not enabled)
