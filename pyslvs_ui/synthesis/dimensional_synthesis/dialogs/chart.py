@@ -24,7 +24,6 @@ _Plot = List[List[List[float]]]
 
 
 class ChartDialog(QDialog):
-
     """There are three charts are in the dialog.
 
     + Fitness / Generation Chart.

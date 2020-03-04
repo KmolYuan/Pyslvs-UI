@@ -31,7 +31,6 @@ def _copy_table_data(table: QTableWidget) -> None:
 
 
 class ActionMethodInterface(StorageMethodInterface, ABC):
-
     """Abstract class for action methods."""
 
     @abstractmethod

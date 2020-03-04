@@ -12,7 +12,6 @@ from pyslvs import VLink
 
 
 class SlvsParser:
-
     """Use to read data from solvespace file format."""
 
     def __init__(self, file_name: str) -> None:

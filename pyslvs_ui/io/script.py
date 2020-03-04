@@ -52,7 +52,6 @@ if __name__ == '__main__':
 
 
 class _NpImage(BaseImage):
-
     """NumPy image for QR code."""
 
     def __init__(self, border, width, box_size, *args, **kwargs):
@@ -96,7 +95,6 @@ def slvs_process_script(
 
 
 class _ScriptBrowser(QTextEdit):
-
     """Custom text browser to implement text zooming."""
 
     def __init__(self, parent: QWidget) -> None:
@@ -117,7 +115,6 @@ class _ScriptBrowser(QTextEdit):
 
 
 class ScriptDialog(QDialog, Ui_Dialog):
-
     """Dialog of script preview."""
 
     def __init__(

@@ -74,7 +74,6 @@ _Range = Tuple[float, float, float]
 
 
 class DimensionalSynthesis(QWidget, Ui_Form):
-
     """Dimensional synthesis widget.
 
     User can run the dimensional synthesis here.

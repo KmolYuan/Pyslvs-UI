@@ -22,9 +22,7 @@ from .options import AlgorithmType
 
 
 class DimensionalThread(BaseThread):
-
     """The QThread class to handle algorithm."""
-
     progress_update = Signal(int, str)
     result = Signal(dict)
 

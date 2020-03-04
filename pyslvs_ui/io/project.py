@@ -31,9 +31,7 @@ if TYPE_CHECKING:
 
 
 class ProjectWidget(QWidget, Ui_Form):
-
     """The table that stored project data and changes."""
-
     load_id = Signal(int)
 
     def __init__(self, parent: MainWindowBase) -> None:

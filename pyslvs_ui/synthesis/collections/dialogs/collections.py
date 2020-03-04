@@ -24,7 +24,6 @@ from .collections_ui import Ui_Dialog
 
 
 class CollectionsDialog(QDialog, Ui_Dialog):
-
     """Option dialog.
 
     Load the settings after closed.

@@ -21,7 +21,6 @@ if TYPE_CHECKING:
 
 
 class RelocateDialog(QDialog, SubUiDialog):
-
     """Relocation option dialog."""
 
     def __init__(self, parent: EditPointDialog):

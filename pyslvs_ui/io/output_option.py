@@ -45,7 +45,6 @@ def _get_name(widget: QTextEdit, *, ispath: bool = False) -> str:
 
 
 class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
-
     """Output dialog template."""
 
     def __init__(
@@ -120,7 +119,6 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
 
 
 class SlvsOutputDialog(_OutputDialog):
-
     """Dialog for Solvespace format."""
 
     def __init__(self, *args) -> None:
@@ -180,7 +178,6 @@ class SlvsOutputDialog(_OutputDialog):
 
 
 class DxfOutputDialog(_OutputDialog):
-
     """Dialog for DXF format."""
 
     def __init__(self, *args) -> None:

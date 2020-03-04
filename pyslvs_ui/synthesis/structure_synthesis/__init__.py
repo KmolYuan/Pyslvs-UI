@@ -48,7 +48,6 @@ Assortment = Sequence[int]
 
 
 class SynthesisProgressDialog(QProgressDialog):
-
     """Progress dialog for structure synthesis."""
 
     def __init__(self, title: str, job_name: str, maximum: int, parent: QWidget) -> None:

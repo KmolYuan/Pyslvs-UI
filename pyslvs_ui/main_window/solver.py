@@ -268,7 +268,6 @@ def _slvs_solve(
 
 
 class SolverMethodInterface(EntitiesMethodInterface, ABC):
-
     """Abstract class for solver methods."""
 
     @abstractmethod

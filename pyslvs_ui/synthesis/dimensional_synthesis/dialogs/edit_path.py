@@ -19,7 +19,6 @@ if TYPE_CHECKING:
 
 
 class EditPathDialog(QDialog, Ui_Dialog):
-
     """Option dialog.
 
     Only edit the target path after closed.

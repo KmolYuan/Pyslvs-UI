@@ -18,7 +18,6 @@ if TYPE_CHECKING:
 
 
 class CustomsDialog(QDialog, Ui_Dialog):
-
     """Option dialog.
 
     name: str = 'P1', 'P2', ...

@@ -39,7 +39,6 @@ line: (coord (";" | ",")? _NEWLINE*)+
 
 
 class _Transformer(Transformer):
-
     """Transform into 2D coordinates data."""
 
     @staticmethod

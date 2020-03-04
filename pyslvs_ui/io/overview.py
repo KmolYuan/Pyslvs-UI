@@ -18,7 +18,6 @@ _Pairs = Sequence[Tuple[int, int]]
 
 
 class OverviewDialog(QDialog, Ui_Dialog):
-
     """Put all the data into this dialog!!
 
     User cannot change anything in this interface.

@@ -42,12 +42,10 @@ _Coord = Tuple[float, float]
 
 
 class _ConfigureCanvas(PreviewCanvas):
-
     """Customized preview window has some functions of mouse interaction.
 
     Emit signal call to change current point when pressed a dot.
     """
-
     edit_size = 1000
     set_joint_number = Signal(int)
 
@@ -111,7 +109,6 @@ def _set_warning(label: QLabel, warning: bool) -> None:
 
 
 class ConfigureWidget(QWidget, Ui_Form):
-
     """Configure widget.
 
     This interface use to modify structure profile.

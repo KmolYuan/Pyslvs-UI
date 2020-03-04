@@ -28,7 +28,6 @@ def assortment_eval(links_expr: str) -> Assortment:
 
 
 class LinkThread(BaseThread):
-
     """Link assortment synthesis thread."""
 
     progress_update = Signal(int)
@@ -62,9 +61,7 @@ class LinkThread(BaseThread):
 
 
 class GraphThread(BaseThread):
-
     """Graphs enumeration thread."""
-
     progress_update = Signal(int)
     count_update = Signal(QTreeWidgetItem, int)
     result = Signal(list)

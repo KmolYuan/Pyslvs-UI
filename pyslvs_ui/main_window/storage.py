@@ -28,7 +28,6 @@ from .solver import SolverMethodInterface
 
 
 class StorageMethodInterface(SolverMethodInterface, ABC):
-
     """Abstract class for storage methods."""
 
     def __add_storage(self, name: str, expr: str) -> None:

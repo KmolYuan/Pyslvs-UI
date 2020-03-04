@@ -23,12 +23,11 @@ from typing import Tuple, Sequence
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import QMessageBox, QInputDialog
 from qtpy.QtGui import QTextCursor, QCloseEvent
-from pyslvs_ui.info import ARGUMENTS, XStream, logger
+from pyslvs_ui.info import XStream, logger
 from .io import IOMethodInterface
 
 
 class MainWindow(IOMethodInterface):
-
     """The main window of Pyslvs.
 
     Inherited from QMainWindow.

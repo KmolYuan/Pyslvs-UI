@@ -30,7 +30,6 @@ _Pairs = Sequence[Tuple[int, int]]
 
 
 class FormatEditor(QObject, metaclass=QABCMeta):
-
     """Generic loader and dumper."""
 
     def __init__(self, project_widget: ProjectWidget,

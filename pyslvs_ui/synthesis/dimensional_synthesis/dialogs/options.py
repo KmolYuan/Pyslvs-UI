@@ -24,7 +24,6 @@ _Value = Union[int, float]
 
 
 class AlgorithmOptionDialog(QDialog, Ui_Dialog):
-
     """Option dialog.
 
     Only edit the settings after closed.

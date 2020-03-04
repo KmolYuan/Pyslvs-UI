@@ -15,7 +15,6 @@ from .format_editor import FormatEditor
 
 
 class YamlEditor(FormatEditor):
-
     """YAML reader and writer."""
 
     def __init__(self, *args) -> None:
