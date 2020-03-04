@@ -8,10 +8,11 @@
     + Add path comparison page.
     + Support monochrome mode.
 + Change color of target path.
++ More clearer command line interface.
 
 **Development**:
 
-+ None
++ Remove one instance limit.
 
 ## Version 20.02
 
