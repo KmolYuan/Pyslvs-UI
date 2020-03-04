@@ -9,10 +9,10 @@ __email__ = "pyslvs@gmail.com"
 
 from math import isnan
 from itertools import chain
-from typing import Tuple, List, Dict, Sequence, Any
+from typing import Tuple, List, Dict, Sequence, Callable, Any
 from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
-from qtpy.QtWidgets import QDialog, QWidget, QVBoxLayout
-from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent
+from qtpy.QtWidgets import QDialog, QWidget
+from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
                     norm_path)
 from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR, RangeDetector
@@ -20,13 +20,26 @@ from .preview_ui import Ui_Dialog
 
 _Coord = Tuple[float, float]
 _Range = Tuple[float, float, float]
+_TargetPath = Dict[int, List[_Coord]]
+
+
+def polygon_area(polygon: QPolygonF) -> float:
+    """Calculate the area of polygon.
+    Y value is inverted.
+    """
+    area = 0.
+    for i in range(polygon.size()):
+        p1 = polygon[i]
+        p2 = polygon[i - 1]
+        area += (p2.x() + p1.x()) * (p2.y() - p1.y())
+    return -area / 2
 
 
 class _DynamicCanvas(BaseCanvas):
-
     """Custom canvas for preview algorithm result."""
 
     update_pos = Signal(float, float)
+    error_areas = Signal(int, float)
 
     def __init__(
         self,
@@ -34,6 +47,7 @@ class _DynamicCanvas(BaseCanvas):
         path: Sequence[Sequence[_Coord]],
         vpoints: List[VPoint] = None,
         vlinks: List[VLink] = None,
+        add_error: Callable[[int, float], None] = None,
         parent: QWidget = None
     ):
         """Input link and path data."""
@@ -52,12 +66,23 @@ class _DynamicCanvas(BaseCanvas):
         self.pos: List[_Coord] = []
         # Target path
         same: Dict[int, int] = self.mechanism['same']
-        target_path: Dict[int, List[_Coord]] = self.mechanism['target']
+        target_path: _TargetPath = self.mechanism['target']
         for i, path in target_path.items():
             for j in range(i):
                 if j in same:
                     i -= 1
             self.target_path[i] = norm_path(path) if use_norm else path
+        # Error areas
+        if add_error is not None:
+            for i, path in enumerate(self.path.path):
+                if i not in self.target_path:
+                    continue
+                tpath = self.target_path[i][:-1]
+                a = QPolygonF(QPointF(x, y) for x, y in path)
+                b = QPolygonF(QPointF(x, y) for x, y in tpath)
+                union = polygon_area(a.united(b))
+                inter = polygon_area(a.intersected(b))
+                add_error(i, union - inter)
         # Error
         self.error = False
         self.__no_error = 0
@@ -232,7 +257,6 @@ class _DynamicCanvas(BaseCanvas):
 
 
 class PreviewDialog(QDialog, Ui_Dialog):
-
     """Preview dialog has some information.
 
     We will not be able to change result settings here.
@@ -253,18 +277,19 @@ class PreviewDialog(QDialog, Ui_Dialog):
             f"(max {mechanism['last_gen']} generations)"
         )
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
-        self.main_splitter.setSizes([400, 150])
+        for splitter in (self.geo_splitter, self.path_cmp_splitter):
+            splitter.setSizes([400, 150])
         self.splitter.setSizes([100, 100, 100])
         vpoints = parse_vpoints(mechanism['expression'])
         vlinks = get_vlinks(vpoints)
-        canvas1 = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
-        canvas2 = _DynamicCanvas(mechanism, path, parent=self)
+        canvas1 = _DynamicCanvas(mechanism, path, vpoints, vlinks, parent=self)
+        canvas2 = _DynamicCanvas(mechanism, path,
+                                 add_error=self.__add_error_area, parent=self)
         for c in (canvas1, canvas2):
             c.update_pos.connect(self.__set_mouse_pos)
             c.set_monochrome_mode(monochrome)
         self.left_layout.insertWidget(0, canvas1)
-        layout = QVBoxLayout(self.path_cmp_tab)
-        layout.addWidget(canvas2)
+        self.path_cmp_layout.addWidget(canvas2)
         labels = []
         for tag, data in chain(
             [(tag, mechanism.get(tag, 'N/A'))
@@ -312,3 +337,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
     def __set_mouse_pos(self, x: float, y: float) -> None:
         """Set mouse position."""
         self.mouse_pos.setText(f"({x:.04f}, {y:.04f})")
+
+    def __add_error_area(self, p: int, area: float) -> None:
+        """Add error area of a target path."""
+        self.path_cmp_areas.addItem(f"P{p}: {area:.06f}")

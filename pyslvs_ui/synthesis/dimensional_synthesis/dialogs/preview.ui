@@ -28,7 +28,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QSplitter" name="main_splitter">
+        <widget class="QSplitter" name="geo_splitter">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -92,8 +92,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>722</width>
-                 <height>69</height>
+                 <width>738</width>
+                 <height>80</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -156,8 +156,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>722</width>
-                 <height>203</height>
+                 <width>738</width>
+                 <height>158</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -220,8 +220,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>722</width>
-                 <height>204</height>
+                 <width>738</width>
+                 <height>158</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -266,6 +266,32 @@
       <attribute name="title">
        <string>Path Comparison</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QSplitter" name="path_cmp_splitter">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <layout class="QVBoxLayout" name="path_cmp_layout"/>
+         </widget>
+         <widget class="QWidget" name="verticalLayoutWidget_2">
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Error area:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="path_cmp_areas"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
