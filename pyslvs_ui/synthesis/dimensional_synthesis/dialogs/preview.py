@@ -7,9 +7,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from math import isnan
+from math import isnan, hypot
 from itertools import chain
-from typing import Tuple, List, Dict, Sequence, Callable, Any
+from typing import Tuple, List, Dict, Sequence, Callable, Optional, Any
 from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
 from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
@@ -47,7 +47,7 @@ class _DynamicCanvas(BaseCanvas):
         path: Sequence[Sequence[_Coord]],
         vpoints: List[VPoint] = None,
         vlinks: List[VLink] = None,
-        add_error: Callable[[int, float], None] = None,
+        add_error: Optional[Callable[[int, float], None]] = None,
         parent: QWidget = None
     ):
         """Input link and path data."""
@@ -74,15 +74,20 @@ class _DynamicCanvas(BaseCanvas):
             self.target_path[i] = norm_path(path) if use_norm else path
         # Error areas
         if add_error is not None:
-            for i, path in enumerate(self.path.path):
+            for i, npath in enumerate(self.path.path):
                 if i not in self.target_path:
                     continue
-                tpath = self.target_path[i][:-1]
-                a = QPolygonF(QPointF(x, y) for x, y in path)
+                tpath = self.target_path[i]
+                head = tpath[0]
+                end = tpath[-1]
+                if hypot(head[0] - end[0], head[1] - end[1]) < 1e-6:
+                    tpath = tpath[:-1]
+                a = QPolygonF(QPointF(x, y) for x, y in npath)
                 b = QPolygonF(QPointF(x, y) for x, y in tpath)
-                union = polygon_area(a.united(b))
-                inter = polygon_area(a.intersected(b))
-                add_error(i, union - inter)
+                add_error(
+                    i,
+                    polygon_area(a.united(b)) - polygon_area(a.intersected(b))
+                )
         # Error
         self.error = False
         self.__no_error = 0
