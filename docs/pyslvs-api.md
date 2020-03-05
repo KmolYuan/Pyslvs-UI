@@ -41,7 +41,8 @@ The PLAP function requires two points, one distance and one angle,
 obtained the position of third point. The unit of `a0` is degree.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond to "C".
+`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond 
+to "C".
 If `c2` is not given, "alpha" will be set to zero.
 
 ![PLAP](img/PLAP.png)
@@ -55,10 +56,12 @@ Set `inverse` option to `True` can make `a0` value as negative.
 | Coordinate | float | float | Coordinate | bool | Coordinate |
 |   |   |   |   | False |   |
 
-The PLLP function requires two points and two distances, obtained the position of third point.
+The PLLP function requires two points and two distances, obtained the 
+position of third point.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to "C".
+`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to 
+"C".
 
 ![PLLP](img/PLLP.png)
 
@@ -71,7 +74,8 @@ Set `inverse` option to `True` can make the result upside down.
 | Coordinate | float | Coordinate | Coordinate | bool | Coordinate |
 |   |   |   |   | False |   |
 
-The PLLP function requires three points and one distance, obtained the position of fourth point.
+The PLLP function requires three points and one distance, obtained the 
+position of fourth point.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 `c3` correspond to "C", `d0` correspond to "L0", `return` correspond to "D".
@@ -87,7 +91,8 @@ between `c1` and line `c2` `c3`.
 |:---:|:---:|:---:|:------:|
 | Coordinate | float | float | Coordinate |
 
-The PXY function requires one point and offset values, obtained the position of second point.
+The PXY function requires one point and offset values, obtained the 
+position of second point.
 
 In the following picture, `c1` correspond to "A", `d0` correspond to "X",
 `d1` correspond to "Y", `return` correspond to "B", the sign of value are
@@ -101,8 +106,10 @@ correspond to coordinate system.
 |:-----:|:---------:|:------:|
 | Sequence\[Tuple\[str, ...]] | Dict\[str, float] | None |
 
-Solve and update information of the triangle expression `exprs` to `data_dict`.
-The argument `exprs` can be obtained by [`vpoints_configure`](#vpoints_configure)
+Solve and update information of the triangle expression `exprs` to 
+`data_dict`.
+The argument `exprs` can be obtained by
+[`vpoints_configure`](#vpoints_configure)
 and [`ExpressionStack.as_list()`](#expressionstackas_list) method.
 
 This function is already included in [`expr_solving`](#expr_solving),
@@ -115,15 +122,19 @@ not recommended for direct use.
 | ExpressionStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
 |   |   |   | None |   |
 
-Solver function of Triangular method and BFGS method, for mechanism expression `vpoints`.
+Solver function of Triangular method and BFGS method, for mechanism 
+expression `vpoints`.
 
-The triangle expression stack `expr` is generated from [`vpoints_configure`](#vpoints_configure).
+The triangle expression stack `expr` is generated from
+[`vpoints_configure`](#vpoints_configure).
 
-The information data `mapping` map the symbols to the indicator of `vpoints`,
+The information data `mapping` map the symbols to the indicator of 
+`vpoints`,
 additionally has a same format as argument `data_dict` in [SolverSystem].
 
 Solver function will not handle slider input pairs in argument `angles`,
-which is only support revolute joints. In another way, the slider input pairs
+which is only support revolute joints. In another way, the slider input 
+pairs
 can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
 
 ### data_collecting()
@@ -133,8 +144,10 @@ can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
 | ExpressionStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coordinate, float]], int] |
 
 Data transform function of Triangular method.
-The triangle expression stack `expr` is generated from [`vpoints_configure`](#vpoints_configure).
-The information data `mapping` map the symbols to the indicator of `vpoints_`.
+The triangle expression stack `expr` is generated from
+[`vpoints_configure`](#vpoints_configure).
+The information data `mapping` map the symbols to the indicator of 
+`vpoints_`.
 
 This function is already included in [`expr_solving`](#expr_solving),
 not recommended for direct use.
@@ -150,6 +163,8 @@ Get VLinks from a list of VPoint `vpoints`.
 ### VJoint
 
 Inherited from `IntEnum`.
+
+Is an enum class.
 
 | R | P | RP |
 |:---:|:---:|:---:|
@@ -355,7 +370,8 @@ Return the value `hypot(p_x - m_x, p_y - m_y)`,
 where `m_x`, `m_y` is the value of the joint,
 and `p_x`, `p_y` is the value of `p`.
 
-The option `num1` and `num2` is the position of current coordinate attribute.
+The option `num1` and `num2` is the position of current coordinate 
+attribute.
 
 #### VPoint.true_offset()
 
@@ -424,7 +440,8 @@ Two groups of `dict` keys must be the same or subset.
 |:----:|:------:|
 |   | FrozenSet\[Union\[int, Tuple\[int, int]]] |
 
-Show the current keys of `data_dict` parameter from original constructor.
+Show the current keys of `data_dict` parameter from original
+constructor.
 
 #### SolverSystem.show_inputs()
 
@@ -440,11 +457,21 @@ Show the current input pairs keys from original constructor.
 |:----:|:------:|
 |   | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
 
-Solve the conditions and return the result, raise ValueError if not succeeded.
+Solve the conditions and return the result, raise ValueError if
+not succeeded.
 The joint position will returned by its index correspondingly.
 
-+ Revolut joints: Tuple[float, float]
++ Revolute joints: Tuple[float, float]
 + Slider joints: Tuple[Tuple[float, float], Tuple[float, float]]
+
+### norm_path()
+
+| path | scale | return |
+|:----:|:-----:|:------:|
+| Iterable\[Tuple\[float, float]] | float | List\[Tuple\[float, float]] |
+|   | 1 |   |
+
+Python wrapper of normalization function.
 
 ### Planar
 
@@ -459,6 +486,10 @@ This class is used to verified kinematics of the linkage mechanism.
 |   | ndarray | float64 |
 
 The fitness is the error between target path and self.
+
+Chromosome format: (decided by upper and lower)
+
+v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
 
 #### Planar.get_lower()
 
@@ -482,7 +513,8 @@ Return upper bound.
 |:----:|:------:|
 |   | bool |
 
-Input a generic data (variable array), return the mechanism expression.
+Input a generic data (variable array), return the mechanism 
+expression.
 
 #### Planar.result()
 
@@ -490,7 +522,8 @@ Input a generic data (variable array), return the mechanism expression.
 |:----:|:---:|:------:|
 |   | ndarray | str |
 
-Input a generic data (variable array), return the mechanism expression.
+Input a generic data (variable array), return the mechanism 
+expression.
 
 ### link_synthesis()
 
@@ -645,7 +678,8 @@ Return DOF of the graph.
 !!! note
     DOF is the Degree of Freedoms to a mechanism.
 
-    In the [Graph] objects, all vertices will assumed as revolute joints (1 DOF).
+    In the [Graph] objects, all vertices will assumed as revolute 
+    joints (1 DOF).
 
     $$
     F = 3(N_L - 1) - 2N_J
@@ -767,13 +801,15 @@ Enumerate each node with labeled except isomorphism.
 Generate the Triangle solution stack by mechanism expression `vpoints_`.
 
 The argument `inputs` is a list of input pairs.
-The argument `status` will track the configuration of each point, which is optional.
+The argument `status` will track the configuration of each point, 
+which is optional.
 
 ### ExpressionStack
 
 Inherited from `object`.
 
-Triangle solution stack, generated from [`vpoints_configure`](#vpoints_configure).
+Triangle solution stack, generated from
+[`vpoints_configure`](#vpoints_configure).
 It is pointless to call the constructor.
 
 #### ExpressionStack.as_list()
@@ -859,7 +895,9 @@ Transform `graph` into [VPoint] objects. The vertices are mapped to links.
 
 ### PointArgs
 
-Inherited from `object`. Is a data class.
+Inherited from `object`.
+
+Is a data class.
 
 | links | type | color | x | y |
 |:-----:|:----:|:-----:|:---:|:---:|
@@ -869,7 +907,9 @@ Point table argument.
 
 ### LinkArgs
 
-Inherited from `object`. Is a data class.
+Inherited from `object`.
+
+Is a data class.
 
 | name | color | points |
 |:----:|:-----:|:------:|
@@ -944,6 +984,14 @@ Curve fitting using Elliptical Fourier Descriptor.
 The path `path` will be translate to Fourier descriptor coefficients,
 then regenerate a new paths as a `n` x 4 NumPy array.
 
+### get_include()
+
+| return |
+|:------:|
+| str |
+
+Get include directory.
+
 ## Module `pyslvs.metaheuristics`
 
 Kernel of Metaheuristic Algorithm.
@@ -954,7 +1002,8 @@ Inherited from `Generic`.
 
 Objective function base class.
 
-It is used to build the objective function for Metaheuristic Random Algorithms.
+It is used to build the objective function for Metaheuristic Random
+Algorithms.
 
 #### Objective.fitness()
 
@@ -1027,11 +1076,10 @@ the third value is time in second.
 |:----:|:------:|
 |   | FVal |
 
-Is a abstract method.
-
 Run and return the result and convergence history.
 
-The first place of `return` is came from calling [`Objective.result()`](#objectiveresult).
+The first place of `return` is came from
+calling [`Objective.result()`](#objectiveresult).
 
 The second place of `return` is a list of generation data,
 which type is `Tuple[int, float, float]]`.
@@ -1041,6 +1089,8 @@ the second is fitness, and the last one is time in second.
 ### AlgorithmType
 
 Inherited from `str`.
+
+Is an enum class.
 
 | RGA | Firefly | DE | TLBO |
 |:---:|:-------:|:---:|:----:|

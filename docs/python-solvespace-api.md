@@ -50,6 +50,8 @@ Where `ux`, `uy`, `uz` are corresponded to the value of U vector;
 
 Inherited from `IntEnum`.
 
+Is an enum class.
+
 | POINTS_COINCIDENT | PT_PT_DISTANCE | PT_PLANE_DISTANCE | PT_LINE_DISTANCE | PT_FACE_DISTANCE | PT_IN_PLANE | PT_ON_LINE | PT_ON_FACE | EQUAL_LENGTH_LINES | LENGTH_RATIO | EQ_LEN_PT_LINE_D | EQ_PT_LN_DISTANCES | EQUAL_ANGLE | EQUAL_LINE_ARC_LEN | SYMMETRIC | SYMMETRIC_HORIZ | SYMMETRIC_VERT | SYMMETRIC_LINE | AT_MIDPOINT | HORIZONTAL | VERTICAL | DIAMETER | PT_ON_CIRCLE | SAME_ORIENTATION | ANGLE | PARALLEL | PERPENDICULAR | ARC_LINE_TANGENT | CUBIC_LINE_TANGENT | EQUAL_RADIUS | PROJ_PT_DISTANCE | WHERE_DRAGGED | CURVE_CURVE_TANGENT | LENGTH_DIFFERENCE |
 |:-----------------:|:--------------:|:-----------------:|:----------------:|:----------------:|:-----------:|:----------:|:----------:|:------------------:|:------------:|:----------------:|:------------------:|:-----------:|:------------------:|:---------:|:---------------:|:--------------:|:--------------:|:-----------:|:----------:|:--------:|:--------:|:------------:|:----------------:|:-----:|:--------:|:-------------:|:----------------:|:------------------:|:------------:|:----------------:|:-------------:|:-------------------:|:-----------------:|
 | `100000` | `100001` | `100002` | `100003` | `100004` | `100005` | `100006` | `100007` | `100008` | `100009` | `100010` | `100011` | `100012` | `100013` | `100014` | `100015` | `100016` | `100017` | `100018` | `100019` | `100020` | `100021` | `100022` | `100023` | `100024` | `100025` | `100026` | `100027` | `100028` | `100029` | `100030` | `100031` | `100032` | `100033` |
@@ -59,6 +61,8 @@ An enumeration.
 ### ResultFlag
 
 Inherited from `IntEnum`.
+
+Is an enum class.
 
 | OKAY | INCONSISTENT | DIDNT_CONVERGE | TOO_MANY_UNKNOWNS |
 |:----:|:------------:|:--------------:|:-----------------:|
