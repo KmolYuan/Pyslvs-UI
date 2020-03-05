@@ -495,7 +495,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__set_time(dlg.time_spend)
         self.project_no_save()
         dlg.deleteLater()
-        dlg = ChartDialog("Convergence Data", mechanisms_plot, self)
+        dlg = ChartDialog("Convergence Data", mechanisms_plot,
+                          self.preview_canvas.monochrome, self)
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()

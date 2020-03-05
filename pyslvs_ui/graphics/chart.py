@@ -23,10 +23,13 @@ class DataChart(QtCharts.QChart):
         self,
         title: str,
         axis_x: QtCharts.QValueAxis,
-        axis_y: QtCharts.QValueAxis
+        axis_y: QtCharts.QValueAxis,
+        monochrome: bool
     ):
         """Input title and two axis, QChart class has no parent."""
         super(DataChart, self).__init__()
+        if monochrome:
+            self.setTheme(DataChart.ChartThemeLight)
         self.setTitle(title)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         legend = self.legend()

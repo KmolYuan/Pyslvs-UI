@@ -35,6 +35,7 @@ class ChartDialog(QDialog):
         self,
         title: str,
         algorithm_data: Sequence[Dict[str, Any]],
+        monochrome: bool,
         parent: QWidget
     ) -> None:
         """Add three tabs of chart."""
@@ -46,7 +47,7 @@ class ChartDialog(QDialog):
         self.setMinimumSize(QSize(800, 600))
         self.title = title
         self.algorithm_data = algorithm_data
-
+        self.monochrome = monochrome
         # Widgets
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(6, 6, 6, 6)
@@ -67,12 +68,11 @@ class ChartDialog(QDialog):
         axis_x.setLabelsPosition(QtCharts.QCategoryAxis.AxisLabelsPositionOnValue)
         axis_x.setMin(0)
         axis_y.setTickCount(11)
-
         if self.algorithm_data:
             # Just copy references from algorithm data
             plot: _Plot = [data['time_fitness'] for data in self.algorithm_data]
             # X max
-            max_x = int(max([max([tnf[pos_x] for tnf in data]) for data in plot]) * 100)
+            max_x = int(max(max(tnf[pos_x] for tnf in data) for data in plot)) * 100
             axis_x.setMax(max_x)
             i10 = int(max_x / 10)
             if i10:
@@ -87,12 +87,10 @@ class ChartDialog(QDialog):
             plot = []
             # Y max
             max_y = 100
-
         max_y -= max_y % 10
         axis_y.setRange(0., max_y)
-        chart = DataChart(self.title, axis_x, axis_y)
-
-        # Append data set.
+        chart = DataChart(self.title, axis_x, axis_y, self.monochrome)
+        # Append data set
         for i, data in enumerate(self.algorithm_data):
             line = QtCharts.QLineSeries()
             scatter = QtCharts.QScatterSeries()
@@ -110,7 +108,6 @@ class ChartDialog(QDialog):
                 series.attachAxis(axis_x)
                 series.attachAxis(axis_y)
             chart.legend().markers(scatter)[0].setVisible(False)
-
         # Add chart into tab widget
         widget = QWidget()
         self.tabWidget.addTab(widget, QIcon(), tab_name)
