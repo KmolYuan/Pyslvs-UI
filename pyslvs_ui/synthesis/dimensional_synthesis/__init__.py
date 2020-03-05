@@ -208,7 +208,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __copy_path(self) -> None:
         """Copy the current path coordinates to clipboard."""
         QApplication.clipboard().setText('\n'.join(
-            f"{x},{y}" for x, y in self.current_path()
+            f"[{x}, {y}]," for x, y in self.current_path()
         ))
 
     @Slot(name='on_path_paste_clicked')

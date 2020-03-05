@@ -20,9 +20,7 @@ _EXP: ("e" | "E") SIGNED_INT
 FLOAT: INT _EXP | DECIMAL _EXP?
 NUMBER: FLOAT | INT
 SIGNED_NUMBER: ["+" | "-"] NUMBER
-COMPLEX: SIGNED_NUMBER ["i" | "j"]
 number: SIGNED_NUMBER
-complex: COMPLEX
 
 // White space and new line
 WS: /[ \t]+/
@@ -32,8 +30,9 @@ _NEWLINE: (CR? LF)+
 %ignore WS
 
 // Main grammar
-coord: number ","? (complex | number ","? number)
-line: (coord (";" | ",")? _NEWLINE*)+
+coord: number ","? number
+?coord_style: "[" coord "]" | "(" coord ")" | coord
+line: (coord_style (";" | ",")? _NEWLINE*)+
 ?start: line
 """, parser='lalr')
 
