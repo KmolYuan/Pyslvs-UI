@@ -8,12 +8,11 @@ environment:
   matrix:
     - PYTHON_DIR: C:\Python37-x64
       COMPILER: mingw32
-      # Cython issue
-#    - PYTHON_DIR: C:\Python38
-#      COMPILER: mingw32
+      DEPLOY: "true"
+    - PYTHON_DIR: C:\Python38-x64
+      COMPILER: mingw32
     - PYTHON_DIR: C:\Python38-x64
       COMPILER: msvc
-      DEPLOY: "true"
 
 install:
   # Clone submodules
