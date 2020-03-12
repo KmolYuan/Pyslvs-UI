@@ -14,7 +14,7 @@ from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
 from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
-                    norm_path)
+                    norm_path, efd_fitting)
 from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR, RangeDetector
 from .preview_ui import Ui_Dialog
 
@@ -59,19 +59,24 @@ class _DynamicCanvas(BaseCanvas):
         use_norm = self.__no_mechanism and (
             self.mechanism.get('shape_only', False)
             or self.mechanism.get('wavelet_mode', False))
-        self.path.path = [norm_path(p) for p in path] if use_norm else path
+        # Target path
+        same: Dict[int, int] = self.mechanism['same']
+        target_path: _TargetPath = self.mechanism['target']
+        for i, p in target_path.items():
+            for j in range(i):
+                if j in same:
+                    i -= 1
+            self.target_path[i] = norm_path(p) if use_norm else p
+        self.path.path = []
+        for i, p in enumerate(path):
+            if i in self.target_path and use_norm:
+                self.path.path.append(norm_path(efd_fitting(p)))
+            else:
+                self.path.path.append(p)
         self.__index = 0
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.path.path) - 1
         self.pos: List[_Coord] = []
-        # Target path
-        same: Dict[int, int] = self.mechanism['same']
-        target_path: _TargetPath = self.mechanism['target']
-        for i, path in target_path.items():
-            for j in range(i):
-                if j in same:
-                    i -= 1
-            self.target_path[i] = norm_path(path) if use_norm else path
         # Error areas
         if add_error is not None:
             for i, npath in enumerate(self.path.path):
