@@ -73,7 +73,7 @@ Most of classes and functions can be work with a generic Python format (just lik
 
     Graph expression came from NetworkX. Also contains graph verification functions. 
 
-+ **planar_check** library:
++ **graph_planar** library:
 
     **preload**: `graph`
 
@@ -81,7 +81,7 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 + **structural** library:
 
-    **preload**: `graph`, `planar_check`
+    **preload**: `graph`, `graph_planar`
 
     Structural synthesis algorithm.
 
