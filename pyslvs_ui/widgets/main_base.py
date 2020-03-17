@@ -192,7 +192,7 @@ class MainWindowBase(MainWindowABC, ABC):
     """External UI settings."""
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self):
         super(MainWindowBase, self).__init__()
         # Environment path
         self.env = ""

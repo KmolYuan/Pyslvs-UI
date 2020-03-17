@@ -52,7 +52,7 @@ def _sign_in_logger() -> None:
 class _QtHandler(Handler):
     """Logging handle."""
 
-    def __init__(self) -> None:
+    def __init__(self):
         super(_QtHandler, self).__init__()
 
     def emit(self, record: LogRecord) -> None:

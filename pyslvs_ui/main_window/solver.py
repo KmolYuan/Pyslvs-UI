@@ -271,7 +271,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
     """Abstract class for solver methods."""
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self):
         super(SolverMethodInterface, self).__init__()
         self.__dof = 0
 

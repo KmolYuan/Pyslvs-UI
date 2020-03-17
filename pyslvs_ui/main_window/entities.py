@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import cast, Tuple, Sequence, Set, FrozenSet, Dict, Union, Optional
-from abc import ABC
+from abc import abstractmethod, ABC
 from collections import Counter
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import (
@@ -150,6 +150,13 @@ class _LinkLengthDialog(QDialog):
 
 class EntitiesMethodInterface(MainWindowBase, ABC):
     """Abstract class for entities methods."""
+
+    @abstractmethod
+    def __init__(self):
+        """Defined mouse position value on main canvas."""
+        super(EntitiesMethodInterface, self).__init__()
+        self.mouse_pos_x = 0.
+        self.mouse_pos_y = 0.
 
     def __edit_point(self, row: Union[int, bool] = False) -> None:
         """Edit point function."""

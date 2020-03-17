@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import cast, Sequence, Callable, Union
-from abc import ABC, abstractmethod
+from abc import ABC
 from qtpy.QtCore import Slot, QPoint
 from qtpy.QtWidgets import QAction, QApplication, QTableWidget
 from pyslvs import VLink
@@ -32,12 +32,6 @@ def _copy_table_data(table: QTableWidget) -> None:
 
 class ActionMethodInterface(StorageMethodInterface, ABC):
     """Abstract class for action methods."""
-
-    @abstractmethod
-    def __init__(self) -> None:
-        super(ActionMethodInterface, self).__init__()
-        self.mouse_pos_x = 0.
-        self.mouse_pos_y = 0.
 
     def __enable_point_context(self) -> None:
         """Adjust the status of QActions.

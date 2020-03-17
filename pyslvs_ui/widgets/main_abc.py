@@ -24,7 +24,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
     """Main window abstract class."""
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self):
         super(MainWindowABC, self).__init__()
         self.setupUi(self)
         self.setAttribute(Qt.WA_DeleteOnClose)

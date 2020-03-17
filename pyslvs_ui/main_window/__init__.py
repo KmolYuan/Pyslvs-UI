@@ -37,7 +37,7 @@ class MainWindow(IOMethodInterface):
     to wrapper function in 'main_window' module.
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Notes:
 
         + Input command line arguments object from Python parser.
