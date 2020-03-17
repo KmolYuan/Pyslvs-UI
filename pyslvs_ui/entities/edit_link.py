@@ -63,7 +63,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             self.name_edit.setText(name)
             self.name_box.setEnabled(False)
             self.name_box.addItem(icon, "New link")
-            self.color_box.setCurrentIndex(self.color_box.findText('Blue'))
+            self.color_box.setCurrentIndex(self.color_box.findText('blue'))
         else:
             for i, vlink in enumerate(self.vlinks):
                 self.name_box.insertItem(i, icon, vlink.name)

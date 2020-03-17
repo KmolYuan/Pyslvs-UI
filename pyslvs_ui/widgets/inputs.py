@@ -492,7 +492,7 @@ class InputsWidget(QWidget, Ui_Form):
         elif text.startswith("Copy data from"):
             # Copy data to clipboard (csv)
             QApplication.clipboard().setText('\n'.join(
-                f"{x},{y}" for x, y in data[action.index]
+                f"[{x}, {y}]," for x, y in data[action.index]
             ))
         elif text.startswith("Show"):
             # Switch points enabled status

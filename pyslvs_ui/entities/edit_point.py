@@ -49,7 +49,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         if pos is False:
             self.name_box.addItem(icon, f'Point{vpoints_count}')
             self.name_box.setEnabled(False)
-            self.color_box.setCurrentIndex(self.color_box.findText('Green'))
+            self.color_box.setCurrentIndex(self.color_box.findText('green'))
         else:
             for i in range(vpoints_count):
                 self.name_box.insertItem(i, icon, f'Point{i}')

@@ -32,7 +32,7 @@ def polygon_area(polygon: QPolygonF) -> float:
         p1 = polygon[i]
         p2 = polygon[i - 1]
         area += (p2.x() + p1.x()) * (p2.y() - p1.y())
-    return -area / 2
+    return abs(area / 2)
 
 
 class _DynamicCanvas(BaseCanvas):
