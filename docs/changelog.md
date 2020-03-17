@@ -9,6 +9,7 @@
     + Support monochrome mode.
 + Change color of target path.
 + More clearer command line interface.
++ Fix incorrect "new link" conditions.
 
 **Development**:
 

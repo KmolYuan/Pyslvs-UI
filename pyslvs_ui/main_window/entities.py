@@ -7,8 +7,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import cast, Tuple, Sequence, Set, FrozenSet, Dict, Union, Optional, List
+from typing import cast, Tuple, Sequence, Set, FrozenSet, Dict, Union, Optional
 from abc import ABC
+from collections import Counter
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import (
     QDialogButtonBox,
@@ -592,20 +593,13 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if not len(rows) > 1:
             self.__edit_link()
             return
-
-        links_all: List[str] = []
-        for vpoint in self.vpoint_list:
-            links_all.extend(vpoint.links)
-        count_0 = False
-        for p in set(links_all):
-            if links_all.count(p) > 1:
-                count_0 = True
-                break
-        if not links_all or not count_0:
+        inter = Counter()
+        for p in rows:
+            inter.update(self.vpoint_list[p].links)
+        name = max(inter, key=inter.get)
+        if inter[name] < 2:
             self.add_normal_link(rows)
             return
-
-        name = max(set(links_all), key=links_all.count)
         row = self.entities_link.find_name(name)
         self.command_stack.beginMacro(f"Edit {{Link: {name}}}")
         args = self.entities_link.row_data(row)
