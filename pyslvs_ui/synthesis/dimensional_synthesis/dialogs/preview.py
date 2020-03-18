@@ -302,8 +302,8 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.path_cmp_layout.addWidget(canvas2)
         labels = []
         for tag, data in chain(
-            [(tag, mechanism.get(tag, 'N/A'))
-             for tag in ('algorithm', 'time', 'shape_only', 'wavelet_mode')],
+            [(tag, mechanism.get(tag, 'N/A')) for tag in (
+                'algorithm', 'time', 'shape_only', 'wavelet_mode', 'ordered')],
             [(f"P{i}", vpoints[i].c[0]) for i in mechanism['placement']]
         ):
             if type(data) is tuple:

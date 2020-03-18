@@ -10,6 +10,7 @@
 + Change color of target path.
 + More clearer command line interface.
 + Fix incorrect "new link" conditions.
++ Add ordered simples option of planar linkage synthesis.
 
 **Development**:
 

@@ -450,6 +450,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         mech = deepcopy(self.mech)
         mech['shape_only'] = self.shape_only_option.isChecked()
         mech['wavelet_mode'] = self.wavelet_mode_option.isChecked()
+        mech['ordered'] = self.ordered_option.isChecked()
         if mech['shape_only']:
             if QMessageBox.question(
                 self,
@@ -841,17 +842,20 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__clear_settings()
         result = self.mechanism_data[row]
         for option, button in self.algorithm_options.items():
-            if result['algorithm'] == option.value:
+            if result.get('algorithm', "") == option.value:
                 button.setChecked(True)
                 break
         else:
             raise ValueError("no option")
         # Copy to mechanism params
         self.__set_profile("External setting", result)
-        self.__set_time(result['time'])
+        self.__set_time(result.get('time', 0))
         # Load settings
         self.alg_options.clear()
-        self.alg_options.update(result['settings'])
+        self.alg_options.update(result.get('settings', {}))
+        self.ordered_option.setChecked(result.get('ordered', True))
+        self.shape_only_option.setChecked(result.get('shape_only', False))
+        self.wavelet_mode_option.setChecked(result.get('wavelet_mode', False))
 
     @Slot()
     def __set_algorithm_default(self) -> None:
