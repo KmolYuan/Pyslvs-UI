@@ -500,9 +500,9 @@ class MainWindowBase(MainWindowABC, ABC):
             for target in self.context[enable]:
                 if type(target) is QMenu:
                     if is_menu:
-                        cast(QMenu, target).addMenu(menu)
+                        target.addMenu(menu)
                     else:
-                        cast(QMenu, target).addAction(action)
+                        target.addAction(action)
                 elif type(target) is list:
                     cast(List[QAction], target).append(action)
                 else:

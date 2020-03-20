@@ -7,7 +7,8 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import cast, Tuple, Sequence, Set, FrozenSet, Dict, Union, Optional
+from typing import (cast, Tuple, Sequence, Set, FrozenSet, Dict,
+                    Counter as Counter_t, Union, Optional)
 from abc import abstractmethod, ABC
 from collections import Counter
 from qtpy.QtCore import Slot
@@ -600,7 +601,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if not len(rows) > 1:
             self.__edit_link()
             return
-        inter = Counter()
+        inter: Counter_t[str] = Counter()
         for p in rows:
             inter.update(self.vpoint_list[p].links)
         name = max(inter, key=inter.get)
