@@ -41,7 +41,7 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QKeyEvent
 from pyslvs import (
-    ExpressionStack,
+    EStack,
     Coordinate,
     VPoint,
     VLink,
@@ -341,7 +341,7 @@ class ExprTableWidget(BaseTableWidget):
 
     def set_expr(
         self,
-        es: ExpressionStack,
+        es: EStack,
         data_dict: Dict[str, Union[Coordinate, float]],
         unsolved: Sequence[int]
     ):

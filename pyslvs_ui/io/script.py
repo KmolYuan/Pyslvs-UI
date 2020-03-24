@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 _SCRIPT = """
 from pyslvs import (
     parse_vpoints,
-    vpoints_configure,
+    t_config,
     data_collecting,
     expr_solving,
 )
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     vpoints = parse_vpoints(
         "M["\n{0}
         "]")
-    exprs = vpoints_configure(vpoints, {1})
+    exprs = t_config(vpoints, {1})
     mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
     data_dict, dof = data_collecting(exprs, mapping, vpoints)
     pos = expr_solving(exprs, mapping, vpoints, [0.])

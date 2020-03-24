@@ -47,7 +47,7 @@ from qtpy.QtGui import QIcon, QPixmap
 from lark.exceptions import LarkError
 from pyslvs import (
     VLink,
-    vpoints_configure,
+    t_config,
     expr_solving,
     parse_pos,
     parse_vpoints,
@@ -602,7 +602,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                     d -= 1
             input_list.append((b, d))
         vpoints = parse_vpoints(expression)
-        expr = vpoints_configure(vpoints, input_list)
+        expr = t_config(vpoints, input_list)
         b, d = input_list[0]
         base_angle = vpoints[b].slope_angle(vpoints[d])
         path: List[List[_Coord]] = [[] for _ in range(len(vpoints))]

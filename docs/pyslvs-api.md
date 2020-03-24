@@ -109,8 +109,8 @@ correspond to coordinate system.
 Solve and update information of the triangle expression `exprs` to 
 `data_dict`.
 The argument `exprs` can be obtained by
-[`vpoints_configure`](#vpoints_configure)
-and [`ExpressionStack.as_list()`](#expressionstackas_list) method.
+[`t_config`](#t_config)
+and [`EStack.as_list()`](#expressionstackas_list) method.
 
 This function is already included in [`expr_solving`](#expr_solving),
 not recommended for direct use.
@@ -119,14 +119,14 @@ not recommended for direct use.
 
 | exprs | mapping | vpoints | angles | return |
 |:-----:|:-------:|:-------:|:------:|:------:|
-| ExpressionStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
+| EStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
 |   |   |   | None |   |
 
 Solver function of Triangular method and BFGS method, for mechanism 
 expression `vpoints`.
 
 The triangle expression stack `expr` is generated from
-[`vpoints_configure`](#vpoints_configure).
+[`t_config`](#t_config).
 
 The information data `mapping` map the symbols to the indicator of 
 `vpoints`,
@@ -141,11 +141,11 @@ can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
 
 | exprs | mapping | vpoints_ | return |
 |:-----:|:-------:|:--------:|:------:|
-| ExpressionStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coordinate, float]], int] |
+| EStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coordinate, float]], int] |
 
 Data transform function of Triangular method.
 The triangle expression stack `expr` is generated from
-[`vpoints_configure`](#vpoints_configure).
+[`t_config`](#t_config).
 The information data `mapping` map the symbols to the indicator of 
 `vpoints_`.
 
@@ -791,11 +791,11 @@ Return contracted link assortment of the graph.
 
 Enumerate each node with labeled except isomorphism.
 
-### vpoints_configure()
+### t_config()
 
 | vpoints_ | inputs | status | return |
 |:--------:|:------:|:------:|:------:|
-| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | ExpressionStack |
+| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | EStack |
 |   |   | None |   |
 
 Generate the Triangle solution stack by mechanism expression `vpoints_`.
@@ -804,15 +804,15 @@ The argument `inputs` is a list of input pairs.
 The argument `status` will track the configuration of each point, 
 which is optional.
 
-### ExpressionStack
+### EStack
 
 Inherited from `object`.
 
 Triangle solution stack, generated from
-[`vpoints_configure`](#vpoints_configure).
+[`t_config`](#t_config).
 It is pointless to call the constructor.
 
-#### ExpressionStack.as_list()
+#### EStack.as_list()
 
 | self | return |
 |:----:|:------:|

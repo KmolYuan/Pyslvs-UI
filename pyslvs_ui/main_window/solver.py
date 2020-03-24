@@ -15,7 +15,7 @@ from qtpy.QtCore import Slot
 from pyslvs import (
     edges_view,
     graph2vpoints,
-    vpoints_configure,
+    t_config,
     get_vlinks,
     VJoint,
     VPoint,
@@ -24,7 +24,7 @@ from pyslvs import (
     expr_solving,
     vpoint_dof,
     SolverSystem,
-    ExpressionStack,
+    EStack,
     Graph,
 )
 from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
@@ -559,7 +559,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             'same': same,
         }
 
-    def get_triangle(self, vpoints: Optional[Sequence[VPoint]] = None) -> ExpressionStack:
+    def get_triangle(self, vpoints: Optional[Sequence[VPoint]] = None) -> EStack:
         """Update triangle expression here.
 
         Special function for VPoints.
@@ -567,7 +567,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         if vpoints is None:
             vpoints = self.vpoint_list
         status: Dict[int, bool] = {}
-        exprs = vpoints_configure(
+        exprs = t_config(
             vpoints,
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             status
