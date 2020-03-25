@@ -14,12 +14,12 @@ from qtpy.QtGui import (
     QPainter,
     QBrush,
     QPen,
-    QColor,
     QIcon,
     QPixmap,
     QFont,
 )
-from pyslvs import Graph, external_loop_layout, edges_view
+from pyslvs import edges_view
+from pyslvs.graph import Graph, external_loop_layout
 from pyslvs_ui.info import logger
 from .color import color_qt, color_num
 from .canvas import convex_hull, LINK_COLOR

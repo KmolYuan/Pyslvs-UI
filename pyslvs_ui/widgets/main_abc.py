@@ -13,7 +13,8 @@ from typing import Tuple, List, Sequence, Dict, Optional, Any
 from abc import abstractmethod
 from qtpy.QtCore import Qt, QPoint
 from qtpy.QtWidgets import QMainWindow
-from pyslvs import Graph, VPoint
+from pyslvs import VPoint
+from pyslvs.graph import Graph
 from pyslvs_ui.qt_patch import QABCMeta
 from .main_ui import Ui_MainWindow
 

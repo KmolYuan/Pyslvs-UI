@@ -23,15 +23,8 @@ from qtpy.QtWidgets import (
     QMessageBox,
     QInputDialog,
 )
-from pyslvs import (
-    VJoint,
-    VLink,
-    Graph,
-    edges_view,
-    SolverSystem,
-    PointArgs,
-    LinkArgs,
-)
+from pyslvs import VJoint, VLink, edges_view, SolverSystem, PointArgs, LinkArgs
+from pyslvs.graph import Graph
 from pyslvs_ui.entities import EditPointDialog, EditLinkDialog
 from pyslvs_ui.widgets import (
     AddTable,

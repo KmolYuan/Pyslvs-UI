@@ -90,6 +90,8 @@ ifeq ($(OS), Windows_NT)
 	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del *.cpp /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del *.pyd /q
+	-cd "$(PYSLVS_PATH)/pyslvs" && del graph\*.cpp /q
+	-cd "$(PYSLVS_PATH)/pyslvs" && del graph\*.pyd /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del metaheuristics\*.cpp /q
 	-cd "$(PYSLVS_PATH)/pyslvs" && del metaheuristics\*.pyd /q
 else
@@ -97,6 +99,8 @@ else
 	-rm -fr $(PYSLVS_PATH)/pyslvs.egg-info
 	-rm -f $(PYSLVS_PATH)/pyslvs/*.cpp
 	-rm -f $(PYSLVS_PATH)/pyslvs/*.so
+	-rm -f $(PYSLVS_PATH)/pyslvs/graph/*.cpp
+	-rm -f $(PYSLVS_PATH)/pyslvs/graph/*.so
 	-rm -f $(PYSLVS_PATH)/pyslvs/metaheuristics/*.cpp
 	-rm -f $(PYSLVS_PATH)/pyslvs/metaheuristics/*.so
 endif

@@ -27,7 +27,7 @@ from qtpy.QtWidgets import (
     QApplication,
 )
 from qtpy.QtGui import QImage, QPainter, QPixmap
-from pyslvs import (
+from pyslvs.graph import (
     Graph,
     link_assortment,
     contracted_link_assortment,

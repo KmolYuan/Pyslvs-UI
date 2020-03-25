@@ -25,8 +25,8 @@ from pyslvs import (
     vpoint_dof,
     SolverSystem,
     EStack,
-    Graph,
 )
+from pyslvs.graph import Graph
 from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
 from pyslvs_ui.info import logger, kernel_list
 from .entities import EntitiesMethodInterface

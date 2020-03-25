@@ -31,7 +31,8 @@ from qtpy.QtWidgets import (
     QApplication,
 )
 from qtpy.QtGui import QMouseEvent
-from pyslvs import Graph, edges_view, graph2vpoints, parse_pos
+from pyslvs import edges_view, graph2vpoints, parse_pos
+from pyslvs.graph import Graph
 from pyslvs_ui.graphics import PreviewCanvas
 from .dialogs import CollectionsDialog, CustomsDialog, TargetsDialog, list_texts
 from .configure_widget_ui import Ui_Form

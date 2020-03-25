@@ -27,7 +27,8 @@ from qtpy.QtGui import (
     QImage,
     QPaintEvent,
 )
-from pyslvs import VPoint, Graph, edges_view, parse_pos
+from pyslvs import VPoint, edges_view, parse_pos
+from pyslvs.graph import Graph
 from pyslvs_ui.qt_patch import QABCMeta
 from .color import color_num, color_qt, target_path_style
 

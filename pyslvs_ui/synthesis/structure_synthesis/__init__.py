@@ -36,7 +36,7 @@ from qtpy.QtWidgets import (
     QHeaderView,
 )
 from qtpy.QtGui import QIcon, QPixmap, QImage, QPainter
-from pyslvs import Graph, link_assortment, contracted_link_assortment
+from pyslvs.graph import Graph, link_assortment, contracted_link_assortment
 from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engines
 from .thread import assortment_eval, LinkThread, GraphThread
