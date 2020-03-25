@@ -45,7 +45,7 @@ def convex_hull(
     according to Graham's scan algorithm.
     """
     def cmp(a: float, b: float) -> int:
-        return (a > b) - (a < b)
+        return int(a > b) - int(a < b)
 
     def turn(p: _Coord, q: _Coord, r: _Coord) -> int:
         px, py = p

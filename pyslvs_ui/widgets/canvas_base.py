@@ -221,8 +221,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             pen.setColor(QColor(*vpoint.color).darker())
             self.painter.setPen(pen)
             qline_m = QLineF(
-                QPointF(vpoint.c[1][0], -vpoint.c[1][1]) * self.zoom,
-                QPointF(vpoint.c[0][0], -vpoint.c[0][1]) * self.zoom
+                QPointF(vpoint.c[1, 0], -vpoint.c[1, 1]) * self.zoom,
+                QPointF(vpoint.c[0, 0], -vpoint.c[0, 1]) * self.zoom
             )
             nv = qline_m.normalVector()
             nv.setLength(self.joint_size)
