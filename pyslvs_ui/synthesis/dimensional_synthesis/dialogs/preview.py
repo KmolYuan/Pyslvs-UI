@@ -155,7 +155,10 @@ class _DynamicCanvas(BaseCanvas):
         self.pos.clear()
         for i in range(len(self.vpoints)):
             if i in self.mechanism['placement']:
-                self.pos.append(self.vpoints[i].c[0])
+                vpoint = self.vpoints[i]
+                x = vpoint.c[0, 0]
+                y = vpoint.c[0, 1]
+                self.pos.append((x, y))
             else:
                 x, y = self.path.path[i][self.__index]
                 self.pos.append((x, y))
@@ -304,7 +307,8 @@ class PreviewDialog(QDialog, Ui_Dialog):
         for tag, data in chain(
             [(tag, mechanism.get(tag, 'N/A')) for tag in (
                 'algorithm', 'time', 'shape_only', 'wavelet_mode', 'ordered')],
-            [(f"P{i}", vpoints[i].c[0]) for i in mechanism['placement']]
+            [(f"P{i}", (vpoints[i].c[0, 0], vpoints[i].c[0, 1]))
+             for i in mechanism['placement']]
         ):
             if type(data) is tuple:
                 label = f"({data[0]:.02f}, {data[1]:.02f})"

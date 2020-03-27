@@ -37,7 +37,8 @@ _Inputs = Dict[Tuple[int, int], float]
 
 def _offset(p: VPoint) -> _Coord:
     """Make offset coordinate."""
-    x, y = p.c[1]
+    x = p.c[1, 0]
+    y = p.c[1, 1]
     if p.has_offset() and p.true_offset() <= 0.1:
         if p.offset() > 0:
             x += 0.1
@@ -76,13 +77,15 @@ def _slvs_solve(
     slider_slots: List[Entity] = []
     for i, vpoint in enumerate(vpoints):
         if vpoint.no_link():
-            x, y = vpoint.c[0]
+            x = vpoint.c[0, 0]
+            y = vpoint.c[0, 1]
             point = sys.add_point_2d(x, y, wp)
             sys.dragged(point, wp)
             points.append(point)
             continue
         if vpoint.grounded():
-            x, y = vpoint.c[0]
+            x = vpoint.c[0, 0]
+            y = vpoint.c[0, 1]
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 sliders[i] = len(slider_bases)
                 # Base point (slot) is fixed
@@ -101,7 +104,8 @@ def _slvs_solve(
                 sys.dragged(point, wp)
                 points.append(point)
             continue
-        x, y = vpoint.c[0]
+        x = vpoint.c[0, 0]
+        y = vpoint.c[0, 1]
         point = sys.add_point_2d(x, y, wp)
         if vpoint.type in {VJoint.P, VJoint.RP}:
             sliders[i] = len(slider_bases)
@@ -113,7 +117,8 @@ def _slvs_solve(
             slider_slots.append(sys.add_point_2d(x, y, wp))
             if vpoint.pin_grounded():
                 # Pin is fixed
-                x, y = vpoint.c[1]
+                x = vpoint.c[1, 0]
+                y = vpoint.c[1, 1]
                 point = sys.add_point_2d(x, y, wp)
                 sys.dragged(point, wp)
                 points.append(point)
