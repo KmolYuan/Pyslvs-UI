@@ -30,6 +30,14 @@ Return the distance between two coordinates.
 
 Return True if the coordinate value is not a number.
 
+#### Coordinate.slope_angle()
+
+| self | p | return |
+|:----:|:---:|:------:|
+|   | Coordinate | float |
+
+Slope angle of two coordinates.
+
 ### plap()
 
 | c1 | d0 | a0 | c2 | inverse | return |
@@ -41,7 +49,7 @@ The PLAP function requires two points, one distance and one angle,
 obtained the position of third point. The unit of `a0` is degree.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond 
+`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond
 to "C".
 If `c2` is not given, "alpha" will be set to zero.
 
@@ -56,11 +64,11 @@ Set `inverse` option to `True` can make `a0` value as negative.
 | Coordinate | float | float | Coordinate | bool | Coordinate |
 |   |   |   |   | False |   |
 
-The PLLP function requires two points and two distances, obtained the 
+The PLLP function requires two points and two distances, obtained the
 position of third point.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to 
+`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to
 "C".
 
 ![PLLP](img/PLLP.png)
@@ -109,8 +117,7 @@ correspond to coordinate system.
 Solve and update information of the triangle expression `exprs` to 
 `data_dict`.
 The argument `exprs` can be obtained by
-[`t_config`](#t_config)
-and [`EStack.as_list()`](#expressionstackas_list) method.
+[`t_config`](#t_config) and [`EStack.as_list()`](#estackas_list) method.
 
 This function is already included in [`expr_solving`](#expr_solving),
 not recommended for direct use.
@@ -259,7 +266,6 @@ Return True if the slot is on the link `link_name`.
 |   | float | float | None |
 
 The update function of original coordinate.
-It will call `self.move((x, y))` after set the position.
 
 #### VPoint.move()
 
@@ -525,272 +531,6 @@ expression.
 Input a generic data (variable array), return the mechanism 
 expression.
 
-### link_synthesis()
-
-| nl | nj | stop_func | return |
-|:---:|:---:|:---------:|:------:|
-| int | int | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
-|   |   | None |   |
-
-Return link assortment by number of links `nl` and number of joints `nj`.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
-
-### contracted_link_synthesis()
-
-| link_num_list | stop_func | return |
-|:-------------:|:---------:|:------:|
-| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
-|   | None |   |
-
-Return contracted link assortment by link assortment `link_num_list`.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
-
-### is_planar()
-
-| g | return |
-|:---:|:------:|
-| Graph | bool |
-
-Return True if the graph is a planar graph.
-
-### external_loop_layout()
-
-| graph | node_mode | scale | return |
-|:-----:|:---------:|:-----:|:------:|
-| Graph | bool | float | Dict\[int, Tuple\[float, float]] |
-|   |   | 1.0 |   |
-
-Layout position decided by outer loop (max cycle).
-
-Return the layout position decided by external loop.
-Argument `node_mode` will transform edges into vertices.
-Argument `scale` will resize the position by scale factor.
-
-### conventional_graph()
-
-| cg_list | c_j_list | no_degenerate | stop_func | return |
-|:-------:|:--------:|:-------------:|:---------:|:------:|
-| List\[Graph] | Sequence\[int] | int | Union\[Callable\[\[], bool], None] | List\[Graph] |
-|   |   | 1 | None |   |
-
-Generate conventional graphs by contracted graphs `cg_list` and
-contracted link assortment `c_j_list`.
-
-The degenerate setting `no_degenerate` has following option:
-
-+ `0`: No degenerate.
-+ `1`: Only degenerate.
-+ Else: All graphs.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
-
-### contracted_graph()
-
-| link_num | stop_func | return |
-|:--------:|:---------:|:------:|
-| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Graph] |
-|   | None |   |
-
-Generate contracted graphs by link assortment `link_num`.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
-
-### Graph
-
-Inherited from `object`.
-
-| edges | vertices |
-|:-----:|:--------:|
-| Tuple\[Tuple\[int, int], ...] | Tuple\[int, ...] |
-
-The undirected graph class, support multigraph.
-
-#### Graph.add_edge()
-
-| self | n1 | n2 | return |
-|:----:|:---:|:---:|:------:|
-|   | int | int | None |
-
-Add edge `n1` to `n2`.
-
-#### Graph.add_vertices()
-
-| self | vertices | return |
-|:----:|:--------:|:------:|
-|   | Iterable\[int] | None |
-
-Add vertices from iterable object `vertices`.
-
-#### Graph.adjacency_matrix()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Generate a adjacency matrix.
-
-Assume the matrix $A[i, j] = A[j, i]$.
-Where $A[i, j] = 1$ if edge `(i, j)` exist.
-
-#### Graph.copy()
-
-| self | return |
-|:----:|:------:|
-|   | Graph |
-
-The copy method of the Graph object.
-
-#### Graph.degree_code()
-
-| self | return |
-|:----:|:------:|
-|   | int |
-
-Generate a degree code.
-
-With a sorted vertices mapping by the degrees of each vertex,
-regenerate a new adjacency matrix.
-A binary code can be found by concatenating the upper right elements.
-The degree code is the maximum value of the permutation.
-
-#### Graph.degrees()
-
-| self | return |
-|:----:|:------:|
-|   | Dict\[int, int] |
-
-Return the degrees of each vertex.
-
-#### Graph.dof()
-
-| self | return |
-|:----:|:------:|
-|   | int |
-
-Return DOF of the graph.
-
-!!! note
-    DOF is the Degree of Freedoms to a mechanism.
-
-    In the [Graph] objects, all vertices will assumed as revolute 
-    joints (1 DOF).
-
-    $$
-    F = 3(N_L - 1) - 2N_J
-    $$
-
-#### Graph.duplicate()
-
-| self | vertices | times | return |
-|:----:|:--------:|:-----:|:------:|
-|   | Iterable\[int] | int | Graph |
-
-Make graph duplicate by specific `vertices`. Return a new graph.
-
-#### Graph.has_cut_link()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return True if the graph has any cut links.
-
-#### Graph.has_triangle()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return True if the graph has triangle.
-
-#### Graph.is_connected()
-
-| self | without | return |
-|:----:|:-------:|:------:|
-|   | int | bool |
-|   | -1 |   |
-
-Return `True` if the graph is connected.
-Set the argument `without` to ignore one vertex.
-
-#### Graph.is_degenerate()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return True if this kinematic chain is degenerate.
-
-+ Prue all multiple contracted links recursively.
-+ Check the DOF of sub-graph if it is lower then zero.
-
-#### Graph.is_isomorphic()
-
-| self | graph | return |
-|:----:|:-----:|:------:|
-|   | Graph | bool |
-
-Return True if two graphs is isomorphic.
-
-Default is using VF2 algorithm.
-
-#### Graph.is_isomorphic_degree_code()
-
-| self | graph | return |
-|:----:|:-----:|:------:|
-|   | Graph | bool |
-
-Compare isomorphism by degree code algorithm.
-
-+ <https://doi.org/10.1115/1.2919236>
-
-#### Graph.is_isomorphic_vf2()
-
-| self | graph | return |
-|:----:|:-----:|:------:|
-|   | Graph | bool |
-
-Compare isomorphism by VF2 algorithm,
-one of the high performance isomorphic algorithms.
-
-#### Graph.neighbors()
-
-| self | n | return |
-|:----:|:---:|:------:|
-|   | int | Tuple\[int, ...] |
-
-Return the neighbors of the vertex `n`.
-
-### link_assortment()
-
-| g | return |
-|:---:|:------:|
-| Graph | List\[int] |
-
-Return link assortment of the graph.
-
-### contracted_link_assortment()
-
-| g | return |
-|:---:|:------:|
-| Graph | List\[int] |
-
-Return contracted link assortment of the graph.
-
-### labeled_enumerate()
-
-| g | return |
-|:---:|:------:|
-| Graph | List\[Tuple\[int, Graph]] |
-
-Enumerate each node with labeled except isomorphism.
-
 ### t_config()
 
 | vpoints_ | inputs | status | return |
@@ -978,6 +718,7 @@ Get all collection names.
 | path | n | return |
 |:----:|:---:|:------:|
 | Sequence\[Tuple\[float, float]] | int | ndarray |
+|   | 0 |   |
 
 Curve fitting using Elliptical Fourier Descriptor.
 
@@ -991,6 +732,276 @@ then regenerate a new paths as a `n` x 4 NumPy array.
 | str |
 
 Get include directory.
+
+## Module `pyslvs.graph`
+
+Pyslvs graph functions.
+
+### link_assortment()
+
+| g | return |
+|:---:|:------:|
+| Graph | List\[int] |
+
+Return link assortment of the graph.
+
+### contracted_link_assortment()
+
+| g | return |
+|:---:|:------:|
+| Graph | List\[int] |
+
+Return contracted link assortment of the graph.
+
+### labeled_enumerate()
+
+| g | return |
+|:---:|:------:|
+| Graph | List\[Tuple\[int, Graph]] |
+
+Enumerate each node with labeled except isomorphism.
+
+### Graph
+
+Inherited from `object`.
+
+| edges | vertices |
+|:-----:|:--------:|
+| Tuple\[Tuple\[int, int], ...] | Tuple\[int, ...] |
+
+The undirected graph class, support multigraph.
+
+#### Graph.add_edge()
+
+| self | n1 | n2 | return |
+|:----:|:---:|:---:|:------:|
+|   | int | int | None |
+
+Add edge `n1` to `n2`.
+
+#### Graph.add_vertices()
+
+| self | vertices | return |
+|:----:|:--------:|:------:|
+|   | Iterable\[int] | None |
+
+Add vertices from iterable object `vertices`.
+
+#### Graph.adjacency_matrix()
+
+| self | return |
+|:----:|:------:|
+|   | ndarray |
+
+Generate a adjacency matrix.
+
+Assume the matrix $A[i, j] = A[j, i]$.
+Where $A[i, j] = 1$ if edge `(i, j)` exist.
+
+#### Graph.copy()
+
+| self | return |
+|:----:|:------:|
+|   | Graph |
+
+The copy method of the Graph object.
+
+#### Graph.degree_code()
+
+| self | return |
+|:----:|:------:|
+|   | int |
+
+Generate a degree code.
+
+With a sorted vertices mapping by the degrees of each vertex,
+regenerate a new adjacency matrix.
+A binary code can be found by concatenating the upper right elements.
+The degree code is the maximum value of the permutation.
+
+#### Graph.degrees()
+
+| self | return |
+|:----:|:------:|
+|   | Dict\[int, int] |
+
+Return the degrees of each vertex.
+
+#### Graph.dof()
+
+| self | return |
+|:----:|:------:|
+|   | int |
+
+Return DOF of the graph.
+
+!!! note
+    DOF is the Degree of Freedoms to a mechanism.
+
+    In the [Graph] objects, all vertices will assumed as revolute 
+    joints (1 DOF).
+
+    $$
+    F = 3(N_L - 1) - 2N_J
+    $$
+
+#### Graph.duplicate()
+
+| self | vertices | times | return |
+|:----:|:--------:|:-----:|:------:|
+|   | Iterable\[int] | int | Graph |
+
+Make graph duplicate by specific `vertices`. Return a new graph.
+
+#### Graph.has_cut_link()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Return True if the graph has any cut links.
+
+#### Graph.has_triangle()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Return True if the graph has triangle.
+
+#### Graph.is_connected()
+
+| self | without | return |
+|:----:|:-------:|:------:|
+|   | int | bool |
+|   | -1 |   |
+
+Return `True` if the graph is connected.
+Set the argument `without` to ignore one vertex.
+
+#### Graph.is_degenerate()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Return True if this kinematic chain is degenerate.
+
++ Prue all multiple contracted links recursively.
++ Check the DOF of sub-graph if it is lower then zero.
+
+#### Graph.is_isomorphic()
+
+| self | graph | return |
+|:----:|:-----:|:------:|
+|   | Graph | bool |
+
+Return True if two graphs is isomorphic.
+
+Default is using VF2 algorithm.
+
+#### Graph.is_isomorphic_degree_code()
+
+| self | graph | return |
+|:----:|:-----:|:------:|
+|   | Graph | bool |
+
+Compare isomorphism by degree code algorithm.
+
++ <https://doi.org/10.1115/1.2919236>
+
+#### Graph.is_isomorphic_vf2()
+
+| self | graph | return |
+|:----:|:-----:|:------:|
+|   | Graph | bool |
+
+Compare isomorphism by VF2 algorithm,
+one of the high performance isomorphic algorithms.
+
+#### Graph.neighbors()
+
+| self | n | return |
+|:----:|:---:|:------:|
+|   | int | Tuple\[int, ...] |
+
+Return the neighbors of the vertex `n`.
+
+### is_planar()
+
+| g | return |
+|:---:|:------:|
+| Graph | bool |
+
+Return True if the graph is a planar graph.
+
+### external_loop_layout()
+
+| graph | node_mode | scale | return |
+|:-----:|:---------:|:-----:|:------:|
+| Graph | bool | float | Dict\[int, Tuple\[float, float]] |
+|   |   | 1.0 |   |
+
+Layout position decided by outer loop (max cycle).
+
+Return the layout position decided by external loop.
+Argument `node_mode` will transform edges into vertices.
+Argument `scale` will resize the position by scale factor.
+
+### conventional_graph()
+
+| cg_list | c_j_list | no_degenerate | stop_func | return |
+|:-------:|:--------:|:-------------:|:---------:|:------:|
+| List\[Graph] | Sequence\[int] | int | Union\[Callable\[\[], bool], None] | List\[Graph] |
+|   |   | 1 | None |   |
+
+Generate conventional graphs by contracted graphs `cg_list` and
+contracted link assortment `c_j_list`.
+
+The degenerate setting `no_degenerate` has following option:
+
++ `0`: No degenerate.
++ `1`: Only degenerate.
++ Else: All graphs.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+### contracted_graph()
+
+| link_num | stop_func | return |
+|:--------:|:---------:|:------:|
+| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Graph] |
+|   | None |   |
+
+Generate contracted graphs by link assortment `link_num`.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+### link_synthesis()
+
+| nl | nj | stop_func | return |
+|:---:|:---:|:---------:|:------:|
+| int | int | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
+|   |   | None |   |
+
+Return link assortment by number of links `nl` and number of joints `nj`.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+### contracted_link_synthesis()
+
+| link_num_list | stop_func | return |
+|:-------------:|:---------:|:------:|
+| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
+|   | None |   |
+
+Return contracted link assortment by link assortment `link_num_list`.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
 
 ## Module `pyslvs.metaheuristics`
 
