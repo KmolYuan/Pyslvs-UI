@@ -69,6 +69,7 @@ from .dimension_widget_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
+_Pair = Tuple[int, int]
 _Coord = Tuple[float, float]
 _Range = Tuple[float, float, float]
 
@@ -591,7 +592,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         result = self.mechanism_data[row]
         expression: str = result['expression']
         same: Dict[int, int] = result['same']
-        inputs: List[Tuple[Tuple[int, int], _Coord]] = result['input']
+        inputs: List[Tuple[_Pair, _Coord]] = result['input']
         input_list = []
         for (b, d), _ in inputs:
             for i in range(b):
@@ -702,27 +703,17 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if self.has_target():
             self.target_points.setCurrentRow(0)
         self.target_label.setVisible(self.has_target())
-        # Parameter of link length and input angle.
-        link_list = []
-        for vlink in parse_vlinks(expression):
-            if len(vlink.points) < 2 or vlink.name == VLink.FRAME:
-                continue
-            a = vlink.points[0]
-            b = vlink.points[1]
-            link_list.append((a, b))
-            for c in vlink.points[2:]:
-                for d in (a, b):
-                    link_list.append((c, d))
-        link_count = len(link_list)
-        inputs: List[Tuple[Tuple[int, int], List[float]]] = self.mech['input']
-        self.parameter_list.setRowCount(0)
-        placement: Dict[int, Optional[_Range]] = self.mech['placement']
+        inputs: List[Tuple[_Pair, List[float]]] = self.mech.get('input', [])
+        self.mech['input'] = inputs
+        placement: Dict[int, Optional[_Range]] = self.mech.get('placement', {})
+        self.mech['placement'] = placement
         # Table settings
-        self.parameter_list.setRowCount(len(inputs) + len(placement) + link_count)
+        self.parameter_list.setRowCount(0)
+        self.parameter_list.setRowCount(len(inputs) + len(placement) + 1)
         row = 0
 
         def spinbox(
-            v: float,
+            v: float = 0.,
             *,
             minimum: float = 0.,
             maximum: float = 9999.,
@@ -774,58 +765,26 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 self.parameter_list.setCellWidget(row, i + 2, s)
             row += 1
         # Default value of upper and lower
-        upper_list: List[float] = self.mech.get('upper', [0.] * link_count)
-        lower_list: List[float] = self.mech.get('lower', [0.] * link_count)
-        self.mech['upper'] = upper_list
-        self.mech['lower'] = lower_list
+        self.mech['upper'] = 100
+        self.mech['lower'] = 0
 
-        def set_by_center(
-            index: int,
-            get_range: Callable[[], float]
-        ) -> Callable[[float], None]:
-            """Return a slot function use to set limit value by center."""
+        def set_link(opt: str) -> Callable[[float], None]:
+            """Set link length."""
             @Slot(float)
             def func(value: float) -> None:
-                range_value = get_range()
-                upper_list[index] = value + range_value
-                lower_list[index] = value - range_value
+                self.mech[opt] = value
             return func
 
-        def set_by_range(
-            index: int,
-            get_value: Callable[[], float]
-        ) -> Callable[[float], None]:
-            """Return a slot function use to set limit value by range."""
-            @Slot(float)
-            def func(value: float) -> None:
-                center = get_value()
-                upper_list[index] = center + value
-                lower_list[index] = center - value
-            return func
-
-        # Links
-        for i, (a, b) in enumerate(sorted(link_list)):
-            self.parameter_list.setItem(row, 0, QTableWidgetItem(f"P{a}<->P{b}"))
-            link_length = self.preview_canvas.distance(a, b)
-            self.parameter_list.setItem(row, 1, QTableWidgetItem('link'))
-            # Set values
-            if upper_list[i] == 0.:
-                upper_list[i] = link_length + 50
-            if lower_list[i] <= 0.:
-                lower_list[i] = link_length - 50
-                lower_list[i] = 0. if lower_list[i] < 0 else lower_list[i]
-            # Spinbox
-            error_range = (upper_list[i] - lower_list[i]) / 2
-            s1 = spinbox(error_range + lower_list[i])
-            s2 = spinbox(error_range, prefix=True)
-            self.parameter_list.setCellWidget(row, 2, s1)
-            self.parameter_list.setCellWidget(row, 4, s2)
-            s1.valueChanged.connect(set_by_center(i, s2.value))
-            s2.valueChanged.connect(set_by_range(i, s1.value))
-            row += 1
+        self.parameter_list.setItem(row, 0, QTableWidgetItem("L"))
+        self.parameter_list.setItem(row, 1, QTableWidgetItem('link'))
+        for i, (s, tag) in enumerate([(spinbox(), 'upper'), (spinbox(), 'lower')]):
+            s.setValue(self.mech[tag])
+            s.valueChanged.connect(set_link(tag))
+            self.parameter_list.setCellWidget(row, i + 2, s)
+        # Update previews
         self.update_range()
         self.profile_name.setText(profile_name)
-        # Default value of algorithm option.
+        # Default value of algorithm option
         if 'settings' in self.mech:
             self.alg_options.update(self.mech['settings'])
         else:
@@ -914,14 +873,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot()
     def update_range(self) -> None:
         """Update range values to main canvas."""
-        def t(x: int, y: int) -> Union[str, float]:
-            item = self.parameter_list.item(x, y)
+        def t(row: int, col: int) -> Union[str, float]:
+            item = self.parameter_list.item(row, col)
             if item is None:
-                w: QDoubleSpinBox = self.parameter_list.cellWidget(x, y)
+                w: QDoubleSpinBox = self.parameter_list.cellWidget(row, col)
                 return w.value()
             else:
                 return item.text()
-
         self.update_ranges({
             cast(str, t(row, 0)): (
                 cast(float, t(row, 2)),
