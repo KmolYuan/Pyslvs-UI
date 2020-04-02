@@ -451,7 +451,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         mech = deepcopy(self.mech)
         mech['shape_only'] = self.shape_only_option.isChecked()
         mech['wavelet_mode'] = self.wavelet_mode_option.isChecked()
-        mech['ordered'] = self.ordered_option.isChecked()
         if mech['shape_only']:
             if QMessageBox.question(
                 self,
@@ -812,7 +811,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Load settings
         self.alg_options.clear()
         self.alg_options.update(result.get('settings', {}))
-        self.ordered_option.setChecked(result.get('ordered', True))
         self.shape_only_option.setChecked(result.get('shape_only', False))
         self.wavelet_mode_option.setChecked(result.get('wavelet_mode', False))
 

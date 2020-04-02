@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>700</height>
+    <width>566</width>
+    <height>714</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -283,16 +283,6 @@
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
              <widget class="QListWidget" name="target_points"/>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="ordered_option">
-              <property name="text">
-               <string>Ordered simples</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="shape_only_option">
