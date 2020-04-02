@@ -759,14 +759,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             for i, s in enumerate([
                 spinbox(coord[0] if coord else x, minimum=-9999.),
                 spinbox(coord[1] if coord else y, minimum=-9999.),
-                spinbox(coord[2] if coord else 25., prefix=True),
+                spinbox(coord[2] if coord else 5., prefix=True),
             ]):
                 s.valueChanged.connect(self.update_range)
                 self.parameter_list.setCellWidget(row, i + 2, s)
             row += 1
         # Default value of upper and lower
-        self.mech['upper'] = 100
-        self.mech['lower'] = 0
+        self.mech['upper'] = self.mech.get('upper', 100)
+        self.mech['lower'] = self.mech.get('lower', 0)
 
         def set_link(opt: str) -> Callable[[float], None]:
             """Set link length."""
