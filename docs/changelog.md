@@ -14,6 +14,7 @@
 
 **Development**:
 
++ New graph searching method for polygon link from kernel.
 + Remove docstring gap between class definition.
 + Remove one instance limit.
 
