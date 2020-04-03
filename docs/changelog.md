@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 20.04
+
+**Features**:
+
++ None
+
+**Development**:
+
++ None
+
 ## Version 20.03
 
 **Features**:
