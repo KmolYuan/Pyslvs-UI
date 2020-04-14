@@ -10,7 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING
-from math import isnan
+from math import isnan, radians
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import QDialog, QDialogButtonBox
 from pyslvs import plap, pllp, Coordinate
@@ -74,17 +74,23 @@ class RelocateDialog(QDialog, SubUiDialog):
         """Check and show the final position."""
         mode = self.tab_widget.currentIndex()
         if mode == 0:
+            x = self.plap_p1x_box.value()
+            y = self.plap_p1y_box.value()
             c = plap(
-                Coordinate(self.plap_p1x_box.value(), self.plap_p1y_box.value()),
+                Coordinate(x, y),
                 self.plap_distance_box.value(),
-                self.plap_angle_box.value()
+                radians(self.plap_angle_box.value())
             )
         elif mode == 1:
+            x1 = self.pllp_p1x_box.value()
+            y1 = self.pllp_p1y_box.value()
+            x2 = self.pllp_p2x_box.value()
+            y2 = self.pllp_p2y_box.value()
             c = pllp(
-                Coordinate(self.pllp_p1x_box.value(), self.pllp_p1y_box.value()),
+                Coordinate(x1, y1),
                 self.pllp_distance1_box.value(),
                 self.pllp_distance2_box.value(),
-                Coordinate(self.pllp_p2x_box.value(), self.pllp_p2y_box.value()),
+                Coordinate(x2, y2),
                 self.pllp_inversed_box.isChecked()
             )
         else:

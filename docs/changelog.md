@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Fix relocate function and increase accuracy of its spinbox.
 
 **Development**:
 

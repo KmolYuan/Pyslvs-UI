@@ -13,7 +13,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(511, 700)
+        Form.resize(566, 714)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/dimensional_synthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -165,10 +165,6 @@ class Ui_Form(object):
         self.target_points = QtWidgets.QListWidget(self.verticalLayoutWidget)
         self.target_points.setObjectName("target_points")
         self.verticalLayout.addWidget(self.target_points)
-        self.ordered_option = QtWidgets.QCheckBox(self.verticalLayoutWidget)
-        self.ordered_option.setChecked(True)
-        self.ordered_option.setObjectName("ordered_option")
-        self.verticalLayout.addWidget(self.ordered_option)
         self.shape_only_option = QtWidgets.QCheckBox(self.verticalLayoutWidget)
         self.shape_only_option.setObjectName("shape_only_option")
         self.verticalLayout.addWidget(self.shape_only_option)
@@ -366,7 +362,6 @@ class Ui_Form(object):
         self.preview_box.setTitle(_translate("Form", "Preview"))
         self.show_solutions.setText(_translate("Form", "Show solutions"))
         self.options_tab.setTabText(self.options_tab.indexOf(self.structure), _translate("Form", "Structure"))
-        self.ordered_option.setText(_translate("Form", "Ordered simples"))
         self.shape_only_option.setText(_translate("Form", "Compare shape only"))
         self.wavelet_mode_option.setText(_translate("Form", "Wavelet transform (alpha)"))
         self.point_num.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">0</span></p></body></html>"))
