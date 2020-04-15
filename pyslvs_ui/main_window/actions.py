@@ -258,9 +258,16 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
 
     def __set_nav_toolbar_pos(self, pos: int) -> None:
         """Set the position of toolbar. (0: top, 1: bottom)"""
-        if pos in {0, 1}:
-            if self.canvas_splitter.indexOf(self.nav_toolbar) == pos:
-                return
-            self.canvas_splitter.insertWidget(pos, self.nav_toolbar)
-        else:
+        if pos not in {0, 1}:
             raise ValueError("invalid toolbar position.")
+        if pos == 1:
+            pos = 2
+        if self.canvas_layout.indexOf(self.nav_toolbar) == pos:
+            return
+        self.canvas_layout.insertWidget(pos, self.nav_toolbar)
+        self.canvas_layout.insertWidget(1, self.zoom_widget)
+
+    @Slot(bool, name='on_grid_mode_button_toggled')
+    def __set_grid_mode(self, enabled: bool) -> None:
+        """Return grid mode state."""
+        self.main_canvas.set_snap(self.prefer.snap_option if enabled else 0.)

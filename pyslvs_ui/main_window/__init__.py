@@ -78,7 +78,7 @@ class MainWindow(IOMethodInterface):
         """Reset the text when zoom bar changed."""
         self.zoom_button.setText(f'{value}px')
 
-    @Slot(name='on_zoom_button_clicked')
+    @Slot(name='on_zoom_cus_button_clicked')
     def __customize_zoom(self) -> None:
         """Customize zoom value."""
         value, ok = QInputDialog.getInt(
