@@ -7,6 +7,7 @@
 + Fix relocate function and increase accuracy of its spinbox.
 + The zoom bar has been isolated.
 + Add grid mode toggle button at main window.
++ Remove not useful functions.
 
 **Development**:
 

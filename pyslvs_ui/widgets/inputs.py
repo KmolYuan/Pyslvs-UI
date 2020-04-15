@@ -343,8 +343,6 @@ class InputsWidget(QWidget, Ui_Form):
             self.inputs_play_shaft.start()
         else:
             self.inputs_play_shaft.stop()
-            if self.update_pos_option.isChecked():
-                self.set_coords_as_current()
 
     @Slot()
     def __change_index(self) -> None:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>763</height>
+    <width>297</width>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -274,6 +274,9 @@
             <property name="statusTip">
              <string>Current position of the variable.</string>
             </property>
+            <property name="suffix">
+             <string>°</string>
+            </property>
             <property name="maximum">
              <double>360.000000000000000</double>
             </property>
@@ -282,29 +285,16 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QCheckBox" name="update_pos_option">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="statusTip">
-               <string>Check to update coordinate every time.</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="update_pos">
               <property name="statusTip">
                <string>Update current position as point coordinates.</string>
               </property>
               <property name="text">
-               <string>Position</string>
+               <string>Set pos</string>
               </property>
               <property name="icon">
                <iconset resource="../icons.qrc">
-                <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
+                <normaloff>:/icons/translate.png</normaloff>:/icons/translate.png</iconset>
               </property>
              </widget>
             </item>

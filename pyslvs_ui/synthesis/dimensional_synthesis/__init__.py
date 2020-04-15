@@ -356,13 +356,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path_list.item(index).setText(f"({x:.04f}, {y:.04f})")
         self.__current_path_changed()
 
-    @Slot(name='on_close_path_clicked')
-    def __close_path(self) -> None:
-        """Add a the last point same as first point."""
-        path = self.current_path()
-        if self.path_list.count() > 1 and path[0] != path[-1]:
-            self.add_point(*path[0])
-
     @Slot(name='on_point_up_clicked')
     def __move_up_point(self) -> None:
         """Target point move up."""
