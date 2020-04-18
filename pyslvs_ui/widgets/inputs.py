@@ -73,7 +73,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial.setEnabled(False)
         self.dial.value_changed.connect(self.__update_var)
         self.dial_spinbox.valueChanged.connect(self.__set_var)
-        self.inputs_dial_layout.addWidget(self.dial)
+        self.inputs_dial_layout.insertWidget(0, self.dial)
 
         # Play button
         self.variable_stop.clicked.connect(self.variable_value_reset)
