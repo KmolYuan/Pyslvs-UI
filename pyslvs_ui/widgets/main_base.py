@@ -339,7 +339,7 @@ class MainWindowBase(MainWindowABC, ABC):
         self.main_canvas.doubleclick_edit.connect(self.edit_point)
         self.main_canvas.zoom_changed.connect(self.zoom_bar.setValue)
         self.main_canvas.tracking.connect(self.set_mouse_pos)
-        self.canvas_splitter.insertWidget(0, self.main_canvas)
+        self.canvas_layout.insertWidget(0, self.main_canvas)
         self.canvas_splitter.setSizes([600, 10, 30])
 
         # Selection label on status bar right side
@@ -400,7 +400,8 @@ class MainWindowBase(MainWindowABC, ABC):
         # File widget settings
         self.project_widget = ProjectWidget(self)
         self.project_layout.addWidget(self.project_widget)
-        # Console dock will hide when startup
+        # Zooming and console dock will hide when startup
+        self.zoom_widget.hide()
         self.console_widget.hide()
         # Connect to GUI button
         debug_mode = ARGUMENTS.debug_mode

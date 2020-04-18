@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
+    <width>430</width>
     <height>714</height>
    </rect>
   </property>
@@ -415,17 +415,6 @@
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
                     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="close_path">
-                  <property name="statusTip">
-                   <string>Close the path.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/free_move_off.png</normaloff>:/icons/free_move_off.png</iconset>
                   </property>
                  </widget>
                 </item>
