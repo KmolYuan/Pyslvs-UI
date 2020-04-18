@@ -12,6 +12,7 @@
 **Development**:
 
 + Use Matplotlib instead of PyQtChart.
++ Fix the error of auto preview path.
 
 ## Version 20.03
 

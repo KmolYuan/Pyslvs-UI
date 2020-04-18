@@ -70,7 +70,6 @@ def _slvs_solve(
     sys.dragged(origin_2d_p, wp)
     hv = sys.add_line_2d(origin_2d, origin_2d_p, wp)
     sys.set_group(2)
-
     points: List[Entity] = []
     sliders: Dict[int, int] = {}
     slider_bases: List[Entity] = []
@@ -302,7 +301,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         for b, d, a in self.inputs_widget.input_pairs():
             if b == d:
                 self.vpoint_list[b].set_offset(a)
-
         solve_kernel = self.prefer.planar_solver_option
         try:
             if solve_kernel == 0:
@@ -355,25 +353,20 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         vpoints: Sequence[VPoint]
     ):
         """Resolve auto preview path."""
+        auto_preview.clear()
+        slider_auto_preview.clear()
         if not self.right_input():
-            auto_preview.clear()
-            slider_auto_preview.clear()
             return
-
         vpoints = tuple(vpoint.copy() for vpoint in vpoints)
         solve_kernel = self.prefer.path_preview_option
         if solve_kernel == len(kernel_list):
             solve_kernel = self.prefer.planar_solver_option
         interval_o = self.inputs_widget.interval()
-
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
-        auto_preview.clear()
-        slider_auto_preview.clear()
         for i, vpoint in enumerate(vpoints):
             auto_preview.append([])
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 slider_auto_preview[i] = []
-
         bases = []
         drivers = []
         angles_o = []
@@ -381,11 +374,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             bases.append(b)
             drivers.append(d)
             angles_o.append(a)
-
         i_count = self.inputs_widget.input_count()
         # Cumulative angle
         angles_cum = [0.] * i_count
-
         nan = float('nan')
         for interval in (interval_o, -interval_o):
             # Driver pointer
@@ -423,25 +414,27 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     # Back to last feasible solution
                     angles[dp] -= interval
                     dp += 1
-                else:
-                    # Update with result
-                    for i, vpoint in enumerate(vpoints):
-                        if vpoint.type == VJoint.R:
-                            auto_preview[i].append(cast(_Coord, result[i]))
-                            vpoint.move(cast(_Coord, result[i]))
-                        elif vpoint.type in {VJoint.P, VJoint.RP}:
-                            slot, pin = cast(Tuple[_Coord, _Coord], result[i])
-                            # Pin path
-                            auto_preview[i].append(pin)
-                            # Slot path
-                            slider_auto_preview[i].append(slot)
-                            vpoint.move(slot, pin)
-                    angles[dp] += interval
-                    angles[dp] %= 360
-                    angles_cum[dp] += abs(interval)
-                    if angles_cum[dp] > 360:
-                        angles[dp] -= interval
-                        dp += 1
+                    continue
+                # Update with result
+                for i, vpoint in enumerate(vpoints):
+                    if vpoint.type == VJoint.R:
+                        auto_preview[i].append(cast(_Coord, result[i]))
+                        vpoint.move(cast(_Coord, result[i]))
+                    elif vpoint.type in {VJoint.P, VJoint.RP}:
+                        slot, pin = cast(Tuple[_Coord, _Coord], result[i])
+                        # Pin path
+                        auto_preview[i].append(pin)
+                        # Slot path
+                        slider_auto_preview[i].append(slot)
+                        vpoint.move(slot, pin)
+                angles[dp] += interval
+                angles[dp] %= 360
+                angles_cum[dp] += abs(interval)
+                if angles_cum[dp] >= 360:
+                    angles[dp] -= interval
+                    dp += 1
+        for path in auto_preview:
+            path[:] = path[:-1]
 
     def get_graph(self) -> Tuple[
         Graph,
@@ -460,10 +453,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         input_pair = set()
         for b, d, _ in self.inputs_widget.input_pairs():
             input_pair.update({b, d})
-
         # links name for RP joint
         k = len(self.vlink_list)
-
         graph = Graph([])
         grounded_list = []
         pos = {}
@@ -475,22 +466,18 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             for p in vlink.points:
                 if p in used_point:
                     continue
-
                 vpoint = self.vpoint_list[p]
                 base_num = len(graph.edges)
                 mapping[p] = base_num
                 pos[base_num] = (vpoint.x, vpoint.y)
-
                 for link_name in vpoint.links:
                     if vlink.name == link_name:
                         continue
-
                     m = link_names.index(link_name)
                     grounded = VLink.FRAME in {vlink.name, link_name}
                     ref_num = len(graph.edges)
                     if ref_num != base_num:
                         pos[ref_num] = (vpoint.x, vpoint.y)
-
                     if vpoint.type == VJoint.RP:
                         graph.add_edge(i, k)
                         if grounded:
@@ -501,19 +488,15 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                         if ref_num != base_num:
                             same[ref_num] = base_num
                         graph.add_edge(i, m)
-
                     if grounded and ref_num not in same:
                         grounded_list.append(ref_num)
-
                 used_point.add(p)
-
         counter = len(graph.edges)
         cus = {}
         for vpoint in self.vpoint_list:
             if len(vpoint.links) == 1:
                 cus[counter] = link_names.index(vpoint.links[0])
                 counter += 1
-
         return (
             graph,
             grounded_list,
@@ -537,14 +520,11 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         for vpoint in self.vpoint_list:
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 raise ValueError("not support for prismatic joint yet")
-
         graph, grounded_list, input_list, pos, cus, same = self.get_graph()
-
         links: List[Set[int]] = [set() for _ in range(len(graph.vertices))]
         for joint, pair in edges_view(graph):
             for node in pair:
                 links[node].add(joint)
-
         placement = set(grounded_list)
         for row, link in enumerate(links):
             if placement == link - set(same):
@@ -552,7 +532,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 break
         else:
             raise ValueError("no grounded link")
-
         vpoints = graph2vpoints(graph, pos, cus, same, grounded)
         return {
             'expression': self.get_expression(vpoints),
