@@ -4,8 +4,7 @@ requests
 qtpy
 pyqt5<5.14; sys_platform == 'linux'
 pyqt5; sys_platform != 'linux'
-pyqtchart<5.14; sys_platform == 'linux'
-pyqtchart; sys_platform != 'linux'
+matplotlib
 ezdxf
 numpy
 cython
