@@ -10,7 +10,6 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from logging import WARNING, getLogger
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QDialog
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -18,9 +17,6 @@ from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg,
     NavigationToolbar2QT,
 )
-
-mpl_logger = getLogger('matplotlib')
-mpl_logger.setLevel(WARNING)
 
 
 class DataChart(QWidget):

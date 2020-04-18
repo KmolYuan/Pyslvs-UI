@@ -14,18 +14,13 @@ import sys
 from os import remove
 from os.path import join, expanduser
 from platform import system
-from logging import (
-    DEBUG,
-    INFO,
-    basicConfig,
-    getLogger,
-    Handler,
-    StreamHandler,
-    LogRecord,
-)
+from logging import (DEBUG, INFO, ERROR, basicConfig, getLogger, Handler,
+                     StreamHandler, LogRecord)
 from qtpy.QtCore import QObject, Signal
 from .info import ARGUMENTS, SYS_INFO
 
+logger = getLogger('matplotlib')
+logger.setLevel(ERROR)
 logger = getLogger()
 _SYS_STDOUT = sys.stdout
 _SYS_STDERR = sys.stderr
