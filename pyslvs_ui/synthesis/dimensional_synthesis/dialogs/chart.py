@@ -68,8 +68,8 @@ class ChartDialog(QDialog):
         ax = chart.ax()
         for i, data in enumerate(self.algorithm_data):
             a = array(data['time_fitness'], dtype=float)
-            ax.plot(a[:, pos_x], a[:, pos_y], label=f"Task {i + 1}")
-            ax.set_xlabel(label_x)
-            ax.set_ylabel(label_y)
-            ax.legend()
+            ax[0].plot(a[:, pos_x], a[:, pos_y], label=f"Task {i + 1}")
+            ax[0].set_xlabel(label_x)
+            ax[0].set_ylabel(label_y)
+            ax[0].legend()
         self.tab_widget.addTab(chart, name)

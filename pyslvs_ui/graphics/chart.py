@@ -10,7 +10,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Sequence, Iterable, Union
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QDialog
+from numpy import ndarray
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import (
@@ -30,9 +32,12 @@ class DataChart(QWidget):
         canvas = FigureCanvasQTAgg(figure)
         layout.addWidget(NavigationToolbar2QT(canvas, self))
         layout.addWidget(canvas)
-        self._ax: Axes = figure.subplots(row, col)
+        ax = figure.subplots(row, col)
+        if not isinstance(ax, ndarray):
+            ax = (ax,)
+        self._ax: Sequence[Axes] = ax
 
-    def ax(self) -> Axes:
+    def ax(self) -> Sequence[Axes]:
         """Return figure."""
         return self._ax
 
@@ -47,6 +52,6 @@ class DataChartDialog(QDialog):
         self._chart = DataChart(self, row, col)
         layout.addWidget(self._chart)
 
-    def ax(self) -> Axes:
+    def ax(self) -> Sequence[Axes]:
         """Wrapper method."""
         return self._chart.ax()

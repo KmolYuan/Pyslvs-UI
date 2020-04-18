@@ -12,6 +12,7 @@ __email__ = "pyslvs@gmail.com"
 import csv
 from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
 from copy import copy
+from numpy import array
 from qtpy.QtCore import Signal, Slot, QTimer, QPoint
 from qtpy.QtWidgets import (
     QWidget,
@@ -21,7 +22,8 @@ from qtpy.QtWidgets import (
     QListWidgetItem,
     QApplication,
 )
-from pyslvs import VJoint
+from qtpy.QtGui import QIcon, QPixmap
+from pyslvs import VJoint, derivative
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
 from .rotatable import QRotatableView
@@ -409,7 +411,7 @@ class InputsWidget(QWidget, Ui_Form):
     @Slot(QListWidgetItem, name='on_record_list_itemDoubleClicked')
     def __path_dlg(self, item: QListWidgetItem) -> None:
         """View path data."""
-        name = item.text().split(":")[0]
+        name = item.text().split(":", maxsplit=1)[0]
         try:
             data = self.__path_data[name]
         except KeyError:
@@ -450,7 +452,7 @@ class InputsWidget(QWidget, Ui_Form):
         action = self.pop_menu_record.addAction("Show all")
         action.index = -1
         copy_action = self.pop_menu_record.addAction("Copy as new")
-        name = self.record_list.item(row).text().split(':')[0]
+        name = self.record_list.item(row).text().split(':', maxsplit=1)[0]
         if name in self.__path_data:
             data = self.__path_data[name]
         else:
@@ -532,16 +534,44 @@ class InputsWidget(QWidget, Ui_Form):
     def __plot(self) -> None:
         """Plot the data. Show the X and Y axises as two line."""
         joint = self.plot_joint.currentIndex()
-        # TODO: Plot functions.
+        name = self.record_list.currentItem().text().split(':', maxsplit=1)[0]
+        if name in self.__path_data:
+            data = self.__path_data[name]
+        else:
+            # Auto preview path
+            data = self.main_canvas.path_preview
+        if not data:
+            return
+        pos = array(data[joint], dtype=float)
+        vel = derivative(pos)
+        acc = derivative(vel)
+        jerk = derivative(acc)
+        plot = {}
+        plot_count = 0
         if self.plot_pos.isChecked():
-            pass
+            plot_count += 1
+            plot['Position'] = pos
         if self.plot_vel.isChecked():
-            pass
+            plot_count += 1
+            plot['Velocity'] = vel
         if self.plot_acc.isChecked():
-            pass
+            plot_count += 1
+            plot['Acceleration'] = acc
         if self.plot_jerk.isChecked():
-            pass
-        dlg = DataChartDialog(self, "Analysis")
+            plot_count += 1
+            plot['Jerk'] = jerk
+        if plot_count < 1:
+            QMessageBox.warning(self, "No target", "No any plotting target.")
+            return
+        dlg = DataChartDialog(self, "Analysis", plot_count)
+        dlg.setWindowIcon(QIcon(QPixmap(":/icons/formula.png")))
+        ax = dlg.ax()
+        plot_count = 0
+        for title, xy in plot.items():
+            ax[plot_count].plot(xy[:, 0])
+            ax[plot_count].plot(xy[:, 1])
+            ax[plot_count].set_title(title)
+            plot_count += 1
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
