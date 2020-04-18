@@ -12,20 +12,8 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    cast,
-    TYPE_CHECKING,
-    List,
-    Tuple,
-    Sequence,
-    Dict,
-    Iterator,
-    Iterable,
-    Callable,
-    Union,
-    Optional,
-    Any,
-)
+from typing import (cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Iterator,
+                    Iterable, Callable, Union, Optional, Any)
 from math import hypot
 import pprint
 from copy import deepcopy
@@ -46,12 +34,10 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QIcon, QPixmap
 from lark.exceptions import LarkError
 from pyslvs import (
-    VLink,
     t_config,
     expr_solving,
     parse_pos,
     parse_vpoints,
-    parse_vlinks,
     efd_fitting,
     norm_path,
 )
