@@ -23,6 +23,7 @@ from qtpy.QtWidgets import (
 )
 from pyslvs import VJoint
 from pyslvs_ui.info import logger
+from pyslvs_ui.graphics import DataChartDialog
 from .rotatable import QRotatableView
 from .inputs_ui import Ui_Form
 from .undo_redo import AddInput, DeleteInput, AddPath, DeletePath
@@ -49,7 +50,6 @@ class InputsWidget(QWidget, Ui_Form):
     def __init__(self, parent: MainWindowBase) -> None:
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
-
         # parent's function pointer
         self.free_move_button = parent.free_move_button
         self.entities_point = parent.entities_point
@@ -66,7 +66,6 @@ class InputsWidget(QWidget, Ui_Form):
         self.command_stack = parent.command_stack
         self.set_coords_as_current = parent.set_coords_as_current
         self.get_back_position = parent.get_back_position
-
         # Angle panel
         self.dial = QRotatableView(self)
         self.dial.setStatusTip("Input widget of rotatable joint.")
@@ -74,20 +73,16 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial.value_changed.connect(self.__update_var)
         self.dial_spinbox.valueChanged.connect(self.__set_var)
         self.inputs_dial_layout.insertWidget(0, self.dial)
-
         # Play button
         self.variable_stop.clicked.connect(self.variable_value_reset)
-
         # Timer for play button
         self.inputs_play_shaft = QTimer()
         self.inputs_play_shaft.setInterval(10)
         self.inputs_play_shaft.timeout.connect(self.__change_index)
-
         # Change the point coordinates with current position
         self.update_pos.clicked.connect(self.set_coords_as_current)
-
         # Inputs record context menu
-        self.pop_menu_record_list = QMenu(self)
+        self.pop_menu_record = QMenu(self)
         self.record_list.customContextMenuRequested.connect(
             self.__record_list_context_menu
         )
@@ -133,7 +128,6 @@ class InputsWidget(QWidget, Ui_Form):
     def __update_relate_points(self, _=None) -> None:
         """Change the point row from input widget."""
         self.driver_list.clear()
-
         item: Optional[QListWidgetItem] = self.joint_list.currentItem()
         if item is None:
             return
@@ -174,7 +168,6 @@ class InputsWidget(QWidget, Ui_Form):
             if item is None:
                 return
             p1 = _variable_int(item.text())
-
         # Check DOF
         if self.dof() <= self.input_count():
             QMessageBox.warning(
@@ -183,7 +176,6 @@ class InputsWidget(QWidget, Ui_Form):
                 "The number of variable must no more than degrees of freedom."
             )
             return
-
         # Check same link
         if not self.vpoints[p0].same_link(self.vpoints[p1]):
             QMessageBox.warning(
@@ -192,7 +184,6 @@ class InputsWidget(QWidget, Ui_Form):
                 "The base point and driver point should at the same link."
             )
             return
-
         # Check repeated pairs
         for p0_, p1_, a in self.input_pairs():
             if {p0, p1} == {p0_, p1_} and self.vpoints[p0].type == VJoint.R:
@@ -202,7 +193,6 @@ class InputsWidget(QWidget, Ui_Form):
                     "There already have a same pair."
                 )
                 return
-
         if p0 == p1:
             # One joint by offset
             value = self.vpoints[p0].true_offset()
@@ -291,9 +281,11 @@ class InputsWidget(QWidget, Ui_Form):
     def variable_reload(self) -> None:
         """Auto check the points and type."""
         self.joint_list.clear()
+        self.plot_joint.clear()
         for i in range(self.entities_point.rowCount()):
             type_text = self.entities_point.item(i, 2).text()
             self.joint_list.addItem(f"[{type_text}] Point{i}")
+            self.plot_joint.addItem(f"[{type_text}] Point{i}")
         self.variable_value_reset()
 
     @Slot(float)
@@ -422,7 +414,6 @@ class InputsWidget(QWidget, Ui_Form):
             data = self.__path_data[name]
         except KeyError:
             return
-
         points_text = ", ".join(f"Point{i}" for i in range(len(data)))
         if QMessageBox.question(
             self,
@@ -456,9 +447,9 @@ class InputsWidget(QWidget, Ui_Form):
         row = self.record_list.currentRow()
         if not row > -1:
             return
-        showall_action = self.pop_menu_record_list.addAction("Show all")
-        showall_action.index = -1
-        copy_action = self.pop_menu_record_list.addAction("Copy as new")
+        action = self.pop_menu_record.addAction("Show all")
+        action.index = -1
+        copy_action = self.pop_menu_record.addAction("Copy as new")
         name = self.record_list.item(row).text().split(':')[0]
         if name in self.__path_data:
             data = self.__path_data[name]
@@ -467,16 +458,16 @@ class InputsWidget(QWidget, Ui_Form):
             data = self.main_canvas.path_preview
         targets = 0
         for text in ("Show", "Copy data from"):
-            self.pop_menu_record_list.addSeparator()
+            self.pop_menu_record.addSeparator()
             for i, path in enumerate(data):
                 if len(set(path)) > 1:
-                    action = self.pop_menu_record_list.addAction(f"{text} Point{i}")
+                    action = self.pop_menu_record.addAction(f"{text} Point{i}")
                     action.index = i
                     targets += 1
         copy_action.setEnabled(targets > 0)
-        action = self.pop_menu_record_list.exec_(self.record_list.mapToGlobal(p))
+        action = self.pop_menu_record.exec_(self.record_list.mapToGlobal(p))
         if action is None:
-            self.pop_menu_record_list.clear()
+            self.pop_menu_record.clear()
             return
         text = action.text()
         if action == copy_action:
@@ -497,7 +488,7 @@ class InputsWidget(QWidget, Ui_Form):
             if action.index == -1:
                 self.record_show.setChecked(True)
             self.main_canvas.set_path_show(action.index)
-        self.pop_menu_record_list.clear()
+        self.pop_menu_record.clear()
 
     @Slot(bool, name='on_record_show_toggled')
     def __set_path_show(self, toggled: bool) -> None:
@@ -536,3 +527,21 @@ class InputsWidget(QWidget, Ui_Form):
             self.variable_list.takeItem(row)
         )
         self.variable_list.setCurrentItem(item)
+
+    @Slot(name='on_plot_button_clicked')
+    def __plot(self) -> None:
+        """Plot the data. Show the X and Y axises as two line."""
+        joint = self.plot_joint.currentIndex()
+        # TODO: Plot functions.
+        if self.plot_pos.isChecked():
+            pass
+        if self.plot_vel.isChecked():
+            pass
+        if self.plot_acc.isChecked():
+            pass
+        if self.plot_jerk.isChecked():
+            pass
+        dlg = DataChartDialog(self, "Analysis")
+        dlg.show()
+        dlg.exec_()
+        dlg.deleteLater()

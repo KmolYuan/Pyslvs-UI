@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../icons.qrc">
+    <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
    <property name="leftMargin">
     <number>0</number>
@@ -38,7 +42,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QGroupBox" name="joint_groupBox">
+        <widget class="QGroupBox" name="joint_groupbox">
          <property name="title">
           <string>Inputs</string>
          </property>
@@ -122,7 +126,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="variable_groupBox">
+        <widget class="QGroupBox" name="variable_groupbox">
          <property name="title">
           <string>Variables</string>
          </property>
@@ -347,146 +351,201 @@
       <attribute name="title">
        <string>Analysis</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <widget class="QGroupBox" name="record_groupBox">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QCheckBox" name="record_show">
+           <property name="statusTip">
+            <string>Show path data on the canvas.</string>
+           </property>
+           <property name="text">
+            <string>Show path data</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="record_interval_label">
+           <property name="text">
+            <string>Interval:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="record_interval">
+           <property name="statusTip">
+            <string>Each coordinate will be recorded after this angle value.</string>
+           </property>
+           <property name="suffix">
+            <string>°</string>
+           </property>
+           <property name="decimals">
+            <number>2</number>
+           </property>
+           <property name="minimum">
+            <double>0.500000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>6.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QListWidget" name="record_list">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="statusTip">
+            <string>All recorded path data of this project.</string>
+           </property>
+           <property name="currentRow">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Auto preview</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QPushButton" name="update_preview_button">
+             <property name="statusTip">
+              <string>Refresh preview path data.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../icons.qrc">
+               <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="record_start">
+             <property name="statusTip">
+              <string>Start / Stop record.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../icons.qrc">
+               <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="record_remove">
+             <property name="statusTip">
+              <string>Delete the specified path data.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../icons.qrc">
+               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="plot_groupbox">
          <property name="title">
-          <string>Position</string>
+          <string>Plot</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_22">
+         <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QCheckBox" name="record_show">
-              <property name="statusTip">
-               <string>Show path data on the canvas.</string>
+             <widget class="QComboBox" name="plot_joint"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="plot_button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
-               <string>Show path data</string>
+               <string>Plot</string>
               </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="record_interval_label">
-              <property name="text">
-               <string>Interval:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="record_interval">
-              <property name="statusTip">
-               <string>Each coordinate will be recorded after this angle value.</string>
-              </property>
-              <property name="suffix">
-               <string>°</string>
-              </property>
-              <property name="decimals">
-               <number>2</number>
-              </property>
-              <property name="minimum">
-               <double>0.500000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>6.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
+              <property name="icon">
+               <iconset resource="../icons.qrc">
+                <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
               </property>
              </widget>
             </item>
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
-             <widget class="QListWidget" name="record_list">
-              <property name="contextMenuPolicy">
-               <enum>Qt::CustomContextMenu</enum>
-              </property>
-              <property name="statusTip">
-               <string>All recorded path data of this project.</string>
-              </property>
-              <property name="currentRow">
-               <number>0</number>
-              </property>
-              <item>
-               <property name="text">
-                <string>Auto preview</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <widget class="QPushButton" name="update_preview_button">
-                <property name="statusTip">
-                 <string>Refresh preview path data.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="record_start">
-                <property name="statusTip">
-                 <string>Start / Stop record.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_6">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="record_remove">
-                <property name="statusTip">
-                 <string>Delete the specified path data.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
+           <widget class="QCheckBox" name="plot_pos">
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="plot_vel">
+            <property name="text">
+             <string>Velocity</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="plot_acc">
+            <property name="text">
+             <string>Acceleration</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="plot_jerk">
+            <property name="text">
+             <string>Jerk</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
