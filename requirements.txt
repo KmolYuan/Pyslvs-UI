@@ -2,8 +2,7 @@ setuptools
 wheel
 requests
 qtpy
-pyqt5<5.14; sys_platform == 'linux'
-pyqt5; sys_platform != 'linux'
+pyqt5
 matplotlib
 ezdxf
 numpy
