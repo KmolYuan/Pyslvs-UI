@@ -3,9 +3,9 @@ wheel
 requests
 qtpy
 pyqt5
-matplotlib
 ezdxf
 numpy
+matplotlib
 cython
 python-solvespace
 openpyxl

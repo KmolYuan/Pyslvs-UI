@@ -16,10 +16,10 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [QtPy (MIT)](https://github.com/spyder-ide/qtpy)
 + [PyQt5 (GPLv3)](https://www.riverbankcomputing.com/software/pyqt/intro)
     + [SIP (GPLv2, GPLv3)](https://www.riverbankcomputing.com/software/sip/intro)
-    + [PyQtChart (GPLv3)](https://www.riverbankcomputing.com/software/pyqtchart/intro)
     + [Qt5 (LGPL)](https://www.qt.io)
 + [ezdxf (MIT)](https://ezdxf.readthedocs.io/en/latest/index.html)
 + [numpy (BSD 3-Clause)](http://www.numpy.org)
++ [matplotlib (BSD)](https://matplotlib.org/)
 + [Cython (Apache 2.0)](http://cython.org)
 + [openpyxl (MIT)](http://openpyxl.readthedocs.io)
 + [psutil (BSD)](https://github.com/giampaolo/psutil)
@@ -27,6 +27,7 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [PyYAML (MIT)](https://pyyaml.org)
 + [h5py (BSD 3-Clause)](https://www.h5py.org/)
 + [qrcode (MIT)](https://github.com/lincolnloop/python-qrcode)
++ [PyWavelets (MIT)](https://github.com/PyWavelets/pywt)
 
 ## Inspired From
 
