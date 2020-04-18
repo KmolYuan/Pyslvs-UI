@@ -6,12 +6,12 @@
 
 + Fix relocate function and increase accuracy of its spinbox.
 + The zoom bar has been isolated.
-+ Add grid mode toggle button at main window.
++ Add grid mode toggle button at the main window.
 + Remove not useful functions.
 
 **Development**:
 
-+ None
++ Use Matplotlib instead of PyQtChart.
 
 ## Version 20.03
 
