@@ -39,9 +39,6 @@ help:
 	@echo   clean-all: clean every binary files and executable file.
 
 doc:
-ifeq (, $(shell which apimd > $(NULL)))
-	$(PIP) install apimd
-endif
 	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
 
 build:
