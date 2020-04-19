@@ -23,7 +23,7 @@ from qtpy.QtWidgets import (
     QApplication,
 )
 from qtpy.QtGui import QIcon, QPixmap
-from pyslvs import VJoint, curvature, derivative
+from pyslvs import VJoint, curvature, derivative, path_signature
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
 from .rotatable import QRotatableView
@@ -545,26 +545,27 @@ class InputsWidget(QWidget, Ui_Form):
         pos = array(data[joint], dtype=float)
         vel = derivative(pos)
         acc = derivative(vel)
+        cur = curvature(data[joint])
         plot = {}
         plot_count = 0
         if self.plot_pos.isChecked():
             plot_count += 1
-            plot['Position'] = pos
+            plot["Position"] = pos
         if self.plot_vel.isChecked():
             plot_count += 1
-            plot['Velocity'] = vel
+            plot["Velocity"] = vel
         if self.plot_acc.isChecked():
             plot_count += 1
-            plot['Acceleration'] = acc
+            plot["Acceleration"] = acc
         if self.plot_jerk.isChecked():
             plot_count += 1
-            plot['Jerk'] = derivative(acc)
+            plot["Jerk"] = derivative(acc)
         if self.plot_curvature.isChecked():
             plot_count += 1
-            plot['Curvature'] = curvature(data[joint])
+            plot["Curvature"] = cur
         if self.plot_signature.isChecked():
             plot_count += 1
-            # TODO: Path signature
+            plot["Path Signature"] = path_signature(cur)
         if plot_count < 1:
             QMessageBox.warning(self, "No target", "No any plotting target.")
             return
@@ -574,7 +575,9 @@ class InputsWidget(QWidget, Ui_Form):
         plot_count = 0
         for title, xy in plot.items():
             ax_i = ax[plot_count]
-            if xy.ndim == 2:
+            if title == "Path Signature":
+                ax_i.plot(xy[:, 0], xy[:, 1])
+            elif xy.ndim == 2:
                 ax_i.plot(xy[:, 0])
                 ax_i.plot(xy[:, 1])
             else:
