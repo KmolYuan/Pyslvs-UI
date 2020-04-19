@@ -572,6 +572,7 @@ class InputsWidget(QWidget, Ui_Form):
             ax[plot_count].plot(xy[:, 1])
             ax[plot_count].set_title(title)
             plot_count += 1
+        dlg.set_margin(0.2)
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()
