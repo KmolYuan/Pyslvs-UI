@@ -902,6 +902,7 @@
     <addaction name="action_mde_tw"/>
     <addaction name="separator"/>
     <addaction name="action_check_update"/>
+    <addaction name="action_report_issue"/>
     <addaction name="separator"/>
     <addaction name="action_about_qt"/>
     <addaction name="action_about"/>
@@ -1203,6 +1204,10 @@
    </property>
   </action>
   <action name="action_check_update">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Check for Updates</string>
    </property>
@@ -1299,6 +1304,15 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_report_issue">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
+   </property>
+   <property name="text">
+    <string>Report Issue</string>
    </property>
   </action>
  </widget>

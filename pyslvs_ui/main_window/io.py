@@ -569,6 +569,11 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 "You are using the latest version of Pyslvs."
             )
 
+    @Slot(name='on_action_report_issue_triggered')
+    def __report_issue(self) -> None:
+        """Open website: Pyslvs issue page."""
+        self.__open_url("https://github.com/KmolYuan/Pyslvs-UI/issues")
+
     def check_file_changed(self) -> bool:
         """If the user has not saved the change.
 
