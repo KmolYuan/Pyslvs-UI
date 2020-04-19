@@ -517,35 +517,53 @@
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="plot_pos">
-            <property name="text">
-             <string>Position</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="plot_vel">
-            <property name="text">
-             <string>Velocity</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="plot_acc">
-            <property name="text">
-             <string>Acceleration</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="plot_jerk">
-            <property name="text">
-             <string>Jerk</string>
-            </property>
-           </widget>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="plot_jerk">
+              <property name="text">
+               <string>Jerk</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="plot_vel">
+              <property name="text">
+               <string>Velocity</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="plot_acc">
+              <property name="text">
+               <string>Acceleration</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="plot_pos">
+              <property name="text">
+               <string>Position</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="plot_curvature">
+              <property name="text">
+               <string>Curvature</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="plot_signature">
+              <property name="text">
+               <string>Path Signature</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

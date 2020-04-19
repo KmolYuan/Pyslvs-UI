@@ -23,7 +23,7 @@ from qtpy.QtWidgets import (
     QApplication,
 )
 from qtpy.QtGui import QIcon, QPixmap
-from pyslvs import VJoint, derivative
+from pyslvs import VJoint, curvature, derivative
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
 from .rotatable import QRotatableView
@@ -545,7 +545,6 @@ class InputsWidget(QWidget, Ui_Form):
         pos = array(data[joint], dtype=float)
         vel = derivative(pos)
         acc = derivative(vel)
-        jerk = derivative(acc)
         plot = {}
         plot_count = 0
         if self.plot_pos.isChecked():
@@ -559,7 +558,13 @@ class InputsWidget(QWidget, Ui_Form):
             plot['Acceleration'] = acc
         if self.plot_jerk.isChecked():
             plot_count += 1
-            plot['Jerk'] = jerk
+            plot['Jerk'] = derivative(acc)
+        if self.plot_curvature.isChecked():
+            plot_count += 1
+            plot['Curvature'] = curvature(data[joint])
+        if self.plot_signature.isChecked():
+            plot_count += 1
+            # TODO: Path signature
         if plot_count < 1:
             QMessageBox.warning(self, "No target", "No any plotting target.")
             return
@@ -568,9 +573,13 @@ class InputsWidget(QWidget, Ui_Form):
         ax = dlg.ax()
         plot_count = 0
         for title, xy in plot.items():
-            ax[plot_count].plot(xy[:, 0])
-            ax[plot_count].plot(xy[:, 1])
-            ax[plot_count].set_title(title)
+            ax_i = ax[plot_count]
+            if xy.ndim == 2:
+                ax_i.plot(xy[:, 0])
+                ax_i.plot(xy[:, 1])
+            else:
+                ax_i.plot(xy)
+            ax_i.set_title(title)
             plot_count += 1
         dlg.set_margin(0.2)
         dlg.show()
