@@ -14,6 +14,7 @@
 
 + Use Matplotlib instead of PyQtChart.
 + Fix the error of auto preview path.
++ Fix the bug of topological algorithm. (github issue #33)
 
 ## Version 20.03
 
