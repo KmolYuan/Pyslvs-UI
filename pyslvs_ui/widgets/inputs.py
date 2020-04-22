@@ -578,8 +578,9 @@ class InputsWidget(QWidget, Ui_Form):
             if title == "Path Signature":
                 ax_i.plot(xy[:, 0], xy[:, 1])
             elif xy.ndim == 2:
-                ax_i.plot(xy[:, 0])
-                ax_i.plot(xy[:, 1])
+                ax_i.plot(xy[:, 0], label='x')
+                ax_i.plot(xy[:, 1], label='y')
+                ax_i.legend()
             else:
                 ax_i.plot(xy)
             ax_i.set_title(title)
