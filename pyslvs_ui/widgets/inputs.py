@@ -577,6 +577,8 @@ class InputsWidget(QWidget, Ui_Form):
             ax_i = ax[plot_count]
             if title == "Path Signature":
                 ax_i.plot(xy[:, 0], xy[:, 1])
+                ax_i.set_ylabel(r"$\kappa$")
+                ax_i.set_xlabel(r"$\int|\kappa|dt$")
             elif xy.ndim == 2:
                 ax_i.plot(xy[:, 0], label='x')
                 ax_i.plot(xy[:, 1], label='y')
