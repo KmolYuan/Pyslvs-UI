@@ -185,7 +185,7 @@ Inherited from `object`.
 
 | links | c | type | color | color_str | type_str | x | y | angle | HOLDER |
 |:-----:|:---:|:----:|:-----:|:---------:|:--------:|:---:|:---:|:-----:|:------:|
-| Sequence\[str] | Tuple\[Tuple\[float, float], Tuple\[float, float]] | VJoint | Union\[Tuple\[int, int, int], None] | str | str | float | float | float | ClassVar\[VPoint] |
+| Sequence\[str] | ndarray | VJoint | Union\[Tuple\[int, int, int], None] | str | str | float | float | float | ClassVar\[VPoint] |
 
 Mechanism expression class.
 
@@ -479,6 +479,30 @@ The joint position will returned by its index correspondingly.
 
 Python wrapper of normalization function.
 
+### curvature()
+
+| path | return |
+|:----:|:------:|
+| Iterable\[Tuple\[float, float]] | ndarray |
+
+Calculate the signed curvature and return as an array.
+
+### derivative()
+
+| path | return |
+|:----:|:------:|
+| ndarray | ndarray |
+
+Differential function.
+
+### path_signature()
+
+| k | return |
+|:---:|:------:|
+| ndarray | ndarray |
+
+Require a curvature, return path signature.
+
 ### Planar
 
 Inherited from `Objective`.
@@ -519,7 +543,7 @@ Return upper bound.
 |:----:|:------:|
 |   | bool |
 
-Input a generic data (variable array), return the mechanism 
+Input a generic data (variable array), return the mechanism
 expression.
 
 #### Planar.result()
@@ -528,7 +552,7 @@ expression.
 |:----:|:---:|:------:|
 |   | ndarray | str |
 
-Input a generic data (variable array), return the mechanism 
+Input a generic data (variable array), return the mechanism
 expression.
 
 ### t_config()
@@ -700,7 +724,8 @@ The format of each configuration is:
     + type: Dict[int, Optional[Tuple[float, float, float]]]
 + `Target`: The target joints settings.
     + type: Dict[int, Optional[Sequence[Tuple[float, float]]]]
-+ `cus`: The custom joints on specific link. (link number correspond to the graph expression.)
++ `cus`: The custom joints on specific link. (link number correspond to
+    the graph expression.)
     + type: Dict[int, int]
 + `same`: The multiple joints setting.
     + type: Dict[int, int]
