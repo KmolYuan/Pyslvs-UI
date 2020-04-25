@@ -841,7 +841,7 @@
      <x>0</x>
      <y>0</y>
      <width>928</width>
-     <height>21</height>
+     <height>39</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -1300,7 +1300,7 @@
      <normaloff>:/icons/capture.png</normaloff>:/icons/capture.png</iconset>
    </property>
    <property name="text">
-    <string>Screenshot</string>
+    <string>S&amp;creenshot</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -1312,7 +1312,10 @@
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
-    <string>Report Issue</string>
+    <string>&amp;Report Issue</string>
+   </property>
+   <property name="statusTip">
+    <string>Report an issue or see the current issues on GitHub.</string>
    </property>
   </action>
  </widget>

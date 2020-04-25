@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pyslvs_ui/widgets/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.2
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -396,7 +396,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.main_splitter)
         MainWindow.setCentralWidget(self.central_widget)
         self.menu_bar = QtWidgets.QMenuBar(MainWindow)
-        self.menu_bar.setGeometry(QtCore.QRect(0, 0, 928, 21))
+        self.menu_bar.setGeometry(QtCore.QRect(0, 0, 928, 39))
         self.menu_bar.setObjectName("menu_bar")
         self.menu_file = QtWidgets.QMenu(self.menu_bar)
         self.menu_file.setStatusTip("")
@@ -697,7 +697,8 @@ class Ui_MainWindow(object):
         self.action_set_link_length.setText(_translate("MainWindow", "Se&t Link Length"))
         self.action_preference.setText(_translate("MainWindow", "P&references"))
         self.action_preference.setShortcut(_translate("MainWindow", "F2"))
-        self.action_screenshot.setText(_translate("MainWindow", "Screenshot"))
+        self.action_screenshot.setText(_translate("MainWindow", "S&creenshot"))
         self.action_screenshot.setShortcut(_translate("MainWindow", "Ctrl+P"))
-        self.action_report_issue.setText(_translate("MainWindow", "Report Issue"))
+        self.action_report_issue.setText(_translate("MainWindow", "&Report Issue"))
+        self.action_report_issue.setStatusTip(_translate("MainWindow", "Report an issue or see the current issues on GitHub."))
 from pyslvs_ui import icons_rc

@@ -9,6 +9,7 @@
 + Add grid mode toggle button at the main window.
 + Remove not useful functions.
 + Add "report issue" action on the main menubar.
++ UI improvement for "inputs" page.
 
 **Development**:
 
