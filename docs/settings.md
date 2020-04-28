@@ -69,7 +69,7 @@ The size of joints annotation, excluding selection annotation.
 
 Default is 5.
 
-### Center zooming by (options)
+### Center zooming (options)
  
 Options: {Cursor, Canvas center}
 
@@ -84,31 +84,19 @@ Set to zero can be disable this function.
 
 Default is 1.
 
-### Background (file path)
+### Toolbar position (options)
 
-The file path of the background image.
-The file format should be supported by Qt.
-Invalid path or empty path will disable this function.
+Options: {Top, Bottom}
 
-Default is empty.
+The position of canvas toolbar.
 
-### Background opacity
+Default is Bottom.
 
-The opacity of the background, between 0.0 to 1.0.
+### Default zoom value (percent)
 
-Default is 1.
+When there is no entity on the canvas, the zoom value will be set.
 
-### Background scale (times)
-
-The scale factor of the background.
-
-Default is 1.
-
-### Background offset (unit)
-
-The XY offset of the background.
-
-Default is (0, 0).
+Default is 500%.
 
 ## History
 
@@ -149,3 +137,33 @@ Default is unchecked.
 ### Monochrome mode for mechanism. (Excluding indicators)
 
 Default is unchecked.
+
+## Project
+
+"Project" page is at the side panel.
+
+### Background (file path)
+
+The file path of the background image.
+The file format should be supported by Qt.
+Invalid path or empty path will disable this function.
+
+Default is empty.
+
+### Background opacity
+
+The opacity of the background, between 0.0 to 1.0.
+
+Default is 1.
+
+### Background scale (times)
+
+The scale factor of the background.
+
+Default is 1.
+
+### Background offset (unit)
+
+The XY offset of the background.
+
+Default is (0, 0).
