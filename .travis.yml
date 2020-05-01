@@ -1,16 +1,15 @@
 # Travis-CI for Pyslvs-UI
 language: python
+os: linux
+dist: xenial
 
 git:
   depth: 1
 
-matrix:
+jobs:
   include:
     - &linux
-      os: linux
-      sudo: required
       python: "3.7"
-      dist: xenial
       before_install:
         - python3 -m pip install pip -U
         - python3 -m pip install -r requirements.txt -U
@@ -36,10 +35,10 @@ matrix:
         - &executable-deploy
           provider: releases
           overwrite: true
-          api_key: $TRAVIS_TOKEN
+          token: $TRAVIS_TOKEN
           file_glob: true
           file: out/*.AppImage
-          skip_cleanup: true
+          cleanup: false
           on:
             tags: true
 
