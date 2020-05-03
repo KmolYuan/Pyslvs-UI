@@ -13,17 +13,8 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    cast,
-    TypeVar,
-    Tuple,
-    List,
-    Sequence,
-    Iterator,
-    Callable,
-    Union,
-    Optional,
-)
+from typing import (cast, TypeVar, Tuple, List, Sequence, Iterator, Callable,
+                    Union, Optional)
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
 from dataclasses import dataclass, field, fields, Field, astuple
@@ -38,7 +29,7 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink, color_rgb
-from pyslvs_ui.info import ARGUMENTS, logger, kernel_list
+from pyslvs_ui.info import ARGUMENTS, logger, Kernel
 from pyslvs_ui.io import ProjectWidget
 from pyslvs_ui.synthesis import (
     StructureSynthesis,
@@ -162,7 +153,7 @@ class Preferences:
     open_project_actions_option: int = 1
     file_type_option: int = 0
     planar_solver_option: int = 0
-    path_preview_option: int = len(kernel_list)
+    path_preview_option: int = Kernel.SAME_AS_SOLVING
     auto_remove_link_option: bool = True
     title_full_path_option: bool = False
     console_error_option: bool = ARGUMENTS.debug_mode

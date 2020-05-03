@@ -13,12 +13,38 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Optional
+from importlib import import_module
+from enum import auto, IntEnum
 from sys import version_info as _vi
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser, Namespace
 from dataclasses import dataclass
 from pyslvs import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
+
+try:
+    import_module('python_solvespace')
+    HAS_SLVS = True
+except ImportError:
+    HAS_SLVS = False
+
+
+class Kernel(IntEnum):
+    """Kernel list. Mapped to options."""
+    PYSLVS = 0
+    SOLVESPACE = auto() if HAS_SLVS else 0
+    SKETCH_SOLVE = auto()
+    SAME_AS_SOLVING = auto()
+
+    @property
+    def title(self) -> str:
+        """Reformat enum's names."""
+        return self.name.capitalize().replace("_", " ")
+
+
+KERNELS = [Kernel.PYSLVS, Kernel.SKETCH_SOLVE]
+if HAS_SLVS:
+    KERNELS.insert(1, Kernel.SOLVESPACE)
 
 
 def parse_args() -> Namespace:

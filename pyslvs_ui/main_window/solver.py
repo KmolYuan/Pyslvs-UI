@@ -27,10 +27,11 @@ from pyslvs import (
     EStack,
 )
 from pyslvs.graph import Graph
-from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
-from pyslvs_ui.info import logger, kernel_list
+from pyslvs_ui.info import logger, HAS_SLVS, Kernel
 from .entities import EntitiesMethodInterface
 
+if HAS_SLVS:
+    from python_solvespace import ResultFlag, Entity, SolverSystem as PySolver
 _Coord = Tuple[float, float]
 _Inputs = Dict[Tuple[int, int], float]
 
@@ -303,20 +304,21 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                 self.vpoint_list[b].set_offset(a)
         solve_kernel = self.prefer.planar_solver_option
         try:
-            if solve_kernel == 0:
+            if solve_kernel == Kernel.PYSLVS:
                 result = expr_solving(
                     self.get_triangle(),
                     {n: f'P{n}' for n in range(len(self.vpoint_list))},
                     self.vpoint_list,
-                    tuple(a for b, d, a in self.inputs_widget.input_pairs() if b != d)
+                    tuple(a for b, d, a in self.inputs_widget.input_pairs() if
+                          b != d)
                 )
-            elif solve_kernel == 1:
+            elif solve_kernel == Kernel.SOLVESPACE:
                 result, _ = _slvs_solve(
                     self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
                     if not self.free_move_button.isChecked() else {}
                 )
-            elif solve_kernel == 2:
+            elif solve_kernel == Kernel.SKETCH_SOLVE:
                 result = SolverSystem(
                     self.vpoint_list,
                     {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
@@ -341,7 +343,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     c1, c2 = cast(Tuple[_Coord, _Coord], c)
                     self.vpoint_list[i].move(c1, c2)
             self.__dof = vpoint_dof(self.vpoint_list)
-            self.dof_view.setText(f"{self.__dof} ({self.inputs_widget.input_count()})")
+            self.dof_view.setText(
+                f"{self.__dof} ({self.inputs_widget.input_count()})")
             self.conflict.setVisible(False)
             self.dof_view.setVisible(True)
         self.reload_canvas()
@@ -359,7 +362,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             return
         vpoints = tuple(vpoint.copy() for vpoint in vpoints)
         solve_kernel = self.prefer.path_preview_option
-        if solve_kernel == len(kernel_list):
+        if solve_kernel == Kernel.SAME_AS_SOLVING:
             solve_kernel = self.prefer.planar_solver_option
         interval_o = self.inputs_widget.interval()
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
@@ -384,14 +387,14 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             angles = angles_o.copy()
             while dp < i_count:
                 try:
-                    if solve_kernel == 0:
+                    if solve_kernel == Kernel.PYSLVS:
                         result = expr_solving(
                             self.get_triangle(vpoints),
                             {n: f'P{n}' for n in range(len(vpoints))},
                             vpoints,
                             angles
                         )
-                    elif solve_kernel == 1:
+                    elif solve_kernel == Kernel.SOLVESPACE:
                         if self.free_move_button.isChecked():
                             inputs: _Inputs = {}
                         else:
@@ -400,7 +403,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                                 for i in range(i_count)
                             }
                         result, _ = _slvs_solve(vpoints, inputs)
-                    elif solve_kernel == 2:
+                    elif solve_kernel == Kernel.SKETCH_SOLVE:
                         result = SolverSystem(vpoints, {
                             (bases[i], drivers[i]): angles[i]
                             for i in range(i_count)
@@ -500,7 +503,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         return (
             graph,
             grounded_list,
-            [(mapping[b], mapping[d]) for b, d, _ in self.inputs_widget.input_pairs()],
+            [(mapping[b], mapping[d])
+                for b, d, _ in self.inputs_widget.input_pairs()],
             pos,
             cus,
             same,
@@ -543,7 +547,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             'same': same,
         }
 
-    def get_triangle(self, vpoints: Optional[Sequence[VPoint]] = None) -> EStack:
+    def get_triangle(
+        self,
+        vpoints: Optional[Sequence[VPoint]] = None
+    ) -> EStack:
         """Update triangle expression here.
 
         Special function for VPoints.
