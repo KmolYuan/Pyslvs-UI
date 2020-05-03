@@ -5,6 +5,8 @@ Pyslvs \[`paɪsɑlvz] is an
 **open source planar linkage mechanism simulation and mechanical synthesis system**,
 which is named from "Python" and "Solvers".
 
+Pyslvs only has kinematics simulation right now.
+
 The project is maintained on GitHub: <https://github.com/KmolYuan/Pyslvs-UI>
 
 See the Windows platform testing on AppVeyor:
@@ -29,11 +31,18 @@ Pyslvs-UI from PyPI:
 Pyslvs from PyPI:
 [![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs)
 
+```bash
+pip install pyslvs-ui
+```
+
+Pyslvs also supports [Solvespace](https://github.com/solvespace/solvespace) kernel.
+It is an extra requirement under GPLv3.
+
 Python-Solvespace from PyPI:
 [![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace)
 
 ```bash
-pip install pyslvs-ui
+pip install pyslvs-ui[slvs]
 ```
 
 !!! note

@@ -7,7 +7,6 @@ ezdxf
 numpy
 matplotlib
 cython
-python-solvespace
 openpyxl
 psutil
 lark-parser

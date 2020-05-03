@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 20.05
+
+**Features**:
+
++ None
+
+**Development**:
+
++ Make "python-solvespace" as an extra requirement.
+
 ## Version 20.04
 
 **Features**:
