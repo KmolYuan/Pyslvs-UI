@@ -4,10 +4,10 @@ The dependencies and sponsors of Pyslvs project.
 
 ## Kernel Repository
 
-Those project are related with Pyslvs-UI.
+These projects are related with Pyslvs-UI.
 
 * [Pyslvs](https://github.com/KmolYuan/pyslvs)
-* [Python-solvespace](https://github.com/KmolYuan/solvespace)
+* [Python-solvespace (GPLv3)](https://github.com/KmolYuan/solvespace)
 
 ## Python Modules
 
