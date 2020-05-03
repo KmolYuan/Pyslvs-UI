@@ -26,6 +26,7 @@ from .logging_handler import logger, XStream
 
 
 def size_format(num: float) -> str:
+    """Calculate file size."""
     if num <= 0:
         return "0 B"
     for u in ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z'):
