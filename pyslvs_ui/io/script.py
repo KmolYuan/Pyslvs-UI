@@ -97,7 +97,7 @@ def slvs_process_script(
 class _ScriptBrowser(QTextEdit):
     """Custom text browser to implement text zooming."""
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(_ScriptBrowser, self).__init__(parent)
         self.setLineWrapMode(QTextEdit.NoWrap)
         self.setFont(QFont("Consolas"))

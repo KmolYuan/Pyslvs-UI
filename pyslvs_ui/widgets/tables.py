@@ -62,7 +62,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
     row_selection_changed = Signal(list)
     delete_request = Signal()
 
-    def __init__(self, row: int, parent: QWidget) -> None:
+    def __init__(self, row: int, parent: QWidget):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setStatusTip("This table will show about the entities items in current view mode.")
@@ -191,7 +191,7 @@ class PointTableWidget(BaseTableWidget[VPoint]):
     headers = ('Number', 'Links', 'Type', 'Color', 'X', 'Y', 'Current')
     selectionLabelUpdate = Signal(list)
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(PointTableWidget, self).__init__(0, parent)
 
     def edit_point(self, row: int, arg: PointArgs) -> None:
@@ -280,7 +280,7 @@ class LinkTableWidget(BaseTableWidget[VLink]):
     """Custom table widget for link."""
     headers = ('Name', 'Color', 'Points')
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(LinkTableWidget, self).__init__(1, parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
@@ -335,7 +335,7 @@ class ExprTableWidget(BaseTableWidget):
     """
     headers = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(ExprTableWidget, self).__init__(0, parent)
         self.exprs: List[Tuple[str, ...]] = []
 
@@ -391,7 +391,7 @@ class ExprTableWidget(BaseTableWidget):
 class SelectionLabel(QLabel):
     """This QLabel can show distance in status bar."""
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         super(SelectionLabel, self).__init__(parent)
         self.update_select_point()
         self.vpoints = parent.vpoint_list
@@ -432,7 +432,7 @@ class SelectionLabel(QLabel):
 class FPSLabel(QLabel):
     """This QLabel can show FPS of main canvas in status bar."""
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(FPSLabel, self).__init__(parent)
         self.__t0 = process_time()
         self.__frame_timer = QTimer()

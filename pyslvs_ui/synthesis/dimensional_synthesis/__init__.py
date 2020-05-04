@@ -66,7 +66,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     User can run the dimensional synthesis here.
     """
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         """Reference names:
 
         + Iteration collections.

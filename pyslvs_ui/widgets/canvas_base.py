@@ -132,7 +132,7 @@ class MainCanvasBase(BaseCanvas, ABC):
     set_target_point = Signal(float, float)
 
     @abstractmethod
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         super(MainCanvasBase, self).__init__(parent)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         # The current mouse coordinates

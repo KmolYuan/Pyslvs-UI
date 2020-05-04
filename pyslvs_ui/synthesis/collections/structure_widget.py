@@ -51,7 +51,7 @@ class StructureWidget(QWidget, Ui_Form):
 
     layout_sender = Signal(Graph, dict)
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         """Get IO dialog functions from parent."""
         super(StructureWidget, self).__init__(parent)
         self.setupUi(self)

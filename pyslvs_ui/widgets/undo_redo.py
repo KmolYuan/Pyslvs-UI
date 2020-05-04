@@ -244,7 +244,7 @@ class EditPointTable(_EditFusedTable[PointArgs]):
         link_table: LinkTableWidget,
         args_list: PointArgs,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(EditPointTable, self).__init__(
             row,
             vpoint_list,
@@ -318,7 +318,7 @@ class EditLinkTable(_EditFusedTable[LinkArgs]):
         link_table: LinkTableWidget,
         args_list: LinkArgs,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(EditLinkTable, self).__init__(
             row,
             vpoint_list,
@@ -402,7 +402,7 @@ class AddPath(QUndoCommand):
         data: Dict[str, _Paths],
         path: _Paths,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(AddPath, self).__init__(parent)
         self.setText(f"Add {{Path: {name}}}")
         self.widget = widget
@@ -431,7 +431,7 @@ class DeletePath(QUndoCommand):
         widget: QListWidget,
         data: Dict[str, _Paths],
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(DeletePath, self).__init__(parent)
         self.setText(f"Delete {{Path: {widget.item(row).text()}}}")
         self.row = row
@@ -462,7 +462,7 @@ class AddStorage(QUndoCommand):
         widget: QListWidget,
         mechanism: str,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(AddStorage, self).__init__(parent)
         self.setText(f"Add {{Mechanism: {name}}}")
         self.name = name
@@ -489,7 +489,7 @@ class DeleteStorage(QUndoCommand):
         row: int,
         widget: QListWidget,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(DeleteStorage, self).__init__(parent)
         self.setText(f"Delete {{Mechanism: {widget.item(row).text()}}}")
         self.row = row
@@ -517,7 +517,7 @@ class AddStorageName(QUndoCommand):
         name: str,
         widget: QLineEdit,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(AddStorageName, self).__init__(parent)
         self.name = name
         self.widget = widget
@@ -534,7 +534,7 @@ class AddStorageName(QUndoCommand):
 class ClearStorageName(QUndoCommand):
     """Clear the storage name"""
 
-    def __init__(self, widget: QLineEdit, parent: Optional[QWidget] = None) -> None:
+    def __init__(self, widget: QLineEdit, parent: Optional[QWidget] = None):
         super(ClearStorageName, self).__init__(parent)
         self.name = widget.text() or widget.placeholderText()
         self.widget = widget
@@ -556,7 +556,7 @@ class AddInput(QUndoCommand):
         name: str,
         widget: QListWidget,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(AddInput, self).__init__(parent)
         self.setText(f"Add variable of {name}")
         self.item = QListWidgetItem(name)
@@ -580,7 +580,7 @@ class DeleteInput(QUndoCommand):
         row: int,
         widget: QListWidget,
         parent: Optional[QWidget] = None
-    ) -> None:
+    ):
         super(DeleteInput, self).__init__(parent)
         self.setText(f"Remove variable of {{Point{row}}}")
         self.item = widget.item(row)

@@ -50,7 +50,7 @@ Assortment = Sequence[int]
 class SynthesisProgressDialog(QProgressDialog):
     """Progress dialog for structure synthesis."""
 
-    def __init__(self, title: str, job_name: str, maximum: int, parent: QWidget) -> None:
+    def __init__(self, title: str, job_name: str, maximum: int, parent: QWidget):
         super(SynthesisProgressDialog, self).__init__(
             job_name,
             "Interrupt",
@@ -78,7 +78,7 @@ class StructureSynthesis(QWidget, Ui_Form):
     Calculate the combinations of mechanism family and show the atlas.
     """
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         """Reference names:
 
         + IO functions from main window.

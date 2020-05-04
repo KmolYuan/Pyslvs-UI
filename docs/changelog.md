@@ -9,6 +9,7 @@
 **Development**:
 
 + Make "python-solvespace" as an extra requirement.
++ Remove "return none" annotation from all typing.
 
 ## Version 20.04
 

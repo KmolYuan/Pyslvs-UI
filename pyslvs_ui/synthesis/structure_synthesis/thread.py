@@ -34,7 +34,7 @@ class LinkThread(BaseThread):
     result = Signal(dict)
     size_update = Signal(int)
 
-    def __init__(self, nl: int, nj: int, parent: QWidget) -> None:
+    def __init__(self, nl: int, nj: int, parent: QWidget):
         super(LinkThread, self).__init__(parent)
         self.nl = nl
         self.nj = nj
@@ -66,7 +66,7 @@ class GraphThread(BaseThread):
     count_update = Signal(QTreeWidgetItem, int)
     result = Signal(list)
 
-    def __init__(self, jobs: Sequence[QTreeWidgetItem], degenerate: int, parent: QWidget) -> None:
+    def __init__(self, jobs: Sequence[QTreeWidgetItem], degenerate: int, parent: QWidget):
         super(GraphThread, self).__init__(parent)
         self.jobs = jobs
         self.degenerate = degenerate

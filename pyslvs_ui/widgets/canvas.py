@@ -32,7 +32,7 @@ class MainCanvas(MainCanvasBase):
     + Zoom to fit function.
     """
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         super(MainCanvas, self).__init__(parent)
         # Dependent functions to set zoom bar
         self.set_zoom_bar = parent.zoom_bar.setValue

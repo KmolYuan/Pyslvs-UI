@@ -44,7 +44,7 @@ class InputsWidget(QWidget, Ui_Form):
     """
     about_to_resolve = Signal()
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
         # parent's function pointer

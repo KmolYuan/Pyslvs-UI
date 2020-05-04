@@ -32,7 +32,7 @@ class ChartDialog(QDialog):
         title: str,
         algorithm_data: Sequence[Dict[str, Any]],
         parent: QWidget
-    ) -> None:
+    ):
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")

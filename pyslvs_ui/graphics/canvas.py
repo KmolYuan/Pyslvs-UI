@@ -123,7 +123,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
     """The subclass can draw a blank canvas more easier."""
 
     @abstractmethod
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         """Set the parameters for drawing."""
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
@@ -520,7 +520,7 @@ class PreviewCanvas(BaseCanvas):
     """A preview canvas use to show structure diagram."""
     view_size: ClassVar[int] = 240
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         """Input parameters and attributes.
 
         + Origin graph

@@ -50,7 +50,7 @@ class _ConfigureCanvas(PreviewCanvas):
     edit_size = 1000
     set_joint_number = Signal(int)
 
-    def __init__(self, parent: ConfigureWidget) -> None:
+    def __init__(self, parent: ConfigureWidget):
         """Add a function use to get current point from parent."""
         super(_ConfigureCanvas, self).__init__(parent)
         self.pressed = False
@@ -119,7 +119,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self,
         add_collection: Callable[[Sequence[Tuple[int, int]]], None],
         parent: MainWindowBase
-    ) -> None:
+    ):
         """We need some function from structure collections."""
         super(ConfigureWidget, self).__init__(parent)
         self.setupUi(self)

@@ -121,7 +121,7 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
 class SlvsOutputDialog(_OutputDialog):
     """Dialog for Solvespace format."""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         """Type name: "Solvespace module"."""
         super(SlvsOutputDialog, self).__init__(
             "Solvespace",
@@ -180,7 +180,7 @@ class SlvsOutputDialog(_OutputDialog):
 class DxfOutputDialog(_OutputDialog):
     """Dialog for DXF format."""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         """Type name: "DXF module"."""
         super(DxfOutputDialog, self).__init__(
             "DXF",

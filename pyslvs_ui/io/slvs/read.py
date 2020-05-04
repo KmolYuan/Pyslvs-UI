@@ -14,7 +14,7 @@ from pyslvs import VLink
 class SlvsParser:
     """Use to read data from solvespace file format."""
 
-    def __init__(self, file_name: str) -> None:
+    def __init__(self, file_name: str):
         """Open the file when initialize."""
         self.groups: List[Dict[str, str]] = []
         self.requests: List[Dict[str, str]] = []

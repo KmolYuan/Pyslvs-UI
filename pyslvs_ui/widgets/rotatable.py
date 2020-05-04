@@ -15,7 +15,7 @@ class QRotatableView(QGraphicsView):
     """Rotate QDial widget."""
     value_changed = Signal(float)
 
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(QRotatableView, self).__init__(parent)
         scene = QGraphicsScene(self)
         self.setScene(scene)

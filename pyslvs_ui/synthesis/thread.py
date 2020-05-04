@@ -17,7 +17,7 @@ class BaseThread(QThread, metaclass=QABCMeta):
     """Base thread of Cython functions."""
 
     @abstractmethod
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget):
         super(BaseThread, self).__init__(parent)
         self.finished.connect(self.deleteLater)
         self.is_stop = False

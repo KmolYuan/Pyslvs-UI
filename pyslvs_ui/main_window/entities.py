@@ -41,7 +41,7 @@ _Coord = Tuple[float, float]
 class _ScaleDialog(QDialog):
     """Scale mechanism dialog."""
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         super(_ScaleDialog, self).__init__(parent)
         self.setWindowTitle("Scale Mechanism")
         self.main_layout = QVBoxLayout(self)
@@ -76,7 +76,7 @@ class _ScaleDialog(QDialog):
 class _LinkLengthDialog(QDialog):
     """Link length dialog."""
 
-    def __init__(self, parent: MainWindowBase) -> None:
+    def __init__(self, parent: MainWindowBase):
         super(_LinkLengthDialog, self).__init__(parent)
         self.setWindowTitle("Set Link Length")
         self.main_layout = QVBoxLayout(self)

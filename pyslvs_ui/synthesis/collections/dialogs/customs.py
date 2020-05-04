@@ -26,8 +26,8 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
 
-    def __init__(self, parent: ConfigureWidget) -> None:
-        """Add data and widget references from parent."""
+    def __init__(self, parent: ConfigureWidget):
+        """Add data and widget references from the parent."""
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
         flags = self.windowFlags()
