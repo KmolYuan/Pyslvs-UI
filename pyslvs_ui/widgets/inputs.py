@@ -13,15 +13,9 @@ import csv
 from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
 from copy import copy
 from numpy import array
-from qtpy.QtCore import Signal, Slot, QTimer, QPoint
-from qtpy.QtWidgets import (
-    QWidget,
-    QMenu,
-    QMessageBox,
-    QInputDialog,
-    QListWidgetItem,
-    QApplication,
-)
+from qtpy.QtCore import Signal, Slot, QTimer
+from qtpy.QtWidgets import (QWidget, QMessageBox, QInputDialog, QListWidgetItem,
+                            QApplication)
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint, curvature, derivative, path_signature
 from pyslvs_ui.info import logger
@@ -34,6 +28,7 @@ if TYPE_CHECKING:
 
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
+_AUTO_PATH = "Auto preview"  # Unified name
 
 
 def _variable_int(text: str) -> int:
@@ -83,16 +78,17 @@ class InputsWidget(QWidget, Ui_Form):
         self.inputs_play_shaft.timeout.connect(self.__change_index)
         # Change the point coordinates with current position
         self.update_pos.clicked.connect(self.set_coords_as_current)
-        # Inputs record context menu
-        self.pop_menu_record = QMenu(self)
-        self.record_list.customContextMenuRequested.connect(
-            self.__record_list_context_menu
-        )
-        self.__path_data: Dict[str, _Paths] = {}
+        # Record list
+        self.record_list.blockSignals(True)
+        self.record_list.addItem(_AUTO_PATH)
+        self.record_list.setCurrentRow(0)
+        self.record_list.blockSignals(False)
+        self.__path_data: Dict[str, _Paths] = {
+            _AUTO_PATH: self.main_canvas.path_preview}
 
     def clear(self) -> None:
         """Clear function to reset widget status."""
-        self.__path_data.clear()
+        self.__path_data = {_AUTO_PATH: self.__path_data[_AUTO_PATH]}
         for _ in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
         self.variable_list.clear()
@@ -390,7 +386,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
     def load_paths(self, paths: Dict[str, _Paths]) -> None:
-        """Add multiple path."""
+        """Add multiple paths."""
         for name, path in paths.items():
             self.add_path(name, path)
 
@@ -439,58 +435,39 @@ class InputsWidget(QWidget, Ui_Form):
                 writer.writerow(())
         logger.info(f"Output path data: {file_name}")
 
-    @Slot(QPoint)
-    def __record_list_context_menu(self, p: QPoint) -> None:
-        """Show the context menu.
+    def __current_path_name(self) -> str:
+        """Return the current path name."""
+        return self.record_list.currentItem().text().split(':', maxsplit=1)[0]
 
-        Show path [0], [1], ...
-        Or copy path coordinates.
-        """
-        row = self.record_list.currentRow()
-        if not row > -1:
-            return
-        action = self.pop_menu_record.addAction("Show all")
-        action.index = -1
-        copy_action = self.pop_menu_record.addAction("Copy as new")
-        name = self.record_list.item(row).text().split(':', maxsplit=1)[0]
-        if name in self.__path_data:
-            data = self.__path_data[name]
-        else:
-            # Auto preview path
-            data = self.main_canvas.path_preview
-        targets = 0
-        for text in ("Show", "Copy data from"):
-            self.pop_menu_record.addSeparator()
-            for i, path in enumerate(data):
-                if len(set(path)) > 1:
-                    action = self.pop_menu_record.addAction(f"{text} Point{i}")
-                    action.index = i
-                    targets += 1
-        copy_action.setEnabled(targets > 0)
-        action = self.pop_menu_record.exec_(self.record_list.mapToGlobal(p))
-        if action is None:
-            self.pop_menu_record.clear()
-            return
-        text = action.text()
-        if action == copy_action:
-            # Copy path data
-            num = 0
+    @Slot(name='on_copy_path_clicked')
+    def __copy_path(self):
+        """Copy path from record list."""
+        name = self.__current_path_name()
+        num = 0
+        name_copy = f"{name}_{num}"
+        while name_copy in self.__path_data:
             name_copy = f"{name}_{num}"
-            while name_copy in self.__path_data:
-                name_copy = f"{name}_{num}"
-                num += 1
-            self.add_path(name_copy, copy(data))
-        elif text.startswith("Copy data from"):
-            # Copy data to clipboard (csv)
-            QApplication.clipboard().setText('\n'.join(
-                f"[{x}, {y}]," for x, y in data[action.index]
-            ))
-        elif text.startswith("Show"):
-            # Switch points enabled status
-            if action.index == -1:
-                self.record_show.setChecked(True)
-            self.main_canvas.set_path_show(action.index)
-        self.pop_menu_record.clear()
+            num += 1
+        self.add_path(name_copy, copy(self.__path_data[name]))
+
+    @Slot(name='on_cp_data_button_clicked')
+    def __copy_path_data(self) -> None:
+        """Copy current path data to clipboard."""
+        data = self.__path_data[self.__current_path_name()]
+        QApplication.clipboard().setText('\n'.join(
+            f"[{x}, {y}]," for x, y in data[self.plot_joint.currentIndex()]
+        ))
+
+    @Slot(name='on_show_button_clicked')
+    def __show_path(self) -> None:
+        """Show specified path."""
+        self.main_canvas.set_path_show(self.plot_joint.currentIndex())
+
+    @Slot(name='on_show_all_button_clicked')
+    def __show_all_path(self) -> None:
+        """Show all paths."""
+        self.record_show.setChecked(True)
+        self.main_canvas.set_path_show(-1)
 
     @Slot(bool, name='on_record_show_toggled')
     def __set_path_show(self, toggled: bool) -> None:
@@ -534,12 +511,7 @@ class InputsWidget(QWidget, Ui_Form):
     def __plot(self) -> None:
         """Plot the data. Show the X and Y axises as two line."""
         joint = self.plot_joint.currentIndex()
-        name = self.record_list.currentItem().text().split(':', maxsplit=1)[0]
-        if name in self.__path_data:
-            data = self.__path_data[name]
-        else:
-            # Auto preview path
-            data = self.main_canvas.path_preview
+        data = self.__path_data[self.__current_path_name()]
         if not data:
             return
         pos = array(data[joint], dtype=float)

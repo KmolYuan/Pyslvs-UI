@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Remove context menu of record list. The functions replaced with buttons.
 
 **Development**:
 

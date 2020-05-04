@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>412</width>
-    <height>679</height>
+    <width>309</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -398,6 +398,17 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="show_all_button">
+           <property name="text">
+            <string>Show all</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../icons.qrc">
+             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -445,20 +456,12 @@
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <item>
           <widget class="QListWidget" name="record_list">
-           <property name="contextMenuPolicy">
-            <enum>Qt::CustomContextMenu</enum>
-           </property>
            <property name="statusTip">
             <string>All recorded path data of this project.</string>
            </property>
            <property name="currentRow">
-            <number>0</number>
+            <number>-1</number>
            </property>
-           <item>
-            <property name="text">
-             <string>Auto preview</string>
-            </property>
-           </item>
           </widget>
          </item>
          <item>
@@ -471,6 +474,17 @@
              <property name="icon">
               <iconset resource="../icons.qrc">
                <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="copy_path">
+             <property name="statusTip">
+              <string>Duplicate the current paths with a new name.</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../icons.qrc">
+               <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
              </property>
             </widget>
            </item>
@@ -517,35 +531,66 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QComboBox" name="plot_joint"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="plot_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="statusTip">
+            <string>Plot the data of this joint.</string>
+           </property>
+           <property name="text">
+            <string>Plot</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../icons.qrc">
+             <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="show_button">
+           <property name="statusTip">
+            <string>Show this joint only.</string>
+           </property>
+           <property name="text">
+            <string>Show only</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../icons.qrc">
+             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cp_data_button">
+         <property name="statusTip">
+          <string>Copy the data of this joint to clipboard.</string>
+         </property>
+         <property name="text">
+          <string>Copy data</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../icons.qrc">
+           <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="plot_groupbox">
          <property name="title">
           <string>Plot</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QComboBox" name="plot_joint"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="plot_button">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Plot</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../icons.qrc">
-                <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">
             <item row="3" column="0">
