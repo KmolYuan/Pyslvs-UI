@@ -20,4 +20,4 @@ jobs:
         working-directory: pyslvs
         run: python setup.py install
       - name: Lint with mypy
-        run: mypy -m launch_pyslvs || true
+        run: mypy -m launch_pyslvs
