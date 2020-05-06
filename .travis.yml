@@ -44,16 +44,17 @@ jobs:
 
     - &win
       os: windows
-      language: generic
+      # 'generic' will cause infinity loop
+      language: bash
       env:
         - PYTHON=3.7.0
-        - PYTHON_DIR=C:\Python37
+        - PYTHON_DIR=/C/Python37
         - COMPILER=mingw32
       before_install:
         - git submodule update --init --recursive
         # Install Msys2
         - |-
-          case $TRAVIS_OS_NAME in
+          case ${TRAVIS_OS_NAME} in
             windows)
               [[ ! -f C:/tools/msys64/msys2_shell.cmd ]] && rm -rf C:/tools/msys64
               choco uninstall -y mingw
@@ -61,19 +62,18 @@ jobs:
               export msys2='cmd //C RefreshEnv.cmd '
               export msys2+='& set MSYS=winsymlinks:nativestrict '
               export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
-              export mingw64="$msys2 -mingw64 -full-path -here -c "\"\$@"\" --"
+              export mingw64="${msys2} -mingw64 -full-path -here -c "\"\$@"\" --"
               export msys2+=" -msys2 -c "\"\$@"\" --"
-              $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
-              ## Install more MSYS2 packages from https://packages.msys2.org/base here
-              taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
-              export PATH=/C/tools/msys64/mingw64/bin:$PATH
-              export MAKE=mingw32-make  # so that Autotools can find it
+              ${msys2} pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
+              taskkill //IM gpg-agent.exe //F
+              export PATH=/C/tools/msys64/mingw64/bin:${PATH}
+              export MAKE=mingw32-make
               ;;
           esac
         # Install Python
-        - choco install -y python --version %PYTHON%
-        - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
-        - pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
+        - choco install -y python --version ${PYTHON}
+        - export PATH=${PYTHON_DIR}:${PYTHON_DIR}/Scripts:${Path}
+        - cmd.exe pyslvs/platform/set_pycompiler.bat ${PYTHON_DIR} ${COMPILER}
         - python -m pip install pip setuptools -U
         - python --version
         - python -m pip --version
@@ -87,20 +87,31 @@ jobs:
         - |-
           case $TRAVIS_OS_NAME in
             windows)
-              # https://unix.stackexchange.com/a/137322/107554
               $msys2 pacman --sync --clean --noconfirm
               ;;
           esac
       cache:
         directories:
-          - $HOME/AppData/Local/Temp/chocolatey
+          - ${HOME}/AppData/Local/Temp/chocolatey
           - /C/tools/msys64
 
     - <<: *win
       env:
         - PYTHON=3.8.0
-        - PYTHON_DIR=C:\Python38
+        - PYTHON_DIR=/C/Python38
         - COMPILER=mingw32
+
+    - <<: *win
+      env:
+        - PYTHON=3.7.0
+        - PYTHON_DIR=/C/Python37
+        - COMPILER=msvc
+
+    - <<: *win
+      env:
+        - PYTHON=3.8.0
+        - PYTHON_DIR=/C/Python38
+        - COMPILER=msvc
 
     - &osx
       os: osx
@@ -113,7 +124,7 @@ jobs:
         # Install pyenv
         - brew upgrade pyenv || true
         - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink
-        - export PATH="/Users/travis/.pyenv/shims:${PATH}"
+        - export PATH=/Users/travis/.pyenv/shims:${PATH}
         # Install Python
         - env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON}
         - pyenv global ${PYTHON}
