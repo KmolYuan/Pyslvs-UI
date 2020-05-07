@@ -47,45 +47,27 @@ jobs:
       # 'generic' will cause infinity loop
       language: shell
       env:
-        - PYTHON=3.7.0
+        - PYTHON=3.7.7
         - PY=37
         - COMPILER=mingw32
       before_install:
-        # Install Msys2
-        - "[[ ! -f C:/tools/msys64/msys2_shell.cmd ]] && rm -rf C:/tools/msys64"
-        - choco uninstall -y mingw
-        - choco upgrade --no-progress -y msys2
-        - export msys2='cmd //C RefreshEnv.cmd '
-        - export msys2+='& set MSYS=winsymlinks:nativestrict '
-        - export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
-        - export mingw64="${msys2} -mingw64 -full-path -here -c "\"\$@"\" --"
-        - export msys2+=" -msys2 -c "\"\$@"\" --"
-        - ${msys2} pacman -S --noconfirm --needed mingw-w64-x86_64-toolchain
-        - ${msys2} pacman -S --noconfirm --needed patch
-        - taskkill //IM gpg-agent.exe //F
-        - export PATH=/c/tools/msys64/mingw64/bin:/c/tools/msys64/usr/bin:${PATH}
-        - export MAKE=mingw32-make
         # Install Python
         - choco install -y python --version ${PYTHON}
-        - export PATH=/c/Python${PY}:/c/Python${PY}/Scripts:${Path}
-        - echo $PATH
-        - start "" //w pyslvs\\platform\\set_pycompiler.bat "C:\\Python${PY}" ${COMPILER}
+        - export PYDIR=/c/Python${PY}
+        - export PATH=${PYDIR}:${PYDIR}/Scripts:${PATH}
+        - sh ./pyslvs/platform/set_pycompiler.sh ${PYDIR} ${COMPILER}
         - python -m pip install pip setuptools -U
         - python --version
         - python -m pip --version
         - python -m pip install -r requirements.txt -U
-        - gcc --version
-        - mingw32-make --version
+        # Select Msys2
+        - export PATH=/c/tools/msys64/mingw64/bin:/c/tools/msys64/usr/bin:${PATH}
+        - export MAKE=mingw32-make
       install:
         - mingw32-make test-pack
         - python setup.py install
       before_cache:
-        - |-
-          case $TRAVIS_OS_NAME in
-            windows)
-              $msys2 pacman --sync --clean --noconfirm
-              ;;
-          esac
+        - ${msys2} pacman --sync --clean --noconfirm
       cache:
         directories:
           - ${HOME}/AppData/Local/Temp/chocolatey
