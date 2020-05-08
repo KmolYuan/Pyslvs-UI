@@ -61,8 +61,7 @@ jobs:
         - python -m pip --version
         - python -m pip install -r requirements.txt -U
         # Select Msys2
-        - export PATH=/c/tools/msys64/mingw64/bin:/c/tools/msys64/usr/bin:${PATH}
-        - export MAKE=mingw32-make
+        - export PATH=/c/tools/msys64/mingw64/bin:${PATH}
       install:
         - mingw32-make test-pack
         - python setup.py install
