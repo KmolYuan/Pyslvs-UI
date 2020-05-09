@@ -14,7 +14,7 @@ cd "${REPODIR}" || exit
 if ! [ -x "$(command -v virtualenv)" ]; then
   pip install virtualenv || exit
 fi
-virtualenv ENV --python=python --always-copy --verbose
+virtualenv ENV --always-copy --verbose
 source ENV/bin/activate
 
 # Show python and pip versions

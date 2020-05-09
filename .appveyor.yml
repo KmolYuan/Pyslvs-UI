@@ -5,38 +5,48 @@ platform: x64
 clone_depth: 1
 environment:
   MSYS_DIR: C:\msys64
+  APPVEYOR_CONSOLE_DISABLE_PTY: true
   matrix:
-    - PYTHON_DIR: C:\Python37-x64
+    - PY: 37
+      COMPILER: mingw32
+    - PY: 38
       COMPILER: mingw32
       DEPLOY: "true"
-    - PYTHON_DIR: C:\Python38-x64
-      COMPILER: mingw32
-    - PYTHON_DIR: C:\Python38-x64
+    - PY: 37
       COMPILER: msvc
+    - PY: 38
+      COMPILER: msvc
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+      PY: 3.7.5
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+      PY: 3.8.0
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      PY: 3.7.5
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      PY: 3.8.0
 
 install:
   # Clone submodules
   - git submodule update --init --recursive
   # Install Python-dev
-  - IF DEFINED PYTHON_DEV choco install -y python --version %PYTHON_DEV%
+  - cmd: IF DEFINED PYTHON_DEV choco install -y python --version %PYTHON_DEV%
   # Environment variables
-  - set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
-  - set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
+  - cmd: set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
+  - cmd: set PYTHON_DIR=C:\Python%PY%-x64
+  - cmd: set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
+  - sh: source ~/venv${PY}/bin/activate
   # Show Python
   - python --version
-  - pip --version
-  # Upgrade setuptools
-  - pip install setuptools -U
+  - python -m pip --version
   # Set Python compiler to MinGW
-  - pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
+  - cmd: pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
   # Install modules
-  - pip install -r requirements.txt
-  # Show tool kits
-  - gcc --version
-  - mingw32-make --version
+  - python -m pip install pip setuptools -U
+  - python -m pip install -r requirements.txt
 
 build_script:
-  - mingw32-make test-pack
+  - cmd: mingw32-make test-pack
+  - sh: make test-pack
   - python setup.py install
 
 test_script:
@@ -44,16 +54,16 @@ test_script:
 
 after_build:
   # PyPI deployment
-  - IF "%APPVEYOR_REPO_TAG%"=="true"
-    IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
-    pip install twine &&
-    python setup.py bdist_wheel &&
-    twine upload dist\*.whl --skip-existing
-    )
+  - cmd: IF "%APPVEYOR_REPO_TAG%"=="true"
+         IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
+         pip install twine &&
+         python setup.py bdist_wheel &&
+         twine upload dist\*.whl --skip-existing
+         )
 
 artifacts:
-  - path: dist\*.zip
-    name: pyslvs
+  - name: exe
+    path: dist\*.zip
 
 deploy:
   - provider: GitHub
@@ -61,7 +71,7 @@ deploy:
     tag: $(APPVEYOR_REPO_TAG_NAME)
     description: ""
     auth_token: $(APPVEYOR_TOKEN)
-    artifacts: pyslvs
+    artifacts: exe
     force_update: true
     on:
       appveyor_repo_tag: true
