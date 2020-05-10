@@ -237,10 +237,8 @@ class MainCanvas(MainCanvasBase):
 
     def get_record_path(self) -> Tuple[Tuple[_Coord, ...], ...]:
         """Return paths."""
-        paths = tuple(
-            cast(Tuple[_Coord, ...], tuple(path) if len(set(path)) > 1 else ())
-            for path in self.path_record
-        )
+        paths = tuple(cast(Tuple[_Coord, ...], tuple(path))
+                      for path in self.path_record)
         self.path_record.clear()
         return paths
 

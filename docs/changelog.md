@@ -5,6 +5,7 @@
 **Features**:
 
 + Remove context menu of record list. The functions replaced with buttons.
++ Support incomplete path works with derivative function.
 
 **Development**:
 
