@@ -27,19 +27,21 @@ cd "${APPDIR}" || exit
 # Create a virtual environment inside the AppDir
 ########################################################################
 
+python --version
+python -m pip --version
+
 # Run virtualenv
 if ! [ -x "$(command -v virtualenv)" ]; then
-  pip install virtualenv || exit
+  python -m pip install virtualenv || exit
 fi
-virtualenv usr --python=python3 --always-copy --verbose
+python -m virtualenv usr --python=python3 --always-copy --verbose
 source usr/bin/activate
 
-# Show python and pip versions
 python --version
-pip --version
+python -m pip --version
 
 # Install python dependencies
-pip install -r "${REPODIR}/requirements.txt" || exit
+python -m pip install -r "${REPODIR}/requirements.txt" || exit
 cd "${REPODIR}/pyslvs" || exit
 python setup.py install && python tests
 cd "${APPDIR}" || exit
