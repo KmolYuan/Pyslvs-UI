@@ -10,6 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from math import isnan
 from itertools import chain
 from typing import Tuple, List, Dict, Sequence, Any
+from numpy import arange
 from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
 from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
@@ -352,10 +353,11 @@ class PreviewDialog(QDialog, Ui_Dialog):
         ax = dlg.ax()
         c1 = curvature(ans[p])
         c2 = curvature(target[p])
-        ax[0].plot(cross_correlation(c1, c2))
+        cc = cross_correlation(c1, c2)
+        ax[0].plot(cc)
         ax[0].set_title(f"Cross Correlation of Point{p}")
         ax[1].plot(c1, label=f"Point{p}")
-        ax[1].plot(c2, label=f"Target Path")
+        ax[1].plot(arange(len(c2)) + cc.argmax(), c2, label=f"Target Path")
         ax[1].set_title("Curvature")
         ax[1].legend()
         dlg.show()
