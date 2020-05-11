@@ -64,7 +64,9 @@ after_build:
 
 artifacts:
   - name: exe
-    path: dist\*.zip
+    path: dist/*.zip
+  - name: appimage
+    path: out/*.AppImage
 
 deploy:
   - provider: GitHub
@@ -72,7 +74,6 @@ deploy:
     tag: $(APPVEYOR_REPO_TAG_NAME)
     description: ""
     auth_token: $(APPVEYOR_TOKEN)
-    artifacts: exe
     force_update: true
     on:
       appveyor_repo_tag: true
