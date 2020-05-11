@@ -10,12 +10,12 @@ __email__ = "pyslvs@gmail.com"
 from math import isnan
 from itertools import chain
 from typing import Tuple, List, Dict, Sequence, Any
-from numpy import arange
 from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
 from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
-                    norm_path, efd_fitting, curvature, cross_correlation)
+                    norm_path, efd_fitting, curvature, cross_correlation,
+                    path_signature)
 from pyslvs_ui.graphics import (BaseCanvas, color_qt, LINK_COLOR,
                                 RangeDetector, DataChartDialog)
 from .preview_ui import Ui_Dialog
@@ -349,17 +349,25 @@ class PreviewDialog(QDialog, Ui_Dialog):
         p = int(self.plot_joint.currentText().replace('P', ''))
         target = self.canvas2.get_target()
         ans = self.canvas2.get_path()
-        dlg = DataChartDialog(self, "Cross Correlation", 2)
+        dlg = DataChartDialog(self, "Cross Correlation", 3)
         ax = dlg.ax()
         c1 = curvature(ans[p])
         c2 = curvature(target[p])
-        cc = cross_correlation(c1, c2)
-        ax[0].plot(cc)
+        ps1 = path_signature(c1)
+        ps2 = path_signature(c2)
+        cc = cross_correlation(ps1, ps2, 0.1)
+        ps2[:, 0] += cc.argmax() * 0.1
         ax[0].set_title(f"Cross Correlation of Point{p}")
-        ax[1].plot(c1, label=f"Point{p}")
-        ax[1].plot(arange(len(c2)) + cc.argmax(), c2, label=f"Target Path")
+        ax[0].plot(cc)
         ax[1].set_title("Curvature")
+        ax[1].plot(c1, label=f"Point{p}")
+        ax[1].plot(c2, label=f"Target Path")
         ax[1].legend()
+        ax[2].set_title("Path Signature")
+        ax[2].plot(ps1[:, 0], ps1[:, 1], label=f"Point{p}")
+        ax[2].plot(ps2[:, 0], ps2[:, 1], label=f"Target Path")
+        ax[2].legend()
+        dlg.set_margin(0.2)
         dlg.show()
         dlg.exec_()
         dlg.deleteLater()

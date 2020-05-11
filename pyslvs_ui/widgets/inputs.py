@@ -546,6 +546,7 @@ class InputsWidget(QWidget, Ui_Form):
         ax = dlg.ax()
         for p, (title, xy) in enumerate(plot.items()):
             ax_i = ax[p]
+            ax_i.set_title(title)
             if title == "Path Signature":
                 ax_i.plot(xy[:, 0], xy[:, 1])
                 ax_i.set_ylabel(r"$\kappa$")
@@ -556,7 +557,6 @@ class InputsWidget(QWidget, Ui_Form):
                 ax_i.legend()
             else:
                 ax_i.plot(xy)
-            ax_i.set_title(title)
         dlg.set_margin(0.2)
         dlg.show()
         dlg.exec_()
