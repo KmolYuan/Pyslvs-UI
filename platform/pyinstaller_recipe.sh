@@ -11,18 +11,16 @@ REPODIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")/..")
 cd "${REPODIR}" || exit
 
 # Run virtualenv
-if ! [ -x "$(command -v virtualenv)" ]; then
-  pip install virtualenv || exit
-fi
-virtualenv ENV --always-copy --verbose
+pip install virtualenv || exit
+python -m virtualenv ENV --always-copy --verbose
 source ENV/bin/activate
 
 # Show python and pip versions
 python --version
-pip --version
+python -m pip --version
 
 # Install python dependencies
-pip install -r requirements.txt || exit
+python -m pip install -r requirements.txt || exit
 cd "${REPODIR}/pyslvs" || exit
 python setup.py install && python tests
 cd "${REPODIR}" || exit
@@ -44,8 +42,8 @@ else
 fi
 
 # Run PyInstaller
-pip install https://github.com/pyinstaller/pyinstaller/tarball/develop || exit
-pyinstaller ${FLAG} -F launch_pyslvs.py -i pyslvs_ui/icons/main.${ICON} -n ${APP}
+python -m pip install https://github.com/pyinstaller/pyinstaller/tarball/develop || exit
+python -m PyInstaller ${FLAG} -F launch_pyslvs.py -i pyslvs_ui/icons/main.${ICON} -n ${APP}
 cd "${REPODIR}/dist" || exit
 if [[ "$(uname)" == "Darwin" ]]; then
   mv ${APP} "${EXENAME}.run"

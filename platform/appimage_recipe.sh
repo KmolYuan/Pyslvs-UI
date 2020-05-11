@@ -31,10 +31,8 @@ python --version
 python -m pip --version
 
 # Run virtualenv
-if ! [ -x "$(command -v virtualenv)" ]; then
-  python -m pip install virtualenv || exit
-fi
-python -m virtualenv usr --python=python3 --always-copy --verbose
+python -m pip install virtualenv || exit
+python -m virtualenv usr --always-copy --verbose
 source usr/bin/activate
 
 python --version

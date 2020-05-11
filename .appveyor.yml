@@ -20,9 +20,9 @@ environment:
       PY: 3.7
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       PY: 3.8
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
       PY: 3.7.5
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
       PY: 3.8.0
 
 install:
@@ -40,6 +40,7 @@ install:
   - python -m pip --version
   # Set Python compiler to MinGW
   - cmd: pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
+  - sh: '[[ "$(uname)" == "Darwin" ]] && ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true'
   # Install modules
   - python -m pip install pip setuptools -U
   - python -m pip install -r requirements.txt
