@@ -77,7 +77,7 @@ deactivate
 # "Install" app in the AppDir
 ########################################################################
 
-mv "${REPODIR}/launch_pyslvs.py" "${APPDIR}/usr/bin/${LOWERAPP}"
+cp "${REPODIR}/launch_pyslvs.py" "${APPDIR}/usr/bin/${LOWERAPP}"
 sed -i "1i\#!/usr/bin/env python3" "${APPDIR}/usr/bin/${LOWERAPP}"
 chmod +x "${APPDIR}/usr/bin/${LOWERAPP}"
 
