@@ -7,20 +7,21 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from math import isnan, hypot
+from math import isnan
 from itertools import chain
-from typing import Tuple, List, Dict, Sequence, Callable, Optional, Any
+from typing import Tuple, List, Dict, Sequence, Any
 from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
 from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
-                    norm_path, efd_fitting)
-from pyslvs_ui.graphics import BaseCanvas, color_qt, LINK_COLOR, RangeDetector
+                    norm_path, efd_fitting, curvature, cross_correlation)
+from pyslvs_ui.graphics import (BaseCanvas, color_qt, LINK_COLOR,
+                                RangeDetector, DataChartDialog)
 from .preview_ui import Ui_Dialog
 
 _Coord = Tuple[float, float]
 _Range = Tuple[float, float, float]
-_TargetPath = Dict[int, List[_Coord]]
+_TargetPath = Dict[int, Sequence[_Coord]]
 
 
 def polygon_area(polygon: QPolygonF) -> float:
@@ -39,7 +40,6 @@ class _DynamicCanvas(BaseCanvas):
     """Custom canvas for preview algorithm result."""
 
     update_pos = Signal(float, float)
-    error_areas = Signal(int, float)
 
     def __init__(
         self,
@@ -47,7 +47,6 @@ class _DynamicCanvas(BaseCanvas):
         path: Sequence[Sequence[_Coord]],
         vpoints: List[VPoint] = None,
         vlinks: List[VLink] = None,
-        add_error: Optional[Callable[[int, float], None]] = None,
         parent: QWidget = None
     ):
         """Input link and path data."""
@@ -77,22 +76,6 @@ class _DynamicCanvas(BaseCanvas):
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.path.path) - 1
         self.pos: List[_Coord] = []
-        # Error areas
-        if add_error is not None:
-            for i, npath in enumerate(self.path.path):
-                if i not in self.target_path:
-                    continue
-                tpath = self.target_path[i]
-                head = tpath[0]
-                end = tpath[-1]
-                if hypot(head[0] - end[0], head[1] - end[1]) < 1e-6:
-                    tpath = tpath[:-1]
-                a = QPolygonF(QPointF(x, y) for x, y in npath)
-                b = QPolygonF(QPointF(x, y) for x, y in tpath)
-                add_error(
-                    i,
-                    polygon_area(a.united(b)) - polygon_area(a.intersected(b))
-                )
         # Error
         self.error = False
         self.__no_error = 0
@@ -268,6 +251,14 @@ class _DynamicCanvas(BaseCanvas):
             self.__index = 0
         self.update()
 
+    def get_target(self) -> _TargetPath:
+        """Return target paths."""
+        return self.target_path
+
+    def get_path(self) -> _TargetPath:
+        """Return ans path."""
+        return {i: self.path.path[i] for i in self.target_path}
+
 
 class PreviewDialog(QDialog, Ui_Dialog):
     """Preview dialog has some information.
@@ -295,14 +286,14 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.splitter.setSizes([100, 100, 100])
         vpoints = parse_vpoints(mechanism['expression'])
         vlinks = get_vlinks(vpoints)
-        canvas1 = _DynamicCanvas(mechanism, path, vpoints, vlinks, parent=self)
-        canvas2 = _DynamicCanvas(mechanism, path,
-                                 add_error=self.__add_error_area, parent=self)
-        for c in (canvas1, canvas2):
+        self.canvas1 = _DynamicCanvas(mechanism, path, vpoints, vlinks, self)
+        self.canvas2 = _DynamicCanvas(mechanism, path, parent=self)
+        for c in (self.canvas1, self.canvas2):
             c.update_pos.connect(self.__set_mouse_pos)
             c.set_monochrome_mode(monochrome)
-        self.left_layout.insertWidget(0, canvas1)
-        self.path_cmp_layout.addWidget(canvas2)
+        self.left_layout.insertWidget(0, self.canvas1)
+        self.path_cmp_layout.addWidget(self.canvas2)
+        self.plot_joint.addItems(f"P{i}" for i in self.canvas2.get_target())
         labels = []
         for tag, data in chain(
             [(tag, mechanism.get(tag, 'N/A')) for tag in (
@@ -318,7 +309,6 @@ class PreviewDialog(QDialog, Ui_Dialog):
                 label = f"{data}"
             labels.append(f"{tag}: {label}")
         self.basic_label.setText("\n".join(labels))
-
         # Algorithm information
         inter = mechanism.get('interrupted', 'N/A')
         if inter == 'False':
@@ -352,6 +342,22 @@ class PreviewDialog(QDialog, Ui_Dialog):
         """Set mouse position."""
         self.mouse_pos.setText(f"({x:.04f}, {y:.04f})")
 
-    def __add_error_area(self, p: int, area: float) -> None:
-        """Add error area of a target path."""
-        self.path_cmp_areas.addItem(f"P{p}: {area:.06f}")
+    @Slot(name='on_cc_plot_button_clicked')
+    def __cc_plot(self):
+        """Plot cross correlation."""
+        p = int(self.plot_joint.currentText().replace('P', ''))
+        target = self.canvas2.get_target()
+        ans = self.canvas2.get_path()
+        dlg = DataChartDialog(self, "Cross Correlation", 2)
+        ax = dlg.ax()
+        c1 = curvature(ans[p])
+        c2 = curvature(target[p])
+        ax[0].plot(cross_correlation(c1, c2))
+        ax[0].set_title(f"Cross Correlation of Point{p}")
+        ax[1].plot(c1, label=f"Point{p}")
+        ax[1].plot(c2, label=f"Target Path")
+        ax[1].set_title("Curvature")
+        ax[1].legend()
+        dlg.show()
+        dlg.exec_()
+        dlg.deleteLater()

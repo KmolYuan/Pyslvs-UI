@@ -278,14 +278,45 @@
          <widget class="QWidget" name="verticalLayoutWidget_2">
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="plot_joint_label">
              <property name="text">
-              <string>Error area:</string>
+              <string>Joint:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QListWidget" name="path_cmp_areas"/>
+            <widget class="QComboBox" name="plot_joint"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="cc_plot_label">
+             <property name="text">
+              <string>Cross correlation:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="cc_plot_button">
+             <property name="text">
+              <string>Plot</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../icons.qrc">
+               <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -324,6 +355,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -544,9 +544,8 @@ class InputsWidget(QWidget, Ui_Form):
         dlg = DataChartDialog(self, "Analysis", plot_count)
         dlg.setWindowIcon(QIcon(QPixmap(":/icons/formula.png")))
         ax = dlg.ax()
-        plot_count = 0
-        for title, xy in plot.items():
-            ax_i = ax[plot_count]
+        for p, (title, xy) in enumerate(plot.items()):
+            ax_i = ax[p]
             if title == "Path Signature":
                 ax_i.plot(xy[:, 0], xy[:, 1])
                 ax_i.set_ylabel(r"$\kappa$")
@@ -558,7 +557,6 @@ class InputsWidget(QWidget, Ui_Form):
             else:
                 ax_i.plot(xy)
             ax_i.set_title(title)
-            plot_count += 1
         dlg.set_margin(0.2)
         dlg.show()
         dlg.exec_()
