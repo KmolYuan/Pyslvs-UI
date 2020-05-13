@@ -487,13 +487,17 @@ Python wrapper of normalization function.
 
 Calculate the signed curvature and return as an array.
 
+$$
+\kappa(t) = \frac{x'y'' - x''y'}{(x'^2 + y'^2)^\frac{3}{2}}
+$$
+
 ### derivative()
 
 | path | return |
 |:----:|:------:|
 | ndarray | ndarray |
 
-Differential function.
+Differential function. Return $p'$.
 
 ### path_signature()
 
@@ -502,6 +506,30 @@ Differential function.
 | ndarray | ndarray |
 
 Require a curvature, return path signature.
+It's composed by curvature $\kappa$ and a $K$ value.
+
+$$
+K = \int^t_0 |\kappa(t)| dt
+$$
+
+### cross_correlation()
+
+| p1 | p2 | t | return |
+|:---:|:---:|:---:|:------:|
+| ndarray | ndarray | float | ndarray |
+
+Compare two path signature and return as an 1d array.
+
+$$
+\begin{aligned}
+C_n(j, W, P) &= \left|\sum_i^{l_P} \frac{(W_{i + j}
+- \overline{W}_{j\rightarrow j + l_P})(P_i-\overline{P})}{
+\sqrt{\sum_i^{l_P}(W_{i + j} - \overline{W}_{j\rightarrow j + l_P})^2
+\sum_i^{l_P}(P_i - \overline{P})^2}}\right|
+\\
+S &= \arg\max\{C_n(j)\} t
+\end{aligned}
+$$
 
 ### Planar
 
