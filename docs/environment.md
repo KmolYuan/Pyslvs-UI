@@ -48,45 +48,7 @@ Python 3: [Official Python] for Windows 64 bit.
 
 Makefile tool: MinGW or Msys 2.
 
-#### Msys 2
-
-Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/projects/mingw-w64/),
-they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
-
-```batch
-choco install msys2
-```
-
-When you are using Msys2, following command might be helpful:
-
-```bash
-# Install tools for Msys.
-# Open the "mingw64.exe" shell.
-
-# Install MinGW
-pacman -S mingw-w64-x86_64-gcc
-# Install Make
-pacman -S mingw-w64-x86_64-make
-# The "make" command is named as "mingw32-make". You can rename it by:
-mv /mingw64/bin/mingw32-make /mingw64/bin/make
-
-# Install patch
-pacman -S patch
-```
-
-And the programs should be added in to environment variable (with administrator).
-
-```batch
-setx Path "C:\tools\msys64\usr\bin;%Path%" /M
-```
-
-Setup Python compiler as GCC / G++ of MinGW64:
-
-```batch
-platform\set_pycompiler C:\Python37 mingw32
-```
-
-And it will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
+It will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
 
 ```makefile
 ifeq ($(OS),Windows_NT)
@@ -95,15 +57,38 @@ ifeq ($(OS),Windows_NT)
 endif
 ```
 
-#### Visual C++
+=== "Visual C++"
+    Install from [official website](https://visualstudio.microsoft.com/downloads).
 
-Install from [official website](https://visualstudio.microsoft.com/downloads)
+    ```batch
+    REM Apply patches
+    platform\set_pycompiler C:\Python37 msvc
+    ```
 
-And setup Python compiler:
+=== "Msys"
+    Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/projects/mingw-w64/),
+    they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
 
-```batch
-platform\set_pycompiler C:\Python37 msvc
-```
+    ```bash
+    # Install tools for Msys.
+    # Open the "mingw64.exe" shell.
+    choco install msys2
+
+    # Install MinGW
+    pacman -S mingw-w64-x86_64-gcc
+    # Install Make
+    pacman -S mingw-w64-x86_64-make
+    # The "make" command is named as "mingw32-make". You can rename it by:
+    mv /mingw64/bin/mingw32-make /mingw64/bin/make
+
+    # Install patch
+    pacman -S patch
+
+    # And the programs should be added in to environment variable (with administrator).
+    setx Path "C:\tools\msys64\usr\bin;%Path%" /M
+
+    platform\set_pycompiler C:\Python37 mingw32
+    ```
 
 ### Qt Designer (Development)
 
@@ -114,21 +99,15 @@ they are not the requirement if you just want to run Pyslvs.
 
 Download and install [Qt5] to get the tools.
 
-**Ubuntu**:
+=== "Ubuntu"
+    ```bash
+    sudo apt install qttools5-dev-tools
+    ```
 
-Ubuntu users can obtain them via APT:
-
-```bash
-sudo apt install qttools5-dev-tools
-```
-
-**Windows**:
-
-Windows user can get Qt tools by pip (maybe not newest version), without to install Qt package.
-
-```bash
-pip install pyqt5-tools
-```
+=== "Windows"
+    ```bash
+    pip install pyqt5-tools
+    ```
 
 ### Fcitx QIMPanel Plugins on Linux
 

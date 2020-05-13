@@ -16,6 +16,9 @@ theme:
 markdown_extensions:
   - pymdownx.arithmatex
   - pymdownx.smartsymbols
+  - pymdownx.tabbed
+  - pymdownx.superfences:
+      preserve_tabs: true
   - admonition
   - smarty
   - attr_list

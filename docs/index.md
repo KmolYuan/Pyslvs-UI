@@ -23,27 +23,49 @@ See the Ubuntu and macOS platform testing on Travis CI:
 !!! warning
     Pyslvs requires Python 3.7 or above.
 
-### PyPI
+=== "PyPI"
 
-Pyslvs-UI from PyPI:
-[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui)
+    Pyslvs-UI from PyPI:
+    [![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui)
 
-Pyslvs from PyPI:
-[![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs)
+    Pyslvs from PyPI:
+    [![PyPI](https://img.shields.io/pypi/v/pyslvs.svg)](https://pypi.org/project/pyslvs)
 
-```bash
-pip install pyslvs-ui
-```
+    ```bash
+    pip install pyslvs-ui
+    ```
 
-Pyslvs also supports [Solvespace](https://github.com/solvespace/solvespace) kernel.
-It is an extra requirement under GPLv3.
+    Pyslvs also supports [Solvespace](https://github.com/solvespace/solvespace) kernel.
+    It is an extra requirement under GPLv3.
 
-Python-Solvespace from PyPI:
-[![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace)
+    Python-Solvespace from PyPI:
+    [![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace)
 
-```bash
-pip install pyslvs-ui[slvs]
-```
+    ```bash
+    pip install pyslvs-ui[slvs]
+    ```
+
+=== "Portable"
+
+    Download Pyslvs from GitHub [release page](https://github.com/KmolYuan/Pyslvs-UI/releases),
+    which can be executed directly without Python interpreter.
+
+    I hope your platform is supported, if not,
+    please try another way or help me improve my Continuous Deployment process.
+
+=== "Run Directly"
+
+    Recommended for developers.
+    If you want an open source version,
+    please clone it from GitHub then follow the develop environment [guide](environment.md)
+    and [execute the launcher](#repository).
+
+    Or, install it with setuptools. The kernels will installed by pip.
+    (Only for stable version!)
+
+    ```bash
+    python setup.py install
+    ```
 
 !!! note
     Pyslvs-UI is an universal (pure Python) package, which is cross-platform.
@@ -52,100 +74,78 @@ pip install pyslvs-ui[slvs]
     Windows and macOS platform are packed as wheels,
     Linux platform will build from source code.
 
-### Portable
-
-Download Pyslvs from GitHub [release page](https://github.com/KmolYuan/Pyslvs-UI/releases),
-which can be executed directly without Python interpreter.
-
-I hope your platform is supported, if not,
-please try another way or help me improve my Continuous Deployment process.
-
-### Run Directly
-
-Recommended for developers.
-If you want an open source version,
-please clone it from GitHub then follow the develop environment [guide](environment.md)
-and [execute the launcher](#repository).
-
-Or, install it with setuptools. The kernels will installed by pip.
-(Only for stable version!)
-
-```bash
-python setup.py install
-```
-
 ## Startup
 
-### Python Package and Executable
+=== "Package and Executable"
 
-After installed package, Pyslvs provides a launcher command `pyslvs` for your terminal.
-The command `python -m pyslvs_ui` or write a python script also works:
+    After installed package, Pyslvs provides a launcher command `pyslvs` for your terminal.
+    The command `python -m pyslvs_ui` or write a python script also works:
 
-```python
-from pyslvs_ui.__main__ import main
-main()
-```
+    ```python
+    from pyslvs_ui.__main__ import main
+    main()
+    ```
 
-For convenience, the file name of distributions can be renamed as
-`pyslvs.exe`, `pyslvs.app` or `pyslvs.AppImage`,
-the suffix is depended on your platform.
+    For convenience, the file name of distributions can be renamed as
+    `pyslvs.exe`, `pyslvs.app` or `pyslvs.AppImage`,
+    the suffix is depended on your platform.
 
-Here's some command line options for Pyslvs executable.
+    Here's some command line options for Pyslvs executable.
 
-```bash
-# Open GUI directly
-pyslvs
+    ```bash
+    # Open GUI directly
+    pyslvs
 
-# Open GUI with Fusion style
-pyslvs --fusion
+    # Open GUI with Fusion style
+    pyslvs --fusion
 
-# See the help
-pyslvs --help
-```
+    # See the help
+    pyslvs --help
+    ```
 
-### AppImage
+=== "AppImage"
 
-Python libraries has some dependencies with the compile environment,
-so the sources need to packed the Python installation and its libraries.
-But the source code is presented as plain text, which causes
-the size of AppImage is larger than other platforms.
+    Python libraries has some dependencies with the compile environment,
+    so the sources need to packed the Python installation and its libraries.
+    But the source code is presented as plain text, which causes
+    the size of AppImage is larger than other platforms.
 
-Here's some options for AppImage release `pyslvs.AppImage` for Ubuntu platform.
+    Here's some options for AppImage release `pyslvs.AppImage` for Ubuntu platform.
 
-```bash
-# Run it as a normal executable
-chomod +x pyslvs.AppImage
-./pyslvs.AppImage
+    ```bash
+    # Run it as a normal executable
+    chomod +x pyslvs.AppImage
+    ./pyslvs.AppImage
 
-# Unzip the package to "squashfs-root"
-# There is including the source code of Pyslvs
-./pyslvs.AppImage --appimage-extract
-```
+    # Unzip the package to "squashfs-root"
+    # There is including the source code of Pyslvs
+    ./pyslvs.AppImage --appimage-extract
+    ```
 
-You can refer other AppImage options from its [user guide](https://docs.appimage.org/user-guide/run-appimages.html).
+    You can refer other AppImage options from its [user guide](https://docs.appimage.org/user-guide/run-appimages.html).
 
-### Repository
+=== "Repository"
 
-Some options for Pyslvs repository.
+    Some options for Pyslvs repository.
 
-For more environment information, please see [Environment section](environment.md).
+    For more environment information, please see [Environment section](environment.md).
 
-```bash
-# Download / update submodule
-git submodule update --init --recursive
+    ```bash
+    # Download / update submodule
+    git submodule update --init --recursive
 
-# Install dependencies
-pip install -r requirements.txt
+    # Install dependencies
+    pip install -r requirements.txt
 
-# Compile and install submodules
-make
+    # Compile and install submodules
+    make
 
-# Open GUI by Python
-python launch_pyslvs.py
+    # Open GUI by Python
+    python launch_pyslvs.py
 
-# Pack into stand-alone executable file
-make pack
-```
+    # Pack into stand-alone executable file
+    make pack
+    ```
 
 ## Uninstall
 
