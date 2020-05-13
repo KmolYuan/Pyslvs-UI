@@ -15,16 +15,10 @@ The actual test and deployment platforms on CI/CD service:
 
 | Platforms (64-bit) | Windows | macOS | Ubuntu |
 |:------------------:|:-------:|:-----:|:------:|
-| Service | [AppVeyor][ci1] | [Travis][ci2] | [Travis][ci3] |
-| OS version | Windows Server 2019 | Xcode 10.0 (10.13) | Xenial (16.04) |
 | Python 3.7 | O | O | O |
-| Python 3.8 | $\Delta$ (not support MinGW) | O | O |
+| Python 3.8 | O | O | O |
 
-**Please note that the other platforms may be available but I have not tested before.**
-
-[ci1]: https://www.appveyor.com/docs/windows-images-software/
-[ci2]: https://docs.travis-ci.com/user/reference/osx/
-[ci3]: https://docs.travis-ci.com/user/reference/linux/
+**Other platforms must build from source and take care about the dependencies.**
 
 Install dependencies:
 
