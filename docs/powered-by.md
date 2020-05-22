@@ -35,6 +35,10 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [PMKS (MIT)](http://designengrlab.github.io/PMKS)
 + [Spatial EFD (MIT)](https://github.com/sgrieve/spatial_efd)
 
+## Icons
+
++ <https://icons8.com>
+
 ## IDE
 
 [![](img/sponsor-jetbrains.png){: style="width:30%"}](https://www.jetbrains.com/?from=Pyslvs)
