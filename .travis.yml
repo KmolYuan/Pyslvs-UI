@@ -34,6 +34,7 @@ jobs:
       deploy:
         - &generic-deploy
           provider: releases
+          edge: true
           overwrite: true
           token: $TRAVIS_TOKEN
           file_glob: true
