@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 20.06
+
+**Features**:
+
++ Polar plotting function and joint viewer.
+
+**Development**:
+
++ None.
+
 ## Version 20.05
 
 **Features**:
@@ -98,7 +108,7 @@
 
 **Development**:
 
-+ None
++ None.
 
 ## Version 19.11
 

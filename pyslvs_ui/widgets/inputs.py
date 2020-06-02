@@ -566,11 +566,11 @@ class InputsWidget(QWidget, Ui_Form):
                 if self.c_coord_sys.isChecked():
                     ax_i.plot(x, label='x')
                     ax_i.plot(y, label='y')
+                    ax_i.legend()
                 else:
                     r = hypot(x, y)
                     theta = arctan2(y, x)
                     ax_i.plot(theta, r, linewidth=5)
-                ax_i.legend()
             else:
                 ax_i.plot(xy)
         dlg.set_margin(0.2)

@@ -592,26 +592,6 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_10">
-            <item>
-             <widget class="QCheckBox" name="wrt_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>With respect to:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="wrt_joint"/>
-            </item>
-           </layout>
-          </item>
-          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <item>
              <widget class="QRadioButton" name="c_coord_sys">
@@ -627,6 +607,30 @@
              <widget class="QRadioButton" name="p_coord_sys">
               <property name="text">
                <string>Polar coordinates</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QCheckBox" name="wrt_label">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>With respect to:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="wrt_joint">
+              <property name="enabled">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -693,5 +697,22 @@
  <resources>
   <include location="../icons.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>wrt_label</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>wrt_joint</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>455</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
