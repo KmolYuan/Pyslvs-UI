@@ -10,10 +10,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence
+from typing import Sequence, List
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QDialog
-from numpy import ndarray
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import (
@@ -25,7 +24,8 @@ from matplotlib.backends.backend_qt5agg import (
 class DataChart(QWidget):
     """Chart widget."""
 
-    def __init__(self, parent: QWidget, row: int = 1, col: int = 1):
+    def __init__(self, parent: QWidget, row: int = 1, col: int = 1,
+                 polar: bool = False):
         """Input title and two axises, QChart class has no parent."""
         super(DataChart, self).__init__(parent)
         layout = QVBoxLayout(self)
@@ -33,10 +33,9 @@ class DataChart(QWidget):
         canvas = FigureCanvasQTAgg(figure)
         layout.addWidget(NavigationToolbar2QT(canvas, self))
         layout.addWidget(canvas)
-        ax = figure.subplots(row, col)
-        if not isinstance(ax, ndarray):
-            ax = (ax,)
-        self._ax: Sequence[Axes] = ax
+        self._ax: List[Axes] = []
+        for i in range(1, row * col + 1):
+            self._ax.append(figure.add_subplot(row, col, i, polar=polar))
 
         def set_margin(m: float) -> None:
             figure.tight_layout(pad=m)
@@ -51,7 +50,8 @@ class DataChart(QWidget):
 class DataChartDialog(QDialog):
     """Dialog container."""
 
-    def __init__(self, parent: QWidget, title: str, row: int = 1, col: int = 1):
+    def __init__(self, parent: QWidget, title: str, row: int = 1, col: int = 1,
+                 polar: bool = False):
         super(DataChartDialog, self).__init__(parent)
         self.setWindowFlags(
             self.windowFlags()
@@ -61,7 +61,7 @@ class DataChartDialog(QDialog):
         self.setWindowTitle(title)
         self.setModal(True)
         layout = QVBoxLayout(self)
-        self._chart = DataChart(self, row, col)
+        self._chart = DataChart(self, row, col, polar)
         layout.addWidget(self._chart)
 
     def ax(self) -> Sequence[Axes]:

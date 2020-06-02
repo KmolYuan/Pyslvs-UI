@@ -12,7 +12,7 @@ __email__ = "pyslvs@gmail.com"
 import csv
 from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
 from copy import copy
-from numpy import array
+from numpy import array, hypot, arctan2
 from qtpy.QtCore import Signal, Slot, QTimer
 from qtpy.QtWidgets import (QWidget, QMessageBox, QInputDialog, QListWidgetItem,
                             QApplication)
@@ -280,10 +280,11 @@ class InputsWidget(QWidget, Ui_Form):
         """Auto check the points and type."""
         self.joint_list.clear()
         self.plot_joint.clear()
+        self.wrt_joint.clear()
         for i in range(self.entities_point.rowCount()):
             type_text = self.entities_point.item(i, 2).text()
-            self.joint_list.addItem(f"[{type_text}] Point{i}")
-            self.plot_joint.addItem(f"[{type_text}] Point{i}")
+            for w in [self.joint_list, self.plot_joint, self.wrt_joint]:
+                w.addItem(f"[{type_text}] Point{i}")
         self.variable_value_reset()
 
     @Slot(float)
@@ -514,7 +515,10 @@ class InputsWidget(QWidget, Ui_Form):
         data = self.__path_data[self.__current_path_name()]
         if not data:
             return
-        pos = array(data[joint], dtype=float)
+        pos = array(data[joint])
+        wrt_pos = array(data[self.wrt_joint.currentIndex()])
+        if self.wrt_label.isChecked():
+            pos[:] -= wrt_pos[:]
         vel = derivative(pos)
         acc = derivative(vel)
         cur = curvature(data[joint])
@@ -541,7 +545,12 @@ class InputsWidget(QWidget, Ui_Form):
         if plot_count < 1:
             QMessageBox.warning(self, "No target", "No any plotting target.")
             return
-        dlg = DataChartDialog(self, "Analysis", plot_count)
+        polar = self.p_coord_sys.isChecked()
+        row = plot_count
+        col = 1
+        if polar:
+            row, col = col, row
+        dlg = DataChartDialog(self, "Analysis", row, col, polar)
         dlg.setWindowIcon(QIcon(QPixmap(":/icons/formula.png")))
         ax = dlg.ax()
         for p, (title, xy) in enumerate(plot.items()):
@@ -552,8 +561,15 @@ class InputsWidget(QWidget, Ui_Form):
                 ax_i.set_ylabel(r"$\kappa$")
                 ax_i.set_xlabel(r"$\int|\kappa|dt$")
             elif xy.ndim == 2:
-                ax_i.plot(xy[:, 0], label='x')
-                ax_i.plot(xy[:, 1], label='y')
+                x = xy[:, 0]
+                y = xy[:, 1]
+                if self.c_coord_sys.isChecked():
+                    ax_i.plot(x, label='x')
+                    ax_i.plot(y, label='y')
+                else:
+                    r = hypot(x, y)
+                    theta = arctan2(y, x)
+                    ax_i.plot(theta, r, linewidth=5)
                 ax_i.legend()
             else:
                 ax_i.plot(xy)
