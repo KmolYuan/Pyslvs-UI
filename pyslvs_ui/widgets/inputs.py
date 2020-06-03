@@ -516,9 +516,8 @@ class InputsWidget(QWidget, Ui_Form):
         if not data:
             return
         pos = array(data[joint])
-        wrt_pos = array(data[self.wrt_joint.currentIndex()])
         if self.wrt_label.isChecked():
-            pos[:] -= wrt_pos[:]
+            pos[:] -= array(data[self.wrt_joint.currentIndex()])
         vel = derivative(pos)
         acc = derivative(vel)
         cur = curvature(data[joint])
