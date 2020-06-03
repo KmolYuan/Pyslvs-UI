@@ -380,4 +380,3 @@ class Ui_Form(object):
         self.options_tab.setTabText(self.options_tab.indexOf(self.algorithm), _translate("Form", "Algorithm"))
         self.synthesis_button.setStatusTip(_translate("Form", "Start dimesional synthesis."))
         self.synthesis_button.setText(_translate("Form", "Synthesis"))
-from pyslvs_ui import icons_rc

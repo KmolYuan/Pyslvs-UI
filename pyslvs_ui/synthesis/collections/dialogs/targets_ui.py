@@ -75,4 +75,3 @@ class Ui_Dialog(object):
         self.targets_add.setText(_translate("Dialog", ">>"))
         self.other_add.setText(_translate("Dialog", "<<"))
         self.targets_label.setText(_translate("Dialog", "Tragets:"))
-from pyslvs_ui import icons_rc

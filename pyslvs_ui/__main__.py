@@ -28,6 +28,9 @@ def main() -> None:
         _app = QApplication(argv)
         # Depress Qt warning
         qInstallMessageHandler(lambda _0, _1, _2: None)
+        # Load QRC file
+        from pyslvs_ui.icons_rc import qInitResources
+        qInitResources()
         # Splash
         sp = QSplashScreen(QPixmap(":/icons/splash.png"))
         sp.showMessage(f"{__author__} {__copyright__}",

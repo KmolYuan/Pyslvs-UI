@@ -218,4 +218,3 @@ class Ui_Dialog(object):
         self.reduce_n_label.setText(_translate("Dialog", "Reduce the points for each:"))
         self.reduce_button.setText(_translate("Dialog", "Reduce"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.reduce_tab), _translate("Dialog", "Reduce"))
-from pyslvs_ui import icons_rc

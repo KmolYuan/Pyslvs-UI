@@ -385,4 +385,3 @@ class Ui_Form(object):
         self.plot_curvature.setText(_translate("Form", "Curvature"))
         self.plot_signature.setText(_translate("Form", "Path Signature"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.analysis_tab), _translate("Form", "Analysis"))
-from pyslvs_ui import icons_rc

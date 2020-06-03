@@ -160,4 +160,3 @@ class Ui_Dialog(object):
         self.tab_box.setItemText(self.tab_box.indexOf(self.page3), _translate("Dialog", "Dimensional Synthesis"))
         self.image_path_label.setText(_translate("Dialog", "Image path:"))
         self.tab_box.setItemText(self.tab_box.indexOf(self.page), _translate("Dialog", "Background Image"))
-from pyslvs_ui import icons_rc

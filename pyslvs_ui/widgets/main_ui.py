@@ -701,4 +701,3 @@ class Ui_MainWindow(object):
         self.action_screenshot.setShortcut(_translate("MainWindow", "Ctrl+P"))
         self.action_report_issue.setText(_translate("MainWindow", "&Report Issue"))
         self.action_report_issue.setStatusTip(_translate("MainWindow", "Report an issue or see the current issues on GitHub."))
-from pyslvs_ui import icons_rc

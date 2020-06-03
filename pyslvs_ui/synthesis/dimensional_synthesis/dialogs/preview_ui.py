@@ -189,4 +189,3 @@ class Ui_Dialog(object):
         self.cc_plot_button.setText(_translate("Dialog", "Plot"))
         self.information_tab.setTabText(self.information_tab.indexOf(self.path_cmp_tab), _translate("Dialog", "Path Comparison"))
         self.mouse_pos_label.setText(_translate("Dialog", "mouse position:"))
-from pyslvs_ui import icons_rc

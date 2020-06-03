@@ -138,4 +138,3 @@ class Ui_Dialog(object):
         self.groupBox.setTitle(_translate("Dialog", "Write mode"))
         self.overwrite_radio.setText(_translate("Dialog", "A&lways overwrite"))
         self.warn_radio.setText(_translate("Dialog", "Warning &me then back to this dialog"))
-from pyslvs_ui import icons_rc

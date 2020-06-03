@@ -166,4 +166,3 @@ class Ui_Dialog(object):
         self.y_label.setText(_translate("Dialog", "Y"))
         self.links_label.setText(_translate("Dialog", "Links"))
         self.label_4.setText(_translate("Dialog", ">>"))
-from pyslvs_ui import icons_rc

@@ -113,4 +113,3 @@ class Ui_Dialog(object):
         self.fitness_label.setText(_translate("Dialog", "N/A"))
         self.start_button.setText(_translate("Dialog", "Start"))
         self.interrupt_button.setText(_translate("Dialog", "Interrupt"))
-from pyslvs_ui import icons_rc

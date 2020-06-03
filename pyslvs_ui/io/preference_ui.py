@@ -269,4 +269,3 @@ class Ui_Dialog(object):
         self.auto_remove_link_option.setText(_translate("Dialog", "Remove empty links after deleted points."))
         self.title_full_path_option.setText(_translate("Dialog", "Show full file path on window title."))
         self.not_save_option.setText(_translate("Dialog", "Don\'t save Pyslvs options to local."))
-from pyslvs_ui import icons_rc

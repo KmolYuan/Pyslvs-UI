@@ -275,4 +275,3 @@ class Ui_Form(object):
         self.edges2atlas_button.setStatusTip(_translate("Form", "Load the edges data from text file, then save them to image files."))
         self.time_title_label.setText(_translate("Form", "Find in:"))
         self.paint_time_title_label.setText(_translate("Form", "Rendered in:"))
-from pyslvs_ui import icons_rc

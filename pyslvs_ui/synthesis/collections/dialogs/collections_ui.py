@@ -136,4 +136,3 @@ class Ui_Dialog(object):
         self.rename_button.setText(_translate("Dialog", "Rename"))
         self.copy_button.setText(_translate("Dialog", "Copy"))
         self.delete_button.setText(_translate("Dialog", "Delete"))
-from pyslvs_ui import icons_rc

@@ -57,4 +57,3 @@ class Ui_Dialog(object):
         self.show_qrcode.setText(_translate("Dialog", "Show QR code"))
         self.copy.setText(_translate("Dialog", "Copy"))
         self.button_box.setWhatsThis(_translate("Dialog", "Click to exit"))
-from pyslvs_ui import icons_rc

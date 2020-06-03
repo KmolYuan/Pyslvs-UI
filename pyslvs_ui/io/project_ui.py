@@ -226,4 +226,3 @@ class Ui_Form(object):
         self.import_group.setTitle(_translate("Form", "Import"))
         self.im_example_button.setStatusTip(_translate("Form", "Import from an example."))
         self.im_pmks_button.setStatusTip(_translate("Form", "Import from PMKS URL."))
-from pyslvs_ui import icons_rc

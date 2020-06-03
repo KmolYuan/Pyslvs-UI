@@ -258,4 +258,3 @@ class Ui_Form(object):
         self.configure_button.setText(_translate("Form", "Configure"))
         self.merge_button.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.merge_button.setText(_translate("Form", "Merge"))
-from pyslvs_ui import icons_rc

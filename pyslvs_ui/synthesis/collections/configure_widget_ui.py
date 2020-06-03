@@ -229,4 +229,3 @@ class Ui_Form(object):
         self.grounded_list.setStatusTip(_translate("Form", "Set a link as the ground. Existing solutions will be reset."))
         self.expression_label.setText(_translate("Form", "Expression"))
         self.expr_show.setStatusTip(_translate("Form", "Expression of the mechanism"))
-from pyslvs_ui import icons_rc

@@ -101,4 +101,3 @@ class Ui_Dialog(object):
         self.color_label.setText(_translate("Dialog", "Emphatic Color:"))
         self.points_label.setText(_translate("Dialog", "Points:"))
         self.label.setText(_translate("Dialog", ">>"))
-from pyslvs_ui import icons_rc

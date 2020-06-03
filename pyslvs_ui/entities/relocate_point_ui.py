@@ -281,4 +281,3 @@ class Ui_Dialog(object):
         self.pllp_distance2_label.setText(_translate("Dialog", "Distance 2"))
         self.pllp_inversed_box.setText(_translate("Dialog", "Inverse the position to another side."))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.pllp_tab), _translate("Dialog", "Two Points"))
-from pyslvs_ui import icons_rc

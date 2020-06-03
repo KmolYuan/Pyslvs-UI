@@ -158,4 +158,3 @@ class Ui_Dialog(object):
         item = self.alg_table.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Value"))
         self.reset_button.setText(_translate("Dialog", "Reset to Default"))
-from pyslvs_ui import icons_rc

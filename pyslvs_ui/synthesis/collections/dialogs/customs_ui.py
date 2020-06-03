@@ -114,4 +114,3 @@ class Ui_Dialog(object):
         self.joint_choose_label.setText(_translate("Dialog", "Joint:"))
         self.add_mj_button.setText(_translate("Dialog", "Add"))
         self.delete_mj_button.setText(_translate("Dialog", "Delete"))
-from pyslvs_ui import icons_rc
