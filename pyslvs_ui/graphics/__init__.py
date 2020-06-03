@@ -12,6 +12,7 @@ __all__ = [
     'DataChartDialog',
     'LINK_COLOR',
     'BaseCanvas',
+    'AnimationCanvas',
     'PreviewCanvas',
     'convex_hull',
     'RangeDetector',
@@ -28,7 +29,7 @@ __email__ = "pyslvs@gmail.com"
 from .color import (color_num, color_names, color_icon, color_qt,
                     target_path_style)
 from .chart import DataChart, DataChartDialog
-from .canvas import (LINK_COLOR, BaseCanvas, PreviewCanvas, convex_hull,
-                     RangeDetector)
+from .canvas import (LINK_COLOR, BaseCanvas, AnimationCanvas, PreviewCanvas,
+                     convex_hull, RangeDetector)
 from .nx_layout import graph2icon, engine_picker, engines
 from .path_parser import parse_path

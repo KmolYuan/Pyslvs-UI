@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>309</width>
+    <width>368</width>
     <height>580</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -34,7 +34,7 @@
     <widget class="QTabWidget" name="tab_widget">
      <widget class="QWidget" name="inputs_tab">
       <attribute name="icon">
-       <iconset resource="../icons.qrc">
+       <iconset resource="../../icons.qrc">
         <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
       </attribute>
       <attribute name="title">
@@ -115,7 +115,7 @@
                <string>Add to variable list with above settings.</string>
               </property>
               <property name="icon">
-               <iconset resource="../icons.qrc">
+               <iconset resource="../../icons.qrc">
                 <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
               </property>
              </widget>
@@ -141,7 +141,7 @@
                  <string>Upgrade priority of the variable.</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../icons.qrc">
+                 <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
                 </property>
                </widget>
@@ -152,7 +152,7 @@
                  <string>Downgrade priority of the variable.</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../icons.qrc">
+                 <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
                 </property>
                </widget>
@@ -176,7 +176,7 @@
                  <string>Delete the specified variable.</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../icons.qrc">
+                 <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                 </property>
                </widget>
@@ -229,7 +229,7 @@
                <string>Set pos</string>
               </property>
               <property name="icon">
-               <iconset resource="../icons.qrc">
+               <iconset resource="../../icons.qrc">
                 <normaloff>:/icons/translate.png</normaloff>:/icons/translate.png</iconset>
               </property>
              </widget>
@@ -340,7 +340,7 @@
                <string>Start / Pause the auto driver of this variables.</string>
               </property>
               <property name="icon">
-               <iconset resource="../icons.qrc">
+               <iconset resource="../../icons.qrc">
                 <normaloff>:/icons/play.png</normaloff>
                 <activeon>:/icons/pause.png</activeon>:/icons/play.png</iconset>
               </property>
@@ -361,7 +361,7 @@
                <string>Stop the auto driver and return to original place.</string>
               </property>
               <property name="icon">
-               <iconset resource="../icons.qrc">
+               <iconset resource="../../icons.qrc">
                 <normaloff>:/icons/interrupted.png</normaloff>:/icons/interrupted.png</iconset>
               </property>
              </widget>
@@ -375,7 +375,7 @@
      </widget>
      <widget class="QWidget" name="analysis_tab">
       <attribute name="icon">
-       <iconset resource="../icons.qrc">
+       <iconset resource="../../icons.qrc">
         <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
       </attribute>
       <attribute name="title">
@@ -403,7 +403,7 @@
             <string>Show all</string>
            </property>
            <property name="icon">
-            <iconset resource="../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
            </property>
           </widget>
@@ -472,7 +472,7 @@
               <string>Refresh preview path data.</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
              </property>
             </widget>
@@ -483,7 +483,7 @@
               <string>Duplicate the current paths with a new name.</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
              </property>
             </widget>
@@ -494,7 +494,7 @@
               <string>Start / Stop record.</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
              </property>
              <property name="checkable">
@@ -521,7 +521,7 @@
               <string>Delete the specified path data.</string>
              </property>
              <property name="icon">
-              <iconset resource="../icons.qrc">
+              <iconset resource="../../icons.qrc">
                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
              </property>
             </widget>
@@ -550,8 +550,37 @@
             <string>Plot</string>
            </property>
            <property name="icon">
-            <iconset resource="../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="animate_button">
+           <property name="text">
+            <string>Animate</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QPushButton" name="cp_data_button">
+           <property name="statusTip">
+            <string>Copy the data of this joint to clipboard.</string>
+           </property>
+           <property name="text">
+            <string>Copy data</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
            </property>
           </widget>
          </item>
@@ -564,26 +593,12 @@
             <string>Show only</string>
            </property>
            <property name="icon">
-            <iconset resource="../icons.qrc">
+            <iconset resource="../../icons.qrc">
              <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
            </property>
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cp_data_button">
-         <property name="statusTip">
-          <string>Copy the data of this joint to clipboard.</string>
-         </property>
-         <property name="text">
-          <string>Copy data</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../icons.qrc">
-           <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-         </property>
-        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="plot_groupbox">
@@ -695,7 +710,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

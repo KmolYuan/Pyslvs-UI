@@ -317,7 +317,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             if self.path.show != i and self.path.show != -1:
                 continue
             if self.monochrome:
-                color = Qt.gray
+                color = color_qt('gray')
             elif self.vpoints[i].color is None:
                 color = color_qt('green')
             else:
@@ -477,7 +477,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Draw solving path
         if self.show_target_path:
             self.painter.setFont(QFont("Arial", self.font_size + 5))
-            self.draw_slvs_ranges()
+            self.draw_ranges()
             self.draw_target_path()
             self.painter.setFont(QFont("Arial", self.font_size))
         # Draw points

@@ -4,13 +4,14 @@
 
 from __future__ import annotations
 
+__all__ = ['InputsWidget', 'QRotatableView']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-import csv
 from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
+from csv import writer
 from copy import copy
 from numpy import array, hypot, arctan2
 from qtpy.QtCore import Signal, Slot, QTimer
@@ -20,9 +21,11 @@ from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint, curvature, derivative, path_signature
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
+from pyslvs_ui.widgets.undo_redo import (AddInput, DeleteInput, AddPath,
+                                         DeletePath)
 from .rotatable import QRotatableView
+from .preview import AnimateDialog
 from .inputs_ui import Ui_Form
-from .undo_redo import AddInput, DeleteInput, AddPath, DeletePath
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -429,11 +432,11 @@ class InputsWidget(QWidget, Ui_Form):
         if not file_name:
             return
         with open(file_name, 'w', encoding='utf-8', newline='') as stream:
-            writer = csv.writer(stream)
+            w = writer(stream)
             for point in data:
                 for coordinate in point:
-                    writer.writerow(coordinate)
-                writer.writerow(())
+                    w.writerow(coordinate)
+                w.writerow(())
         logger.info(f"Output path data: {file_name}")
 
     def __current_path_name(self) -> str:
@@ -455,6 +458,8 @@ class InputsWidget(QWidget, Ui_Form):
     def __copy_path_data(self) -> None:
         """Copy current path data to clipboard."""
         data = self.__path_data[self.__current_path_name()]
+        if not data:
+            return
         QApplication.clipboard().setText('\n'.join(
             f"[{x}, {y}]," for x, y in data[self.plot_joint.currentIndex()]
         ))
@@ -507,6 +512,18 @@ class InputsWidget(QWidget, Ui_Form):
             self.variable_list.takeItem(row)
         )
         self.variable_list.setCurrentItem(item)
+
+    @Slot(name='on_animate_button_clicked')
+    def __animate(self) -> None:
+        """Make a motion animation."""
+        data = self.__path_data[self.__current_path_name()]
+        if not data:
+            return
+        dlg = AnimateDialog(self.vpoints, data,
+                            self.main_canvas.monochrome, self)
+        dlg.show()
+        dlg.exec_()
+        dlg.deleteLater()
 
     @Slot(name='on_plot_button_clicked')
     def __plot(self) -> None:

@@ -33,7 +33,7 @@ __email__ = "pyslvs@gmail.com"
 
 from .main_base import MainWindowBase, Preferences
 from .tables import PointArgs, LinkArgs, PointTableWidget, LinkTableWidget
-from .rotatable import QRotatableView
+from .inputs import QRotatableView
 from .undo_redo import (
     AddTable,
     AddPath,

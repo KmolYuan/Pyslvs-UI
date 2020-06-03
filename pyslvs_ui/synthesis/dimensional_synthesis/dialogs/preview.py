@@ -12,12 +12,12 @@ from itertools import chain
 from typing import Tuple, List, Dict, Sequence, Any
 from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
-from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent, QPolygonF
+from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
                     norm_path, efd_fitting, curvature, cross_correlation,
                     path_signature)
-from pyslvs_ui.graphics import (BaseCanvas, color_qt, LINK_COLOR,
-                                RangeDetector, DataChartDialog)
+from pyslvs_ui.graphics import (AnimationCanvas, color_qt, LINK_COLOR,
+                                DataChartDialog)
 from .preview_ui import Ui_Dialog
 
 _Coord = Tuple[float, float]
@@ -25,22 +25,8 @@ _Range = Tuple[float, float, float]
 _TargetPath = Dict[int, Sequence[_Coord]]
 
 
-def polygon_area(polygon: QPolygonF) -> float:
-    """Calculate the area of polygon.
-    Y value is inverted.
-    """
-    area = 0.
-    for i in range(polygon.size()):
-        p1 = polygon[i]
-        p2 = polygon[i - 1]
-        area += (p2.x() + p1.x()) * (p2.y() - p1.y())
-    return abs(area / 2)
-
-
-class _DynamicCanvas(BaseCanvas):
+class _DynamicCanvas(AnimationCanvas):
     """Custom canvas for preview algorithm result."""
-
-    update_pos = Signal(float, float)
 
     def __init__(
         self,
@@ -55,8 +41,8 @@ class _DynamicCanvas(BaseCanvas):
         self.mechanism = mechanism
         self.vpoints = vpoints or []
         self.vlinks = vlinks or []
-        self.__no_mechanism = not self.vpoints or not self.vlinks
-        use_norm = self.__no_mechanism and (
+        self.no_mechanism = not self.vpoints or not self.vlinks
+        use_norm = self.no_mechanism and (
             self.mechanism.get('shape_only', False)
             or self.mechanism.get('wavelet_mode', False))
         # Target path
@@ -80,7 +66,7 @@ class _DynamicCanvas(BaseCanvas):
         # Error
         self.error = False
         self.__no_error = 0
-        if self.__no_mechanism:
+        if self.no_mechanism:
             return
         # Ranges
         ranges: Dict[int, _Range] = self.mechanism['placement']
@@ -93,37 +79,8 @@ class _DynamicCanvas(BaseCanvas):
         self.__timer.timeout.connect(self.__change_index)
         self.__timer.start(18)
 
-    def __zoom_to_fit_size(self) -> Tuple[float, float, float, float]:
-        """Limitations of four side."""
-        r = RangeDetector()
-        # Paths
-        for i, path in enumerate(self.path.path):
-            if self.__no_mechanism and i not in self.target_path:
-                continue
-            for x, y in path:
-                r(x, x, y, y)
-        # Solving paths
-        for path in self.target_path.values():
-            for x, y in path:
-                r(x, x, y, y)
-        # Ranges
-        for rect in self.ranges.values():
-            r(rect.right(), rect.left(), rect.top(), rect.bottom())
-        return r.right, r.left, r.top, r.bottom
-
     def paintEvent(self, event: QPaintEvent) -> None:
-        """Drawing functions."""
-        width = self.width()
-        height = self.height()
-        x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_size()
-        x_diff = x_left - x_right or 1.
-        y_diff = y_top - y_bottom or 1.
-        if width / x_diff < height / y_diff:
-            self.zoom = width / x_diff * 0.95
-        else:
-            self.zoom = height / y_diff * 0.95
-        self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
-        self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
+        """Drawing function."""
         super(_DynamicCanvas, self).paintEvent(event)
         # First check
         for path in self.path.path:
@@ -155,7 +112,7 @@ class _DynamicCanvas(BaseCanvas):
         self.__draw_path()
         # Draw solving path
         self.draw_target_path()
-        self.draw_slvs_ranges()
+        self.draw_ranges()
         # Draw points
         for i in range(len(self.vpoints)):
             if not self.pos[i]:
@@ -221,8 +178,9 @@ class _DynamicCanvas(BaseCanvas):
         A simple function than main canvas.
         """
         pen = QPen()
+        pen.setWidth(self.path_width)
         for i, path in enumerate(self.path.path):
-            if self.__no_mechanism and i not in self.target_path:
+            if self.no_mechanism and i not in self.target_path:
                 continue
             if i in self.target_path:
                 if self.monochrome:
@@ -235,14 +193,8 @@ class _DynamicCanvas(BaseCanvas):
                 else:
                     color = color_qt('green')
             pen.setColor(color)
-            pen.setWidth(self.path_width)
             self.painter.setPen(pen)
             self.draw_curve(path)
-
-    def mouseMoveEvent(self, event: QMouseEvent) -> None:
-        """Set mouse position."""
-        self.update_pos.emit((event.x() - self.ox) / self.zoom,
-                             (event.y() - self.oy) / self.zoom)
 
     @Slot()
     def __change_index(self) -> None:

@@ -9,24 +9,15 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (Tuple, List, Sequence, Set, Dict, Iterator, Any, Union,
                     Optional, ClassVar)
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from dataclasses import dataclass
 from enum import auto, unique, IntEnum
 from math import radians, sin, cos, atan2, hypot, isnan
 from functools import reduce
-from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF
+from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF, Signal
 from qtpy.QtWidgets import QWidget, QSizePolicy
-from qtpy.QtGui import (
-    QPolygonF,
-    QPainter,
-    QBrush,
-    QPen,
-    QColor,
-    QFont,
-    QPainterPath,
-    QImage,
-    QPaintEvent,
-)
+from qtpy.QtGui import (QPolygonF, QPainter, QBrush, QPen, QColor, QFont,
+                        QPainterPath, QImage, QPaintEvent, QMouseEvent)
 from pyslvs import VPoint, edges_view, parse_pos
 from pyslvs.graph import Graph
 from pyslvs_ui.qt_patch import QABCMeta
@@ -289,8 +280,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             text += f":({cx:.02f}, {cy:.02f})"
         self.painter.drawText(QPointF(x, y) + QPointF(6, -6), text)
 
-    def draw_slvs_ranges(self) -> None:
-        """Draw solving range."""
+    def draw_ranges(self) -> None:
+        """Draw rectangle ranges."""
         pen = QPen()
         pen.setWidth(5)
         for i, (tag, rect) in enumerate(self.ranges.items()):
@@ -514,6 +505,53 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         """Set monochrome mode."""
         self.monochrome = monochrome
         self.update()
+
+
+class AnimationCanvas(BaseCanvas, ABC):
+    """A auto zooming canvas with time sequence."""
+    update_pos = Signal(float, float)
+
+    def __init__(self, parent: QWidget):
+        super(AnimationCanvas, self).__init__(parent)
+        self.no_mechanism = False
+
+    def __zoom_to_fit_size(self) -> Tuple[float, float, float, float]:
+        """Limitations of four side."""
+        r = RangeDetector()
+        # Paths
+        for i, path in enumerate(self.path.path):
+            if self.no_mechanism and i not in self.target_path:
+                continue
+            for x, y in path:
+                r(x, x, y, y)
+        # Solving paths
+        for path in self.target_path.values():
+            for x, y in path:
+                r(x, x, y, y)
+        # Ranges
+        for rect in self.ranges.values():
+            r(rect.right(), rect.left(), rect.top(), rect.bottom())
+        return r.right, r.left, r.top, r.bottom
+
+    def paintEvent(self, event: QPaintEvent) -> None:
+        """Adjust functions."""
+        width = self.width()
+        height = self.height()
+        x_right, x_left, y_top, y_bottom = self.__zoom_to_fit_size()
+        x_diff = x_left - x_right or 1.
+        y_diff = y_top - y_bottom or 1.
+        if width / x_diff < height / y_diff:
+            self.zoom = width / x_diff * 0.95
+        else:
+            self.zoom = height / y_diff * 0.95
+        self.ox = width / 2 - (x_left + x_right) / 2 * self.zoom
+        self.oy = height / 2 + (y_top + y_bottom) / 2 * self.zoom
+        super(AnimationCanvas, self).paintEvent(event)
+
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        """Set mouse position."""
+        self.update_pos.emit((event.x() - self.ox) / self.zoom,
+                             (event.y() - self.oy) / self.zoom)
 
 
 class PreviewCanvas(BaseCanvas):
