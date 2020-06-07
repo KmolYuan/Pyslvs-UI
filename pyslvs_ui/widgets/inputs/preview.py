@@ -4,15 +4,19 @@
 
 from typing import Sequence, Tuple
 from math import cos, sin, atan2, hypot
-from qtpy.QtCore import Qt, Slot
-from qtpy.QtWidgets import QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider
-from qtpy.QtGui import QPaintEvent, QPen, QColor
+from qtpy.QtCore import Qt, Slot, QTimer
+from qtpy.QtWidgets import (
+    QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider, QPushButton, QLabel,
+    QSpacerItem, QSizePolicy,
+)
+from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
 from numpy import array
 from pyslvs import VPoint, derivative
 from pyslvs_ui.graphics import AnimationCanvas, color_qt
 
 
 class _DynamicCanvas(AnimationCanvas):
+
     def __init__(
         self,
         vpoints: Sequence[VPoint],
@@ -25,6 +29,7 @@ class _DynamicCanvas(AnimationCanvas):
         self.path.path = path
         self.vel = [derivative(array(path)) for path in self.path.path]
         self.acc = [derivative(vel) for vel in self.vel]
+        self.max_ind = max(len(p) for p in self.path.path)
 
     @Slot(int)
     def set_index(self, ind: int):
@@ -54,6 +59,8 @@ class _DynamicCanvas(AnimationCanvas):
                     break
                 vx, vy = vec[self.ind]
                 r = hypot(vx, vy) * zoom
+                if r == 0:
+                    break
                 theta = atan2(vy, vx)
                 pen.setColor(color)
                 self.painter.setPen(pen)
@@ -64,6 +71,7 @@ class _DynamicCanvas(AnimationCanvas):
 
 
 class AnimateDialog(QDialog):
+
     def __init__(
         self,
         vpoints: Sequence[VPoint],
@@ -78,12 +86,47 @@ class AnimateDialog(QDialog):
         self.setMinimumSize(800, 600)
         self.setModal(True)
         main_layout = QVBoxLayout(self)
-        canvas = _DynamicCanvas(vpoints, path, self)
-        canvas.set_monochrome_mode(monochrome)
-        main_layout.addWidget(canvas)
-        bottom_layout = QHBoxLayout(self)
-        slider = QSlider(Qt.Horizontal, self)
-        slider.setMaximum(max(len(p) for p in path) - 1)
-        slider.valueChanged.connect(canvas.set_index)
-        bottom_layout.addWidget(slider)
-        main_layout.addLayout(bottom_layout)
+        layout = QHBoxLayout(self)
+        self.label = QLabel(self)
+        layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding,
+                                   QSizePolicy.Minimum))
+        layout.addWidget(self.label)
+        main_layout.addLayout(layout)
+        self.canvas = _DynamicCanvas(vpoints, path, self)
+        self.canvas.set_monochrome_mode(monochrome)
+        self.canvas.update_pos.connect(self.__set_pos)
+        main_layout.addWidget(self.canvas)
+        layout = QHBoxLayout(self)
+        self.play = QPushButton(QIcon(QPixmap(":/icons/play.png")), "", self)
+        self.play.setCheckable(True)
+        self.play.clicked.connect(self.__play)
+        layout.addWidget(self.play)
+        self.slider = QSlider(Qt.Horizontal, self)
+        self.slider.setMaximum(max(len(p) for p in path) - 1)
+        self.slider.valueChanged.connect(self.canvas.set_index)
+        layout.addWidget(self.slider)
+        main_layout.addLayout(layout)
+        self.timer = QTimer()
+        self.timer.setInterval(10)
+        self.timer.timeout.connect(self.__move_ind)
+
+    @Slot()
+    def __move_ind(self):
+        """Move indicator."""
+        value = self.slider.value() + 1
+        self.slider.setValue(value)
+        if value > self.slider.maximum():
+            self.slider.setValue(0)
+
+    @Slot(float, float)
+    def __set_pos(self, x: float, y: float) -> None:
+        """Set mouse position."""
+        self.label.setText(f"({x:.04f}, {y:.04f})")
+
+    @Slot()
+    def __play(self):
+        """Start playing."""
+        if self.play.isChecked():
+            self.timer.start()
+        else:
+            self.timer.stop()

@@ -10,9 +10,9 @@ __email__ = "pyslvs@gmail.com"
 from math import isnan
 from itertools import chain
 from typing import Tuple, List, Dict, Sequence, Any
-from qtpy.QtCore import Signal, Slot, Qt, QTimer, QPointF, QRectF, QSizeF
+from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
-from qtpy.QtGui import QPen, QFont, QPaintEvent, QMouseEvent
+from qtpy.QtGui import QPen, QFont, QPaintEvent
 from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
                     norm_path, efd_fitting, curvature, cross_correlation,
                     path_signature)
