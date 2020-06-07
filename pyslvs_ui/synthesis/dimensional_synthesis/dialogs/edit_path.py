@@ -28,8 +28,8 @@ class EditPathDialog(QDialog, Ui_Dialog):
         """Just load in path data."""
         super(EditPathDialog, self).__init__(parent)
         self.setupUi(self)
-        flags = self.windowFlags()
-        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags()
+                            & ~Qt.WindowContextHelpButtonHint)
         # Get the current path from parent widget
         self.path = parent.current_path().copy()
         self.set_path = parent.set_path

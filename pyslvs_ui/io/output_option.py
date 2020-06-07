@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from abc import abstractmethod
 from typing import Tuple, Callable, Sequence, Set, Dict
 from os.path import isdir, isfile
-import shutil
+from shutil import which
 from subprocess import Popen, DEVNULL
 from qtpy.QtCore import Slot, Qt, QDir
 from qtpy.QtWidgets import (
@@ -37,7 +37,7 @@ from .output_option_ui import Ui_Dialog
 
 def _get_name(widget: QTextEdit, *, ispath: bool = False) -> str:
     """Return the file name of widget."""
-    text = widget.text()
+    text = widget.toPlainText()
     place_text = widget.placeholderText()
     if ispath:
         return text if isdir(text) else place_text
@@ -62,8 +62,8 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         """Comes in environment variable and project name."""
         super(_OutputDialog, self).__init__(parent)
         self.setupUi(self)
-        flags = self.windowFlags()
-        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags()
+                            & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"Export {format_name} module project")
         self.setWindowIcon(QIcon(QPixmap(f":/icons/{format_icon}")))
         self.assembly_label.setText(assembly_description)
@@ -142,19 +142,15 @@ class SlvsOutputDialog(_OutputDialog):
         if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
             return False
-
         # Wire frame
         slvs2_frame(self.vpoints, self.v_to_slvs, file_name)
-
         # Open Solvespace by commend line if available.
-        cmd = shutil.which("solvespace")
+        cmd = which("solvespace")
         if cmd:
             Popen([cmd, file_name], stdout=DEVNULL, stderr=DEVNULL)
-
         if self.frame_radio.isChecked():
             self.accept()
             return False
-
         # Assembly
         vlinks: Dict[str, Set[int]] = {}
         for i, vpoint in enumerate(self.vpoints):
@@ -249,5 +245,4 @@ class DxfOutputDialog(_OutputDialog):
                 version,
                 file_name
             )
-
         return True

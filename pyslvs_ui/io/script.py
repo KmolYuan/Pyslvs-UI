@@ -136,11 +136,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
         """
         super(ScriptDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(
-            self.windowFlags()
-            & ~Qt.WindowContextHelpButtonHint
-            | Qt.WindowMaximizeButtonHint
-        )
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
+                            & ~Qt.WindowContextHelpButtonHint)
         self.setWindowIcon(icon)
         self.script_view = _ScriptBrowser(self)
         self.script_view.setText(script)

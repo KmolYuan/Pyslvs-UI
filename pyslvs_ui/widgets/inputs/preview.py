@@ -5,7 +5,7 @@
 from typing import Sequence, Tuple
 from math import cos, sin, atan2, hypot
 from qtpy.QtCore import Qt, Slot
-from qtpy.QtWidgets import QWidget, QDialog, QVBoxLayout, QSlider
+from qtpy.QtWidgets import QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider
 from qtpy.QtGui import QPaintEvent, QPen, QColor
 from numpy import array
 from pyslvs import VPoint, derivative
@@ -73,14 +73,17 @@ class AnimateDialog(QDialog):
     ):
         super(AnimateDialog, self).__init__(parent)
         self.setWindowTitle("Animation")
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
+                            & ~Qt.WindowContextHelpButtonHint)
         self.setMinimumSize(800, 600)
         self.setModal(True)
-        layout = QVBoxLayout(self)
+        main_layout = QVBoxLayout(self)
         canvas = _DynamicCanvas(vpoints, path, self)
         canvas.set_monochrome_mode(monochrome)
-        layout.addWidget(canvas)
+        main_layout.addWidget(canvas)
+        bottom_layout = QHBoxLayout(self)
         slider = QSlider(Qt.Horizontal, self)
         slider.setMaximum(max(len(p) for p in path) - 1)
         slider.valueChanged.connect(canvas.set_index)
-        layout.addWidget(slider)
+        bottom_layout.addWidget(slider)
+        main_layout.addLayout(bottom_layout)

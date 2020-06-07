@@ -53,11 +53,8 @@ class DataChartDialog(QDialog):
     def __init__(self, parent: QWidget, title: str, row: int = 1, col: int = 1,
                  polar: bool = False):
         super(DataChartDialog, self).__init__(parent)
-        self.setWindowFlags(
-            self.windowFlags()
-            & ~Qt.WindowContextHelpButtonHint
-            | Qt.WindowMaximizeButtonHint
-        )
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
+                            & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(title)
         self.setModal(True)
         layout = QVBoxLayout(self)

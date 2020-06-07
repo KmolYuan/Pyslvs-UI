@@ -41,10 +41,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         """
         super(EditLinkDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(
-            self.windowFlags()
-            & ~Qt.WindowContextHelpButtonHint
-        )
+        self.setWindowFlags(self.windowFlags()
+                            & ~Qt.WindowContextHelpButtonHint)
         self.vpoints = vpoints
         self.vlinks = vlinks
         icon = self.windowIcon()

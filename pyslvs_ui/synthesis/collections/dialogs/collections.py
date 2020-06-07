@@ -42,12 +42,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         """We put the 'collections' (from iteration widget) reference here."""
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(
-            self.windowFlags()
-            & ~Qt.WindowContextHelpButtonHint
-            | Qt.WindowMaximizeButtonHint
-        )
-
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
+                            & ~Qt.WindowContextHelpButtonHint)
         self.collections = collections
         self.get_collection = get_collection
         self.project_no_save = project_no_save

@@ -35,8 +35,8 @@ class EditPointDialog(QDialog, Ui_Dialog):
         """
         super(EditPointDialog, self).__init__(parent)
         self.setupUi(self)
-        flags = self.windowFlags()
-        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags()
+                            & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
         self.icon = QIcon(QPixmap(":/icons/link.png"))
         self.vpoints = vpoints

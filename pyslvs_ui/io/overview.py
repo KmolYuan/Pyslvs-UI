@@ -39,8 +39,8 @@ class OverviewDialog(QDialog, Ui_Dialog):
         """Data come from commit."""
         super(OverviewDialog, self).__init__(parent)
         self.setupUi(self)
-        flags = self.windowFlags()
-        self.setWindowFlags(flags & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags()
+                            & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"Project: {title}")
 
         # Expression of storage data
