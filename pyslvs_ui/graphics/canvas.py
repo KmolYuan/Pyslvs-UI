@@ -334,8 +334,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                         self.painter.drawText(p + QPointF(6, -6), f"P{n}")
                         painter_path.moveTo(p)
                     else:
-                        x2, y2 = path[j - 1]
-                        self.__draw_arrow(x, -y, x2, -y2, zoom=True)
+                        xb, yb = path[j - 1]
+                        self.draw_arrow(xb, yb, x, y, line=False)
                         painter_path.lineTo(p)
                 pen.setColor(line)
                 self.painter.setPen(pen)
@@ -346,33 +346,36 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                     self.draw_circle(QPointF(x, -y) * self.zoom, self.joint_size)
         self.painter.setBrush(Qt.NoBrush)
 
-    def __draw_arrow(
+    def draw_arrow(
         self,
         x1: float,
         y1: float,
         x2: float,
         y2: float,
         *,
-        zoom: bool = False,
+        zoom: bool = True,
+        line: bool = True,
         text: str = ''
     ) -> None:
-        """Front point -> Back point"""
+        """Base point -> Vector point"""
         if zoom:
             x1 *= self.zoom
             y1 *= self.zoom
             x2 *= self.zoom
             y2 *= self.zoom
-        a = atan2(y2 - y1, x2 - x1)
-        x1 = (x1 + x2) / 2 - 7.5 * cos(a)
-        y1 = (y1 + y2) / 2 - 7.5 * sin(a)
-        first_point = QPointF(x1, y1)
+        a = atan2(y1 - y2, x1 - x2)
+        x2 = (x1 + x2) / 2 - 7.5 * cos(a)
+        y2 = (y1 + y2) / 2 - 7.5 * sin(a)
+        first_point = QPointF(x2, -y2)
+        if line:
+            self.painter.drawLine(x1, -y1, x2, -y2)
         self.painter.drawLine(first_point, QPointF(
-            x1 + 15 * cos(a + radians(20)),
-            y1 + 15 * sin(a + radians(20))
+            x2 + 15 * cos(a + radians(20)),
+            -y2 - 15 * sin(a + radians(20))
         ))
         self.painter.drawLine(first_point, QPointF(
-            x1 + 15 * cos(a - radians(20)),
-            y1 + 15 * sin(a - radians(20))
+            x2 + 15 * cos(a - radians(20)),
+            -y2 - 15 * sin(a - radians(20))
         ))
         if not text:
             return
@@ -459,7 +462,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             else:
                 vpoint = pos[index]
-                tmp_list.append(QPointF(vpoint.cx, -vpoint.cy) * self.zoom)
+                tmp_list.append(QPointF(vpoint.cx, vpoint.cy) * self.zoom)
         return tmp_list, color
 
     def draw_solution(
@@ -478,11 +481,13 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
 
         def draw_arrow(index: int, text: str) -> None:
             """Draw arrow."""
-            self.__draw_arrow(
-                points[-1].x(),
-                points[-1].y(),
+            self.draw_arrow(
                 points[index].x(),
                 points[index].y(),
+                points[-1].x(),
+                points[-1].y(),
+                zoom=False,
+                line=False,
                 text=text
             )
 
@@ -491,7 +496,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
             draw_arrow(1, args[2])
         color.setAlpha(30)
         self.painter.setBrush(QBrush(color))
-        self.painter.drawPolygon(QPolygonF(points))
+        self.painter.drawPolygon(
+            QPolygonF([QPointF(p.x(), -p.y()) for p in points]))
         self.painter.setBrush(Qt.NoBrush)
 
     @Slot(int)
