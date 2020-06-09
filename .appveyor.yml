@@ -2,7 +2,7 @@
 version: '{build}'
 image: Visual Studio 2019
 platform: x64
-clone_depth: 1
+clone_depth: 3
 environment:
   MSYS_DIR: C:\msys64
   APPVEYOR_CONSOLE_DISABLE_PTY: true
