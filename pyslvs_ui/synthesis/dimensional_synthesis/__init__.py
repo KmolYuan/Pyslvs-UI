@@ -12,46 +12,50 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Iterator,
-                    Iterable, Callable, Union, Optional, Any)
-from math import hypot
 import pprint
 from copy import deepcopy
-from openpyxl import load_workbook
-from qtpy.QtCore import Slot, QModelIndex
-from qtpy.QtWidgets import (
-    QWidget,
-    QApplication,
-    QMessageBox,
-    QHeaderView,
-    QListWidgetItem,
-    QInputDialog,
-    QDoubleSpinBox,
-    QTableWidgetItem,
-    QProgressDialog,
-    QRadioButton,
+from math import hypot
+from typing import (
+    Any, Callable, Dict, Iterable, Iterator, List, Optional,
+    Sequence, TYPE_CHECKING, Tuple, Union, cast,
 )
-from qtpy.QtGui import QIcon, QPixmap
 from lark.exceptions import LarkError
+from openpyxl import load_workbook
 from pyslvs import (
-    t_config,
+    efd_fitting,
     expr_solving,
+    norm_path,
     parse_pos,
     parse_vpoints,
-    efd_fitting,
-    norm_path,
+    t_config,
 )
-from pyslvs.metaheuristics import PARAMS, DEFAULT_PARAMS, AlgorithmType
+from pyslvs.metaheuristics import AlgorithmType, DEFAULT_PARAMS, PARAMS
+from qtpy.QtCore import QModelIndex, Slot
+from qtpy.QtGui import QIcon, QPixmap
+from qtpy.QtWidgets import (
+    QApplication,
+    QDoubleSpinBox,
+    QHeaderView,
+    QInputDialog,
+    QListWidgetItem,
+    QMessageBox,
+    QProgressDialog,
+    QRadioButton,
+    QTableWidgetItem,
+    QWidget,
+)
+
 from pyslvs_ui.graphics import PreviewCanvas, parse_path
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
     AlgorithmOptionDialog,
-    EditPathDialog,
-    ProgressDialog,
-    PreviewDialog,
     ChartDialog,
+    EditPathDialog,
+    PreviewDialog,
+    ProgressDialog,
 )
 from .dimension_widget_ui import Ui_Form
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -216,14 +220,22 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             data = f.read()
         self.__read_path_from_csv(data)
 
-    def __read_path_from_csv(self, raw: str) -> None:
+    def __read_path_from_csv(self, raw: str, *, clear: bool = True) -> None:
         """Turn string to float then add them to current target path."""
         try:
             path = parse_path(raw)
         except LarkError as e:
             QMessageBox.warning(self, "Wrong format", f"{e}")
         else:
-            self.set_path(path)
+            self.set_path(path, clear=clear)
+
+    @Slot(name='on_append_path_button_clicked')
+    def __append_path(self):
+        """Append path from text."""
+        raw, ok = QInputDialog.getMultiLineText(self, "Append path",
+                                                "Path from csv format.")
+        if ok and raw:
+            self.__read_path_from_csv(raw, clear=False)
 
     @Slot(name='on_save_path_button_clicked')
     def __save_path(self):
@@ -249,7 +261,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         wb = load_workbook(file_name)
         sheets = wb.get_sheet_names()
-        name, ok = QInputDialog.getItem(self, "Sheets", "Select a sheet:", sheets, 0)
+        name, ok = QInputDialog.getItem(self, "Sheets", "Select a sheet:",
+                                        sheets, 0)
         if not ok:
             return
 
@@ -319,9 +332,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path_list.setCurrentRow(self.path_list.count() - 1)
         self.__current_path_changed()
 
-    def set_path(self, path: Iterable[_Coord]) -> None:
+    def set_path(self, path: Iterable[_Coord], *, clear: bool = True) -> None:
         """Set the current path."""
-        self.clear_path(ask=False)
+        if clear:
+            self.clear_path(ask=False)
         for x, y in path:
             self.add_point(x, y)
         self.__current_path_changed()
@@ -706,9 +720,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         def set_angle(index1: int, index2: int) -> Callable[[float], None]:
             """Return a slot function use to set angle value."""
+
             @Slot(float)
             def func(value: float) -> None:
                 inputs[index1][1][index2] = value
+
             return func
 
         # Angles
@@ -747,14 +763,17 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         def set_link(opt: str) -> Callable[[float], None]:
             """Set link length."""
+
             @Slot(float)
             def func(value: float) -> None:
                 self.mech[opt] = value
+
             return func
 
         self.parameter_list.setItem(row, 0, QTableWidgetItem("L"))
         self.parameter_list.setItem(row, 1, QTableWidgetItem('link'))
-        for i, (s, tag) in enumerate([(spinbox(), 'upper'), (spinbox(), 'lower')]):
+        for i, (s, tag) in enumerate(
+            [(spinbox(), 'upper'), (spinbox(), 'lower')]):
             s.setValue(self.mech[tag])
             s.valueChanged.connect(set_link(tag))
             self.parameter_list.setCellWidget(row, i + 2, s)
@@ -849,6 +868,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot()
     def update_range(self) -> None:
         """Update range values to main canvas."""
+
         def t(row: int, col: int) -> Union[str, float]:
             item = self.parameter_list.item(row, col)
             if item is None:
@@ -856,6 +876,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 return w.value()
             else:
                 return item.text()
+
         self.update_ranges({
             cast(str, t(row, 0)): (
                 cast(float, t(row, 2)),

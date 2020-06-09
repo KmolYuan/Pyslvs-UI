@@ -122,6 +122,9 @@
       </layout>
      </widget>
      <widget class="QTabWidget" name="options_tab">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
@@ -489,6 +492,23 @@
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
                   <normaloff>:/icons/excel.png</normaloff>:/icons/excel.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>40</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="append_path_button">
+                <property name="statusTip">
+                 <string>Append new points from text.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../icons.qrc">
+                  <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
