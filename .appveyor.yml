@@ -21,9 +21,9 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       PY: 3.8
     - APPVEYOR_BUILD_WORKER_IMAGE: macos
-      PY: 3.7.5
+      PY: 3.7
     - APPVEYOR_BUILD_WORKER_IMAGE: macos
-      PY: 3.8.0
+      PY: 3.8
 
 install:
   # Clone submodules
