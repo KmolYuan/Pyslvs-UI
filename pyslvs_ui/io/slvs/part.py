@@ -116,14 +116,14 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.param_shift16()
 
     # Group 2:
-
     point_count = len(centers)
     # The number of same points
     point_num: List[List[int]] = [[] for _ in range(point_count)]
     # The number of same lines
     line_num: List[List[int]] = [[] for _ in range(len(frame))]
 
-    def segment_processing(edges: Sequence[_CoordsPair]) -> None:
+    def segment_processing(edges: Sequence[_CoordsPair], *,
+                           is_frame: bool = True) -> None:
         """Add edges to work plane. (No any constraint.)"""
         # Add "Request"
         for _ in range(len(edges)):
@@ -150,8 +150,8 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
                 k %= len(point_num)
                 yield k
 
-        # Add "Entity".
-        if edges is frame:
+        # Add "Entity"
+        if is_frame:
             p_count = edges_is_frame()
         else:
             p_count = edges_is_boundary()
@@ -165,10 +165,8 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
                 line_num[index].append(writer.entity_num)
             writer.entity_shift16()
 
-    segment_processing(frame)
-
+    segment_processing(frame, is_frame=True)
     center_num = [nums[0] for nums in point_num]
-
     # Add "Constraint"
     # Same point constraint
     for p in point_num:
@@ -195,10 +193,9 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     point_num = [[] for _ in range(len(boundary))]
     # The number of same lines.
     line_num = [[] for _ in range(len(boundary))]
+    segment_processing(boundary)
     # The number of circles.
     circles = []
-
-    segment_processing(boundary)
 
     def add_circle(index: int, _x: float, _y: float) -> None:
         """Add circle"""
@@ -223,9 +220,11 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.constraint_num += 1
         # Add "Constraint" for diameter
         if index == 0:
-            writer.constraint_diameter(writer.constraint_num, circles[-1], radius)
+            writer.constraint_diameter(writer.constraint_num, circles[-1],
+                                       radius)
         else:
-            writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
+            writer.constraint_equal_radius(writer.constraint_num, circles[-1],
+                                           circles[0])
         writer.constraint_num += 1
 
     def add_arc(index: int, _cx: float, _cy: float) -> None:
@@ -247,20 +246,18 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         # Add "Constraint" for three points
         num1 = point_num[index][0]
         num2 = point_num[index][1]
-        if (num1 % 16) < (num2 % 16):
+        if num1 % 16 < num2 % 16:
             num1, num2 = num2, num1
-        for j, num in enumerate((
-            center_num[index],
-            num1,
-            num2,
-        )):
+        for j, num in enumerate([center_num[index], num1, num2]):
             writer.constraint_point(writer.constraint_num, p3[j], num)
             writer.constraint_num += 1
         # Add "Constraint" for diameter
         if index == 0:
-            writer.constraint_diameter(writer.constraint_num, circles[-1], radius * 2)
+            writer.constraint_diameter(writer.constraint_num, circles[-1],
+                                       radius * 2)
         else:
-            writer.constraint_equal_radius(writer.constraint_num, circles[-1], circles[0])
+            writer.constraint_equal_radius(writer.constraint_num, circles[-1],
+                                           circles[0])
         writer.constraint_num += 1
         # Add "Constraint" for become tangent line
         for j, num in enumerate((num1 - num1 % 16, num2 - num2 % 16)):
@@ -278,6 +275,5 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     for i in range(len(boundary)):
         x, y = centers[i]
         add_arc(i, x, y)
-
     # Write file
     writer.save(file_name)
