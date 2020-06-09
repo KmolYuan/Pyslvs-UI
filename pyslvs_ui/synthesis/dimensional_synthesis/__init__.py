@@ -328,7 +328,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def add_point(self, x: float, y: float) -> None:
         """Add path data to list widget and current target path."""
         self.current_path().append((x, y))
-        self.path_list.addItem(f"({x:.04f}, {y:.04f})")
+        self.path_list.addItem(f"({x:.08f}, {y:.08f})")
         self.path_list.setCurrentRow(self.path_list.count() - 1)
         self.__current_path_changed()
 
