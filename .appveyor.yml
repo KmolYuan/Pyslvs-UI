@@ -34,13 +34,7 @@ install:
   - cmd: set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
   - cmd: set PYTHON_DIR=C:\Python%PY%-x64
   - cmd: set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
-  - sh: '[[ "$(uname)" == "Linux" ]] && source ~/venv${PY}/bin/activate || true'
-  - sh: '[[ "$(uname)" == "Darwin" ]] && brew update || true'
-  - sh: '[[ "$(uname)" == "Darwin" ]] && brew install pyenv || true'
-  - sh: '[[ "$(uname)" == "Darwin" ]] && export PATH=~/.pyenv/shims:${PATH} || true'
-  - sh: '[[ "$(uname)" == "Darwin" ]] && env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PY} || true'
-  - sh: '[[ "$(uname)" == "Darwin" ]] && pyenv global ${PY} || true'
-  - sh: '[[ "$(uname)" == "Darwin" ]] && pyenv rehash || true'
+  - sh: source ~/venv${PY}/bin/activate
   # Show Python
   - python --version
   - python -m pip --version
