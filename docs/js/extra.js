@@ -1,1 +1,0 @@
-window.MathJax = {displayAlign: "left"};
