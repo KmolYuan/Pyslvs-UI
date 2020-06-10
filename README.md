@@ -8,8 +8,8 @@
 [![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
 [![sourceforge](https://img.shields.io/badge/site-sourceforge-green.svg)](https://sourceforge.net/projects/pyslvs/)
 
-[![kernel](https://img.shields.io/badge/kernel-python--solvespace-orange.svg)](https://github.com/KmolYuan/solvespace)
 [![kernel](https://img.shields.io/badge/kernel-pyslvs-orange.svg)](https://github.com/KmolYuan/pyslvs)
+[![kernel](https://img.shields.io/badge/kernel-python--solvespace-orange.svg)](https://github.com/KmolYuan/solvespace)
 
 # <img width="7%" src="https://github.com/KmolYuan/Pyslvs-UI/raw/master/docs/img/favicon.png" alt="pyslvs-icon"/> Pyslvs-UI
 
