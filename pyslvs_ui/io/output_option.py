@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import abstractmethod
-from typing import Tuple, Callable, Sequence, Set, Dict
+from typing import Tuple, Callable, Sequence, Iterable, Set, Dict
 from os.path import isdir, isfile
 from shutil import which
 from subprocess import Popen, DEVNULL
@@ -44,30 +44,30 @@ def _get_name(widget: QTextEdit, *, ispath: bool = False) -> str:
     return ''.join(x for x in text if x.isalnum() or x in "._- ") or place_text
 
 
-class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
+class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
     """Output dialog template."""
+    format_name: str = ""
+    format_icon: str = ""
+    assembly_description: str = ""
+    frame_description: str = ""
 
     def __init__(
         self,
-        format_name: str,
-        format_icon: str,
-        assembly_description: str,
-        frame_description: str,
         env: str,
         file_name: str,
         vpoints: Sequence[VPoint],
-        v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
+        v_to_slvs: Callable[[], Iterable[Tuple[int, int]]],
         parent: QWidget
     ):
         """Comes in environment variable and project name."""
-        super(_OutputDialog, self).__init__(parent)
+        super(OutputDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags()
                             & ~Qt.WindowContextHelpButtonHint)
-        self.setWindowTitle(f"Export {format_name} module project")
-        self.setWindowIcon(QIcon(QPixmap(f":/icons/{format_icon}")))
-        self.assembly_label.setText(assembly_description)
-        self.frame_label.setText(frame_description)
+        self.setWindowTitle(f"Export {self.format_name} module project")
+        self.setWindowIcon(QIcon(QPixmap(f":/icons/{self.format_icon}")))
+        self.assembly_label.setText(self.assembly_description)
+        self.frame_label.setText(self.frame_description)
         self.path_edit.setPlaceholderText(env)
         self.filename_edit.setPlaceholderText(file_name)
         self.vpoints = vpoints
@@ -75,11 +75,14 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
 
     @Slot(name='on_choose_dir_button_clicked')
     def __set_dir(self) -> None:
-        """Choose path and it will be set as environment variable if accepted."""
+        """Choose path and it will be set as environment variable
+         if accepted.
+         """
         path = self.path_edit.text()
         if not isdir(path):
             path = self.path_edit.placeholderText()
-        path = QFileDialog.getExistingDirectory(self, "Choose a directory", path)
+        path = QFileDialog.getExistingDirectory(self, "Choose a directory",
+                                                path)
         if path:
             self.path_edit.setText(path)
 
@@ -118,19 +121,18 @@ class _OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         )
 
 
-class SlvsOutputDialog(_OutputDialog):
+class SlvsOutputDialog(OutputDialog):
     """Dialog for Solvespace format."""
+    format_name = "Solvespace"
+    format_icon = "solvespace.png"
+    assembly_description = ("The part sketchs file will be generated "
+                            "automatically with target directory.")
+    frame_description = ("There is only sketch file of main mechanism "
+                         "will be generated.")
 
     def __init__(self, *args):
         """Type name: "Solvespace module"."""
-        super(SlvsOutputDialog, self).__init__(
-            "Solvespace",
-            "solvespace.png",
-            "The part sketchs file will be generated automatically "
-            "with target directory.",
-            "There is only sketch file of main mechanism will be generated.",
-            *args
-        )
+        super(SlvsOutputDialog, self).__init__(*args)
 
     def do(self, dir_str: QDir) -> bool:
         """Output types:
@@ -173,18 +175,16 @@ class SlvsOutputDialog(_OutputDialog):
         return True
 
 
-class DxfOutputDialog(_OutputDialog):
+class DxfOutputDialog(OutputDialog):
     """Dialog for DXF format."""
+    format_name = "DXF"
+    format_icon = "dxf.png"
+    assembly_description = "The part sketchs will including in the file."
+    frame_description = "There is only wire frame will be generated."
 
     def __init__(self, *args):
         """Type name: "DXF module"."""
-        super(DxfOutputDialog, self).__init__(
-            "DXF",
-            "dxf.png",
-            "The part sketchs will including in the file.",
-            "There is only wire frame will be generated.",
-            *args
-        )
+        super(DxfOutputDialog, self).__init__(*args)
         # DXF version option.
         version_label = QLabel("DXF version:", self)
         self.version_option = QComboBox(self)
@@ -192,10 +192,8 @@ class DxfOutputDialog(_OutputDialog):
             f"{name} - {DXF_VERSIONS_MAP[name]}" for name in DXF_VERSIONS
         ), key=lambda v: v.split()[-1]))
         self.version_option.setCurrentIndex(self.version_option.count() - 1)
-        self.version_option.setSizePolicy(QSizePolicy(
-            QSizePolicy.Expanding,
-            QSizePolicy.Fixed
-        ))
+        self.version_option.setSizePolicy(QSizePolicy.Expanding,
+                                          QSizePolicy.Preferred)
         dxf_version_layout = QHBoxLayout()
         dxf_version_layout.addWidget(version_label)
         dxf_version_layout.addWidget(self.version_option)
@@ -203,15 +201,18 @@ class DxfOutputDialog(_OutputDialog):
         # Parts interval.
         self.interval_enable = QCheckBox("Parts interval:", self)
         self.interval_enable.setCheckState(Qt.Checked)
+        self.interval_enable.setSizePolicy(QSizePolicy.Fixed,
+                                           QSizePolicy.Preferred)
         self.interval_option = QDoubleSpinBox(self)
         self.interval_option.setValue(10)
-        self.interval_enable.stateChanged.connect(self.interval_option.setEnabled)
+        self.interval_enable.stateChanged.connect(
+            self.interval_option.setEnabled)
         dxf_interval_layout = QHBoxLayout()
         dxf_interval_layout.addWidget(self.interval_enable)
-        dxf_interval_layout.addItem(
-            QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        )
         dxf_interval_layout.addWidget(self.interval_option)
+        dxf_interval_layout.addItem(
+            QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Preferred)
+        )
         self.assembly_layout.insertLayout(2, dxf_interval_layout)
 
     def do(self, dir_str: QDir) -> bool:

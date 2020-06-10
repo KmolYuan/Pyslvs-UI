@@ -107,8 +107,24 @@
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QLabel" name="link_radius_label">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Fillet radius:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="link_radius">
+             <property name="minimum">
+              <double>0.010000000000000</double>
+             </property>
+             <property name="value">
+              <double>10.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -124,16 +140,6 @@
               </size>
              </property>
             </spacer>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="link_radius">
-             <property name="minimum">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>10.000000000000000</double>
-             </property>
-            </widget>
            </item>
           </layout>
          </item>

@@ -11,7 +11,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, Sequence, Callable, Dict, List
+from typing import Tuple, Sequence, Iterable, Callable, Dict, List
 from math import degrees, atan2
 import ezdxf
 from ezdxf.lldxf.const import versions_supported_by_new, acad_release
@@ -26,7 +26,7 @@ DXF_VERSIONS_MAP = acad_release
 
 def dxf_frame(
     vpoints: Sequence[VPoint],
-    v_to_slvs: Callable[[], Sequence[Tuple[int, int]]],
+    v_to_slvs: Callable[[], Iterable[Tuple[int, int]]],
     version: str,
     file_name: str
 ):

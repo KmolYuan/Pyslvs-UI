@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Sequence, Dict, Callable, Iterator, Union
+from typing import Tuple, List, Sequence, Dict, Callable, Iterator, Union, Type
 from abc import ABC
 from dataclasses import Field, fields
 from lark.exceptions import LarkError
@@ -41,6 +41,7 @@ from pyslvs_ui.io import (
     SlvsParser,
     SlvsOutputDialog,
     DxfOutputDialog,
+    OutputDialog,
     OverviewDialog,
     str_between,
 )
@@ -343,41 +344,26 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.project_saved()
         self.save_reply_box("YAML Profile", file_name)
 
-    @Slot()
-    def export_slvs(self) -> None:
-        """Solvespace 2d save function."""
-        dlg = SlvsOutputDialog(
-            self.env,
-            self.project_widget.base_file_name(),
-            self.vpoint_list,
-            self.__v_to_slvs(),
-            self
-        )
+    def __cad_export(self, dialog: Type[OutputDialog], title: str) -> None:
+        """Export to cad format."""
+        dlg = dialog(self.env, self.project_widget.base_file_name(),
+                     self.vpoint_list, self.__v_to_slvs(), self)
         dlg.show()
         if dlg.exec_():
             path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
             self.set_locate(path)
-            self.save_reply_box("Solvespace sketch", path)
-
+            self.save_reply_box(title, path)
         dlg.deleteLater()
+
+    @Slot()
+    def export_slvs(self) -> None:
+        """Solvespace 2d save function."""
+        self.__cad_export(SlvsOutputDialog, "Solvespace sketch")
 
     @Slot()
     def export_dxf(self) -> None:
         """DXF 2d save function."""
-        dlg = DxfOutputDialog(
-            self.env,
-            self.project_widget.base_file_name(),
-            self.vpoint_list,
-            self.__v_to_slvs(),
-            self
-        )
-        dlg.show()
-        if dlg.exec_():
-            path = dlg.path_edit.text() or dlg.path_edit.placeholderText()
-            self.set_locate(path)
-            self.save_reply_box("Drawing Exchange Format", path)
-
-        dlg.deleteLater()
+        self.__cad_export(DxfOutputDialog, "Drawing Exchange Format")
 
     @Slot()
     def export_image(self) -> None:

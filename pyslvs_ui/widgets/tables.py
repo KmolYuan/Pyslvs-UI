@@ -64,8 +64,9 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
 
     def __init__(self, row: int, parent: QWidget):
         super(BaseTableWidget, self).__init__(parent)
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        self.setStatusTip("This table will show about the entities items in current view mode.")
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setStatusTip("This table will show about the entities items in "
+                          "current view mode.")
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
@@ -114,7 +115,8 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
 
     def selected_rows(self) -> List[int]:
         """Get what row is been selected."""
-        return [row for row in range(self.rowCount()) if self.item(row, 0).isSelected()]
+        return [row for row in range(self.rowCount())
+                if self.item(row, 0).isSelected()]
 
     def selectAll(self) -> None:
         """Override method of select all function."""
