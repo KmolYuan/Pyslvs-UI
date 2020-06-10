@@ -17,6 +17,28 @@ _Coord = Tuple[float, float]
 _CoordsPair = Tuple[Coordinate, Coordinate]
 
 
+def _by_frame() -> Iterator[int]:
+    """Number code of frame."""
+    yield 0
+    yield 1
+    k = 2
+    while True:
+        for code in (0, 1):
+            yield code
+            yield k
+        k += 1
+
+
+def _by_boundary(length: int) -> Iterator[int]:
+    """Number code of boundary."""
+    k = 0
+    while True:
+        yield k
+        k += 1
+        k %= length
+        yield k
+
+
 def boundary_loop(
     boundary: Sequence[_Coord],
     radius: float
@@ -130,37 +152,13 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
             writer.request_line(writer.request_num)
             writer.request_num += 1
 
-        def edges_is_frame() -> Iterator[int]:
-            """Number code of frame."""
-            yield 0
-            yield 1
-            k = 2
-            while True:
-                for code in (0, 1):
-                    yield code
-                    yield k
-                k += 1
-
-        def edges_is_boundary() -> Iterator[int]:
-            """Number code of boundary."""
-            k = 0
-            while True:
-                yield k
-                k += 1
-                k %= len(point_num)
-                yield k
-
         # Add "Entity"
-        if is_frame:
-            p_count = edges_is_frame()
-        else:
-            p_count = edges_is_boundary()
-
+        p_counter = _by_frame() if is_frame else _by_boundary(len(point_num))
         for index, edge in enumerate(edges):
             writer.entity_line(writer.entity_num)
             for j, coord in enumerate(edge):
                 writer.entity_num += 1
-                point_num[next(p_count)].append(writer.entity_num)
+                point_num[next(p_counter)].append(writer.entity_num)
                 writer.entity_point_2d(writer.entity_num, coord.x, coord.y)
                 line_num[index].append(writer.entity_num)
             writer.entity_shift16()
@@ -175,7 +173,8 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
             writer.constraint_num += 1
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = frame[i]
-        writer.constraint_distance(writer.constraint_num, n1, n2, p1.distance(p2))
+        writer.constraint_distance(writer.constraint_num, n1, n2,
+                                   p1.distance(p2))
         writer.constraint_num += 1
     # Add "Constraint" of position
     for i, c in enumerate(frame[0]):
