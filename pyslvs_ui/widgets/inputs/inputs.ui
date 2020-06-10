@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>368</width>
+    <width>309</width>
     <height>580</height>
    </rect>
   </property>
@@ -398,17 +398,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="show_all_button">
-           <property name="text">
-            <string>Show all</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -536,6 +525,65 @@
           <widget class="QComboBox" name="plot_joint"/>
          </item>
          <item>
+          <widget class="QCheckBox" name="plot_joint_slot">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Slot</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="show_button">
+           <property name="statusTip">
+            <string>Show this joint only.</string>
+           </property>
+           <property name="text">
+            <string>Show only</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="show_all_button">
+           <property name="text">
+            <string>Show all</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QPushButton" name="cp_data_button">
+           <property name="statusTip">
+            <string>Copy the data of this joint to clipboard.</string>
+           </property>
+           <property name="text">
+            <string>Copy data</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons.qrc">
+             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="plot_button">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -563,38 +611,6 @@
            <property name="icon">
             <iconset resource="../../icons.qrc">
              <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <item>
-          <widget class="QPushButton" name="cp_data_button">
-           <property name="statusTip">
-            <string>Copy the data of this joint to clipboard.</string>
-           </property>
-           <property name="text">
-            <string>Copy data</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="show_button">
-           <property name="statusTip">
-            <string>Show this joint only.</string>
-           </property>
-           <property name="text">
-            <string>Show only</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
            </property>
           </widget>
          </item>
@@ -649,7 +665,30 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QCheckBox" name="wrt_joint_slot">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Slot</string>
+              </property>
+             </widget>
+            </item>
            </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">

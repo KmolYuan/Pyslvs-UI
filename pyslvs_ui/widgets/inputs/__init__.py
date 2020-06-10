@@ -15,17 +15,21 @@ from csv import writer
 from copy import copy
 from numpy import array, hypot, arctan2
 from qtpy.QtCore import Signal, Slot, QTimer
-from qtpy.QtWidgets import (QWidget, QMessageBox, QInputDialog, QListWidgetItem,
-                            QApplication)
+from qtpy.QtWidgets import (
+    QWidget, QMessageBox, QInputDialog, QListWidgetItem, QApplication,
+    QCheckBox,
+)
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint, curvature, derivative, path_signature
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
-from pyslvs_ui.widgets.undo_redo import (AddInput, DeleteInput, AddPath,
-                                         DeletePath)
+from pyslvs_ui.widgets.undo_redo import (
+    AddInput, DeleteInput, AddPath, DeletePath,
+)
 from .rotatable import QRotatableView
 from .preview import AnimateDialog
 from .inputs_ui import Ui_Form
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -87,7 +91,20 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.setCurrentRow(0)
         self.record_list.blockSignals(False)
         self.__path_data: Dict[str, _Paths] = {
-            _AUTO_PATH: self.main_canvas.path_preview}
+            _AUTO_PATH: self.main_canvas.path_preview
+        }
+
+        def slot(widget: QCheckBox):
+            @Slot(int)
+            def func(ind: int):
+                widget.setEnabled(ind >= 0
+                                  and self.vpoints[ind].type != VJoint.R)
+
+            return func
+
+        # Slot option
+        self.plot_joint.currentIndexChanged.connect(slot(self.plot_joint_slot))
+        self.wrt_joint.currentIndexChanged.connect(slot(self.wrt_joint_slot))
 
     def clear(self) -> None:
         """Clear function to reset widget status."""
@@ -206,7 +223,8 @@ class InputsWidget(QWidget, Ui_Form):
             f"{value:.02f}",
         )), self.variable_list))
 
-    def add_inputs_variables(self, variables: Sequence[Tuple[int, int]]) -> None:
+    def add_inputs_variables(self,
+                             variables: Sequence[Tuple[int, int]]) -> None:
         """Add from database."""
         for p0, p1 in variables:
             self.__add_inputs_variable(p0, p1)
