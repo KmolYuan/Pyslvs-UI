@@ -7,7 +7,7 @@ from math import cos, sin, atan2, hypot
 from qtpy.QtCore import Qt, Slot, QTimer
 from qtpy.QtWidgets import (
     QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider, QPushButton, QLabel,
-    QSpacerItem, QSizePolicy,
+    QSpacerItem, QSizePolicy, QDoubleSpinBox,
 )
 from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
 from numpy import array
@@ -30,11 +30,18 @@ class _DynamicCanvas(AnimationCanvas):
         self.vel = [derivative(array(path)) for path in self.path.path]
         self.acc = [derivative(vel) for vel in self.vel]
         self.max_ind = max(len(p) for p in self.path.path)
+        self.factor = 1.
 
     @Slot(int)
     def set_index(self, ind: int):
         """Set current index."""
         self.ind = ind
+        self.update()
+
+    @Slot(float)
+    def set_factor(self, scalar: float):
+        """Set the size of the derived value."""
+        self.factor = scalar
         self.update()
 
     def paintEvent(self, event: QPaintEvent) -> None:
@@ -53,10 +60,11 @@ class _DynamicCanvas(AnimationCanvas):
             self.draw_curve(path)
             vpoint = self.vpoints[i]
             x, y = path[self.ind]
-            zoom = 50
+            zoom = 1.
             for vec, color in [(self.vel[i], Qt.blue), (self.acc[i], Qt.red)]:
                 if self.ind >= len(vec):
                     break
+                zoom *= self.factor
                 vx, vy = vec[self.ind]
                 r = hypot(vx, vy) * zoom
                 if r == 0:
@@ -65,7 +73,6 @@ class _DynamicCanvas(AnimationCanvas):
                 pen.setColor(color)
                 self.painter.setPen(pen)
                 self.draw_arrow(x, y, x + r * cos(theta), y + r * sin(theta))
-                zoom *= 50
             self.draw_point(i, x, y, vpoint.grounded(), vpoint.color)
         self.painter.end()
 
@@ -105,6 +112,11 @@ class AnimateDialog(QDialog):
         self.slider.setMaximum(max(len(p) for p in path) - 1)
         self.slider.valueChanged.connect(self.canvas.set_index)
         layout.addWidget(self.slider)
+        factor = QDoubleSpinBox(self)
+        factor.valueChanged.connect(self.canvas.set_factor)
+        factor.setRange(0.01, 9999)
+        factor.setValue(50)
+        layout.addWidget(factor)
         main_layout.addLayout(layout)
         self.timer = QTimer()
         self.timer.setInterval(10)
