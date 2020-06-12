@@ -9,7 +9,8 @@ matplotlib
 cython
 openpyxl
 psutil
-lark-parser
+# https://github.com/lark-parser/lark/issues/600
+lark-parser==0.8.5
 pyyaml
 h5py
 qrcode
