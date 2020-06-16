@@ -51,11 +51,11 @@ class _Transformer(Transformer):
     @staticmethod
     def coord(n: Tuple[float, Union[float, Tree]]) -> Tuple[float, float]:
         if len(n) == 3:
-            return n[0], n[1]
+            return n[0], cast(float, n[1])
         elif type(n[1]) is float:
-            return n[0], n[1]
+            return n[0], cast(float, n[1])
         else:
-            return n[0], float(cast(Tree, n[1]).children[0])
+            return n[0], float(cast(str, cast(Tree, n[1]).children[0]))
 
     @staticmethod
     def line(n):
