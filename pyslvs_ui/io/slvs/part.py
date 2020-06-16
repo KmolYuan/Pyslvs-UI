@@ -178,7 +178,7 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
         writer.constraint_num += 1
     # Add "Constraint" of position
     for i, c in enumerate(frame[0]):
-        writer.constraint_fix(writer.constraint_num, point_num[i][0], c.x, c.y)
+        writer.constraint_grounded(writer.constraint_num, point_num[i][0], c.x, c.y)
         if i == 1:
             writer.script_constraint.pop()
             writer.constraint_num += 1

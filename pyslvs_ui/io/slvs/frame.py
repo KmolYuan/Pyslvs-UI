@@ -62,7 +62,7 @@ def slvs2_frame(
     # Position constraint
     for i, vpoint in enumerate(vpoints):
         if "ground" in vpoint.links and point_num[i]:
-            writer.constraint_fix(writer.constraint_num, point_num[i][0], vpoint.cx, vpoint.cy)
+            writer.constraint_grounded(writer.constraint_num, point_num[i][0], vpoint.cx, vpoint.cy)
             writer.constraint_num += 2
     # Distance constraint
     for i, (n1, n2) in enumerate(line_num):
