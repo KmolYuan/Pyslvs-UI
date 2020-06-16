@@ -52,6 +52,7 @@ class InputsWidget(QWidget, Ui_Form):
     """
     __path_data: Dict[str, _Paths]
     __slider_path_data: Dict[str, _SliderPaths]
+
     about_to_resolve = Signal()
 
     def __init__(self, parent: MainWindowBase):

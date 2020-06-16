@@ -23,6 +23,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     + Interrupt function.
     """
     mechanisms: List[Dict[str, Any]]
+
     stop_signal = Signal()
 
     def __init__(

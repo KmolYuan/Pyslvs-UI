@@ -570,6 +570,7 @@ class PreviewCanvas(BaseCanvas):
     status: Dict[int, bool]
     driver: Set[int]
     target: Set[int]
+
     view_size: ClassVar[int] = 240
 
     def __init__(self, parent: QWidget):

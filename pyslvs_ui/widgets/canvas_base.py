@@ -126,6 +126,7 @@ class MainCanvasBase(BaseCanvas, ABC):
     path_preview: _MutPaths
     slider_path_preview: Dict[int, List[_Coord]]
     path_record: List[Deque[_Coord]]
+
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)
@@ -390,8 +391,11 @@ class MainCanvasBase(BaseCanvas, ABC):
                     )
 
             for i, vlink in enumerate(self.vlinks):
-                if i != 0 and catch_l(
-                    vlink) and i not in self.selector.selection_rect:
+                if (
+                    i != 0
+                    and catch_l(vlink)
+                    and i not in self.selector.selection_rect
+                ):
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.SOLUTION:

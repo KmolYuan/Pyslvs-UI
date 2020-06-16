@@ -185,6 +185,7 @@ class MainWindowBase(MainWindowABC, ABC):
     """External UI settings."""
     vpoint_list: List[VPoint]
     vlink_list: List[VLink]
+
     __tables: Sequence[BaseTableWidget]
 
     @abstractmethod

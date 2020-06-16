@@ -51,6 +51,7 @@ class StructureWidget(QWidget, Ui_Form):
     collections: List[Graph]
     collections_layouts: List[Dict[int, Tuple[float, float]]]
     collections_grounded: List[Graph]
+
     layout_sender = Signal(Graph, dict)
 
     def __init__(self, parent: MainWindowBase):

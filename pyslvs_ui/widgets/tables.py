@@ -15,17 +15,8 @@ from abc import abstractmethod
 from dataclasses import astuple
 from time import process_time
 from typing import (
-    cast,
-    TYPE_CHECKING,
-    Tuple,
-    List,
-    Dict,
-    Iterator,
-    Sequence,
-    Union,
-    Optional,
-    TypeVar,
-    Generic,
+    cast, TYPE_CHECKING, Tuple, List, Dict, Iterator, Sequence, Union, Optional,
+    TypeVar, Generic,
 )
 from qtpy.QtCore import Signal, Qt, QTimer, Slot
 from qtpy.QtWidgets import (
@@ -60,6 +51,8 @@ _Coord = Tuple[float, float]
 
 class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
     """Two tables has some shared function."""
+    headers: Sequence[str] = ()
+
     row_selection_changed = Signal(list)
     delete_request = Signal()
 
@@ -87,12 +80,6 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
             self.row_selection_changed.emit(self.selected_rows())
 
         self.itemSelectionChanged.connect(emit_selection_changed)
-
-    @property
-    @abstractmethod
-    def headers(self) -> Sequence[str]:
-        """Table headers."""
-        ...
 
     def row_text(self, row: int, *, has_name: bool) -> List[str]:
         """Get the whole row of texts.
@@ -201,8 +188,9 @@ class PointTableWidget(BaseTableWidget[VPoint]):
 
     def edit_point(self, row: int, arg: PointArgs) -> None:
         """Edit a point."""
-        for i, e in enumerate(
-            (f'Point{row}',) + astuple(arg) + (f"({arg.x}, {arg.y})",)):
+        for i, e in enumerate((f'Point{row}',)
+                              + astuple(arg)
+                              + (f"({arg.x}, {arg.y})",)):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 3:
@@ -341,6 +329,7 @@ class ExprTableWidget(BaseTableWidget):
     + Free move request: link name, length
     """
     exprs: List[Tuple[str, ...]]
+
     headers = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
 
     def __init__(self, parent: QWidget):
