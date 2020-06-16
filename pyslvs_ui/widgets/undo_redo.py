@@ -20,16 +20,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    Type, cast,
-    Sequence,
-    List,
-    Dict,
-    Tuple,
-    Iterator,
-    Iterable,
-    Generic,
-    Optional,
-    TypeVar,
+    cast, Type, Sequence, List, Dict, Tuple, Iterator, Iterable, Generic,
+    Optional, TypeVar,
 )
 from abc import abstractmethod
 from qtpy.QtCore import Qt

@@ -10,9 +10,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (
-    TYPE_CHECKING, Tuple, List, Dict, Sequence, Iterator, Optional,
-)
+from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
 from csv import writer
 from copy import copy
 from numpy import array, hypot, arctan2
@@ -37,6 +35,7 @@ if TYPE_CHECKING:
 
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
+_SliderPaths = Dict[int, Sequence[_Coord]]
 _AUTO_PATH = "Auto preview"  # Unified name
 
 
@@ -52,7 +51,7 @@ class InputsWidget(QWidget, Ui_Form):
     + Path recording.
     """
     __path_data: Dict[str, _Paths]
-    __slider_path_data: Dict[str, Dict[int, List[_Coord]]]
+    __slider_path_data: Dict[str, _SliderPaths]
     about_to_resolve = Signal()
 
     def __init__(self, parent: MainWindowBase):
@@ -96,7 +95,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.blockSignals(False)
         self.__path_data = {_AUTO_PATH: self.main_canvas.path_preview}
         self.__slider_path_data = {
-            _AUTO_PATH: self.main_canvas.slider_path_preview
+            _AUTO_PATH: self.main_canvas.slider_path_preview  # type: ignore
         }
 
         def slot(widget: QCheckBox):
@@ -136,7 +135,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Return current path data."""
         return self.__path_data
 
-    def slider_path_data(self) -> Dict[str, Dict[int, List[_Coord]]]:
+    def slider_path_data(self) -> Dict[str, _SliderPaths]:
         """Return current path data."""
         return self.__slider_path_data
 
@@ -245,16 +244,16 @@ class InputsWidget(QWidget, Ui_Form):
             return
         row = self.variable_list.currentRow()
         enabled = row > -1
-        rotatable = (
+        is_rotatable = (
             enabled
             and not self.free_move_button.isChecked()
             and self.right_input()
         )
-        self.dial.setEnabled(rotatable)
-        self.dial_spinbox.setEnabled(rotatable)
+        self.dial.setEnabled(is_rotatable)
+        self.dial_spinbox.setEnabled(is_rotatable)
         self.oldVar = self.dial.value()
-        self.variable_play.setEnabled(rotatable)
-        self.variable_speed.setEnabled(rotatable)
+        self.variable_play.setEnabled(is_rotatable)
+        self.variable_speed.setEnabled(is_rotatable)
         item: Optional[QListWidgetItem] = self.variable_list.currentItem()
         if item is None:
             return
