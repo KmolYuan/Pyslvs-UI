@@ -22,6 +22,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
     + Batch execute function.
     + Interrupt function.
     """
+    mechanisms: List[Dict[str, Any]]
     stop_signal = Signal()
 
     def __init__(
@@ -37,7 +38,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
                             & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.__close_work)
 
-        self.mechanisms: List[Dict[str, Any]] = []
+        self.mechanisms = []
         # Batch label
         if 'max_gen' in setting:
             self.limit = setting['max_gen']

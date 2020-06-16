@@ -69,6 +69,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
     User can run the dimensional synthesis here.
     """
+    mech: Dict[str, Any]
+    path: Dict[int, List[_Coord]]
+    mechanism_data: List[Dict[str, Any]]
+    alg_options: Dict[str, Union[int, float]]
+    algorithm_options: Dict[AlgorithmType, QRadioButton]
 
     def __init__(self, parent: MainWindowBase):
         """Reference names:
@@ -79,8 +84,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
-        self.mech: Dict[str, Any] = {}
-        self.path: Dict[int, List[_Coord]] = {}
+        self.mech = {}
+        self.path = {}
         # Some reference of 'collections'
         self.collections = parent.collections.configure_widget.collections
         self.get_collection = parent.get_configure
@@ -94,8 +99,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.get_zoom = parent.main_canvas.get_zoom
         self.prefer = parent.prefer
         # Data and functions
-        self.mechanism_data: List[Dict[str, Any]] = []
-        self.alg_options: Dict[str, Union[int, float]] = {}
+        self.mechanism_data = []
+        self.alg_options = {}
         self.alg_options.update(DEFAULT_PARAMS)
         self.alg_options.update(PARAMS[AlgorithmType.DE])
         # Canvas
@@ -109,7 +114,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Table widget column width
         header = self.parameter_list.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.algorithm_options: Dict[AlgorithmType, QRadioButton] = {}
+        self.algorithm_options = {}
         for option in PARAMS:
             button = QRadioButton(option.value, self)
             button.clicked.connect(self.__set_algorithm_default)

@@ -23,6 +23,7 @@ from matplotlib.backends.backend_qt5agg import (
 
 class DataChart(QWidget):
     """Chart widget."""
+    _ax: List[Axes]
 
     def __init__(self, parent: QWidget, row: int = 1, col: int = 1,
                  polar: bool = False):
@@ -33,7 +34,7 @@ class DataChart(QWidget):
         canvas = FigureCanvasQTAgg(figure)
         layout.addWidget(NavigationToolbar2QT(canvas, self))
         layout.addWidget(canvas)
-        self._ax: List[Axes] = []
+        self._ax = []
         for i in range(1, row * col + 1):
             self._ax.append(figure.add_subplot(row, col, i, polar=polar))
 

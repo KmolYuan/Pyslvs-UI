@@ -10,7 +10,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
+from typing import (
+    TYPE_CHECKING, Tuple, List, Dict, Sequence, Iterator, Optional,
+)
 from csv import writer
 from copy import copy
 from numpy import array, hypot, arctan2
@@ -49,6 +51,8 @@ class InputsWidget(QWidget, Ui_Form):
     + Function of mechanism variables settings.
     + Path recording.
     """
+    __path_data: Dict[str, _Paths]
+    __slider_path_data: Dict[str, Dict[int, List[_Coord]]]
     about_to_resolve = Signal()
 
     def __init__(self, parent: MainWindowBase):
@@ -90,8 +94,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.addItem(_AUTO_PATH)
         self.record_list.setCurrentRow(0)
         self.record_list.blockSignals(False)
-        self.__path_data: Dict[str, _Paths] = {
-            _AUTO_PATH: self.main_canvas.path_preview
+        self.__path_data = {_AUTO_PATH: self.main_canvas.path_preview}
+        self.__slider_path_data = {
+            _AUTO_PATH: self.main_canvas.slider_path_preview
         }
 
         def slot(widget: QCheckBox):
@@ -130,6 +135,10 @@ class InputsWidget(QWidget, Ui_Form):
     def path_data(self) -> Dict[str, _Paths]:
         """Return current path data."""
         return self.__path_data
+
+    def slider_path_data(self) -> Dict[str, Dict[int, List[_Coord]]]:
+        """Return current path data."""
+        return self.__slider_path_data
 
     @Slot(tuple)
     def set_selection(self, selections: Sequence[int]) -> None:
@@ -390,11 +399,8 @@ class InputsWidget(QWidget, Ui_Form):
         while name in self.__path_data:
             name = f"Record_{i}"
             i += 1
-        QMessageBox.information(
-            self,
-            "Record",
-            "The name tag is being used or empty."
-        )
+        QMessageBox.information(self, "Record",
+                                "The name tag is being used or empty.")
         self.add_path(name, path)
 
     def add_path(self, name: str, path: _Paths) -> None:

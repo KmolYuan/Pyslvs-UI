@@ -50,6 +50,7 @@ from pyslvs import (
 )
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.graphics import color_icon
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -123,7 +124,8 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         self.setFocus(Qt.ShortcutFocusReason)
         super(BaseTableWidget, self).selectAll()
 
-    def set_selections(self, selections: Sequence[int], key_detect: bool = False) -> None:
+    def set_selections(self, selections: Sequence[int],
+                       key_detect: bool = False) -> None:
         """Auto select function, get the signal from canvas."""
         self.setFocus()
         keyboard_modifiers = QApplication.keyboardModifiers()
@@ -183,7 +185,8 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
 
     @Slot()
     def clearSelection(self) -> None:
-        """Overridden the 'clear_selection' slot to emit 'row_selection_changed'"""
+        """Overridden the 'clear_selection' slot to emit
+        'row_selection_changed'"""
         super(BaseTableWidget, self).clearSelection()
         self.row_selection_changed.emit([])
 
@@ -198,7 +201,8 @@ class PointTableWidget(BaseTableWidget[VPoint]):
 
     def edit_point(self, row: int, arg: PointArgs) -> None:
         """Edit a point."""
-        for i, e in enumerate((f'Point{row}',) + astuple(arg) + (f"({arg.x}, {arg.y})",)):
+        for i, e in enumerate(
+            (f'Point{row}',) + astuple(arg) + (f"({arg.x}, {arg.y})",)):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 3:
@@ -257,7 +261,8 @@ class PointTableWidget(BaseTableWidget[VPoint]):
             return []
         return [s for s in item.text().split(',') if s]
 
-    def set_selections(self, selections: Sequence[int], key_detect: bool = False) -> None:
+    def set_selections(self, selections: Sequence[int],
+                       key_detect: bool = False) -> None:
         """Need to update selection label on status bar."""
         super(PointTableWidget, self).set_selections(selections, key_detect)
         self.selectionLabelUpdate.emit(self.selected_rows())
@@ -335,11 +340,12 @@ class ExprTableWidget(BaseTableWidget):
 
     + Free move request: link name, length
     """
+    exprs: List[Tuple[str, ...]]
     headers = ('Function', 'p0', 'p1', 'p2', 'p3', 'p4', 'target')
 
     def __init__(self, parent: QWidget):
         super(ExprTableWidget, self).__init__(0, parent)
-        self.exprs: List[Tuple[str, ...]] = []
+        self.exprs = []
 
     def set_expr(
         self,
@@ -355,7 +361,8 @@ class ExprTableWidget(BaseTableWidget):
         row = 0
         for expr in exprs:
             # Target
-            self.setItem(row, self.columnCount() - 1, QTableWidgetItem(expr[-1]))
+            self.setItem(row, self.columnCount() - 1,
+                         QTableWidgetItem(expr[-1]))
             # Parameters
             for column, e in enumerate(expr[:-1]):
                 if e in data_dict:

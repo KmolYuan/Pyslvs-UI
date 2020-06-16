@@ -112,6 +112,8 @@ class _TickMark(IntEnum):
 
 class BaseCanvas(QWidget, metaclass=QABCMeta):
     """The subclass can draw a blank canvas more easier."""
+    ranges: Dict[str, QRectF]
+    target_path: Dict[int, Sequence[_Coord]]
 
     @abstractmethod
     def __init__(self, parent: QWidget):
@@ -140,8 +142,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         # Path track
         self.path = _PathOption()
         # Path solving
-        self.ranges: Dict[str, QRectF] = {}
-        self.target_path: Dict[int, Sequence[_Coord]] = {}
+        self.ranges = {}
+        self.target_path = {}
         self.show_target_path = False
         # Background
         self.background = QImage()
@@ -562,6 +564,12 @@ class AnimationCanvas(BaseCanvas, ABC):
 
 class PreviewCanvas(BaseCanvas):
     """A preview canvas use to show structure diagram."""
+    cus: Dict[int, int]
+    same: Dict[int, int]
+    pos: Dict[int, _Coord]
+    status: Dict[int, bool]
+    driver: Set[int]
+    target: Set[int]
     view_size: ClassVar[int] = 240
 
     def __init__(self, parent: QWidget):
@@ -576,16 +584,14 @@ class PreviewCanvas(BaseCanvas):
         """
         super(PreviewCanvas, self).__init__(parent)
         self.graph = Graph([])
-        self.cus: Dict[int, int] = {}
-        self.same: Dict[int, int] = {}
-        self.pos: Dict[int, _Coord] = {}
-        self.status: Dict[int, bool] = {}
-
-        # Additional attributes.
+        self.cus = {}
+        self.same = {}
+        self.pos = {}
+        self.status = {}
+        # Additional attributes
         self.grounded = -1
-        self.driver: Set[int] = set()
-        self.target: Set[int] = set()
-
+        self.driver = set()
+        self.target = set()
         self.clear()
 
     def clear(self) -> None:

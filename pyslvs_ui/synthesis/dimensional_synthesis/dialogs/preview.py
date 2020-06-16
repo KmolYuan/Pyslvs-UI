@@ -27,6 +27,7 @@ _TargetPath = Dict[int, Sequence[_Coord]]
 
 class _DynamicCanvas(AnimationCanvas):
     """Custom canvas for preview algorithm result."""
+    pos: List[_Coord]
 
     def __init__(
         self,
@@ -62,7 +63,7 @@ class _DynamicCanvas(AnimationCanvas):
         self.__index = 0
         self.__interval = 1
         self.__path_count = max(len(path) for path in self.path.path) - 1
-        self.pos: List[_Coord] = []
+        self.pos = []
         # Error
         self.error = False
         self.__no_error = 0

@@ -31,6 +31,7 @@ _Pairs = Sequence[Tuple[int, int]]
 
 class FormatEditor(QObject, metaclass=QABCMeta):
     """Generic loader and dumper."""
+    dlg: Union[QProgressDialog, OverviewDialog, None]
 
     def __init__(self, project_widget: ProjectWidget, parent: MainWindowBase):
         super(FormatEditor, self).__init__(parent)
@@ -81,7 +82,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Clear function for main window
         self.main_clear = parent.clear
         # Dialog for loader
-        self.dlg: Union[QProgressDialog, OverviewDialog, None] = None
+        self.dlg = None
 
     def save_data(self) -> Dict[str, Any]:
         """Save file method."""

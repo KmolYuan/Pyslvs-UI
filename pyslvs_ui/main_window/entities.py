@@ -75,6 +75,7 @@ class _ScaleDialog(QDialog):
 
 class _LinkLengthDialog(QDialog):
     """Link length dialog."""
+    vlinks: Dict[str, FrozenSet[int]]
 
     def __init__(self, parent: MainWindowBase):
         super(_LinkLengthDialog, self).__init__(parent)
@@ -90,7 +91,7 @@ class _LinkLengthDialog(QDialog):
         self.main_layout.addLayout(layout)
 
         self.vpoints = parent.vpoint_list
-        self.vlinks: Dict[str, FrozenSet[int]] = {
+        self.vlinks = {
             vlink.name: frozenset(vlink.points) for vlink in parent.vlink_list
         }
         self.leader.currentTextChanged.connect(self.__set_follower)

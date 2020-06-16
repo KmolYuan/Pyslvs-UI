@@ -29,6 +29,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Load the settings after closed.
     Any add, rename, delete operations will be apply immediately
     """
+    params: Dict[str, Any]
 
     def __init__(
         self,
@@ -50,7 +51,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
 
         # Current profile name
         self.name = ""
-        self.params: Dict[str, Any] = {}
+        self.params = {}
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
         self.preview_canvas.set_show_ticks(show_ticks)

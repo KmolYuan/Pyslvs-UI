@@ -2,7 +2,8 @@
 
 """Solvespace format output function.
 
-This module are use a workplane and two groups for sketching and placing comments.
+This module are use a workplane and two groups for sketching and placing
+comments.
 But the number codes can decide by functions.
 The number code is all hexadecimal.
 
@@ -108,6 +109,10 @@ def _shift16(num: int) -> int:
 
 class SlvsWriter2:
     """Use to save data with solvespace file format."""
+    script_param: List[str]
+    script_request: List[str]
+    script_entity: List[str]
+    script_constraint: List[str]
 
     def __init__(
         self,
@@ -127,7 +132,7 @@ class SlvsWriter2:
         self.group_normal(0x3, "comments")
 
         self.param_num = 0x40000
-        self.script_param: List[str] = []
+        self.script_param = []
         for n in range(3):
             self.param(0x10010 + n)
         self.param_val(0x10020, 1)
@@ -143,12 +148,12 @@ class SlvsWriter2:
             self.param_val(0x30020 + n, 0.5 if (n == 0) else -0.5)
 
         self.request_num = 0x4
-        self.script_request: List[str] = []
+        self.script_request = []
         for n in range(1, 4):
             self.request_workplane(n)
 
         self.entity_num = 0x40000
-        self.script_entity: List[str] = []
+        self.script_entity = []
         self.entity_plane(0x10000, 0x10001, 0x10020)
         self.entity_point(0x10001)
         self.entity_normal_3d(0x10020, 0x10001)
@@ -160,7 +165,7 @@ class SlvsWriter2:
         self.entity_normal_3d_wxyz(0x30020, 0x30001, reverse=True)
 
         self.constraint_num = 0x1
-        self.script_constraint: List[str] = []
+        self.script_constraint = []
 
     def set_group(self, num: int) -> None:
         """Set the group number."""
@@ -313,7 +318,8 @@ class SlvsWriter2:
         """A 3D normal."""
         self.entity_normal(num, p, 3000)
 
-    def entity_normal_3d_wxyz(self, num: int, p: int, *, reverse: bool = False) -> None:
+    def entity_normal_3d_wxyz(self, num: int, p: int, *,
+                              reverse: bool = False) -> None:
         """A 3D normal from quaternion."""
         unit = -0.5 if reverse else 0.5
         self.script_entity.append('\n'.join([

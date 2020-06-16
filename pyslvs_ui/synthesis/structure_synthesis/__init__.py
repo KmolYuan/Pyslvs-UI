@@ -77,6 +77,8 @@ class StructureSynthesis(QWidget, Ui_Form):
 
     Calculate the combinations of mechanism family and show the atlas.
     """
+    assortment: Dict[Assortment, List[Assortment]]
+    answer: List[Graph]
 
     def __init__(self, parent: MainWindowBase):
         """Reference names:
@@ -99,11 +101,9 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.get_graph = parent.get_graph
         self.prefer = parent.prefer
         self.add_collection = parent.collections.structure_widget.add_collection
-
         # Answer list
-        self.assortment: Dict[Assortment, List[Assortment]] = {}
-        self.answer: List[Graph] = []
-
+        self.assortment = {}
+        self.answer = []
         # Signals
         self.nl_input.valueChanged.connect(self.__adjust_structure_data)
         self.nj_input.valueChanged.connect(self.__adjust_structure_data)

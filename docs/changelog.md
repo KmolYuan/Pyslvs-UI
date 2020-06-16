@@ -12,6 +12,7 @@
 
 + Support MSVC versions `1910`~`1916` and `1920`~`1926`.
 + Improvement of UI and QRC file generating.
++ Annotated object attributes are placed in class definition uniformly instead of method blocks.
 
 ## Version 20.05
 

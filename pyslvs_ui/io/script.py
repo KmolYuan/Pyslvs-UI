@@ -116,6 +116,7 @@ class _ScriptBrowser(QTextEdit):
 
 class ScriptDialog(QDialog, Ui_Dialog):
     """Dialog of script preview."""
+    image: QPixmap
 
     def __init__(
         self,
@@ -159,7 +160,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.main_layout.insertWidget(1, line_edit)
         # Image display
         image = make(self.compressed_script, image_factory=_NpImage)
-        self.image: QPixmap = QPixmap.fromImage(image.get_qimage())
+        self.image = QPixmap.fromImage(image.get_qimage())
 
     @Slot(name='on_copy_clicked')
     def __copy(self) -> None:
