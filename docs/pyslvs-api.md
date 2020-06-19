@@ -38,6 +38,21 @@ Return True if the coordinate value is not a number.
 
 Slope angle of two coordinates.
 
+### pxy()
+
+| c1 | x | y | return |
+|:---:|:---:|:---:|:------:|
+| Coordinate | float | float | Coordinate |
+
+The PXY function requires one point and offset values, obtained the 
+position of second point.
+
+In the following picture, `c1` correspond to "A", `d0` correspond to "X",
+`d1` correspond to "Y", `return` correspond to "B", the sign of value are
+correspond to coordinate system.
+
+![PXY](img/PXY.png)
+
 ### plap()
 
 | c1 | d0 | a0 | c2 | inverse | return |
@@ -82,7 +97,7 @@ Set `inverse` option to `True` can make the result upside down.
 | Coordinate | float | Coordinate | Coordinate | bool | Coordinate |
 |   |   |   |   | False |   |
 
-The PLLP function requires three points and one distance, obtained the 
+The PLPP function requires three points and one distance, obtained the 
 position of fourth point.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
@@ -93,20 +108,23 @@ In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 Set `inverse` option to `True` can make the result to the another side
 between `c1` and line `c2` `c3`.
 
-### pxy()
+### palp()
 
-| c1 | x | y | return |
-|:---:|:---:|:---:|:------:|
-| Coordinate | float | float | Coordinate |
+| c1 | a0 | d0 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| Coordinate | float | float | Coordinate | bool | Coordinate |
+|   |   |   |   | False |   |
 
-The PXY function requires one point and offset values, obtained the 
-position of second point.
+The PALP function requires two points, one angle and one distance,
+obtained the position of fourth point.
 
-In the following picture, `c1` correspond to "A", `d0` correspond to "X",
-`d1` correspond to "Y", `return` correspond to "B", the sign of value are
-correspond to coordinate system.
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `a0` correspond to "alpha", `return` correspond
+to "C".
 
-![PXY](img/PXY.png)
+![PALP](img/PALP.png)
+
+Set `inverse` option to `True` can make the result upside down.
 
 ### expr_parser()
 
