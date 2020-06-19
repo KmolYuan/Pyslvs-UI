@@ -7,6 +7,7 @@
 + Polar plotting function and joint viewer.
 + Animation function for the paths of inputs page.
 + "Append path" function for the path of dimensional synthesis page.
++ Remove deprecated "show solutions" buttons.
 
 **Development**:
 

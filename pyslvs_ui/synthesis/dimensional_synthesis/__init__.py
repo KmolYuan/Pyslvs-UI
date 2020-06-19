@@ -109,7 +109,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         # Splitter
         self.main_splitter.setStretchFactor(0, 10)
         self.main_splitter.setStretchFactor(1, 100)
-        self.up_splitter.setSizes([80, 100])
+        self.canvas_splitter.setSizes([80, 100])
         self.down_splitter.setSizes([20, 80])
         # Table widget column width
         header = self.parameter_list.horizontalHeader()

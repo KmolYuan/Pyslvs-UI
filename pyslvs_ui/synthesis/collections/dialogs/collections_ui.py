@@ -29,10 +29,6 @@ class Ui_Dialog(object):
         self.preview_box.setObjectName("preview_box")
         self.preview_layout = QtWidgets.QVBoxLayout(self.preview_box)
         self.preview_layout.setObjectName("preview_layout")
-        self.show_solutions = QtWidgets.QCheckBox(self.preview_box)
-        self.show_solutions.setChecked(True)
-        self.show_solutions.setObjectName("show_solutions")
-        self.preview_layout.addWidget(self.show_solutions)
         self.sub_splitter = QtWidgets.QSplitter(self.main_splitter)
         self.sub_splitter.setOrientation(QtCore.Qt.Vertical)
         self.sub_splitter.setObjectName("sub_splitter")
@@ -129,7 +125,6 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Profile collections"))
         self.preview_box.setTitle(_translate("Dialog", "Preview"))
-        self.show_solutions.setText(_translate("Dialog", "Show solutions"))
         self.common_label.setText(_translate("Dialog", "Common:"))
         self.common_load.setText(_translate("Dialog", "Load common structure"))
         self.Collections_label.setText(_translate("Dialog", "Project Collections:"))

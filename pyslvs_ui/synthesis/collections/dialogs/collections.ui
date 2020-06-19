@@ -33,18 +33,7 @@
       <property name="title">
        <string>Preview</string>
       </property>
-      <layout class="QVBoxLayout" name="preview_layout">
-       <item>
-        <widget class="QCheckBox" name="show_solutions">
-         <property name="text">
-          <string>Show solutions</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QVBoxLayout" name="preview_layout"/>
      </widget>
      <widget class="QSplitter" name="sub_splitter">
       <property name="orientation">
