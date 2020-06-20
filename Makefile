@@ -38,7 +38,7 @@ help:
 	@echo   clean: clean up kernel binary files.
 	@echo   clean-all: clean every binary files and executable file.
 
-doc:
+doc: build
 	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
 
 build:

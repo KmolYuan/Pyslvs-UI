@@ -122,9 +122,6 @@
       </layout>
      </widget>
      <widget class="QTabWidget" name="options_tab">
-      <property name="currentIndex">
-       <number>1</number>
-      </property>
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
@@ -179,35 +176,16 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_17">
-          <item>
-           <widget class="QLineEdit" name="expression_string">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="expr_copy">
-            <property name="icon">
-             <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QSplitter" name="up_splitter">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QSplitter" name="canvas_splitter">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
           </property>
+          <widget class="QGroupBox" name="preview_box">
+           <property name="title">
+            <string>Preview</string>
+           </property>
+           <layout class="QVBoxLayout" name="preview_layout"/>
+          </widget>
           <widget class="QTableWidget" name="parameter_list">
            <property name="statusTip">
             <string>All the joints of grounded link will show here.</string>
@@ -247,24 +225,26 @@
             </property>
            </column>
           </widget>
-          <widget class="QGroupBox" name="preview_box">
-           <property name="title">
-            <string>Preview</string>
-           </property>
-           <layout class="QVBoxLayout" name="preview_layout">
-            <item>
-             <widget class="QCheckBox" name="show_solutions">
-              <property name="text">
-               <string>Show solutions</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <widget class="QLineEdit" name="expression_string">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="expr_copy">
+            <property name="icon">
+             <iconset resource="../../icons.qrc">
+              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

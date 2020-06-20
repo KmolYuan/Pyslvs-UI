@@ -15,6 +15,7 @@ from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
 from qtpy.QtWidgets import QApplication, QToolTip, QWidget
 from qtpy.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
 from .canvas_base import MainCanvasBase, FreeMode, SelectMode, ZoomBy
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -215,7 +216,8 @@ class MainCanvas(MainCanvasBase):
         self.path.show = p
         self.update()
 
-    def update_ranges(self, ranges: Dict[str, Tuple[float, float, float]]) -> None:
+    def update_ranges(self,
+                      ranges: Dict[str, Tuple[float, float, float]]) -> None:
         """Update the ranges of dimensional synthesis."""
         self.ranges.clear()
         self.ranges.update({tag: QRectF(
@@ -227,8 +229,8 @@ class MainCanvas(MainCanvasBase):
     def record_start(self, limit: int) -> None:
         """Start a limit from main window."""
         self.path_record.clear()
-        for _ in range(len(self.vpoints)):
-            self.path_record.append(deque([], limit))
+        self.path_record.extend(deque([], limit)
+                                for _ in range(len(self.vpoints)))
 
     def record_path(self) -> None:
         """Recording path."""
@@ -275,7 +277,8 @@ class MainCanvas(MainCanvasBase):
         tags = ("Points", "Links")
         mode = (self.selection_mode() + (-1 if value > 0 else 1)) % len(tags)
         self.selection_mode_wheel(mode)
-        QToolTip.showText(event.globalPos(), f"Selection mode: {tags[mode]}", self)
+        QToolTip.showText(event.globalPos(), f"Selection mode: {tags[mode]}",
+                          self)
         event.accept()
 
     def grab_no_background(self) -> QPixmap:

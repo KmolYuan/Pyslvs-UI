@@ -13,13 +13,17 @@ from pyslvs import VLink
 
 class SlvsParser:
     """Use to read data from solvespace file format."""
+    groups: List[Dict[str, str]]
+    requests: List[Dict[str, str]]
+    entities: List[Dict[str, str]]
+    constraints: List[Dict[str, str]]
 
     def __init__(self, file_name: str):
         """Open the file when initialize."""
-        self.groups: List[Dict[str, str]] = []
-        self.requests: List[Dict[str, str]] = []
-        self.entities: List[Dict[str, str]] = []
-        self.constraints: List[Dict[str, str]] = []
+        self.groups = []
+        self.requests = []
+        self.entities = []
+        self.constraints = []
         dataset: Dict[str, List[Dict[str, str]]] = {
             'AddGroup': self.groups,
             'AddParam': [],

@@ -2,7 +2,8 @@
 
 """Solvespace format output function.
 
-This module are use a workplane and two groups for sketching and placing comments.
+This module are use a workplane and two groups for sketching and placing
+comments.
 But the number codes can decide by functions.
 The number code is all hexadecimal.
 
@@ -108,6 +109,10 @@ def _shift16(num: int) -> int:
 
 class SlvsWriter2:
     """Use to save data with solvespace file format."""
+    script_param: List[str]
+    script_request: List[str]
+    script_entity: List[str]
+    script_constraint: List[str]
 
     def __init__(
         self,
@@ -127,7 +132,7 @@ class SlvsWriter2:
         self.group_normal(0x3, "comments")
 
         self.param_num = 0x40000
-        self.script_param: List[str] = []
+        self.script_param = []
         for n in range(3):
             self.param(0x10010 + n)
         self.param_val(0x10020, 1)
@@ -143,12 +148,12 @@ class SlvsWriter2:
             self.param_val(0x30020 + n, 0.5 if (n == 0) else -0.5)
 
         self.request_num = 0x4
-        self.script_request: List[str] = []
+        self.script_request = []
         for n in range(1, 4):
             self.request_workplane(n)
 
         self.entity_num = 0x40000
-        self.script_entity: List[str] = []
+        self.script_entity = []
         self.entity_plane(0x10000, 0x10001, 0x10020)
         self.entity_point(0x10001)
         self.entity_normal_3d(0x10020, 0x10001)
@@ -160,7 +165,7 @@ class SlvsWriter2:
         self.entity_normal_3d_wxyz(0x30020, 0x30001, reverse=True)
 
         self.constraint_num = 0x1
-        self.script_constraint: List[str] = []
+        self.script_constraint = []
 
     def set_group(self, num: int) -> None:
         """Set the group number."""
@@ -313,7 +318,8 @@ class SlvsWriter2:
         """A 3D normal."""
         self.entity_normal(num, p, 3000)
 
-    def entity_normal_3d_wxyz(self, num: int, p: int, *, reverse: bool = False) -> None:
+    def entity_normal_3d_wxyz(self, num: int, p: int, *,
+                              reverse: bool = False) -> None:
         """A 3D normal from quaternion."""
         unit = -0.5 if reverse else 0.5
         self.script_entity.append('\n'.join([
@@ -347,31 +353,29 @@ class SlvsWriter2:
         """A copied normal."""
         self.entity_normal(num, p, 3010)
 
-    def entity_point_2d(self, num: int, x: float, y: float) -> None:
-        """A point related with the entity."""
+    def __2d_point_line(self, t: int, num: int, p1: str, p2: str) -> None:
+        """Used for 2D point and line creation."""
         self.script_entity.append('\n'.join([
             f"Entity.h.v={num:08x}",
-            f"Entity.type={2001}",
+            f"Entity.type={t}",
             "Entity.construction=0",
             f"Entity.workplane.v={self.__workplane:08x}",
-            f"Entity.actPoint.x={x:.20f}",
-            f"Entity.actPoint.y={y:.20f}",
+            p1, p2,
             "Entity.actVisible=1",
             "AddEntity",
         ]))
 
+    def entity_point_2d(self, num: int, x: float, y: float) -> None:
+        """A point related with the entity."""
+        self.__2d_point_line(2001, num,
+                             f"Entity.actPoint.x={x:.20f}",
+                             f"Entity.actPoint.y={y:.20f}")
+
     def entity_line(self, num: int) -> None:
         """A line segment."""
-        self.script_entity.append('\n'.join([
-            f"Entity.h.v={num:08x}",
-            f"Entity.type={11000}",
-            "Entity.construction=0",
-            f"Entity.point[0].v={num + 1:08x}",
-            f"Entity.point[1].v={num + 2:08x}",
-            f"Entity.workplane.v={self.__workplane:08x}",
-            "Entity.actVisible=1",
-            "AddEntity",
-        ]))
+        self.__2d_point_line(11000, num,
+                             f"Entity.point[0].v={num + 1:08x}",
+                             f"Entity.point[1].v={num + 2:08x}")
 
     def entity_arc(self, num: int) -> None:
         """An arc."""
@@ -396,7 +400,7 @@ class SlvsWriter2:
             "Entity.construction=0",
             f"Entity.point[0].v={num + 1:08x}",
             f"Entity.normal.v={num + 0x20:08x}",
-            "Entity.distance.v={num + 0x40:08x}",
+            f"Entity.distance.v={num + 0x40:08x}",
             f"Entity.workplane.v={self.__workplane:08x}",
             "Entity.actVisible=1",
             "AddEntity",
@@ -414,22 +418,33 @@ class SlvsWriter2:
             "AddEntity",
         ]))
 
-    def constraint_point(self, num: int, p1: int, p2: int) -> None:
-        """Constraint two points as same one."""
+    def __cons_point_radius(self, t: int, num: int, e1: str, e2: str) -> None:
+        """Used for point / radius equally constrain creation."""
         self.script_constraint.append('\n'.join([
             f"Constraint.h.v={num:08x}",
-            f"Constraint.type={20}",
+            f"Constraint.type={t}",
             f"Constraint.group.v={self.__group:08x}",
             f"Constraint.workplane.v={self.__workplane:08x}",
-            f"Constraint.ptA.v={p1:08x}",
-            f"Constraint.ptB.v={p2:08x}",
+            e1, e2,
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
             "AddConstraint",
         ]))
 
-    def constraint_fix(
+    def constraint_point(self, num: int, p1: int, p2: int) -> None:
+        """Constraint two points as same one."""
+        self.__cons_point_radius(20, num,
+                                 f"Constraint.ptA.v={p1:08x}",
+                                 f"Constraint.ptB.v={p2:08x}")
+
+    def constraint_equal_radius(self, num: int, e1: int, e2: int) -> None:
+        """Constraint two arcs or circles are be the same radius."""
+        self.__cons_point_radius(130, num,
+                                 f"Constraint.entityA.v={e1:08x}",
+                                 f"Constraint.entityB.v={e2:08x}")
+
+    def constraint_grounded(
         self,
         num: int,
         p0: int,
@@ -461,24 +476,17 @@ class SlvsWriter2:
         constraint_fix_hv(num, 0x30000, y)
         constraint_fix_hv(num + 1, 0x20000, x)
 
-    def constraint_distance(
-        self,
-        num: int,
-        p1: int,
-        p2: int,
-        leng: float,
-        *,
-        offset: int = 10
-    ):
-        """Constraint the distance of line segment."""
+    def __cons_val(self, t: int, num: int, a: int, b: int, val: float, *,
+                   offset: float = 10) -> None:
+        """Used for valued constrain creation."""
         self.script_constraint.append('\n'.join([
             f"Constraint.h.v={num:08x}",
-            f"Constraint.type={30}",
+            f"Constraint.type={t}",
             f"Constraint.group.v={self.__group:08x}",
             f"Constraint.workplane.v={self.__workplane:08x}",
-            f"Constraint.valA={leng:.20f}",
-            f"Constraint.ptA.v={p1:08x}",
-            f"Constraint.ptB.v={p2:08x}",
+            f"Constraint.valA={val:.20f}",
+            f"Constraint.ptA.v={a:08x}",
+            f"Constraint.ptB.v={b:08x}",
             "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
@@ -486,6 +494,16 @@ class SlvsWriter2:
             f"Constraint.disp.offset.y={offset:.20f}",
             "AddConstraint",
         ]))
+
+    def constraint_distance(self, num: int, p1: int, p2: int, length: float, *,
+                            offset: float = 10):
+        """Constraint the distance of line segment."""
+        self.__cons_val(30, num, p1, p2, length, offset=offset)
+
+    def constraint_angle(self, num: int, l1: int, l2: int, angle: float, *,
+                         offset: float = 10):
+        """Constraint the angle between two line segments."""
+        self.__cons_val(120, num, l1, l2, angle, offset=offset)
 
     def constraint_diameter(
         self,
@@ -513,32 +531,6 @@ class SlvsWriter2:
             "AddConstraint",
         ]))
 
-    def constraint_angle(
-        self,
-        num: int,
-        l1: int,
-        l2: int,
-        angle: float,
-        *,
-        offset: int = 10
-    ):
-        """Constraint the angle between two line segments."""
-        self.script_constraint.append('\n'.join([
-            f"Constraint.h.v={num:08x}",
-            f"Constraint.type={120}",
-            f"Constraint.group.v={self.__group:08x}",
-            f"Constraint.workplane.v={self.__workplane:08x}",
-            f"Constraint.valA={angle:.20f}",
-            f"Constraint.ptA.v={l1:08x}",
-            f"Constraint.ptB.v={l2:08x}",
-            "Constraint.other=1",
-            "Constraint.other2=0",
-            "Constraint.reference=0",
-            f"Constraint.disp.offset.x={offset:.20f}",
-            f"Constraint.disp.offset.y={offset:.20f}",
-            "AddConstraint",
-        ]))
-
     def constraint_arc_line_tangent(
         self,
         num: int,
@@ -556,21 +548,6 @@ class SlvsWriter2:
             f"Constraint.entityA.v={e1:08x}",
             f"Constraint.entityB.v={e2:08x}",
             f"Constraint.other={1 if reverse else 0}",
-            "Constraint.other2=0",
-            "Constraint.reference=0",
-            "AddConstraint",
-        ]))
-
-    def constraint_equal_radius(self, num: int, e1: int, e2: int) -> None:
-        """Constraint two arcs or circles are be the same radius."""
-        self.script_constraint.append('\n'.join([
-            f"Constraint.h.v={num:08x}",
-            f"Constraint.type={130}",
-            f"Constraint.group.v={self.__group:08x}",
-            f"Constraint.workplane.v={self.__workplane:08x}",
-            f"Constraint.entityA.v={e1:08x}",
-            f"Constraint.entityB.v={e2:08x}",
-            "Constraint.other=0",
             "Constraint.other2=0",
             "Constraint.reference=0",
             "AddConstraint",

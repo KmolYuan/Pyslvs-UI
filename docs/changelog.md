@@ -7,11 +7,13 @@
 + Polar plotting function and joint viewer.
 + Animation function for the paths of inputs page.
 + "Append path" function for the path of dimensional synthesis page.
++ Remove deprecated "show solutions" buttons.
 
 **Development**:
 
 + Support MSVC versions `1910`~`1916` and `1920`~`1926`.
 + Improvement of UI and QRC file generating.
++ Annotated object attributes are placed in class definition uniformly instead of method blocks.
 
 ## Version 20.05
 

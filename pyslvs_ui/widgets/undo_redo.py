@@ -20,16 +20,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    cast,
-    Sequence,
-    List,
-    Dict,
-    Tuple,
-    Iterator,
-    Iterable,
-    Generic,
-    Optional,
-    TypeVar,
+    cast, Type, Sequence, List, Dict, Tuple, Iterator, Iterable, Generic,
+    Optional, TypeVar,
 )
 from abc import abstractmethod
 from qtpy.QtCore import Qt
@@ -84,6 +76,9 @@ def _args2vlink(args: LinkArgs) -> VLink:
 
 class _FusedTable(QUndoCommand, Generic[_Data], metaclass=QABCMeta):
     """Table command of fused type."""
+    entities_list: List[_Data]
+    table: BaseTableWidget
+    table_type: Type[BaseTableWidget]
 
     @abstractmethod
     def __init__(
@@ -93,7 +88,7 @@ class _FusedTable(QUndoCommand, Generic[_Data], metaclass=QABCMeta):
         parent: Optional[QWidget] = None
     ):
         super(_FusedTable, self).__init__(parent)
-        self.entities_list: List[_Data] = entities_list
+        self.entities_list = entities_list
         self.table = table
         self.table_type = type(table)
 
@@ -208,6 +203,7 @@ class FixSequenceNumber(QUndoCommand):
 
 class _EditFusedTable(QUndoCommand, Generic[_Args], metaclass=QABCMeta):
     """Edit table command of fused type."""
+    args: _Args
 
     @abstractmethod
     def __init__(
@@ -226,7 +222,7 @@ class _EditFusedTable(QUndoCommand, Generic[_Args], metaclass=QABCMeta):
         self.vlink_list = vlink_list
         self.point_table = point_table
         self.link_table = link_table
-        self.args: _Args = args_list
+        self.args = args_list
 
 
 class EditPointTable(_EditFusedTable[PointArgs]):
@@ -346,11 +342,13 @@ class EditLinkTable(_EditFusedTable[LinkArgs]):
         self.vlink_list[self.row] = _args2vlink(self.args)
         self.link_table.edit_link(self.row, self.args)
         self.__rename(self.args.name, self.old_args)
-        self.__write_points(self.args.name, self.new_point_items, self.old_point_items)
+        self.__write_points(self.args.name, self.new_point_items,
+                            self.old_point_items)
 
     def undo(self) -> None:
         """Rewrite the dependents then write arguments."""
-        self.__write_points(self.old_args.name, self.old_point_items, self.new_point_items)
+        self.__write_points(self.old_args.name, self.old_point_items,
+                            self.new_point_items)
         self.__rename(self.old_args.name, self.args)
         self.link_table.edit_link(self.row, self.old_args)
         self.vlink_list[self.row] = _args2vlink(self.old_args)
@@ -369,7 +367,8 @@ class EditLinkTable(_EditFusedTable[LinkArgs]):
             self.point_table.setItem(row, 1, item)
             self.vpoint_list[row].replace_link(args.name, new_name)
 
-    def __write_points(self, name: str, add: Sequence[int], sub: Sequence[int]) -> None:
+    def __write_points(self, name: str, add: Sequence[int],
+                       sub: Sequence[int]) -> None:
         """Write table function.
 
         + Append the link that relate with these points.
@@ -414,7 +413,8 @@ class AddPath(QUndoCommand):
     def redo(self) -> None:
         """Add new path data."""
         self.data[self.name] = self.path
-        self.widget.addItem(f"{self.name}: " + ", ".join(f"[{i}]" for i in self.targets))
+        self.widget.addItem(
+            f"{self.name}: " + ", ".join(f"[{i}]" for i in self.targets))
 
     def undo(self) -> None:
         """Remove the last item."""

@@ -48,6 +48,9 @@ class StructureWidget(QWidget, Ui_Form):
 
     Preview the structures that was been added in collection list by user.
     """
+    collections: List[Graph]
+    collections_layouts: List[Dict[int, Tuple[float, float]]]
+    collections_grounded: List[Graph]
 
     layout_sender = Signal(Graph, dict)
 
@@ -63,9 +66,9 @@ class StructureWidget(QWidget, Ui_Form):
         self.prefer = parent.prefer
 
         # Data structures
-        self.collections: List[Graph] = []
-        self.collections_layouts: List[Dict[int, Tuple[float, float]]] = []
-        self.collections_grounded: List[Graph] = []
+        self.collections = []
+        self.collections_layouts = []
+        self.collections_grounded = []
 
         # Engine list
         self.graph_engine.addItems(engines)

@@ -18,8 +18,10 @@ from qtpy.QtCore import Signal, Slot, Qt, QRectF, QPoint, QPointF, QLineF
 from qtpy.QtWidgets import QApplication
 from qtpy.QtGui import QPolygonF, QFont, QPen, QColor, QPaintEvent, QMouseEvent
 from pyslvs import VJoint, VPoint, VLink
-from pyslvs_ui.graphics import (convex_hull, BaseCanvas, color_qt, LINK_COLOR,
-                                RangeDetector)
+from pyslvs_ui.graphics import (
+    convex_hull, BaseCanvas, color_qt, LINK_COLOR, RangeDetector,
+)
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -118,6 +120,13 @@ _selection_unit = {
 
 class MainCanvasBase(BaseCanvas, ABC):
     """Abstract class for wrapping main canvas class."""
+    vangles: Tuple[float, ...]
+    exprs: List[Tuple[str, ...]]
+    selections: List[int]
+    path_preview: _MutPaths
+    slider_path_preview: Dict[int, List[_Coord]]
+    path_record: List[Deque[_Coord]]
+
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
     selected = Signal(tuple, bool)
@@ -140,13 +149,13 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Entities
         self.vpoints = parent.vpoint_list
         self.vlinks = parent.vlink_list
-        self.vangles: Tuple[float, ...] = ()
+        self.vangles = ()
         # Solution
-        self.exprs: List[Tuple[str, ...]] = []
+        self.exprs = []
         # Select function
         self.select_mode = SelectMode.JOINT
         self.sr = 10
-        self.selections: List[int] = []
+        self.selections = []
         # Link transparency
         self.transparency = 1.
         # Default zoom rate
@@ -156,11 +165,11 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Free move mode
         self.free_move = FreeMode.NO_FREE_MOVE
         # Path preview
-        self.path_preview: _MutPaths = []
-        self.slider_path_preview: Dict[int, List[_Coord]] = {}
+        self.path_preview = []
+        self.slider_path_preview = {}
         self.preview_path = parent.preview_path
         # Path record
-        self.path_record: List[Deque[_Coord]] = []
+        self.path_record = []
         # Zooming center
         # 0: By cursor
         # 1: By canvas center
@@ -216,7 +225,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                             text += f":({cx:.02f}, {cy:.02f})"
                         self.painter.drawText(cp + rp, text)
                 else:
-                    self.draw_point(i, cx, cy, grounded, vpoint.color, connected)
+                    self.draw_point(i, cx, cy, grounded, vpoint.color,
+                                    connected)
             # Slider line
             pen.setColor(QColor(*vpoint.color).darker())
             self.painter.setPen(pen)
@@ -237,7 +247,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             qline_2.setAngle(qline_2.angle() + 180)
             self.painter.drawLine(qline_2)
         else:
-            self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(), vpoint.color, connected)
+            self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(),
+                            vpoint.color, connected)
 
         # For selects function
         if self.select_mode == SelectMode.JOINT and (i in self.selections):
@@ -350,7 +361,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                     return self.selector.is_close(x, y, self.sr / self.zoom)
 
             for i, vpoint in enumerate(self.vpoints):
-                if catch_p(vpoint.cx, vpoint.cy) and i not in self.selector.selection_rect:
+                if catch_p(vpoint.cx,
+                           vpoint.cy) and i not in self.selector.selection_rect:
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.LINK:
@@ -370,7 +382,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                         as_qpoint=True
                     ))
                 if rect:
-                    return polygon.intersects(QPolygonF(self.selector.to_rect(self.zoom)))
+                    return polygon.intersects(
+                        QPolygonF(self.selector.to_rect(self.zoom)))
                 else:
                     return polygon.containsPoint(
                         QPointF(self.selector.x, -self.selector.y) * self.zoom,
@@ -378,7 +391,11 @@ class MainCanvasBase(BaseCanvas, ABC):
                     )
 
             for i, vlink in enumerate(self.vlinks):
-                if i != 0 and catch_l(vlink) and i not in self.selector.selection_rect:
+                if (
+                    i != 0
+                    and catch_l(vlink)
+                    and i not in self.selector.selection_rect
+                ):
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.SOLUTION:
@@ -392,7 +409,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                 )
                 polygon = QPolygonF(points)
                 if rect:
-                    return polygon.intersects(QPolygonF(self.selector.to_rect(self.zoom)))
+                    return polygon.intersects(
+                        QPolygonF(self.selector.to_rect(self.zoom)))
                 else:
                     return polygon.containsPoint(
                         QPointF(self.selector.x, self.selector.y),
@@ -438,7 +456,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                     r(x, x, y, y)
             # Ranges
             for rect in self.ranges.values():
-                r(rect.x(), rect.x() + rect.width(), rect.y(), rect.y() - rect.height())
+                r(rect.x(), rect.x() + rect.width(), rect.y(),
+                  rect.y() - rect.height())
         # Background image
         if not self.background.isNull():
             x_r = self.background_offset.x()
@@ -491,7 +510,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                 target = expr[-1]
                 self.draw_solution(func, params, target, self.vpoints)
                 if i in self.selections:
-                    pos, _ = self.solution_polygon(func, params, target, self.vpoints)
+                    pos, _ = self.solution_polygon(func, params, target,
+                                                   self.vpoints)
                     pen = QPen()
                     pen.setWidth(self.link_width + 3)
                     pen.setColor(QColor(161, 16, 239))
@@ -524,7 +544,8 @@ class MainCanvasBase(BaseCanvas, ABC):
 
     def __mouse_pos(self, event: QMouseEvent) -> Tuple[float, float]:
         """Return the mouse position mapping to main canvas."""
-        return (event.x() - self.ox) / self.zoom, (event.y() - self.oy) / -self.zoom
+        return (event.x() - self.ox) / self.zoom, (
+            event.y() - self.oy) / -self.zoom
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         """Press event.
@@ -541,7 +562,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.selector.left_dragged = True
             self.__select_func()
             if self.selector.selection_rect:
-                self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
+                self.selected.emit(tuple(self.selector.selection_rect[:1]),
+                                   True)
 
     def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
         """Mouse double click.
@@ -556,7 +578,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.selector.x, self.selector.y = self.__mouse_pos(event)
             self.__select_func()
             if self.selector.selection_rect:
-                self.selected.emit(tuple(self.selector.selection_rect[:1]), True)
+                self.selected.emit(tuple(self.selector.selection_rect[:1]),
+                                   True)
                 if self.free_move == FreeMode.NO_FREE_MOVE:
                     self.doubleclick_edit.emit(self.selector.selection_rect[0])
 
@@ -631,7 +654,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                         event.globalPos(),
                         f"({self.selector.x:.02f}, {self.selector.y:.02f})\n"
                         f"({self.selector.sx:.02f}, {self.selector.sy:.02f})\n"
-                        f"{len(selection)} {_selection_unit[self.select_mode]}(s)"
+                        f"{len(selection)} "
+                        f"{_selection_unit[self.select_mode]}(s)"
                     )
             elif self.select_mode == SelectMode.JOINT:
                 if self.free_move == FreeMode.TRANSLATE:
@@ -647,7 +671,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                         vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
                 elif self.free_move == FreeMode.ROTATE:
                     # Free move rotate function.
-                    alpha = atan2(y, x) - atan2(self.selector.y, self.selector.x)
+                    alpha = atan2(y, x) - atan2(self.selector.y,
+                                                self.selector.x)
                     self.selected_tips.emit(
                         event.globalPos(),
                         f"{degrees(alpha):+.02f}°"
@@ -656,9 +681,11 @@ class MainCanvasBase(BaseCanvas, ABC):
                         vpoint = self.vpoints[num]
                         r = hypot(vpoint.x, vpoint.y)
                         beta = atan2(vpoint.y, vpoint.x)
-                        vpoint.move((r * cos(beta + alpha), r * sin(beta + alpha)))
+                        vpoint.move(
+                            (r * cos(beta + alpha), r * sin(beta + alpha)))
                         if vpoint.type in {VJoint.P, VJoint.RP}:
-                            vpoint.rotate(self.vangles[num] + degrees(beta + alpha))
+                            vpoint.rotate(
+                                self.vangles[num] + degrees(beta + alpha))
                 elif self.free_move == FreeMode.REFLECT:
                     # Free move reflect function.
                     fx = 1 if x > 0 else -1
@@ -695,7 +722,8 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.oy = height / 2
             self.update()
             return
-        factor = BaseCanvas.zoom_factor(width, height, x_right, x_left, y_top, y_bottom)
+        factor = BaseCanvas.zoom_factor(width, height, x_right, x_left, y_top,
+                                        y_bottom)
         self.zoom_changed.emit(int(factor * self.margin_factor * 50))
         self.ox = (width - (x_left + x_right) * self.zoom) / 2
         self.oy = (height + (y_top + y_bottom) * self.zoom) / 2
@@ -704,5 +732,6 @@ class MainCanvasBase(BaseCanvas, ABC):
     @Slot()
     def update_preview_path(self) -> None:
         """Update preview path."""
-        self.preview_path(self.path_preview, self.slider_path_preview, self.vpoints)
+        self.preview_path(self.path_preview, self.slider_path_preview,
+                          self.vpoints)
         self.update()

@@ -114,6 +114,8 @@ class ConfigureWidget(QWidget, Ui_Form):
 
     This interface use to modify structure profile.
     """
+    collections: Dict[str, Dict[str, Any]]
+    configure_canvas: _ConfigureCanvas
 
     def __init__(
         self,
@@ -129,9 +131,9 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.prefer = parent.prefer
         self.get_expression = parent.get_expression
         # Iteration data
-        self.collections: Dict[str, Dict[str, Any]] = {}
+        self.collections = {}
         # Customized preview canvas
-        self.configure_canvas = _ConfigureCanvas(self)  # type: _ConfigureCanvas
+        self.configure_canvas = _ConfigureCanvas(self)
         self.configure_canvas.set_joint_number.connect(
             self.joint_name.setCurrentIndex
         )

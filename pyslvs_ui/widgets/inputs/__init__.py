@@ -35,6 +35,7 @@ if TYPE_CHECKING:
 
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
+_SliderPaths = Dict[int, Sequence[_Coord]]
 _AUTO_PATH = "Auto preview"  # Unified name
 
 
@@ -49,6 +50,9 @@ class InputsWidget(QWidget, Ui_Form):
     + Function of mechanism variables settings.
     + Path recording.
     """
+    __path_data: Dict[str, _Paths]
+    __slider_path_data: Dict[str, _SliderPaths]
+
     about_to_resolve = Signal()
 
     def __init__(self, parent: MainWindowBase):
@@ -90,8 +94,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.addItem(_AUTO_PATH)
         self.record_list.setCurrentRow(0)
         self.record_list.blockSignals(False)
-        self.__path_data: Dict[str, _Paths] = {
-            _AUTO_PATH: self.main_canvas.path_preview
+        self.__path_data = {_AUTO_PATH: self.main_canvas.path_preview}
+        self.__slider_path_data = {
+            _AUTO_PATH: self.main_canvas.slider_path_preview  # type: ignore
         }
 
         def slot(widget: QCheckBox):
@@ -130,6 +135,10 @@ class InputsWidget(QWidget, Ui_Form):
     def path_data(self) -> Dict[str, _Paths]:
         """Return current path data."""
         return self.__path_data
+
+    def slider_path_data(self) -> Dict[str, _SliderPaths]:
+        """Return current path data."""
+        return self.__slider_path_data
 
     @Slot(tuple)
     def set_selection(self, selections: Sequence[int]) -> None:
@@ -236,16 +245,16 @@ class InputsWidget(QWidget, Ui_Form):
             return
         row = self.variable_list.currentRow()
         enabled = row > -1
-        rotatable = (
+        is_rotatable = (
             enabled
             and not self.free_move_button.isChecked()
             and self.right_input()
         )
-        self.dial.setEnabled(rotatable)
-        self.dial_spinbox.setEnabled(rotatable)
+        self.dial.setEnabled(is_rotatable)
+        self.dial_spinbox.setEnabled(is_rotatable)
         self.oldVar = self.dial.value()
-        self.variable_play.setEnabled(rotatable)
-        self.variable_speed.setEnabled(rotatable)
+        self.variable_play.setEnabled(is_rotatable)
+        self.variable_speed.setEnabled(is_rotatable)
         item: Optional[QListWidgetItem] = self.variable_list.currentItem()
         if item is None:
             return
@@ -390,11 +399,8 @@ class InputsWidget(QWidget, Ui_Form):
         while name in self.__path_data:
             name = f"Record_{i}"
             i += 1
-        QMessageBox.information(
-            self,
-            "Record",
-            "The name tag is being used or empty."
-        )
+        QMessageBox.information(self, "Record",
+                                "The name tag is being used or empty.")
         self.add_path(name, path)
 
     def add_path(self, name: str, path: _Paths) -> None:

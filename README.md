@@ -15,6 +15,8 @@
 
 A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
+<img width="50%" src="https://raw.githubusercontent.com/KmolYuan/Pyslvs-UI/master/docs/img/main-win.png"/>
+
 + **Planar Linkages Simulation**
     + Python-Solvespace: Kernel from [Solvespace] with Cython bundle.
     + Pyslvs: Kernel from [Sketch Solve] with Cython.
