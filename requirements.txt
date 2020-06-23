@@ -1,17 +1,12 @@
-setuptools
-wheel
 requests
 qtpy
 pyqt5
 ezdxf
 numpy
 matplotlib
-cython
 openpyxl
 psutil
-# https://github.com/lark-parser/lark/issues/600
-lark-parser==0.8.5
+lark-parser
 pyyaml
 h5py
 qrcode
-PyWavelets
