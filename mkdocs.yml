@@ -19,6 +19,8 @@ markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.superfences:
       preserve_tabs: true
+  - toc:
+      permalink: true
   - admonition
   - smarty
   - attr_list
