@@ -69,6 +69,30 @@ python setup.py install
 
 Or, build `master` branch step by step follow the documentation.
 
+## Libraries
+
+Pyslvs has a solver backend that can works without the GUI:
+
+```python
+from pyslvs import example_list, parse_vpoints, t_config
+
+# Get example with name
+expr, inputs = example_list("Jansen's linkage (Single)")
+# Parse the mechanism expression into a list of joint data
+vpoints = parse_vpoints(expr)
+# Config joint data and control data for the solver
+exprs = t_config(vpoints, inputs)
+# Joint symbol mapping (0 -> "P0")
+mapping = {n: f'P{n}' for n in range(len(vpoints))}
+# Solve the position
+result = expr_solving(exprs, mapping, vpoints, [0.])
+# Get the result from joint 7
+x, y = result[7]
+print(x, y)  # -43.170055 -91.753226
+```
+
+Please see [the documentation](https://pyslvs-ui.readthedocs.io/en/stable/pyslvs-lib/) for more information.
+
 # Documentation
 
 The documentation of Pyslvs and kernel API.
