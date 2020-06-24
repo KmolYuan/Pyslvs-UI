@@ -20,10 +20,12 @@ environment:
       PY: 3.7
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       PY: 3.8
+      DEPLOY: "true"
     - APPVEYOR_BUILD_WORKER_IMAGE: macos
       PY: 3.7
     - APPVEYOR_BUILD_WORKER_IMAGE: macos
       PY: 3.8
+      DEPLOY: "true"
 
 install:
   # Clone submodules
@@ -56,7 +58,7 @@ test_script:
   - pyslvs test
 
 after_build:
-  # PyPI deployment
+  # PyPI deployment (Universal)
   - cmd: IF "%APPVEYOR_REPO_TAG%"=="true"
          IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
          pip install twine &&
