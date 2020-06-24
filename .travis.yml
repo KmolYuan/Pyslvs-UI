@@ -13,6 +13,7 @@ jobs:
       before_install:
         - python3 -m pip install pip -U
         - python3 -m pip install -r requirements.txt -U
+        - python3 -m pip install -r pyslvs/requirements.txt -U
       install:
         - make pack
         - python3 setup.py install
@@ -61,6 +62,7 @@ jobs:
         - python --version
         - python -m pip --version
         - python -m pip install -r requirements.txt -U
+        - python -m pip install -r pyslvs/requirements.txt -U
         # Select Msys2
         - export PATH=/c/tools/msys64/mingw64/bin:${PATH}
       install:
@@ -110,6 +112,7 @@ jobs:
         - python3 --version
         - python3 -m pip --version
         - python3 -m pip install -r requirements.txt -U
+        - python3 -m pip install -r pyslvs/requirements.txt -U
       install:
         - make test-pack
         - python3 setup.py install

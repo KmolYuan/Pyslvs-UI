@@ -18,6 +18,8 @@ jobs:
           pip install mypy
       - name: Install kernel
         working-directory: pyslvs
-        run: python setup.py install
+        run: |
+          pip install -r requirements.txt
+          python setup.py install
       - name: Lint with mypy
         run: mypy -m launch_pyslvs

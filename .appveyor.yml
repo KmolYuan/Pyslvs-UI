@@ -44,6 +44,7 @@ install:
   # Install modules
   - python -m pip install pip setuptools -U
   - python -m pip install -r requirements.txt
+  - python -m pip install -r pyslvs/requirements.txt
 
 build_script:
   - cmd: mingw32-make test-pack
