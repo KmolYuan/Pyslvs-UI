@@ -10,7 +10,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, Tuple, Dict, Sequence, Iterator, Optional
+from typing import (
+    TYPE_CHECKING, Tuple, Dict, Mapping, Sequence, Iterator, Optional,
+)
 from csv import writer
 from copy import copy
 from numpy import array, hypot, arctan2
@@ -35,7 +37,7 @@ if TYPE_CHECKING:
 
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
-_SliderPaths = Dict[int, Sequence[_Coord]]
+_SliderPaths = Mapping[int, Sequence[_Coord]]
 _AUTO_PATH = "Auto preview"  # Unified name
 
 
@@ -401,9 +403,9 @@ class InputsWidget(QWidget, Ui_Form):
             i += 1
         QMessageBox.information(self, "Record",
                                 "The name tag is being used or empty.")
-        self.add_path(name, path)
+        self.add_path(name, path, path_slider)
 
-    def add_path(self, name: str, path: _Paths) -> None:
+    def add_path(self, name: str, path: _Paths, slider: _SliderPaths) -> None:
         """Add path function."""
         self.command_stack.push(AddPath(
             self.record_list,
@@ -416,7 +418,7 @@ class InputsWidget(QWidget, Ui_Form):
     def load_paths(self, paths: Dict[str, _Paths]) -> None:
         """Add multiple paths."""
         for name, path in paths.items():
-            self.add_path(name, path)
+            self.add_path(name, path, {})
 
     @Slot(name='on_record_remove_clicked')
     def __remove_path(self) -> None:
@@ -476,7 +478,7 @@ class InputsWidget(QWidget, Ui_Form):
         while name_copy in self.__path_data:
             name_copy = f"{name}_{num}"
             num += 1
-        self.add_path(name_copy, copy(self.__path_data[name]))
+        self.add_path(name_copy, copy(self.__path_data[name]), {})
 
     @Slot(name='on_cp_data_button_clicked')
     def __copy_path_data(self) -> None:

@@ -11,7 +11,7 @@ __email__ = "pyslvs@gmail.com"
 
 from collections import deque
 from typing import (
-    cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Union, Mapping,
+    cast, TYPE_CHECKING, List, Tuple, Sequence, Union, Mapping,
 )
 from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
 from qtpy.QtWidgets import QApplication, QToolTip, QWidget

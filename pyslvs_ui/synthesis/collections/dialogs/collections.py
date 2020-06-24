@@ -30,7 +30,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Any add, rename, delete operations will be apply immediately
     """
     collections: Dict[str, Any]
-    params: Dict[str, Any]
+    params: Mapping[str, Any]
 
     def __init__(
         self,
