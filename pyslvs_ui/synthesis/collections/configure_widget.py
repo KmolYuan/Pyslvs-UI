@@ -10,13 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    TYPE_CHECKING,
-    List,
-    Tuple,
-    Sequence,
-    Dict,
-    Callable,
-    Optional,
+    TYPE_CHECKING, List, Tuple, Sequence, Dict, Mapping, Callable, Optional,
     Any,
 )
 from math import hypot
@@ -141,9 +135,10 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.main_splitter.setSizes([300, 300])
         self.__clear_panel()
 
-    def add_collections(self, collections: Dict[str, Dict[str, Any]]) -> None:
+    def add_collections(self,
+                        collections: Mapping[str, Mapping[str, Any]]) -> None:
         """Update the new collections."""
-        self.collections.update(collections)
+        self.collections.update({n: dict(d) for n, d in collections.items()})
 
     def clear(self) -> None:
         """Clear all sub-widgets."""

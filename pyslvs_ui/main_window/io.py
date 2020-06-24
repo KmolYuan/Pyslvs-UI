@@ -7,7 +7,9 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Sequence, Dict, Callable, Iterator, Union, Type
+from typing import (
+    Tuple, List, Sequence, Mapping, Callable, Iterator, Union, Type,
+)
 from abc import ABC
 from dataclasses import Field, fields
 from lark.exceptions import LarkError
@@ -57,6 +59,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
 
     def __v_to_slvs(self) -> Callable[[], Iterator[Tuple[int, int]]]:
         """Solvespace edges."""
+
         def func() -> Iterator[Tuple[int, int]]:
             for vlink in self.vlink_list:
                 if vlink.name == VLink.FRAME:
@@ -67,6 +70,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                     yield (vlink.points[0], p)
                     if i > 1:
                         yield (vlink.points[i - 1], p)
+
         return func
 
     def __read_slvs(self, file_name: str) -> None:
@@ -77,11 +81,13 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         """
         parser = SlvsParser(file_name)
         if not parser.is_valid():
-            QMessageBox.warning(self, "Format error", "The format is not support.")
+            QMessageBox.warning(self, "Format error",
+                                "The format is not support.")
             return
         groups = parser.get_groups()
         if not groups:
-            QMessageBox.warning(self, "Format error", "The model file is empty.")
+            QMessageBox.warning(self, "Format error",
+                                "The model file is empty.")
             return
         group, ok = QInputDialog.getItem(
             self,
@@ -135,7 +141,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             title = file_name.absoluteFilePath()
         else:
             title = file_name.completeBaseName()
-        self.setWindowTitle(f"Pyslvs - {title}{'*' if self.project_widget.changed() else ''}")
+        self.setWindowTitle(
+            f"Pyslvs - {title}{'*' if self.project_widget.changed() else ''}")
 
     def __open_url(self, url: str) -> None:
         """Use to open link."""
@@ -244,7 +251,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 item = item[t:]
                 type_text = f"{item[0]}:{item[-1]}" if item[0] != 'R' else 'R'
                 links_text = ", ".join(links)
-                expr.append(f"J[{type_text}, P[{item[1]}, {item[2]}], L[{links_text}]]")
+                expr.append(
+                    f"J[{type_text}, P[{item[1]}, {item[2]}], L[{links_text}]]")
             expr = "M[" + ", ".join(expr) + "]"
         except (ValueError, IndexError):
             QMessageBox.warning(
@@ -289,7 +297,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 ))
                 self.command_stack.endMacro()
 
-    def add_empty_links(self, link_color: Dict[str, str]) -> None:
+    def add_empty_links(self, link_color: Mapping[str, str]) -> None:
         """Use to add empty link when loading database."""
         for name, color in link_color.items():
             if name != VLink.FRAME:
@@ -337,7 +345,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     @Slot(name='on_action_save_as_triggered')
     def __save_as(self) -> None:
         """Save as action."""
-        file_name = self.output_to("Pyslvs project", ["Pyslvs project (*.pyslvs)"])
+        file_name = self.output_to("Pyslvs project",
+                                   ["Pyslvs project (*.pyslvs)"])
         if not file_name:
             return
         self.project_widget.save(file_name)

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 """HDF5 format processing function."""
 
-from typing import Dict, Union, Any
+from typing import Mapping, Union, Any
 from zlib import compress, decompress
 from h5py import File, Dataset, Group
 from numpy import ndarray, array, int8, void
@@ -22,7 +22,7 @@ def _decompress(b: ndarray) -> bytes:
     return decompress(b.tobytes())
 
 
-def _h5py_dump(f: File, d: Dict[str, Any], *, prefix: str = ''):
+def _h5py_dump(f: File, d: Mapping[str, Any], *, prefix: str = ''):
     """Dump function for h5py."""
     for k, v in d.items():
         if prefix:
@@ -47,7 +47,7 @@ def _h5py_dump(f: File, d: Dict[str, Any], *, prefix: str = ''):
                 f[key] = a
 
 
-def _h5py_load(f: Group) -> Dict[str, Any]:
+def _h5py_load(f: Group) -> Mapping[str, Any]:
     """Load function for h5py."""
     data = {}
     for k, v in f.items():  # type: str, Union[Group, Dataset]

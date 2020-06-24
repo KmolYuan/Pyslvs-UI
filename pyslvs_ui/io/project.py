@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, Dict, Union
+from typing import TYPE_CHECKING, Mapping, Union
 from qtpy.QtCore import Signal, Slot, QFileInfo, QDateTime
 from qtpy.QtWidgets import (
     QUndoView,
@@ -207,7 +207,7 @@ class ProjectWidget(QWidget, Ui_Form):
         if file_name:
             self.background_option.setText(file_name)
 
-    def background_config(self) -> Dict[str, Union[str, float]]:
+    def background_config(self) -> Mapping[str, Union[str, float]]:
         """Return background config."""
         env = self.__file_name.absoluteDir()
         return {
@@ -218,7 +218,7 @@ class ProjectWidget(QWidget, Ui_Form):
             'background_opacity': self.background_opacity_option.value(),
         }
 
-    def set_background_config(self, config: Dict[str, Union[str, float]]) -> None:
+    def set_background_config(self, config: Mapping[str, Union[str, float]]) -> None:
         """Set background config by dict object."""
         env = self.__file_name.absoluteDir()
         file = QFileInfo(env, config.get('background', ""))

@@ -7,15 +7,10 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence, Dict, Any
+from typing import Sequence, Mapping, Any
 from numpy import array
 from qtpy.QtCore import Qt, QSize
-from qtpy.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QTabWidget,
-    QWidget,
-)
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QTabWidget, QWidget
 from pyslvs_ui.graphics import DataChart
 
 
@@ -30,7 +25,7 @@ class ChartDialog(QDialog):
     def __init__(
         self,
         title: str,
-        algorithm_data: Sequence[Dict[str, Any]],
+        algorithm_data: Sequence[Mapping[str, Any]],
         parent: QWidget
     ):
         """Add three tabs of chart."""

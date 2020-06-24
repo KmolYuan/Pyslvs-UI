@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from copy import deepcopy
-from typing import Dict, Callable, Any
+from typing import Dict, Mapping, Callable, Any
 from qtpy.QtCore import Qt, Slot
 from qtpy.QtWidgets import (
     QDialog,
@@ -29,12 +29,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Load the settings after closed.
     Any add, rename, delete operations will be apply immediately
     """
+    collections: Dict[str, Any]
     params: Dict[str, Any]
 
     def __init__(
         self,
-        collections: Dict[str, Any],
-        get_collection: Callable[[], Dict[str, Any]],
+        collections: Mapping[str, Any],
+        get_collection: Callable[[], Mapping[str, Any]],
         project_no_save: Callable[[], None],
         show_ticks: int,
         monochrome: bool,
@@ -45,7 +46,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
                             & ~Qt.WindowContextHelpButtonHint)
-        self.collections = collections
+        self.collections = dict(collections)
         self.get_collection = get_collection
         self.project_no_save = project_no_save
 
@@ -195,7 +196,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         while name in self.collections:
             name = f"mechanism{num}"
             num += 1
-        self.collections[name] = collection.copy()
+        self.collections[name] = deepcopy(collection)
         self.collections_list.addItem(name)
         self.project_no_save()
         self.__has_collection()

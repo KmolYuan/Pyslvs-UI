@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Sequence, Dict, Any
+from typing import Tuple, Sequence, Mapping, Any
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QDialog, QListWidgetItem
 from qtpy.QtGui import QPixmap
@@ -28,12 +28,12 @@ class OverviewDialog(QDialog, Ui_Dialog):
         parent: QWidget,
         title: str,
         main_expr: str,
-        storage_data: Dict[str, str],
+        storage_data: Mapping[str, str],
         input_data: Sequence[Tuple[int, int]],
-        path_data: Dict[str, _Paths],
-        collection_data: List[_Pairs],
-        config_data: Dict[str, Dict[str, Any]],
-        algorithm_data: List[Dict[str, Any]],
+        path_data: Mapping[str, _Paths],
+        collection_data: Sequence[_Pairs],
+        config_data: Mapping[str, Mapping[str, Any]],
+        algorithm_data: Sequence[Mapping[str, Any]],
         background_path: str
     ):
         """Data come from commit."""

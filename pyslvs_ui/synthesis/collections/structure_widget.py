@@ -138,7 +138,7 @@ class StructureWidget(QWidget, Ui_Form):
                 self.prefer.monochrome_option,
                 pos=pos
             ))
-            self.collections_layouts.append(pos)
+            self.collections_layouts.append(dict(pos))
             item.setToolTip(f"{g.edges}")
             self.collection_list.addItem(item)
             dlg.setValue(i + 1)

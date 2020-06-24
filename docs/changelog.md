@@ -14,6 +14,7 @@
 + Support MSVC versions `1910`~`1916` and `1920`~`1926`.
 + Improvement of UI and QRC file generating.
 + Annotated object attributes are placed in class definition uniformly instead of method blocks.
++ Use immutable "Mapping" replace "Dict" when no need to change the content.
 
 ## Version 20.05
 

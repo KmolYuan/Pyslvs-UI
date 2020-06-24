@@ -126,6 +126,7 @@ class MainCanvasBase(BaseCanvas, ABC):
     path_preview: _MutPaths
     slider_path_preview: Dict[int, List[_Coord]]
     path_record: List[Deque[_Coord]]
+    slider_record: Dict[int, Deque[_Coord]]
 
     tracking = Signal(float, float)
     browse_tracking = Signal(float, float)
@@ -170,6 +171,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         self.preview_path = parent.preview_path
         # Path record
         self.path_record = []
+        self.slider_record = {}
         # Zooming center
         # 0: By cursor
         # 1: By canvas center

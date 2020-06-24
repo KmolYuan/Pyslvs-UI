@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List, Sequence, Dict, Optional, Any
+from typing import Tuple, List, Sequence, Dict, Mapping, Optional, Any
 from abc import abstractmethod
 from qtpy.QtCore import Qt, QPoint
 from qtpy.QtWidgets import QMainWindow
@@ -196,14 +196,14 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         Graph,
         List[int],
         List[Tuple[int, int]],
-        Dict[int, _Coord],
-        Dict[int, int],
-        Dict[int, int]
+        Mapping[int, _Coord],
+        Mapping[int, int],
+        Mapping[int, int]
     ]:
         ...
 
     @abstractmethod
-    def get_configure(self) -> Dict[str, Any]:
+    def get_configure(self) -> Mapping[str, Any]:
         ...
 
     @abstractmethod
@@ -223,11 +223,11 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def get_storage(self) -> Dict[str, str]:
+    def get_storage(self) -> Mapping[str, str]:
         ...
 
     @abstractmethod
-    def add_empty_links(self, link_color: Dict[str, str]) -> None:
+    def add_empty_links(self, link_color: Mapping[str, str]) -> None:
         ...
 
     @abstractmethod
@@ -235,7 +235,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
-    def add_multiple_storage(self, exprs: Dict[str, str]) -> None:
+    def add_multiple_storage(self, exprs: Mapping[str, str]) -> None:
         ...
 
     @abstractmethod

@@ -10,7 +10,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from collections import deque
-from typing import cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Union
+from typing import (
+    cast, TYPE_CHECKING, List, Tuple, Sequence, Dict, Union, Mapping,
+)
 from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
 from qtpy.QtWidgets import QApplication, QToolTip, QWidget
 from qtpy.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
@@ -201,9 +203,9 @@ class MainCanvas(MainCanvasBase):
         self.selections = selections
         self.update()
 
-    def set_solving_path(self, path: Dict[int, Sequence[_Coord]]):
+    def set_solving_path(self, path: Mapping[int, Sequence[_Coord]]):
         """Update target path."""
-        self.target_path = path
+        self.target_path = dict(path)
         self.update()
 
     def set_path_show(self, p: int) -> None:
@@ -217,7 +219,7 @@ class MainCanvas(MainCanvasBase):
         self.update()
 
     def update_ranges(self,
-                      ranges: Dict[str, Tuple[float, float, float]]) -> None:
+                      ranges: Mapping[str, Tuple[float, float, float]]) -> None:
         """Update the ranges of dimensional synthesis."""
         self.ranges.clear()
         self.ranges.update({tag: QRectF(
@@ -237,12 +239,14 @@ class MainCanvas(MainCanvasBase):
         for i, vpoint in enumerate(self.vpoints):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
 
-    def get_record_path(self) -> Tuple[Tuple[_Coord, ...], ...]:
+    def get_record_path(self) -> Tuple[Sequence[Sequence[_Coord]],
+                                       Mapping[int, Sequence[_Coord]]]:
         """Return paths."""
-        paths = tuple(cast(Tuple[_Coord, ...], tuple(path))
-                      for path in self.path_record)
+        paths = tuple(tuple(path) for path in self.path_record)
+        paths_slider = {i: tuple(p) for i, p in self.slider_record.items()}
         self.path_record.clear()
-        return paths
+        self.slider_record.clear()
+        return paths, paths_slider
 
     def adjust_link(
         self,

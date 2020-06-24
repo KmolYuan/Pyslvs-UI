@@ -15,8 +15,8 @@ from abc import abstractmethod
 from dataclasses import astuple
 from time import process_time
 from typing import (
-    cast, TYPE_CHECKING, Tuple, List, Dict, Iterator, Sequence, Union, Optional,
-    TypeVar, Generic,
+    cast, TYPE_CHECKING, Tuple, List, Mapping, Iterator, Sequence, Union,
+    Optional, TypeVar, Generic,
 )
 from qtpy.QtCore import Signal, Qt, QTimer, Slot
 from qtpy.QtWidgets import (
@@ -339,7 +339,7 @@ class ExprTableWidget(BaseTableWidget):
     def set_expr(
         self,
         es: EStack,
-        data_dict: Dict[str, Union[Coordinate, float]],
+        data_dict: Mapping[str, Union[Coordinate, float]],
         unsolved: Sequence[int]
     ):
         """Set the table items for new coming expression."""

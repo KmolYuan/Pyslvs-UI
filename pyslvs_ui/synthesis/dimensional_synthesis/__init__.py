@@ -16,7 +16,7 @@ import pprint
 from copy import deepcopy
 from math import hypot
 from typing import (
-    Any, Callable, Dict, Iterable, Iterator, List, Optional,
+    Any, Callable, Dict, Mapping, Iterable, Iterator, List, Optional,
     Sequence, TYPE_CHECKING, Tuple, Union, cast,
 )
 from lark.exceptions import LarkError
@@ -160,10 +160,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         ) == QMessageBox.Yes:
             self.__clear_settings()
 
-    def load_results(self, mechanism_data: Sequence[Dict[str, Any]]) -> None:
+    def load_results(self, mechanism_data: Sequence[Mapping[str, Any]]) -> None:
         """Append results of project database to memory."""
         for e in mechanism_data:
-            self.mechanism_data.append(e)
+            self.mechanism_data.append(dict(e))
             self.__add_result(e)
 
     def __current_path_changed(self) -> None:
@@ -483,7 +483,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         if not dlg.exec_():
             dlg.deleteLater()
             return
-        mechanisms_plot: List[Dict[str, Any]] = []
+        mechanisms_plot: List[Mapping[str, Any]] = []
         for data in dlg.mechanisms:
             mechanisms_plot.append({
                 'time_fitness': data.pop('time_fitness'),
@@ -507,7 +507,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             f"</span></p></body></html>"
         )
 
-    def __add_result(self, result: Dict[str, Any]) -> None:
+    def __add_result(self, result: Mapping[str, Any]) -> None:
         """Add result items, except add to the list."""
         item = QListWidgetItem(result['algorithm'])
         interrupt = result['interrupted']
@@ -587,7 +587,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Using result data to generate paths of mechanism."""
         result = self.mechanism_data[row]
         expression: str = result['expression']
-        same: Dict[int, int] = result['same']
+        same: Mapping[int, int] = result['same']
         inputs: List[Tuple[_Pair, _Coord]] = result['input']
         input_list = []
         for (b, d), _ in inputs:
@@ -683,13 +683,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         self.__set_profile(name, params)
 
-    def __set_profile(self, profile_name: str, params: Dict[str, Any]) -> None:
+    def __set_profile(self, profile_name: str, params: Mapping[str, Any]) -> None:
         """Set profile to sub-widgets."""
         self.__clear_settings()
-        self.mech = deepcopy(params)
+        self.mech = dict(deepcopy(params))
         expression: str = self.mech['expression']
         self.expression_string.setText(expression)
-        target: Dict[int, List[_Coord]] = self.mech['target']
+        target: Mapping[int, List[_Coord]] = self.mech['target']
         for p in sorted(target):
             self.target_points.addItem(f"P{p}")
             if target[p]:
@@ -701,7 +701,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.target_label.setVisible(self.has_target())
         inputs: List[Tuple[_Pair, List[float]]] = self.mech.get('input', [])
         self.mech['input'] = inputs
-        placement: Dict[int, Optional[_Range]] = self.mech.get('placement', {})
+        placement: Mapping[int, Optional[_Range]] = self.mech.get('placement', {})
         self.mech['placement'] = placement
         # Table settings
         self.parameter_list.setRowCount(0)

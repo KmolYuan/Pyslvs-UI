@@ -388,7 +388,7 @@ class InputsWidget(QWidget, Ui_Form):
                 self.dial_spinbox.maximum() / self.record_interval.value()
             ))
             return
-        path = self.main_canvas.get_record_path()
+        path, path_slider = self.main_canvas.get_record_path()
         name, ok = QInputDialog.getText(
             self,
             "Recording completed!",

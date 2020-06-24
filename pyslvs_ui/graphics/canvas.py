@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (Tuple, List, Sequence, Set, Dict, Iterator, Any, Union,
-                    Optional, ClassVar)
+from typing import (Tuple, List, Sequence, Set, Dict, Mapping, Iterator, Any,
+                    Union, Optional, ClassVar)
 from abc import abstractmethod, ABC
 from dataclasses import dataclass
 from enum import auto, unique, IntEnum
@@ -574,15 +574,7 @@ class PreviewCanvas(BaseCanvas):
     view_size: ClassVar[int] = 240
 
     def __init__(self, parent: QWidget):
-        """Input parameters and attributes.
-
-        + Origin graph
-        + Customize points: Dict[str, int]
-        + Multiple joints: Dict[int, int]
-        + Positions: Dict[int, Tuple[float, float]]
-        + Joint status: Dict[int, bool]
-        + Name dict: Dict['P0', 'A']
-        """
+        """Input parameters and attributes."""
         super(PreviewCanvas, self).__init__(parent)
         self.graph = Graph([])
         self.cus = {}
@@ -711,10 +703,10 @@ class PreviewCanvas(BaseCanvas):
                 y_top = y
         return x_right, x_left, y_top, y_bottom
 
-    def set_graph(self, graph: Graph, pos: Dict[int, _Coord]) -> None:
+    def set_graph(self, graph: Graph, pos: Mapping[int, _Coord]) -> None:
         """Set the graph from NetworkX graph type."""
         self.graph = graph
-        self.pos = pos
+        self.pos = dict(pos)
         self.status = {k: False for k in pos}
         self.update()
 
@@ -752,7 +744,7 @@ class PreviewCanvas(BaseCanvas):
     def grounded_detect(
         placement: Set[int],
         g: Graph,
-        same: Dict[int, int]
+        same: Mapping[int, int]
     ) -> Iterator[int]:
         """Find the grounded link."""
         links: List[Set[int]] = [set() for _ in range(len(g.vertices))]
@@ -765,16 +757,16 @@ class PreviewCanvas(BaseCanvas):
                 yield row
                 return
 
-    def from_profile(self, params: Dict[str, Any]) -> None:
+    def from_profile(self, params: Mapping[str, Any]) -> None:
         """Simple load by dict object."""
         # Customize points and multiple joints
         g = Graph(params['graph'])
         expression: str = params['expression']
         pos_list = parse_pos(expression)
-        cus: Dict[int, int] = params['cus']
-        same: Dict[int, int] = params['same']
-        self.cus = cus
-        self.same = same
+        cus: Mapping[int, int] = params['cus']
+        same: Mapping[int, int] = params['same']
+        self.cus = dict(cus)
+        self.same = dict(same)
         for node, ref in sorted(self.same.items()):
             pos_list.insert(node, pos_list[ref])
         self.set_graph(g, {i: (x, y) for i, (x, y) in enumerate(pos_list)})
@@ -784,12 +776,12 @@ class PreviewCanvas(BaseCanvas):
             self.set_grounded(row)
 
         # Driver setting
-        input_list: List[Tuple[Tuple[int, int], Tuple[float, float]]] = params['input']
+        input_list: List[Tuple[Tuple[int, int], _Coord]] = params['input']
         self.driver.clear()
         self.driver.update(b for (b, _), _ in input_list)
 
         # Target setting
-        target: Dict[int, Sequence[_Coord]] = params['target']
+        target: Mapping[int, Sequence[_Coord]] = params['target']
         self.target.clear()
         self.target.update(target)
 

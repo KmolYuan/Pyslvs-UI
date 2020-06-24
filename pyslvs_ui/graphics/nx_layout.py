@@ -7,24 +7,16 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Tuple, Optional
+from typing import Mapping, Tuple, Optional
 from qtpy.QtCore import Qt, QSize, QPointF
-from qtpy.QtGui import (
-    QImage,
-    QPainter,
-    QBrush,
-    QPen,
-    QIcon,
-    QPixmap,
-    QFont,
-)
+from qtpy.QtGui import QImage, QPainter, QBrush, QPen, QIcon, QPixmap, QFont
 from pyslvs import edges_view
 from pyslvs.graph import Graph, external_loop_layout
 from pyslvs_ui.info import logger
 from .color import color_qt, color_num
 from .canvas import convex_hull, LINK_COLOR
 
-_Pos = Dict[int, Tuple[float, float]]
+_Pos = Mapping[int, Tuple[float, float]]
 
 engines = (
     "External Loop",
@@ -62,8 +54,7 @@ def engine_picker(g: Graph, engine: str, node_mode: bool) -> _Pos:
             y_min = y
     x_cen = (x_max + x_min) / 2
     y_cen = (y_max + y_min) / 2
-    pos: _Pos = {node: (x - x_cen, y - y_cen) for node, (x, y) in layout.items()}
-    return pos
+    return {node: (x - x_cen, y - y_cen) for node, (x, y) in layout.items()}
 
 
 def graph2icon(
