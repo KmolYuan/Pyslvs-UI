@@ -77,9 +77,20 @@ deactivate
 # "Install" app in the AppDir
 ########################################################################
 
-cp "${REPODIR}/launch_pyslvs.py" "${APPDIR}/usr/bin/${LOWERAPP}"
-sed -i "1i\#!/usr/bin/env python3" "${APPDIR}/usr/bin/${LOWERAPP}"
-chmod +x "${APPDIR}/usr/bin/${LOWERAPP}"
+LAUNCHER="${APPDIR}/usr/bin/launch-${LOWERAPP}"
+cp "${REPODIR}/launch_pyslvs.py" ${LAUNCHER}
+sed -i "1i\#!/usr/bin/env python3" ${LAUNCHER}
+chmod +x ${LAUNCHER}
+
+LAUNCHER="${APPDIR}/usr/bin/${LOWERAPP}"
+cat >${LAUNCHER} <<EOF
+#!/bin/sh
+LD_LIBRARY_PATH="."
+export QT_PLUGIN_PATH="."
+HERE=\$(readlink -f "\$(dirname "\$(readlink -f "\${0}")")")
+exec "\${HERE}/launch-${LOWERAPP}" "\$@"
+EOF
+chmod +x ${LAUNCHER}
 
 cd "${REPODIR}/pyslvs_ui" || exit
 find . -name "*.py" -exec install -v -D {} "${APPDIR}/usr/bin/pyslvs_ui"/{} \;
@@ -90,7 +101,7 @@ find . -name "*.py" -exec install -v -D {} "${APPDIR}/usr/bin/pyslvs_ui"/{} \;
 
 cd "${APPDIR}" || exit
 get_apprun
-cat >${LOWERAPP}.desktop <<EOF
+cat >"${LOWERAPP}.desktop" <<EOF
 [Desktop Entry]
 Name=${APP}
 Exec=${LOWERAPP}
