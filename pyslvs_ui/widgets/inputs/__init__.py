@@ -98,7 +98,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.blockSignals(False)
         self.__path_data = {_AUTO_PATH: self.main_canvas.path_preview}
         self.__slider_path_data = {
-            _AUTO_PATH: self.main_canvas.slider_path_preview  # type: ignore
+            _AUTO_PATH: self.main_canvas.slider_path_preview
         }
 
         def slot(widget: QCheckBox):
