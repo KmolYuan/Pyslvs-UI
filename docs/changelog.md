@@ -8,6 +8,7 @@
 + Animation function for the paths of inputs page.
 + "Append path" function for the path of dimensional synthesis page.
 + Remove deprecated "show solutions" buttons.
++ Fix GUI crash on AppImage. (github issue #34)
 
 **Development**:
 
