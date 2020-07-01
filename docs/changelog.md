@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 20.07
+
+**Features**:
+
++ None
+
+**Development**:
+
++ None
+
 ## Version 20.06
 
 **Features**:
