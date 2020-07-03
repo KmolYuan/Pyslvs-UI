@@ -11,7 +11,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    TYPE_CHECKING, Tuple, Dict, Mapping, Sequence, Iterator, Optional,
+    TYPE_CHECKING, Tuple, Dict, Mapping, Sequence, Iterator, Optional, Callable,
 )
 from csv import writer
 from copy import copy
@@ -101,9 +101,9 @@ class InputsWidget(QWidget, Ui_Form):
             _AUTO_PATH: self.main_canvas.slider_path_preview
         }
 
-        def slot(widget: QCheckBox):
+        def slot(widget: QCheckBox) -> Callable[[int], None]:
             @Slot(int)
-            def func(ind: int):
+            def func(ind: int) -> None:
                 widget.setEnabled(ind >= 0
                                   and self.vpoints[ind].type != VJoint.R)
 
