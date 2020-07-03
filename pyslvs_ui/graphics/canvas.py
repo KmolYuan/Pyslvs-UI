@@ -440,7 +440,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         args: Sequence[str],
         target: str,
         pos: Sequence[VPoint]
-    ) -> Tuple[List[QPointF], QColor]:
+    ) -> Tuple[List[_Coord], QColor]:
         """Get solution polygon."""
         if func == 'PLLP':
             color = QColor(121, 171, 252)
@@ -456,7 +456,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 color = QColor(249, 175, 27)
             params = [args[0]]
         params.append(target)
-        tmp_list = []
+        polygon = []
         for name in params:
             try:
                 index = int(name.replace('P', ''))
@@ -464,8 +464,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 continue
             else:
                 vpoint = pos[index]
-                tmp_list.append(QPointF(vpoint.cx, vpoint.cy) * self.zoom)
-        return tmp_list, color
+                polygon.append((vpoint.cx * self.zoom, -vpoint.cy * self.zoom))
+        return polygon, color
 
     def draw_solution(
         self,
@@ -483,15 +483,9 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
 
         def draw_arrow(index: int, text: str) -> None:
             """Draw arrow."""
-            self.draw_arrow(
-                points[index].x(),
-                points[index].y(),
-                points[-1].x(),
-                points[-1].y(),
-                zoom=False,
-                line=False,
-                text=text
-            )
+            x0, y0 = points[index]
+            x1, y1 = points[-1]
+            self.draw_arrow(x0, -y0, x1, -y1, zoom=False, line=False, text=text)
 
         draw_arrow(0, args[1])
         if func == 'PLLP':
@@ -499,7 +493,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         color.setAlpha(30)
         self.painter.setBrush(QBrush(color))
         self.painter.drawPolygon(
-            QPolygonF([QPointF(p.x(), -p.y()) for p in points]))
+            QPolygonF([QPointF(x, y) for x, y in points]))
         self.painter.setBrush(Qt.NoBrush)
 
     @Slot(int)

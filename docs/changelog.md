@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None
++ Fix canvas selection and display error.
 
 **Development**:
 

@@ -409,13 +409,21 @@ class MainCanvasBase(BaseCanvas, ABC):
                     exprs[-1],
                     self.vpoints
                 )
+                if len(points) < 3:
+                    points = convex_hull(
+                        [(x + self.sr, y + self.sr) for x, y in points]
+                        + [(x - self.sr, y - self.sr) for x, y in points],
+                        as_qpoint=True
+                    )
+                else:
+                    points = [QPointF(x, y) for x, y in points]
                 polygon = QPolygonF(points)
                 if rect:
                     return polygon.intersects(
                         QPolygonF(self.selector.to_rect(self.zoom)))
                 else:
                     return polygon.containsPoint(
-                        QPointF(self.selector.x, self.selector.y),
+                        QPointF(self.selector.x, -self.selector.y) * self.zoom,
                         Qt.WindingFill
                     )
 
@@ -518,7 +526,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                     pen.setWidth(self.link_width + 3)
                     pen.setColor(QColor(161, 16, 239))
                     self.painter.setPen(pen)
-                    self.painter.drawPolygon(QPolygonF(pos))
+                    self.painter.drawPolygon(QPolygonF([QPointF(x, y)
+                                                        for x, y in pos]))
         # Draw a colored frame for free move mode
         if self.free_move != FreeMode.NO_FREE_MOVE:
             pen = QPen()
