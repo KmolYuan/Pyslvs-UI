@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 from math import isnan, radians
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import QDialog, QDialogButtonBox
-from pyslvs import plap, pllp, Coordinate
+from pyslvs import plap, pllp, Coord
 from pyslvs_ui.widgets import QRotatableView
 from .relocate_point_ui import Ui_Dialog as SubUiDialog
 if TYPE_CHECKING:
@@ -77,7 +77,7 @@ class RelocateDialog(QDialog, SubUiDialog):
             x = self.plap_p1x_box.value()
             y = self.plap_p1y_box.value()
             c = plap(
-                Coordinate(x, y),
+                Coord(x, y),
                 self.plap_distance_box.value(),
                 radians(self.plap_angle_box.value())
             )
@@ -87,10 +87,10 @@ class RelocateDialog(QDialog, SubUiDialog):
             x2 = self.pllp_p2x_box.value()
             y2 = self.pllp_p2y_box.value()
             c = pllp(
-                Coordinate(x1, y1),
+                Coord(x1, y1),
                 self.pllp_distance1_box.value(),
                 self.pllp_distance2_box.value(),
-                Coordinate(x2, y2),
+                Coord(x2, y2),
                 self.pllp_inversed_box.isChecked()
             )
         else:

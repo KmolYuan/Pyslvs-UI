@@ -31,14 +31,7 @@ from qtpy.QtWidgets import (
     QWidget,
 )
 from qtpy.QtGui import QKeyEvent
-from pyslvs import (
-    EStack,
-    Coordinate,
-    VPoint,
-    VLink,
-    PointArgs,
-    LinkArgs,
-)
+from pyslvs import EStack, Coord, VPoint, VLink, PointArgs, LinkArgs
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.graphics import color_icon
 
@@ -339,7 +332,7 @@ class ExprTableWidget(BaseTableWidget):
     def set_expr(
         self,
         es: EStack,
-        data_dict: Mapping[str, Union[Coordinate, float]],
+        data_dict: Mapping[str, Union[Coord, float]],
         unsolved: Sequence[int]
     ):
         """Set the table items for new coming expression."""
@@ -360,7 +353,7 @@ class ExprTableWidget(BaseTableWidget):
                         text = f"{e}:{data_dict[e]:.02f}"
                     else:
                         # Coordinate
-                        c = cast(Coordinate, data_dict[e])
+                        c = cast(Coord, data_dict[e])
                         text = f"{e}:({c.x:.02f}, {c.y:.02f})"
                 else:
                     # Function name

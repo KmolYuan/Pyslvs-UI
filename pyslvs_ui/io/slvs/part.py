@@ -9,12 +9,12 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Sequence, List, Tuple, Iterator
 from math import radians, sin, cos, atan2
-from pyslvs import VPoint, Coordinate
+from pyslvs import VPoint, Coord
 from pyslvs_ui.graphics import convex_hull
 from .write import SlvsWriter2
 
 _Coord = Tuple[float, float]
-_CoordsPair = Tuple[Coordinate, Coordinate]
+_CoordsPair = Tuple[Coord, Coord]
 
 
 def _by_frame() -> Iterator[int]:
@@ -46,14 +46,14 @@ def boundary_loop(
     """Create boundary edges by pairs of coordinates."""
     boundary_tmp = []
     for i in range(len(boundary)):
-        p1 = Coordinate(*boundary[i])
-        p2 = Coordinate(*boundary[i + 1 if i + 1 < len(boundary) else 0])
+        p1 = Coord(*boundary[i])
+        p2 = Coord(*boundary[i + 1 if i + 1 < len(boundary) else 0])
         alpha = atan2(p2.y - p1.y, p2.x - p1.x) - radians(90)
         offset_x = radius * cos(alpha)
         offset_y = radius * sin(alpha)
         boundary_tmp.append((
-            Coordinate(p1.x + offset_x, p1.y + offset_y),
-            Coordinate(p2.x + offset_x, p2.y + offset_y),
+            Coord(p1.x + offset_x, p1.y + offset_y),
+            Coord(p2.x + offset_x, p2.y + offset_y),
         ))
     return boundary_tmp
 
@@ -75,12 +75,12 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
 
     # Frame (p1, p2, p3) -> ((p1, p2), (p3, p1), (p3, p2))
     frame: List[_CoordsPair] = [(
-        Coordinate(centers[-2][0], centers[-2][1]),
-        Coordinate(centers[-1][0], centers[-1][1]),
+        Coord(centers[-2][0], centers[-2][1]),
+        Coord(centers[-1][0], centers[-1][1]),
     )]
     for x, y in centers[2:]:
-        frame.append((frame[0][0], Coordinate(x, y)))
-        frame.append((frame[0][1], Coordinate(x, y)))
+        frame.append((frame[0][0], Coord(x, y)))
+        frame.append((frame[0][1], Coord(x, y)))
 
     # Boundary
     boundary = boundary_loop(_boundary, radius)
