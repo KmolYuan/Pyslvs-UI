@@ -32,7 +32,7 @@ class YamlEditor(FormatEditor):
         yaml_script = safe_dump(data, default_flow_style=flow_style)
         if self.prefer.file_type_option == 1:
             yaml_script = sub(r"\s\s+", " ", yaml_script)
-        with open(file_name, 'w', encoding='utf-8') as f:
+        with open(file_name, 'w+', encoding='utf-8') as f:
             f.write(yaml_script)
 
     def load(self, file_name: str) -> None:

@@ -5,6 +5,7 @@
 **Features**:
 
 + Fix canvas selection and display error.
++ Generate calculation script after parser script. (github issue #35)
 
 **Development**:
 

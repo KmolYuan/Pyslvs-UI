@@ -9,7 +9,7 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import TYPE_CHECKING, Tuple, List, Sequence
+from typing import TYPE_CHECKING, Tuple, List, Sequence, Set, Optional
 from qrcode import make
 from qrcode.image.base import BaseImage
 from numpy import full, ndarray, uint8
@@ -17,6 +17,7 @@ from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import (
     QApplication,
     QDialog,
+    QDialogButtonBox,
     QTextEdit,
     QWidget,
     QLabel,
@@ -30,25 +31,28 @@ from .script_ui import Ui_Dialog
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
+_Expr = Sequence[Tuple[str, ...]]
 _SCRIPT = """
-from pyslvs import (
-    parse_vpoints,
-    t_config,
-    data_collecting,
-    expr_solving,
-)
+from pyslvs import parse_vpoints, t_config, data_collecting, expr_solving
 
 if __name__ == '__main__':
     vpoints = parse_vpoints(
-        "M["\n{0}
+        "M["\n{}
         "]")
-    exprs = t_config(vpoints, {1})
+    exprs = t_config(vpoints, {})
     mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
     data_dict, dof = data_collecting(exprs, mapping, vpoints)
     pos = expr_solving(exprs, mapping, vpoints, [0.])
     print(data_dict)
     print(f"DOF:{{dof}}")
     print(pos)
+"""
+_CAL_SCRIPT = """
+from pyslvs import {}
+
+# {} are known
+
+if __name__ == '__main__':
 """
 
 
@@ -95,6 +99,25 @@ def slvs_process_script(
     )
 
 
+def _expr_to_script(exprs: _Expr) -> str:
+    cmd = []
+    functions = set()
+    symbols: Set[str] = set()
+    targets = set()
+    for expr in exprs:
+        func = expr[0].lower()
+        target = expr[-1].lower()
+        sym = tuple(e.lower() for e in expr[1:-1])
+        args = ", ".join(sym)
+        cmd.append(" " * 4 + f"{target} = {func}({args})")
+        functions.add(func)
+        symbols.update(sym)
+        targets.add(target)
+    script = _CAL_SCRIPT.format(", ".join(sorted(functions)),
+                                ", ".join(sorted(symbols - targets)))
+    return script + '\n'.join(cmd)
+
+
 class _ScriptBrowser(QTextEdit):
     """Custom text browser to implement text zooming."""
 
@@ -127,7 +150,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
         file_format: List[str],
         parent: MainWindowBase,
         *,
-        compressed_script: str = "M[]"
+        compressed_script: str = "M[]",
+        exprs: Optional[_Expr] = None
     ):
         """Input parameters:
 
@@ -141,6 +165,9 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
                             & ~Qt.WindowContextHelpButtonHint)
         self.setWindowIcon(icon)
+        # Calculation function
+        if exprs is not None:
+            script += "\n###\n" + _expr_to_script(exprs)
         self.script_view = _ScriptBrowser(self)
         self.script_view.setText(script)
         self.main_layout.insertWidget(0, self.script_view)
@@ -149,6 +176,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.setWindowTitle(self.filename)
+        self.button_box.button(QDialogButtonBox.Save).clicked.connect(
+            self.__save)
 
         # Compressed script
         self.compressed_script = compressed_script
@@ -163,7 +192,16 @@ class ScriptDialog(QDialog, Ui_Dialog):
         image = make(self.compressed_script, image_factory=_NpImage)
         self.image = QPixmap.fromImage(image.get_qimage())
 
-    @Slot(name='on_copy_clicked')
+    def __save(self) -> None:
+        """Save to specific format."""
+        path = self.output_to("Script", self.file_format)
+        if not path:
+            return
+        with open(path, 'w+', encoding='utf-8') as f:
+            f.write(self.script_view.toPlainText())
+        self.save_reply_box("Script", path)
+
+    @Slot(name='on_copy_button_clicked')
     def __copy(self) -> None:
         """Copy to clipboard."""
         QApplication.clipboard().setText(

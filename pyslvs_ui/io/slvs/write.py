@@ -582,7 +582,7 @@ class SlvsWriter2:
         self.entity_plane(0x80020000, 0x80020002, 0x80020001)
         self.entity_normal_copy(0x80020001, 0x80020002)
         self.entity_point_2d(0x80020002, 2012, 1)
-        with open(file_name, 'w', encoding="iso-8859-15") as f:
+        with open(file_name, 'w+', encoding="iso-8859-15") as f:
             f.write('\n\n'.join('\n\n'.join(script) for script in [
                 self.script_group,
                 self.script_param,

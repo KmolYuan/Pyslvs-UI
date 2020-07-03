@@ -67,9 +67,9 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                 for i, p in enumerate(vlink.points):
                     if i == 0:
                         continue
-                    yield (vlink.points[0], p)
+                    yield vlink.points[0], p
                     if i > 1:
-                        yield (vlink.points[i - 1], p)
+                        yield vlink.points[i - 1], p
 
         return func
 
@@ -534,7 +534,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             ),
             "Python script",
             ["Python3 Script (*.py)"],
-            self
+            self,
+            exprs=self.get_triangle().as_list()
         )
         dlg.show()
         dlg.exec_()

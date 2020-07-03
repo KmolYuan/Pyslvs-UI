@@ -516,7 +516,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             file_name = self.output_to("atlas edges expression", ["Text file (*.txt)"])
         if not file_name:
             return
-        with open(file_name, 'w', encoding='utf-8') as f:
+        with open(file_name, 'w+', encoding='utf-8') as f:
             f.write('\n'.join(str(G.edges) for G in self.answer))
         self.save_reply_box("edges expression", file_name)
 

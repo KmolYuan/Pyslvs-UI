@@ -40,7 +40,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="copy">
+      <widget class="QPushButton" name="copy_button">
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
        </property>
@@ -80,7 +80,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="standardButtons">
-        <set>QDialogButtonBox::Close</set>
+        <set>QDialogButtonBox::Close|QDialogButtonBox::Save</set>
        </property>
       </widget>
      </item>
