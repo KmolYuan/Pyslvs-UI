@@ -64,7 +64,7 @@ even if there has only one entity edited.
 
 "Points" and "Links" tabs in "Mechanism" will
 active different selection mode of "point" and "link" entities.
-"Formulas" tab is not mapped to any type of entities.
+"Calculation" tab is not mapped to any type of entities.
 Dragging the cursor to select the objects by rectangle.
 The selected objects can be correspond to each row of the table.
 

@@ -590,7 +590,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Pyslvs - Untitled"))
         self.entities_tab.setTabText(self.entities_tab.indexOf(self.PointsTab), _translate("MainWindow", "Points"))
         self.entities_tab.setTabText(self.entities_tab.indexOf(self.LinksTab), _translate("MainWindow", "Links"))
-        self.entities_tab.setTabText(self.entities_tab.indexOf(self.tab), _translate("MainWindow", "Formulas"))
+        self.entities_tab.setTabText(self.entities_tab.indexOf(self.tab), _translate("MainWindow", "Calculation"))
         self.mechanism_storage_name_tag_text.setText(_translate("MainWindow", "Mechanism name:"))
         self.mechanism_storage_name_tag.setPlaceholderText(_translate("MainWindow", "Prototype"))
         self.mechanism_storage.setStatusTip(_translate("MainWindow", "All expressions of this project. They will be saving with database."))

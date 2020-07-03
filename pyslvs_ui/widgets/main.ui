@@ -176,7 +176,7 @@
                   <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
                 </attribute>
                 <attribute name="title">
-                 <string>Formulas</string>
+                 <string>Calculation</string>
                 </attribute>
                 <layout class="QVBoxLayout" name="verticalLayout_8">
                  <item>
