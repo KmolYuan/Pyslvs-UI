@@ -16,6 +16,7 @@ from qtpy.QtWidgets import QDialog, QDialogButtonBox
 from pyslvs import plap, pllp, Coord
 from pyslvs_ui.widgets import QRotatableView
 from .relocate_point_ui import Ui_Dialog as SubUiDialog
+
 if TYPE_CHECKING:
     from .edit_point import EditPointDialog
 

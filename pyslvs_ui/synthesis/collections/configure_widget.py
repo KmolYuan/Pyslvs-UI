@@ -30,6 +30,7 @@ from pyslvs.graph import Graph
 from pyslvs_ui.graphics import PreviewCanvas
 from .dialogs import CollectionsDialog, CustomsDialog, TargetsDialog, list_texts
 from .configure_widget_ui import Ui_Form
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets.main_base import MainWindowBase
 

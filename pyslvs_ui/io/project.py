@@ -26,6 +26,7 @@ from .yaml import YamlEditor
 from .hdf5 import HDF5Editor
 from .project_ui import Ui_Form
 from .format_editor import PROJECT_FORMAT
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 

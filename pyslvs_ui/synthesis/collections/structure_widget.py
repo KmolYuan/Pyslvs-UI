@@ -39,6 +39,7 @@ from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engine_picker, engines
 from .dialogs.targets import TargetsDialog
 from .structure_widget_ui import Ui_Form
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 

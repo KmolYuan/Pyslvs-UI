@@ -41,6 +41,7 @@ from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engines
 from .thread import assortment_eval, LinkThread, GraphThread
 from .structure_widget_ui import Ui_Form
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 

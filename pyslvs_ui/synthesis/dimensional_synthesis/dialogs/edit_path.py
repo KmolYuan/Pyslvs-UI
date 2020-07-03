@@ -14,6 +14,7 @@ from math import cos, sin, atan2, radians, hypot
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog
 from .edit_path_ui import Ui_Dialog
+
 if TYPE_CHECKING:
     from pyslvs_ui.synthesis import DimensionalSynthesis
 

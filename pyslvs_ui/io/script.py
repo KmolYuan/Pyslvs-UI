@@ -26,6 +26,7 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QIcon, QPixmap, QImage, QWheelEvent, QFont
 from .script_ui import Ui_Dialog
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
@@ -166,7 +167,8 @@ class ScriptDialog(QDialog, Ui_Dialog):
     def __copy(self) -> None:
         """Copy to clipboard."""
         QApplication.clipboard().setText(
-            self.compressed_script if self.compressed_script else self.script_view.toPlainText()
+            self.compressed_script if self.compressed_script else
+            self.script_view.toPlainText()
         )
 
     @Slot(name='on_show_qrcode_clicked')

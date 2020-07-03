@@ -23,6 +23,7 @@ from qtpy.QtGui import QIcon, QPixmap
 from .structure_widget import StructureWidget
 from .configure_widget import ConfigureWidget
 from .dialogs import CollectionsDialog
+
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 

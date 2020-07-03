@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog
 from .customs_ui import Ui_Dialog
+
 if TYPE_CHECKING:
     from pyslvs_ui.synthesis import ConfigureWidget
 
