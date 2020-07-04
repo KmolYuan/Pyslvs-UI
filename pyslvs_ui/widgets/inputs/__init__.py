@@ -564,12 +564,21 @@ class InputsWidget(QWidget, Ui_Form):
     def __plot(self) -> None:
         """Plot the data. Show the X and Y axises as two line."""
         joint = self.plot_joint.currentIndex()
-        data = self.__paths[self.__current_path_name()]
+        name = self.__current_path_name()
+        data = self.__paths.get(name, [])
+        slider_data = self.__slider_paths.get(name, {})
         if not data:
             return
-        pos = array(data[joint])
+        if self.plot_joint_slot.isChecked():
+            pos = array(slider_data.get(joint, []))
+        else:
+            pos = array(data[joint])
         if self.wrt_label.isChecked():
-            pos[:] -= array(data[self.wrt_joint.currentIndex()])
+            joint_wrt = self.wrt_joint.currentIndex()
+            if self.wrt_joint_slot.isChecked():
+                pos[:] -= array(slider_data.get(joint_wrt, []))
+            else:
+                pos[:] -= array(data[joint_wrt])
         vel = derivative(pos)
         acc = derivative(vel)
         cur = curvature(data[joint])
