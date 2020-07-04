@@ -24,6 +24,7 @@ if TYPE_CHECKING:
 
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
+_SliderPaths = Mapping[int, Sequence[_Coord]]
 
 
 class MainCanvas(MainCanvasBase):
@@ -46,15 +47,17 @@ class MainCanvas(MainCanvasBase):
         self.selection_mode_wheel = parent.entities_tab.setCurrentIndex
         self.selection_mode = parent.entities_tab.currentIndex
 
-    def update_figure(
+    def update_canvas(
         self,
         exprs: List[Tuple[str, ...]],
-        path: _Paths
+        paths: _Paths,
+        slider_paths: _SliderPaths
     ) -> None:
         """Update with Point and Links data."""
         self.vangles = tuple(vpoint.angle for vpoint in self.vpoints)
         self.exprs = exprs
-        self.path.path = path
+        self.path.path = paths
+        self.path.slider_path = slider_paths
         self.update()
 
     @Slot(int)

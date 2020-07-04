@@ -584,9 +584,11 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
 
     def reload_canvas(self) -> None:
         """Update main canvas data, without resolving."""
-        self.main_canvas.update_figure(
+        paths, slider_paths = self.inputs_widget.current_path()
+        self.main_canvas.update_canvas(
             self.get_triangle().as_list(),
-            self.inputs_widget.current_path()
+            paths,
+            slider_paths
         )
 
     def dof(self) -> int:

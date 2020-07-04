@@ -328,6 +328,9 @@ class MainCanvasBase(BaseCanvas, ABC):
             fmt_paths.extend(self.slider_path_preview.items())
         elif paths is self.path_record:
             fmt_paths.extend(self.slider_record.items())
+        else:
+            # User paths
+            fmt_paths.extend(self.path.slider_path.items())
         for i, path in fmt_paths:
             if self.path.show != i and self.path.show != -1:
                 continue

@@ -11,7 +11,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    TYPE_CHECKING, Tuple, Dict, Mapping, Sequence, Iterator, Optional, Callable,
+    TYPE_CHECKING, TypeVar, Tuple, Dict, Mapping, Sequence, Iterator, Optional,
+    Callable,
 )
 from csv import writer
 from copy import copy
@@ -35,11 +36,17 @@ from .inputs_ui import Ui_Form
 if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
+_T = TypeVar('_T')
 _Coord = Tuple[float, float]
 _Vars = Sequence[Tuple[int, int]]
 _Paths = Sequence[Sequence[_Coord]]
 _SliderPaths = Mapping[int, Sequence[_Coord]]
 _AUTO_PATH = "Auto preview"  # Unified name
+
+
+def _no_auto_path(path: Mapping[str, _T]) -> Mapping[str, _T]:
+    """Copy paths without auto preview paths."""
+    return {name: path for name, path in path.items() if name != _AUTO_PATH}
 
 
 def _variable_int(text: str) -> int:
@@ -133,13 +140,13 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.setMinimum(-500)
         self.dial_spinbox.setMaximum(500)
 
-    def paths(self) -> Dict[str, _Paths]:
+    def paths(self) -> Mapping[str, _Paths]:
         """Return current path data."""
-        return self.__paths
+        return _no_auto_path(self.__paths)
 
-    def slider_paths(self) -> Dict[str, _SliderPaths]:
+    def slider_paths(self) -> Mapping[str, _SliderPaths]:
         """Return current path data."""
-        return self.__slider_paths
+        return _no_auto_path(self.__slider_paths)
 
     @Slot(tuple)
     def set_selection(self, selections: Sequence[int]) -> None:
@@ -515,7 +522,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.record_show.setChecked(True)
         self.reload_canvas()
 
-    def current_path(self) -> _Paths:
+    def current_path(self) -> Tuple[_Paths, _SliderPaths]:
         """Return current path data to main canvas.
 
         + No path.
@@ -524,9 +531,9 @@ class InputsWidget(QWidget, Ui_Form):
         """
         row = self.record_list.currentRow()
         if row in {0, -1}:
-            return ()
-        path_name = self.record_list.item(row).text().split(':')[0]
-        return self.__paths.get(path_name, ())
+            return (), {}
+        name = self.record_list.item(row).text().split(':')[0]
+        return self.__paths.get(name, ()), self.__slider_paths.get(name, {})
 
     @Slot(name='on_variable_up_clicked')
     @Slot(name='on_variable_down_clicked')

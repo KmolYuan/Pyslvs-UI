@@ -6,6 +6,7 @@
 
 + Fix canvas selection and display error.
 + Generate calculation script after parser script. (github issue #35)
++ Skip auto preview paths when saving file.
 
 **Development**:
 

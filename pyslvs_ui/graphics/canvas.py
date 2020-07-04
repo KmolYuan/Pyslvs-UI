@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import (Tuple, List, Sequence, Set, Dict, Mapping, Iterator, Any,
                     Union, Optional, ClassVar)
 from abc import abstractmethod, ABC
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import auto, unique, IntEnum
 from math import radians, sin, cos, atan2, hypot, isnan
 from functools import reduce
@@ -98,6 +98,7 @@ class _PathOption:
     + The path will be the curve, otherwise using the points.
     """
     path: Sequence[Sequence[_Coord]] = ()
+    slider_path: Mapping[int, Sequence[_Coord]] = field(default_factory=dict)
     show: int = -1
     curve: bool = True
 
