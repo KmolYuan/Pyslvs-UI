@@ -20,7 +20,9 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 PROJECT_FORMAT = ("YAML", "Compressed YAML", "HDF5")
-_Paths = Sequence[Sequence[Tuple[float, float]]]
+_Coord = Tuple[float, float]
+_Paths = Sequence[Sequence[_Coord]]
+_SliderPaths = Mapping[int, Sequence[_Coord]]
 _Pairs = Sequence[Tuple[int, int]]
 _Data = Mapping[str, Any]
 
@@ -31,27 +33,29 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     def __init__(self, project_widget: ProjectWidget, parent: MainWindowBase):
         super(FormatEditor, self).__init__(parent)
+        self._parent = parent
         # Undo stack
         self.command_stack = parent.command_stack
         # Action group settings
         self.prefer = parent.prefer
-        # Call to get point expressions
+        # Point expressions
         self.get_expression = parent.get_expression
-        # Call to get link data
+        # Link data
         self.vlinks = parent.vlink_list
-        # Call to get storage data
+        # Storage data
         self.get_storage = parent.get_storage
-        # Call to get collections data
+        # Collections data
         self.collect_data = parent.collections.collect_data
-        # Call to get triangle data
+        # Triangle data
         self.config_data = parent.collections.config_data
-        # Call to get inputs variables data
+        # Inputs variables data
         self.input_pairs = parent.inputs_widget.input_pairs
-        # Call to get algorithm data
+        # Algorithm data
         self.algorithm_data = parent.dimensional_synthesis.mechanism_data
-        # Call to get path data
-        self.path_data = parent.inputs_widget.path_data
-        # Call to get background options
+        # Path data
+        self.paths = parent.inputs_widget.paths
+        self.slider_paths = parent.inputs_widget.slider_paths
+        # Background options
         self.background_config = project_widget.background_config
         self.get_background_path = project_widget.get_background_path
 
@@ -93,7 +97,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             'collection': self.collect_data(),
             'triangle': self.config_data(),
             'algorithm': self.algorithm_data,
-            'path': self.path_data(),
+            'path': self.paths(),
+            'slider_path': self.slider_paths(),
             'background': self.background_config(),
         }
         for k, v in tuple(data.items()):
@@ -109,19 +114,19 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             logger.info(f"Load data from version {ver}")
         del ver
         self.dlg = QProgressDialog("Loading project", "Cancel", 0, 7,
-                                   self.parent())
+                                   self._parent)
         self.dlg.show()
         try:
             mechanism_data = self.__load_mech(data)
             storage_data = self.__load_storage(data)
             input_data = self.__load_input(data)
-            path_data = self.__load_path(data)
+            paths = self.__load_path(data)
             collection_data = self.__load_collection(data)
             config_data = self.__load_config(data)
             algorithm_data = self.__load_algorithm(data)
             self.__load_background(data)
         except Exception as e:
-            QMessageBox.warning(self.parent(), "Load error", f"Exception:\n{e}")
+            QMessageBox.warning(self._parent, "Load error", f"Exception:\n{e}")
             self.dlg.deleteLater()
             self.dlg = None
             return
@@ -130,12 +135,12 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Show overview dialog
         self.dlg.deleteLater()
         self.dlg = OverviewDialog(
-            self.parent(),
+            self._parent,
             QFileInfo(file_name).baseName(),
             mechanism_data,
             storage_data,
             input_data,
-            path_data,
+            paths,
             collection_data,
             config_data,
             algorithm_data,
@@ -194,15 +199,16 @@ class FormatEditor(QObject, metaclass=QABCMeta):
     def __load_path(self, data: _Data) -> Mapping[str, _Paths]:
         """Load path data."""
         self.__process("paths")
-        path_data: Mapping[str, _Paths] = data.get('path', {})
-        if path_data:
+        paths: Mapping[str, _Paths] = data.get('path', {})
+        slider_paths: Mapping[str, _SliderPaths] = data.get('slider_path', {})
+        if paths:
             self.__set_group("paths")
             self.load_paths({
                 n: [[(c[0], c[1]) for c in p] for p in ps]
-                for n, ps in path_data.items()
-            })
+                for n, ps in paths.items()
+            }, slider_paths)
             self.__end_group()
-        return path_data
+        return paths
 
     def __load_collection(self, data: _Data) -> List[_Pairs]:
         """Load collection data."""

@@ -165,6 +165,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
                             & ~Qt.WindowContextHelpButtonHint)
         self.setWindowIcon(icon)
+        self.button_box.button(QDialogButtonBox.Close).setDefault(True)
         # Calculation function
         if exprs is not None:
             script += "\n###\n" + _expr_to_script(exprs)

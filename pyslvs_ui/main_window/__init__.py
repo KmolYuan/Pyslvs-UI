@@ -138,7 +138,7 @@ class MainWindow(IOMethodInterface):
             return
         # Add the path
         i = 0
-        while f"Algorithm_{i}" in self.inputs_widget.path_data():
+        while f"Algorithm_{i}" in self.inputs_widget.paths():
             i += 1
         self.inputs_widget.add_path(f"Algorithm_{i}", path, {})
 

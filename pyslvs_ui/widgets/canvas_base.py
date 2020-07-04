@@ -26,8 +26,8 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
-_MutPaths = List[List[_Coord]]
 _Path = Sequence[_Coord]
+_Paths = Sequence[Sequence[_Coord]]
 
 
 @dataclass(repr=False, eq=False)
@@ -123,7 +123,7 @@ class MainCanvasBase(BaseCanvas, ABC):
     vangles: Tuple[float, ...]
     exprs: List[Tuple[str, ...]]
     selections: List[int]
-    path_preview: _MutPaths
+    path_preview: List[List[_Coord]]
     slider_path_preview: Dict[int, List[_Coord]]
     path_record: List[Deque[_Coord]]
     slider_record: Dict[int, Deque[_Coord]]
@@ -319,22 +319,25 @@ class MainCanvasBase(BaseCanvas, ABC):
 
     def __draw_path(self) -> None:
         """Draw paths. Recording first."""
-        paths = self.path_record or self.path.path or self.path_preview
+        paths: _Paths = self.path_record or self.path.path or self.path_preview
         if len(self.vpoints) != len(paths):
             return
         pen = QPen()
-        fmt_paths: List[Tuple[int, _Path]] = list(enumerate(paths))
+        fmt_paths = [(i, p) for i, p in enumerate(paths)]
         if paths is self.path_preview:
             fmt_paths.extend(self.slider_path_preview.items())
+        elif paths is self.path_record:
+            fmt_paths.extend(self.slider_record.items())
         for i, path in fmt_paths:
             if self.path.show != i and self.path.show != -1:
                 continue
+            vpoint = self.vpoints[i]
             if self.monochrome:
                 color = color_qt('gray')
-            elif self.vpoints[i].color is None:
+            elif vpoint.color is None:
                 color = color_qt('green')
             else:
-                color = QColor(*self.vpoints[i].color)
+                color = QColor(*vpoint.color)
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)

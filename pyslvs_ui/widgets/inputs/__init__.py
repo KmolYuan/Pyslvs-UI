@@ -36,6 +36,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
+_Vars = Sequence[Tuple[int, int]]
 _Paths = Sequence[Sequence[_Coord]]
 _SliderPaths = Mapping[int, Sequence[_Coord]]
 _AUTO_PATH = "Auto preview"  # Unified name
@@ -52,8 +53,8 @@ class InputsWidget(QWidget, Ui_Form):
     + Function of mechanism variables settings.
     + Path recording.
     """
-    __path_data: Dict[str, _Paths]
-    __slider_path_data: Dict[str, _SliderPaths]
+    __paths: Dict[str, _Paths]
+    __slider_paths: Dict[str, _SliderPaths]
 
     about_to_resolve = Signal()
 
@@ -96,10 +97,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.record_list.addItem(_AUTO_PATH)
         self.record_list.setCurrentRow(0)
         self.record_list.blockSignals(False)
-        self.__path_data = {_AUTO_PATH: self.main_canvas.path_preview}
-        self.__slider_path_data = {
-            _AUTO_PATH: self.main_canvas.slider_path_preview
-        }
+        self.__paths = {_AUTO_PATH: self.main_canvas.path_preview}
+        self.__slider_paths = {_AUTO_PATH: self.main_canvas.slider_path_preview}
 
         def slot(widget: QCheckBox) -> Callable[[int], None]:
             @Slot(int)
@@ -115,7 +114,7 @@ class InputsWidget(QWidget, Ui_Form):
 
     def clear(self) -> None:
         """Clear function to reset widget status."""
-        self.__path_data = {_AUTO_PATH: self.__path_data[_AUTO_PATH]}
+        self.__paths = {_AUTO_PATH: self.__paths[_AUTO_PATH]}
         for _ in range(self.record_list.count() - 1):
             self.record_list.takeItem(1)
         self.variable_list.clear()
@@ -134,13 +133,13 @@ class InputsWidget(QWidget, Ui_Form):
         self.dial_spinbox.setMinimum(-500)
         self.dial_spinbox.setMaximum(500)
 
-    def path_data(self) -> Dict[str, _Paths]:
+    def paths(self) -> Dict[str, _Paths]:
         """Return current path data."""
-        return self.__path_data
+        return self.__paths
 
-    def slider_path_data(self) -> Dict[str, _SliderPaths]:
+    def slider_paths(self) -> Dict[str, _SliderPaths]:
         """Return current path data."""
-        return self.__slider_path_data
+        return self.__slider_paths
 
     @Slot(tuple)
     def set_selection(self, selections: Sequence[int]) -> None:
@@ -234,8 +233,7 @@ class InputsWidget(QWidget, Ui_Form):
             f"{value:.02f}",
         )), self.variable_list))
 
-    def add_inputs_variables(self,
-                             variables: Sequence[Tuple[int, int]]) -> None:
+    def add_inputs_variables(self, variables: _Vars) -> None:
         """Add from database."""
         for p0, p1 in variables:
             self.__add_inputs_variable(p0, p1)
@@ -398,7 +396,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         i = 0
         name = name or f"Record_{i}"
-        while name in self.__path_data:
+        while name in self.__paths:
             name = f"Record_{i}"
             i += 1
         QMessageBox.information(self, "Record",
@@ -410,15 +408,18 @@ class InputsWidget(QWidget, Ui_Form):
         self.command_stack.push(AddPath(
             self.record_list,
             name,
-            self.__path_data,
-            path
+            self.__paths,
+            self.__slider_paths,
+            path,
+            slider
         ))
         self.record_list.setCurrentRow(self.record_list.count() - 1)
 
-    def load_paths(self, paths: Dict[str, _Paths]) -> None:
+    def load_paths(self, paths: Mapping[str, _Paths],
+                   slider_paths: Mapping[str, _SliderPaths]) -> None:
         """Add multiple paths."""
         for name, path in paths.items():
-            self.add_path(name, path, {})
+            self.add_path(name, path, slider_paths.get(name, {}))
 
     @Slot(name='on_record_remove_clicked')
     def __remove_path(self) -> None:
@@ -429,7 +430,8 @@ class InputsWidget(QWidget, Ui_Form):
         self.command_stack.push(DeletePath(
             row,
             self.record_list,
-            self.__path_data
+            self.__paths,
+            self.__slider_paths
         ))
         self.record_list.setCurrentRow(self.record_list.count() - 1)
         self.reload_canvas()
@@ -439,10 +441,10 @@ class InputsWidget(QWidget, Ui_Form):
         """View path data."""
         name = item.text().split(":", maxsplit=1)[0]
         try:
-            data = self.__path_data[name]
+            paths = self.__paths[name]
         except KeyError:
             return
-        points_text = ", ".join(f"Point{i}" for i in range(len(data)))
+        points_text = ", ".join(f"Point{i}" for i in range(len(paths)))
         if QMessageBox.question(
             self,
             "Path data",
@@ -459,9 +461,9 @@ class InputsWidget(QWidget, Ui_Form):
             return
         with open(file_name, 'w+', encoding='utf-8', newline='') as stream:
             w = writer(stream)
-            for point in data:
-                for coordinate in point:
-                    w.writerow(coordinate)
+            for path in paths:
+                for point in path:
+                    w.writerow(point)
                 w.writerow(())
         logger.info(f"Output path data: {file_name}")
 
@@ -475,15 +477,15 @@ class InputsWidget(QWidget, Ui_Form):
         name = self.__current_path_name()
         num = 0
         name_copy = f"{name}_{num}"
-        while name_copy in self.__path_data:
+        while name_copy in self.__paths:
             name_copy = f"{name}_{num}"
             num += 1
-        self.add_path(name_copy, copy(self.__path_data[name]), {})
+        self.add_path(name_copy, copy(self.__paths[name]), {})
 
     @Slot(name='on_cp_data_button_clicked')
     def __copy_path_data(self) -> None:
         """Copy current path data to clipboard."""
-        data = self.__path_data[self.__current_path_name()]
+        data = self.__paths[self.__current_path_name()]
         if not data:
             return
         QApplication.clipboard().setText('\n'.join(
@@ -524,7 +526,7 @@ class InputsWidget(QWidget, Ui_Form):
         if row in {0, -1}:
             return ()
         path_name = self.record_list.item(row).text().split(':')[0]
-        return self.__path_data.get(path_name, ())
+        return self.__paths.get(path_name, ())
 
     @Slot(name='on_variable_up_clicked')
     @Slot(name='on_variable_down_clicked')
@@ -542,7 +544,7 @@ class InputsWidget(QWidget, Ui_Form):
     @Slot(name='on_animate_button_clicked')
     def __animate(self) -> None:
         """Make a motion animation."""
-        data = self.__path_data[self.__current_path_name()]
+        data = self.__paths[self.__current_path_name()]
         if not data:
             return
         dlg = AnimateDialog(self.vpoints, data,
@@ -555,7 +557,7 @@ class InputsWidget(QWidget, Ui_Form):
     def __plot(self) -> None:
         """Plot the data. Show the X and Y axises as two line."""
         joint = self.plot_joint.currentIndex()
-        data = self.__path_data[self.__current_path_name()]
+        data = self.__paths[self.__current_path_name()]
         if not data:
             return
         pos = array(data[joint])

@@ -20,8 +20,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    cast, Type, Sequence, List, Dict, Tuple, Iterator, Iterable, Generic,
-    Optional, TypeVar,
+    cast, Type, Sequence, List, Dict, Mapping, Tuple, Iterator, Iterable,
+    Generic, Optional, TypeVar,
 )
 from abc import abstractmethod
 from qtpy.QtCore import Qt
@@ -38,7 +38,9 @@ from pyslvs import VJoint, VPoint, VLink, color_rgb, PointArgs, LinkArgs
 from pyslvs_ui.qt_patch import QABCMeta
 from .tables import BaseTableWidget, PointTableWidget, LinkTableWidget
 
-_Paths = Sequence[Sequence[Tuple[float, float]]]
+_Coord = Tuple[float, float]
+_Paths = Sequence[Sequence[_Coord]]
+_SliderPaths = Mapping[int, Sequence[_Coord]]
 _ITEM_FLAGS = Qt.ItemIsSelectable | Qt.ItemIsEnabled
 _Data = TypeVar('_Data', VPoint, VLink)
 _Args = TypeVar('_Args', PointArgs, LinkArgs)
@@ -398,28 +400,34 @@ class AddPath(QUndoCommand):
         self,
         widget: QListWidget,
         name: str,
-        data: Dict[str, _Paths],
+        paths: Dict[str, _Paths],
+        slider_paths: Dict[str, _SliderPaths],
         path: _Paths,
+        slider_path: _SliderPaths,
         parent: Optional[QWidget] = None
     ):
         super(AddPath, self).__init__(parent)
         self.setText(f"Add {{Path: {name}}}")
         self.widget = widget
         self.name = name
-        self.data = data
+        self.paths = paths
+        self.slider_paths = slider_paths
         self.path = path
+        self.slider_path = slider_path
         self.targets = [i for i, p in enumerate(self.path) if len(set(p)) > 1]
 
     def redo(self) -> None:
         """Add new path data."""
-        self.data[self.name] = self.path
+        self.paths[self.name] = self.path
+        self.slider_paths[self.name] = self.slider_path
         self.widget.addItem(
             f"{self.name}: " + ", ".join(f"[{i}]" for i in self.targets))
 
     def undo(self) -> None:
         """Remove the last item."""
         self.widget.takeItem(self.widget.count() - 1)
-        self.data.pop(self.name)
+        self.paths.pop(self.name)
+        self.slider_paths.pop(self.name)
 
 
 class DeletePath(QUndoCommand):
@@ -429,26 +437,31 @@ class DeletePath(QUndoCommand):
         self,
         row: int,
         widget: QListWidget,
-        data: Dict[str, _Paths],
+        paths: Dict[str, _Paths],
+        slider_paths: Dict[str, _SliderPaths],
         parent: Optional[QWidget] = None
     ):
         super(DeletePath, self).__init__(parent)
         self.setText(f"Delete {{Path: {widget.item(row).text()}}}")
         self.row = row
         self.widget = widget
-        self.data = data
+        self.paths = paths
+        self.slider_paths = slider_paths
         self.old_item = self.widget.item(self.row)
         self.name = self.old_item.text().split(':')[0]
-        self.old_path = self.data[self.name]
+        self.old_path = self.paths[self.name]
+        self.old_slider_path = self.slider_paths[self.name]
 
     def redo(self) -> None:
         """Delete the path."""
         self.widget.takeItem(self.row)
-        self.data.pop(self.name)
+        self.paths.pop(self.name)
+        self.slider_paths.pop(self.name)
 
     def undo(self) -> None:
         """Append back the path."""
-        self.data[self.old_item.text().split(':')[0]] = self.old_path
+        self.paths[self.name] = self.old_path
+        self.slider_paths[self.name] = self.old_slider_path
         self.widget.addItem(self.old_item)
         self.widget.setCurrentRow(self.widget.row(self.old_item))
 

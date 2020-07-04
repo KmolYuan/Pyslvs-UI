@@ -16,6 +16,7 @@ from typing import (
 from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
 from qtpy.QtWidgets import QApplication, QToolTip, QWidget
 from qtpy.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
+from pyslvs import VJoint
 from .canvas_base import MainCanvasBase, FreeMode, SelectMode, ZoomBy
 
 if TYPE_CHECKING:
@@ -231,13 +232,18 @@ class MainCanvas(MainCanvasBase):
     def record_start(self, limit: int) -> None:
         """Start a limit from main window."""
         self.path_record.clear()
-        self.path_record.extend(deque([], limit)
-                                for _ in range(len(self.vpoints)))
+        self.slider_record.clear()
+        self.path_record.extend(deque([], limit) for _ in self.vpoints)
+        self.slider_record.update((i, deque([], limit))
+                                  for i, vp in enumerate(self.vpoints)
+                                  if vp.type in {VJoint.P, VJoint.RP})
 
     def record_path(self) -> None:
         """Recording path."""
         for i, vpoint in enumerate(self.vpoints):
             self.path_record[i].append((vpoint.cx, vpoint.cy))
+            if vpoint.type in {VJoint.P, VJoint.RP}:
+                self.slider_record[i].append((vpoint.c[0, 0], vpoint.c[0, 1]))
 
     def get_record_path(self) -> Tuple[Sequence[Sequence[_Coord]],
                                        Mapping[int, Sequence[_Coord]]]:

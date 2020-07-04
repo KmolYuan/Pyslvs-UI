@@ -659,7 +659,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.get_expression(),
             self.get_storage(),
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
-            self.inputs_widget.path_data(),
+            self.inputs_widget.paths(),
             self.collections.collect_data(),
             self.collections.config_data(),
             self.dimensional_synthesis.mechanism_data,
