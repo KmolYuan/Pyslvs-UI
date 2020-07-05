@@ -606,7 +606,7 @@
          <item>
           <widget class="QPushButton" name="animate_button">
            <property name="text">
-            <string>Animate</string>
+            <string>Vector Animate</string>
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">

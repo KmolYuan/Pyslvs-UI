@@ -551,10 +551,12 @@ class InputsWidget(QWidget, Ui_Form):
     @Slot(name='on_animate_button_clicked')
     def __animate(self) -> None:
         """Make a motion animation."""
-        data = self.__paths[self.__current_path_name()]
+        name = self.__current_path_name()
+        data = self.__paths.get(name, [])
         if not data:
             return
         dlg = AnimateDialog(self.vpoints, data,
+                            self.__slider_paths.get(name, {}),
                             self.main_canvas.monochrome, self)
         dlg.show()
         dlg.exec_()

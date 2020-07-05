@@ -2,7 +2,7 @@
 
 """The animation dialog."""
 
-from typing import Sequence, Tuple
+from typing import Sequence, Tuple, Mapping
 from math import cos, sin, atan2, hypot
 from qtpy.QtCore import Qt, Slot, QTimer
 from qtpy.QtWidgets import (
@@ -10,25 +10,41 @@ from qtpy.QtWidgets import (
     QSpacerItem, QSizePolicy, QDoubleSpinBox,
 )
 from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
-from numpy import array
+from numpy import array, ndarray, isclose
 from pyslvs import VPoint, derivative
 from pyslvs_ui.graphics import AnimationCanvas, color_qt
 
+_Coord = Tuple[float, float]
+_Paths = Sequence[Sequence[_Coord]]
+_SliderPaths = Mapping[int, Sequence[_Coord]]
+_Vecs = Mapping[int, ndarray]
+
 
 class _DynamicCanvas(AnimationCanvas):
+    vel: _Vecs
+    vel_slider: _Vecs
+    acc: _Vecs
+    acc_slider: _Vecs
 
     def __init__(
         self,
         vpoints: Sequence[VPoint],
-        path: Sequence[Sequence[Tuple[float, float]]],
+        path: _Paths,
+        slider_path: _SliderPaths,
         parent: QWidget
     ):
         super(_DynamicCanvas, self).__init__(parent)
         self.ind = 0
         self.vpoints = vpoints
         self.path.path = path
-        self.vel = [derivative(array(path)) for path in self.path.path]
-        self.acc = [derivative(vel) for vel in self.vel]
+        self.path.slider_path = slider_path
+        self.vel = {i: derivative(array(path))
+                    for i, path in enumerate(self.path.path)}
+        self.vel_slider = {i: derivative(array(p))
+                           for i, p in self.path.slider_path.items()}
+        self.acc = {i: derivative(p) for i, p in self.vel.items()}
+        self.acc_slider = {i: derivative(p)
+                           for i, p in self.vel_slider.items()}
         self.max_ind = max(len(p) for p in self.path.path)
         self.factor = 1.
 
@@ -49,31 +65,35 @@ class _DynamicCanvas(AnimationCanvas):
         super(_DynamicCanvas, self).paintEvent(event)
         pen = QPen()
         pen.setWidth(self.path_width)
-        for i, path in enumerate(self.path.path):
-            if self.monochrome:
-                pen.setColor(color_qt('gray'))
-            elif self.vpoints[i].color is None:
-                pen.setColor(color_qt('green'))
-            else:
-                pen.setColor(QColor(*self.vpoints[i].color))
-            self.painter.setPen(pen)
-            self.draw_curve(path)
-            vpoint = self.vpoints[i]
-            x, y = path[self.ind]
-            zoom = 1.
-            for vec, color in [(self.vel[i], Qt.blue), (self.acc[i], Qt.red)]:
-                if self.ind >= len(vec):
-                    break
-                zoom *= self.factor
-                vx, vy = vec[self.ind]
-                r = hypot(vx, vy) * zoom
-                if r == 0:
-                    break
-                theta = atan2(vy, vx)
-                pen.setColor(color)
+        for paths, vel, acc in [
+            (enumerate(self.path.path), self.vel, self.acc),
+            (self.path.slider_path.items(), self.vel_slider, self.acc_slider),
+        ]:
+            for i, path in paths:
+                vpoint = self.vpoints[i]
+                if self.monochrome:
+                    pen.setColor(color_qt('gray'))
+                elif vpoint.color is None:
+                    pen.setColor(color_qt('green'))
+                else:
+                    pen.setColor(QColor(*vpoint.color))
                 self.painter.setPen(pen)
-                self.draw_arrow(x, y, x + r * cos(theta), y + r * sin(theta))
-            self.draw_point(i, x, y, vpoint.grounded(), vpoint.color)
+                self.draw_curve(path)
+                x, y = path[self.ind]
+                zoom = 1.
+                for vec, color in [(vel[i], Qt.blue), (acc[i], Qt.red)]:
+                    if self.ind >= len(vec):
+                        break
+                    zoom *= self.factor
+                    vx, vy = vec[self.ind]
+                    r = hypot(vx, vy) * zoom
+                    if isclose(r, 0):
+                        break
+                    th = atan2(vy, vx)
+                    pen.setColor(color)
+                    self.painter.setPen(pen)
+                    self.draw_arrow(x, y, x + r * cos(th), y + r * sin(th))
+                self.draw_point(i, x, y, vpoint.grounded(), vpoint.color)
         self.painter.end()
 
 
@@ -82,12 +102,13 @@ class AnimateDialog(QDialog):
     def __init__(
         self,
         vpoints: Sequence[VPoint],
-        path: Sequence[Sequence[Tuple[float, float]]],
+        path: _Paths,
+        slider_path: _SliderPaths,
         monochrome: bool,
         parent: QWidget
     ):
         super(AnimateDialog, self).__init__(parent)
-        self.setWindowTitle("Animation")
+        self.setWindowTitle("Vector Animation")
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
                             & ~Qt.WindowContextHelpButtonHint)
         self.setMinimumSize(800, 600)
@@ -99,7 +120,7 @@ class AnimateDialog(QDialog):
                                    QSizePolicy.Minimum))
         layout.addWidget(self.label)
         main_layout.addLayout(layout)
-        self.canvas = _DynamicCanvas(vpoints, path, self)
+        self.canvas = _DynamicCanvas(vpoints, path, slider_path, self)
         self.canvas.set_monochrome_mode(monochrome)
         self.canvas.update_pos.connect(self.__set_pos)
         main_layout.addWidget(self.canvas)

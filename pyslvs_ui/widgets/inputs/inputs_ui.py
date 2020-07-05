@@ -406,7 +406,7 @@ class Ui_Form(object):
         self.cp_data_button.setText(_translate("Form", "Copy data"))
         self.plot_button.setStatusTip(_translate("Form", "Plot the data of this joint."))
         self.plot_button.setText(_translate("Form", "Plot"))
-        self.animate_button.setText(_translate("Form", "Animate"))
+        self.animate_button.setText(_translate("Form", "Vector Animate"))
         self.plot_groupbox.setTitle(_translate("Form", "Plot"))
         self.c_coord_sys.setText(_translate("Form", "Cartesian coordinates"))
         self.p_coord_sys.setText(_translate("Form", "Polar coordinates"))
