@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>309</width>
-    <height>580</height>
+    <width>446</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_7">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -366,6 +366,20 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="record_start">
+              <property name="statusTip">
+               <string>Start / Stop record.</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons.qrc">
+                <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -474,20 +488,6 @@
              <property name="icon">
               <iconset resource="../../icons.qrc">
                <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="record_start">
-             <property name="statusTip">
-              <string>Start / Stop record.</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -627,7 +627,7 @@
             <item>
              <widget class="QRadioButton" name="c_coord_sys">
               <property name="text">
-               <string>Cartesian coordinates</string>
+               <string>&amp;Cartesian coordinates</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -637,7 +637,7 @@
             <item>
              <widget class="QRadioButton" name="p_coord_sys">
               <property name="text">
-               <string>Polar coordinates</string>
+               <string>&amp;Polar coordinates</string>
               </property>
              </widget>
             </item>
