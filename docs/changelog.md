@@ -8,6 +8,7 @@
 + Generate calculation script after parser script. (github issue #35)
 + Skip auto preview paths when saving file.
 + Implement plotting function for slider paths.
++ Implement final vector animation.
 
 **Development**:
 

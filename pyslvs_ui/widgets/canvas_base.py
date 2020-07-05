@@ -283,11 +283,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         pen.setWidth(self.link_width)
         pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
         self.painter.setPen(pen)
-        brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
-        brush.setAlphaF(self.transparency)
-        self.painter.setBrush(brush)
         self.painter.drawPolygon(*qpoints)
-        self.painter.setBrush(Qt.NoBrush)
         if not self.show_point_mark:
             return
         pen.setColor(Qt.darkGray)
@@ -489,8 +485,12 @@ class MainCanvasBase(BaseCanvas, ABC):
         # 'self' is the instance of 'DynamicCanvas'.
         BaseCanvas.paintEvent(self, event)
         # Draw links except ground
+        brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
+        brush.setAlphaF(self.transparency)
+        self.painter.setBrush(brush)
         for vlink in self.vlinks[1:]:
             self.__draw_link(vlink)
+        self.painter.setBrush(Qt.NoBrush)
         # Draw path
         if self.path.show != -2:
             self.__draw_path()

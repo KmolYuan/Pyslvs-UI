@@ -11,7 +11,7 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
 from numpy import array, ndarray, isclose
-from pyslvs import VPoint, VLink, derivative
+from pyslvs import VPoint, VLink, VJoint, derivative
 from pyslvs_ui.graphics import (
     AnimationCanvas, color_qt, convex_hull, LINK_COLOR,
 )
@@ -68,6 +68,28 @@ class _DynamicCanvas(AnimationCanvas):
         """Drawing function."""
         super(_DynamicCanvas, self).paintEvent(event)
         pen = QPen()
+        pen.setWidth(self.link_width)
+        brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
+        self.painter.setBrush(brush)
+        for vlink in self.vlinks:
+            if vlink.name == VLink.FRAME or not vlink.points:
+                continue
+            points = []
+            for i in vlink.points:
+                vpoint = self.vpoints[i]
+                if (
+                    vpoint.type == VJoint.R or
+                    not vpoint.is_slot_link(vlink.name)
+                ):
+                    x, y = self.path.path[i][self.ind]
+                else:
+                    x, y = self.path.slider_path[i][self.ind]
+                points.append((x * self.zoom, y * -self.zoom))
+            qpoints = convex_hull(points, as_qpoint=True)
+            pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
+            self.painter.setPen(pen)
+            self.painter.drawPolygon(*qpoints)
+        self.painter.setBrush(Qt.NoBrush)
         pen.setWidth(self.path_width)
         for paths, vel, acc in [
             (enumerate(self.path.path), self.vel, self.acc),
@@ -98,19 +120,6 @@ class _DynamicCanvas(AnimationCanvas):
                     self.painter.setPen(pen)
                     self.draw_arrow(x, y, x + r * cos(th), y + r * sin(th))
                 self.draw_point(i, x, y, vpoint.grounded(), vpoint.color)
-        pen.setWidth(self.link_width)
-        for vlink in self.vlinks:
-            if vlink.name == VLink.FRAME or not vlink.points:
-                continue
-            # TODO
-            qpoints = convex_hull(
-                [(c.x * self.zoom, c.y * -self.zoom)
-                 for c in vlink.points_pos(self.vpoints)], as_qpoint=True)
-            pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
-            self.painter.setPen(pen)
-            brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
-            self.painter.setBrush(brush)
-            self.painter.drawPolygon(*qpoints)
         self.painter.end()
 
 
