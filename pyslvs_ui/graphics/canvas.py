@@ -64,17 +64,10 @@ def convex_hull(points, *, as_qpoint=False):
         return hull
 
     points.sort()
-    lower: List[Tuple[float, float]] = reduce(keep_left, points, [])
-    upper: List[Tuple[float, float]] = reduce(keep_left, reversed(points), [])
+    lower = reduce(keep_left, points, [])
+    upper = reduce(keep_left, reversed(points), [])
     lower.extend(upper[i] for i in range(1, len(upper) - 1))
-
-    result = []
-    for x, y in lower:
-        if as_qpoint:
-            result.append(QPointF(x, y))
-        else:
-            result.append((x, y))
-    return result
+    return [(QPointF(x, y) if as_qpoint else (x, y)) for x, y in lower]
 
 
 @dataclass(init=False, repr=False, eq=False)
