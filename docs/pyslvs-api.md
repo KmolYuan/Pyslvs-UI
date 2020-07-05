@@ -18,7 +18,7 @@ A data class used to store coordinates.
 
 | self | p | return |
 |:----:|:---:|:------:|
-|   | Coordinate | float |
+|   | Coord | float |
 
 Return the distance between two coordinates.
 
@@ -34,7 +34,41 @@ Return True if the coordinate value is not a number.
 
 | self | p | return |
 |:----:|:---:|:------:|
-|   | Coordinate | float |
+|   | Coord | float |
+
+Slope angle of two coordinates.
+
+### Coord
+
+Inherited from `object`.
+
+| x | y |
+|:---:|:---:|
+| float | float |
+
+A data class used to store coordinates.
+
+#### Coord.distance()
+
+| self | p | return |
+|:----:|:---:|:------:|
+|   | Coord | float |
+
+Return the distance between two coordinates.
+
+#### Coord.is_nan()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Return True if the coordinate value is not a number.
+
+#### Coord.slope_angle()
+
+| self | p | return |
+|:----:|:---:|:------:|
+|   | Coord | float |
 
 Slope angle of two coordinates.
 
@@ -42,7 +76,7 @@ Slope angle of two coordinates.
 
 | c1 | x | y | return |
 |:---:|:---:|:---:|:------:|
-| Coordinate | float | float | Coordinate |
+| Coord | float | float | Coord |
 
 The PXY function requires one point and offset values, obtained the 
 position of second point.
@@ -57,7 +91,7 @@ correspond to coordinate system.
 
 | c1 | d0 | a0 | c2 | inverse | return |
 |:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coordinate | float | float | Union\[Coordinate, None] | bool | Coordinate |
+| Coord | float | float | Union\[Coord, None] | bool | Coord |
 |   |   |   | None | False |   |
 
 The PLAP function requires two points, one distance and one angle,
@@ -76,7 +110,7 @@ Set `inverse` option to `True` can make `a0` value as negative.
 
 | c1 | d0 | d1 | c2 | inverse | return |
 |:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coordinate | float | float | Coordinate | bool | Coordinate |
+| Coord | float | float | Coord | bool | Coord |
 |   |   |   |   | False |   |
 
 The PLLP function requires two points and two distances, obtained the
@@ -94,7 +128,7 @@ Set `inverse` option to `True` can make the result upside down.
 
 | c1 | d0 | c2 | c3 | inverse | return |
 |:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coordinate | float | Coordinate | Coordinate | bool | Coordinate |
+| Coord | float | Coord | Coord | bool | Coord |
 |   |   |   |   | False |   |
 
 The PLPP function requires three points and one distance, obtained the 
@@ -112,7 +146,7 @@ between `c1` and line `c2` `c3`.
 
 | c1 | a0 | d0 | c2 | inverse | return |
 |:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coordinate | float | float | Coordinate | bool | Coordinate |
+| Coord | float | float | Coord | bool | Coord |
 |   |   |   |   | False |   |
 
 The PALP function requires two points, one angle and one distance,
@@ -166,7 +200,7 @@ can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
 
 | exprs | mapping | vpoints_ | return |
 |:-----:|:-------:|:--------:|:------:|
-| EStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coordinate, float]], int] |
+| EStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coord, float]], int] |
 
 Data transform function of Triangular method.
 The triangle expression stack `expr` is generated from
@@ -276,6 +310,14 @@ Return True if the offset setting is enabled.
 |   | str | bool |
 
 Return True if the slot is on the link `link_name`.
+
+#### VPoint.link_pos()
+
+| self | vlink | return |
+|:----:|:-----:|:------:|
+|   | VLink | Coord |
+
+Return the position for the vlink.
 
 #### VPoint.locate()
 
@@ -397,6 +439,18 @@ and `p_x`, `p_y` is the value of `p`.
 The option `num1` and `num2` is the position of current coordinate 
 attribute.
 
+#### VPoint.sx
+
+Is a property.
+
+X value of slot coordinate.
+
+#### VPoint.sy
+
+Is a property.
+
+Y value of slot coordinate.
+
 #### VPoint.true_offset()
 
 | self | return |
@@ -414,6 +468,14 @@ Inherited from `object`.
 | str | str | Union\[Tuple\[int, int, int], None] | Sequence\[int] | ClassVar\[VLink] | ClassVar\[str] |
 
 Mechanism expression class in link's view.
+
+#### VLink.points_pos()
+
+| self | vpoints | return |
+|:----:|:-------:|:------:|
+|   | Iterable\[VPoint] | Sequence\[Coord] |
+
+Get link positions from a VPoint list.
 
 #### VLink.set_points()
 
@@ -444,7 +506,7 @@ Return True if two expressions are same.
 
 | self | data_dict | return |
 |:----:|:---------:|:------:|
-|   | Union\[Dict\[Tuple\[int, int], float], Dict\[int, Coordinate]] | None |
+|   | Union\[Mapping\[Tuple\[int, int], float], Mapping\[int, Coord]] | None |
 
 Set the values of `data_dict` parameter from original constructor.
 Two groups of `dict` keys must be the same or subset.
@@ -453,7 +515,7 @@ Two groups of `dict` keys must be the same or subset.
 
 | self | inputs | return |
 |:----:|:------:|:------:|
-|   | Dict\[Tuple\[int, int], float] | None |
+|   | Mapping\[Tuple\[int, int], float] | None |
 
 Set the values of `inputs` parameter from original constructor.
 Two groups of `dict` keys must be the same or subset.
@@ -754,7 +816,7 @@ Get all example names.
 
 | key | return |
 |:---:|:------:|
-| str | Dict\[str, Any] |
+| str | Mapping\[str, Any] |
 
 The example data of collections.
 
