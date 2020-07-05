@@ -11,8 +11,10 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
 from numpy import array, ndarray, isclose
-from pyslvs import VPoint, derivative
-from pyslvs_ui.graphics import AnimationCanvas, color_qt
+from pyslvs import VPoint, VLink, derivative
+from pyslvs_ui.graphics import (
+    AnimationCanvas, color_qt, convex_hull, LINK_COLOR,
+)
 
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
@@ -29,6 +31,7 @@ class _DynamicCanvas(AnimationCanvas):
     def __init__(
         self,
         vpoints: Sequence[VPoint],
+        vlinks: Sequence[VLink],
         path: _Paths,
         slider_path: _SliderPaths,
         parent: QWidget
@@ -36,6 +39,7 @@ class _DynamicCanvas(AnimationCanvas):
         super(_DynamicCanvas, self).__init__(parent)
         self.ind = 0
         self.vpoints = vpoints
+        self.vlinks = vlinks
         self.path.path = path
         self.path.slider_path = slider_path
         self.vel = {i: derivative(array(path))
@@ -94,6 +98,19 @@ class _DynamicCanvas(AnimationCanvas):
                     self.painter.setPen(pen)
                     self.draw_arrow(x, y, x + r * cos(th), y + r * sin(th))
                 self.draw_point(i, x, y, vpoint.grounded(), vpoint.color)
+        pen.setWidth(self.link_width)
+        for vlink in self.vlinks:
+            if vlink.name == VLink.FRAME or not vlink.points:
+                continue
+            # TODO
+            qpoints = convex_hull(
+                [(c.x * self.zoom, c.y * -self.zoom)
+                 for c in vlink.points_pos(self.vpoints)], as_qpoint=True)
+            pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
+            self.painter.setPen(pen)
+            brush = color_qt('dark-gray') if self.monochrome else LINK_COLOR
+            self.painter.setBrush(brush)
+            self.painter.drawPolygon(*qpoints)
         self.painter.end()
 
 
@@ -102,6 +119,7 @@ class AnimateDialog(QDialog):
     def __init__(
         self,
         vpoints: Sequence[VPoint],
+        vlinks: Sequence[VLink],
         path: _Paths,
         slider_path: _SliderPaths,
         monochrome: bool,
@@ -120,7 +138,7 @@ class AnimateDialog(QDialog):
                                    QSizePolicy.Minimum))
         layout.addWidget(self.label)
         main_layout.addLayout(layout)
-        self.canvas = _DynamicCanvas(vpoints, path, slider_path, self)
+        self.canvas = _DynamicCanvas(vpoints, vlinks, path, slider_path, self)
         self.canvas.set_monochrome_mode(monochrome)
         self.canvas.update_pos.connect(self.__set_pos)
         main_layout.addWidget(self.canvas)

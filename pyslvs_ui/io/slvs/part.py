@@ -65,7 +65,7 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     min_y = min(vpoint.cy for vpoint in vpoints)
     centers = [(vpoint.cx - min_x, vpoint.cy - min_y) for vpoint in vpoints]
     # Synchronous the point coordinates after using convex hull
-    centers_ch: List[_Coord] = convex_hull(centers)
+    centers_ch = convex_hull(centers)
     _boundary = centers_ch.copy()
     for x, y in centers:
         if (x, y) not in centers_ch:

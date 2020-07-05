@@ -555,7 +555,7 @@ class InputsWidget(QWidget, Ui_Form):
         data = self.__paths.get(name, [])
         if not data:
             return
-        dlg = AnimateDialog(self.vpoints, data,
+        dlg = AnimateDialog(self.vpoints, self.vlinks, data,
                             self.__slider_paths.get(name, {}),
                             self.main_canvas.monochrome, self)
         dlg.show()

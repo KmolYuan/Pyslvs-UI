@@ -263,31 +263,15 @@ class MainCanvasBase(BaseCanvas, ABC):
                 24, 24
             )
 
-    def __points_pos(self, vlink: VLink) -> List[_Coord]:
-        """Get geometry of the vlink."""
-        points = []
-        for i in vlink.points:
-            vpoint = self.vpoints[i]
-            if vpoint.type == VJoint.R:
-                x = vpoint.cx * self.zoom
-                y = vpoint.cy * -self.zoom
-            else:
-                coordinate = vpoint.c[
-                    0 if vlink.name == vpoint.links[0] else 1
-                ]
-                x = coordinate[0] * self.zoom
-                y = coordinate[1] * -self.zoom
-            points.append((x, y))
-        return points
-
     def __draw_link(self, vlink: VLink) -> None:
         """Draw a link."""
         if vlink.name == VLink.FRAME or not vlink.points:
             return
-        points = self.__points_pos(vlink)
         pen = QPen()
         # Rearrange: Put the nearest point to the next position.
-        qpoints = convex_hull(points, as_qpoint=True)
+        qpoints = convex_hull(
+            [(c.x * self.zoom, c.y * -self.zoom)
+             for c in vlink.points_pos(self.vpoints)], as_qpoint=True)
         if (
             self.select_mode == SelectMode.LINK
             and self.vlinks.index(vlink) in self.selections
@@ -308,9 +292,9 @@ class MainCanvasBase(BaseCanvas, ABC):
             return
         pen.setColor(Qt.darkGray)
         self.painter.setPen(pen)
-        p_count = len(points)
-        cen_x = sum(p[0] for p in points) / p_count
-        cen_y = sum(p[1] for p in points) / p_count
+        p_count = len(qpoints)
+        cen_x = sum(p.x() for p in qpoints) / p_count
+        cen_y = sum(p.y() for p in qpoints) / p_count
         self.painter.drawText(
             QRectF(cen_x - 50, cen_y - 50, 100, 100),
             Qt.AlignCenter,
@@ -380,7 +364,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                 + Is polygon: Using Qt polygon geometry.
                 + If just a line: Create a range for mouse detection.
                 """
-                points = self.__points_pos(link)
+                points = [(c.x * self.zoom, c.y * -self.zoom)
+                          for c in vlink.points_pos(self.vpoints)]
                 if len(points) > 2:
                     polygon = QPolygonF(convex_hull(points, as_qpoint=True))
                 else:

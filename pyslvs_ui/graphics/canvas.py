@@ -7,8 +7,10 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (Tuple, List, Sequence, Set, Dict, Mapping, Iterator, Any,
-                    Union, Optional, ClassVar)
+from typing import (
+    TypeVar, Tuple, List, Sequence, Set, Dict, Mapping, Iterator, Any,
+    Optional, ClassVar, overload
+)
 from abc import abstractmethod, ABC
 from dataclasses import dataclass, field
 from enum import auto, unique, IntEnum
@@ -16,25 +18,35 @@ from math import radians, sin, cos, atan2, hypot, isnan
 from functools import reduce
 from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF, Signal
 from qtpy.QtWidgets import QWidget, QSizePolicy
-from qtpy.QtGui import (QPolygonF, QPainter, QBrush, QPen, QColor, QFont,
-                        QPainterPath, QImage, QPaintEvent, QMouseEvent)
+from qtpy.QtGui import (
+    QPolygonF, QPainter, QBrush, QPen, QColor, QFont,
+    QPainterPath, QImage, QPaintEvent, QMouseEvent,
+)
 from pyslvs import VPoint, edges_view, parse_pos
 from pyslvs.graph import Graph
 from pyslvs_ui.qt_patch import QABCMeta
 from .color import color_num, color_qt, target_path_style
 
-LINK_COLOR = QColor(226, 219, 190)
+_T = TypeVar('_T')
 _Coord = Tuple[float, float]
+LINK_COLOR = QColor(226, 219, 190)
 
 
-def convex_hull(
-    points: List[_Coord],
-    *,
-    as_qpoint: bool = False
-) -> Union[List[_Coord], List[QPointF]]:
+@overload
+def convex_hull(points: List[_Coord], *, as_qpoint: bool) -> List[QPointF]:
+    ...
+
+
+@overload
+def convex_hull(points: List[_Coord]) -> List[_Coord]:
+    ...
+
+
+def convex_hull(points, *, as_qpoint=False):
     """Returns points on convex hull in counterclockwise order
     according to Graham's scan algorithm.
     """
+
     def cmp(a: float, b: float) -> int:
         return int(a > b) - int(a < b)
 
@@ -346,7 +358,8 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
                 for x, y in path:
                     pen.setColor(dot)
                     self.painter.setPen(pen)
-                    self.draw_circle(QPointF(x, -y) * self.zoom, self.joint_size)
+                    self.draw_circle(QPointF(x, -y) * self.zoom,
+                                     self.joint_size)
         self.painter.setBrush(Qt.NoBrush)
 
     def draw_arrow(
