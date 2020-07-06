@@ -37,18 +37,21 @@ We use a lot of "protocols" instead of traditional object orientation design (li
 since Python is a dynamic duck typing language.
 
 ```python
-from typing import overload
+from typing import List
 
-@overload
-def add(a: str, b):
-    ...
+def iterate_over(it: List[int]) -> None:
+    """How about other containers?"""
+    for k in it:
+        ...
+```
 
-@overload
-def add(a: int, b):
-    ...
+```python
+from typing import Iterable
 
-def add(a, b):
-    ...  # implementation
+def iterate_over(it: Iterable[int]) -> None:
+    """An "iterable" object with __iter__ magic method."""
+    for k in it:
+        ...
 ```
 
 We need to mark up the usage of the object prototypes, instead of its implementation.
