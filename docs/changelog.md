@@ -9,6 +9,7 @@
 + Skip auto preview paths when saving file.
 + Implement plotting function for slider paths.
 + Implement final vector animation.
++ Avoid Qt clipboard loss data after program closed.
 
 **Development**:
 
