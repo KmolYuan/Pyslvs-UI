@@ -250,6 +250,15 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         ...
 
     @abstractmethod
+    def add_points_by_graph(
+        self,
+        graph: Graph,
+        pos: Dict[int, Tuple[float, float]],
+        ground_link: Optional[int]
+    ) -> None:
+        ...
+
+    @abstractmethod
     def set_window_title_full_path(self) -> None:
         ...
 

@@ -10,14 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Tuple, Sequence, Dict, Iterable
-from qtpy.QtCore import (
-    Signal,
-    Slot,
-    Qt,
-    QSize,
-    QPointF,
-    QCoreApplication,
-)
+from qtpy.QtCore import Signal, Slot, Qt, QSize, QPointF, QCoreApplication
 from qtpy.QtWidgets import (
     QMessageBox,
     QProgressDialog,

@@ -379,7 +379,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     def add_points(
         self,
         p_attr: Sequence[Tuple[float, float, str, str, int, float]]
-    ):
+    ) -> None:
         """Add multiple points."""
         for attr in p_attr:
             self.add_point(*attr)
@@ -389,7 +389,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         graph: Graph,
         pos: Dict[int, Tuple[float, float]],
         ground_link: Optional[int]
-    ):
+    ) -> None:
         """Add points by NetworkX graph and position dict."""
         base_count = self.entities_point.rowCount()
         self.command_stack.beginMacro(

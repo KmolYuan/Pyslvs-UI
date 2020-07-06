@@ -45,7 +45,7 @@ qt_image_suffix = tuple(qt_image_suffix)
 qt_image_format = tuple(qt_image_format)
 del suffix, name
 
-# Avoid Qt clipboard loss data after program closed
+# Avoid Qt clipboard loss data after program closed (for Windows platform)
 QApplication.sendEvent(QApplication.clipboard(), QEvent(QEvent.Clipboard))
 
 
