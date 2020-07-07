@@ -305,17 +305,17 @@ Return True if the offset setting is enabled.
 
 #### VPoint.is_slot_link()
 
-| self | link_name | return |
-|:----:|:---------:|:------:|
+| self | link | return |
+|:----:|:----:|:------:|
 |   | str | bool |
 
 Return True if the slot is on the link `link_name`.
 
 #### VPoint.link_pos()
 
-| self | vlink | return |
-|:----:|:-----:|:------:|
-|   | VLink | Coord |
+| self | link | return |
+|:----:|:----:|:------:|
+|   | str | Coord |
 
 Return the position for the vlink.
 
