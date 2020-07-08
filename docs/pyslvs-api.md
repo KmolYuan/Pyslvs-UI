@@ -451,6 +451,14 @@ Is a property.
 
 Y value of slot coordinate.
 
+#### VPoint.to_coord()
+
+| self | ind | return |
+|:----:|:---:|:------:|
+|   | int | Coord |
+
+Obtain coordinate by Coord object.
+
 #### VPoint.true_offset()
 
 | self | return |
