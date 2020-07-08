@@ -10,6 +10,7 @@
 + Implement plotting function for slider paths.
 + Implement final vector animation.
 + Avoid Qt clipboard loss data after program closed.
++ Remove wavelet function.
 
 **Development**:
 
