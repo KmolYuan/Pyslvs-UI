@@ -236,7 +236,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.zoom_cus_button)
         self.zoom_bar = QtWidgets.QSlider(self.zoom_widget)
         self.zoom_bar.setMinimum(50)
-        self.zoom_bar.setMaximum(5000)
+        self.zoom_bar.setMaximum(10000)
         self.zoom_bar.setSingleStep(50)
         self.zoom_bar.setPageStep(50)
         self.zoom_bar.setSliderPosition(50)
