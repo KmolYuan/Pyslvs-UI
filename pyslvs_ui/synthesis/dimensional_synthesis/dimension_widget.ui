@@ -274,13 +274,6 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QCheckBox" name="wavelet_mode_option">
-              <property name="text">
-               <string>Wavelet transform (alpha)</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="layoutWidget">

@@ -448,7 +448,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             raise ValueError("no option")
         mech = deepcopy(self.mech)
         mech['shape_only'] = self.shape_only_option.isChecked()
-        mech['wavelet_mode'] = self.wavelet_mode_option.isChecked()
         if mech['shape_only']:
             if QMessageBox.question(
                 self,
@@ -814,7 +813,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.alg_options.clear()
         self.alg_options.update(result.get('settings', {}))
         self.shape_only_option.setChecked(result.get('shape_only', False))
-        self.wavelet_mode_option.setChecked(result.get('wavelet_mode', False))
 
     @Slot()
     def __set_algorithm_default(self) -> None:
@@ -897,9 +895,3 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         text = self.expression_string.text()
         if text:
             QApplication.clipboard().setText(text)
-
-    @Slot(bool, name='on_wavelet_mode_option_clicked')
-    def __set_norm(self, enabled: bool) -> None:
-        """Set normalization."""
-        self.shape_only_option.setChecked(enabled)
-        self.shape_only_option.setEnabled(not enabled)

@@ -43,9 +43,7 @@ class _DynamicCanvas(AnimationCanvas):
         self.vpoints = vpoints or []
         self.vlinks = vlinks or []
         self.no_mechanism = not self.vpoints or not self.vlinks
-        use_norm = self.no_mechanism and (
-            self.mechanism.get('shape_only', False)
-            or self.mechanism.get('wavelet_mode', False))
+        use_norm = self.no_mechanism and self.mechanism.get('shape_only', False)
         # Target path
         same: Dict[int, int] = self.mechanism['same']
         target_path: _TargetPath = self.mechanism['target']
@@ -251,7 +249,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         labels = []
         for tag, data in chain(
             [(tag, mechanism.get(tag, 'N/A')) for tag in (
-                'algorithm', 'time', 'shape_only', 'wavelet_mode')],
+                'algorithm', 'time', 'shape_only')],
             [(f"P{i}", (vpoints[i].c[0, 0], vpoints[i].c[0, 1]))
              for i in mechanism['placement']]
         ):
