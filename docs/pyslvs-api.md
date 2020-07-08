@@ -600,6 +600,8 @@ $$
 K = \int^t_0 |\kappa(t)| dt
 $$
 
+>>> path_signature(curvature(...))
+
 ### cross_correlation()
 
 | p1 | p2 | t | return |
@@ -619,9 +621,13 @@ S &= \arg\max\{C_n(j)\} t
 \end{aligned}
 $$
 
+>>> ps1 = path_signature(curvature(...))
+>>> ps2 = path_signature(curvature(...))
+>>> cc = cross_correlation(ps1, ps2, len(ps1))
+
 ### Planar
 
-Inherited from `Objective`.
+Inherited from `ObjFunc`.
 
 This class is used to verified kinematics of the linkage mechanism.
 
@@ -1148,7 +1154,7 @@ return `True` to terminate this function.
 
 Kernel of Metaheuristic Algorithm.
 
-### Objective
+### ObjFunc
 
 Inherited from `Generic`.
 
@@ -1157,7 +1163,7 @@ Objective function base class.
 It is used to build the objective function for Metaheuristic Random
 Algorithms.
 
-#### Objective.fitness()
+#### ObjFunc.fitness()
 
 | self | v | return |
 |:----:|:---:|:------:|
@@ -1168,7 +1174,7 @@ Is a abstract method.
 (`cdef` function) Return the fitness from the variable list `v`.
 This function will be directly called in the algorithms.
 
-#### Objective.get_lower()
+#### ObjFunc.get_lower()
 
 | self | return |
 |:----:|:------:|
@@ -1178,7 +1184,7 @@ Is a abstract method.
 
 Return lower bound.
 
-#### Objective.get_upper()
+#### ObjFunc.get_upper()
 
 | self | return |
 |:----:|:------:|
@@ -1188,7 +1194,7 @@ Is a abstract method.
 
 Return upper bound.
 
-#### Objective.result()
+#### ObjFunc.result()
 
 | self | v | return |
 |:----:|:---:|:------:|
@@ -1204,7 +1210,7 @@ Inherited from `Generic`.
 
 | func |
 |:----:|
-| Objective\[~FVal] |
+| ObjFunc\[~FVal] |
 
 Algorithm base class.
 
@@ -1231,7 +1237,7 @@ the third value is time in second.
 Run and return the result and convergence history.
 
 The first place of `return` is came from
-calling [`Objective.result()`](#objectiveresult).
+calling [`ObjFunc.result()`](#objectiveresult).
 
 The second place of `return` is a list of generation data,
 which type is `Tuple[int, float, float]]`.
