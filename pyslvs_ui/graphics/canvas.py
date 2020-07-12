@@ -449,19 +449,18 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         pos: Sequence[VPoint]
     ) -> Tuple[List[_Coord], QColor]:
         """Get solution polygon."""
+        params = [args[0]]
         if func == 'PLLP':
             color = QColor(121, 171, 252)
-            params = [args[0], args[-1]]
+            params.append(args[-1])
         elif func == 'PLAP':
             color = QColor(249, 84, 216)
-            params = [args[0]]
         else:
             if func == 'PLPP':
                 color = QColor(94, 255, 185)
             else:
                 # PXY
                 color = QColor(249, 175, 27)
-            params = [args[0]]
         params.append(target)
         polygon = []
         for name in params:
