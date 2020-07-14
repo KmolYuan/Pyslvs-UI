@@ -87,6 +87,19 @@ correspond to coordinate system.
 
 ![PXY](img/PXY.png)
 
+### ppp()
+
+| c1 | c2 | c3 | return |
+|:---:|:---:|:---:|:------:|
+| Coord | Coord | Coord | Coord |
+
+The PPP function is used to solve parallel linkage.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`c3` correspond to "C", `return` correspond to "D".
+
+![PPP](img/PPP.png)
+
 ### plap()
 
 | c1 | d0 | a0 | c2 | inverse | return |
@@ -679,8 +692,8 @@ expression.
 
 ### t_config()
 
-| vpoints_ | inputs | status | return |
-|:--------:|:------:|:------:|:------:|
+| vpoints | inputs | status | return |
+|:-------:|:------:|:------:|:------:|
 | Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | EStack |
 |   |   | None |   |
 
@@ -694,8 +707,7 @@ which is optional.
 
 Inherited from `object`.
 
-Triangle solution stack, generated from
-[`t_config`](#t_config).
+Triangle solution stack, generated from [`t_config`](#t_config).
 It is pointless to call the constructor.
 
 #### EStack.as_list()
