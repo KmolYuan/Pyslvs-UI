@@ -85,7 +85,7 @@ In the following picture, `c1` correspond to "A", `d0` correspond to "X",
 `d1` correspond to "Y", `return` correspond to "B", the sign of value are
 correspond to coordinate system.
 
-![PXY](img/PXY.png)
+![pxy](img/pxy.png)
 
 ### ppp()
 
@@ -98,7 +98,7 @@ The PPP function is used to solve parallel linkage.
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 `c3` correspond to "C", `return` correspond to "D".
 
-![PPP](img/PPP.png)
+![ppp](img/ppp.png)
 
 ### plap()
 
@@ -115,7 +115,7 @@ In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 to "C".
 If `c2` is not given, "alpha" will be set to zero.
 
-![PLAP](img/PLAP.png)
+![plap](img/plap.png)
 
 Set `inverse` option to `True` can make `a0` value as negative.
 
@@ -133,7 +133,7 @@ In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 `d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to
 "C".
 
-![PLLP](img/PLLP.png)
+![pllp](img/pllp.png)
 
 Set `inverse` option to `True` can make the result upside down.
 
@@ -150,7 +150,7 @@ position of fourth point.
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 `c3` correspond to "C", `d0` correspond to "L0", `return` correspond to "D".
 
-![PLPP](img/PLPP.png)
+![plpp](img/plpp.png)
 
 Set `inverse` option to `True` can make the result to the another side
 between `c1` and line `c2` `c3`.
@@ -169,7 +169,7 @@ In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 `d0` correspond to "L0", `a0` correspond to "alpha", `return` correspond
 to "C".
 
-![PALP](img/PALP.png)
+![palp](img/palp.png)
 
 Set `inverse` option to `True` can make the result upside down.
 
@@ -1249,7 +1249,7 @@ the third value is time in second.
 Run and return the result and convergence history.
 
 The first place of `return` is came from
-calling [`ObjFunc.result()`](#objectiveresult).
+calling [`ObjFunc.result()`](#objfuncresult).
 
 The second place of `return` is a list of generation data,
 which type is `Tuple[int, float, float]]`.
@@ -1268,6 +1268,12 @@ Is an enum class.
 
 Enum type of algorithms.
 
+[pxy]: #pxy
+[ppp]: #ppp
+[plap]: #plap
+[pllp]: #pllp
+[plpp]: #plpp
+[palp]: #palp
 [VPoint]: #vpoint
 [SolverSystem]: #solversystem
 [Graph]: #graph
