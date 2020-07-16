@@ -40,5 +40,6 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 
 ## IDE
 
-[![](img/sponsor-jetbrains.png){: style="width:30%"}](https://www.jetbrains.com/?from=Pyslvs)
-[![](img/sponsor-pycharm.png){: style="width:30%"}](https://www.jetbrains.com/pycharm/?from=Pyslvs)
+[![](img/sponsor-jetbrains.svg){: style="width:30%"}](https://www.jetbrains.com/?from=Pyslvs)
+[![](img/sponsor-pycharm.svg){: style="width:30%"}](https://www.jetbrains.com/pycharm/?from=Pyslvs)
+[![](img/sponsor-clion.svg){: style="width:30%"}](https://www.jetbrains.com/clion/?from=Pyslvs)
