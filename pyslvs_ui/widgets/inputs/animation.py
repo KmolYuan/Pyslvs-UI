@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-"""The animation dialog."""
+"""The vector animation dialog."""
 
 from typing import Sequence, Tuple, Mapping
-from math import cos, sin, atan2, hypot
+from math import cos, sin, atan2, hypot, degrees
 from qtpy.QtCore import Qt, Slot, QTimer
 from qtpy.QtWidgets import (
     QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider, QPushButton, QLabel,
-    QSpacerItem, QSizePolicy, QDoubleSpinBox,
+    QSpacerItem, QSizePolicy, QDoubleSpinBox, QComboBox,
 )
 from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
-from numpy import array, ndarray, isclose
+from numpy import array, ndarray, isclose, isnan
 from pyslvs import VPoint, VLink, VJoint, derivative
 from pyslvs_ui.graphics import (
     AnimationCanvas, color_qt, convex_hull, LINK_COLOR,
@@ -61,8 +61,18 @@ class _DynamicCanvas(AnimationCanvas):
     @Slot(float)
     def set_factor(self, scalar: float):
         """Set the size of the derived value."""
-        self.factor = scalar
+        self.factor = scalar / self.max_ind
         self.update()
+
+    def get_vel(self, ind: int) -> Tuple[float, float]:
+        """Get the magnitude and angle from velocity."""
+        vx, vy = self.vel[ind][self.ind]
+        return hypot(vx, vy), degrees(atan2(vy, vx))
+
+    def get_acc(self, ind: int) -> Tuple[float, float]:
+        """Get the magnitude and angle from acceleration."""
+        vx, vy = self.acc[ind][self.ind]
+        return hypot(vx, vy), degrees(atan2(vy, vx))
 
     def paintEvent(self, event: QPaintEvent) -> None:
         """Drawing function."""
@@ -110,8 +120,10 @@ class _DynamicCanvas(AnimationCanvas):
                 for vec, color in [(vel[i], Qt.blue), (acc[i], Qt.red)]:
                     if self.ind >= len(vec):
                         break
-                    zoom *= self.factor
                     vx, vy = vec[self.ind]
+                    if isnan(vx) or isnan(vy):
+                        break
+                    zoom /= self.factor
                     r = hypot(vx, vy) * zoom
                     if isclose(r, 0):
                         break
@@ -141,15 +153,29 @@ class AnimateDialog(QDialog):
         self.setMinimumSize(800, 600)
         self.setModal(True)
         main_layout = QVBoxLayout(self)
-        layout = QHBoxLayout(self)
-        self.label = QLabel(self)
-        layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding,
-                                   QSizePolicy.Minimum))
-        layout.addWidget(self.label)
-        main_layout.addLayout(layout)
         self.canvas = _DynamicCanvas(vpoints, vlinks, path, slider_path, self)
         self.canvas.set_monochrome_mode(monochrome)
         self.canvas.update_pos.connect(self.__set_pos)
+        layout = QHBoxLayout(self)
+        pt_option = QComboBox(self)
+        pt_option.addItems([f"P{p}" for p in range(len(vpoints))])
+        layout.addWidget(pt_option)
+        value_label = QLabel(self)
+
+        @Slot(int)
+        def show_values(ind: int):
+            vel, vel_deg = self.canvas.get_vel(ind)
+            acc, acc_deg = self.canvas.get_acc(ind)
+            value_label.setText(f"Velocity: {vel:.04f} ({vel_deg:.04f}deg) | "
+                                f"Acceleration: {acc:.04f} ({acc_deg:.04f}deg)")
+
+        pt_option.currentIndexChanged.connect(show_values)
+        layout.addWidget(value_label)
+        self.pos_label = QLabel(self)
+        layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding,
+                                   QSizePolicy.Minimum))
+        layout.addWidget(self.pos_label)
+        main_layout.addLayout(layout)
         main_layout.addWidget(self.canvas)
         layout = QHBoxLayout(self)
         self.play = QPushButton(QIcon(QPixmap(":/icons/play.png")), "", self)
@@ -160,10 +186,12 @@ class AnimateDialog(QDialog):
         self.slider.setMaximum(max(len(p) for p in path) - 1)
         self.slider.valueChanged.connect(self.canvas.set_index)
         layout.addWidget(self.slider)
+        layout.addWidget(QLabel("Total times:", self))
         factor = QDoubleSpinBox(self)
         factor.valueChanged.connect(self.canvas.set_factor)
-        factor.setRange(0.01, 9999)
-        factor.setValue(50)
+        factor.setSuffix('s')
+        factor.setRange(0.01, 999999)
+        factor.setValue(10)
         layout.addWidget(factor)
         main_layout.addLayout(layout)
         self.timer = QTimer()
@@ -181,7 +209,7 @@ class AnimateDialog(QDialog):
     @Slot(float, float)
     def __set_pos(self, x: float, y: float) -> None:
         """Set mouse position."""
-        self.label.setText(f"({x:.04f}, {y:.04f})")
+        self.pos_label.setText(f"({x:.04f}, {y:.04f})")
 
     @Slot()
     def __play(self):

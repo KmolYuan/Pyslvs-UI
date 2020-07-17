@@ -30,7 +30,7 @@ from pyslvs_ui.widgets.undo_redo import (
     AddInput, DeleteInput, AddPath, DeletePath,
 )
 from .rotatable import QRotatableView
-from .preview import AnimateDialog
+from .animation import AnimateDialog
 from .inputs_ui import Ui_Form
 
 if TYPE_CHECKING:
