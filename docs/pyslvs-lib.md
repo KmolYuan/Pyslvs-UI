@@ -61,7 +61,7 @@ Most of classes and functions can be work with a generic Python format (just lik
 
     Particular solution takes more faster then constraint solving.
 
-+ **triangulation** library:
++ **topo_config** library:
 
     **preload**: `expression`, `tinycadlib`
 
@@ -115,6 +115,6 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 + **planar_linkage** library:
 
-    **preload**: `expression`, `triangulation`, `bfgs`, `tinycadlib`, `utility`
+    **preload**: `expression`, `topo_config`, `bfgs`, `tinycadlib`, `utility`
 
     Dimensional synthesis verification function objects.
