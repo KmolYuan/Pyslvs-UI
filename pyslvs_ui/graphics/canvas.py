@@ -216,10 +216,10 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         x_l = -self.ox
         x_r = self.width() - self.ox
-        self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
+        self.painter.drawLine(x_l, 0, x_r, 0)
         y_t = self.height() - self.oy
         y_b = -self.oy
-        self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
+        self.painter.drawLine(0, y_b, 0, y_t)
 
         def indexing(v: float) -> int:
             """Draw tick."""

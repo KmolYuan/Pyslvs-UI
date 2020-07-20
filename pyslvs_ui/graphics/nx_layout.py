@@ -107,11 +107,7 @@ def graph2icon(
             else:
                 pen.setColor(Qt.black)
             painter.setPen(pen)
-
-            painter.drawLine(
-                QPointF(pos[l1][0], -pos[l1][1]),
-                QPointF(pos[l2][0], -pos[l2][1])
-            )
+            painter.drawLine(pos[l1][0], -pos[l1][1], pos[l2][0], -pos[l2][1])
     else:
         color = color_qt('dark-gray') if monochrome else LINK_COLOR
         color.setAlpha(150)

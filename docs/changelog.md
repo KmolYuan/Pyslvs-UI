@@ -11,6 +11,7 @@
 + Implement final vector animation.
 + Remove wavelet function.
 + Add extra curve fitting function powered by SciPy.
++ Some corrections of the main canvas.
 
 **Development**:
 

@@ -185,15 +185,15 @@ class MainCanvasBase(BaseCanvas, ABC):
         self.height_old = None
 
     def __draw_frame(self) -> None:
-        """Draw a external frame."""
+        """Draw an external frame."""
         pos_x = self.width() - self.ox
         pos_y = -self.oy
         neg_x = -self.ox
         neg_y = self.height() - self.oy
-        self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(pos_x, pos_y))
-        self.painter.drawLine(QPointF(neg_x, neg_y), QPointF(pos_x, neg_y))
-        self.painter.drawLine(QPointF(neg_x, pos_y), QPointF(neg_x, neg_y))
-        self.painter.drawLine(QPointF(pos_x, pos_y), QPointF(pos_x, neg_y))
+        self.painter.drawLine(neg_x, pos_y, pos_x, pos_y)
+        self.painter.drawLine(neg_x, neg_y, pos_x, neg_y)
+        self.painter.drawLine(neg_x, pos_y, neg_x, neg_y)
+        self.painter.drawLine(pos_x, pos_y, pos_x, neg_y)
 
     def __draw_point(self, i: int, vpoint: VPoint) -> None:
         """Draw a point."""
@@ -339,6 +339,8 @@ class MainCanvasBase(BaseCanvas, ABC):
 
     def __select_func(self, *, rect: bool = False) -> None:
         """Select function."""
+        if self.show_target_path:
+            return
         self.selector.selection_rect.clear()
         if self.select_mode == SelectMode.JOINT:
             def catch_p(x: float, y: float) -> bool:
@@ -349,12 +351,14 @@ class MainCanvasBase(BaseCanvas, ABC):
                     return self.selector.is_close(x, y, self.sr / self.zoom)
 
             for i, vpoint in enumerate(self.vpoints):
-                if catch_p(vpoint.cx,
-                           vpoint.cy) and i not in self.selector.selection_rect:
+                if (
+                    catch_p(vpoint.cx, vpoint.cy)
+                    and i not in self.selector.selection_rect
+                ):
                     self.selector.selection_rect.append(i)
 
         elif self.select_mode == SelectMode.LINK:
-            def catch_l(link: VLink) -> bool:
+            def catch_l(vlink: VLink) -> bool:
                 """Detection function for links.
 
                 + Is polygon: Using Qt polygon geometry.
@@ -379,10 +383,9 @@ class MainCanvasBase(BaseCanvas, ABC):
                         Qt.WindingFill
                     )
 
-            for i, vlink in enumerate(self.vlinks):
+            for i, vl in enumerate(self.vlinks):
                 if (
-                    i != 0
-                    and catch_l(vlink)
+                    i != 0 and catch_l(vl)
                     and i not in self.selector.selection_rect
                 ):
                     self.selector.selection_rect.append(i)
