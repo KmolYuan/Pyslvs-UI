@@ -11,12 +11,17 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING
 from math import cos, sin, atan2, radians, hypot
+from numpy import array, linspace
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog
+from pyslvs import efd_fitting
+from pyslvs_ui.info import HAS_SCIPY
 from .edit_path_ui import Ui_Dialog
 
 if TYPE_CHECKING:
     from pyslvs_ui.synthesis import DimensionalSynthesis
+if HAS_SCIPY:
+    from scipy.interpolate import splprep, splev
 
 
 class EditPathDialog(QDialog, Ui_Dialog):
@@ -34,6 +39,26 @@ class EditPathDialog(QDialog, Ui_Dialog):
         # Get the current path from parent widget
         self.path = parent.current_path().copy()
         self.set_path = parent.set_path
+        # GUI settings
+        self.bspline_option.setEnabled(HAS_SCIPY)
+        self.efd_option.toggled.connect(self.close_path_option.toggle)
+        self.efd_option.toggled.connect(self.close_path_option.setDisabled)
+        self.num_points.setValue(len(self.path))
+
+    @Slot(name='on_fitting_button_clicked')
+    def __fitting(self) -> None:
+        """Curve fitting function."""
+        num = self.num_points.value()
+        if self.bspline_option.isChecked():
+            is_close = self.close_path_option.isChecked()
+            path = array(self.path + self.path[:1]
+                         if is_close else self.path, dtype=float)
+            tck = splprep((path[:, 0], path[:, 1]), per=is_close)
+            u = linspace(0, 1, num, endpoint=not is_close)
+            self.set_path(zip(*splev(u, tck[0])))
+        else:
+            self.set_path(efd_fitting(self.path, num))
+        self.accept()
 
     @Slot(name='on_move_button_clicked')
     def __move(self) -> None:
@@ -64,12 +89,6 @@ class EditPathDialog(QDialog, Ui_Dialog):
         ry = self.scale_ry.value()
         sh = self.scale_h.value()
         sv = self.scale_v.value()
-        self.set_path((ox + (x - rx) * sh, oy + (y - ry) * sv) for x, y in self.path)
-        self.accept()
-
-    @Slot(name='on_reduce_button_clicked')
-    def __reduce(self) -> None:
-        """Reduce function."""
-        n = self.reduce_n.value()
-        self.set_path(self.path[::n])
+        self.set_path((ox + (x - rx) * sh, oy + (y - ry) * sv)
+                      for x, y in self.path)
         self.accept()

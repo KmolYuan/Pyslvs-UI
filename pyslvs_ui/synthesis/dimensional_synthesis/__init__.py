@@ -22,12 +22,7 @@ from typing import (
 from lark.exceptions import LarkError
 from openpyxl import load_workbook
 from pyslvs import (
-    efd_fitting,
-    expr_solving,
-    norm_path,
-    parse_pos,
-    parse_vpoints,
-    t_config,
+    expr_solving, norm_path, parse_pos, parse_vpoints, t_config,
 )
 from pyslvs.metaheuristics import AlgorithmType, DEFAULT_PARAMS, PARAMS
 from qtpy.QtCore import QModelIndex, Slot
@@ -39,12 +34,10 @@ from qtpy.QtWidgets import (
     QInputDialog,
     QListWidgetItem,
     QMessageBox,
-    QProgressDialog,
     QRadioButton,
     QTableWidgetItem,
     QWidget,
 )
-
 from pyslvs_ui.graphics import PreviewCanvas, parse_path
 from pyslvs_ui.synthesis import CollectionsDialog
 from .dialogs import (
@@ -300,25 +293,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.deleteLater()
         self.__current_path_changed()
 
-    @Slot(name='on_efd_button_clicked')
-    def __efd_path(self) -> None:
-        """Elliptical Fourier Descriptors."""
-        path = self.current_path()
-        n, ok = QInputDialog.getInt(
-            self,
-            "Elliptical Fourier Descriptors",
-            "The number of points:",
-            len(path), 3
-        )
-        if not ok:
-            return
-        dlg = QProgressDialog("Path transform.", "Cancel", 0, 1, self)
-        dlg.setWindowTitle("Elliptical Fourier Descriptors")
-        dlg.show()
-        self.set_path(efd_fitting(path, n))
-        dlg.setValue(1)
-        dlg.deleteLater()
-
     @Slot(name='on_norm_path_button_clicked')
     def __norm_path(self) -> None:
         """Normalize current path."""
@@ -418,7 +392,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         for button in (
             self.save_path_button,
             self.edit_path_button,
-            self.efd_button,
             self.norm_path_button,
             self.synthesis_button,
         ):
@@ -682,7 +655,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         self.__set_profile(name, params)
 
-    def __set_profile(self, profile_name: str, params: Mapping[str, Any]) -> None:
+    def __set_profile(self, profile_name: str,
+                      params: Mapping[str, Any]) -> None:
         """Set profile to sub-widgets."""
         self.__clear_settings()
         self.mech = dict(deepcopy(params))
@@ -700,7 +674,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.target_label.setVisible(self.has_target())
         inputs: List[Tuple[_Pair, List[float]]] = self.mech.get('input', [])
         self.mech['input'] = inputs
-        placement: Mapping[int, Optional[_Range]] = self.mech.get('placement', {})
+        placement: Mapping[int, Optional[_Range]] = self.mech.get('placement',
+                                                                  {})
         self.mech['placement'] = placement
         # Table settings
         self.parameter_list.setRowCount(0)
@@ -742,7 +717,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             s1.valueChanged.connect(set_angle(i, 0))
             s2.valueChanged.connect(set_angle(i, 1))
             row += 1
-
         # Grounded joints
         self.preview_canvas.from_profile(self.mech)
         pos_list = parse_pos(expression)

@@ -42,7 +42,7 @@ setup(
     python_requires=">=3.7",
     options={'bdist_wheel': {'python_tag': 'cp37.cp38'}},
     install_requires=read('requirements.txt').splitlines() + [f'pyslvs=={version}'],
-    extras_require={'slvs': ['python-solvespace']},
+    extras_require={'slvs': ['python-solvespace'], 'splev': ['scipy']},
     classifiers=[
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",

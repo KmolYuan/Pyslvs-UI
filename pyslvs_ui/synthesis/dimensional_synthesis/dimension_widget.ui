@@ -516,23 +516,6 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="efd_button">
-                <property name="statusTip">
-                 <string>Using Elliptical Fourier Descriptor to regenerate the path.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/efd.png</normaloff>:/icons/efd.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QPushButton" name="norm_path_button">
                 <property name="statusTip">
                  <string>Apply normalization on current path.</string>

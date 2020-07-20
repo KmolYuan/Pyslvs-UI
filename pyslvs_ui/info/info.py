@@ -17,16 +17,32 @@ from importlib import import_module
 from enum import auto, IntEnum
 from sys import version_info as _vi
 from platform import system, release, machine, python_compiler
-from argparse import ArgumentParser, Namespace
+from argparse import ArgumentParser
 from dataclasses import dataclass
 from pyslvs import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
 
-try:
-    import_module('python_solvespace')
-    HAS_SLVS = True
-except ImportError:
-    HAS_SLVS = False
+
+def has_module(name: str) -> bool:
+    """Test module import."""
+    try:
+        import_module(name)
+        return True
+    except ModuleNotFoundError:
+        return False
+
+
+SYS_INFO = (
+    f"Pyslvs {__version__}",
+    f"OS Type: {system()} {release()} [{machine()}]",
+    f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
+    f"Python Compiler: {python_compiler()}",
+    f"Qt wrapper: {API}",
+    f"Qt Version: {QT_VERSION}",
+)
+HAS_SLVS = has_module('python_solvespace')
+HAS_SCIPY = has_module('scipy')
+del has_module
 
 
 class Kernel(IntEnum):
@@ -42,12 +58,21 @@ class Kernel(IntEnum):
         return self.name.capitalize().replace("_", " ")
 
 
-KERNELS = [Kernel.PYSLVS, Kernel.SKETCH_SOLVE]
-if HAS_SLVS:
-    KERNELS.insert(1, Kernel.SOLVESPACE)
+@dataclass(repr=False, eq=False)
+class Arguments:
+    """Argument container."""
+    cmd: Optional[str]
+    c: str = ""
+    filepath: str = ""
+    kernel: str = ""
+    debug_mode: bool = False
+    fusion: bool = False
+    appimage_extract: bool = False
+    appimage_mount: bool = False
+    appimage_offset: bool = False
 
 
-def parse_args() -> Namespace:
+def parse_args() -> Arguments:
     parser = ArgumentParser(
         prog='pyslvs',
         description=(
@@ -172,30 +197,11 @@ def parse_args() -> Namespace:
             help="obtain offset value of 'mount' command, then mount it with: "
                  "\"sudo mount PACKAGE MOUNT -o offset=VALUE\""
         )
-    return parser.parse_args()
+    return Arguments(**vars(parser.parse_args()))
 
 
-@dataclass(repr=False, eq=False)
-class Arguments:
-    """Argument container."""
-    cmd: Optional[str]
-    c: str = ""
-    filepath: str = ""
-    kernel: str = ""
-    debug_mode: bool = False
-    fusion: bool = False
-    appimage_extract: bool = False
-    appimage_mount: bool = False
-    appimage_offset: bool = False
-
-
-SYS_INFO = (
-    f"Pyslvs {__version__}",
-    f"OS Type: {system()} {release()} [{machine()}]",
-    f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
-    f"Python Compiler: {python_compiler()}",
-    f"Qt wrapper: {API}",
-    f"Qt Version: {QT_VERSION}",
-)
-ARGUMENTS = Arguments(**vars(parse_args()))
+KERNELS = [Kernel.PYSLVS, Kernel.SKETCH_SOLVE]
+if HAS_SLVS:
+    KERNELS.insert(1, Kernel.SOLVESPACE)
+ARGUMENTS = parse_args()
 del parse_args

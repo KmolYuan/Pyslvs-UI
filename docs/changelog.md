@@ -10,10 +10,11 @@
 + Implement plotting function for slider paths.
 + Implement final vector animation.
 + Remove wavelet function.
++ Add extra curve fitting function powered by SciPy.
 
 **Development**:
 
-+ None
++ Extra SciPy requirement.
 
 ## Version 20.06
 

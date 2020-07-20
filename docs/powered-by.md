@@ -27,6 +27,7 @@ If there is no special reason, Pyslvs is follow with the newest version of the k
 + [PyYAML (MIT)](https://pyyaml.org)
 + [h5py (BSD 3-Clause)](https://www.h5py.org/)
 + [qrcode (MIT)](https://github.com/lincolnloop/python-qrcode)
++ [SciPy (BSD 3-Clause)](https://www.scipy.org/)
 
 ## Inspired From
 
