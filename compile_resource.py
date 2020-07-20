@@ -7,10 +7,12 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from argparse import ArgumentParser
 from os import walk
 from os.path import join
 from re import sub
 from qtpy import PYQT5
+
 if PYQT5:
     from PyQt5.uic import compileUi
     from PyQt5.pyrcc_main import processResourceFile
@@ -36,8 +38,8 @@ def gen_ui():
                 f.seek(0)
                 script_new = sub(r"from [\w.]+ import [\w]+_rc\n", "",
                                  f.read()
-                                  .replace("from PyQt5", "from qtpy")
-                                  .replace("from PySide2", "from qtpy"))
+                                 .replace("from PyQt5", "from qtpy")
+                                 .replace("from PySide2", "from qtpy"))
                 f.seek(0)
                 f.truncate()
                 f.write(script_new)
@@ -56,12 +58,10 @@ def gen_qrc():
             processResourceFile([join(root, file).replace('\\', '/')],
                                 join(root, target_name), False)
             with open(join(root, target_name), 'r+', encoding='utf-8') as f:
-                script_new = (
-                    f.read()
-                    .replace("from PyQt5", "from qtpy")
-                    .replace("from PySide2", "from qtpy")
-                    .replace("qInitResources()\n", "")
-                )
+                script_new = (f.read()
+                              .replace("from PyQt5", "from qtpy")
+                              .replace("from PySide2", "from qtpy")
+                              .replace("qInitResources()\n", ""))
                 f.seek(0)
                 f.truncate()
                 f.write(script_new)
@@ -70,5 +70,11 @@ def gen_qrc():
 
 
 if __name__ == '__main__':
-    gen_ui()
-    # gen_qrc()
+    parser = ArgumentParser()
+    parser.add_argument('--ui', action='store_true', help="Compile UI")
+    parser.add_argument('--qrc', action='store_true', help="Compile QRC")
+    args = parser.parse_args()
+    if args.ui:
+        gen_ui()
+    if args.qrc:
+        gen_qrc()
