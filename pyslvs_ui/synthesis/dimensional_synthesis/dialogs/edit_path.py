@@ -59,9 +59,12 @@ class EditPathDialog(QDialog, Ui_Dialog):
                 path = self.path
             tck = splprep((path[:, 0], path[:, 1]), per=is_close)
             u = linspace(0, 1, num, endpoint=is_close)
-            return array(splev(u, tck[0])).T
+            path = array(splev(u, tck[0])).T
         else:
-            return efd_fitting(self.path, num)
+            path = efd_fitting(self.path, num)
+        if is_close:
+            path = path[:-1]
+        return path
 
     @Slot(name='on_fitting_preview_button_clicked')
     def __fitting_preview(self) -> None:
@@ -80,8 +83,6 @@ class EditPathDialog(QDialog, Ui_Dialog):
     def __fitting(self) -> None:
         """Curve fitting function."""
         path = self.__gen_fitting()
-        if self.close_path_option.isChecked():
-            path = path[:-1]
         self.set_path(path)
         self.accept()
 
