@@ -50,6 +50,7 @@ class Ui_Dialog(object):
         self.gridLayout_3.addWidget(self.fitting_method_label, 0, 0, 1, 1)
         self.num_points = QtWidgets.QSpinBox(self.fitting)
         self.num_points.setMinimum(3)
+        self.num_points.setMaximum(9999)
         self.num_points.setObjectName("num_points")
         self.gridLayout_3.addWidget(self.num_points, 1, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
