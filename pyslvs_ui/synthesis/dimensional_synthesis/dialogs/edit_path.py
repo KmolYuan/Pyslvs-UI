@@ -58,7 +58,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
             else:
                 path = self.path
             tck = splprep((path[:, 0], path[:, 1]), per=is_close)
-            u = linspace(0, 1, num, endpoint=is_close)
+            u = linspace(0, 1, num, endpoint=True)
             path = array(splev(u, tck[0])).T
         else:
             path = efd_fitting(self.path, num)
