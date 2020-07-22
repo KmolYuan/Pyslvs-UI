@@ -1,3 +1,4 @@
+importlib-metadata; python_version < '3.8'
 requests
 qtpy
 pyqt5

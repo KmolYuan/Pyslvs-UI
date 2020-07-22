@@ -16,6 +16,7 @@ from typing import Optional
 from importlib import import_module
 from enum import auto, IntEnum
 from sys import version_info as _vi
+from importlib.metadata import version
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from dataclasses import dataclass
@@ -32,6 +33,8 @@ def has_module(name: str) -> bool:
         return False
 
 
+HAS_SLVS = has_module('python_solvespace')
+HAS_SCIPY = has_module('scipy')
 SYS_INFO = (
     f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
@@ -39,9 +42,10 @@ SYS_INFO = (
     f"Python Compiler: {python_compiler()}",
     f"Qt wrapper: {API}",
     f"Qt Version: {QT_VERSION}",
+    f"Python-Solvespace Version: {version('python_solvespace')}",
+    f"SciPy Version: {version('scipy')}",
+    f"Matplotlib Version: {version('matplotlib')}",
 )
-HAS_SLVS = has_module('python_solvespace')
-HAS_SCIPY = has_module('scipy')
 del has_module
 
 
@@ -203,5 +207,6 @@ def parse_args() -> Arguments:
 KERNELS = [Kernel.PYSLVS, Kernel.SKETCH_SOLVE]
 if HAS_SLVS:
     KERNELS.insert(1, Kernel.SOLVESPACE)
+KERNELS = tuple(KERNELS)
 ARGUMENTS = parse_args()
 del parse_args
