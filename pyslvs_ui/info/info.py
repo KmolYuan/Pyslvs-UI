@@ -13,24 +13,24 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Optional
-from importlib import import_module
+from importlib.util import find_spec
 from enum import auto, IntEnum
 from sys import version_info as _vi
-from importlib.metadata import version
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from dataclasses import dataclass
 from pyslvs import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
 
+if _vi < (3, 8):
+    from importlib_metadata import version
+else:
+    from importlib.metadata import version
+
 
 def has_module(name: str) -> bool:
     """Test module import."""
-    try:
-        import_module(name)
-        return True
-    except ModuleNotFoundError:
-        return False
+    return find_spec(name) is not None
 
 
 HAS_SLVS = has_module('python_solvespace')
