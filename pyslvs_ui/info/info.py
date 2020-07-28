@@ -35,17 +35,19 @@ def has_module(name: str) -> bool:
 
 HAS_SLVS = has_module('python_solvespace')
 HAS_SCIPY = has_module('scipy')
-SYS_INFO = (
+SYS_INFO = [
     f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
     f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
     f"Qt wrapper: {API}",
-    f"Qt Version: {QT_VERSION}",
-    f"Python-Solvespace Version: {version('python_solvespace')}",
-    f"SciPy Version: {version('scipy')}",
-    f"Matplotlib Version: {version('matplotlib')}",
-)
+    f"Qt: {QT_VERSION}",
+]
+if HAS_SLVS:
+    SYS_INFO.append(f"Python-Solvespace: {version('python_solvespace')}")
+if HAS_SCIPY:
+    SYS_INFO.append(f"SciPy: {version('scipy')}")
+SYS_INFO = tuple(SYS_INFO)
 del has_module
 
 
