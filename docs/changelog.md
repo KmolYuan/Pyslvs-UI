@@ -17,6 +17,7 @@
 **Development**:
 
 + Extra SciPy requirement.
++ Remove unessential `__all__` list.
 
 ## Version 20.06
 

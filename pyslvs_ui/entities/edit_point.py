@@ -11,8 +11,8 @@ from typing import List, Union
 from qtpy.QtCore import Slot, Qt
 from qtpy.QtWidgets import QDialog, QListWidgetItem, QColorDialog, QWidget
 from qtpy.QtGui import QIcon, QPixmap
-from pyslvs import VPoint, VLink
-from pyslvs_ui.graphics import color_names, color_qt, color_icon
+from pyslvs import VPoint, VLink, color_names
+from pyslvs_ui.graphics import color_qt, color_icon
 from .utility import set_custom_color, add_custom_color
 from .relocate_point import RelocateDialog
 from .edit_point_ui import Ui_Dialog

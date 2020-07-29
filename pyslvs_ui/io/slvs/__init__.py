@@ -2,12 +2,6 @@
 
 """'slvs' module contains IO support functions of Solvespace format."""
 
-__all__ = [
-    'SlvsParser',
-    'slvs2_frame',
-    'slvs2_part',
-    'boundary_loop',
-]
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"

@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""'dialogs' module contains
-the dialog of this tab.
-"""
+"""'dialogs' module contains the dialog of this tab."""
 
-__all__ = [
-    'CollectionsDialog',
-    'CustomsDialog',
-    'TargetsDialog',
-    'list_texts',
-]
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"

@@ -2,19 +2,6 @@
 
 """'io' module contains Pyslvs IO and undo redo functions."""
 
-__all__ = [
-    'ScriptDialog',
-    'slvs_process_script',
-    'SlvsParser',
-    'SlvsOutputDialog',
-    'DxfOutputDialog',
-    'OutputDialog',
-    'OverviewDialog',
-    'ProjectWidget',
-    'PreferencesDialog',
-    'str_between',
-    'str_before',
-]
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"

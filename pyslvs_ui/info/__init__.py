@@ -2,20 +2,6 @@
 
 """'info' module contains Pyslvs program information."""
 
-__all__ = [
-    'KERNELS',
-    'SYS_INFO',
-    'ARGUMENTS',
-    'HAS_SLVS',
-    'HAS_SCIPY',
-    'Kernel',
-    'check_update',
-    'PyslvsAbout',
-    'html',
-    'logger',
-    'XStream',
-    'size_format',
-]
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
