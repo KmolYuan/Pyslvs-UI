@@ -33,16 +33,8 @@ See the Ubuntu and macOS platform testing on Travis CI:
 
     ```bash
     pip install pyslvs-ui
-    ```
-
-    Pyslvs also supports [Solvespace](https://github.com/solvespace/solvespace) kernel.
-    It is an extra requirement under GPLv3.
-
-    Python-Solvespace from PyPI:
-    [![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace)
-
-    ```bash
-    pip install pyslvs-ui[slvs]
+    # Extras
+    pip install pyslvs-ui[slvs,scipy]
     ```
 
 === "Portable"
@@ -73,6 +65,15 @@ See the Ubuntu and macOS platform testing on Travis CI:
     But the core kernel is installed from PyPI,
     Windows and macOS platform are packed as wheels,
     Linux platform will build from source code.
+
+!!! extras
+    The pip extra requirements supports some functions on Pyslvs GUI.
+
+    + Python-Solvespace [![PyPI](https://img.shields.io/pypi/v/python-solvespace.svg)](https://pypi.org/project/python-solvespace):
+      Support [Solvespace] kernel under GPLv3. (`[slvs]`)
+    + SciPy: Support B-Spline curve fitting function. (`[scipy]`)
+
+[Solvespace]: https://github.com/solvespace/solvespace
 
 ## Startup
 

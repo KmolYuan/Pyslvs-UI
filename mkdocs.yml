@@ -36,7 +36,7 @@ extra_javascript:
 nav:
   - What is Pyslvs?: index.md
   - Getting Start:
-      - Introduction: introduction.md
+      - Introduction: intro.md
       - Environment: environment.md
   - User Interface:
       - Build a Planar Linkage Mechanism: mechanism.md
