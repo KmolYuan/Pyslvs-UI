@@ -3,9 +3,6 @@ language: python
 os: linux
 dist: xenial
 
-git:
-  depth: 3
-
 jobs:
   include:
     - &linux
