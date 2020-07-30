@@ -15,10 +15,9 @@ from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
 from pyslvs import FMatch
-from pyslvs.metaheuristics import ALGORITHM
+from pyslvs.metaheuristics import ALGORITHM, AlgorithmType
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
-from .options import AlgorithmType
 
 
 class DimensionalThread(BaseThread):

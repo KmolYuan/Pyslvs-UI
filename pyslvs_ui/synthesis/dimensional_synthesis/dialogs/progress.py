@@ -10,10 +10,10 @@ __email__ = "pyslvs@gmail.com"
 from typing import List, Dict, Any
 from qtpy.QtCore import Qt, QTimer, Signal, Slot
 from qtpy.QtWidgets import QDialog
+from pyslvs.metaheuristics import AlgorithmType
 from pyslvs_ui.info import logger
 from .progress_ui import Ui_Dialog
 from .thread import DimensionalThread
-from .options import AlgorithmType
 
 
 class ProgressDialog(QDialog, Ui_Dialog):
