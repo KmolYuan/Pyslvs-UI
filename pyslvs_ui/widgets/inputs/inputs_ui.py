@@ -207,7 +207,7 @@ class Ui_Form(object):
         self.record_interval = QtWidgets.QDoubleSpinBox(self.analysis_tab)
         self.record_interval.setDecimals(2)
         self.record_interval.setMinimum(0.01)
-        self.record_interval.setMaximum(6.0)
+        self.record_interval.setMaximum(20.0)
         self.record_interval.setProperty("value", 1.0)
         self.record_interval.setObjectName("record_interval")
         self.horizontalLayout_6.addWidget(self.record_interval)
