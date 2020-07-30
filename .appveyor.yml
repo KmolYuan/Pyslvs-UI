@@ -79,5 +79,5 @@ deploy:
     auth_token: $(APPVEYOR_TOKEN)
     force_update: true
     on:
-      appveyor_repo_tag: true
+      APPVEYOR_REPO_TAG: true
       DEPLOY: "true"
