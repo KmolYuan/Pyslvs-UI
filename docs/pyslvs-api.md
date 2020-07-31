@@ -4,226 +4,6 @@
 
 Kernel of Pyslvs.
 
-### Coordinate
-
-Inherited from `object`.
-
-| x | y |
-|:---:|:---:|
-| float | float |
-
-A data class used to store coordinates.
-
-#### Coordinate.distance()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | Coord | float |
-
-Return the distance between two coordinates.
-
-#### Coordinate.is_nan()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return True if the coordinate value is not a number.
-
-#### Coordinate.slope_angle()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | Coord | float |
-
-Slope angle of two coordinates.
-
-### Coord
-
-Inherited from `object`.
-
-| x | y |
-|:---:|:---:|
-| float | float |
-
-A data class used to store coordinates.
-
-#### Coord.distance()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | Coord | float |
-
-Return the distance between two coordinates.
-
-#### Coord.is_nan()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return True if the coordinate value is not a number.
-
-#### Coord.slope_angle()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | Coord | float |
-
-Slope angle of two coordinates.
-
-### pxy()
-
-| c1 | x | y | return |
-|:---:|:---:|:---:|:------:|
-| Coord | float | float | Coord |
-
-The PXY function requires one point and offset values, obtained the 
-position of second point.
-
-In the following picture, `c1` correspond to "A", `d0` correspond to "X",
-`d1` correspond to "Y", `return` correspond to "B", the sign of value are
-correspond to coordinate system.
-
-![pxy](img/pxy.png)
-
-### ppp()
-
-| c1 | c2 | c3 | return |
-|:---:|:---:|:---:|:------:|
-| Coord | Coord | Coord | Coord |
-
-The PPP function is used to solve parallel linkage.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`c3` correspond to "C", `return` correspond to "D".
-
-![ppp](img/ppp.png)
-
-### plap()
-
-| c1 | d0 | a0 | c2 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Union\[Coord, None] | bool | Coord |
-|   |   |   | None | False |   |
-
-The PLAP function requires two points, one distance and one angle,
-obtained the position of third point. The unit of `a0` is degree.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond
-to "C".
-If `c2` is not given, "alpha" will be set to zero.
-
-![plap](img/plap.png)
-
-Set `inverse` option to `True` can make `a0` value as negative.
-
-### pllp()
-
-| c1 | d0 | d1 | c2 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Coord | bool | Coord |
-|   |   |   |   | False |   |
-
-The PLLP function requires two points and two distances, obtained the
-position of third point.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to
-"C".
-
-![pllp](img/pllp.png)
-
-Set `inverse` option to `True` can make the result upside down.
-
-### plpp()
-
-| c1 | d0 | c2 | c3 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | Coord | Coord | bool | Coord |
-|   |   |   |   | False |   |
-
-The PLPP function requires three points and one distance, obtained the 
-position of fourth point.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`c3` correspond to "C", `d0` correspond to "L0", `return` correspond to "D".
-
-![plpp](img/plpp.png)
-
-Set `inverse` option to `True` can make the result to the another side
-between `c1` and line `c2` `c3`.
-
-### palp()
-
-| c1 | a0 | d0 | c2 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Coord | bool | Coord |
-|   |   |   |   | False |   |
-
-The PALP function requires two points, one angle and one distance,
-obtained the position of fourth point.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `a0` correspond to "alpha", `return` correspond
-to "C".
-
-![palp](img/palp.png)
-
-Set `inverse` option to `True` can make the result upside down.
-
-### expr_parser()
-
-| exprs | data_dict | return |
-|:-----:|:---------:|:------:|
-| Sequence\[Tuple\[str, ...]] | Dict\[str, float] | None |
-
-Solve and update information of the triangle expression `exprs` to 
-`data_dict`.
-The argument `exprs` can be obtained by
-[`t_config`](#t_config) and [`EStack.as_list()`](#estackas_list) method.
-
-This function is already included in [`expr_solving`](#expr_solving),
-not recommended for direct use.
-
-### expr_solving()
-
-| exprs | mapping | vpoints | angles | return |
-|:-----:|:-------:|:-------:|:------:|:------:|
-| EStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
-|   |   |   | None |   |
-
-Solver function of Triangular method and BFGS method, for mechanism 
-expression `vpoints`.
-
-The triangle expression stack `expr` is generated from
-[`t_config`](#t_config).
-
-The information data `mapping` map the symbols to the indicator of 
-`vpoints`,
-additionally has a same format as argument `data_dict` in [SolverSystem].
-
-Solver function will not handle slider input pairs in argument `angles`,
-which is only support revolute joints. In another way, the slider input 
-pairs
-can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
-
-### data_collecting()
-
-| exprs | mapping | vpoints_ | return |
-|:-----:|:-------:|:--------:|:------:|
-| EStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coord, float]], int] |
-
-Data transform function of Triangular method.
-The triangle expression stack `expr` is generated from
-[`t_config`](#t_config).
-The information data `mapping` map the symbols to the indicator of 
-`vpoints_`.
-
-This function is already included in [`expr_solving`](#expr_solving),
-not recommended for direct use.
-
 ### get_vlinks()
 
 | vpoints | return |
@@ -253,6 +33,21 @@ Inherited from `object`.
 | Sequence\[str] | ndarray | VJoint | Union\[Tuple\[int, int, int], None] | str | str | float | float | float | ClassVar\[VPoint] |
 
 Mechanism expression class.
+
+#### VPoint.\_\_init__()
+
+| self | links | type_int | angle | color_str | x | y | color_func | return |
+|:----:|:-----:|:--------:|:-----:|:---------:|:---:|:---:|:----------:|:------:|
+|   | Iterable\[str] | VJoint | float | str | float | float | Union\[Callable\[\[str], Tuple\[int, int, int]], None] | Any |
+|   |   |   |   |   |   |   | None |   |
+
+The attributes will match to the object attributes of [VPoint] objects.
+
+Where the color function `color_func` needs to transform the color string `color_str` into RGB format.
+If color information is not needed, the `color_func` can be `None`.
+
+!!! note
+    Some of the attributes are not work in some of the joint types.
 
 #### VPoint.copy()
 
@@ -316,7 +111,7 @@ Return True if the joint pin is connected to ground link.
 
 Return True if the offset setting is enabled.
 
-#### VPoint.is_slot_link()
+#### VPoint.is\_slot_link()
 
 | self | link | return |
 |:----:|:----:|:------:|
@@ -490,6 +285,18 @@ Inherited from `object`.
 
 Mechanism expression class in link's view.
 
+#### VLink.\_\_init__()
+
+| self | name | color_str | points | color_func | return |
+|:----:|:----:|:---------:|:------:|:----------:|:------:|
+|   | str | str | Iterable\[int] | Union\[Callable\[\[str], Tuple\[int, int, int]], None] | Any |
+|   |   |   |   | None |   |
+
+The attributes will match to the object attributes of [VLink] objects.
+
+Where the color function `color_func` needs to transform the color string `color_str` into RGB format.
+If color information is not needed, the `color_func` can be `None`.
+
 #### VLink.points_pos()
 
 | self | vpoints | return |
@@ -506,6 +313,48 @@ Get link positions from a VPoint list.
 
 The update function of points attribute.
 
+### Coord
+
+Inherited from `object`.
+
+| x | y |
+|:---:|:---:|
+| float | float |
+
+A data class used to store coordinates.
+
+#### Coord.\_\_init__()
+
+| self | x | y | return |
+|:----:|:---:|:---:|:------:|
+|   | float | float | Any |
+
+The constructor of Coordinate class.
+
+#### Coord.distance()
+
+| self | p | return |
+|:----:|:---:|:------:|
+|   | Coord | float |
+
+Return the distance between two coordinates.
+
+#### Coord.is_nan()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Return True if the coordinate value is not a number.
+
+#### Coord.slope_angle()
+
+| self | p | return |
+|:----:|:---:|:------:|
+|   | Coord | float |
+
+Slope angle of two coordinates.
+
 ### SolverSystem
 
 Inherited from `object`.
@@ -514,6 +363,29 @@ Sketch Solve solver.
 
 !!! note
     The object attributes of such type are unable to access.
+
+#### SolverSystem.\_\_init__()
+
+| self | vpoints | inputs | data_dict | return |
+|:----:|:-------:|:------:|:---------:|:------:|
+|   | Sequence\[VPoint] | Union\[Mapping\[Tuple\[int, int], float], None] | Union\[Mapping\[Union\[int, Tuple\[int, int]], Union\[Coord, float]], None] | Any |
+|   |   | None | None |   |
+
+The expression `vpoints` solver function of BFGS method by giving
+the input pairs `inputs` and link length `data_dict` requirements.
+
+!!! note
+    The format of input pairs:
+
+    + Revolut joints: `{(base, driver): angle}`
+    + Slider joints: `{(base, base): offset}`
+
+The format of `data_dict`:
+
++ Specific coordinates: Dict\[int, List\[Coord]]
++ Specific link length: Dict\[Tuple\[int, int], float]
+
+The `data_dict` parameter will reformat its keys into `frozenset` type.
 
 #### SolverSystem.same_points()
 
@@ -570,6 +442,291 @@ The joint position will returned by its index correspondingly.
 
 + Revolute joints: Tuple[float, float]
 + Slider joints: Tuple[Tuple[float, float], Tuple[float, float]]
+
+### t_config()
+
+| vpoints | inputs | status | return |
+|:-------:|:------:|:------:|:------:|
+| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | EStack |
+|   |   | None |   |
+
+Generate the Triangle solution stack by mechanism expression `vpoints_`.
+
+The argument `inputs` is a list of input pairs.
+The argument `status` will track the configuration of each point, 
+which is optional.
+
+### EStack
+
+Inherited from `object`.
+
+Triangle solution stack, generated from [`t_config`](#t_config).
+It is pointless to call the constructor.
+
+#### EStack.\_\_init__()
+
+| self | **args | **kwargs | return |
+|:----:|:------:|:--------:|:------:|
+|   | Any | Any | Any |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### EStack.as_list()
+
+| self | return |
+|:----:|:------:|
+|   | List\[Tuple\[str, ...]] |
+
+Copy the dataset as list object.
+
+### pxy()
+
+| c1 | x | y | return |
+|:---:|:---:|:---:|:------:|
+| Coord | float | float | Coord |
+
+The PXY function requires one point and offset values, obtained the 
+position of second point.
+
+In the following picture, `c1` correspond to "A", `d0` correspond to "X",
+`d1` correspond to "Y", `return` correspond to "B", the sign of value are
+correspond to coordinate system.
+
+![pxy](img/pxy.png)
+
+### ppp()
+
+| c1 | c2 | c3 | return |
+|:---:|:---:|:---:|:------:|
+| Coord | Coord | Coord | Coord |
+
+The PPP function is used to solve parallel linkage.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`c3` correspond to "C", `return` correspond to "D".
+
+![ppp](img/ppp.png)
+
+### plap()
+
+| c1 | d0 | a0 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| Coord | float | float | Union\[Coord, None] | bool | Coord |
+|   |   |   | None | False |   |
+
+The PLAP function requires two points, one distance and one angle,
+obtained the position of third point. The unit of `a0` is degree.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond
+to "C".
+If `c2` is not given, "alpha" will be set to zero.
+
+![plap](img/plap.png)
+
+Set `inverse` option to `True` can make `a0` value as negative.
+
+### pllp()
+
+| c1 | d0 | d1 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| Coord | float | float | Coord | bool | Coord |
+|   |   |   |   | False |   |
+
+The PLLP function requires two points and two distances, obtained the
+position of third point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to
+"C".
+
+![pllp](img/pllp.png)
+
+Set `inverse` option to `True` can make the result upside down.
+
+### plpp()
+
+| c1 | d0 | c2 | c3 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| Coord | float | Coord | Coord | bool | Coord |
+|   |   |   |   | False |   |
+
+The PLPP function requires three points and one distance, obtained the 
+position of fourth point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`c3` correspond to "C", `d0` correspond to "L0", `return` correspond to "D".
+
+![plpp](img/plpp.png)
+
+Set `inverse` option to `True` can make the result to the another side
+between `c1` and line `c2` `c3`.
+
+### palp()
+
+| c1 | a0 | d0 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| Coord | float | float | Coord | bool | Coord |
+|   |   |   |   | False |   |
+
+The PALP function requires two points, one angle and one distance,
+obtained the position of fourth point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `a0` correspond to "alpha", `return` correspond
+to "C".
+
+![palp](img/palp.png)
+
+Set `inverse` option to `True` can make the result upside down.
+
+### vpoint_dof()
+
+| vpoints | return |
+|:-------:|:------:|
+| Sequence\[VPoint] | int |
+
+Return the DOF of the mechanism expression `vpoints`.
+
+### expr_parser()
+
+| exprs | data_dict | return |
+|:-----:|:---------:|:------:|
+| Sequence\[Tuple\[str, ...]] | Dict\[str, float] | None |
+
+Solve and update information of the triangle expression `exprs` to 
+`data_dict`.
+The argument `exprs` can be obtained by
+[`t_config`](#t_config) and [`EStack.as_list()`](#estackas_list) method.
+
+This function is already included in [`expr_solving`](#expr_solving),
+not recommended for direct use.
+
+### expr_solving()
+
+| exprs | mapping | vpoints | angles | return |
+|:-----:|:-------:|:-------:|:------:|:------:|
+| EStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
+|   |   |   | None |   |
+
+Solver function of Triangular method and BFGS method, for mechanism 
+expression `vpoints`.
+
+The triangle expression stack `expr` is generated from
+[`t_config`](#t_config).
+
+The information data `mapping` map the symbols to the indicator of 
+`vpoints`,
+additionally has a same format as argument `data_dict` in [SolverSystem].
+
+Solver function will not handle slider input pairs in argument `angles`,
+which is only support revolute joints. In another way, the slider input 
+pairs
+can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
+
+### data_collecting()
+
+| exprs | mapping | vpoints_ | return |
+|:-----:|:-------:|:--------:|:------:|
+| EStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coord, float]], int] |
+
+Data transform function of Triangular method.
+The triangle expression stack `expr` is generated from
+[`t_config`](#t_config).
+The information data `mapping` map the symbols to the indicator of 
+`vpoints_`.
+
+This function is already included in [`expr_solving`](#expr_solving),
+not recommended for direct use.
+
+### FMatch
+
+Inherited from `ObjFunc`.
+
+This class is used to verified kinematics of the linkage mechanism.
+
+A fast matching method that adds mapping angles to variables.
+
+#### FMatch.\_\_init__()
+
+| self | mech | return |
+|:----:|:----:|:------:|
+|   | Dict\[str, Any] | Any |
+
+The constructor of objective object.
+
+Options of `mech_params`:
+
++ `Expression`: The mechanism expression of the structure.
+    + type: List\[[VPoint]]
++ `input`: Input pairs.
+    + type: List[Tuple[int, int]]
++ `Placement`: The grounded joints setting. (`x`, `y`, `r`)
+    + type: Dict[int, Tuple[float, float, float]]
++ `Target`: The target path.
+    + type: Dict[int, Sequence[Tuple[float, float]]]
++ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
+    + type: Dict[int, int]
++ `upper`: The upper setting of variables, the length must same as variable array.
+    + type: List[float]
++ `lower`: The lower setting of variables, the length must same as variable array.
+    + type: List[float]
++ `shape_only`: Compare paths by shape only.
+    + type: bool
+
+Variable array:
+
+| | Placement | Link length | Inputs |
+|:---:|:-----:|:-----------:|:------:|
+| `v =` | `x0`, `y0`, ... | `l0`, `l1`, ... | `a00`, `a01`, ..., `a10`, `a11`, ... |
+
+In 1D array: `v = [x0, y0, ..., l0, l1, ..., a00, a01, ..., a10, a11, ...]`
+
+#### FMatch.fitness()
+
+| self | v | return |
+|:----:|:---:|:------:|
+|   | ndarray | float64 |
+
+The fitness is the error between target path and self.
+
+Chromosome format: (decided by upper and lower)
+
+v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
+
+#### FMatch.get_lower()
+
+| self | return |
+|:----:|:------:|
+|   | ndarray |
+
+Return lower bound.
+
+#### FMatch.get_upper()
+
+| self | return |
+|:----:|:------:|
+|   | ndarray |
+
+Return upper bound.
+
+#### FMatch.is\_two_kernel()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Input a generic data (variable array), return the mechanism
+expression.
+
+#### FMatch.result()
+
+| self | v | return |
+|:----:|:---:|:------:|
+|   | ndarray | str |
+
+Input a generic data (variable array), return the mechanism
+expression.
 
 ### norm_path()
 
@@ -637,94 +794,6 @@ $$
 >>> ps1 = path_signature(curvature(...))
 >>> ps2 = path_signature(curvature(...))
 >>> cc = cross_correlation(ps1, ps2, len(ps1))
-
-### Planar
-
-Inherited from `ObjFunc`.
-
-This class is used to verified kinematics of the linkage mechanism.
-
-#### Planar.fitness()
-
-| self | v | return |
-|:----:|:---:|:------:|
-|   | ndarray | float64 |
-
-The fitness is the error between target path and self.
-
-Chromosome format: (decided by upper and lower)
-
-v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
-
-#### Planar.get_lower()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Return lower bound.
-
-#### Planar.get_upper()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Return upper bound.
-
-#### Planar.is_two_kernel()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Input a generic data (variable array), return the mechanism
-expression.
-
-#### Planar.result()
-
-| self | v | return |
-|:----:|:---:|:------:|
-|   | ndarray | str |
-
-Input a generic data (variable array), return the mechanism
-expression.
-
-### t_config()
-
-| vpoints | inputs | status | return |
-|:-------:|:------:|:------:|:------:|
-| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | EStack |
-|   |   | None |   |
-
-Generate the Triangle solution stack by mechanism expression `vpoints_`.
-
-The argument `inputs` is a list of input pairs.
-The argument `status` will track the configuration of each point, 
-which is optional.
-
-### EStack
-
-Inherited from `object`.
-
-Triangle solution stack, generated from [`t_config`](#t_config).
-It is pointless to call the constructor.
-
-#### EStack.as_list()
-
-| self | return |
-|:----:|:------:|
-|   | List\[Tuple\[str, ...]] |
-
-Copy the dataset as list object.
-
-### vpoint_dof()
-
-| vpoints | return |
-|:-------:|:------:|
-| Sequence\[VPoint] | int |
-
-Return the DOF of the mechanism expression `vpoints`.
 
 ### color_rgb()
 
@@ -884,6 +953,12 @@ Curve fitting using Elliptical Fourier Descriptor.
 The path `path` will be translate to Fourier descriptor coefficients,
 then regenerate a new paths as a `n` x 4 NumPy array.
 
+### Coordinate
+
+Alias to [Coord].
+
+A data class used to store coordinates.
+
 ### get_include()
 
 | return |
@@ -904,7 +979,7 @@ Pyslvs graph functions.
 
 Return link assortment of the graph.
 
-### contracted_link_assortment()
+### contracted\_link_assortment()
 
 | g | return |
 |:---:|:------:|
@@ -929,6 +1004,15 @@ Inherited from `object`.
 | Tuple\[Tuple\[int, int], ...] | Tuple\[int, ...] |
 
 The undirected graph class, support multigraph.
+
+#### Graph.\_\_init__()
+
+| self | edges | return |
+|:----:|:-----:|:------:|
+|   | Iterable\[Tuple\[int, int]] | Any |
+
+Input edges of the graph. The vertices symbols are
+positive continuously integer.
 
 #### Graph.add_edge()
 
@@ -1012,7 +1096,7 @@ Return DOF of the graph.
 
 Make graph duplicate by specific `vertices`. Return a new graph.
 
-#### Graph.has_cut_link()
+#### Graph.has\_cut_link()
 
 | self | return |
 |:----:|:------:|
@@ -1059,7 +1143,7 @@ Return True if two graphs is isomorphic.
 
 Default is using VF2 algorithm.
 
-#### Graph.is_isomorphic_degree_code()
+#### Graph.is\_isomorphic\_degree_code()
 
 | self | graph | return |
 |:----:|:-----:|:------:|
@@ -1069,7 +1153,7 @@ Compare isomorphism by degree code algorithm.
 
 + <https://doi.org/10.1115/1.2919236>
 
-#### Graph.is_isomorphic_vf2()
+#### Graph.is\_isomorphic_vf2()
 
 | self | graph | return |
 |:----:|:-----:|:------:|
@@ -1094,7 +1178,7 @@ Return the neighbors of the vertex `n`.
 
 Return True if the graph is a planar graph.
 
-### external_loop_layout()
+### external\_loop_layout()
 
 | graph | node_mode | scale | return |
 |:-----:|:---------:|:-----:|:------:|
@@ -1150,7 +1234,7 @@ Return link assortment by number of links `nl` and number of joints `nj`.
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-### contracted_link_synthesis()
+### contracted\_link_synthesis()
 
 | link_num_list | stop_func | return |
 |:-------------:|:---------:|:------:|
@@ -1174,6 +1258,14 @@ Objective function base class.
 
 It is used to build the objective function for Metaheuristic Random
 Algorithms.
+
+#### ObjFunc.\_\_init__()
+
+| self | **args | **kwargs | return |
+|:----:|:------:|:--------:|:------:|
+|   | Any | Any | Any |
+
+Initialize self.  See help(type(self)) for accurate signature.
 
 #### ObjFunc.fitness()
 
@@ -1228,6 +1320,23 @@ Algorithm base class.
 
 It is used to build the Metaheuristic Random Algorithms.
 
+#### AlgorithmBase.\_\_init__()
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   |   |   | None | None |   |
+
+Is a abstract method.
+
+The argument `func` is a object inherit from [ObjFunc],
+and all abstract methods should be implemented.
+
+The format of argument `settings` can be customized.
+
+The argument `progress_fun` will be called when update progress,
+and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
+
 #### AlgorithmBase.history()
 
 | self | return |
@@ -1256,6 +1365,299 @@ which type is `Tuple[int, float, float]]`.
 The first of them is generation,
 the second is fitness, and the last one is time in second.
 
+### Genetic
+
+Inherited from `AlgorithmBase`.
+
+| func |
+|:----:|
+| ObjFunc\[~FVal] |
+
+The implementation of Real-coded Genetic Algorithm.
+
+#### Genetic.\_\_init__()
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   |   |   | None | None |   |
+
+The format of argument `settings`:
+
++ `nPop`: Population
+    + type: int
+    + default: 500
++ `pCross`: Crossover rate
+    + type: float (0.~1.)
+    + default: 0.95
++ `pMute`: Mutation rate
+    + type: float (0.~1.)
+    + default: 0.05
++ `pWin`: Win rate
+    + type: float (0.~1.)
+    + default: 0.95
++ `bDelta`: Delta value
+    + type: float
+    + default: 5.
++ `max_gen` or `min_fit` or `max_time`: Limitation of termination
+    + type: int / float / float
+    + default: Raise `ValueError`
++ `report`: Report per generation
+    + type: int
+    + default: 10
+
+Others arguments are same as [`Differential.__init__()`](#differential9595init__).
+
+#### Genetic.history()
+
+| self | return |
+|:----:|:------:|
+|   | List\[Tuple\[int, float, float]] |
+
+Is a static method.
+
+Return the history of the process.
+
+The first value is generation (iteration);
+the second value is fitness;
+the third value is time in second.
+
+#### Genetic.run()
+
+| self | return |
+|:----:|:------:|
+|   | FVal |
+
+Is a static method.
+
+Run and return the result and convergence history.
+
+The first place of `return` is came from
+calling [`ObjFunc.result()`](#objfuncresult).
+
+The second place of `return` is a list of generation data,
+which type is `Tuple[int, float, float]]`.
+The first of them is generation,
+the second is fitness, and the last one is time in second.
+
+### Firefly
+
+Inherited from `AlgorithmBase`.
+
+| func |
+|:----:|
+| ObjFunc\[~FVal] |
+
+The implementation of Firefly Algorithm.
+
+#### Firefly.\_\_init__()
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   |   |   | None | None |   |
+
+The format of argument `settings`:
+
++ `n`: Population
+    + type: int
+    + default: 80
++ `alpha`: Alpha factor
+    + type: float (0.~1.)
+    + default: 0.01
++ `beta_min`: Minimal attraction
+    + type: float (0.~1.)
+    + default: 0.2
++ `beta0`: Attraction rate
+    + type: float (0.~1.)
+    + default: 1.
++ `gamma`: Gamma rate
+    + type: float (0.~1.)
+    + default: 1.
++ `max_gen` or `min_fit` or `max_time`: Limitation of termination
+    + type: int / float / float
+    + default: Raise `ValueError`
++ `report`: Report per generation
+    + type: int
+    + default: 10
+
+Others arguments are same as [`Differential.__init__()`](#differential9595init__).
+
+#### Firefly.history()
+
+| self | return |
+|:----:|:------:|
+|   | List\[Tuple\[int, float, float]] |
+
+Is a static method.
+
+Return the history of the process.
+
+The first value is generation (iteration);
+the second value is fitness;
+the third value is time in second.
+
+#### Firefly.run()
+
+| self | return |
+|:----:|:------:|
+|   | FVal |
+
+Is a static method.
+
+Run and return the result and convergence history.
+
+The first place of `return` is came from
+calling [`ObjFunc.result()`](#objfuncresult).
+
+The second place of `return` is a list of generation data,
+which type is `Tuple[int, float, float]]`.
+The first of them is generation,
+the second is fitness, and the last one is time in second.
+
+### Differential
+
+Inherited from `AlgorithmBase`.
+
+| func |
+|:----:|
+| ObjFunc\[~FVal] |
+
+The implementation of Differential Evolution.
+
+#### Differential.\_\_init__()
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   |   |   | None | None |   |
+
+The argument `func` is a object inherit from [Verification],
+and all abstract methods should be implemented.
+
+The format of argument `settings`:
+
++ `strategy`: Strategy
+    + type: int (0~9)
+    + default: 0
++ `NP`: Population
+    + type: int
+    + default: 400
++ `F`: Weight factor
+    + type: float (0.~1.)
+    + default: 0.6
++ `CR`: Crossover rate
+    + type: float (0.~1.)
+    + default: 0.9
++ `max_gen` or `min_fit` or `max_time` or `slow_down`: Limitation of termination
+    + type: int / float / float / float
+    + default: Raise `ValueError`
++ `report`: Report per generation
+    + type: int
+    + default: 10
+
+!!! note
+    The option `slow_down` is a percent value that
+    current fitness difference of two generation is divide by last one.
+
+The argument `progress_fun` will be called when update progress,
+and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
+
+#### Differential.history()
+
+| self | return |
+|:----:|:------:|
+|   | List\[Tuple\[int, float, float]] |
+
+Is a static method.
+
+Return the history of the process.
+
+The first value is generation (iteration);
+the second value is fitness;
+the third value is time in second.
+
+#### Differential.run()
+
+| self | return |
+|:----:|:------:|
+|   | FVal |
+
+Is a static method.
+
+Run and return the result and convergence history.
+
+The first place of `return` is came from
+calling [`ObjFunc.result()`](#objfuncresult).
+
+The second place of `return` is a list of generation data,
+which type is `Tuple[int, float, float]]`.
+The first of them is generation,
+the second is fitness, and the last one is time in second.
+
+### TeachingLearning
+
+Inherited from `AlgorithmBase`.
+
+| func |
+|:----:|
+| ObjFunc\[~FVal] |
+
+The implementation of Teaching Learning Based Optimization.
+
+#### TeachingLearning.\_\_init__()
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   |   |   | None | None |   |
+
+The format of argument `settings`:
+
++ `class_size`: The number of students per class
+    + type: int
+    + default: 50
++ `max_gen` or `min_fit` or `max_time`: Limitation of termination
+    + type: int / float / float
+    + default: Raise `ValueError`
++ `report`: Report per generation
+    + type: int
+    + default: 10
+
+Others arguments are same as [`Differential.__init__()`](#differential9595init__).
+
+#### TeachingLearning.history()
+
+| self | return |
+|:----:|:------:|
+|   | List\[Tuple\[int, float, float]] |
+
+Is a static method.
+
+Return the history of the process.
+
+The first value is generation (iteration);
+the second value is fitness;
+the third value is time in second.
+
+#### TeachingLearning.run()
+
+| self | return |
+|:----:|:------:|
+|   | FVal |
+
+Is a static method.
+
+Run and return the result and convergence history.
+
+The first place of `return` is came from
+calling [`ObjFunc.result()`](#objfuncresult).
+
+The second place of `return` is a list of generation data,
+which type is `Tuple[int, float, float]]`.
+The first of them is generation,
+the second is fitness, and the last one is time in second.
+
 ### AlgorithmType
 
 Inherited from `str`.
@@ -1268,12 +1670,15 @@ Is an enum class.
 
 Enum type of algorithms.
 
+[VPoint]: #vpoint
+[VLink]: #vlink
+[Coord]: #coord
+[SolverSystem]: #solversystem
 [pxy]: #pxy
 [ppp]: #ppp
 [plap]: #plap
 [pllp]: #pllp
 [plpp]: #plpp
 [palp]: #palp
-[VPoint]: #vpoint
-[SolverSystem]: #solversystem
 [Graph]: #graph
+[ObjFunc]: #objfunc
