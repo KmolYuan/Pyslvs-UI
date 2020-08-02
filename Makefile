@@ -17,7 +17,7 @@ else
 endif
 PIP = $(PY) -m pip
 
-.PHONY: all help doc install uninstall \
+.PHONY: all help doc ui qrc install uninstall \
     pack build test-pack test clean-pack clean clean-all
 
 all: build
@@ -42,6 +42,12 @@ help:
 
 doc: build
 	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
+
+ui:
+	$(PY) compile_resource.py --ui
+
+qrc:
+	$(PY) compile_resource.py --qrc
 
 build:
 	@echo Build libraries
