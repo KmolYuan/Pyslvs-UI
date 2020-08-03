@@ -694,22 +694,6 @@ Chromosome format: (decided by upper and lower)
 
 v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
 
-#### FMatch.get_lower()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Return lower bound.
-
-#### FMatch.get_upper()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Return upper bound.
-
 #### FMatch.is\_two_kernel()
 
 | self | return |
@@ -950,8 +934,8 @@ Get all collection names.
 
 Curve fitting using Elliptical Fourier Descriptor.
 
-The path `path` will be translate to Fourier descriptor coefficients,
-then regenerate a new paths as a `n` x 4 NumPy array.
+The path `path` will be translated to Fourier descriptor coefficients,
+then regenerate a new path as a `n` x 4 NumPy array.
 
 ### Coordinate
 
@@ -1252,12 +1236,11 @@ Kernel of Metaheuristic Algorithm.
 
 ### ObjFunc
 
-Inherited from `Generic`.
+Inherited from `Generic`. Parameters: `~FVal`
 
 Objective function base class.
 
-It is used to build the objective function for Metaheuristic Random
-Algorithms.
+It is used to build the objective function for Meta-heuristic Algorithms.
 
 #### ObjFunc.\_\_init__()
 
@@ -1273,30 +1256,10 @@ Initialize self.  See help(type(self)) for accurate signature.
 |:----:|:---:|:------:|
 |   | ndarray | float64 |
 
-Is a abstract method.
+Is an abstract method.
 
 (`cdef` function) Return the fitness from the variable list `v`.
 This function will be directly called in the algorithms.
-
-#### ObjFunc.get_lower()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Is a abstract method.
-
-Return lower bound.
-
-#### ObjFunc.get_upper()
-
-| self | return |
-|:----:|:------:|
-|   | ndarray |
-
-Is a abstract method.
-
-Return upper bound.
 
 #### ObjFunc.result()
 
@@ -1304,13 +1267,13 @@ Return upper bound.
 |:----:|:---:|:------:|
 |   | ndarray | FVal |
 
-Is a abstract method.
+Is an abstract method.
 
 Return the result from the variable list `v`.
 
 ### AlgorithmBase
 
-Inherited from `Generic`.
+Inherited from `Generic`. Parameters: `~FVal`
 
 | func |
 |:----:|
@@ -1318,7 +1281,7 @@ Inherited from `Generic`.
 
 Algorithm base class.
 
-It is used to build the Metaheuristic Random Algorithms.
+It is used to build the Meta-heuristic Algorithms.
 
 #### AlgorithmBase.\_\_init__()
 
@@ -1327,9 +1290,9 @@ It is used to build the Metaheuristic Random Algorithms.
 |   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
 |   |   |   | None | None |   |
 
-Is a abstract method.
+Is an abstract method.
 
-The argument `func` is a object inherit from [ObjFunc],
+The argument `func` is an object inherit from [ObjFunc],
 and all abstract methods should be implemented.
 
 The format of argument `settings` can be customized.
@@ -1341,7 +1304,7 @@ and the argument `interrupt_fun` will check the interrupt status from GUI or sub
 
 | self | return |
 |:----:|:------:|
-|   | List\[Tuple\[int, float, float]] |
+|   | Sequence\[Tuple\[int, float, float]] |
 
 Return the history of the process.
 
@@ -1412,7 +1375,7 @@ Others arguments are same as [`Differential.__init__()`](#differential9595init__
 
 | self | return |
 |:----:|:------:|
-|   | List\[Tuple\[int, float, float]] |
+|   | Sequence\[Tuple\[int, float, float]] |
 
 Is a static method.
 
@@ -1487,7 +1450,7 @@ Others arguments are same as [`Differential.__init__()`](#differential9595init__
 
 | self | return |
 |:----:|:------:|
-|   | List\[Tuple\[int, float, float]] |
+|   | Sequence\[Tuple\[int, float, float]] |
 
 Is a static method.
 
@@ -1567,7 +1530,7 @@ and the argument `interrupt_fun` will check the interrupt status from GUI or sub
 
 | self | return |
 |:----:|:------:|
-|   | List\[Tuple\[int, float, float]] |
+|   | Sequence\[Tuple\[int, float, float]] |
 
 Is a static method.
 
@@ -1630,7 +1593,7 @@ Others arguments are same as [`Differential.__init__()`](#differential9595init__
 
 | self | return |
 |:----:|:------:|
-|   | List\[Tuple\[int, float, float]] |
+|   | Sequence\[Tuple\[int, float, float]] |
 
 Is a static method.
 

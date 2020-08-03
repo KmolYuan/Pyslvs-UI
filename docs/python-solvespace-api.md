@@ -11,10 +11,11 @@ Python binding Solvespace solver libraries.
 |:---:|:---:|:---:|:---:|:------:|
 | float | float | float | float | Tuple\[float, float, float] |
 
+quaternion_u(double qw, double qx, double qy, double qz) -> tuple
 Input quaternion, return unit vector of U axis.
 
-Where `qw`, `qx`, `qy`, `qz` are corresponded to the W, X, Y, Z value of
-quaternion.
+    Where `qw`, `qx`, `qy`, `qz` are corresponded to the W, X, Y, Z value of 
+    quaternion.
 
 ### quaternion_v()
 
@@ -22,9 +23,10 @@ quaternion.
 |:---:|:---:|:---:|:---:|:------:|
 | float | float | float | float | Tuple\[float, float, float] |
 
+quaternion_v(double qw, double qx, double qy, double qz) -> tuple
 Input quaternion, return unit vector of V axis.
 
-Signature is same as [quaternion_u](#quaternion_u).
+    Signature is same as [quaternion_u](#quaternion_u).
 
 ### quaternion_n()
 
@@ -32,9 +34,10 @@ Signature is same as [quaternion_u](#quaternion_u).
 |:---:|:---:|:---:|:---:|:------:|
 | float | float | float | float | Tuple\[float, float, float] |
 
+quaternion_n(double qw, double qx, double qy, double qz) -> tuple
 Input quaternion, return unit vector of normal.
 
-Signature is same as [quaternion_u](#quaternion_u).
+    Signature is same as [quaternion_u](#quaternion_u).
 
 ### make_quaternion()
 
@@ -42,10 +45,11 @@ Signature is same as [quaternion_u](#quaternion_u).
 |:---:|:---:|:---:|:---:|:---:|:---:|:------:|
 | float | float | float | float | float | float | Tuple\[float, float, float, float] |
 
+make_quaternion(double ux, double uy, double uz, double vx, double vy, double vz) -> tuple
 Input two unit vector, return quaternion.
 
-Where `ux`, `uy`, `uz` are corresponded to the value of U vector;
-`vx`, `vy`, `vz` are corresponded to the value of V vector.
+    Where `ux`, `uy`, `uz` are corresponded to the value of U vector;
+    `vx`, `vy`, `vz` are corresponded to the value of V vector.
 
 ### Constraint
 
@@ -109,6 +113,7 @@ Initialize self.  See help(type(self)) for accurate signature.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_3d(self) -> bool
 Return True if this is a 3D entity.
 
 #### Entity.is_arc()
@@ -117,6 +122,7 @@ Return True if this is a 3D entity.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_arc(self) -> bool
 Return True if this is a arc.
 
 #### Entity.is_circle()
@@ -125,6 +131,7 @@ Return True if this is a arc.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_circle(self) -> bool
 Return True if this is a circle.
 
 #### Entity.is_cubic()
@@ -133,6 +140,7 @@ Return True if this is a circle.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_cubic(self) -> bool
 Return True if this is a cubic.
 
 #### Entity.is_distance()
@@ -141,6 +149,7 @@ Return True if this is a cubic.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_distance(self) -> bool
 Return True if this is a distance.
 
 #### Entity.is_line()
@@ -149,6 +158,7 @@ Return True if this is a distance.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_line(self) -> bool
 Return True if this is a line.
 
 #### Entity.is\_line_2d()
@@ -157,6 +167,7 @@ Return True if this is a line.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_line_2d(self) -> bool
 Return True if this is a 2D line.
 
 #### Entity.is\_line_3d()
@@ -165,6 +176,7 @@ Return True if this is a 2D line.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_line_3d(self) -> bool
 Return True if this is a 3D line.
 
 #### Entity.is_none()
@@ -173,6 +185,7 @@ Return True if this is a 3D line.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_none(self) -> bool
 Return True if this is a empty entity.
 
 #### Entity.is_normal()
@@ -181,6 +194,7 @@ Return True if this is a empty entity.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_normal(self) -> bool
 Return True if this is a normal.
 
 #### Entity.is\_normal_2d()
@@ -189,6 +203,7 @@ Return True if this is a normal.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_normal_2d(self) -> bool
 Return True if this is a 2D normal.
 
 #### Entity.is\_normal_3d()
@@ -197,6 +212,7 @@ Return True if this is a 2D normal.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_normal_3d(self) -> bool
 Return True if this is a 3D normal.
 
 #### Entity.is_point()
@@ -205,6 +221,7 @@ Return True if this is a 3D normal.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_point(self) -> bool
 Return True if this is a point.
 
 #### Entity.is\_point_2d()
@@ -213,6 +230,7 @@ Return True if this is a point.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_point_2d(self) -> bool
 Return True if this is a 2D point.
 
 #### Entity.is\_point_3d()
@@ -221,6 +239,7 @@ Return True if this is a 2D point.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_point_3d(self) -> bool
 Return True if this is a 3D point.
 
 #### Entity.is\_work_plane()
@@ -229,6 +248,7 @@ Return True if this is a 3D point.
 |:----:|:------:|
 |   | bool |
 
+Entity.is_work_plane(self) -> bool
 Return True if this is a work plane.
 
 ### SolverSystem
@@ -254,10 +274,11 @@ Initialization method. Create a solver system.
 |:----:|:---:|:---:|:-----:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | Entity | Entity | Entity |
 
+SolverSystem.add_arc(self, Entity nm, Entity ct, Entity start, Entity end, Entity wp) -> Entity
 Add an arc to specific work plane (`wp`) then return the handle.
 
-Where `nm` is the orthogonal normal; `ct` is the center point;
-`start` is the start point; `end` is the end point.
+        Where `nm` is the orthogonal normal; `ct` is the center point;
+        `start` is the start point; `end` is the end point.
 
 #### SolverSystem.add_circle()
 
@@ -265,11 +286,12 @@ Where `nm` is the orthogonal normal; `ct` is the center point;
 |:----:|:---:|:---:|:------:|:---:|:------:|
 |   | Entity | Entity | Entity | Entity | Entity |
 
+SolverSystem.add_circle(self, Entity nm, Entity ct, Entity radius, Entity wp) -> Entity
 Add an circle to specific work plane (`wp`) then return the handle.
 
-Where `nm` is the orthogonal normal;
-`ct` is the center point;
-`radius` is the distance value represent radius.
+        Where `nm` is the orthogonal normal;
+        `ct` is the center point;
+        `radius` is the distance value represent radius.
 
 #### SolverSystem.add_constraint()
 
@@ -278,13 +300,14 @@ Where `nm` is the orthogonal normal;
 |   | int | Entity | float | Entity | Entity | Entity | Entity | Entity | Entity | int | int | None |
 |   |   |   |   |   |   |   |   | ... | ... | 0 | 0 |   |
 
+SolverSystem.add_constraint(self, int c_type, Entity wp, double v, Entity p1, Entity p2, Entity e1, Entity e2, Entity e3=_E_NONE, Entity e4=_E_NONE, int other=0, int other2=0) -> void
 Add a constraint by type code `c_type`.
-This is an origin function mapping to different constraint methods.
+        This is an origin function mapping to different constraint methods.
 
-Where `wp` represents work plane; `v` represents constraint value;
-`p1` and `p2` represent point entities; `e1` to `e4` represent other
-types of entity;
-`other` and `other2` are control options of the constraint.
+        Where `wp` represents work plane; `v` represents constraint value;
+        `p1` and `p2` represent point entities; `e1` to `e4` represent other 
+        types of entity;
+        `other` and `other2` are control options of the constraint.
 
 #### SolverSystem.add_cubic()
 
@@ -292,10 +315,11 @@ types of entity;
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | Entity | Entity | Entity |
 
+SolverSystem.add_cubic(self, Entity p1, Entity p2, Entity p3, Entity p4, Entity wp) -> Entity
 Add a cubic curve to specific work plane (`wp`) then return the
-handle.
+        handle.
 
-Where `p1` to `p4` is the control points.
+        Where `p1` to `p4` is the control points.
 
 #### SolverSystem.add_distance()
 
@@ -303,9 +327,10 @@ Where `p1` to `p4` is the control points.
 |:----:|:---:|:---:|:------:|
 |   | float | Entity | Entity |
 
+SolverSystem.add_distance(self, double d, Entity wp) -> Entity
 Add a distance to specific work plane (`wp`) then return the handle.
 
-Where `d` is distance value.
+        Where `d` is distance value.
 
 #### SolverSystem.add\_line_2d()
 
@@ -313,9 +338,10 @@ Where `d` is distance value.
 |:----:|:---:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | Entity |
 
+SolverSystem.add_line_2d(self, Entity p1, Entity p2, Entity wp) -> Entity
 Add a 2D line to specific work plane (`wp`) then return the handle.
 
-Where `p1` is the start point; `p2` is the end point.
+        Where `p1` is the start point; `p2` is the end point.
 
 #### SolverSystem.add\_line_3d()
 
@@ -323,9 +349,10 @@ Where `p1` is the start point; `p2` is the end point.
 |:----:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity |
 
+SolverSystem.add_line_3d(self, Entity p1, Entity p2) -> Entity
 Add a 3D line then return the handle.
 
-Where `p1` is the start point; `p2` is the end point.
+        Where `p1` is the start point; `p2` is the end point.
 
 #### SolverSystem.add\_normal_2d()
 
@@ -333,8 +360,9 @@ Where `p1` is the start point; `p2` is the end point.
 |:----:|:---:|:------:|
 |   | Entity | Entity |
 
+SolverSystem.add_normal_2d(self, Entity wp) -> Entity
 Add a 2D normal orthogonal to specific work plane (`wp`)
-then return the handle.
+        then return the handle.
 
 #### SolverSystem.add\_normal_3d()
 
@@ -342,10 +370,11 @@ then return the handle.
 |:----:|:---:|:---:|:---:|:---:|:------:|
 |   | float | float | float | float | Entity |
 
+SolverSystem.add_normal_3d(self, double qw, double qx, double qy, double qz) -> Entity
 Add a 3D normal from quaternion then return the handle.
 
-Where `qw`, `qx`, `qy`, `qz` are corresponded to
-the W, X, Y, Z value of quaternion.
+        Where `qw`, `qx`, `qy`, `qz` are corresponded to
+        the W, X, Y, Z value of quaternion.
 
 #### SolverSystem.add\_point_2d()
 
@@ -353,10 +382,11 @@ the W, X, Y, Z value of quaternion.
 |:----:|:---:|:---:|:---:|:------:|
 |   | float | float | Entity | Entity |
 
+SolverSystem.add_point_2d(self, double u, double v, Entity wp) -> Entity
 Add a 2D point to specific work plane (`wp`) then return the handle.
 
-Where `u`, `v` are corresponded to the value of U, V axis on the work
-plane.
+        Where `u`, `v` are corresponded to the value of U, V axis on the work
+        plane.
 
 #### SolverSystem.add\_point_3d()
 
@@ -364,9 +394,10 @@ plane.
 |:----:|:---:|:---:|:---:|:------:|
 |   | float | float | float | Entity |
 
+SolverSystem.add_point_3d(self, double x, double y, double z) -> Entity
 Add a 3D point then return the handle.
 
-Where `x`, `y`, `z` are corresponded to the value of X, Y, Z axis.
+        Where `x`, `y`, `z` are corresponded to the value of X, Y, Z axis.
 
 #### SolverSystem.add\_work_plane()
 
@@ -374,10 +405,11 @@ Where `x`, `y`, `z` are corresponded to the value of X, Y, Z axis.
 |:----:|:------:|:---:|:------:|
 |   | Entity | Entity | Entity |
 
+SolverSystem.add_work_plane(self, Entity origin, Entity nm) -> Entity
 Add a work plane then return the handle.
 
-Where `origin` is the origin point of the plane;
-`nm` is the orthogonal normal.
+        Where `origin` is the origin point of the plane;
+        `nm` is the orthogonal normal.
 
 #### SolverSystem.angle()
 
@@ -386,8 +418,9 @@ Where `origin` is the origin point of the plane;
 |   | Entity | Entity | float | Entity | bool | None |
 |   |   |   |   |   | False |   |
 
+SolverSystem.angle(self, Entity e1, Entity e2, double value, Entity wp, bool inverse=False) -> void
 Degrees angle (`value`) constraint between two 2d lines (`e1` and
-`e2`) on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
+        `e2`) on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 #### SolverSystem.clear()
 
@@ -395,6 +428,7 @@ Degrees angle (`value`) constraint between two 2d lines (`e1` and
 |:----:|:------:|
 |   | None |
 
+SolverSystem.clear(self) -> void
 Clear the system.
 
 #### SolverSystem.coincident()
@@ -404,14 +438,15 @@ Clear the system.
 |   | Entity | Entity | Entity | None |
 |   |   |   | ... |   |
 
+SolverSystem.coincident(self, Entity e1, Entity e2, Entity wp=_E_FREE_IN_3D) -> void
 Coincident two entities.
 
-| Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
-|:---------------:|:---------------:|:-----------------:|
-| [is_point] | [is_point] | Optional |
-| [is_point] | [is_work_plane] | [Entity.FREE_IN_3D] |
-| [is_point] | [is_line] | Optional |
-| [is_point] | [is_circle] | Optional |
+        | Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
+        |:---------------:|:---------------:|:-----------------:|
+        | [is_point] | [is_point] | Optional |
+        | [is_point] | [is_work_plane] | [Entity.FREE_IN_3D] |
+        | [is_point] | [is_line] | Optional |
+        | [is_point] | [is_circle] | Optional |
 
 #### SolverSystem.constraints()
 
@@ -419,8 +454,9 @@ Coincident two entities.
 |:----:|:------:|
 |   | Counter\[str] |
 
+SolverSystem.constraints(self)
 Return the number of each constraint type.
-The name of constraints is represented by string.
+        The name of constraints is represented by string.
 
 #### SolverSystem.create_2d_base()
 
@@ -428,8 +464,9 @@ The name of constraints is represented by string.
 |:----:|:------:|
 |   | Entity |
 
+SolverSystem.create_2d_base(self) -> Entity
 Create a 2D system on current group,
-return the handle of work plane.
+        return the handle of work plane.
 
 #### SolverSystem.diameter()
 
@@ -437,12 +474,13 @@ return the handle of work plane.
 |:----:|:---:|:-----:|:---:|:------:|
 |   | Entity | float | Entity | None |
 
+SolverSystem.diameter(self, Entity e1, double value, Entity wp) -> void
 Diameter (`value`) constraint of a circular entities.
 
-| Entity 1 (`e1`) | Work plane (`wp`) |
-|:---------------:|:-----------------:|
-| [is_arc] | Optional |
-| [is_circle] | Optional |
+        | Entity 1 (`e1`) | Work plane (`wp`) |
+        |:---------------:|:-----------------:|
+        | [is_arc] | Optional |
+        | [is_circle] | Optional |
 
 #### SolverSystem.distance()
 
@@ -451,16 +489,17 @@ Diameter (`value`) constraint of a circular entities.
 |   | Entity | Entity | float | Entity | None |
 |   |   |   |   | ... |   |
 
+SolverSystem.distance(self, Entity e1, Entity e2, double value, Entity wp=_E_FREE_IN_3D) -> void
 Distance constraint between two entities.
 
-If `value` is equal to zero, then turn into
-[coincident](#solversystemcoincident)
+        If `value` is equal to zero, then turn into
+        [coincident](#solversystemcoincident)
 
-| Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
-|:---------------:|:---------------:|:-----------------:|
-| [is_point] | [is_point] | Optional |
-| [is_point] | [is_work_plane] | [Entity.FREE_IN_3D] |
-| [is_point] | [is_line] | Optional |
+        | Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
+        |:---------------:|:---------------:|:-----------------:|
+        | [is_point] | [is_point] | Optional |
+        | [is_point] | [is_work_plane] | [Entity.FREE_IN_3D] |
+        | [is_point] | [is_line] | Optional |
 
 #### SolverSystem.distance_proj()
 
@@ -468,8 +507,9 @@ If `value` is equal to zero, then turn into
 |:----:|:---:|:---:|:-----:|:------:|
 |   | Entity | Entity | float | None |
 
+SolverSystem.distance_proj(self, Entity e1, Entity e2, double value) -> void
 Projected distance (`value`) constraint between
-two 3d points (`e1` and `e2`).
+        two 3d points (`e1` and `e2`).
 
 #### SolverSystem.dof()
 
@@ -477,8 +517,9 @@ two 3d points (`e1` and `e2`).
 |:----:|:------:|
 |   | int |
 
+SolverSystem.dof(self) -> int
 Return the degrees of freedom of current group.
-Only can be called after solving.
+        Only can be called after solving.
 
 #### SolverSystem.dragged()
 
@@ -487,6 +528,7 @@ Only can be called after solving.
 |   | Entity | Entity | None |
 |   |   | ... |   |
 
+SolverSystem.dragged(self, Entity e1, Entity wp=_E_FREE_IN_3D) -> void
 Dragged constraint of a point (`e1`) on the work plane (`wp`).
 
 #### SolverSystem.equal()
@@ -496,17 +538,18 @@ Dragged constraint of a point (`e1`) on the work plane (`wp`).
 |   | Entity | Entity | Entity | None |
 |   |   |   | ... |   |
 
+SolverSystem.equal(self, Entity e1, Entity e2, Entity wp=_E_FREE_IN_3D) -> void
 Equal constraint between two entities.
 
-| Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
-|:---------------:|:---------------:|:-----------------:|
-| [is_line] | [is_line] | Optional |
-| [is_line] | [is_arc] | Optional |
-| [is_line] | [is_circle] | Optional |
-| [is_arc] | [is_arc] | Optional |
-| [is_arc] | [is_circle] | Optional |
-| [is_circle] | [is_circle] | Optional |
-| [is_circle] | [is_arc] | Optional |
+       | Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
+       |:---------------:|:---------------:|:-----------------:|
+       | [is_line] | [is_line] | Optional |
+       | [is_line] | [is_arc] | Optional |
+       | [is_line] | [is_circle] | Optional |
+       | [is_arc] | [is_arc] | Optional |
+       | [is_arc] | [is_circle] | Optional |
+       | [is_circle] | [is_circle] | Optional |
+       | [is_circle] | [is_arc] | Optional |
 
 #### SolverSystem.equal\_included_angle()
 
@@ -514,9 +557,10 @@ Equal constraint between two entities.
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | Entity | Entity | None |
 
+SolverSystem.equal_included_angle(self, Entity e1, Entity e2, Entity e3, Entity e4, Entity wp) -> void
 Constraint that 2D line 1 (`e1`) and line 2 (`e2`),
-line 3 (`e3`) and line 4 (`e4`) must have same included angle on work
-plane `wp`.
+        line 3 (`e3`) and line 4 (`e4`) must have same included angle on work 
+        plane `wp`.
 
 #### SolverSystem.equal\_point\_to_line()
 
@@ -524,9 +568,10 @@ plane `wp`.
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | Entity | Entity | None |
 
+SolverSystem.equal_point_to_line(self, Entity e1, Entity e2, Entity e3, Entity e4, Entity wp) -> void
 Constraint that point 1 (`e1`) and line 1 (`e2`),
-point 2 (`e3`) and line 2  (`e4`) must have same distance on work
-plane `wp`.
+        point 2 (`e3`) and line 2  (`e4`) must have same distance on work 
+        plane `wp`.
 
 #### SolverSystem.failures()
 
@@ -534,6 +579,7 @@ plane `wp`.
 |:----:|:------:|
 |   | List\[int] |
 
+SolverSystem.failures(self) -> list
 Return a list of failed constraint numbers.
 
 #### SolverSystem.group()
@@ -542,6 +588,7 @@ Return a list of failed constraint numbers.
 |:----:|:------:|
 |   | int |
 
+SolverSystem.group(self) -> int
 Return the current group.
 
 #### SolverSystem.horizontal()
@@ -550,8 +597,9 @@ Return the current group.
 |:----:|:---:|:---:|:------:|
 |   | Entity | Entity | None |
 
+SolverSystem.horizontal(self, Entity e1, Entity wp) -> void
 Vertical constraint of a 2d point (`e1`) on
-work plane (`wp` can not be [Entity.FREE_IN_3D]).
+        work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 #### SolverSystem.midpoint()
 
@@ -560,8 +608,9 @@ work plane (`wp` can not be [Entity.FREE_IN_3D]).
 |   | Entity | Entity | Entity | None |
 |   |   |   | ... |   |
 
+SolverSystem.midpoint(self, Entity e1, Entity e2, Entity wp=_E_FREE_IN_3D) -> void
 Midpoint constraint between a point (`e1`) and
-a line (`e2`) on work plane (`wp`).
+        a line (`e2`) on work plane (`wp`).
 
 #### SolverSystem.parallel()
 
@@ -570,8 +619,9 @@ a line (`e2`) on work plane (`wp`).
 |   | Entity | Entity | Entity | None |
 |   |   |   | ... |   |
 
+SolverSystem.parallel(self, Entity e1, Entity e2, Entity wp=_E_FREE_IN_3D) -> void
 Parallel constraint between two lines (`e1` and `e2`) on
-the work plane (`wp`).
+        the work plane (`wp`).
 
 #### SolverSystem.params()
 
@@ -579,9 +629,10 @@ the work plane (`wp`).
 |:----:|:---:|:------:|
 |   | Params | Tuple\[float, ...] |
 
-Get the parameters from a [Params] handle (`p`) belong to this
-system.
-The length of tuple is decided by handle.
+SolverSystem.params(self, Params p) -> tuple
+Get the parameters from a [Params] handle (`p`) belong to this 
+        system.
+        The length of tuple is decided by handle.
 
 #### SolverSystem.perpendicular()
 
@@ -590,9 +641,10 @@ The length of tuple is decided by handle.
 |   | Entity | Entity | Entity | bool | None |
 |   |   |   |   | False |   |
 
+SolverSystem.perpendicular(self, Entity e1, Entity e2, Entity wp, bool inverse=False) -> void
 Perpendicular constraint between two 2d lines (`e1` and `e2`)
-on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with
-`inverse` option.
+        on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with
+        `inverse` option.
 
 #### SolverSystem.ratio()
 
@@ -600,8 +652,9 @@ on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with
 |:----:|:---:|:---:|:-----:|:---:|:------:|
 |   | Entity | Entity | float | Entity | None |
 
-The ratio (`value`) constraint between two 2D lines (`e1` and
-`e2`).
+SolverSystem.ratio(self, Entity e1, Entity e2, double value, Entity wp) -> void
+The ratio (`value`) constraint between two 2D lines (`e1` and 
+        `e2`).
 
 #### SolverSystem.same_orientation()
 
@@ -609,8 +662,9 @@ The ratio (`value`) constraint between two 2D lines (`e1` and
 |:----:|:---:|:---:|:------:|
 |   | Entity | Entity | None |
 
+SolverSystem.same_orientation(self, Entity e1, Entity e2) -> void
 Equal orientation constraint between two 3d normals (`e1` and
-`e2`).
+        `e2`).
 
 #### SolverSystem.set_group()
 
@@ -618,6 +672,7 @@ Equal orientation constraint between two 3d normals (`e1` and
 |:----:|:---:|:------:|
 |   | int | None |
 
+SolverSystem.set_group(self, size_t g) -> void
 Set the current group (`g`).
 
 #### SolverSystem.set_params()
@@ -626,9 +681,10 @@ Set the current group (`g`).
 |:----:|:---:|:------:|:------:|
 |   | Params | Sequence\[float] | None |
 
-Set the parameters from a [Params] handle (`p`) belong to this
-system.
-The values is come from `params`, length must be equal to the handle.
+SolverSystem.set_params(self, Params p, params) -> void
+Set the parameters from a [Params] handle (`p`) belong to this 
+        system.
+        The values is come from `params`, length must be equal to the handle.
 
 #### SolverSystem.solve()
 
@@ -636,6 +692,7 @@ The values is come from `params`, length must be equal to the handle.
 |:----:|:------:|
 |   | int |
 
+SolverSystem.solve(self) -> int
 Start the solving, return the result flag.
 
 #### SolverSystem.symmetric()
@@ -645,13 +702,14 @@ Start the solving, return the result flag.
 |   | Entity | Entity | Entity | Entity | None |
 |   |   |   | ... | ... |   |
 
+SolverSystem.symmetric(self, Entity e1, Entity e2, Entity e3=_E_NONE, Entity wp=_E_FREE_IN_3D) -> void
 Symmetric constraint between two points.
 
-| Entity 1 (`e1`) | Entity 2 (`e2`) | Entity 3 (`e3`) | Work plane (`wp`) |
-|:---------------:|:---------------:|:---------------:|:-----------------:|
-| [is_point_3d] | [is_point_3d] | [is_work_plane] | [Entity.FREE_IN_3D] |
-| [is_point_2d] | [is_point_2d] | [is_work_plane] | [Entity.FREE_IN_3D] |
-| [is_point_2d] | [is_point_2d] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
+        | Entity 1 (`e1`) | Entity 2 (`e2`) | Entity 3 (`e3`) | Work plane (`wp`) |
+        |:---------------:|:---------------:|:---------------:|:-----------------:|
+        | [is_point_3d] | [is_point_3d] | [is_work_plane] | [Entity.FREE_IN_3D] |
+        | [is_point_2d] | [is_point_2d] | [is_work_plane] | [Entity.FREE_IN_3D] |
+        | [is_point_2d] | [is_point_2d] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
 
 #### SolverSystem.symmetric_h()
 
@@ -659,9 +717,10 @@ Symmetric constraint between two points.
 |:----:|:---:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | None |
 
+SolverSystem.symmetric_h(self, Entity e1, Entity e2, Entity wp) -> void
 Symmetric constraint between two 2D points (`e1` and `e2`)
-with horizontal line on the work plane (`wp` can not be
-[Entity.FREE_IN_3D]).
+        with horizontal line on the work plane (`wp` can not be
+        [Entity.FREE_IN_3D]).
 
 #### SolverSystem.symmetric_v()
 
@@ -669,9 +728,10 @@ with horizontal line on the work plane (`wp` can not be
 |:----:|:---:|:---:|:---:|:------:|
 |   | Entity | Entity | Entity | None |
 
+SolverSystem.symmetric_v(self, Entity e1, Entity e2, Entity wp) -> void
 Symmetric constraint between two 2D points (`e1` and `e2`)
-with vertical line on the work plane (`wp` can not be
-[Entity.FREE_IN_3D]).
+        with vertical line on the work plane (`wp` can not be
+        [Entity.FREE_IN_3D]).
 
 #### SolverSystem.tangent()
 
@@ -680,16 +740,17 @@ with vertical line on the work plane (`wp` can not be
 |   | Entity | Entity | Entity | None |
 |   |   |   | ... |   |
 
+SolverSystem.tangent(self, Entity e1, Entity e2, Entity wp=_E_FREE_IN_3D) -> void
 Parallel constraint between two entities (`e1` and `e2`) on the
-work plane (`wp`).
+        work plane (`wp`).
 
-| Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
-|:---------------:|:---------------:|:-----------------:|
-| [is_arc] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
-| [is_cubic] | [is_line_3d] | [Entity.FREE_IN_3D] |
-| [is_arc] | [is_cubic] | Is not [Entity.FREE_IN_3D] |
-| [is_arc] | [is_arc] | Is not [Entity.FREE_IN_3D] |
-| [is_cubic] | [is_cubic] | Optional |
+        | Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
+        |:---------------:|:---------------:|:-----------------:|
+        | [is_arc] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
+        | [is_cubic] | [is_line_3d] | [Entity.FREE_IN_3D] |
+        | [is_arc] | [is_cubic] | Is not [Entity.FREE_IN_3D] |
+        | [is_arc] | [is_arc] | Is not [Entity.FREE_IN_3D] |
+        | [is_cubic] | [is_cubic] | Optional |
 
 #### SolverSystem.vertical()
 
@@ -697,8 +758,9 @@ work plane (`wp`).
 |:----:|:---:|:---:|:------:|
 |   | Entity | Entity | None |
 
+SolverSystem.vertical(self, Entity e1, Entity wp) -> void
 Vertical constraint of a 2d point (`e1`) on
-work plane (`wp` can not be [Entity.FREE_IN_3D]).
+        work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 [quaternion_u]: #quaternion_u
 [Params]: #params
