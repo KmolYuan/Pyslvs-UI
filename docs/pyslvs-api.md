@@ -761,8 +761,9 @@ $$
 | p1 | p2 | t | return |
 |:---:|:---:|:---:|:------:|
 | ndarray | ndarray | float | ndarray |
+|   |   | 0.1 |   |
 
-Compare two path signature and return as an 1d array.
+Compare path signature and return as an 1d array.
 
 $$
 \begin{aligned}
@@ -777,7 +778,7 @@ $$
 
 >>> ps1 = path_signature(curvature(...))
 >>> ps2 = path_signature(curvature(...))
->>> cc = cross_correlation(ps1, ps2, len(ps1))
+>>> cc = cross_correlation(ps1, ps2)
 
 ### color_rgb()
 
