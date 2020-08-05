@@ -10,7 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, Mapping, Union
-from qtpy.QtCore import Signal, Slot, QFileInfo, QDateTime
+from qtpy.QtCore import Slot, QFileInfo, QDateTime
 from qtpy.QtWidgets import (
     QUndoView,
     QVBoxLayout,
@@ -33,7 +33,6 @@ if TYPE_CHECKING:
 
 class ProjectWidget(QWidget, Ui_Form):
     """The table that stored project data and changes."""
-    load_id = Signal(int)
 
     def __init__(self, parent: MainWindowBase):
         super(ProjectWidget, self).__init__(parent)
