@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 20.08
+
+**Features**:
+
++ Fix the error of Yaml dumper.
+
+**Development**:
+
++ None
+
 ## Version 20.07
 
 **Features**:
