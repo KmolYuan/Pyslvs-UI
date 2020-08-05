@@ -306,7 +306,8 @@ class PreviewDialog(QDialog, Ui_Dialog):
         c2 = curvature(target[p])
         ps1 = path_signature(c1)
         ps2 = path_signature(c2)
-        cc = cross_correlation(ps1, ps2, 0.1)
+        ps2[:, 0] *= max(ps1[:, 0]) / max(ps2[:, 0])
+        cc = cross_correlation(ps1, ps2)
         ps2[:, 0] += cc.argmax() * 0.1
         ax[0].set_title(f"Cross Correlation of Point{p}")
         ax[0].plot(cc)
