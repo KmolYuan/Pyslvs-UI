@@ -754,7 +754,9 @@ $$
 K = \int^t_0 |\kappa(t)| dt
 $$
 
+```python
 >>> path_signature(curvature(...))
+```
 
 ### cross_correlation()
 
@@ -763,7 +765,7 @@ $$
 | ndarray | ndarray | float | ndarray |
 |   |   | 0.1 |   |
 
-Compare path signature and return as an 1d array.
+Compare signature and return as an 1d array.
 
 $$
 \begin{aligned}
@@ -776,9 +778,11 @@ S &= \arg\max\{C_n(j)\} t
 \end{aligned}
 $$
 
+```python
 >>> ps1 = path_signature(curvature(...))
 >>> ps2 = path_signature(curvature(...))
 >>> cc = cross_correlation(ps1, ps2)
+```
 
 ### color_rgb()
 
