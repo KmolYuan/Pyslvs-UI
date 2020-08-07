@@ -10,7 +10,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from re import sub
-from yaml import dump, unsafe_load
+from yaml import safe_load, safe_dump
 from .format_editor import FormatEditor
 
 
@@ -29,7 +29,7 @@ class YamlEditor(FormatEditor):
             flow_style = True
         else:
             raise ValueError(f"unsupported option: {self.prefer.file_type_option}")
-        yaml_script = dump(data, default_flow_style=flow_style)
+        yaml_script = safe_dump(data, default_flow_style=flow_style)
         if self.prefer.file_type_option == 1:
             yaml_script = sub(r"\s\s+", " ", yaml_script)
         with open(file_name, 'w+', encoding='utf-8') as f:
@@ -39,4 +39,4 @@ class YamlEditor(FormatEditor):
         """Load YAML file."""
         with open(file_name, 'r', encoding='utf-8') as f:
             yaml_script = f.read()
-        self.load_data(file_name, unsafe_load(yaml_script))
+        self.load_data(file_name, safe_load(yaml_script))
