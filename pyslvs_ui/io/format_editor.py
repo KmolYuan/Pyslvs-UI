@@ -262,8 +262,8 @@ class FormatEditor(QObject, metaclass=QABCMeta):
 
     @abstractmethod
     def save(self, file_name: str) -> None:
-        ...
+        raise NotImplementedError
 
     @abstractmethod
     def load(self, file_name: str) -> None:
-        ...
+        raise NotImplementedError

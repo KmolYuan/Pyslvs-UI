@@ -49,6 +49,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
     row_selection_changed = Signal(list)
     delete_request = Signal()
 
+    @abstractmethod
     def __init__(self, row: int, parent: QWidget):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -92,7 +93,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
     @abstractmethod
     def effective_range(self, has_name: bool) -> Iterator[int]:
         """Return valid column range for row text."""
-        ...
+        raise NotImplementedError
 
     def selected_rows(self) -> List[int]:
         """Get what row is been selected."""

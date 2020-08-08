@@ -85,17 +85,17 @@ class HDF5Editor(FormatEditor):
         """Save HDF5 file."""
         data = self.save_data()
         with File(file_name, 'w') as f:
-            _h5py_dump(f, data)
+            try:
+                _h5py_dump(f, data)
+            except Exception as e:
+                QMessageBox.warning(self._parent, "Save error", f"{e}")
 
     def load(self, file_name: str) -> None:
         """Load HDF5 file."""
         with File(file_name, 'r') as f:
-            if 'pyslvs_ver' not in f:
-                QMessageBox.warning(
-                    self,
-                    "Invalid file format",
-                    f"The file {file_name} is not a Pyslvs project."
-                )
+            try:
+                data = _h5py_load(f)
+            except Exception as e:
+                QMessageBox.warning(self._parent, "Load error", f"{e}")
                 return
-            data = _h5py_load(f)
         self.load_data(file_name, data)

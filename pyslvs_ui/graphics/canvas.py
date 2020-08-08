@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     TypeVar, Tuple, List, Sequence, Set, Dict, Mapping, Iterator, Any,
-    Optional, ClassVar, overload
+    Optional, ClassVar, overload,
 )
 from abc import abstractmethod, ABC
 from dataclasses import dataclass, field
@@ -34,12 +34,12 @@ LINK_COLOR = QColor(226, 219, 190)
 
 @overload
 def convex_hull(points: List[_Coord], *, as_qpoint: bool) -> List[QPointF]:
-    ...
+    pass
 
 
 @overload
 def convex_hull(points: List[_Coord]) -> List[_Coord]:
-    ...
+    pass
 
 
 def convex_hull(points, *, as_qpoint=False):

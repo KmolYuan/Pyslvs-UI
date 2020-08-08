@@ -53,6 +53,6 @@ class QABCMeta(type(QObject), ABCMeta):  # type: ignore
     >>> class MyQObject(QObject, metaclass=QABCMeta):
     >>>    @abstractmethod
     >>>    def my_abstract_method(self) -> None:
-    >>>        ...
+    >>>        raise NotImplementedError
     """
     pass

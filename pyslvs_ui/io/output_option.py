@@ -108,7 +108,7 @@ class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
     @abstractmethod
     def do(self, dir_str: QDir) -> bool:
         """Do the saving work here, return True if done."""
-        ...
+        raise NotImplementedError
 
     def exist_warning(self, name: str, *, folder: bool = False) -> None:
         """Show the "file is exist" message box."""

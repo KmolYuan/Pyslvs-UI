@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None
++ Raise NotImplementedError instead of ellipse on abstract methods.
 
 ## Version 20.07
 
