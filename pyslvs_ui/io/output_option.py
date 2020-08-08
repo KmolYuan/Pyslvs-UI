@@ -51,6 +51,7 @@ class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
     assembly_description: str = ""
     frame_description: str = ""
 
+    @abstractmethod
     def __init__(
         self,
         env: str,
@@ -96,7 +97,6 @@ class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
                 self.exist_warning(new_folder, folder=True)
                 return
             qdir.cd(new_folder)
-
         try:
             ok = self.do(qdir)
         except PermissionError as error:
@@ -131,7 +131,6 @@ class SlvsOutputDialog(OutputDialog):
                          "will be generated.")
 
     def __init__(self, *args):
-        """Type name: "Solvespace module"."""
         super(SlvsOutputDialog, self).__init__(*args)
 
     def do(self, dir_str: QDir) -> bool:
@@ -146,7 +145,7 @@ class SlvsOutputDialog(OutputDialog):
             return False
         # Wire frame
         slvs2_frame(self.vpoints, self.v_to_slvs, file_name)
-        # Open Solvespace by commend line if available.
+        # Open Solvespace by commend line if available
         cmd = which("solvespace")
         if cmd:
             Popen([cmd, file_name], stdout=DEVNULL, stderr=DEVNULL)
@@ -171,7 +170,6 @@ class SlvsOutputDialog(OutputDialog):
             slvs2_part([
                 self.vpoints[i] for i in points
             ], self.link_radius.value(), file_name)
-
         return True
 
 
@@ -179,13 +177,13 @@ class DxfOutputDialog(OutputDialog):
     """Dialog for DXF format."""
     format_name = "DXF"
     format_icon = "dxf.png"
-    assembly_description = "The part sketchs will including in the file."
+    assembly_description = "The sketch of the parts will include in the file."
     frame_description = "There is only wire frame will be generated."
 
     def __init__(self, *args):
         """Type name: "DXF module"."""
         super(DxfOutputDialog, self).__init__(*args)
-        # DXF version option.
+        # DXF version option
         version_label = QLabel("DXF version:", self)
         self.version_option = QComboBox(self)
         self.version_option.addItems(sorted((
@@ -194,26 +192,25 @@ class DxfOutputDialog(OutputDialog):
         self.version_option.setCurrentIndex(self.version_option.count() - 1)
         self.version_option.setSizePolicy(QSizePolicy.Expanding,
                                           QSizePolicy.Preferred)
-        dxf_version_layout = QHBoxLayout()
-        dxf_version_layout.addWidget(version_label)
-        dxf_version_layout.addWidget(self.version_option)
-        self.main_layout.insertLayout(3, dxf_version_layout)
-        # Parts interval.
-        self.interval_enable = QCheckBox("Parts interval:", self)
-        self.interval_enable.setCheckState(Qt.Checked)
-        self.interval_enable.setSizePolicy(QSizePolicy.Fixed,
-                                           QSizePolicy.Preferred)
+        layout = QHBoxLayout()
+        layout.addWidget(version_label)
+        layout.addWidget(self.version_option)
+        self.main_layout.insertLayout(3, layout)
+        # Parts interval
+        self.use_interval = QCheckBox("Parts interval:", self)
+        self.use_interval.setCheckState(Qt.Checked)
+        self.use_interval.setSizePolicy(QSizePolicy.Fixed,
+                                        QSizePolicy.Preferred)
         self.interval_option = QDoubleSpinBox(self)
         self.interval_option.setValue(10)
-        self.interval_enable.stateChanged.connect(
-            self.interval_option.setEnabled)
-        dxf_interval_layout = QHBoxLayout()
-        dxf_interval_layout.addWidget(self.interval_enable)
-        dxf_interval_layout.addWidget(self.interval_option)
-        dxf_interval_layout.addItem(
+        self.use_interval.stateChanged.connect(self.interval_option.setEnabled)
+        layout = QHBoxLayout()
+        layout.addWidget(self.use_interval)
+        layout.addWidget(self.interval_option)
+        layout.addItem(
             QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Preferred)
         )
-        self.assembly_layout.insertLayout(2, dxf_interval_layout)
+        self.assembly_layout.insertLayout(2, layout)
 
     def do(self, dir_str: QDir) -> bool:
         """Output types:
@@ -225,24 +222,17 @@ class DxfOutputDialog(OutputDialog):
         if isfile(file_name) and self.warn_radio.isChecked():
             self.exist_warning(file_name)
             return False
-
         version = self.version_option.currentText().split()[0]
-
         if self.frame_radio.isChecked():
             # Frame
-            dxf_frame(
-                self.vpoints,
-                self.v_to_slvs,
-                version,
-                file_name
-            )
+            dxf_frame(self.vpoints, self.v_to_slvs, version, file_name)
         elif self.assembly_radio.isChecked():
             # Boundary
             dxf_boundary(
                 self.vpoints,
                 self.link_radius.value(),
                 self.interval_option.value()
-                if self.interval_enable.isChecked() else 0.,
+                if self.use_interval.isChecked() else 0.,
                 version,
                 file_name
             )

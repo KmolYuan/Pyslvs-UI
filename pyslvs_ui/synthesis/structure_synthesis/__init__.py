@@ -222,7 +222,7 @@ class StructureSynthesis(QWidget, Ui_Form):
 
         n1 = int(n1)
         n2 = int(n2)
-        # Return the result values.
+        # Return the result values
         # + Value of widgets.
         # + Setting old value record.
         if self.sender() is self.nl_input:
@@ -435,7 +435,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         elif action == self.copy_edges:
             clipboard.setText(str(self.answer[index].edges))
         elif action == self.copy_image:
-            # Turn the transparent background to white.
+            # Turn the transparent background to white
             image1 = self.__atlas_image()
             image2 = QImage(image1.size(), image1.format())
             image2.fill(Qt.white)

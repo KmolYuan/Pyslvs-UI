@@ -276,7 +276,7 @@ class MainWindowBase(MainWindowABC, ABC):
             self.entities_expr,
         )
 
-        # Select all button on the Point and Link tab as corner widget.
+        # Select all button on the Point and Link tab as corner widget
         select_all_button = QPushButton()
         select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
         select_all_button.setToolTip("Select all")

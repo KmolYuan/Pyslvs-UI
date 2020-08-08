@@ -543,7 +543,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         # Show FPS
         self.fps_updated.emit()
         self.painter.end()
-        # Record the widget size.
+        # Record the widget size
         self.width_old = width
         self.height_old = height
 
@@ -604,7 +604,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             ):
                 x, y = self.__mouse_pos(event)
                 if self.selector.x != x and self.selector.y != y:
-                    # Edit point coordinates.
+                    # Edit point coordinates
                     self.__emit_free_move(self.selections)
                 elif (
                     (not self.selector.selection_rect)
@@ -664,7 +664,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     )
             elif self.select_mode == SelectMode.JOINT:
                 if self.free_move == FreeMode.TRANSLATE:
-                    # Free move translate function.
+                    # Free move translate function
                     mouse_x = self.__snap(x - self.selector.x, is_zoom=False)
                     mouse_y = self.__snap(y - self.selector.y, is_zoom=False)
                     self.selected_tips.emit(
@@ -675,7 +675,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                         vpoint = self.vpoints[num]
                         vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
                 elif self.free_move == FreeMode.ROTATE:
-                    # Free move rotate function.
+                    # Free move rotate function
                     alpha = atan2(y, x) - atan2(self.selector.y,
                                                 self.selector.x)
                     self.selected_tips.emit(
@@ -692,7 +692,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                             vpoint.rotate(
                                 self.vangles[num] + degrees(beta + alpha))
                 elif self.free_move == FreeMode.REFLECT:
-                    # Free move reflect function.
+                    # Free move reflect function
                     fx = 1 if x > 0 else -1
                     fy = 1 if y > 0 else -1
                     self.selected_tips.emit(

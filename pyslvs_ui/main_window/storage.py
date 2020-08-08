@@ -70,7 +70,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
 
     def ask_add_storage(self, expr: str) -> bool:
         try:
-            # Put the expression into parser to see if it is legal.
+            # Put the expression into parser to see if it is legal
             parse_params(expr)
         except Exception as error:
             logger.warn(error)
@@ -127,7 +127,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         name = item.text()
         self.command_stack.beginMacro(f"Restore from {{Mechanism: {name}}}")
 
-        # Clean all the item of two table widgets.
+        # Clean all the item of two table widgets
         for i in range(self.entities_point.rowCount()):
             self.delete_point(0)
         for i in range(self.entities_link.rowCount() - 1):

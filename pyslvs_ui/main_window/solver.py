@@ -171,7 +171,7 @@ def _slvs_solve(
             # c is a slider, and it is be connected with slot link.
             return vp, slider_bases[sliders[index]]
         else:
-            # c is a R joint or it is not connected with slot link.
+            # c is a R joint or it is not connected with slot link
             return vp, points[index]
 
     for a, b in sliders.items():

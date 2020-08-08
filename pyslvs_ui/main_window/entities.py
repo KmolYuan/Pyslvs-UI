@@ -629,7 +629,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         name = self.__get_link_serial_number()
         args = LinkArgs(name, 'Blue', self.entities_link.item(0, 2).text())
         self.command_stack.beginMacro(f"Release ground to {{Link: {name}}}")
-        # Free all points.
+        # Free all points
         self.command_stack.push(EditLinkTable(
             0,
             self.vpoint_list,
@@ -638,7 +638,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             LinkArgs(VLink.FRAME, 'White', '')
         ))
-        # Create new link.
+        # Create new link
         self.command_stack.push(AddTable(self.vlink_list, self.entities_link))
         self.command_stack.push(EditLinkTable(
             self.entities_link.rowCount() - 1,
@@ -662,7 +662,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         base_args = self.entities_link.row_data(row2)
         base_args.points = ','.join(f"Point{e}" for e in new_points if e)
         self.command_stack.beginMacro(f"Constrain {{Link: {vlink1.name}}} to ground")
-        # Turn to ground.
+        # Turn to ground
         self.command_stack.push(EditLinkTable(
             row2,
             self.vpoint_list,
@@ -671,7 +671,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             base_args
         ))
-        # Free all points and delete the link.
+        # Free all points and delete the link
         self.command_stack.push(EditLinkTable(
             row1,
             self.vpoint_list,

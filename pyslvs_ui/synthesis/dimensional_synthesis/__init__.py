@@ -400,7 +400,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @Slot(name='on_synthesis_button_clicked')
     def __synthesis(self) -> None:
         """Start synthesis."""
-        # Check if the amount of the target points are same.
+        # Check if the amount of the target points are same
         length = -1
         for path in self.path.values():
             if length < 0:
@@ -820,7 +820,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         elif dlg.min_fit_option.isChecked():
             self.alg_options['min_fit'] = dlg.min_fit.value()
         elif dlg.max_time_option.isChecked():
-            # Three spinbox value translate to second.
+            # Three spinbox value translate to second
             self.alg_options['max_time'] = (
                 dlg.max_time_h.value() * 3600
                 + dlg.max_time_m.value() * 60

@@ -634,14 +634,14 @@ class PreviewCanvas(BaseCanvas):
             if link == self.grounded:
                 continue
             points = []
-            # Points that is belong with the link.
+            # Points that is belong with the link
             for num, edge in edges_view(self.graph):
                 if link in edge:
                     if num in self.same:
                         num = self.same[num]
                     x, y = self.pos[num]
                     points.append((x * self.zoom, y * -self.zoom))
-            # Customize points.
+            # Customize points
             for name, link_ in self.cus.items():
                 if link == link_:
                     x, y = self.pos[name]
@@ -671,7 +671,7 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(Qt.black)
             self.painter.setPen(pen)
 
-        # Text of node.
+        # Text of node
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
         for node, (x, y) in self.pos.items():

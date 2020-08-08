@@ -31,7 +31,7 @@ class QRotatableView(QGraphicsView):
         self.set_maximum(360)
         graphics_item = scene.addWidget(self.dial)
         graphics_item.setRotation(-90)
-        # make the QGraphicsView invisible.
+        # Make the QGraphicsView invisible
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setFixedHeight(self.dial.height())

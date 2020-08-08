@@ -64,7 +64,7 @@ class BaseTableWidget(QTableWidget, Generic[_Data], metaclass=QABCMeta):
         for i, e in enumerate(self.headers):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
 
-        # Table widget column width.
+        # Table widget column width
         header = self.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
 

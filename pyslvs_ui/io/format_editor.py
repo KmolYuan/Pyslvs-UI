@@ -28,9 +28,10 @@ _Data = Mapping[str, Any]
 
 
 class FormatEditor(QObject, metaclass=QABCMeta):
-    """Generic loader and dumper."""
+    """A generic loader and dumper."""
     dlg: Union[QProgressDialog, OverviewDialog, None]
 
+    @abstractmethod
     def __init__(self, project_widget: ProjectWidget, parent: MainWindowBase):
         super(FormatEditor, self).__init__(parent)
         self._parent = parent

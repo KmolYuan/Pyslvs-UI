@@ -110,7 +110,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         loop = self.loopTime.value()
         self.progress_bar.setMaximum(self.limit * loop)
         if self.limit_mode in {'min_fit', 'max_time'} or self.limit == 0:
-            # Progress bar will show generations instead of percent.
+            # Progress bar will show generations instead of percent
             self.progress_bar.setFormat("%v generations")
         self.work.set_loop(loop)
         self.timer.start()

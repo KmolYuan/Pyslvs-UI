@@ -40,7 +40,7 @@ def slvs2_frame(
 
     # The number of same points
     point_num: List[List[int]] = [[] for _ in range(len(vpoints))]
-    # The number of same lines.
+    # The number of same lines
     line_num: List[List[int]] = [[] for _ in range(len(edges))]
 
     # Add "Entity"

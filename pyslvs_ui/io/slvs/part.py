@@ -188,12 +188,12 @@ def slvs2_part(vpoints: List[VPoint], radius: float, file_name: str) -> None:
     # Group 3:
     writer.set_group(0x3)
 
-    # The number of same points.
+    # The number of same points
     point_num = [[] for _ in range(len(boundary))]
-    # The number of same lines.
+    # The number of same lines
     line_num = [[] for _ in range(len(boundary))]
     segment_processing(boundary)
-    # The number of circles.
+    # The number of circles
     circles = []
 
     def add_circle(index: int, _x: float, _y: float) -> None:
