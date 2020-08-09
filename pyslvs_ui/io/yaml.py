@@ -10,9 +10,14 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from re import sub
+from numpy import float64
 from yaml import safe_load, safe_dump
+from yaml.representer import SafeRepresenter
 from qtpy.QtWidgets import QMessageBox
 from .format_editor import FormatEditor
+
+# Add a patch for numpy numbers
+SafeRepresenter.add_representer(float64, SafeRepresenter.represent_float)
 
 
 class YamlEditor(FormatEditor):
