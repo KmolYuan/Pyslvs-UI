@@ -5,6 +5,7 @@
 **Features**:
 
 + Fix the error of Yaml dumper.
++ Change the definition of Path Signature: The mapping of stroke and curvature.
 
 **Development**:
 

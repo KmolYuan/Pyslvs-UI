@@ -303,8 +303,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         c1 = curvature(self.canvas2.get_path()[p])
         c2 = curvature(target[p])
         p1 = path_signature(c1)
-        p2 = path_signature(c2)
-        p2[:, 0] *= p1[:, 0].max() / p2[:, 0].max()
+        p2 = path_signature(c2, 100 - 100 / (len(target[p]) + 1))
         cc = cross_correlation(p1, p2)
         cc_argmax = cc.argmax()
         p2[:, 0] += cc_argmax * 0.1
