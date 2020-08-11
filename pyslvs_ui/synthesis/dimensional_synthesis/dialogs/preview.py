@@ -24,6 +24,7 @@ from .preview_ui import Ui_Dialog
 _Coord = Tuple[float, float]
 _Range = Tuple[float, float, float]
 _TargetPath = Dict[int, Sequence[_Coord]]
+_U = 0.1
 
 
 class _DynamicCanvas(AnimationCanvas):
@@ -304,9 +305,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
         c2 = curvature(target[p])
         p1 = path_signature(c1)
         p2 = path_signature(c2, 100 - 100 / (len(target[p]) + 1))
-        cc = cross_correlation(p1, p2)
+        cc = cross_correlation(p1, p2, _U)
         cc_argmax = cc.argmax()
-        p2[:, 0] += cc_argmax * 0.1
+        p2[:, 0] += cc_argmax * _U
         m_p1 = p1.copy()
         m_p1[:, 0] += p1.max()
         p1 = concatenate((p1, m_p1), axis=0)
@@ -320,11 +321,11 @@ class PreviewDialog(QDialog, Ui_Dialog):
         ax[1].set_title("Path Signature")
         ax[1].plot(p1[:, 0], p1[:, 1], label=f"Point{p}")
         ax[1].plot(p2[:, 0], p2[:, 1], label=f"Target Path")
-        ax[1].plot(cc_argmax * 0.1, p2[0, 1], 'ro', label=f"Shift Origin")
+        ax[1].plot(cc_argmax * _U, p2[0, 1], 'ro', label=f"Shift Origin")
         ax[1].legend()
         ax[2].set_title(f"Cross Correlation of Point{p}")
-        ax[2].plot(linspace(0, len(cc) * 0.1, len(cc)), cc)
-        ax[2].plot(cc_argmax * 0.1, cc[cc_argmax], 'ro')
+        ax[2].plot(linspace(0, len(cc) * _U, len(cc)), cc)
+        ax[2].plot(cc_argmax * _U, cc[cc_argmax], 'ro')
         dlg.set_margin(0.2)
         dlg.show()
         dlg.exec_()
