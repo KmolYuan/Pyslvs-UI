@@ -1276,7 +1276,7 @@ Is an abstract method.
 
 Return the result from the variable list `v`.
 
-### AlgorithmBase
+### Algorithm
 
 Inherited from `Generic`. Parameters: `~FVal`
 
@@ -1288,7 +1288,7 @@ Algorithm base class.
 
 It is used to build the Meta-heuristic Algorithms.
 
-#### AlgorithmBase.\_\_init__()
+#### Algorithm.\_\_init__()
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
@@ -1305,7 +1305,7 @@ The format of argument `settings` can be customized.
 The argument `progress_fun` will be called when update progress,
 and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
 
-#### AlgorithmBase.history()
+#### Algorithm.history()
 
 | self | return |
 |:----:|:------:|
@@ -1317,7 +1317,7 @@ The first value is generation (iteration);
 the second value is fitness;
 the third value is time in second.
 
-#### AlgorithmBase.run()
+#### Algorithm.run()
 
 | self | return |
 |:----:|:------:|
@@ -1335,7 +1335,7 @@ the second is fitness, and the last one is time in second.
 
 ### Genetic
 
-Inherited from `AlgorithmBase`.
+Inherited from `Algorithm`.
 
 | func |
 |:----:|
@@ -1410,7 +1410,7 @@ the second is fitness, and the last one is time in second.
 
 ### Firefly
 
-Inherited from `AlgorithmBase`.
+Inherited from `Algorithm`.
 
 | func |
 |:----:|
@@ -1485,7 +1485,7 @@ the second is fitness, and the last one is time in second.
 
 ### Differential
 
-Inherited from `AlgorithmBase`.
+Inherited from `Algorithm`.
 
 | func |
 |:----:|
@@ -1565,7 +1565,7 @@ the second is fitness, and the last one is time in second.
 
 ### TeachingLearning
 
-Inherited from `AlgorithmBase`.
+Inherited from `Algorithm`.
 
 | func |
 |:----:|
