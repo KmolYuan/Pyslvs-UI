@@ -50,14 +50,9 @@ install:
 build_script:
   - cmd: mingw32-make test-pack
   - sh: make test-pack
-  - python setup.py install
-
-test_script:
-  - sh: '[[ "$(uname)" == "Darwin" ]] && pyenv rehash || true'
-  - pyslvs test
 
 after_build:
-  # PyPI deployment (Universal)
+  # PyPI (Universal)
   - cmd: IF "%APPVEYOR_REPO_TAG%"=="true"
          IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
          pip install twine &&
