@@ -20,7 +20,7 @@ def main() -> None:
     from sys import argv, exit
     from logging import shutdown
     from platform import system
-    from .info import ARGUMENTS, logger
+    from pyslvs_ui.info import ARGUMENTS, logger
     if ARGUMENTS.cmd in {'gui', None}:
         from qtpy.QtCore import Qt, qInstallMessageHandler
         from qtpy.QtWidgets import QApplication, QSplashScreen
