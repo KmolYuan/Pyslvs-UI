@@ -95,8 +95,8 @@ ifeq ($(OS), Windows_NT)
 	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
 	-cd "$(PYSLVS_PATH)" && del pyslvs\*.cpp /q
 	-cd "$(PYSLVS_PATH)" && del pyslvs\*.pyd /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\tests\*.cpp /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\tests\*.pyd /q
+	-cd "$(PYSLVS_PATH)" && del tests\*.cpp /q
+	-cd "$(PYSLVS_PATH)" && del tests\*.pyd /q
 	-cd "$(PYSLVS_PATH)" && del pyslvs\graph\*.cpp /q
 	-cd "$(PYSLVS_PATH)" && del pyslvs\graph\*.pyd /q
 	-cd "$(PYSLVS_PATH)" && del pyslvs\metaheuristics\*.cpp /q
@@ -106,8 +106,8 @@ else
 	-rm -fr "$(PYSLVS_PATH)"/pyslvs.egg-info
 	-rm -f "$(PYSLVS_PATH)"/pyslvs/*.cpp
 	-rm -f "$(PYSLVS_PATH)"/pyslvs/*.so
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/tests/*.cpp
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/tests/*.so
+	-rm -f "$(PYSLVS_PATH)"/tests/*.cpp
+	-rm -f "$(PYSLVS_PATH)"/tests/*.so
 	-rm -f "$(PYSLVS_PATH)"/pyslvs/graph/*.cpp
 	-rm -f "$(PYSLVS_PATH)"/pyslvs/graph/*.so
 	-rm -f "$(PYSLVS_PATH)"/pyslvs/metaheuristics/*.cpp
