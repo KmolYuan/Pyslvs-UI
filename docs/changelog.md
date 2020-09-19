@@ -8,7 +8,8 @@
 
 **Development**:
 
-+ None
++ Test suite enhancement.
++ Parallelism synthesis. (not done yet)
 
 ## Version 20.08
 
