@@ -22,7 +22,7 @@ pip install pyslvs
 Enter directory and execute the Makefile. Then, run the unit test script after compiling.
 
 ```bash
-python setup.py test
+python -m unittest discover tests test_*.py
 ```
 
 ## Module parts

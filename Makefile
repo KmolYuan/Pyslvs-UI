@@ -75,7 +75,7 @@ uninstall:
 
 test:
 	@echo Test libraries
-	cd $(PYSLVS_PATH) && $(PY) setup.py test
+	cd $(PYSLVS_PATH) && $(PY) -m unittest discover tests test_*.py
 	@echo Done
 
 test-pack: pack

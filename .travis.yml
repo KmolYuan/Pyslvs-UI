@@ -99,7 +99,7 @@ jobs:
       env: PYTHON=3.8.5
 
 script:
-  - python3 setup.py test
+  - make test
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
