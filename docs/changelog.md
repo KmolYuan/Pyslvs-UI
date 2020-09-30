@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 20.09
+## Version 20.10
 
 **Features**:
 
@@ -10,6 +10,12 @@
 
 + Test suite enhancement.
 + Parallelism synthesis. (not done yet)
+
+## Version 20.09
+
+**Development**:
+
++ This version has been skipped.
 
 ## Version 20.08
 
