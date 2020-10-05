@@ -79,12 +79,12 @@ jobs:
       env: PYTHON=3.7.0
       before_install:
         - brew update
-        # Install pyenv
         - brew upgrade pyenv || true
-        - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink
+        - brew install llvm libomp
+        - export PATH="/usr/local/opt/llvm/bin:/Users/travis/.pyenv/shims:${PATH}"
         - export PATH=/Users/travis/.pyenv/shims:${PATH}
         # Install Python
-        - env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON}
+        - pyenv install ${PYTHON}
         - pyenv global ${PYTHON}
         - python3 -m pip install pip -U
         - pyenv rehash
