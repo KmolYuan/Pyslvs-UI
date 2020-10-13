@@ -106,7 +106,7 @@ out/
 # mypy
 .mypy_cache/
 
-#PyCharm cache
+# Jetbrains
 .idea/
 
 # Others
