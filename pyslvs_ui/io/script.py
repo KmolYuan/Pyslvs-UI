@@ -41,8 +41,9 @@ if __name__ == '__main__':
         "]")
     exprs = t_config(vpoints, {})
     mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
-    data_dict, dof = data_collecting(exprs, mapping, vpoints)
-    pos = expr_solving(exprs, mapping, vpoints, [0.])
+    data_dict = {}
+    dof = data_collecting(data_dict, exprs, mapping, vpoints)
+    pos = expr_solving(exprs, vpoints, [0.])
     print(data_dict)
     print(f"DOF:{{dof}}")
     print(pos)

@@ -579,7 +579,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             try:
                 result_list = expr_solving(
                     expr,
-                    {i: f"P{i}" for i in range(len(vpoints))},
                     vpoints,
                     [base_angle + angle] + [0] * (len(input_list) - 1)
                 )

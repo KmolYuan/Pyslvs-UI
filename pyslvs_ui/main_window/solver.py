@@ -307,7 +307,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             if solve_kernel == Kernel.PYSLVS:
                 result = expr_solving(
                     self.get_triangle(),
-                    {n: f'P{n}' for n in range(len(self.vpoint_list))},
                     self.vpoint_list,
                     tuple(a for b, d, a in self.inputs_widget.input_pairs() if
                           b != d)
@@ -390,7 +389,6 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                     if solve_kernel == Kernel.PYSLVS:
                         result = expr_solving(
                             self.get_triangle(vpoints),
-                            {n: f'P{n}' for n in range(len(vpoints))},
                             vpoints,
                             angles
                         )
@@ -563,7 +561,9 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             status
         )
-        data_dict, _ = data_collecting(
+        data_dict = {}
+        data_collecting(
+            data_dict,
             exprs,
             {n: f'P{n}' for n in range(len(vpoints))},
             vpoints
