@@ -8,6 +8,7 @@
 
 **Development**:
 
++ Unify "true" and "false" to lowercase in docstring.
 + Test suite enhancement.
 + Parallelism synthesis. (not done yet)
 

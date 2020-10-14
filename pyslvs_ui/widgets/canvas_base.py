@@ -65,7 +65,7 @@ class _Selector:
         return hypot(x - self.x, y - self.y) <= limit
 
     def in_rect(self, x: float, y: float) -> bool:
-        """Return True if input coordinate is in the rectangle."""
+        """Return true if input coordinate is in the rectangle."""
         x_right = max(self.x, self.sx)
         x_left = min(self.x, self.sx)
         y_top = max(self.y, self.sy)

@@ -129,7 +129,7 @@ class ProjectWidget(QWidget, Ui_Form):
         return self.__file_name.suffix()
 
     def file_exist(self) -> bool:
-        """Return True if the file is exist."""
+        """Return true if the file is exist."""
         return self.__file_name.isFile()
 
     def set_changed(self, changed: bool) -> None:
