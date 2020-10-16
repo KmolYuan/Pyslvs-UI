@@ -330,12 +330,7 @@ class ExprTableWidget(BaseTableWidget):
         super(ExprTableWidget, self).__init__(0, parent)
         self.exprs = []
 
-    def set_expr(
-        self,
-        es: EStack,
-        data_dict: Mapping[str, Union[Coord, float]],
-        unsolved: Sequence[int]
-    ):
+    def set_expr(self, es: EStack, unsolved: Sequence[int]):
         """Set the table items for new coming expression."""
         exprs = es.as_list()
         if exprs != self.exprs:
@@ -347,18 +342,7 @@ class ExprTableWidget(BaseTableWidget):
             self.setItem(row, self.columnCount() - 1,
                          QTableWidgetItem(expr[-1]))
             # Parameters
-            for column, e in enumerate(expr[:-1]):
-                if e in data_dict:
-                    if type(data_dict[e]) is float:
-                        # Pure digit
-                        text = f"{e}:{data_dict[e]:.02f}"
-                    else:
-                        # Coordinate
-                        c = cast(Coord, data_dict[e])
-                        text = f"{e}:({c.x:.02f}, {c.y:.02f})"
-                else:
-                    # Function name
-                    text = e
+            for column, text in enumerate(expr[:-1]):
                 item = QTableWidgetItem(text)
                 item.setToolTip(text)
                 self.setItem(row, column, item)

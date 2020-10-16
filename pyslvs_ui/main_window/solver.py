@@ -20,7 +20,6 @@ from pyslvs import (
     VJoint,
     VPoint,
     VLink,
-    data_collecting,
     expr_solving,
     vpoint_dof,
     SolverSystem,
@@ -561,18 +560,8 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             [(b, d) for b, d, _ in self.inputs_widget.input_pairs()],
             status
         )
-        data_dict = {}
-        data_collecting(
-            data_dict,
-            exprs,
-            {n: f'P{n}' for n in range(len(vpoints))},
-            vpoints
-        )
-        self.entities_expr.set_expr(
-            exprs,
-            data_dict,
-            tuple(p for p, s in status.items() if not s)
-        )
+        self.entities_expr.set_expr(exprs, tuple(p for p, s in status.items()
+                                                 if not s))
         return exprs
 
     def right_input(self) -> bool:

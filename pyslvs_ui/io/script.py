@@ -33,7 +33,7 @@ if TYPE_CHECKING:
 
 _Expr = Sequence[Tuple[str, ...]]
 _SCRIPT = """
-from pyslvs import parse_vpoints, t_config, data_collecting, expr_solving
+from pyslvs import parse_vpoints, t_config, expr_solving
 
 if __name__ == '__main__':
     vpoints = parse_vpoints(
@@ -41,11 +41,8 @@ if __name__ == '__main__':
         "]")
     exprs = t_config(vpoints, {})
     mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
-    data_dict = {}
-    dof = data_collecting(data_dict, exprs, mapping, vpoints)
     pos = expr_solving(exprs, vpoints, [0.])
     print(data_dict)
-    print(f"DOF:{{dof}}")
     print(pos)
 """
 _CAL_SCRIPT = """
