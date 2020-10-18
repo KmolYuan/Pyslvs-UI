@@ -53,7 +53,7 @@ Inherited from `IntEnum`.
 
 Is an enum class.
 
-| POINTS_COINCIDENT | PT_PT_DISTANCE | PT_PLANE_DISTANCE | PT_LINE_DISTANCE | PT_FACE_DISTANCE | PT_IN_PLANE | PT_ON_LINE | PT_ON_FACE | EQUAL_LENGTH_LINES | LENGTH_RATIO | EQ_LEN_PT_LINE_D | EQ_PT_LN_DISTANCES | EQUAL_ANGLE | EQUAL_LINE_ARC_LEN | SYMMETRIC | SYMMETRIC_HORIZ | SYMMETRIC_VERT | SYMMETRIC_LINE | AT_MIDPOINT | HORIZONTAL | VERTICAL | DIAMETER | PT_ON_CIRCLE | SAME_ORIENTATION | ANGLE | PARALLEL | PERPENDICULAR | ARC_LINE_TANGENT | CUBIC_LINE_TANGENT | EQUAL_RADIUS | PROJ_PT_DISTANCE | WHERE_DRAGGED | CURVE_CURVE_TANGENT | LENGTH_DIFFERENCE |
+| POINTS_COINCIDENT | PT\_PT_DISTANCE | PT\_PLANE_DISTANCE | PT\_LINE_DISTANCE | PT\_FACE_DISTANCE | PT\_IN_PLANE | PT\_ON_LINE | PT\_ON_FACE | EQUAL\_LENGTH_LINES | LENGTH_RATIO | EQ\_LEN\_PT\_LINE_D | EQ\_PT\_LN_DISTANCES | EQUAL_ANGLE | EQUAL\_LINE\_ARC_LEN | SYMMETRIC | SYMMETRIC_HORIZ | SYMMETRIC_VERT | SYMMETRIC_LINE | AT_MIDPOINT | HORIZONTAL | VERTICAL | DIAMETER | PT\_ON_CIRCLE | SAME_ORIENTATION | ANGLE | PARALLEL | PERPENDICULAR | ARC\_LINE_TANGENT | CUBIC\_LINE_TANGENT | EQUAL_RADIUS | PROJ\_PT_DISTANCE | WHERE_DRAGGED | CURVE\_CURVE_TANGENT | LENGTH_DIFFERENCE |
 |:-----------------:|:--------------:|:-----------------:|:----------------:|:----------------:|:-----------:|:----------:|:----------:|:------------------:|:------------:|:----------------:|:------------------:|:-----------:|:------------------:|:---------:|:---------------:|:--------------:|:--------------:|:-----------:|:----------:|:--------:|:--------:|:------------:|:----------------:|:-----:|:--------:|:-------------:|:----------------:|:------------------:|:------------:|:----------------:|:-------------:|:-------------------:|:-----------------:|
 | `100000` | `100001` | `100002` | `100003` | `100004` | `100005` | `100006` | `100007` | `100008` | `100009` | `100010` | `100011` | `100012` | `100013` | `100014` | `100015` | `100016` | `100017` | `100018` | `100019` | `100020` | `100021` | `100022` | `100023` | `100024` | `100025` | `100026` | `100027` | `100028` | `100029` | `100030` | `100031` | `100032` | `100033` |
 
@@ -65,7 +65,7 @@ Inherited from `IntEnum`.
 
 Is an enum class.
 
-| OKAY | INCONSISTENT | DIDNT_CONVERGE | TOO_MANY_UNKNOWNS |
+| OKAY | INCONSISTENT | DIDNT_CONVERGE | TOO\_MANY_UNKNOWNS |
 |:----:|:------------:|:--------------:|:-----------------:|
 | `0` | `1` | `2` | `3` |
 
@@ -89,9 +89,9 @@ Initialize self.  See help(type(self)) for accurate signature.
 
 Inherited from `object`.
 
-| FREE_IN_3D | NONE | params |
+| FREE\_IN_3D | NONE | params |
 |:----------:|:----:|:------:|
-| ClassVar\[Entity] | ClassVar\[Entity] | Params |
+| ClassVar\[python\_solvespace.slvs.Entity] | ClassVar\[python\_solvespace.slvs.Entity] | Params |
 
 The handles of entities.
 

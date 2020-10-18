@@ -101,7 +101,7 @@ Return the literal mechanism expression of the joint.
 |:----:|:------:|
 |   | bool |
 
-Return True if the joint pin is connected to ground link.
+Return true if the joint pin is connected to ground link.
 
 #### VPoint.has_offset()
 
@@ -109,7 +109,15 @@ Return True if the joint pin is connected to ground link.
 |:----:|:------:|
 |   | bool |
 
-Return True if the offset setting is enabled.
+Return true if the offset setting is enabled.
+
+#### VPoint.is_slider()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Return true for slider type.
 
 #### VPoint.is\_slot_link()
 
@@ -117,7 +125,7 @@ Return True if the offset setting is enabled.
 |:----:|:----:|:------:|
 |   | str | bool |
 
-Return True if the slot is on the link `link_name`.
+Return true if the slot is on the link `link_name`.
 
 #### VPoint.link_pos()
 
@@ -154,7 +162,7 @@ the slot and pin coordinates will be set to the same position.
 |:----:|:------:|
 |   | bool |
 
-Return True if there is no any link in links attribute.
+Return true if there is no any link in links attribute.
 
 #### VPoint.offset()
 
@@ -170,7 +178,7 @@ Return the offset constraint value of the joint.
 |:----:|:------:|
 |   | bool |
 
-Return True if the point is at the same link.
+Return true if the point is at the same link.
 
 #### VPoint.r_joint()
 
@@ -204,7 +212,7 @@ The update function of angle attribute.
 |:----:|:---:|:------:|
 |   | VPoint | bool |
 
-Return True if the point is at the same link.
+Return true if the point is at the same link.
 
 #### VPoint.set_links()
 
@@ -244,7 +252,7 @@ Return the value `hypot(p_x - m_x, p_y - m_y)`,
 where `m_x`, `m_y` is the value of the joint,
 and `p_x`, `p_y` is the value of `p`.
 
-The option `num1` and `num2` is the position of current coordinate 
+The option `num1` and `num2` is the position of current coordinate
 attribute.
 
 #### VPoint.sx
@@ -345,7 +353,7 @@ Return the distance between two coordinates.
 |:----:|:------:|
 |   | bool |
 
-Return True if the coordinate value is not a number.
+Return true if the coordinate value is not a number.
 
 #### Coord.slope_angle()
 
@@ -393,7 +401,7 @@ The `data_dict` parameter will reformat its keys into `frozenset` type.
 |:----:|:--------:|:------:|
 |   | Sequence\[VPoint] | bool |
 
-Return True if two expressions are same.
+Return true if two expressions are same.
 
 #### SolverSystem.set_data()
 
@@ -453,12 +461,16 @@ The joint position will returned by its index correspondingly.
 Generate the Triangle solution stack by mechanism expression `vpoints_`.
 
 The argument `inputs` is a list of input pairs.
-The argument `status` will track the configuration of each point, 
+The argument `status` will track the configuration of each point,
 which is optional.
 
 ### EStack
 
 Inherited from `object`.
+
+| well_done |
+|:---------:|
+| bool |
 
 Triangle solution stack, generated from [`t_config`](#t_config).
 It is pointless to call the constructor.
@@ -485,7 +497,7 @@ Copy the dataset as list object.
 |:---:|:---:|:---:|:------:|
 | Coord | float | float | Coord |
 
-The PXY function requires one point and offset values, obtained the 
+The PXY function requires one point and offset values, get the
 position of second point.
 
 In the following picture, `c1` correspond to "A", `d0` correspond to "X",
@@ -551,7 +563,7 @@ Set `inverse` option to `True` can make the result upside down.
 | Coord | float | Coord | Coord | bool | Coord |
 |   |   |   |   | False |   |
 
-The PLPP function requires three points and one distance, obtained the 
+The PLPP function requires three points and one distance, obtained the
 position of fourth point.
 
 In the following picture, `c1` correspond to "A", `c2` correspond to "B",
@@ -588,201 +600,27 @@ Set `inverse` option to `True` can make the result upside down.
 
 Return the DOF of the mechanism expression `vpoints`.
 
-### expr_parser()
-
-| exprs | data_dict | return |
-|:-----:|:---------:|:------:|
-| Sequence\[Tuple\[str, ...]] | Dict\[str, float] | None |
-
-Solve and update information of the triangle expression `exprs` to 
-`data_dict`.
-The argument `exprs` can be obtained by
-[`t_config`](#t_config) and [`EStack.as_list()`](#estackas_list) method.
-
-This function is already included in [`expr_solving`](#expr_solving),
-not recommended for direct use.
-
 ### expr_solving()
 
-| exprs | mapping | vpoints | angles | return |
-|:-----:|:-------:|:-------:|:------:|:------:|
-| EStack | Dict\[Union\[int, Tuple\[int, int]], Union\[str, float]] | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
-|   |   |   | None |   |
+| exprs | vpoints | angles | return |
+|:-----:|:-------:|:------:|:------:|
+| EStack | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
+|   |   | None |   |
 
-Solver function of Triangular method and BFGS method, for mechanism 
+Solver function of Triangular method and BFGS method, for mechanism
 expression `vpoints`.
 
 The triangle expression stack `expr` is generated from
 [`t_config`](#t_config).
 
-The information data `mapping` map the symbols to the indicator of 
+The information data `mapping` map the symbols to the indicator of
 `vpoints`,
 additionally has a same format as argument `data_dict` in [SolverSystem].
 
 Solver function will not handle slider input pairs in argument `angles`,
-which is only support revolute joints. In another way, the slider input 
-pairs
-can be set by [`VPoint.disable_offset()`](#vpointdisable_offset) method.
-
-### data_collecting()
-
-| exprs | mapping | vpoints_ | return |
-|:-----:|:-------:|:--------:|:------:|
-| EStack | Dict\[int, str] | Sequence\[VPoint] | Tuple\[Dict\[str, Union\[Coord, float]], int] |
-
-Data transform function of Triangular method.
-The triangle expression stack `expr` is generated from
-[`t_config`](#t_config).
-The information data `mapping` map the symbols to the indicator of 
-`vpoints_`.
-
-This function is already included in [`expr_solving`](#expr_solving),
-not recommended for direct use.
-
-### FMatch
-
-Inherited from `ObjFunc`.
-
-This class is used to verified kinematics of the linkage mechanism.
-
-A fast matching method that adds mapping angles to variables.
-
-#### FMatch.\_\_init__()
-
-| self | mech | return |
-|:----:|:----:|:------:|
-|   | Dict\[str, Any] | Any |
-
-The constructor of objective object.
-
-Options of `mech_params`:
-
-+ `Expression`: The mechanism expression of the structure.
-    + type: List\[[VPoint]]
-+ `input`: Input pairs.
-    + type: List[Tuple[int, int]]
-+ `Placement`: The grounded joints setting. (`x`, `y`, `r`)
-    + type: Dict[int, Tuple[float, float, float]]
-+ `Target`: The target path.
-    + type: Dict[int, Sequence[Tuple[float, float]]]
-+ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
-    + type: Dict[int, int]
-+ `upper`: The upper setting of variables, the length must same as variable array.
-    + type: List[float]
-+ `lower`: The lower setting of variables, the length must same as variable array.
-    + type: List[float]
-+ `shape_only`: Compare paths by shape only.
-    + type: bool
-
-Variable array:
-
-| | Placement | Link length | Inputs |
-|:---:|:-----:|:-----------:|:------:|
-| `v =` | `x0`, `y0`, ... | `l0`, `l1`, ... | `a00`, `a01`, ..., `a10`, `a11`, ... |
-
-In 1D array: `v = [x0, y0, ..., l0, l1, ..., a00, a01, ..., a10, a11, ...]`
-
-#### FMatch.fitness()
-
-| self | v | return |
-|:----:|:---:|:------:|
-|   | ndarray | float64 |
-
-The fitness is the error between target path and self.
-
-Chromosome format: (decided by upper and lower)
-
-v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
-
-#### FMatch.is\_two_kernel()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Input a generic data (variable array), return the mechanism
-expression.
-
-#### FMatch.result()
-
-| self | v | return |
-|:----:|:---:|:------:|
-|   | ndarray | str |
-
-Input a generic data (variable array), return the mechanism
-expression.
-
-### norm_path()
-
-| path | scale | return |
-|:----:|:-----:|:------:|
-| Iterable\[Tuple\[float, float]] | float | List\[Tuple\[float, float]] |
-|   | 1 |   |
-
-Python wrapper of normalization function.
-
-### curvature()
-
-| path | return |
-|:----:|:------:|
-| Iterable\[Tuple\[float, float]] | ndarray |
-
-Calculate the signed curvature and return as an array.
-
-$$
-\kappa(t) = \frac{x'y'' - x''y'}{(x'^2 + y'^2)^\frac{3}{2}}
-$$
-
-### derivative()
-
-| path | return |
-|:----:|:------:|
-| ndarray | ndarray |
-
-Differential function. Return $p'$.
-
-### path_signature()
-
-| k | return |
-|:---:|:------:|
-| ndarray | ndarray |
-
-Require a curvature, return path signature.
-It's composed by curvature $\kappa$ and a $K$ value.
-
-$$
-K = \int^t_0 |\kappa(t)| dt
-$$
-
-```python
->>> path_signature(curvature(...))
-```
-
-### cross_correlation()
-
-| p1 | p2 | t | return |
-|:---:|:---:|:---:|:------:|
-| ndarray | ndarray | float | ndarray |
-|   |   | 0.1 |   |
-
-Compare signature and return as an 1d array.
-
-$$
-\begin{aligned}
-C_n(j, W, P) &= \left|\sum_i^{l_P} \frac{(W_{i + j}
-- \overline{W}_{j\rightarrow j + l_P})(P_i-\overline{P})}{
-\sqrt{\sum_i^{l_P}(W_{i + j} - \overline{W}_{j\rightarrow j + l_P})^2
-\sum_i^{l_P}(P_i - \overline{P})^2}}\right|
-\\
-S &= \arg\max\{C_n(j)\} t
-\end{aligned}
-$$
-
-```python
->>> ps1 = path_signature(curvature(...))
->>> ps2 = path_signature(curvature(...))
->>> cc = cross_correlation(ps1, ps2)
-```
+which is only support revolute joints. In another way, the slider input
+pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset)
+method.
 
 ### color_rgb()
 
@@ -799,7 +637,7 @@ Also support `"(R, G, B)"` string format.
 
 | expr | return |
 |:----:|:------:|
-| str | List\[PointArgs] |
+| str | List\[expression\_parser.PointArgs] |
 
 Parse mechanism expression into VPoint constructor arguments.
 
@@ -1070,7 +908,7 @@ Return DOF of the graph.
 !!! note
     DOF is the Degree of Freedoms to a mechanism.
 
-    In the [Graph] objects, all vertices will assumed as revolute 
+    In the [Graph] objects, all vertices will assumed as revolute
     joints (1 DOF).
 
     $$
@@ -1091,7 +929,7 @@ Make graph duplicate by specific `vertices`. Return a new graph.
 |:----:|:------:|
 |   | bool |
 
-Return True if the graph has any cut links.
+Return true if the graph has any cut links.
 
 #### Graph.has_triangle()
 
@@ -1099,7 +937,7 @@ Return True if the graph has any cut links.
 |:----:|:------:|
 |   | bool |
 
-Return True if the graph has triangle.
+Return true if the graph has triangle.
 
 #### Graph.is_connected()
 
@@ -1117,7 +955,7 @@ Set the argument `without` to ignore one vertex.
 |:----:|:------:|
 |   | bool |
 
-Return True if this kinematic chain is degenerate.
+Return true if this kinematic chain is degenerate.
 
 + Prue all multiple contracted links recursively.
 + Check the DOF of sub-graph if it is lower then zero.
@@ -1128,7 +966,7 @@ Return True if this kinematic chain is degenerate.
 |:----:|:-----:|:------:|
 |   | Graph | bool |
 
-Return True if two graphs is isomorphic.
+Return true if two graphs is isomorphic.
 
 Default is using VF2 algorithm.
 
@@ -1165,7 +1003,7 @@ Return the neighbors of the vertex `n`.
 |:---:|:------:|
 | Graph | bool |
 
-Return True if the graph is a planar graph.
+Return true if the graph is a planar graph.
 
 ### external\_loop_layout()
 
@@ -1182,9 +1020,9 @@ Argument `scale` will resize the position by scale factor.
 
 ### conventional_graph()
 
-| cg_list | c_j_list | no_degenerate | stop_func | return |
+| cg_list | c\_j_list | no_degenerate | stop_func | return |
 |:-------:|:--------:|:-------------:|:---------:|:------:|
-| List\[Graph] | Sequence\[int] | int | Union\[Callable\[\[], bool], None] | List\[Graph] |
+| List\[Graph] | Sequence\[int] | int | Union[Callable[[], bool], None] | List\[Graph] |
 |   |   | 1 | None |   |
 
 Generate conventional graphs by contracted graphs `cg_list` and
@@ -1203,7 +1041,7 @@ return `True` to terminate this function.
 
 | link_num | stop_func | return |
 |:--------:|:---------:|:------:|
-| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Graph] |
+| Sequence\[int] | Union[Callable[[], bool], None] | List\[Graph] |
 |   | None |   |
 
 Generate contracted graphs by link assortment `link_num`.
@@ -1215,7 +1053,7 @@ return `True` to terminate this function.
 
 | nl | nj | stop_func | return |
 |:---:|:---:|:---------:|:------:|
-| int | int | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
+| int | int | Union[Callable[[], bool], None] | List\[Tuple\[int, ...]] |
 |   |   | None |   |
 
 Return link assortment by number of links `nl` and number of joints `nj`.
@@ -1225,9 +1063,9 @@ return `True` to terminate this function.
 
 ### contracted\_link_synthesis()
 
-| link_num_list | stop_func | return |
+| link\_num_list | stop_func | return |
 |:-------------:|:---------:|:------:|
-| Sequence\[int] | Union\[Callable\[\[], bool], None] | List\[Tuple\[int, ...]] |
+| Sequence\[int] | Union[Callable[[], bool], None] | List\[Tuple\[int, ...]] |
 |   | None |   |
 
 Return contracted link assortment by link assortment `link_num_list`.
@@ -1292,7 +1130,7 @@ It is used to build the Meta-heuristic Algorithms.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
 |   |   |   | None | None |   |
 
 Is an abstract method.
@@ -1347,7 +1185,7 @@ The implementation of Real-coded Genetic Algorithm.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
@@ -1422,7 +1260,7 @@ The implementation of Firefly Algorithm.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
@@ -1497,7 +1335,7 @@ The implementation of Differential Evolution.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
 |   |   |   | None | None |   |
 
 The argument `func` is a object inherit from [Verification],
@@ -1577,7 +1415,7 @@ The implementation of Teaching Learning Based Optimization.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union\[Callable\[\[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
