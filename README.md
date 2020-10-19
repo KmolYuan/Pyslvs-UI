@@ -82,10 +82,8 @@ expr, inputs = example_list("Jansen's linkage (Single)")
 vpoints = parse_vpoints(expr)
 # Config joint data and control data for the solver
 exprs = t_config(vpoints, inputs)
-# Joint symbol mapping (0 -> "P0")
-mapping = {n: f'P{n}' for n in range(len(vpoints))}
 # Solve the position
-result = expr_solving(exprs, mapping, vpoints, [0.])
+result = expr_solving(exprs, vpoints, [0.])
 # Get the result from joint 7
 x, y = result[7]
 print(x, y)  # -43.170055 -91.753226
