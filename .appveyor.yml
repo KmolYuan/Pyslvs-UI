@@ -20,9 +20,9 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       PY: 3.8
       DEPLOY: "true"
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       PY: 3.7
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       PY: 3.8
       DEPLOY: "true"
 
