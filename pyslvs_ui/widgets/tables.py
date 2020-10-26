@@ -15,8 +15,8 @@ from abc import abstractmethod
 from dataclasses import astuple
 from time import process_time
 from typing import (
-    cast, TYPE_CHECKING, Tuple, List, Mapping, Iterator, Sequence, Union,
-    Optional, TypeVar, Generic,
+    cast, TYPE_CHECKING, Tuple, List, Iterator, Sequence, Union, Optional,
+    TypeVar, Generic,
 )
 from qtpy.QtCore import Signal, Qt, QTimer, Slot
 from qtpy.QtWidgets import (
@@ -31,7 +31,7 @@ from qtpy.QtWidgets import (
     QWidget,
 )
 from qtpy.QtGui import QKeyEvent
-from pyslvs import EStack, Coord, VPoint, VLink, PointArgs, LinkArgs
+from pyslvs import EStack, VPoint, VLink, PointArgs, LinkArgs
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.graphics import color_icon
 
