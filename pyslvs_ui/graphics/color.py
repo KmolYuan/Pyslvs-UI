@@ -7,15 +7,22 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
+from typing import Tuple, Union
 from qtpy.QtCore import QSize
 from qtpy.QtGui import QColor, QIcon, QPixmap
 from pyslvs import color_names, color_rgb
 
+_Color = Union[str, Tuple[int, int, int], None]
 
-def color_qt(name: str) -> QColor:
+
+def color_qt(color: _Color) -> QColor:
     """Get color and translate to QColor."""
-    return QColor(*color_rgb(name))
+    if color is None:
+        color = "green"
+    if type(color) is str:
+        return QColor(*color_rgb(color))
+    else:
+        return QColor(*color)
 
 
 def color_num(color_index: int) -> QColor:
@@ -23,7 +30,7 @@ def color_num(color_index: int) -> QColor:
     return color_qt(color_names[color_index % len(color_names)])
 
 
-def color_icon(name: str, size: int = 20) -> QIcon:
+def color_icon(name: _Color, size: int = 20) -> QIcon:
     """Get color block as QIcon by name."""
     color_block = QPixmap(QSize(size, size))
     color_block.fill(color_qt(name))

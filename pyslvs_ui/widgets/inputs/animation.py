@@ -9,7 +9,7 @@ from qtpy.QtWidgets import (
     QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider, QPushButton, QLabel,
     QSpacerItem, QSizePolicy, QDoubleSpinBox, QComboBox,
 )
-from qtpy.QtGui import QPaintEvent, QPen, QColor, QPixmap, QIcon
+from qtpy.QtGui import QPaintEvent, QPen, QPixmap, QIcon
 from numpy import array, ndarray, isclose, isnan
 from pyslvs import VPoint, VLink, VJoint, derivative
 from pyslvs_ui.graphics import (
@@ -96,7 +96,7 @@ class _DynamicCanvas(AnimationCanvas):
                     x, y = self.path.slider_path[i][self.ind]
                 points.append((x * self.zoom, y * -self.zoom))
             qpoints = convex_hull(points, as_qpoint=True)
-            pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
+            pen.setColor(Qt.black if self.monochrome else color_qt(vlink.color))
             self.painter.setPen(pen)
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
@@ -108,11 +108,12 @@ class _DynamicCanvas(AnimationCanvas):
             for i, path in paths:
                 vpoint = self.vpoints[i]
                 if self.monochrome:
-                    pen.setColor(color_qt('gray'))
+                    color = 'gray'
                 elif vpoint.color is None:
-                    pen.setColor(color_qt('green'))
+                    color = 'green'
                 else:
-                    pen.setColor(QColor(*vpoint.color))
+                    color = vpoint.color
+                pen.setColor(color_qt(color))
                 self.painter.setPen(pen)
                 self.draw_curve(path)
                 x, y = path[self.ind]

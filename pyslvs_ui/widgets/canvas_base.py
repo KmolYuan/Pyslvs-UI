@@ -199,7 +199,7 @@ class MainCanvasBase(BaseCanvas, ABC):
         """Draw a point."""
         connected = len(vpoint.links) - 1
         if vpoint.type in {VJoint.P, VJoint.RP}:
-            pen = QPen(QColor(*vpoint.color))
+            pen = QPen(color_qt(vpoint.color))
             pen.setWidth(2)
             # Draw slot point and pin point
             for j, (cx, cy) in enumerate(vpoint.c):
@@ -212,7 +212,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     if self.monochrome:
                         color = Qt.black
                     else:
-                        color = QColor(*vpoint.color)
+                        color = color_qt(vpoint.color)
                     pen.setColor(color)
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
@@ -230,7 +230,7 @@ class MainCanvasBase(BaseCanvas, ABC):
                     self.draw_point(i, cx, cy, grounded, vpoint.color,
                                     connected)
             # Slider line
-            pen.setColor(QColor(*vpoint.color).darker())
+            pen.setColor(color_qt(vpoint.color).darker())
             self.painter.setPen(pen)
             qline_m = QLineF(
                 QPointF(vpoint.c[1, 0], -vpoint.c[1, 1]) * self.zoom,
@@ -281,7 +281,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             self.painter.setPen(pen)
             self.painter.drawPolygon(*qpoints)
         pen.setWidth(self.link_width)
-        pen.setColor(Qt.black if self.monochrome else QColor(*vlink.color))
+        pen.setColor(Qt.black if self.monochrome else color_qt(vlink.color))
         self.painter.setPen(pen)
         self.painter.drawPolygon(*qpoints)
         if not self.show_point_mark:
@@ -320,7 +320,7 @@ class MainCanvasBase(BaseCanvas, ABC):
             elif vpoint.color is None:
                 color = color_qt('green')
             else:
-                color = QColor(*vpoint.color)
+                color = color_qt(vpoint.color)
             pen.setColor(color)
             pen.setWidth(self.path_width)
             self.painter.setPen(pen)
