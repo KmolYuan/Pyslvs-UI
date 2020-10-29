@@ -17,6 +17,7 @@ The actual test and deployment platforms on CI/CD service:
 |:------------------:|:-------:|:-----:|:------:|
 | Python 3.7 | O | O | O |
 | Python 3.8 | O | O | O |
+| Python 3.9 | X | X | X |
 
 **Other platforms must build from source and take care about the dependencies.**
 
