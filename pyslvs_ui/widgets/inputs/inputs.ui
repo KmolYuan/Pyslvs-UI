@@ -220,20 +220,6 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QPushButton" name="update_pos">
-              <property name="statusTip">
-               <string>Update current position as point coordinates.</string>
-              </property>
-              <property name="text">
-               <string>Set pos</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../icons.qrc">
-                <normaloff>:/icons/translate.png</normaloff>:/icons/translate.png</iconset>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
          </layout>
@@ -377,6 +363,17 @@
               </property>
               <property name="checkable">
                <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="update_pos">
+              <property name="statusTip">
+               <string>Update current position as point coordinates.</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons.qrc">
+                <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
               </property>
              </widget>
             </item>
