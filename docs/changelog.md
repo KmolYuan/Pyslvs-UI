@@ -9,8 +9,9 @@
 **Development**:
 
 + Unify "true" and "false" to lowercase in docstring.
++ Use "isinstance" instead of "type" for checking types.
 + Test suite enhancement.
-+ Parallelism synthesis. (not done yet)
++ Parallelism synthesis.
 
 ## Version 20.09
 

@@ -29,13 +29,13 @@ def _h5py_dump(f: File, d: Mapping[str, Any], *, prefix: str = ''):
             key = prefix + '/' + k
         else:
             key = k
-        if type(v) is dict:
+        if isinstance(v, dict):
             _h5py_dump(f, v, prefix=key)
-        elif type(v) is bytes:
+        elif isinstance(v, bytes):
             f[key] = _compress(v)
-        elif type(v) is str:
+        elif isinstance(v, str):
             f[key] = _compress(b's' + v.encode('utf-8'))
-        elif type(v) in {int, float}:
+        elif isinstance(v, (int, float)):
             f[key] = v
         else:
             try:
@@ -51,11 +51,11 @@ def _h5py_load(f: Group) -> Mapping[str, Any]:
     """Load function for h5py."""
     data = {}
     for k, v in f.items():  # type: str, Union[Group, Dataset]
-        if type(v) is Group:
+        if isinstance(v, Group):
             data[k] = _h5py_load(v)
-        elif type(v) is Dataset:
+        elif isinstance(v, Dataset):
             value = v[()]
-            if type(value) is void:
+            if isinstance(value, void):
                 value = _decompress(value)
                 if value.startswith(b's'):
                     value = value.decode('utf-8')[1:]

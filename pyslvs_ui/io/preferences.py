@@ -60,13 +60,13 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         for field in fields(self.prefer):  # type: Field
             widget = getattr(self, field.name)
             value = getattr(self.prefer, field.name)
-            if type(widget) is QSpinBox or type(widget) is QDoubleSpinBox:
+            if isinstance(widget, (QSpinBox, QDoubleSpinBox)):
                 widget.setValue(value)
-            elif type(widget) is QLineEdit:
+            elif isinstance(widget, QLineEdit):
                 widget.setText(value)
-            elif type(widget) is QCheckBox:
+            elif isinstance(widget, QCheckBox):
                 widget.setChecked(value)
-            elif type(widget) is QComboBox:
+            elif isinstance(widget, QComboBox):
                 widget.setCurrentIndex(value)
 
     @Slot()
@@ -76,13 +76,13 @@ class PreferencesDialog(QDialog, Ui_Dialog):
             prefer = self.prefer_applied
         for field in fields(prefer):  # type: Field
             widget = getattr(self, field.name)
-            if type(widget) is QSpinBox or type(widget) is QDoubleSpinBox:
+            if isinstance(widget, (QSpinBox, QDoubleSpinBox)):
                 setattr(prefer, field.name, widget.value())
-            elif type(widget) is QLineEdit:
+            elif isinstance(widget, QLineEdit):
                 setattr(prefer, field.name, widget.text())
-            elif type(widget) is QCheckBox:
+            elif isinstance(widget, QCheckBox):
                 setattr(prefer, field.name, widget.isChecked())
-            elif type(widget) is QComboBox:
+            elif isinstance(widget, QComboBox):
                 setattr(prefer, field.name, widget.currentIndex())
 
     @Slot()

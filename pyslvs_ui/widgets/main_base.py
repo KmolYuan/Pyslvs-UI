@@ -497,9 +497,9 @@ class MainWindowBase(MainWindowABC, ABC):
     ) -> _N:
         """New action or menu."""
         is_menu = cast_to is QMenu
-        if type(name) is QAction:
+        if isinstance(name, QAction):
             menu: Optional[QMenu] = None
-            action: QAction = name
+            action = name
         elif is_menu:
             menu = QMenu(name, self)
             action = menu.menuAction()
@@ -510,13 +510,13 @@ class MainWindowBase(MainWindowABC, ABC):
             action.triggered.connect(slot)
         if enable is not None:
             for target in self.context[enable]:
-                if type(target) is QMenu:
+                if isinstance(target, QMenu):
                     if is_menu:
                         target.addMenu(menu)
                     else:
                         target.addAction(action)
-                elif type(target) is list:
-                    cast(List[QAction], target).append(action)
+                elif isinstance(target, list):
+                    target.append(action)
                 else:
                     raise ValueError("not a list or menu")
         if is_menu:

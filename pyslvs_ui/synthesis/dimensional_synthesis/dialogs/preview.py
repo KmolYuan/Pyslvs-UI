@@ -255,9 +255,9 @@ class PreviewDialog(QDialog, Ui_Dialog):
             [(f"P{i}", (vpoints[i].c[0, 0], vpoints[i].c[0, 1]))
              for i in mechanism['placement']]
         ):
-            if type(data) is tuple:
+            if isinstance(data, tuple):
                 label = f"({data[0]:.02f}, {data[1]:.02f})"
-            elif type(data) is float:
+            elif isinstance(data, float):
                 label = f"{data:.02f}"
             else:
                 label = f"{data}"
