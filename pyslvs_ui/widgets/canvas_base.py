@@ -317,8 +317,6 @@ class MainCanvasBase(BaseCanvas, ABC):
             vpoint = self.vpoints[i]
             if self.monochrome:
                 color = color_qt('gray')
-            elif vpoint.color is None:
-                color = color_qt('green')
             else:
                 color = color_qt(vpoint.color)
             pen.setColor(color)

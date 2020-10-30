@@ -108,12 +108,10 @@ class _DynamicCanvas(AnimationCanvas):
             for i, path in paths:
                 vpoint = self.vpoints[i]
                 if self.monochrome:
-                    color = 'gray'
-                elif vpoint.color is None:
-                    color = 'green'
+                    color = color_qt('gray')
                 else:
-                    color = vpoint.color
-                pen.setColor(color_qt(color))
+                    color = color_qt(vpoint.color)
+                pen.setColor(color)
                 self.painter.setPen(pen)
                 self.draw_curve(path)
                 x, y = path[self.ind]

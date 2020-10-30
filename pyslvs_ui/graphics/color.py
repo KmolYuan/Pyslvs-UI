@@ -19,7 +19,7 @@ def color_qt(color: _Color) -> QColor:
     """Get color and translate to QColor."""
     if color is None:
         color = "green"
-    if type(color) is str:
+    if isinstance(color, str):
         return QColor(*color_rgb(color))
     else:
         return QColor(*color)
