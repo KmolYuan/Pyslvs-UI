@@ -5,6 +5,7 @@
 **Features**:
 
 + Improve performance of meta-heuristic algorithms.
++ New solver backend.
 
 **Development**:
 
@@ -12,6 +13,10 @@
 + Use "isinstance" instead of "type" for checking types.
 + Test suite enhancement.
 + Parallelism synthesis.
+
+**Known issue**:
+
++ Slider input is not finished yet.
 
 ## Version 20.09
 
