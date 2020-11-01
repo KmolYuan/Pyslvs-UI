@@ -598,7 +598,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         inter: Counter_t[str] = Counter()
         for p in rows:
             inter.update(self.vpoint_list[p].links)
-        name = max(inter, key=inter.get) if inter else ""
+        name = inter.most_common(1)[0][0] if inter else ""
         if inter[name] < 2:
             self.add_normal_link(rows)
             return
