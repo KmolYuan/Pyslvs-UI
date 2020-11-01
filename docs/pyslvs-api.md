@@ -613,14 +613,156 @@ expression `vpoints`.
 The triangle expression stack `expr` is generated from
 [`t_config`](#t_config).
 
-The information data `mapping` map the symbols to the indicator of
-`vpoints`,
-additionally has a same format as argument `data_dict` in [SolverSystem].
-
 Solver function will not handle slider input pairs in argument `angles`,
 which is only support revolute joints. In another way, the slider input
 pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset)
 method.
+
+### FMatch
+
+Inherited from `ObjFunc`.
+
+This class is used to verified kinematics of the linkage mechanism.
+
+A fast matching method that adds mapping angles to variables.
+
+#### FMatch.\_\_init__()
+
+| self | mech | return |
+|:----:|:----:|:------:|
+|   | Dict\[str, Any] | Any |
+
+The constructor of objective object.
+
+Options of `mech_params`:
+
++ `Expression`: The mechanism expression of the structure.
+    + type: List\[[VPoint]]
++ `input`: Input pairs.
+    + type: List[Tuple[int, int]]
++ `Placement`: The grounded joints setting. (`x`, `y`, `r`)
+    + type: Dict[int, Tuple[float, float, float]]
++ `Target`: The target path.
+    + type: Dict[int, Sequence[Tuple[float, float]]]
++ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
+    + type: Dict[int, int]
++ `upper`: The upper setting of variables, the length must same as variable array.
+    + type: List[float]
++ `lower`: The lower setting of variables, the length must same as variable array.
+    + type: List[float]
++ `shape_only`: Compare paths by shape only.
+    + type: bool
+
+Variable array:
+
+| | Placement | Link length | Inputs |
+|:---:|:-----:|:-----------:|:------:|
+| `v =` | `x0`, `y0`, ... | `l0`, `l1`, ... | `a00`, `a01`, ..., `a10`, `a11`, ... |
+
+In 1D array: `v = [x0, y0, ..., l0, l1, ..., a00, a01, ..., a10, a11, ...]`
+
+#### FMatch.fitness()
+
+| self | v | return |
+|:----:|:---:|:------:|
+|   | ndarray | float64 |
+
+The fitness is the error between target path and self.
+
+Chromosome format: (decided by upper and lower)
+
+v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
+
+#### FMatch.is\_two_kernel()
+
+| self | return |
+|:----:|:------:|
+|   | bool |
+
+Input a generic data (variable array), return the mechanism
+expression.
+
+#### FMatch.result()
+
+| self | v | return |
+|:----:|:---:|:------:|
+|   | ndarray | str |
+
+Input a generic data (variable array), return the mechanism
+expression.
+
+### norm_path()
+
+| path | scale | return |
+|:----:|:-----:|:------:|
+| Iterable\[Tuple\[float, float]] | float | List\[Tuple\[float, float]] |
+|   | 1 |   |
+
+Python wrapper of normalization function.
+
+### curvature()
+
+| path | return |
+|:----:|:------:|
+| Iterable\[Tuple\[float, float]] | ndarray |
+
+Calculate the signed curvature and return as an array.
+
+$$
+\kappa(t) = \frac{x'y'' - x''y'}{(x'^2 + y'^2)^\frac{3}{2}}
+$$
+
+### derivative()
+
+| path | return |
+|:----:|:------:|
+| ndarray | ndarray |
+
+Differential function. Return $p'$.
+
+### path_signature()
+
+| k | maximum | return |
+|:---:|:-------:|:------:|
+| ndarray | float | ndarray |
+|   | 100 |   |
+
+Require a curvature, return path signature.
+It's composed by curvature $\kappa$ and a $K$ value.
+
+$$
+K = \int^t_0 |\kappa(t)| dt
+$$
+
+```python
+path_signature(curvature(...))
+```
+
+### cross_correlation()
+
+| p1 | p2 | t | return |
+|:---:|:---:|:---:|:------:|
+| ndarray | ndarray | float | ndarray |
+|   |   | 0.1 |   |
+
+Compare signature and return as an 1d array.
+
+$$
+\begin{aligned}
+C_n(j, W, P) &= \left|\sum_i^{l_P} \frac{(W_{i + j}
+- \overline{W}_{j\rightarrow j + l_P})(P_i-\overline{P})}{
+\sqrt{\sum_i^{l_P}(W_{i + j} - \overline{W}_{j\rightarrow j + l_P})^2
+\sum_i^{l_P}(P_i - \overline{P})^2}}\right|
+\\
+S &= \arg\max\{C_n(j)\} t
+\end{aligned}
+$$
+
+```python
+ps1 = path_signature(curvature(...))
+ps2 = path_signature(curvature(...))
+cc = cross_correlation(ps1, ps2)
+```
 
 ### color_rgb()
 
@@ -1479,7 +1621,6 @@ Enum type of algorithms.
 [VPoint]: #vpoint
 [VLink]: #vlink
 [Coord]: #coord
-[SolverSystem]: #solversystem
 [pxy]: #pxy
 [ppp]: #ppp
 [plap]: #plap
