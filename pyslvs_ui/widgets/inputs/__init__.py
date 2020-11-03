@@ -220,7 +220,7 @@ class InputsWidget(QWidget, Ui_Form):
             )
             return
         # Check repeated pairs
-        for p0_, p1_, a in self.input_pairs():
+        for p0_, p1_, _ in self.input_pairs():
             if {p0, p1} == {p0_, p1_} and self.vpoints[p0].type == VJoint.R:
                 QMessageBox.warning(
                     self,
@@ -278,7 +278,7 @@ class InputsWidget(QWidget, Ui_Form):
     def variable_excluding(self, row: Optional[int] = None) -> None:
         """Remove variable if the point was been deleted. Default: all."""
         one_row: bool = row is not None
-        for i, (b, d, a) in enumerate(self.input_pairs()):
+        for i, (b, d, _) in enumerate(self.input_pairs()):
             # If this is not origin point any more
             if one_row and row != b:
                 continue
@@ -353,7 +353,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.variable_play.setChecked(False)
             self.inputs_play_shaft.stop()
         self.get_back_position()
-        for i, (p0, p1, a) in enumerate(self.input_pairs()):
+        for i, (p0, p1, _) in enumerate(self.input_pairs()):
             self.variable_list.item(i).setText('->'.join([
                 f'Point{p0}',
                 f'Point{p1}',

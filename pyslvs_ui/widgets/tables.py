@@ -220,11 +220,11 @@ class PointTableWidget(BaseTableWidget[VPoint]):
     ) -> None:
         """Update the current coordinate for a point."""
         for i, c in enumerate(coords):
-            if type(c[0]) is float:
-                x, y = cast(_Coord, c)
+            if isinstance(c[0], float):
+                x, y = c
                 text = f"({x:.06f}, {y:.06f})"
             else:
-                (x1, y1), (x2, y2) = cast(Tuple[_Coord, _Coord], c)
+                (x1, y1), (x2, y2) = c
                 text = f"({x1:.06f}, {y1:.06f}); ({x2:.06f}, {y2:.06f})"
             item = QTableWidgetItem(text)
             item.setToolTip(text)

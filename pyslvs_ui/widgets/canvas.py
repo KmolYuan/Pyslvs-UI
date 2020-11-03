@@ -263,7 +263,7 @@ class MainCanvas(MainCanvasBase):
     ):
         """Change points coordinates."""
         for i, c in enumerate(coords):
-            if type(c[0]) is float:
+            if isinstance(c[0], float):
                 self.vpoints[i].move(cast(_Coord, c))
             else:
                 self.vpoints[i].move(*cast(Tuple[_Coord, _Coord], c))

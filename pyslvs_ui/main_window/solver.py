@@ -302,25 +302,21 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             if b == d:
                 self.vpoint_list[b].set_offset(a)
         solve_kernel = self.prefer.planar_solver_option
+        input_pair = {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
         try:
             if solve_kernel == Kernel.PYSLVS:
                 result = expr_solving(
                     self.get_triangle(),
                     self.vpoint_list,
-                    tuple(a for b, d, a in self.inputs_widget.input_pairs() if
-                          b != d)
+                    input_pair
                 )
             elif solve_kernel == Kernel.SOLVESPACE:
                 result, _ = _slvs_solve(
                     self.vpoint_list,
-                    {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
-                    if not self.free_move_button.isChecked() else {}
+                    input_pair if not self.free_move_button.isChecked() else {}
                 )
             elif solve_kernel == Kernel.SKETCH_SOLVE:
-                result = SolverSystem(
-                    self.vpoint_list,
-                    {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
-                ).solve()
+                result = SolverSystem(self.vpoint_list, input_pair).solve()
             else:
                 raise ValueError("incorrect kernel")
         except ValueError as error:
@@ -335,10 +331,10 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         else:
             self.entities_point.update_current_position(result)
             for i, c in enumerate(result):
-                if type(c[0]) is float:
-                    self.vpoint_list[i].move(cast(_Coord, c))
+                if isinstance(c[0], float):
+                    self.vpoint_list[i].move(c)
                 else:
-                    c1, c2 = cast(Tuple[_Coord, _Coord], c)
+                    c1, c2 = c
                     self.vpoint_list[i].move(c1, c2)
             self.__dof = vpoint_dof(self.vpoint_list)
             self.dof_view.setText(
@@ -362,77 +358,59 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
         solve_kernel = self.prefer.path_preview_option
         if solve_kernel == Kernel.SAME_AS_SOLVING:
             solve_kernel = self.prefer.planar_solver_option
-        interval_o = self.inputs_widget.interval()
+        interval = self.inputs_widget.interval()
         # path: [[p]: ((x0, y0), (x1, y1), (x2, y2), ...), ...]
         for i, vpoint in enumerate(vpoints):
             auto_preview.append([])
             if vpoint.type in {VJoint.P, VJoint.RP}:
                 slider_auto_preview[i] = []
-        bases = []
-        drivers = []
-        angles_o = []
-        for b, d, a in self.inputs_widget.input_pairs():
-            bases.append(b)
-            drivers.append(d)
-            angles_o.append(a)
-        i_count = self.inputs_widget.input_count()
+        input_pair = {(b, d): a for b, d, a in self.inputs_widget.input_pairs()}
         # Cumulative angle
-        angles_cum = [0.] * i_count
+        angles_cum = dict.fromkeys(input_pair, 0.)
         nan = float('nan')
-        for interval in (interval_o, -interval_o):
-            # Driver pointer
-            dp = 0
-            angles = angles_o.copy()
-            while dp < i_count:
-                try:
-                    if solve_kernel == Kernel.PYSLVS:
-                        result = expr_solving(
-                            self.get_triangle(vpoints),
-                            vpoints,
-                            angles
-                        )
-                    elif solve_kernel == Kernel.SOLVESPACE:
-                        if self.free_move_button.isChecked():
-                            inputs: _Inputs = {}
+        for dp in input_pair:
+            for interval in (interval, -interval):
+                while 0 <= angles_cum[dp] <= 360:
+                    try:
+                        if solve_kernel == Kernel.PYSLVS:
+                            result = expr_solving(
+                                self.get_triangle(vpoints),
+                                vpoints,
+                                input_pair
+                            )
+                        elif solve_kernel == Kernel.SOLVESPACE:
+                            result, _ = _slvs_solve(
+                                vpoints,
+                                {}
+                                if self.free_move_button.isChecked() else
+                                input_pair
+                            )
+                        elif solve_kernel == Kernel.SKETCH_SOLVE:
+                            result = SolverSystem(vpoints, input_pair).solve()
                         else:
-                            inputs = {
-                                (bases[i], drivers[i]): angles[i]
-                                for i in range(i_count)
-                            }
-                        result, _ = _slvs_solve(vpoints, inputs)
-                    elif solve_kernel == Kernel.SKETCH_SOLVE:
-                        result = SolverSystem(vpoints, {
-                            (bases[i], drivers[i]): angles[i]
-                            for i in range(i_count)
-                        }).solve()
-                    else:
-                        raise ValueError("incorrect kernel")
-                except ValueError:
-                    # Update with error sign
-                    for i in range(len(vpoints)):
-                        auto_preview[i].append((nan, nan))
-                    # Back to last feasible solution
-                    angles[dp] -= interval
-                    dp += 1
-                    continue
-                # Update with result
-                for i, vpoint in enumerate(vpoints):
-                    if vpoint.type == VJoint.R:
-                        auto_preview[i].append(cast(_Coord, result[i]))
-                        vpoint.move(cast(_Coord, result[i]))
-                    elif vpoint.type in {VJoint.P, VJoint.RP}:
-                        slot, pin = cast(Tuple[_Coord, _Coord], result[i])
-                        # Pin path
-                        auto_preview[i].append(pin)
-                        # Slot path
-                        slider_auto_preview[i].append(slot)
-                        vpoint.move(slot, pin)
-                angles[dp] += interval
-                angles[dp] %= 360
-                angles_cum[dp] += abs(interval)
-                if angles_cum[dp] >= 360:
-                    angles[dp] -= interval
-                    dp += 1
+                            raise ValueError("incorrect kernel")
+                    except ValueError:
+                        # Update with error sign
+                        for i in range(len(vpoints)):
+                            auto_preview[i].append((nan, nan))
+                        # Back to last feasible solution
+                        input_pair[dp] -= interval
+                        continue
+                    # Update with result
+                    for i, vpoint in enumerate(vpoints):
+                        if vpoint.type == VJoint.R:
+                            auto_preview[i].append(cast(_Coord, result[i]))
+                            vpoint.move(cast(_Coord, result[i]))
+                        elif vpoint.type in {VJoint.P, VJoint.RP}:
+                            slot, pin = cast(Tuple[_Coord, _Coord], result[i])
+                            # Pin path
+                            auto_preview[i].append(pin)
+                            # Slot path
+                            slider_auto_preview[i].append(slot)
+                            vpoint.move(slot, pin)
+                    angles_cum[dp] += abs(interval)
+                    input_pair[dp] += interval
+                    input_pair[dp] %= 360
         for path in auto_preview:
             path[:] = path[:-1]
 
@@ -501,7 +479,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             graph,
             grounded_list,
             [(mapping[b], mapping[d])
-                for b, d, _ in self.inputs_widget.input_pairs()],
+             for b, d, _ in self.inputs_widget.input_pairs()],
             pos,
             cus,
             same,

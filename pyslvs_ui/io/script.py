@@ -41,7 +41,7 @@ if __name__ == '__main__':
         "]")
     exprs = t_config(vpoints, {})
     mapping = {{n: f'P{{n}}' for n in range(len(vpoints))}}
-    pos = expr_solving(exprs, vpoints, [0.])
+    pos = expr_solving(exprs, vpoints, {})
     print(data_dict)
     print(pos)
 """
@@ -93,7 +93,8 @@ def slvs_process_script(
     """Return parser function script."""
     return _SCRIPT.format(
         '\n'.join(" " * 8 + f'"{expr}, "' for expr in script),
-        inputs
+        inputs,
+        {pair: 0. for pair in inputs}
     )
 
 

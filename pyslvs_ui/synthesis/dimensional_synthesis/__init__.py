@@ -575,13 +575,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         b, d = input_list[0]
         base_angle = vpoints[b].slope_angle(vpoints[d])
         path: List[List[_Coord]] = [[] for _ in range(len(vpoints))]
+        input_pair = {(b, d): 0. for b, d in input_list}
         for angle in range(360 + 1):
+            input_pair[b, d] = base_angle + angle
             try:
-                result_list = expr_solving(
-                    expr,
-                    vpoints,
-                    [base_angle + angle] + [0] * (len(input_list) - 1)
-                )
+                result_list = expr_solving(expr, vpoints, input_pair)
             except ValueError:
                 nan = float('nan')
                 for i in range(len(vpoints)):
@@ -589,10 +587,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             else:
                 for i in range(len(vpoints)):
                     coord = result_list[i]
-                    if type(coord[0]) is tuple:
-                        path[i].append(cast(_Coord, coord[1]))
+                    if isinstance(coord[0], tuple):
+                        path[i].append(coord[1])
                     else:
-                        path[i].append(cast(_Coord, coord))
+                        path[i].append(coord)
         return path
 
     @Slot(name='on_result_clipboard_clicked')

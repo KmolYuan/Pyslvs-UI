@@ -530,7 +530,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
             + slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),
-                tuple((b, d) for b, d, a in self.inputs_widget.input_pairs())
+                tuple((b, d) for b, d, _ in self.inputs_widget.input_pairs())
             ),
             "Python script",
             ["Python3 Script (*.py)"],

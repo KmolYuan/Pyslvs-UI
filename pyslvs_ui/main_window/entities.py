@@ -247,7 +247,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         args.links = ''
         self.command_stack.beginMacro(f"Delete {{Point{row}}}")
         for i in reversed([
-            i for i, (b, d, a) in enumerate(self.inputs_widget.input_pairs())
+            i for i, (b, d, _) in enumerate(self.inputs_widget.input_pairs())
             if row in {b, d}
         ]):
             self.inputs_widget.remove_var(i)
@@ -541,10 +541,10 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.beginMacro(f"Set link length:{set(data)}")
         for row, c in enumerate(result):
             args = self.entities_point.row_data(row)
-            if type(c[0]) is float:
-                args.x, args.y = cast(_Coord, c)
+            if isinstance(c[0], float):
+                args.x, args.y = c
             else:
-                (args.x, args.y), _ = cast(Tuple[_Coord, _Coord], c)
+                (args.x, args.y), _ = c
             self.command_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
