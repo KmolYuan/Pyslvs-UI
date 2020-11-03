@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 20.11
+
+**Features**:
+
++ Fix slider input function. (github issue #40)
+
+**Development**:
+
++ None.
+
 ## Version 20.10
 
 **Features**:
