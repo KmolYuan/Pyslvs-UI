@@ -31,7 +31,7 @@ setup(
     author=__author__,
     author_email=__email__,
     license=__license__,
-    description="An open source planar linkage mechanism simulation and mechanical synthesis system.",
+    description="An open source planar linkage mechanism synthesis tool.",
     long_description=read("README.md"),
     long_description_content_type='text/markdown',
     url="https://github.com/KmolYuan/Pyslvs-UI",
