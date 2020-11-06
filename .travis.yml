@@ -85,7 +85,7 @@ jobs:
         - export PATH=/Users/travis/.pyenv/shims:${PATH}
         - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true
         # Install Python
-        - pyenv install ${PYTHON}
+        - CONFIGURE_OPTS=--enable-shared pyenv install ${PYTHON}
         - pyenv global ${PYTHON}
         - python3 -m pip install pip -U
         - pyenv rehash
