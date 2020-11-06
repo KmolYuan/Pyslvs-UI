@@ -83,7 +83,7 @@ vpoints = parse_vpoints(expr)
 # Config joint data and control data for the solver
 exprs = t_config(vpoints, inputs)
 # Solve the position
-result = expr_solving(exprs, vpoints, [0.])
+result = expr_solving(exprs, vpoints, {pair: 0. for pair in inputs})
 # Get the result from joint 7
 x, y = result[7]
 print(x, y)  # -43.170055 -91.753226
