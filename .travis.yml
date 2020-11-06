@@ -83,6 +83,7 @@ jobs:
         - brew install llvm libomp
         - export PATH="/usr/local/opt/llvm/bin:/Users/travis/.pyenv/shims:${PATH}"
         - export PATH=/Users/travis/.pyenv/shims:${PATH}
+        - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true
         # Install Python
         - pyenv install ${PYTHON}
         - pyenv global ${PYTHON}
