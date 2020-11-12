@@ -11,7 +11,7 @@ theme:
   logo: img/favicon.png
   nav_style: dark
   features:
-    - tabs
+    - navigation.tabs
 
 markdown_extensions:
   - pymdownx.arithmatex
