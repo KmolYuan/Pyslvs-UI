@@ -9,7 +9,9 @@ the programming script can be compiled as an executable file.
 In development state, Pyslvs including several dynamic libraries,
 which are need to be compiled first.
 
-## Dependencies
+## Python Versions
+
+The module `pyslvs-ui` and its kernel `pyslvs` support pre-built libraries for at least three platforms.
 
 The actual test and deployment platforms on CI/CD service:
 
@@ -17,9 +19,11 @@ The actual test and deployment platforms on CI/CD service:
 |:------------------:|:-------:|:-----:|:------:|
 | Python 3.7 | O | O | O |
 | Python 3.8 | O | O | O |
-| Python 3.9 | X | X | X |
+| Python 3.9 | $\Delta$(kernel only) | $\Delta$(kernel only) | $\Delta$(kernel only) |
 
-**Other platforms must build from source and take care about the dependencies.**
+**Other platforms must build from source and take care about the Python dependencies.**
+
+## Dependencies
 
 Install dependencies:
 
