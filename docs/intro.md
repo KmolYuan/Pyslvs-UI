@@ -11,9 +11,9 @@ A GUI-based tool used to design 2D linkage mechanism.
 
 + **Mechanical Synthesis**
 
-    - **Number Synthesis**: Combine the attributes of mechanism.
-    - **Structural Synthesis**: Cython algorithm used to find out structural possibilities of the mechanism.
-    - **Dimensional Synthesis**: Kernel from the three Cython algorithms (rewrite).
+    - **Number Synthesis**: The algorithm of link assortments.
+    - **Structural Synthesis**: The algorithm used to find out structural possibilities of the mechanism.
+    - **Dimensional Synthesis**: The meta-heuristic algorithms for dimensional synthesis.
 
 + **Others**
 
