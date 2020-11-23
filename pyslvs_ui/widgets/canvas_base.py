@@ -203,10 +203,6 @@ class MainCanvasBase(BaseCanvas, ABC):
             pen.setWidth(2)
             # Draw slot point and pin point
             for j, (cx, cy) in enumerate(vpoint.c):
-                if not vpoint.links:
-                    grounded = False
-                else:
-                    grounded = vpoint.links[j] == VLink.FRAME
                 # Slot point
                 if j == 0 or vpoint.type == VJoint.P:
                     if self.monochrome:
@@ -227,6 +223,8 @@ class MainCanvasBase(BaseCanvas, ABC):
                             text += f":({cx:.02f}, {cy:.02f})"
                         self.painter.drawText(cp + rp, text)
                 else:
+                    grounded = (len(vpoint.c) == len(vpoint.links)
+                                and vpoint.links[j] == VLink.FRAME)
                     self.draw_point(i, cx, cy, grounded, vpoint.color,
                                     connected)
             # Slider line
