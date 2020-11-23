@@ -19,6 +19,7 @@ mkdir -p "${APPDIR}"
 
 # Source some helper functions
 wget -q https://raw.githubusercontent.com/AppImage/pkg2appimage/master/functions.sh -O "${ENV}"/functions.sh
+export ARCH=x86_64
 # shellcheck disable=SC1090
 . "${ENV}/functions.sh"
 cd "${APPDIR}" || exit
