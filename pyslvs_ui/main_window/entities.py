@@ -7,8 +7,10 @@ __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import (cast, Tuple, Sequence, Set, FrozenSet, Dict,
-                    Counter as Counter_t, Union, Optional)
+from typing import (
+    Tuple, Sequence, Set, FrozenSet, Dict, Counter as Counter_t, Union,
+    Optional,
+)
 from abc import abstractmethod, ABC
 from collections import Counter
 from qtpy.QtCore import Slot
@@ -51,10 +53,12 @@ class _ScaleDialog(QDialog):
         self.__add_option("Shrink", self.shrink)
 
         button_box = QDialogButtonBox(self)
-        button_box.setStandardButtons(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.setStandardButtons(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
-        button_box.button(QDialogButtonBox.Ok).setEnabled(bool(parent.vpoint_list))
+        button_box.button(QDialogButtonBox.Ok).setEnabled(
+            bool(parent.vpoint_list))
         self.main_layout.addWidget(button_box)
 
     def __add_option(self, name: str, option: QDoubleSpinBox) -> None:
@@ -101,10 +105,12 @@ class _LinkLengthDialog(QDialog):
         self.length.setMaximum(100000)
 
         button_box = QDialogButtonBox(self)
-        button_box.setStandardButtons(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.setStandardButtons(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
-        button_box.button(QDialogButtonBox.Ok).setEnabled(bool(parent.vpoint_list))
+        button_box.button(QDialogButtonBox.Ok).setEnabled(
+            bool(parent.vpoint_list))
         self.main_layout.addWidget(button_box)
 
     @Slot(str)
@@ -177,7 +183,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         )
         if row is False:
             self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
-            self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
+            self.command_stack.push(
+                AddTable(self.vpoint_list, self.entities_point))
             row = row_count
         else:
             row = dlg.name_box.currentIndex()
@@ -210,7 +217,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         if row is False:
             self.command_stack.beginMacro(f"Add {{Link: {name}}}")
-            self.command_stack.push(AddTable(self.vlink_list, self.entities_link))
+            self.command_stack.push(
+                AddTable(self.vlink_list, self.entities_link))
             row = self.entities_link.rowCount() - 1
         else:
             row = dlg.name_box.currentIndex()
@@ -289,7 +297,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             return
         args = self.entities_link.row_data(row)
         args.points = ''
-        self.command_stack.beginMacro(f"Delete {{Link: {self.vlink_list[row].name}}}")
+        self.command_stack.beginMacro(
+            f"Delete {{Link: {self.vlink_list[row].name}}}")
         self.command_stack.push(EditLinkTable(
             row,
             self.vpoint_list,
@@ -332,7 +341,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Add point group using alt key."""
         if (
             self.main_panel.currentWidget() is self.synthesis_tab
-            and self.synthesis_tab_widget.currentWidget() is self.dimensional_synthesis
+            and self.synthesis_tab_widget.currentWidget() is
+            self.dimensional_synthesis
         ):
             self.add_target_point()
         else:
@@ -454,7 +464,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         to_fixed = self.action_p_lock.isChecked()
         selected_rows = self.entities_point.selected_rows()
         self.command_stack.beginMacro(
-            f"{'Grounded' if to_fixed else 'Ungrounded'} {sorted(selected_rows)}"
+            f"{'Grounded' if to_fixed else 'Ungrounded'} "
+            f"{sorted(selected_rows)}"
         )
         for row in selected_rows:
             new_links = list(self.vpoint_list[row].links)
@@ -481,7 +492,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         args = self.entities_point.row_data(row)
         args.color = 'Orange'
         row_count = self.entities_point.rowCount()
-        self.command_stack.beginMacro(f"Clone {{Point{row}}} as {{Point{row_count}}}")
+        self.command_stack.beginMacro(
+            f"Clone {{Point{row}}} as {{Point{row_count}}}")
         self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
         self.command_stack.push(EditPointTable(
             row_count,
@@ -536,7 +548,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         try:
             result = system.solve()
         except ValueError:
-            QMessageBox.warning(self, "Solved error", "The condition is not valid.")
+            QMessageBox.warning(self, "Solved error",
+                                "The condition is not valid.")
             return
         self.command_stack.beginMacro(f"Set link length:{set(data)}")
         for row, c in enumerate(result):
@@ -661,7 +674,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         new_points = sorted(set(self.vlink_list[0].points) | set(vlink1.points))
         base_args = self.entities_link.row_data(row2)
         base_args.points = ','.join(f"Point{e}" for e in new_points if e)
-        self.command_stack.beginMacro(f"Constrain {{Link: {vlink1.name}}} to ground")
+        self.command_stack.beginMacro(
+            f"Constrain {{Link: {vlink1.name}}} to ground")
         # Turn to ground
         self.command_stack.push(EditLinkTable(
             row2,

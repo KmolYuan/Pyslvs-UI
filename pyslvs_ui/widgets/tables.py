@@ -15,7 +15,7 @@ from abc import abstractmethod
 from dataclasses import astuple
 from time import process_time
 from typing import (
-    cast, TYPE_CHECKING, Tuple, List, Iterator, Sequence, Union, Optional,
+    TYPE_CHECKING, Tuple, List, Iterator, Sequence, Union, Optional,
     TypeVar, Generic,
 )
 from qtpy.QtCore import Signal, Qt, QTimer, Slot
