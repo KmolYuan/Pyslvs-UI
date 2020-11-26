@@ -288,7 +288,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         # Hardware information
         self.hardware_label.setText("\n".join([
             f"{tag}: {mechanism['hardware_info'][tag]}"
-            for tag in ('os', 'memory', 'cpu')
+            for tag in ('os', 'cpu')
         ]))
 
     @Slot(float, float)

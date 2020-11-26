@@ -6,7 +6,6 @@ ezdxf
 numpy
 matplotlib
 openpyxl
-psutil
 lark-parser
 pyyaml
 h5py

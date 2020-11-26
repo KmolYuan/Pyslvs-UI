@@ -10,7 +10,6 @@ __email__ = "pyslvs@gmail.com"
 from typing import Dict, Any
 from time import process_time
 from platform import system, release, machine
-from psutil import virtual_memory
 from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
@@ -85,7 +84,6 @@ class DimensionalThread(BaseThread):
             'settings': self.settings,
             'hardware_info': {
                 'os': f"{system()} {release()} {machine()}",
-                'memory': f"{virtual_memory().total / (1 << 30):.04f} GB",
                 'cpu': my_cpu,
             },
             'time_fitness': tf,
