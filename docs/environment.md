@@ -19,7 +19,7 @@ The actual test and deployment platforms on CI/CD service:
 |:------------------:|:-------:|:-----:|:------:|
 | Python 3.7 | O | O | O |
 | Python 3.8 | O | O | O |
-| Python 3.9 | $\Delta$(kernel only) | $\Delta$(kernel only) | $\Delta$(kernel only) |
+| Python 3.9 | O | O | O |
 
 **Other platforms must build from source and take care about the Python dependencies.**
 

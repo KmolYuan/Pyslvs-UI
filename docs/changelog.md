@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None.
++ Support Python 3.9.
 
 ## Version 20.10
 
