@@ -4,8 +4,7 @@ qtpy
 pyqt5
 ezdxf
 numpy
-# https://github.com/pyinstaller/pyinstaller/issues/5004
-matplotlib < 3.3
+matplotlib
 openpyxl
 psutil
 lark-parser
