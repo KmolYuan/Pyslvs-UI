@@ -4,11 +4,14 @@
 
 **Features**:
 
++ Fix the error caused by hanging slider joint. (#41) 
 + Fix slider input function. (github issue #40)
 
 **Development**:
 
 + Support Python 3.9.
++ Remove psutil requirement.
++ Remove Windows testing on Travis CI.
 
 ## Version 20.10
 
