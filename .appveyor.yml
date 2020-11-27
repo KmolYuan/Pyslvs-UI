@@ -12,6 +12,7 @@ environment:
       COMPILER: mingw32
     - PY: 39
       COMPILER: mingw32
+      DEPLOY: "true"
     - PY: 37
       COMPILER: msvc
     - PY: 38
@@ -31,6 +32,7 @@ environment:
       PY: 3.8
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       PY: 3.9
+      DEPLOY: "true"
 
 install:
   # Clone submodules
