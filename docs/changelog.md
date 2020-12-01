@@ -1,10 +1,20 @@
 # Changelog
 
+## Version 20.12
+
+**Features**:
+
++ None.
+
+**Development**:
+
++ None.
+
 ## Version 20.11
 
 **Features**:
 
-+ Fix the error caused by hanging slider joint. (#41) 
++ Fix the error caused by hanging slider joint. (#41)
 + Fix slider input function. (github issue #40)
 
 **Development**:
