@@ -4,7 +4,8 @@
 
 **Features**:
 
-+ None.
++ Fix joint merging function.
++ Enhance "Remove empty links" function. ("Remove redundant links")
 
 **Development**:
 

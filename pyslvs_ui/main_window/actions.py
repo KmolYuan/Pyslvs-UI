@@ -51,7 +51,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             """Generate a merge function."""
             @Slot()
             def func() -> None:
-                self.__to_multiple_joint(order, selection)
+                self.__merge_joint(order, selection)
             return func
 
         for i, p in enumerate(selection):
@@ -77,32 +77,29 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             action.triggered.connect(ml_func(i))
             self.pop_link_m.addAction(action)
 
-    def __to_multiple_joint(self, index: int, points: Sequence[int]) -> None:
-        """Merge points into a multiple joint.
-
-        @index: The index of main joint in the sequence.
-        """
-        row = points[index]
+    def __merge_joint(self, index: int, points: Sequence[int]) -> None:
+        """Merge the joints into a specific joint."""
+        base = points[index]
         self.command_stack.beginMacro(
-            f"Merge {sorted(points)} as multiple joint {{Point{row}}}"
+            f"Merge {sorted(points)} based on {{Point{base}}}"
         )
-        links = list(self.vpoint_list[row].links)
-        args = self.entities_point.row_data(row)
-        for point in sorted(points, reverse=True):
-            for link in self.vpoint_list[point].links:
-                if link not in links:
-                    links.append(link)
-            self.delete_point(point)
+        links = list(self.vpoint_list[base].links)
+        args = self.entities_point.row_data(base)
+        for p in points:
+            if p != base:
+                links.extend(set(self.vpoint_list[p].links) - set(links))
         args.links = ','.join(links)
-        self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
         self.command_stack.push(EditPointTable(
-            self.entities_point.rowCount() - 1,
+            base,
             self.vpoint_list,
             self.vlink_list,
             self.entities_point,
             self.entities_link,
             args
         ))
+        for p in sorted(points, reverse=True):
+            if p != base:
+                self.delete_point(p)
         self.command_stack.endMacro()
 
     def __merge_link(self, index: int, links: Sequence[int]) -> None:

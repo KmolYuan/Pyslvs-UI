@@ -599,7 +599,7 @@ class MainWindowBase(MainWindowABC, ABC):
                       cast_to=QAction)
         self.pop_link.addSeparator()
         self.pop_canvas_l.addSeparator()
-        self.__action("Remove &Empty Names", self.delete_empty_links,
+        self.__action("Remove &Redundant Links", self.delete_redundant_links,
                       _Enable.T_L, cast_to=QAction)
         self.__action("&Delete", self.delete_selected_links,
                       two_menus_l | _Enable.L_ANY, cast_to=QAction)

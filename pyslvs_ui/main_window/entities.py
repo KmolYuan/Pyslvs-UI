@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import (
     Tuple, Sequence, Set, FrozenSet, Dict, Counter as Counter_t, Union,
-    Optional,
+    Optional, Iterable,
 )
 from abc import abstractmethod, ABC
 from collections import Counter
@@ -283,7 +283,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.inputs_widget.variable_excluding(row)
         self.command_stack.endMacro()
         if self.prefer.auto_remove_link_option:
-            self.delete_empty_links()
+            self.delete_redundant_links()
 
     @Slot(name='on_action_delete_link_triggered')
     def delete_link(self, row: Optional[int] = None) -> None:
@@ -324,7 +324,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.delete_point(row)
         self.command_stack.endMacro()
 
-    def delete_links(self, links: Sequence[int]) -> None:
+    def delete_links(self, links: Iterable[int]) -> None:
         """Delete multiple links."""
         if not links:
             return
@@ -713,12 +713,24 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.delete_links(self.entities_link.selected_rows())
 
     @Slot()
-    def delete_empty_links(self) -> None:
-        """Delete empty link names."""
-        self.delete_links([
+    def delete_redundant_links(self) -> None:
+        """Delete redundant links."""
+        # Empty links
+        links = {
             i for i, vlink in enumerate(self.vlink_list)
             if vlink.name != VLink.FRAME and len(vlink.points) < 2
-        ])
+        }
+        # Only keep one connecting link with the same topology
+        recorder = set()
+        for i, vlink in enumerate(self.vlink_list):
+            if i in links:
+                continue
+            points = frozenset(vlink.points)
+            if points in recorder:
+                links.add(i)
+            else:
+                recorder.add(points)
+        self.delete_links(links)
 
     def set_coords_as_current(self) -> None:
         """Update points position as current coordinate."""
