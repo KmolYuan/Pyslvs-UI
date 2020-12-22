@@ -13,12 +13,7 @@ from qtpy.QtCore import Slot, QPoint
 from qtpy.QtWidgets import QAction, QApplication, QTableWidget
 from pyslvs import VLink
 from pyslvs_ui.graphics import BaseCanvas
-from pyslvs_ui.widgets import (
-    AddTable,
-    EditPointTable,
-    EditLinkTable,
-    Preferences,
-)
+from pyslvs_ui.widgets import EditPointTable, EditLinkTable, Preferences
 from pyslvs_ui.io import PreferencesDialog
 from .storage import StorageMethodInterface
 
