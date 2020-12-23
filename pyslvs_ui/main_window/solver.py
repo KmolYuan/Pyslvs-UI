@@ -395,7 +395,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             auto_preview[i].append((nan, nan))
                         # Back to last feasible solution
                         input_pair[dp] -= interval
-                        continue
+                        break
                     # Update with result
                     for i, vpoint in enumerate(vpoints):
                         if vpoint.type == VJoint.R:
