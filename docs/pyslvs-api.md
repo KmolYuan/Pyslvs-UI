@@ -30,7 +30,7 @@ Inherited from `object`.
 
 | links | c | type | color | color_str | type_str | x | y | angle | HOLDER |
 |:-----:|:---:|:----:|:-----:|:---------:|:--------:|:---:|:---:|:-----:|:------:|
-| Sequence\[str] | ndarray | VJoint | Union\[Tuple\[int, int, int], None] | str | str | float | float | float | ClassVar\[VPoint] |
+| Sequence\[str] | ndarray | VJoint | Optional\[Tuple\[int, int, int]] | str | str | float | float | float | ClassVar\[VPoint] |
 
 Mechanism expression class.
 
@@ -38,7 +38,7 @@ Mechanism expression class.
 
 | self | links | type_int | angle | color_str | x | y | color_func | return |
 |:----:|:-----:|:--------:|:-----:|:---------:|:---:|:---:|:----------:|:------:|
-|   | Iterable\[str] | VJoint | float | str | float | float | Union\[Callable\[\[str], Tuple\[int, int, int]], None] | Any |
+|   | Iterable\[str] | VJoint | float | str | float | float | Optional\[Callable\[\[str], Tuple\[int, int, int]]] | Any |
 |   |   |   |   |   |   |   | None |   |
 
 The attributes will match to the object attributes of [VPoint] objects.
@@ -147,7 +147,7 @@ The update function of original coordinate.
 
 | self | c1 | c2 | return |
 |:----:|:---:|:---:|:------:|
-|   | Tuple\[float, float] | Union\[Tuple\[float, float], None] | None |
+|   | Tuple\[float, float] | Optional\[Tuple\[float, float]] | None |
 |   |   | None |   |
 
 The update function of current coordinate(s).
@@ -289,7 +289,7 @@ Inherited from `object`.
 
 | name | color_str | color | points | HOLDER | FRAME |
 |:----:|:---------:|:-----:|:------:|:------:|:-----:|
-| str | str | Union\[Tuple\[int, int, int], None] | Sequence\[int] | ClassVar\[VLink] | ClassVar\[str] |
+| str | str | Optional\[Tuple\[int, int, int]] | Sequence\[int] | ClassVar\[VLink] | ClassVar\[str] |
 
 Mechanism expression class in link's view.
 
@@ -297,7 +297,7 @@ Mechanism expression class in link's view.
 
 | self | name | color_str | points | color_func | return |
 |:----:|:----:|:---------:|:------:|:----------:|:------:|
-|   | str | str | Iterable\[int] | Union\[Callable\[\[str], Tuple\[int, int, int]], None] | Any |
+|   | str | str | Iterable\[int] | Optional\[Callable\[\[str], Tuple\[int, int, int]]] | Any |
 |   |   |   |   | None |   |
 
 The attributes will match to the object attributes of [VLink] objects.
@@ -376,7 +376,7 @@ Sketch Solve solver.
 
 | self | vpoints | inputs | data_dict | return |
 |:----:|:-------:|:------:|:---------:|:------:|
-|   | Sequence\[VPoint] | Union\[Mapping\[Tuple\[int, int], float], None] | Union\[Mapping\[Union\[int, Tuple\[int, int]], Union\[Coord, float]], None] | Any |
+|   | Sequence\[VPoint] | Optional\[Mapping\[Tuple\[int, int], float]] | Optional\[Mapping\[Union\[int, Tuple\[int, int]], Union\[Coord, float]]] | Any |
 |   |   | None | None |   |
 
 The expression `vpoints` solver function of BFGS method by giving
@@ -455,7 +455,7 @@ The joint position will returned by its index correspondingly.
 
 | vpoints | inputs | status | return |
 |:-------:|:------:|:------:|:------:|
-| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Union\[Dict\[int, bool], None] | EStack |
+| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Optional\[Dict\[int, bool]] | EStack |
 |   |   | None |   |
 
 Generate the Triangle solution stack by mechanism expression `vpoints_`.
@@ -523,7 +523,7 @@ In the following picture, `c1` correspond to "A", `c2` correspond to "B",
 
 | c1 | d0 | a0 | c2 | inverse | return |
 |:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Union\[Coord, None] | bool | Coord |
+| Coord | float | float | Optional\[Coord] | bool | Coord |
 |   |   |   | None | False |   |
 
 The PLAP function requires two points, one distance and one angle,
@@ -604,7 +604,7 @@ Return the DOF of the mechanism expression `vpoints`.
 
 | exprs | vpoints | angles | return |
 |:-----:|:-------:|:------:|:------:|
-| EStack | Sequence\[VPoint] | Union\[Sequence\[float], None] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
+| EStack | Sequence\[VPoint] | Optional\[Mapping\[Tuple\[int, int], float]] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
 |   |   | None |   |
 
 Solver function of Triangular method and BFGS method, for mechanism
@@ -617,6 +617,29 @@ Solver function will not handle slider input pairs in argument `angles`,
 which is only support revolute joints. In another way, the slider input
 pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset)
 method.
+
+### uniform_path()
+
+| dimension | n | return |
+|:---------:|:---:|:------:|
+| ndarray | int | ndarray |
+
+Generate path with four-bar dimensions.
+
+Normalized parameters are $[L0, L2, L3, L4, a0]$.
+
+### uniform\_four_bar()
+
+| ml | n | return |
+|:---:|:---:|:------:|
+| float | int | ndarray |
+
+Generate n four bar mechanisms from maximum lengths.
+
+These mechanisms have coupling points.
+Normalized parameters are $[L0, L2, L3, L4, a0]$.
+
+![pxy](img/uniform_four_bar.png)
 
 ### FMatch
 
@@ -819,7 +842,7 @@ The iterator will yield the sorted edges from `graph`.
 
 | graph | pos | cus | same | grounded | return |
 |:-----:|:---:|:---:|:----:|:--------:|:------:|
-| Graph | Dict\[int, Tuple\[float, float]] | Union\[Dict\[int, int], None] | Union\[Dict\[int, int], None] | Union\[int, None] | List\[VPoint] |
+| Graph | Dict\[int, Tuple\[float, float]] | Optional\[Dict\[int, int]] | Optional\[Dict\[int, int]] | Optional\[int] | List\[VPoint] |
 |   |   | None | None | None |   |
 
 Transform `graph` into [VPoint] objects. The vertices are mapped to links.
@@ -1164,7 +1187,7 @@ Argument `scale` will resize the position by scale factor.
 
 | cg_list | c\_j_list | no_degenerate | stop_func | return |
 |:-------:|:--------:|:-------------:|:---------:|:------:|
-| List\[Graph] | Sequence\[int] | int | Union[Callable[[], bool], None] | List\[Graph] |
+| List\[Graph] | Sequence\[int] | int | Optional[Callable[[], bool]] | List\[Graph] |
 |   |   | 1 | None |   |
 
 Generate conventional graphs by contracted graphs `cg_list` and
@@ -1183,7 +1206,7 @@ return `True` to terminate this function.
 
 | link_num | stop_func | return |
 |:--------:|:---------:|:------:|
-| Sequence\[int] | Union[Callable[[], bool], None] | List\[Graph] |
+| Sequence\[int] | Optional[Callable[[], bool]] | List\[Graph] |
 |   | None |   |
 
 Generate contracted graphs by link assortment `link_num`.
@@ -1195,7 +1218,7 @@ return `True` to terminate this function.
 
 | nl | nj | stop_func | return |
 |:---:|:---:|:---------:|:------:|
-| int | int | Union[Callable[[], bool], None] | List\[Tuple\[int, ...]] |
+| int | int | Optional[Callable[[], bool]] | List\[Tuple\[int, ...]] |
 |   |   | None |   |
 
 Return link assortment by number of links `nl` and number of joints `nj`.
@@ -1207,7 +1230,7 @@ return `True` to terminate this function.
 
 | link\_num_list | stop_func | return |
 |:-------------:|:---------:|:------:|
-| Sequence\[int] | Union[Callable[[], bool], None] | List\[Tuple\[int, ...]] |
+| Sequence\[int] | Optional[Callable[[], bool]] | List\[Tuple\[int, ...]] |
 |   | None |   |
 
 Return contracted link assortment by link assortment `link_num_list`.
@@ -1272,7 +1295,7 @@ It is used to build the Meta-heuristic Algorithms.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 Is an abstract method.
@@ -1327,7 +1350,7 @@ The implementation of Real-coded Genetic Algorithm.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
@@ -1402,7 +1425,7 @@ The implementation of Firefly Algorithm.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
@@ -1477,7 +1500,7 @@ The implementation of Differential Evolution.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The argument `func` is a object inherit from [Verification],
@@ -1557,7 +1580,7 @@ The implementation of Teaching Learning Based Optimization.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Union\[Callable\[\[int, str], None], None] | Union[Callable[[], bool], None] | Any |
+|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
