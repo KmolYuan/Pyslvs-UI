@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from pyslvs_ui.io import ProjectWidget
     from pyslvs_ui.widgets import MainWindowBase
 
-PROJECT_FORMAT = ("YAML", "Compressed YAML", "HDF5")
+PROJECT_FORMAT = ("YAML", "Compressed YAML", "HDF5", "Pickle")
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
 _SliderPaths = Mapping[int, Sequence[_Coord]]
@@ -259,6 +259,10 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         """End group."""
         if self.prefer.open_project_actions_option == 1:
             self.command_stack.endMacro()
+
+    @staticmethod
+    def test(file_name: str) -> bool:
+        raise NotImplementedError
 
     @abstractmethod
     def save(self, file_name: str) -> None:

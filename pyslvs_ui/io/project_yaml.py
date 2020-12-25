@@ -2,8 +2,6 @@
 
 """YAML format processing function."""
 
-from __future__ import annotations
-
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2020"
 __license__ = "AGPL"
@@ -12,6 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from re import sub
 from numpy import float64
 from yaml import safe_load, safe_dump
+from yaml.error import YAMLError
 from yaml.representer import SafeRepresenter
 from qtpy.QtWidgets import QMessageBox
 from .format_editor import FormatEditor
@@ -26,15 +25,28 @@ class YamlEditor(FormatEditor):
     def __init__(self, *args):
         super(YamlEditor, self).__init__(*args)
 
+    @staticmethod
+    def test(file_name: str) -> bool:
+        """Test the file is valid."""
+        with open(file_name, 'r', encoding='utf-8') as f:
+            try:
+                yaml_script = f.read()
+                safe_load(yaml_script)
+            except (OSError, UnicodeError, YAMLError):
+                return False
+            else:
+                return True
+
     def save(self, file_name: str) -> None:
-        """Save YAML file."""
+        """Save to YAML file."""
         data = self.save_data()
-        if self.prefer.file_type_option == 0:
+        opt = self.prefer.file_type_option
+        if opt == 0:
             flow_style = False
-        elif self.prefer.file_type_option == 1:
+        elif opt == 1:
             flow_style = True
         else:
-            raise ValueError(f"unsupported option: {self.prefer.file_type_option}")
+            raise ValueError(f"unsupported option: {opt}")
         try:
             yaml_script = safe_dump(data, default_flow_style=flow_style)
         except Exception as e:
@@ -46,12 +58,12 @@ class YamlEditor(FormatEditor):
             f.write(yaml_script)
 
     def load(self, file_name: str) -> None:
-        """Load YAML file."""
+        """Load a YAML file."""
         with open(file_name, 'r', encoding='utf-8') as f:
             yaml_script = f.read()
         try:
             data = safe_load(yaml_script)
-        except Exception as e:
-            QMessageBox.warning(self._parent, "Loader error", f"{e}")
+        except (OSError, UnicodeError, YAMLError) as e:
+            QMessageBox.warning(self._parent, "Loader Error", f"{e}")
             return
         self.load_data(file_name, data)

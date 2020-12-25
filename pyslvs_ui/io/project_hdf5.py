@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import annotations
-
 """HDF5 format processing function."""
 
 from typing import Mapping, Union, Any
@@ -76,26 +74,26 @@ class HDF5Editor(FormatEditor):
         """Test the file is valid."""
         try:
             File(file_name, 'r')
-        except OSError:
+        except (OSError, UnicodeError):
             return False
         else:
             return True
 
     def save(self, file_name: str) -> None:
-        """Save HDF5 file."""
+        """Save to HDF5 file."""
         data = self.save_data()
         with File(file_name, 'w') as f:
             try:
                 _h5py_dump(f, data)
-            except Exception as e:
-                QMessageBox.warning(self._parent, "Save error", f"{e}")
+            except OSError as e:
+                QMessageBox.warning(self._parent, "Save Error", f"{e}")
 
     def load(self, file_name: str) -> None:
-        """Load HDF5 file."""
+        """Load a HDF5 file."""
         with File(file_name, 'r') as f:
             try:
                 data = _h5py_load(f)
-            except Exception as e:
-                QMessageBox.warning(self._parent, "Load error", f"{e}")
+            except OSError as e:
+                QMessageBox.warning(self._parent, "Load Error", f"{e}")
                 return
         self.load_data(file_name, data)

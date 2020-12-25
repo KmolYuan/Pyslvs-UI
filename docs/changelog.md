@@ -6,6 +6,7 @@
 
 + Fix joint merging function. (#43)
 + Fix infinity loop of solver. (#44)
++ Add pickle format. (#45)
 + Enhance "Remove empty links" function. ("Remove redundant links")
 
 **Development**:

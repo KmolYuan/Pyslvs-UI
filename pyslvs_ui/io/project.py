@@ -22,8 +22,9 @@ from qtpy.QtGui import QPixmap, QIcon
 from pyslvs import example_list, all_examples
 from pyslvs_ui.info import logger, size_format
 from pyslvs_ui.qt_patch import qt_image_format
-from .yaml import YamlEditor
-from .hdf5 import HDF5Editor
+from .project_yaml import YamlEditor
+from .project_hdf5 import HDF5Editor
+from .project_pickle import PickleEditor
 from .project_ui import Ui_Form
 from .format_editor import PROJECT_FORMAT
 
@@ -82,6 +83,7 @@ class ProjectWidget(QWidget, Ui_Form):
         # Editors
         self.yaml_editor = YamlEditor(self, parent)
         self.hdf5_editor = HDF5Editor(self, parent)
+        self.pickle_editor = PickleEditor(self, parent)
         # Reset
         self.__file_name = QFileInfo()
         self.__changed = False
@@ -144,7 +146,9 @@ class ProjectWidget(QWidget, Ui_Form):
         """Save database, append commit to new branch function."""
         if not file_name:
             file_name = self.file_path()
-        if self.prefer.file_type_option == 2:
+        if self.prefer.file_type_option == 3:
+            self.pickle_editor.save(file_name)
+        elif self.prefer.file_type_option == 2:
             self.hdf5_editor.save(file_name)
         else:
             self.yaml_editor.save(file_name)
@@ -157,8 +161,10 @@ class ProjectWidget(QWidget, Ui_Form):
             return
         if HDF5Editor.test(file_name):
             self.hdf5_editor.load(file_name)
-        else:
+        elif YamlEditor.test(file_name):
             self.yaml_editor.load(file_name)
+        else:
+            self.pickle_editor.load(file_name)
         if self.prefer.open_project_actions_option == 0:
             self.command_stack.clear()
             self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
