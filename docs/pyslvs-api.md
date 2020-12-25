@@ -626,7 +626,7 @@ method.
 
 Generate path with four-bar dimensions.
 
-Normalized parameters are $[L0, L2, L3, L4, a0]$.
+Normalized parameters are $[L_0, L_2, L_3, L_4, lpha]$.
 
 ### uniform\_four_bar()
 
@@ -637,7 +637,7 @@ Normalized parameters are $[L0, L2, L3, L4, a0]$.
 Generate n four bar mechanisms from maximum lengths.
 
 These mechanisms have coupling points.
-Normalized parameters are $[L0, L2, L3, L4, a0]$.
+Normalized parameters are $[L_0, L_2, L_3, L_4, lpha]$.
 
 ![pxy](img/uniform_four_bar.png)
 
