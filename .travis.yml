@@ -23,32 +23,13 @@ jobs:
           packages:
             - libhdf5-dev
 
-    - &osx
-      os: osx
-      osx_image: xcode10
-      language: generic
-      env: PYTHON=3.7.0
-      before_install:
-        - brew update
-        - brew upgrade pyenv || true
-        - brew install llvm libomp
-        - export PATH="/usr/local/opt/llvm/bin:/Users/travis/.pyenv/shims:${PATH}"
-        - export PATH=/Users/travis/.pyenv/shims:${PATH}
-        - ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true
-        # Install Python
-        - CONFIGURE_OPTS=--enable-shared pyenv install ${PYTHON}
-        - pyenv global ${PYTHON}
-        - python3 -m pip install pip -U
-        - pyenv rehash
-        - python3 --version
-        - python3 -m pip --version
-        - python3 -m pip install -r requirements.txt -U
-        - python3 -m pip install -r pyslvs/requirements.txt -U
-      install:
-        - make test-pack
-
-    - <<: *osx
-      env: PYTHON=3.8.5
+    - <<: *linux
+      python: "3.9"
+      addons:
+        apt:
+          update: true
+          packages:
+            - libhdf5-dev
 
 script:
   - make test
