@@ -20,12 +20,12 @@ These data called "project" or "Pyslvs project" in the UI.
 
 ## Features of Formats
 
-The saving option will changed when loaded a different type of format.
+The saving option will be changed when loaded a different type of format.
+The default saving format is YAML.
 
-| Attributes | YAML | compressed YAML | HDF5 |
-|:----------:|:----:|:---------------:|:----:|
-| is default | yes | no | no |
-| suffix | `.pyslvs` | `.pyslvs` | `.pyslvs` |
-| base | text | text | binary |
-| file size | blocked YAML | one line YAML | the path data will be smaller |
-| file lock | when saving | when saving | when saving |
+| Format | Description |
+|:------:|:------------|
+| YAML | Blocked YAML. |
+| Compressed YAML | One line YAML. |
+| HDF5 | A database format suitable for matrix. |
+| Pickle | Python compression format. |
