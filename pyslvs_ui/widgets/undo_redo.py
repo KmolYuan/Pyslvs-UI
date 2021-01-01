@@ -15,7 +15,7 @@ Put the pointer under 'self' when the classes are initialize.
 """
 
 __author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2020"
+__copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 

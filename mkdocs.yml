@@ -2,7 +2,7 @@
 
 site_name: Pyslvs Documentation
 repo_url: https://github.com/KmolYuan/Pyslvs-UI
-copyright: Copyright &copy 2016-2020 <a href="https://github.com/KmolYuan">Yuan Chang</a>
+copyright: Copyright &copy 2016-2021 <a href="https://github.com/KmolYuan">Yuan Chang</a>
 site_description: The manual of Pyslvs, an open source planar linkage mechanism simulation and mechanical synthesis system.
 
 theme:
