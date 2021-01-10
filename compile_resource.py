@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Compile source code files from UI files."""
+"""Compile source code files from UI files. PyQt5 required."""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2021"
