@@ -265,7 +265,7 @@ class Ui_Dialog(object):
         self.open_project_actions_option.setItemText(0, _translate("Dialog", "No undo"))
         self.open_project_actions_option.setItemText(1, _translate("Dialog", "Group with macros"))
         self.open_project_actions_option.setItemText(2, _translate("Dialog", "No group"))
-        self.file_type_label.setText(_translate("Dialog", "File type:"))
+        self.file_type_label.setText(_translate("Dialog", "File type"))
         self.settings_misc_groupBox.setTitle(_translate("Dialog", "Misc"))
         self.auto_remove_link_option.setText(_translate("Dialog", "Remove empty links after deleted points."))
         self.title_full_path_option.setText(_translate("Dialog", "Show full file path on window title."))

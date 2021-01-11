@@ -407,7 +407,7 @@
           <item row="2" column="0">
            <widget class="QLabel" name="file_type_label">
             <property name="text">
-             <string>File type:</string>
+             <string>File type</string>
             </property>
            </widget>
           </item>
