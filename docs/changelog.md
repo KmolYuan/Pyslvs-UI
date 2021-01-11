@@ -4,11 +4,11 @@
 
 **Features**:
 
-+ None.
++ Remove HDF5 format support.
 
 **Development**:
 
-+ None.
++ Remove H5Py requirement.
 
 ## Version 20.12
 

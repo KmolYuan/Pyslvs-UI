@@ -8,5 +8,4 @@ matplotlib
 openpyxl
 lark-parser
 pyyaml
-h5py
 qrcode

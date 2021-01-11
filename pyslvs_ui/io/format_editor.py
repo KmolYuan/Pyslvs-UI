@@ -32,7 +32,6 @@ class ProjectFormat(IntEnum):
     """Project format."""
     YAML = 0
     C_YAML = auto()
-    HDF5 = auto()
     PICKLE = auto()
 
     @property
@@ -41,8 +40,6 @@ class ProjectFormat(IntEnum):
             return "YAML"
         elif self == ProjectFormat.C_YAML:
             return "Compressed YAML"
-        elif self == ProjectFormat.HDF5:
-            return "HDF5"
         elif self == ProjectFormat.PICKLE:
             return "Pickle"
         else:

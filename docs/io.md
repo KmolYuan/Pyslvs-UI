@@ -27,5 +27,4 @@ The default saving format is YAML.
 |:------:|:------------|
 | YAML | Blocked YAML. |
 | Compressed YAML | One line YAML. |
-| HDF5 | A database format suitable for matrix. |
-| Pickle | Python compression format. |
+| Pickle | Python official compression format. |

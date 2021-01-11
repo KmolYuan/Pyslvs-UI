@@ -17,19 +17,9 @@ jobs:
 
     - <<: *linux
       python: "3.8"
-      addons:
-        apt:
-          update: true
-          packages:
-            - libhdf5-dev
 
     - <<: *linux
       python: "3.9"
-      addons:
-        apt:
-          update: true
-          packages:
-            - libhdf5-dev
 
 script:
   - make test

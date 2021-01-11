@@ -13,7 +13,7 @@ from .format_editor import FormatEditor
 
 
 class PickleEditor(FormatEditor):
-    """HDF5 reader and writer."""
+    """Pickle reader and writer."""
 
     def __init__(self, *args):
         super(PickleEditor, self).__init__(*args)
