@@ -11,7 +11,7 @@ from .script import ScriptDialog, slvs_process_script
 from .slvs import SlvsParser
 from .output_option import SlvsOutputDialog, DxfOutputDialog, OutputDialog
 from .overview import OverviewDialog
-from .project import ProjectWidget
+from .project import ProjectWidget, ProjectFormat
 from .preferences import PreferencesDialog
 
 

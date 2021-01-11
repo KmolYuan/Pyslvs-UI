@@ -23,7 +23,7 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QCloseEvent
 from pyslvs_ui.info import KERNELS, Kernel
 from pyslvs_ui.widgets import Preferences, MainWindowBase
-from .format_editor import PROJECT_FORMAT
+from .format_editor import ProjectFormat
 from .preference_ui import Ui_Dialog
 
 
@@ -33,7 +33,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     def __init__(self, parent: MainWindowBase):
         super(PreferencesDialog, self).__init__(parent)
         self.setupUi(self)
-        self.file_type_option.addItems(PROJECT_FORMAT)
+        self.file_type_option.addItems([p.format_name for p in ProjectFormat])
         kernels = [s.title for s in KERNELS]
         self.planar_solver_option.addItems(kernels)
         self.path_preview_option.addItems(kernels + [Kernel.SAME_AS_SOLVING.title])

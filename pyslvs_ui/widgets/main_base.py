@@ -32,7 +32,7 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink, color_rgb
 from pyslvs_ui.info import ARGUMENTS, logger, Kernel
-from pyslvs_ui.io import ProjectWidget
+from pyslvs_ui.io import ProjectWidget, ProjectFormat
 from pyslvs_ui.synthesis import (
     StructureSynthesis,
     Collections,
@@ -153,7 +153,7 @@ class Preferences:
     monochrome_option: bool = False
     undo_limit_option: int = 60
     open_project_actions_option: int = 1
-    file_type_option: int = 0
+    file_type_option: ProjectFormat = ProjectFormat.YAML
     planar_solver_option: int = 0
     path_preview_option: int = Kernel.SAME_AS_SOLVING
     auto_remove_link_option: bool = True

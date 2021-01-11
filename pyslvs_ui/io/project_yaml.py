@@ -13,7 +13,7 @@ from yaml import safe_load, safe_dump
 from yaml.error import YAMLError
 from yaml.representer import SafeRepresenter
 from qtpy.QtWidgets import QMessageBox
-from .format_editor import FormatEditor
+from .format_editor import FormatEditor, ProjectFormat
 
 # Add a patch for numpy numbers
 SafeRepresenter.add_representer(float64, SafeRepresenter.represent_float)
@@ -41,9 +41,9 @@ class YamlEditor(FormatEditor):
         """Save to YAML file."""
         data = self.save_data()
         opt = self.prefer.file_type_option
-        if opt == 0:
+        if opt == ProjectFormat.YAML:
             flow_style = False
-        elif opt == 1:
+        elif opt == ProjectFormat.C_YAML:
             flow_style = True
         else:
             raise ValueError(f"unsupported option: {opt}")
@@ -52,7 +52,7 @@ class YamlEditor(FormatEditor):
         except Exception as e:
             QMessageBox.warning(self._parent, "Save error", f"{e}")
             return
-        if self.prefer.file_type_option == 1:
+        if self.prefer.file_type_option == ProjectFormat.C_YAML:
             yaml_script = sub(r"\s\s+", " ", yaml_script)
         with open(file_name, 'w+', encoding='utf-8') as f:
             f.write(yaml_script)

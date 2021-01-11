@@ -5,6 +5,7 @@ from __future__ import annotations
 """Genetic format processing editor."""
 
 from abc import abstractmethod
+from enum import unique, auto, IntEnum
 from typing import (
     TYPE_CHECKING, Tuple, List, Sequence, Dict, Mapping, Union, Any,
 )
@@ -19,12 +20,33 @@ if TYPE_CHECKING:
     from pyslvs_ui.io import ProjectWidget
     from pyslvs_ui.widgets import MainWindowBase
 
-PROJECT_FORMAT = ("YAML", "Compressed YAML", "HDF5", "Pickle")
 _Coord = Tuple[float, float]
 _Paths = Sequence[Sequence[_Coord]]
 _SliderPaths = Mapping[int, Sequence[_Coord]]
 _Pairs = Sequence[Tuple[int, int]]
 _Data = Mapping[str, Any]
+
+
+@unique
+class ProjectFormat(IntEnum):
+    """Project format."""
+    YAML = 0
+    C_YAML = auto()
+    HDF5 = auto()
+    PICKLE = auto()
+
+    @property
+    def format_name(self):
+        if self == ProjectFormat.YAML:
+            return "YAML"
+        elif self == ProjectFormat.C_YAML:
+            return "Compressed YAML"
+        elif self == ProjectFormat.HDF5:
+            return "HDF5"
+        elif self == ProjectFormat.PICKLE:
+            return "Pickle"
+        else:
+            raise KeyError("invalid format")
 
 
 class FormatEditor(QObject, metaclass=QABCMeta):
@@ -132,7 +154,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
             self.dlg = None
             return
         # File type option align (ignore previous one)
-        self.prefer.file_type_option = data.get('file_type', 0)
+        self.prefer.file_type_option = data.get('file_type', ProjectFormat.YAML)
         # Show overview dialog
         self.dlg.deleteLater()
         self.dlg = OverviewDialog(
