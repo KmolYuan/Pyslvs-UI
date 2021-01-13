@@ -59,7 +59,7 @@ install:
   - cmd: pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
   - sh: '[[ "$(uname)" == "Darwin" ]] && ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true'
   # Install modules
-  - python -m pip install pip setuptools wheel -U
+  - python -m pip install pip build setuptools wheel -U
   - python -m pip install -r requirements.txt
   - python -m pip install -r pyslvs/requirements.txt
 
@@ -72,7 +72,7 @@ after_build:
   - cmd: IF "%APPVEYOR_REPO_TAG%"=="true"
          IF "%APPVEYOR_REPO_NAME%"=="KmolYuan/Pyslvs-UI" (
          pip install twine &&
-         python setup.py bdist_wheel &&
+         python -m build --wheel &&
          twine upload dist\*.whl --skip-existing
          )
 

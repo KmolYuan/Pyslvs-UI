@@ -8,12 +8,12 @@ jobs:
     - &linux
       python: "3.7"
       before_install:
-        - python3 -m pip install pip -U
+        - python3 -m pip install pip build wheel setuptools -U
         - python3 -m pip install -r requirements.txt -U
         - python3 -m pip install -r pyslvs/requirements.txt -U
       install:
         - make test-pack
-        - python3 setup.py install
+        - python3 -m build
 
     - <<: *linux
       python: "3.8"
