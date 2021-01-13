@@ -20,7 +20,7 @@ python --version
 python -m pip --version
 
 # Install python dependencies
-python -m pip install -r requirements.txt || exit
+python -m pip install -e . || exit
 cd "${REPODIR}/pyslvs" || exit
 python setup.py install && python tests
 cd "${REPODIR}" || exit

@@ -60,7 +60,7 @@ install:
   - sh: '[[ "$(uname)" == "Darwin" ]] && ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true'
   # Install modules
   - python -m pip install pip build setuptools wheel -U
-  - python -m pip install -r requirements.txt
+  - python -m pip install -e .
   - python -m pip install -r pyslvs/requirements.txt
 
 build_script:

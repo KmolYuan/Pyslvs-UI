@@ -136,7 +136,7 @@ See the Ubuntu and macOS platform testing on Travis CI:
     git submodule update --init --recursive
 
     # Install dependencies
-    pip install -r requirements.txt
+    pip install -e .
 
     # Compile and install submodules
     make

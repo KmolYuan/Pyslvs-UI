@@ -28,7 +28,7 @@ The actual test and deployment platforms on CI/CD service:
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ### Ubuntu and macOS
