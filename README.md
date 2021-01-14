@@ -32,7 +32,11 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
     + Cross three platforms.
     + CAD-like user interface.
     + Auto layout of generalized chain.
-    + The code complies with [PEP 8] (code format), [PEP 484] (typing) and [PEP 561] (typed package).
+    + The code is following with Python Enhancement Proposals (PEP):
+        + [PEP 8](https://www.python.org/dev/peps/pep-0008) (code format)
+        + [PEP 484](https://www.python.org/dev/peps/pep-0484) (typing)
+        + [PEP 517](https://www.python.org/dev/peps/pep-0517) (`build_meta` project)
+        + [PEP 561](https://www.python.org/dev/peps/pep-0561) (typed package)
 
 If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
 
@@ -42,9 +46,6 @@ If you have any question, please post on GitHub issue or contact <pyslvs@gmail.c
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
 [stable]: https://pyslvs-ui.readthedocs.io/en/stable/
 [latest]: https://pyslvs-ui.readthedocs.io/en/latest/
-[PEP 8]: https://www.python.org/dev/peps/pep-0008
-[PEP 484]: https://www.python.org/dev/peps/pep-0484
-[PEP 561]: https://www.python.org/dev/peps/pep-0561
 
 # Getting Started
 
