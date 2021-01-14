@@ -56,7 +56,7 @@ See the Ubuntu and macOS platform testing on Travis CI:
     (Only for stable version!)
 
     ```bash
-    python setup.py install
+    pip install -e .
     ```
 
 !!! note

@@ -64,7 +64,7 @@ Branch `master` is in development, use `stable` branch to install stable depende
 
 ```bash
 git checkout stable
-python setup.py install
+pip install -e .
 ```
 
 Or, build `master` branch step by step follow the documentation.

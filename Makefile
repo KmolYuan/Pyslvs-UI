@@ -54,7 +54,7 @@ qrc:
 build:
 	@echo Build libraries
 	-$(PIP) uninstall pyslvs -y
-	cd $(PYSLVS_PATH) && $(PY) setup.py install
+	$(PIP) install -e $(PYSLVS_PATH)
 	@echo Done
 
 pack: $(LAUNCHER) clean build
