@@ -68,7 +68,7 @@ git checkout stable
 pip install -e .
 ```
 
-Or, build `master` branch step by step follow the documentation.
+There are more detailed instructions in the documentation.
 
 ## Libraries
 
