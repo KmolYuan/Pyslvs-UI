@@ -20,9 +20,10 @@ python --version
 python -m pip --version
 
 # Install python dependencies
-python -m pip install -e . || exit
+python -m pip install -e .
+python -m pip install -e pyslvs
 cd "${REPODIR}/pyslvs" || exit
-python setup.py install && python tests
+python tests
 cd "${REPODIR}" || exit
 
 ########################################################################
