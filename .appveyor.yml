@@ -56,12 +56,11 @@ install:
   - python --version
   - python -m pip --version
   # Set Python compiler to MinGW
-  - cmd: pyslvs\platform\set_pycompiler %PYTHON_DIR% %COMPILER%
+  - cmd: platform\set_pycompiler %PYTHON_DIR% %COMPILER%
   - sh: '[[ "$(uname)" == "Darwin" ]] && ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true'
   # Install modules
   - python -m pip install pip build setuptools wheel -U
   - python -m pip install -e . -U
-  - python -m pip install -e pyslvs -U
 
 build_script:
   - cmd: mingw32-make test-pack

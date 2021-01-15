@@ -142,7 +142,7 @@ See the Ubuntu and macOS platform testing on Travis CI:
     make
 
     # Open GUI by Python
-    python launch_pyslvs.py
+    python pyslvs_ui
 
     # Pack into stand-alone executable file
     make pack

@@ -21,9 +21,6 @@ python -m pip --version
 
 # Install python dependencies
 python -m pip install -e .
-python -m pip install -e pyslvs
-cd "${REPODIR}/pyslvs" || exit
-python tests
 cd "${REPODIR}" || exit
 
 ########################################################################
@@ -42,9 +39,16 @@ else
   ICON=ico
 fi
 
+cat >"${REPODIR}/hook.py" <<EOF
+# -*- coding: utf-8 -*-
+from pyslvs_ui.__main__ import main
+main()
+EOF
+
 # Run PyInstaller
 python -m pip install https://github.com/pyinstaller/pyinstaller/tarball/develop || exit
-python -m PyInstaller ${FLAG} -F launch_pyslvs.py -i pyslvs_ui/icons/main.${ICON} -n ${APP}
+python -m PyInstaller ${FLAG} -F hook.py -i pyslvs_ui/icons/main.${ICON} -n ${APP}
+rm -f "${REPODIR}/hook.py"
 cd "${REPODIR}/dist" || exit
 if [[ "$(uname)" == "Darwin" ]]; then
   mv ${APP} "${EXENAME}.run"

@@ -10,7 +10,6 @@ jobs:
       before_install:
         - python3 -m pip install pip build wheel setuptools -U
         - python3 -m pip install -e . -U
-        - python3 -m pip install -e pyslvs -U
       install:
         - make test-pack
         - python3 -m build

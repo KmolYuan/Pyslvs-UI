@@ -42,9 +42,6 @@ python -m pip --version
 # Install python dependencies
 cd "${REPODIR}" || exit
 python -m pip install -e .
-python -m pip install -e pyslvs
-cd "${REPODIR}/pyslvs" || exit
-python tests
 cd "${APPDIR}" || exit
 
 # Copy all built-in scripts
@@ -80,18 +77,13 @@ deactivate
 # "Install" app in the AppDir
 ########################################################################
 
-LAUNCHER="${APPDIR}/usr/bin/launch-${LOWERAPP}"
-cp "${REPODIR}/launch_pyslvs.py" ${LAUNCHER}
-sed -i "1i\#!/usr/bin/env python3" ${LAUNCHER}
-chmod +x ${LAUNCHER}
-
 LAUNCHER="${APPDIR}/usr/bin/${LOWERAPP}"
 cat >${LAUNCHER} <<EOF
 #!/bin/sh
 LD_LIBRARY_PATH="."
 export QT_PLUGIN_PATH="."
 HERE=\$(readlink -f "\$(dirname "\$(readlink -f "\${0}")")")
-exec "\${HERE}/launch-${LOWERAPP}" "\$@"
+exec "${HERE}/python" "\${HERE}/pyslvs_ui" "\$@"
 EOF
 chmod +x ${LAUNCHER}
 

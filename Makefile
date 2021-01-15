@@ -4,9 +4,6 @@
 # license: AGPL
 # email: pyslvs@gmail.com
 
-LAUNCHER = launch_pyslvs.py
-PYSLVS_PATH = pyslvs
-
 ifeq ($(OS), Windows_NT)
     PY = python
     SHELL = cmd
@@ -18,7 +15,7 @@ endif
 PIP = $(PY) -m pip
 
 .PHONY: all help doc ui qrc install uninstall \
-    pack build test-pack test clean-pack clean clean-all
+    pack build test-pack clean-pack clean clean-all
 
 all: build
 
@@ -33,7 +30,6 @@ help:
 	@echo "  build: build kernel only."
 	@echo "  install: install Pyslvs by setuptools."
 	@echo "  uninstall: uninstall Pyslvs by pip."
-	@echo "  test: run kernel unittest."
 	@echo "  test-pack: run pack self-check."
 	@echo "  clean: clean up kernel binary files."
 	@echo "  clean-pack: clean up executable file and PyInstaller items,"
@@ -54,10 +50,10 @@ qrc:
 build:
 	@echo Build libraries
 	-$(PIP) uninstall pyslvs -y
-	$(PIP) install -e $(PYSLVS_PATH)
+	$(PIP) install -e .
 	@echo Done
 
-pack: $(LAUNCHER) clean build
+pack: clean build
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS), Windows_NT)
@@ -75,11 +71,6 @@ install: build
 uninstall:
 	$(PIP) uninstall pyslvs-ui pyslvs python-solvespace
 
-test:
-	@echo Test libraries
-	cd $(PYSLVS_PATH) && $(PY) test
-	@echo Done
-
 test-pack: pack
 ifeq ($(OS), Windows_NT)
 	$(wildcard dist/*.exe) test
@@ -91,26 +82,6 @@ endif
 
 clean:
 	-$(PIP) uninstall pyslvs -y
-	cd $(PYSLVS_PATH) && $(PY) setup.py clean --all
-ifeq ($(OS), Windows_NT)
-	-rd "$(PYSLVS_PATH)/dist" /s /q
-	-rd "$(PYSLVS_PATH)/pyslvs.egg-info" /s /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\*.cpp /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\*.pyd /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\graph\*.cpp /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\graph\*.pyd /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\metaheuristics\*.cpp /q
-	-cd "$(PYSLVS_PATH)" && del pyslvs\metaheuristics\*.pyd /q
-else
-	-rm -fr "$(PYSLVS_PATH)"/dist
-	-rm -fr "$(PYSLVS_PATH)"/pyslvs.egg-info
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/*.cpp
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/*.so
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/graph/*.cpp
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/graph/*.so
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/metaheuristics/*.cpp
-	-rm -f "$(PYSLVS_PATH)"/pyslvs/metaheuristics/*.so
-endif
 
 clean-pack:
 ifeq ($(OS), Windows_NT)

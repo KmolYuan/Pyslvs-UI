@@ -42,7 +42,7 @@ def main() -> None:
         if ARGUMENTS.fusion:
             _app.setStyle('fusion')
         # Main window
-        from .main_window import MainWindow
+        from pyslvs_ui.main_window import MainWindow
         w = MainWindow.new()
         sp.finish(w)
         sp.deleteLater()
