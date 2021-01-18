@@ -83,7 +83,7 @@ cat >${LAUNCHER} <<EOF
 LD_LIBRARY_PATH="."
 export QT_PLUGIN_PATH="."
 HERE=\$(readlink -f "\$(dirname "\$(readlink -f "\${0}")")")
-exec "${HERE}/python" "\${HERE}/pyslvs_ui" "\$@"
+exec "\${HERE}/python" "\${HERE}/pyslvs_ui" "\$@"
 EOF
 chmod +x ${LAUNCHER}
 
