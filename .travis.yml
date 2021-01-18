@@ -10,9 +10,6 @@ jobs:
       before_install:
         - python3 -m pip install pip build wheel setuptools -U
         - python3 -m pip install -e . -U
-      install:
-        - make test-pack
-        - python3 -m build
 
     - <<: *linux
       python: "3.8"
@@ -21,7 +18,8 @@ jobs:
       python: "3.9"
 
 script:
-  - make test
+  - make test-pack
+  - python3 -m build
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
