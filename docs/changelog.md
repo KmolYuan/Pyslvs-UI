@@ -9,6 +9,9 @@
 **Development**:
 
 + Remove H5Py requirement.
++ Support PEP 517.
++ Remove entry point.
++ Remove submodule.
 
 ## Version 20.12
 
