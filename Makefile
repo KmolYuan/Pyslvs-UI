@@ -14,8 +14,7 @@ else
 endif
 PIP = $(PY) -m pip
 
-.PHONY: all help doc ui qrc install uninstall \
-    pack build test-pack clean-pack clean clean-all
+.PHONY: all help doc ui qrc install uninstall build pack test-pack
 
 all: build
 
@@ -79,27 +78,3 @@ else ifeq ($(shell uname), Darwin)
 else
 	$(wildcard out/*.AppImage) test
 endif
-
-clean:
-	-$(PIP) uninstall pyslvs -y
-
-clean-pack:
-ifeq ($(OS), Windows_NT)
-	-rd build /s /q
-	-rd dist /s /q
-	-rd pyslvs_ui.egg-info /s /q
-	-rd ENV /s /q
-	-del *.spec /q
-else
-	-rm -f -r build
-	-rm -f -r dist
-	-rm -f -r pyslvs_ui.egg-info
-	-rm -f -r ENV
-ifeq ($(shell uname), Darwin)
-	-rm -f *.spec
-else
-	-rm -f -r out
-endif
-endif
-
-clean-all: clean-pack clean
