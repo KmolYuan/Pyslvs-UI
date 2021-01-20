@@ -48,7 +48,7 @@ build:
 	$(PIP) install -e .
 	@echo Done
 
-pack: clean build
+pack: build
 	@echo Build executable for Python \
 $(shell $(PY) -c "import platform; print(platform.python_version())")
 ifeq ($(OS), Windows_NT)

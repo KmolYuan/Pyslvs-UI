@@ -24,7 +24,8 @@ from pyslvs_ui import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
 
 if _kernel_ver != __version__:
-    raise EnvironmentError("different version between kernel and interface")
+    raise EnvironmentError(f"different version between kernel and interface: "
+                           f"{_kernel_ver}, {__version__}")
 if _vi < (3, 8):
     from importlib_metadata import version
 else:
