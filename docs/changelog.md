@@ -9,7 +9,7 @@
 **Development**:
 
 + Remove H5Py requirement.
-+ Support PEP 517.
++ Support PEP 517. (#42)
 + Remove entry point.
 + Remove submodule.
 
@@ -31,7 +31,7 @@
 **Features**:
 
 + Fix the error caused by hanging slider joint. (#41)
-+ Fix slider input function. (github issue #40)
++ Fix slider input function. (#40)
 
 **Development**:
 
@@ -79,8 +79,8 @@
 **Features**:
 
 + Fix canvas selection and display error.
-+ Generate calculation script after parser script. (github issue #35)
-+ Support parallel linkage. (github issue #36)
++ Generate calculation script after parser script. (#35)
++ Support parallel linkage. (#36)
 + Skip auto preview paths when saving file.
 + Implement plotting function for slider paths.
 + Implement final vector animation.
@@ -101,7 +101,7 @@
 + Animation function for the paths of inputs page.
 + "Append path" function for the path of dimensional synthesis page.
 + Remove deprecated "show solutions" buttons.
-+ Fix GUI crash on AppImage. (github issue #34)
++ Fix GUI crash on AppImage. (#34)
 
 **Development**:
 
@@ -137,7 +137,7 @@
 
 + Use Matplotlib instead of PyQtChart.
 + Fix the error of auto preview path.
-+ Fix the bug of topological algorithm. (github issue #33)
++ Fix the bug of topological algorithm. (#33)
 
 ## Version 20.03
 
@@ -241,14 +241,14 @@
 
 + Show the degree code on graphs.
 + Pyslvs can only start one instance.
-+ Add "points alignment" function. (github issue #21)
++ Add "points alignment" function. (#21)
 + Add "navigation toolbar position" option.
-+ Add "auto remove empty links after deleted points" option. (github issue #23)
-+ Move background option into project file. (github issue #26)
++ Add "auto remove empty links after deleted points" option. (#23)
++ Move background option into project file. (#26)
 + The background image can be set by dragging in.
 + Consider the background when zoom to fit.
-+ Show the current mechanism in the overview dialog.  (github issue #25)
-+ Support Solvespace 3.x format.  (github issue #28)
++ Show the current mechanism in the overview dialog.  (#25)
++ Support Solvespace 3.x format.  (#28)
 + Replace term "workbook" into "project".
 + Improvement of reading path from Excel projects.
 
