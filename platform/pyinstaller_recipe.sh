@@ -53,8 +53,10 @@ cd "${REPODIR}/dist" || exit
 if [[ "$(uname)" == "Darwin" ]]; then
   mv ${APP} "${EXENAME}.run"
   mv ${APP}.app "${EXENAME}.app"
+  "${EXENAME}.run" test
   zip -r "${EXENAME}.app.zip" "${EXENAME}.app"
 else
   mv ${APP}.exe "${EXENAME}.exe"
+  "${EXENAME}.exe" test
   7z a -tzip "${EXENAME}.zip" "${EXENAME}.exe"
 fi

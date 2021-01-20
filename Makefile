@@ -14,7 +14,7 @@ else
 endif
 PIP = $(PY) -m pip
 
-.PHONY: all help doc ui qrc install uninstall build pack test-pack
+.PHONY: all help doc ui qrc install uninstall build pack
 
 all: build
 
@@ -31,7 +31,6 @@ help:
 	@echo "  build: build kernel only."
 	@echo "  install: install Pyslvs by setuptools."
 	@echo "  uninstall: uninstall Pyslvs by pip."
-	@echo "  test-pack: run pack self-check."
 
 doc: build
 	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
@@ -65,12 +64,3 @@ install: build
 
 uninstall:
 	$(PIP) uninstall pyslvs-ui pyslvs python-solvespace
-
-test-pack: pack
-ifeq ($(OS), Windows_NT)
-	$(wildcard dist/*.exe) test
-else ifeq ($(shell uname), Darwin)
-	$(wildcard dist/*.run) test
-else
-	$(wildcard out/*.AppImage) test
-endif

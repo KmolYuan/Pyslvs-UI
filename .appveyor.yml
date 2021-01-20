@@ -63,8 +63,8 @@ install:
   - python -m pip install -e . -U
 
 build_script:
-  - cmd: mingw32-make test-pack
-  - sh: make test-pack
+  - cmd: mingw32-make pack
+  - sh: make pack
 
 after_build:
   # PyPI (Universal)

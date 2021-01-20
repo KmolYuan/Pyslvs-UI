@@ -128,3 +128,6 @@ rm -fr opt usr/share
 
 cd "${ENV}" || exit
 generate_type2_appimage
+
+EXENAME=$(ls -t Pyslvs-*.AppImage)
+${EXENAME} test
