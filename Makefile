@@ -25,17 +25,13 @@ help:
 	@echo "  all: build kernel only."
 	@echo "  help: show this help message."
 	@echo "  doc: build the API documents."
+	@echo "  ui: compile ui files."
+	@echo "  qrc: compile qrc files."
 	@echo "  pack: build Pyslvs executable file."
 	@echo "  build: build kernel only."
 	@echo "  install: install Pyslvs by setuptools."
 	@echo "  uninstall: uninstall Pyslvs by pip."
 	@echo "  test-pack: run pack self-check."
-	@echo "  clean: clean up kernel binary files."
-	@echo "  clean-pack: clean up executable file and PyInstaller items,"
-	@echo "              but not to delete kernel binary files."
-	@echo "  clean-all: clean every binary files and executable file."
-	@echo "  ui: compile ui files."
-	@echo "  qrc: compile qrc files."
 
 doc: build
 	apimd Pyslvs=pyslvs Python-Solvespace=python_solvespace
