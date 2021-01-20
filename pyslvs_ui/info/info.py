@@ -19,9 +19,12 @@ from sys import version_info as _vi
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from dataclasses import dataclass
-from pyslvs import __version__
+from pyslvs import __version__ as _kernel_ver
+from pyslvs_ui import __version__
 from pyslvs_ui.qt_patch import API, QT_VERSION
 
+if _kernel_ver != __version__:
+    raise EnvironmentError("different version between kernel and interface")
 if _vi < (3, 8):
     from importlib_metadata import version
 else:

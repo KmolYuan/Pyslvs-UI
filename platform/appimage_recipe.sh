@@ -68,7 +68,7 @@ cd "${APPDIR}" || exit
 cp -n -v "$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")"/libpython3*.so* usr/lib
 
 # Set version
-VERSION=$(python -c "from pyslvs import __version__;print(__version__)")
+VERSION=$(python -c "from pyslvs_ui import __version__;print(__version__)")
 echo "${VERSION}"
 
 deactivate

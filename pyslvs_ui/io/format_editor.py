@@ -11,7 +11,7 @@ from typing import (
 )
 from qtpy.QtCore import QObject, QFileInfo
 from qtpy.QtWidgets import QProgressDialog, QMessageBox
-from pyslvs import __version__
+from pyslvs_ui import __version__
 from pyslvs_ui.qt_patch import QABCMeta
 from pyslvs_ui.info import logger
 from .overview import OverviewDialog

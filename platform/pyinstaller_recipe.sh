@@ -27,7 +27,7 @@ cd "${REPODIR}" || exit
 # Pack executable
 ########################################################################
 
-PYSLVSVER=$(python -c "from pyslvs import __version__;print(__version__)")
+PYSLVSVER=$(python -c "from pyslvs_ui import __version__;print(__version__)")
 COMPILERVER=$(python -c "import platform;print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())")
 SYSVER=$(python -c "import platform;print(platform.machine().lower())")
 EXENAME=pyslvs-${PYSLVSVER}.${COMPILERVER}-${SYSVER}

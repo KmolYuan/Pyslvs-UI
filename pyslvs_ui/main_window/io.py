@@ -28,7 +28,8 @@ from qtpy.QtGui import (
     QDragEnterEvent,
     QDropEvent,
 )
-from pyslvs import __version__, parse_params, VLink
+from pyslvs import parse_params, VLink
+from pyslvs_ui import __version__
 from pyslvs_ui.qt_patch import qt_image_format, qt_image_suffix
 from pyslvs_ui.info import (
     ARGUMENTS,
