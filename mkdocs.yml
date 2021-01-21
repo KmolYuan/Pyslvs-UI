@@ -38,6 +38,7 @@ nav:
   - Getting Start:
       - Introduction: intro.md
       - Environment: environment.md
+      - Command Set: commands.md
   - User Interface:
       - Build a Planar Linkage Mechanism: mechanism.md
       - Mechanism Variables: inputs.md

@@ -131,4 +131,4 @@ generate_type2_appimage
 
 cd ../out || exit
 EXENAME=$(ls -t Pyslvs-*.AppImage)
-./${EXENAME} test
+"./${EXENAME}" test

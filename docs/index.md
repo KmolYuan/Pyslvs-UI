@@ -138,15 +138,11 @@ See the Ubuntu and macOS platform testing on Travis CI:
     # Install dependencies
     pip install -e .
 
-    # Compile and install submodules
-    make
-
     # Open GUI by Python
     python pyslvs_ui
-
-    # Pack into stand-alone executable file
-    make pack
     ```
+
+For more details, please see the [command set](commands.md).
 
 ## Uninstall
 

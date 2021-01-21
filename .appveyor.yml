@@ -40,9 +40,8 @@ install:
   # Install Python-dev
   - cmd: IF DEFINED PYTHON_DEV choco install -y python --version %PYTHON_DEV%
   # Environment variables
-  - cmd: set Path=%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
   - cmd: set PYTHON_DIR=C:\Python%PY%-x64
-  - cmd: set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%Path%
+  - cmd: set Path=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%MSYS_DIR%\mingw64\bin;%MSYS_DIR%\usr\bin;%Path%
   - sh: if [[ "$APPVEYOR_BUILD_WORKER_IMAGE" == "macos-mojave" ]]; then
       brew install llvm libomp;
       export PATH="/usr/local/opt/llvm/bin:${PATH}";
@@ -63,8 +62,13 @@ install:
   - python -m pip install -e . -U
 
 build_script:
-  - cmd: mingw32-make pack
-  - sh: make pack
+  - cmd: bash ./scripts/pyinstaller_recipe.sh
+  - sh: |
+      if [[ "$(uname)" == "Darwin" ]]; then
+        bash ./scripts/pyinstaller_recipe.sh
+      else
+        bash ./scripts/appimage_recipe.sh
+      fi
 
 after_build:
   # PyPI (Universal)

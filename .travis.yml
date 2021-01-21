@@ -18,7 +18,7 @@ jobs:
       python: "3.9"
 
 script:
-  - make pack
+  - bash ./scripts/appimage_recipe.sh
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log

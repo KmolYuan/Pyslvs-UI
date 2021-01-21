@@ -51,16 +51,7 @@ pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.7.4/lib/python3.7/
 
 Python 3: [Official Python] for Windows 64 bit.
 
-Makefile tool: MinGW or Msys 2.
-
-It will be useful if Make tool in Msys can't find Windows command (such like `copy`, `rd` or `del`):
-
-```makefile
-ifeq ($(OS),Windows_NT)
-    # Rewrite "SHELL" variable.
-    SHELL = cmd
-endif
-```
+Shell script tool: MinGW or Msys 2.
 
 === "Visual C++"
     Install from [official website](https://visualstudio.microsoft.com/downloads).
@@ -81,10 +72,6 @@ endif
 
     # Install MinGW
     pacman -S mingw-w64-x86_64-gcc
-    # Install Make
-    pacman -S mingw-w64-x86_64-make
-    # The "make" command is named as "mingw32-make". You can rename it by:
-    mv /mingw64/bin/mingw32-make /mingw64/bin/make
 
     # Install patch
     pacman -S patch
@@ -129,17 +116,11 @@ The plugins is `platforminputcontexts/libfcitxplatforminputcontextplugin.so`.
 
 About the development tools, please see [Dependencies](#dependencies).
 
-Make command:
+This project will automatically install kernel(s) through:
 
 ```bash
-make
+pip install -e .
 ```
-
-This project including two kernels should build.
-
-!!! note
-    The kernels can also be installed from pip with specified version.
-    The Makefile command will build them from source.
 
 ### Pyslvs Kernel
 
@@ -147,23 +128,12 @@ This project including two kernels should build.
 The version should be same as Pyslvs-UI.
 
 Install it by `pip install pyslvs==xx.xx` to specify the version.
-Or just build from the submodule.
 
 ### Python-Solvespace Kernel
 
 [Python-Solvespace]: Python bundle of [Solvespace] library.
 
 Install it by `pip install python-solvespace`.
-
-## Stand-alone Executable File
-
-As your wish, it can be renamed or moved out and operate independently in no-Python environment.
-
-Make command:
-
-```bash
-make pack
-```
 
 ### Ubuntu
 
