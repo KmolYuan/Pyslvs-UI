@@ -5,17 +5,13 @@ dist: xenial
 
 jobs:
   include:
-    - &linux
-      python: "3.7"
-      before_install:
-        - python3 -m pip install pip setuptools -U
-        - python3 -m pip install -e . -U
+    - python: "3.7"
+    - python: "3.8"
+    - python: "3.9"
 
-    - <<: *linux
-      python: "3.8"
-
-    - <<: *linux
-      python: "3.9"
+before_install:
+  - python3 -m pip install pip setuptools -U
+  - python3 -m pip install -e . -U
 
 script:
   - bash ./scripts/appimage_recipe.sh
