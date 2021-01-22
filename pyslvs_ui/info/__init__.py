@@ -16,8 +16,11 @@ def size_format(num: float) -> str:
     """Calculate file size based on binary."""
     if num < 0:
         raise ValueError("size must be positive value")
+    s = "0 B"
     units = ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
     for i, u in enumerate(units):
-        if abs(num) < 1024 or i == len(units) - 1:
-            return f"{num:3.2f} {u}B"
+        s = f"{num:3.2f} {u}B"
+        if abs(num) < 1024:
+            break
         num /= 1024
+    return s
