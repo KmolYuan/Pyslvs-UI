@@ -747,8 +747,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
 
         self.parameter_list.setItem(row, 0, QTableWidgetItem("L"))
         self.parameter_list.setItem(row, 1, QTableWidgetItem('link'))
-        for i, (s, tag) in enumerate(
-            [(spinbox(), 'upper'), (spinbox(), 'lower')]):
+        for i, (s, tag) in enumerate([
+            (spinbox(), 'upper'),
+            (spinbox(), 'lower'),
+        ]):
             s.setValue(self.mech[tag])
             s.valueChanged.connect(set_link(tag))
             self.parameter_list.setCellWidget(row, i + 2, s)

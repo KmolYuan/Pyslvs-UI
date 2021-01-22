@@ -80,16 +80,17 @@ class RangeDetector:
     bottom = inf
     del inf
 
-    def __call__(self, r: float, l: float, t: float, b: float) -> None:
+    def __call__(self, right: float, left: float,
+                 top: float, bottom: float) -> None:
         """Set ranges from new point."""
-        if r < self.right:
-            self.right = r
-        if l > self.left:
-            self.left = l
-        if t > self.top:
-            self.top = t
-        if b < self.bottom:
-            self.bottom = b
+        if right < self.right:
+            self.right = right
+        if left > self.left:
+            self.left = left
+        if top > self.top:
+            self.top = top
+        if bottom < self.bottom:
+            self.bottom = bottom
 
 
 @dataclass(init=False, repr=False, eq=False)

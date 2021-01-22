@@ -19,6 +19,7 @@ from pyslvs_ui.qt_patch import QABCMeta
 from .main_ui import Ui_MainWindow
 
 _Coord = Tuple[float, float]
+_Phase = Tuple[float, float, float]
 
 
 class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
@@ -87,8 +88,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def set_free_move(self, args: Sequence[
-        Tuple[int, Tuple[float, float, float]]]) -> None:
+    def set_free_move(self, args: Sequence[Tuple[int, _Phase]]) -> None:
         raise NotImplementedError
 
     @abstractmethod

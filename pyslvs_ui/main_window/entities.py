@@ -38,6 +38,7 @@ from pyslvs_ui.widgets import (
 from pyslvs_ui.widgets import MainWindowBase
 
 _Coord = Tuple[float, float]
+_Phase = Tuple[float, float, float]
 
 
 class _ScaleDialog(QDialog):
@@ -569,10 +570,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         self.command_stack.endMacro()
 
     @Slot(tuple)
-    def set_free_move(
-        self,
-        args: Sequence[Tuple[int, Tuple[float, float, float]]]
-    ):
+    def set_free_move(self, args: Sequence[Tuple[int, _Phase]]):
         """Free move function."""
         points_text = ", ".join(f"Point{c[0]}" for c in args)
         self.command_stack.beginMacro(f"Moved {{{points_text}}}")
