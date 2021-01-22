@@ -13,11 +13,11 @@ from .logging_handler import logger, XStream
 
 
 def size_format(num: float) -> str:
-    """Calculate file size."""
-    if num <= 0:
-        return "0 B"
-    for u in ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z'):
-        if abs(num) < 1024:
-            return f"{num:3.1f} {u}B"
+    """Calculate file size based on binary."""
+    if num < 0:
+        raise ValueError("size must be positive value")
+    units = ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+    for i, u in enumerate(units):
+        if abs(num) < 1024 or i == len(units) - 1:
+            return f"{num:3.2f} {u}B"
         num /= 1024
-    return f"{num:.1f} YB"
