@@ -12,6 +12,7 @@
 + Support PEP 517. (#42)
 + Remove entry point.
 + Remove submodule.
++ Remove Makefile.
 
 ## Version 20.12
 
