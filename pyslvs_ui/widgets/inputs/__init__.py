@@ -23,7 +23,8 @@ from qtpy.QtWidgets import (
     QCheckBox,
 )
 from qtpy.QtGui import QIcon, QPixmap
-from pyslvs import VJoint, curvature, derivative, path_signature
+from pyslvs import VJoint
+from pyslvs.optimization import curvature, derivative, path_signature
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
 from pyslvs_ui.widgets.undo_redo import (

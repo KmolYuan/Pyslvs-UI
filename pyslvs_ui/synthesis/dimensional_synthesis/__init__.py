@@ -12,7 +12,7 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-import pprint
+from pprint import pformat
 from copy import deepcopy
 from math import hypot
 from typing import (
@@ -21,9 +21,8 @@ from typing import (
 )
 from lark.exceptions import LarkError
 from openpyxl import load_workbook
-from pyslvs import (
-    expr_solving, norm_path, parse_pos, parse_vpoints, t_config,
-)
+from pyslvs import expr_solving, parse_pos, parse_vpoints, t_config
+from pyslvs.optimization import norm_path
 from pyslvs.metaheuristics import AlgorithmType, DEFAULT_PARAMS, PARAMS
 from qtpy.QtCore import QModelIndex, Slot
 from qtpy.QtGui import QIcon, QPixmap
@@ -597,7 +596,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __copy_result_text(self) -> None:
         """Copy pretty print result as text."""
         QApplication.clipboard().setText(
-            pprint.pformat(self.mechanism_data[self.result_list.currentRow()])
+            pformat(self.mechanism_data[self.result_list.currentRow()])
         )
 
     @Slot(name='on_save_profile_clicked')

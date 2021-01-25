@@ -11,7 +11,8 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QPaintEvent, QPen, QPixmap, QIcon
 from numpy import array, ndarray, isclose, isnan
-from pyslvs import VPoint, VLink, VJoint, derivative
+from pyslvs import VPoint, VLink, VJoint
+from pyslvs.optimization import derivative
 from pyslvs_ui.graphics import (
     AnimationCanvas, color_qt, convex_hull, LINK_COLOR,
 )

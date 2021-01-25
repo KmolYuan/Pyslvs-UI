@@ -13,7 +13,7 @@ from platform import system, release, machine
 from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
-from pyslvs import FMatch
+from pyslvs.optimization import FMatch
 from pyslvs.metaheuristics import ALGORITHM, AlgorithmType
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread

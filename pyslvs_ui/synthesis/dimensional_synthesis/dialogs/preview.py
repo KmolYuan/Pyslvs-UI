@@ -14,11 +14,15 @@ from numpy import linspace, concatenate
 from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
 from qtpy.QtWidgets import QDialog, QWidget
 from qtpy.QtGui import QPen, QFont, QPaintEvent
-from pyslvs import (color_rgb, get_vlinks, VPoint, VLink, parse_vpoints,
-                    norm_path, efd_fitting, curvature, cross_correlation,
-                    path_signature)
-from pyslvs_ui.graphics import (AnimationCanvas, color_qt, LINK_COLOR,
-                                DataChartDialog)
+from pyslvs import (
+    color_rgb, get_vlinks, VPoint, VLink, parse_vpoints, efd_fitting,
+)
+from pyslvs.optimization import (
+    norm_path, curvature, cross_correlation, path_signature,
+)
+from pyslvs_ui.graphics import (
+    AnimationCanvas, color_qt, LINK_COLOR, DataChartDialog,
+)
 from .preview_ui import Ui_Dialog
 
 _Coord = Tuple[float, float]
