@@ -53,13 +53,13 @@ The generalized chain of current mechanism can be obtained by clicking
 "analysis" button top of the page.
 
 This process is called "generalization".
-The result contains the graph, the number of joints and the number of links.
+The result contains the graph, the number of joints, and the number of links.
 The multiple joints will be parsed as several joints connected on the previous links; 
 and each joint with 2 DOF will be turned into two 1 DOF joints.
 
 ### Number Synthesis
 
-Base on the number of joints and the number links, the graphs can be divide as following features:
+Base on the number of joints and the number links, the graphs can be divided as following features:
 
 + Link assortment
 + Contracted link assortment
@@ -79,7 +79,7 @@ The saved string list can be import to Pyslvs as well.
 
 The layout system may cause the adjacency of some graphs to unclear or
 even can't draw some graphs.
-Don't worry, the expression will still working with the graph checking and
+Don't worry, the expression will still work with the graph checking and
 other mechanisms.
 
 ## Structure Collections
@@ -89,16 +89,16 @@ Collect structures of interest.
 ### Filters
 
 The graphs can be input to the collection list.
-There has some graph filter of the input graph(s):
+There has some graph filters of the input graph(s):
 
 + Is empty: The Edge Set of the graph is empty.
-+ Is not connected: The vertices is not connect as one graph.
++ Is not connected: The vertices is not connected as one graph.
 + Is not planar: The graph is not a planar graph.
 + Has cut-link: The graph has cut-vertex.
 + Can't draw: The graph is unsupported with layout system.
 + Is isomorphic with other graphs.
 
-The check processes are very fast, unless there are too much graphs.
+The check processes are very fast, unless there are too many graphs.
 
 ## Configuration of Collections
 

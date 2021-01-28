@@ -14,14 +14,15 @@ pip install pyslvs
 ```
 
 !!!warning
-    Pyslvs-UI is using global `pyslvs` as kernel.
+    Pyslvs-UI is using global `pyslvs` module as kernel.
     Please make sure the version is same with it.
 
 ## Build and Test
 
-Enter directory and execute the Makefile. Then, run the unit test script after compiling.
+Execute the unit test script after the kernel compiled.
 
 ```bash
+pip install -e .
 python test
 ```
 
@@ -69,11 +70,13 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 ### Kinematic Graph Synthesis
 
+Submodule `pyslvs.graph`.
+
 + **graph** library:
 
     Graph expression came from NetworkX. Also contains graph verification functions. 
 
-+ **graph_planar** library:
++ **planar** library:
 
     **preload**: `graph`
 
@@ -81,11 +84,19 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 + **structural** library:
 
-    **preload**: `graph`, `graph_planar`
+    **preload**: `graph`, `planar`
 
     Structural synthesis algorithm.
 
++ **layout** library:
+
+    **preload**: `graph`
+
+    Layout algorithm for graphs.
+
 #### Meta-heuristics Algorithm
+
+Submodule `pyslvs.metaheuristics`.
 
 [metaheuristics](https://github.com/KmolYuan/metaheuristics) module: Cython algorithms libraries provide evolution designing.
 
@@ -113,7 +124,9 @@ Most of classes and functions can be work with a generic Python format (just lik
 
 #### Dimensional Synthesis
 
-+ **planar_linkage** library:
+Submodule `pyslvs.optimization`.
+
++ **f_planar** library:
 
     **preload**: `expression`, `topo_config`, `bfgs`, `tinycadlib`, `utility`
 
