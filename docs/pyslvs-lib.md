@@ -130,4 +130,12 @@ Submodule `pyslvs.optimization`.
 
     **preload**: `expression`, `topo_config`, `bfgs`, `tinycadlib`, `utility`
 
-    Dimensional synthesis verification function objects.
+    Dimensional synthesis for multi-link mechanisms. (defect allowable)
+
++ **n_planar** library:
+
+  **preload**: `expression`, `tinycadlib`, `utility`
+
+  Dimensional synthesis for normalized four-bar linkages. (defect free)
+
+  This function is not implemented yet.
