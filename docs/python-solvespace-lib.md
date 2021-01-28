@@ -16,11 +16,11 @@ pip install python-solvespace
 
 ## Build and Test
 
-Enter directory and execute the Makefile. Then, run the unit test script after compiling.
+Execute the unit test script after the kernel compiled.
 
 ```bash
-make
-python tests
+python setup.py install
+python test
 ```
 
 ## Module part
