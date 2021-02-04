@@ -46,14 +46,8 @@ class ChartDialog(QDialog):
         self.__set_chart("F-T Plot", 2, 1, 'Time', 'Fitness')
         main_layout.addWidget(self.tab_widget)
 
-    def __set_chart(
-        self,
-        name: str,
-        pos_x: int,
-        pos_y: int,
-        label_x: str,
-        label_y: str
-    ) -> None:
+    def __set_chart(self, name: str, x_i: int, y_i: int,
+                    x_l: str, y_l: str) -> None:
         """Setting charts by data index.
 
         pos_x / pos_y: [0], [1], [2]
@@ -63,8 +57,8 @@ class ChartDialog(QDialog):
         ax = chart.ax()
         for i, data in enumerate(self.algorithm_data):
             a = array(data['time_fitness'], dtype=float)
-            ax[0].plot(a[:, pos_x], a[:, pos_y], label=f"Task {i + 1}")
-            ax[0].set_xlabel(label_x)
-            ax[0].set_ylabel(label_y)
+            ax[0].plot(a[:, x_i], a[:, y_i], 'bs-', label=f"Task {i + 1}")
+            ax[0].set_xlabel(x_l)
+            ax[0].set_ylabel(y_l)
             ax[0].legend()
         self.tab_widget.addTab(chart, name)
