@@ -75,7 +75,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     def __merge_joint(self, index: int, points: Sequence[int]) -> None:
         """Merge the joints into a specific joint."""
         base = points[index]
-        self.command_stack.beginMacro(
+        self.cmd_stack.beginMacro(
             f"Merge {sorted(points)} based on {{Point{base}}}"
         )
         links = list(self.vpoint_list[base].links)
@@ -84,7 +84,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             if p != base:
                 links.extend(set(self.vpoint_list[p].links) - set(links))
         args.links = ','.join(links)
-        self.command_stack.push(EditPointTable(
+        self.cmd_stack.push(EditPointTable(
             base,
             self.vpoint_list,
             self.vlink_list,
@@ -95,7 +95,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         for p in sorted(points, reverse=True):
             if p != base:
                 self.delete_point(p)
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     def __merge_link(self, index: int, links: Sequence[int]) -> None:
         """Merge links to a base link.
@@ -105,7 +105,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         row = links[index]
         links_text = ", ".join(self.vlink_list[link].name for link in links)
         name = self.vlink_list[row].name
-        self.command_stack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
+        self.cmd_stack.beginMacro(f"Merge {{{links_text}}} to joint {{{name}}}")
         points = list(self.vlink_list[row].points)
         args = self.entities_link.row_data(row)
         for link in sorted(links, reverse=True):
@@ -117,7 +117,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.delete_link(link)
         args.points = ','.join(f'Point{p}' for p in points)
         row = [vlink.name for vlink in self.vlink_list].index(args.name)
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             row,
             self.vpoint_list,
             self.vlink_list,
@@ -125,7 +125,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(float, float)
     def set_mouse_pos(self, x: float, y: float) -> None:

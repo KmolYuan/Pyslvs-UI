@@ -183,17 +183,17 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             dlg.y_box.value()
         )
         if row is False:
-            self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
-            self.command_stack.push(
+            self.cmd_stack.beginMacro(f"Add {{Point{row_count}}}")
+            self.cmd_stack.push(
                 AddTable(self.vpoint_list, self.entities_point))
             row = row_count
         else:
             row = dlg.name_box.currentIndex()
-            self.command_stack.beginMacro(f"Edit {{Point{row}}}")
+            self.cmd_stack.beginMacro(f"Edit {{Point{row}}}")
 
         dlg.deleteLater()
 
-        self.command_stack.push(EditPointTable(
+        self.cmd_stack.push(EditPointTable(
             row,
             self.vpoint_list,
             self.vlink_list,
@@ -201,7 +201,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     def __edit_link(self, row: Union[int, bool] = False) -> None:
         """Edit link function."""
@@ -217,17 +217,17 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             for point in range(dlg.selected.count())
         ))
         if row is False:
-            self.command_stack.beginMacro(f"Add {{Link: {name}}}")
-            self.command_stack.push(
+            self.cmd_stack.beginMacro(f"Add {{Link: {name}}}")
+            self.cmd_stack.push(
                 AddTable(self.vlink_list, self.entities_link))
             row = self.entities_link.rowCount() - 1
         else:
             row = dlg.name_box.currentIndex()
-            self.command_stack.beginMacro(f"Edit {{Link: {name}}}")
+            self.cmd_stack.beginMacro(f"Edit {{Link: {name}}}")
 
         dlg.deleteLater()
 
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             row,
             self.vpoint_list,
             self.vlink_list,
@@ -235,7 +235,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     def __get_link_serial_number(self) -> str:
         """Return a new serial number name of link."""
@@ -254,13 +254,13 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             return
         args = self.entities_point.row_data(row)
         args.links = ''
-        self.command_stack.beginMacro(f"Delete {{Point{row}}}")
+        self.cmd_stack.beginMacro(f"Delete {{Point{row}}}")
         for i in reversed([
             i for i, (b, d, _) in enumerate(self.inputs_widget.input_pairs())
             if row in {b, d}
         ]):
             self.inputs_widget.remove_var(i)
-        self.command_stack.push(EditPointTable(
+        self.cmd_stack.push(EditPointTable(
             row,
             self.vpoint_list,
             self.vlink_list,
@@ -269,22 +269,22 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             args
         ))
         for i in range(self.entities_link.rowCount()):
-            self.command_stack.push(FixSequenceNumber(
+            self.cmd_stack.push(FixSequenceNumber(
                 self.vlink_list,
                 self.entities_link,
                 i,
                 row
             ))
-        self.command_stack.push(DeleteTable(
+        self.cmd_stack.push(DeleteTable(
             row,
             self.vpoint_list,
             self.entities_point,
             is_rename=True
         ))
         self.inputs_widget.variable_excluding(row)
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
         if self.prefer.auto_remove_link_option:
-            self.delete_redundant_links()
+            self.deduce_links()
 
     @Slot(name='on_action_delete_link_triggered')
     def delete_link(self, row: Optional[int] = None) -> None:
@@ -298,9 +298,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             return
         args = self.entities_link.row_data(row)
         args.points = ''
-        self.command_stack.beginMacro(
+        self.cmd_stack.beginMacro(
             f"Delete {{Link: {self.vlink_list[row].name}}}")
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             row,
             self.vpoint_list,
             self.vlink_list,
@@ -308,34 +308,34 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.push(DeleteTable(
+        self.cmd_stack.push(DeleteTable(
             row,
             self.vlink_list,
             self.entities_link,
             is_rename=False
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     def delete_points(self, points: Sequence[int]) -> None:
         """Delete multiple points."""
         if not points:
             return
-        self.command_stack.beginMacro(f"Delete points: {sorted(points)}")
+        self.cmd_stack.beginMacro(f"Delete points: {sorted(points)}")
         for row in sorted(points, reverse=True):
             self.delete_point(row)
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     def delete_links(self, links: Iterable[int]) -> None:
         """Delete multiple links."""
         if not links:
             return
         names = ", ".join(self.vlink_list[i].name for i in sorted(links))
-        self.command_stack.beginMacro(f"Delete links: [{names}]")
+        self.cmd_stack.beginMacro(f"Delete links: [{names}]")
         for row in sorted(links, reverse=True):
             if row == 0:
                 continue
             self.delete_link(row)
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(float, float)
     def add_point_by_pos(self, x: float, y: float) -> None:
@@ -368,15 +368,15 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     ) -> int:
         """Add an ordinary point. Return the row count of new point."""
         row_count = self.entities_point.rowCount()
-        self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
-        self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
+        self.cmd_stack.beginMacro(f"Add {{Point{row_count}}}")
+        self.cmd_stack.push(AddTable(self.vpoint_list, self.entities_point))
         if type_num == VJoint.R:
             type_str = 'R'
         elif type_num == VJoint.P:
             type_str = f'P:{angle}'
         else:
             type_str = f'RP:{angle}'
-        self.command_stack.push(EditPointTable(
+        self.cmd_stack.push(EditPointTable(
             row_count,
             self.vpoint_list,
             self.vlink_list,
@@ -384,7 +384,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             PointArgs(links, type_str, color, x, y)
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
         return row_count
 
     def add_points(
@@ -403,7 +403,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
     ) -> None:
         """Add points by NetworkX graph and position dict."""
         base_count = self.entities_point.rowCount()
-        self.command_stack.beginMacro(
+        self.cmd_stack.beginMacro(
             "Merge mechanism kit from {Number and Type Synthesis}"
         )
 
@@ -418,7 +418,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             ])
             if link == ground_link:
                 ground = self.entities_link.rowCount() - 1
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
         if ground_link is not None:
             self.constrain_link(ground)
 
@@ -437,9 +437,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if points is None:
             points = []
         args = LinkArgs(name, color, ','.join(f'Point{i}' for i in points))
-        self.command_stack.beginMacro(f"Add {{Link: {name}}}")
-        self.command_stack.push(AddTable(self.vlink_list, self.entities_link))
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.beginMacro(f"Add {{Link: {name}}}")
+        self.cmd_stack.push(AddTable(self.vlink_list, self.entities_link))
+        self.cmd_stack.push(EditLinkTable(
             self.entities_link.rowCount() - 1,
             self.vpoint_list,
             self.vlink_list,
@@ -447,7 +447,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(name='on_action_new_point_triggered')
     def new_point(self) -> None:
@@ -464,7 +464,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Turn a group of points to fixed on ground or not."""
         to_fixed = self.action_p_lock.isChecked()
         selected_rows = self.entities_point.selected_rows()
-        self.command_stack.beginMacro(
+        self.cmd_stack.beginMacro(
             f"{'Grounded' if to_fixed else 'Ungrounded'} "
             f"{sorted(selected_rows)}"
         )
@@ -477,7 +477,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 new_links.remove(VLink.FRAME)
             args = self.entities_point.row_data(row)
             args.links = ','.join(s for s in new_links if s)
-            self.command_stack.push(EditPointTable(
+            self.cmd_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
                 self.vlink_list,
@@ -485,7 +485,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 self.entities_link,
                 args
             ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     def clone_point(self) -> None:
         """Clone a point (with orange color)."""
@@ -493,10 +493,10 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         args = self.entities_point.row_data(row)
         args.color = 'Orange'
         row_count = self.entities_point.rowCount()
-        self.command_stack.beginMacro(
+        self.cmd_stack.beginMacro(
             f"Clone {{Point{row}}} as {{Point{row_count}}}")
-        self.command_stack.push(AddTable(self.vpoint_list, self.entities_point))
-        self.command_stack.push(EditPointTable(
+        self.cmd_stack.push(AddTable(self.vpoint_list, self.entities_point))
+        self.cmd_stack.push(EditPointTable(
             row_count,
             self.vpoint_list,
             self.vlink_list,
@@ -504,7 +504,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(name="on_action_scale_points_triggered")
     def __set_scale(self) -> None:
@@ -517,12 +517,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         factor = dlg.factor()
         dlg.deleteLater()
 
-        self.command_stack.beginMacro(f"Scale mechanism: {factor}")
+        self.cmd_stack.beginMacro(f"Scale mechanism: {factor}")
         for row in range(self.entities_point.rowCount()):
             args = self.entities_point.row_data(row)
             args.x *= factor
             args.y *= factor
-            self.command_stack.push(EditPointTable(
+            self.cmd_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
                 self.vlink_list,
@@ -530,7 +530,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 self.entities_link,
                 args
             ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(name='on_action_set_link_length_triggered')
     def __set_link_length(self) -> None:
@@ -552,14 +552,14 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             QMessageBox.warning(self, "Solved error",
                                 "The condition is not valid.")
             return
-        self.command_stack.beginMacro(f"Set link length:{set(data)}")
+        self.cmd_stack.beginMacro(f"Set link length:{set(data)}")
         for row, c in enumerate(result):
             args = self.entities_point.row_data(row)
             if isinstance(c[0], float):
                 args.x, args.y = c
             else:
                 (args.x, args.y), _ = c
-            self.command_stack.push(EditPointTable(
+            self.cmd_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
                 self.vlink_list,
@@ -567,13 +567,13 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 self.entities_link,
                 args
             ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(tuple)
     def set_free_move(self, args: Sequence[Tuple[int, _Phase]]):
         """Free move function."""
         points_text = ", ".join(f"Point{c[0]}" for c in args)
-        self.command_stack.beginMacro(f"Moved {{{points_text}}}")
+        self.cmd_stack.beginMacro(f"Moved {{{points_text}}}")
         for row, (x, y, angle) in args:
             arg = self.entities_point.row_data(row)
             arg.x = x
@@ -581,7 +581,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             if arg.type != 'R':
                 angle_tag = arg.type.split(':')[0]
                 arg.type = f"{angle_tag}:{angle:.02f}"
-            self.command_stack.push(EditPointTable(
+            self.cmd_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
                 self.vlink_list,
@@ -589,7 +589,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 self.entities_link,
                 arg
             ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(name='on_action_new_link_triggered')
     def new_link(self) -> None:
@@ -614,12 +614,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.add_normal_link(rows)
             return
         row = self.entities_link.find_name(name)
-        self.command_stack.beginMacro(f"Edit {{Link: {name}}}")
+        self.cmd_stack.beginMacro(f"Edit {{Link: {name}}}")
         args = self.entities_link.row_data(row)
         points = set(self.entities_link.get_points(row))
         points.update(rows)
         args.points = ','.join(f'Point{p}' for p in points)
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             row,
             self.vpoint_list,
             self.vlink_list,
@@ -627,7 +627,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot(name='on_action_edit_link_triggered')
     def edit_link(self) -> None:
@@ -639,9 +639,9 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Clone ground to a new link, then make ground no points."""
         name = self.__get_link_serial_number()
         args = LinkArgs(name, 'Blue', self.entities_link.item(0, 2).text())
-        self.command_stack.beginMacro(f"Release ground to {{Link: {name}}}")
+        self.cmd_stack.beginMacro(f"Release ground to {{Link: {name}}}")
         # Free all points
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             0,
             self.vpoint_list,
             self.vlink_list,
@@ -650,8 +650,8 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             LinkArgs(VLink.FRAME, 'White', '')
         ))
         # Create new link
-        self.command_stack.push(AddTable(self.vlink_list, self.entities_link))
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(AddTable(self.vlink_list, self.entities_link))
+        self.cmd_stack.push(EditLinkTable(
             self.entities_link.rowCount() - 1,
             self.vpoint_list,
             self.vlink_list,
@@ -659,7 +659,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             args
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot()
     def constrain_link(self, row1: Optional[int] = None, row2: int = 0) -> None:
@@ -672,10 +672,10 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         new_points = sorted(set(self.vlink_list[0].points) | set(vlink1.points))
         base_args = self.entities_link.row_data(row2)
         base_args.points = ','.join(f"Point{e}" for e in new_points if e)
-        self.command_stack.beginMacro(
+        self.cmd_stack.beginMacro(
             f"Constrain {{Link: {vlink1.name}}} to ground")
         # Turn to ground
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             row2,
             self.vpoint_list,
             self.vlink_list,
@@ -684,7 +684,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             base_args
         ))
         # Free all points and delete the link
-        self.command_stack.push(EditLinkTable(
+        self.cmd_stack.push(EditLinkTable(
             row1,
             self.vpoint_list,
             self.vlink_list,
@@ -692,13 +692,13 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             self.entities_link,
             link_args
         ))
-        self.command_stack.push(DeleteTable(
+        self.cmd_stack.push(DeleteTable(
             row1,
             self.vlink_list,
             self.entities_link,
             is_rename=False
         ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()
 
     @Slot()
     def delete_selected_points(self) -> None:
@@ -710,14 +710,12 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         """Delete the selected links."""
         self.delete_links(self.entities_link.selected_rows())
 
-    @Slot()
-    def delete_redundant_links(self) -> None:
+    @Slot(name='on_action_deduce_links_triggered')
+    def deduce_links(self) -> None:
         """Delete redundant links."""
         # Empty links
-        links = {
-            i for i, vlink in enumerate(self.vlink_list)
-            if vlink.name != VLink.FRAME and len(vlink.points) < 2
-        }
+        links = {i for i, vlink in enumerate(self.vlink_list)
+                 if vlink.name != VLink.FRAME and len(vlink.points) < 2}
         # Only keep one connecting link with the same topology
         recorder = set()
         for i, vlink in enumerate(self.vlink_list):
@@ -761,7 +759,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             0, -9999, 9999, 4)
         if not ok:
             return
-        self.command_stack.beginMacro(f"Align points with {axis}")
+        self.cmd_stack.beginMacro(f"Align points with {axis}")
         for row in selected_rows:
             args = self.entities_point.row_data(row)
             if self.alignment_mode == 0:
@@ -770,7 +768,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 args.y = value
             else:
                 raise ValueError("no such alignment option")
-            self.command_stack.push(EditPointTable(
+            self.cmd_stack.push(EditPointTable(
                 row,
                 self.vpoint_list,
                 self.vlink_list,
@@ -778,4 +776,4 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
                 self.entities_link,
                 args
             ))
-        self.command_stack.endMacro()
+        self.cmd_stack.endMacro()

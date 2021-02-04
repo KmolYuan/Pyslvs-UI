@@ -39,7 +39,7 @@ class ProjectWidget(QWidget, Ui_Form):
         super(ProjectWidget, self).__init__(parent)
         self.setupUi(self)
         # Undo view
-        self.command_stack = parent.command_stack
+        self.command_stack = parent.cmd_stack
         undo_view = QUndoView(self.command_stack)
         undo_view.setEmptyLabel("~Start Pyslvs")
         w = QWidget(self)

@@ -55,7 +55,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         super(FormatEditor, self).__init__(parent)
         self._parent = parent
         # Undo stack
-        self.command_stack = parent.command_stack
+        self.command_stack = parent.cmd_stack
         # Action group settings
         self.prefer = parent.prefer
         # Point expressions

@@ -841,7 +841,7 @@
      <x>0</x>
      <y>0</y>
      <width>928</width>
-     <height>39</height>
+     <height>34</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -862,22 +862,6 @@
     <addaction name="action_full_screen"/>
     <addaction name="action_new_window"/>
     <addaction name="action_exit"/>
-   </widget>
-   <widget class="QMenu" name="menu_mechanism">
-    <property name="title">
-     <string>&amp;Mechanism</string>
-    </property>
-    <addaction name="action_new_point"/>
-    <addaction name="action_new_link"/>
-    <addaction name="separator"/>
-    <addaction name="action_edit_point"/>
-    <addaction name="action_edit_link"/>
-    <addaction name="separator"/>
-    <addaction name="action_delete_point"/>
-    <addaction name="action_delete_link"/>
-    <addaction name="separator"/>
-    <addaction name="action_scale_points"/>
-    <addaction name="action_set_link_length"/>
    </widget>
    <widget class="QMenu" name="menu_options">
     <property name="title">
@@ -911,10 +895,21 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
+    <addaction name="action_new_point"/>
+    <addaction name="action_new_link"/>
+    <addaction name="separator"/>
+    <addaction name="action_edit_point"/>
+    <addaction name="action_edit_link"/>
+    <addaction name="separator"/>
+    <addaction name="action_delete_point"/>
+    <addaction name="action_delete_link"/>
+    <addaction name="action_deduce_links"/>
+    <addaction name="separator"/>
+    <addaction name="action_scale_points"/>
+    <addaction name="action_set_link_length"/>
    </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_edit"/>
-   <addaction name="menu_mechanism"/>
    <addaction name="menu_options"/>
    <addaction name="menu_help"/>
   </widget>
@@ -1316,6 +1311,11 @@
    </property>
    <property name="statusTip">
     <string>Report an issue or see the current issues on GitHub.</string>
+   </property>
+  </action>
+  <action name="action_deduce_links">
+   <property name="text">
+    <string>&amp;Deduce Links</string>
    </property>
   </action>
  </widget>

@@ -82,7 +82,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.conflict = parent.conflict
         self.dof = parent.dof
         self.right_input = parent.right_input
-        self.command_stack = parent.command_stack
+        self.command_stack = parent.cmd_stack
         self.set_coords_as_current = parent.set_coords_as_current
         self.get_back_position = parent.get_back_position
         # Angle panel

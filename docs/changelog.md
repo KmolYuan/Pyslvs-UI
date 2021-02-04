@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None.
++ UI improvement. (Menu and functions)
 
 **Development**:
 

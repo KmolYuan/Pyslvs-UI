@@ -72,7 +72,7 @@ class MainWindowABC(QMainWindow, Ui_MainWindow, metaclass=QABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def delete_redundant_links(self) -> None:
+    def deduce_links(self) -> None:
         raise NotImplementedError
 
     @abstractmethod

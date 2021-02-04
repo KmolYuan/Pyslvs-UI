@@ -32,7 +32,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
 
     def __add_storage(self, name: str, expr: str) -> None:
         """Add storage data function."""
-        self.command_stack.push(AddStorage(
+        self.cmd_stack.push(AddStorage(
             name,
             self.mechanism_storage,
             expr
@@ -44,10 +44,10 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             self.mechanism_storage_name_tag.text()
             or self.mechanism_storage_name_tag.placeholderText()
         )
-        self.command_stack.beginMacro(f"Add {{Mechanism: {name}}}")
+        self.cmd_stack.beginMacro(f"Add {{Mechanism: {name}}}")
         self.__add_storage(name, self.get_expression())
-        self.command_stack.push(ClearStorageName(self.mechanism_storage_name_tag))
-        self.command_stack.endMacro()
+        self.cmd_stack.push(ClearStorageName(self.mechanism_storage_name_tag))
+        self.cmd_stack.endMacro()
 
     @Slot(name='on_mechanism_storage_copy_clicked')
     def __copy_storage(self) -> None:
@@ -105,7 +105,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
         row = self.mechanism_storage.currentRow()
         if not row > -1:
             return
-        self.command_stack.push(DeleteStorage(row, self.mechanism_storage))
+        self.cmd_stack.push(DeleteStorage(row, self.mechanism_storage))
 
     @Slot(name='on_mechanism_storage_restore_clicked')
     @Slot(QListWidgetItem, name='on_mechanism_storage_itemDoubleClicked')
@@ -125,7 +125,7 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             return
 
         name = item.text()
-        self.command_stack.beginMacro(f"Restore from {{Mechanism: {name}}}")
+        self.cmd_stack.beginMacro(f"Restore from {{Mechanism: {name}}}")
 
         # Clean all the item of two table widgets
         for i in range(self.entities_point.rowCount()):
@@ -134,12 +134,12 @@ class StorageMethodInterface(SolverMethodInterface, ABC):
             self.delete_link(1)
 
         self.parse_expression(item.expr)
-        self.command_stack.push(DeleteStorage(
+        self.cmd_stack.push(DeleteStorage(
             self.mechanism_storage.row(item),
             self.mechanism_storage
         ))
-        self.command_stack.push(AddStorageName(name, self.mechanism_storage_name_tag))
-        self.command_stack.endMacro()
+        self.cmd_stack.push(AddStorageName(name, self.mechanism_storage_name_tag))
+        self.cmd_stack.endMacro()
         self.main_canvas.zoom_to_fit()
 
     def get_storage(self) -> Mapping[str, str]:

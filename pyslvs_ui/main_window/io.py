@@ -283,12 +283,12 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                     if link_name not in link_names:
                         self.add_link(link_name, 'Blue')
                 row_count = self.entities_point.rowCount()
-                self.command_stack.beginMacro(f"Add {{Point{row_count}}}")
-                self.command_stack.push(AddTable(
+                self.cmd_stack.beginMacro(f"Add {{Point{row_count}}}")
+                self.cmd_stack.push(AddTable(
                     self.vpoint_list,
                     self.entities_point
                 ))
-                self.command_stack.push(EditPointTable(
+                self.cmd_stack.push(EditPointTable(
                     row_count,
                     self.vpoint_list,
                     self.vlink_list,
@@ -296,7 +296,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
                     self.entities_link,
                     args
                 ))
-                self.command_stack.endMacro()
+                self.cmd_stack.endMacro()
 
     def add_empty_links(self, link_color: Mapping[str, str]) -> None:
         """Use to add empty link when loading database."""

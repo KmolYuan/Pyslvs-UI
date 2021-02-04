@@ -242,18 +242,19 @@ class MainWindowBase(MainWindowABC, ABC):
         + Undo view widget.
         + Hot keys.
         """
-        self.command_stack = QUndoStack(self)
-        self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
-        self.command_stack.indexChanged.connect(self.command_reload)
-        action_redo = self.command_stack.createRedoAction(self, "Redo")
-        action_undo = self.command_stack.createUndoAction(self, "Undo")
-        action_redo.setShortcuts(["Ctrl+Shift+Z", "Ctrl+Y"])
-        action_redo.setStatusTip("Backtracking undo action.")
-        action_redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
-        action_undo.setShortcut("Ctrl+Z")
-        action_undo.setStatusTip("Recover last action.")
-        action_undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
-        self.menu_edit.addActions([action_undo, action_redo])
+        self.cmd_stack = QUndoStack(self)
+        self.cmd_stack.setUndoLimit(self.prefer.undo_limit_option)
+        self.cmd_stack.indexChanged.connect(self.command_reload)
+        redo = self.cmd_stack.createRedoAction(self, "Redo")
+        undo = self.cmd_stack.createUndoAction(self, "Undo")
+        redo.setShortcuts(["Ctrl+Shift+Z", "Ctrl+Y"])
+        redo.setStatusTip("Backtracking undo action.")
+        redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
+        undo.setShortcut("Ctrl+Z")
+        undo.setStatusTip("Recover last action.")
+        undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
+        self.menu_edit.insertActions(self.action_new_point, [undo, redo])
+        self.menu_edit.insertSeparator(self.action_new_point)
 
     def __appearance(self) -> None:
         """Start up and initialize custom widgets."""
@@ -410,7 +411,7 @@ class MainWindowBase(MainWindowABC, ABC):
         self.main_splitter.setStretchFactor(1, 15)
         self.mechanism_panel_splitter.setSizes([500, 200])
         # Enable mechanism menu actions when shows
-        self.menu_mechanism.aboutToShow.connect(self.enable_mechanism_actions)
+        self.menu_edit.aboutToShow.connect(self.enable_mechanism_actions)
         # New main window function
         self.action_new_window.triggered.connect(self.new)
 
@@ -539,7 +540,7 @@ class MainWindowBase(MainWindowABC, ABC):
         ):
             menu.setSeparatorsCollapsible(True)
             self.context[enable] = menu
-        # EntitiesPoint
+        # Point table
         two_menus_p = _Enable.T_P | _Enable.C_P
         two_menus_l = _Enable.T_L | _Enable.C_L
         self.__action("&Add", self.new_point, _Enable.T_P | _Enable.P_NO,
@@ -593,8 +594,8 @@ class MainWindowBase(MainWindowABC, ABC):
                       cast_to=QAction)
         self.pop_link.addSeparator()
         self.pop_canvas_l.addSeparator()
-        self.__action("Remove &Redundant Links", self.delete_redundant_links,
-                      _Enable.T_L, cast_to=QAction)
+        self.__action(self.action_deduce_links,
+                      enable=two_menus_l | _Enable.L_NO, cast_to=QAction)
         self.__action("&Delete", self.delete_selected_links,
                       two_menus_l | _Enable.L_ANY, cast_to=QAction)
 
