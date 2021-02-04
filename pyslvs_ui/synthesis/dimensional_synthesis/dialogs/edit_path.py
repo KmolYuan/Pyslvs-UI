@@ -20,7 +20,7 @@ from pyslvs_ui.info import HAS_SCIPY
 from .edit_path_ui import Ui_Dialog
 
 if TYPE_CHECKING:
-    from pyslvs_ui.synthesis import DimensionalSynthesis
+    from pyslvs_ui.synthesis import Optimizer
 if HAS_SCIPY:
     from scipy.interpolate import splprep, splev
 
@@ -31,7 +31,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
 
-    def __init__(self, parent: DimensionalSynthesis):
+    def __init__(self, parent: Optimizer):
         """Just load in path data."""
         super(EditPathDialog, self).__init__(parent)
         self.setupUi(self)

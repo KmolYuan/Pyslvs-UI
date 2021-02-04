@@ -343,7 +343,7 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         if (
             self.main_panel.currentWidget() is self.synthesis_tab
             and self.synthesis_tab_widget.currentWidget() is
-            self.dimensional_synthesis
+            self.optimizer
         ):
             self.add_target_point()
         else:

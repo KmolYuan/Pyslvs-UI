@@ -203,7 +203,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         self.collections.clear()
         self.structure_synthesis.clear()
         self.inputs_widget.clear()
-        self.dimensional_synthesis.clear()
+        self.optimizer.clear()
         self.entities_point.clear()
         self.entities_link.clear()
         self.vpoint_list.clear()
@@ -663,7 +663,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
             self.inputs_widget.paths(),
             self.collections.collect_data(),
             self.collections.config_data(),
-            self.dimensional_synthesis.mechanism_data,
+            self.optimizer.mechanism_data,
             self.project_widget.get_background_path()
         )
         dlg.show()

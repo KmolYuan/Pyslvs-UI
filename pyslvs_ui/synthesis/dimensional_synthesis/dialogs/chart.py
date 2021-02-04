@@ -15,7 +15,7 @@ from pyslvs_ui.graphics import DataChart
 
 
 class ChartDialog(QDialog):
-    """There are three charts are in the dialog.
+    """There are three charts in the dialog.
 
     + Fitness / Generation Chart.
     + Generation / Time Chart.
@@ -30,7 +30,7 @@ class ChartDialog(QDialog):
     ):
         """Add three tabs of chart."""
         super(ChartDialog, self).__init__(parent)
-        self.setWindowTitle("Chart")
+        self.setWindowTitle("Fitness-Generation-Time Charts")
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)

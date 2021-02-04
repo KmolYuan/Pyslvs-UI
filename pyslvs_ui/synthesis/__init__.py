@@ -9,4 +9,4 @@ __email__ = "pyslvs@gmail.com"
 
 from .collections import Collections, CollectionsDialog, ConfigureWidget
 from .structure_synthesis import StructureSynthesis
-from .dimensional_synthesis import DimensionalSynthesis
+from .dimensional_synthesis import Optimizer

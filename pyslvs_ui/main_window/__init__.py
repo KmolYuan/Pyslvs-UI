@@ -121,12 +121,12 @@ class MainWindow(IOMethodInterface):
         """Dimensional synthesis information will show on the canvas."""
         self.main_canvas.set_show_target_path(
             self.main_panel.currentWidget() is self.synthesis_tab
-            and self.synthesis_tab_widget.currentWidget() is self.dimensional_synthesis
+            and self.synthesis_tab_widget.currentWidget() is self.optimizer
         )
 
     def add_target_point(self) -> None:
         """Use context menu to add a target path coordinate."""
-        self.dimensional_synthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
+        self.optimizer.add_point(self.mouse_pos_x, self.mouse_pos_y)
 
     def merge_result(
         self,

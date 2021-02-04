@@ -6,7 +6,7 @@ dimensional synthesis functional interfaces.
 
 from __future__ import annotations
 
-__all__ = ['DimensionalSynthesis']
+__all__ = ['Optimizer']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
@@ -56,7 +56,7 @@ _Coord = Tuple[float, float]
 _Range = Tuple[float, float, float]
 
 
-class DimensionalSynthesis(QWidget, Ui_Form):
+class Optimizer(QWidget, Ui_Form):
     """Dimensional synthesis widget.
 
     User can run the dimensional synthesis here.
@@ -74,7 +74,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         + Result data.
         + Main window function references.
         """
-        super(DimensionalSynthesis, self).__init__(parent)
+        super(Optimizer, self).__init__(parent)
         self.setupUi(self)
         self.mech = {}
         self.path = {}

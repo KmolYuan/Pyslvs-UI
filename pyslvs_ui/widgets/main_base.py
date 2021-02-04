@@ -36,7 +36,7 @@ from pyslvs_ui.io import ProjectWidget, ProjectFormat
 from pyslvs_ui.synthesis import (
     StructureSynthesis,
     Collections,
-    DimensionalSynthesis,
+    Optimizer,
 )
 from .main_abc import MainWindowABC
 from .canvas import MainCanvas
@@ -377,21 +377,15 @@ class MainWindowBase(MainWindowABC, ABC):
         self.collections = Collections(self)
         # Number and type synthesis
         self.structure_synthesis = StructureSynthesis(self)
+        # Dimensional synthesis
+        self.optimizer = Optimizer(self)
+        self.main_canvas.set_target_point.connect(self.optimizer.set_point)
         for widget, name in [
-            (self.structure_synthesis, "Structural"),
+            (self.structure_synthesis, "Structure"),
             (self.collections, "Collections"),
+            (self.optimizer, "Optimizer"),
         ]:  # type: QWidget, str
             self.synthesis_tab_widget.addTab(widget, widget.windowIcon(), name)
-
-        # Dimensional synthesis
-        self.dimensional_synthesis = DimensionalSynthesis(self)
-        self.main_canvas.set_target_point.connect(
-            self.dimensional_synthesis.set_point)
-        self.synthesis_tab_widget.addTab(
-            self.dimensional_synthesis,
-            self.dimensional_synthesis.windowIcon(),
-            "Dimensional"
-        )
         # Same options of structure previews
         as_node1 = self.collections.structure_widget.graph_link_as_node
         as_node2 = self.structure_synthesis.graph_link_as_node

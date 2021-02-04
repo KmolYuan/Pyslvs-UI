@@ -156,8 +156,8 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             self.__enable_point_context()
             self.action_c_add_target.setVisible(
                 self.main_panel.currentWidget() is self.synthesis_tab
-                and self.synthesis_tab_widget.currentWidget() is self.dimensional_synthesis
-                and self.dimensional_synthesis.has_target()
+                and self.synthesis_tab_widget.currentWidget() is self.optimizer
+                and self.optimizer.has_target()
             )
             self.pop_canvas_p.exec_(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
@@ -241,7 +241,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
             for canvas in (
                 self.main_canvas,
                 self.collections.configure_widget.configure_canvas,
-                self.dimensional_synthesis.preview_canvas,
+                self.optimizer.preview_canvas,
             ):
                 if name == 'tick_mark_option':
                     cast(BaseCanvas, canvas).set_show_ticks(cast(int, value))

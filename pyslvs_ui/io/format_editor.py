@@ -71,7 +71,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Inputs variables data
         self.input_pairs = parent.inputs_widget.input_pairs
         # Algorithm data
-        self.algorithm_data = parent.dimensional_synthesis.mechanism_data
+        self.algorithm_data = parent.optimizer.mechanism_data
         # Path data
         self.paths = parent.inputs_widget.paths
         self.slider_paths = parent.inputs_widget.slider_paths
@@ -97,7 +97,7 @@ class FormatEditor(QObject, metaclass=QABCMeta):
         # Call to load config data
         self.load_config = parent.collections.configure_widget.add_collections
         # Call to load algorithm results
-        self.load_algorithm = parent.dimensional_synthesis.load_results
+        self.load_algorithm = parent.optimizer.load_results
         # Call to load background options
         self.set_background_config = project_widget.set_background_config
         # Clear function for main window
