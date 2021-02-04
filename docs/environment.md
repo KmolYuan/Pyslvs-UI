@@ -23,13 +23,22 @@ The actual test and deployment platforms on CI/CD service:
 
 **Other platforms must build from source and take care about the Python dependencies.**
 
-## Dependencies
+## Editable Mode
 
-Install dependencies:
+Pyslvs-UI and its kernel are follow PEP 517 with `pip` tool.
+The package and dependencies can be installed through:
 
 ```bash
 pip install -e .
 ```
+
+Extra requirements can be installed through:
+
+```bash
+pip install -e .[scipy,slvs]
+```
+
+During developing, we can add a `--no-deps` option to update our package without to checking dependencies.
 
 ### Ubuntu and macOS
 
@@ -49,9 +58,10 @@ pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.7.4/lib/python3.7/
 
 ### Windows
 
-Python 3: [Official Python] for Windows 64 bit.
++ [Pyenv-win](https://github.com/pyenv-win/pyenv-win)
++ [Official Python](https://www.python.org) for Windows 64 bit.
 
-Shell script tool: MinGW or Msys 2.
+Shell script tool: Git bash, [MinGW] or [Msys 2].
 
 === "Visual C++"
     Install from [official website](https://visualstudio.microsoft.com/downloads).
@@ -62,7 +72,7 @@ Shell script tool: MinGW or Msys 2.
     ```
 
 === "Msys"
-    Use [Msys 2](http://www.msys2.org/) and [MinGW 64-bit](https://sourceforge.net/projects/mingw-w64/),
+    Use [Msys 2] and [MinGW] 64-bit,
     they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
 
     ```bash
@@ -81,6 +91,9 @@ Shell script tool: MinGW or Msys 2.
 
     platform\set_pycompiler C:\Python37 mingw32
     ```
+
+[Msys 2]: http://www.msys2.org/
+[MinGW]: https://sourceforge.net/projects/mingw-w64/
 
 ### Qt Designer (Development)
 
@@ -114,30 +127,38 @@ The plugins is `platforminputcontexts/libfcitxplatforminputcontextplugin.so`.
 
 ## Kernels Requirement
 
-About the development tools, please see [Dependencies](#dependencies).
-
-This project will automatically install kernel(s) through:
-
-```bash
-pip install -e .
-```
+About the development tools, please see [Editable Mode](#editable-mode).
 
 ### Pyslvs Kernel
 
-[Pyslvs]: Core libraries of this project.
+[Pyslvs] is the core library of this project.
 The version should be same as Pyslvs-UI.
 
-Install it by `pip install pyslvs==xx.xx` to specify the version.
+It's a critical dependency of Pyslvs-UI.
+
+```bash
+pip install pyslvs
+```
 
 ### Python-Solvespace Kernel
 
-[Python-Solvespace]: Python bundle of [Solvespace] library.
+[Python-Solvespace] is a Python binding of [Solvespace] geometric constraint solver,
+which is an extra solver option of Pyslvs-UI.
 
-Install it by `pip install python-solvespace`.
+It can be installed through two ways:
+
+```bash
+pip install pyslvs-ui[slvs]
+pip install python-solvespace
+```
+
+## Distributions
+
+Packing Pyslvs-UI into no Python environment.
 
 ### Ubuntu
 
-Use shell command to build as [AppImage].
+Use shell command to pack into [AppImage].
 Because of it is more suitable with PyQt module than [PyInstaller].
 
 After following operation, the executable file is in a folder named `out`.
@@ -194,8 +215,6 @@ The markdown files are the resources of this site.
 [PyInstaller]: https://www.pyinstaller.org/
 [Solvespace]: http://solvespace.com
 [Qt5]: https://www.qt.io/download/
-
-[Official Python]: https://www.python.org/
 [AppImage]: http://appimage.org
 
 [Python-Solvespace]: https://github.com/KmolYuan/solvespace/tree/python
