@@ -33,11 +33,7 @@ from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink, color_rgb
 from pyslvs_ui.info import ARGUMENTS, logger, Kernel
 from pyslvs_ui.io import ProjectWidget, ProjectFormat
-from pyslvs_ui.synthesis import (
-    StructureSynthesis,
-    Collections,
-    Optimizer,
-)
+from pyslvs_ui.synthesis import StructureSynthesis, Collections, Optimizer
 from .main_abc import MainWindowABC
 from .canvas import MainCanvas
 from .tables import (
@@ -76,10 +72,10 @@ class _Enable(Flag):
     L_N_GND = auto()
     # Menus
     # Table / Context menu
-    T_P = auto()
-    T_L = auto()
-    C_P = auto()
-    C_L = auto()
+    P_T = auto()
+    L_T = auto()
+    P_C = auto()
+    L_C = auto()
 
 
 @dataclass(repr=False, eq=False)
@@ -488,10 +484,10 @@ class MainWindowBase(MainWindowABC, ABC):
         slot: Optional[Callable[..., None]] = None,
         enable: Optional[_Enable] = None,
         *,
-        cast_to: Type[_N]
+        to: Type[_N]
     ) -> _N:
         """New action or menu."""
-        is_menu = cast_to is QMenu
+        is_menu = to is QMenu
         if isinstance(name, QAction):
             menu: Optional[QMenu] = None
             action = name
@@ -533,71 +529,69 @@ class MainWindowBase(MainWindowABC, ABC):
         self.pop_canvas_p = QMenu(self)
         self.pop_canvas_l = QMenu(self)
         for enable, menu in (
-            (_Enable.T_P, self.pop_point),
-            (_Enable.T_L, self.pop_link),
-            (_Enable.C_P, self.pop_canvas_p),
-            (_Enable.C_L, self.pop_canvas_l),
+            (_Enable.P_T, self.pop_point),
+            (_Enable.L_T, self.pop_link),
+            (_Enable.P_C, self.pop_canvas_p),
+            (_Enable.L_C, self.pop_canvas_l),
         ):
             menu.setSeparatorsCollapsible(True)
             self.context[enable] = menu
         # Point table
-        two_menus_p = _Enable.T_P | _Enable.C_P
-        two_menus_l = _Enable.T_L | _Enable.C_L
-        self.__action("&Add", self.new_point, _Enable.T_P | _Enable.P_NO,
-                      cast_to=QAction)
-        self.__action("&Add", self.add_normal_point, _Enable.C_P | _Enable.P_NO,
-                      cast_to=QAction)
+        two_menus_p = _Enable.P_T | _Enable.P_C
+        two_menus_l = _Enable.L_T | _Enable.L_C
+        self.__action("&Add", self.new_point, _Enable.P_T | _Enable.P_NO,
+                      to=QAction)
+        self.__action("&Add", self.add_normal_point, _Enable.P_C | _Enable.P_NO,
+                      to=QAction)
         self.__action("Add to [ground]", self.add_fixed_point,
-                      _Enable.C_P | _Enable.P_NO, cast_to=QAction)
+                      _Enable.P_C | _Enable.P_NO, to=QAction)
         self.action_c_add_target = self.__action(
             "Add &Target Point",
             self.add_target_point,
-            _Enable.C_P | _Enable.C_L | _Enable.P_NO | _Enable.L_NO,
-            cast_to=QAction
+            _Enable.P_C | _Enable.L_C | _Enable.P_NO | _Enable.L_NO,
+            to=QAction
         )
         self.__action(self.action_new_link,
                       enable=two_menus_p | two_menus_l | _Enable.P_MUL |
                              _Enable.L_NO,
-                      cast_to=QAction)
+                      to=QAction)
         self.__action("&Edit", self.edit_point, two_menus_p | _Enable.P_ONE,
-                      cast_to=QAction)
+                      to=QAction)
         self.action_p_lock = self.__action("&Grounded", self.lock_points,
                                            two_menus_p | _Enable.P_ANY,
-                                           cast_to=QAction)
+                                           to=QAction)
         self.action_p_lock.setCheckable(True)
         self.pop_point_m = self.__action("Multiple joint",
                                          enable=two_menus_p | _Enable.P_MUL,
-                                         cast_to=QMenu)
+                                         to=QMenu)
         self.__action("&Copy Table Data", self.copy_points_table,
-                      _Enable.T_P | _Enable.P_ONE, cast_to=QAction)
+                      _Enable.P_T | _Enable.P_ONE, to=QAction)
         self.__action("Copy Coordinate", self.copy_coord,
-                      _Enable.T_P | _Enable.P_ONE, cast_to=QAction)
+                      _Enable.P_T | _Enable.P_ONE, to=QAction)
         self.__action("C&lone", self.clone_point, two_menus_p | _Enable.P_ONE,
-                      cast_to=QAction)
+                      to=QAction)
         self.pop_point.addSeparator()
         self.pop_canvas_p.addSeparator()
         self.__action("&Delete", self.delete_selected_points,
-                      two_menus_p | _Enable.P_ANY, cast_to=QAction)
+                      two_menus_p | _Enable.P_ANY, to=QAction)
         # EntitiesLink
         self.__action("&Edit", self.edit_link, two_menus_l | _Enable.L_ONE,
-                      cast_to=QAction)
+                      to=QAction)
         self.pop_link_m = self.__action("Merge Links",
                                         enable=two_menus_l | _Enable.L_MUL,
-                                        cast_to=QMenu)
+                                        to=QMenu)
         self.__action("&Copy Table Data", self.copy_links_table,
-                      _Enable.T_L | _Enable.L_ONE, cast_to=QAction)
+                      _Enable.L_T | _Enable.L_ONE, to=QAction)
         self.__action("&Release", self.release_ground,
-                      two_menus_l | _Enable.L_ONE | _Enable.L_GND,
-                      cast_to=QAction)
+                      two_menus_l | _Enable.L_ONE | _Enable.L_GND, to=QAction)
         self.__action("C&onstrain", self.constrain_link,
-                      two_menus_l | _Enable.L_ONE | _Enable.L_N_GND,
-                      cast_to=QAction)
+                      two_menus_l | _Enable.L_ONE | _Enable.L_N_GND, to=QAction)
         self.pop_link.addSeparator()
         self.pop_canvas_l.addSeparator()
         self.__action(self.action_deduce_links,
-                      enable=two_menus_l | _Enable.L_NO, cast_to=QAction)
+                      enable=two_menus_l | _Enable.L_NO, to=QAction)
         self.__action("&Delete", self.delete_selected_links,
-                      two_menus_l | _Enable.L_ANY, cast_to=QAction)
+                      two_menus_l | _Enable.L_ANY, to=QAction)
 
     @Slot(int, name='on_entities_tab_currentChanged')
     def __set_selection_mode(self, index: int) -> None:
