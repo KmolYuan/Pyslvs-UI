@@ -1317,6 +1317,9 @@
    <property name="text">
     <string>Ded&amp;uce Links</string>
    </property>
+   <property name="statusTip">
+    <string>Remove redundant links.</string>
+   </property>
   </action>
  </widget>
  <resources>

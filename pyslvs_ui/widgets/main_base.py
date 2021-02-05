@@ -76,6 +76,8 @@ class _Enable(Flag):
     L_T = auto()
     P_C = auto()
     L_C = auto()
+    # Optimizer page
+    OPT = auto()
 
 
 @dataclass(repr=False, eq=False)
@@ -91,6 +93,7 @@ class _Context:
     l_mul: List[QAction] = field(default_factory=list)
     l_gnd: List[QAction] = field(default_factory=list)
     l_n_gnd: List[QAction] = field(default_factory=list)
+    opt: List[QAction] = field(default_factory=list)
 
     def point_enable(self, count: int) -> None:
         """Point operations settings."""
@@ -545,10 +548,10 @@ class MainWindowBase(MainWindowABC, ABC):
                       to=QAction)
         self.__action("Add to [ground]", self.add_fixed_point,
                       _Enable.P_C | _Enable.P_NO, to=QAction)
-        self.action_c_add_target = self.__action(
+        self.action_add_target = self.__action(
             "Add &Target Point",
             self.add_target_point,
-            _Enable.P_C | _Enable.L_C | _Enable.P_NO | _Enable.L_NO,
+            _Enable.P_C | _Enable.L_C | _Enable.OPT,
             to=QAction
         )
         self.__action(self.action_new_link,

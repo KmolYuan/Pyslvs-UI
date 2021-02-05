@@ -151,14 +151,15 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
     @Slot(QPoint)
     def canvas_context_menu(self, point: QPoint) -> None:
         """MainCanvas context menu."""
-        index = self.entities_tab.currentIndex()
-        if index == 0:
-            self.__enable_point_context()
-            self.action_c_add_target.setVisible(
+        for action in self.context.opt:
+            action.setVisible(
                 self.main_panel.currentWidget() is self.synthesis_tab
                 and self.synthesis_tab_widget.currentWidget() is self.optimizer
                 and self.optimizer.has_target()
             )
+        index = self.entities_tab.currentIndex()
+        if index == 0:
+            self.__enable_point_context()
             self.pop_canvas_p.exec_(self.main_canvas.mapToGlobal(point))
             self.action_new_link.setVisible(True)
             self.pop_point_m.clear()
