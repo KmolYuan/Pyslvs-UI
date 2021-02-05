@@ -11,6 +11,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, Mapping, Union
+from os.path import join
 from qtpy.QtCore import Slot, QFileInfo, QDateTime
 from qtpy.QtWidgets import (
     QUndoView,
@@ -90,7 +91,7 @@ class ProjectWidget(QWidget, Ui_Form):
 
     def reset(self) -> None:
         """Clear all the things that dependent on database."""
-        self.set_file_name(self.env_path() + "/Untitled")
+        self.set_file_name(join(self.env_path(), "Untitled"))
         self.__changed = False
         self.command_stack.clear()
         self.command_stack.setUndoLimit(self.prefer.undo_limit_option)
