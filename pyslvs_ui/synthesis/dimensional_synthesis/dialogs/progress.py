@@ -76,7 +76,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         # Worker thread
         self.work = DimensionalThread(algorithm, mech, setting, self)
         self.stop_signal.connect(self.work.stop)
-        if self.work.is_two_kernel():
+        if self.work.planar.is_two_kernel():
             self.fast_kernel_label.hide()
         else:
             self.full_kernel_label.hide()

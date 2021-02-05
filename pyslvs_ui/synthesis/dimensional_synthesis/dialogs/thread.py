@@ -38,9 +38,6 @@ class DimensionalThread(BaseThread):
         self.settings = settings
         self.loop = 1
 
-    def is_two_kernel(self) -> bool:
-        return self.planar.is_two_kernel()
-
     def set_loop(self, loop: int) -> None:
         """Set the loop times."""
         self.loop = loop
@@ -87,6 +84,7 @@ class DimensionalThread(BaseThread):
                 'cpu': my_cpu,
             },
             'time_fitness': tf,
+            'callback': self.planar.callback,
         }
         mechanism.update(self.mech)
         mechanism['expression'] = expression

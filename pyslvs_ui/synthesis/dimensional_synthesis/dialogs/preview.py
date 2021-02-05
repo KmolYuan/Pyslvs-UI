@@ -255,7 +255,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         labels = []
         for tag, data in chain(
             [(tag, mechanism.get(tag, 'N/A')) for tag in (
-                'algorithm', 'time', 'shape_only')],
+                'algorithm', 'time', 'shape_only', 'callback')],
             [(f"P{i}", (vpoints[i].c[0, 0], vpoints[i].c[0, 1]))
              for i in mechanism['placement']]
         ):

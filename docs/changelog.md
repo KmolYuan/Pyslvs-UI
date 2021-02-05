@@ -5,6 +5,7 @@
 **Features**:
 
 + UI improvement. (Menu and functions)
++ Display the callback time of the objective function.
 
 **Development**:
 
