@@ -88,10 +88,8 @@ class _DynamicCanvas(AnimationCanvas):
             points = []
             for i in vlink.points:
                 vpoint = self.vpoints[i]
-                if (
-                    vpoint.type == VJoint.R or
-                    not vpoint.is_slot_link(vlink.name)
-                ):
+                if (vpoint.type == VJoint.R
+                        or not vpoint.is_slot_link(vlink.name)):
                     x, y = self.path.path[i][self.ind]
                 else:
                     x, y = self.path.slider_path[i][self.ind]

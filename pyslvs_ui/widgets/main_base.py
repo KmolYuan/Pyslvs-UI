@@ -554,10 +554,11 @@ class MainWindowBase(MainWindowABC, ABC):
             _Enable.P_C | _Enable.L_C | _Enable.OPT,
             to=QAction
         )
-        self.__action(self.action_new_link,
-                      enable=two_menus_p | two_menus_l | _Enable.P_MUL |
-                             _Enable.L_NO,
-                      to=QAction)
+        self.__action(
+            self.action_new_link,
+            enable=two_menus_p | two_menus_l | _Enable.P_MUL | _Enable.L_NO,
+            to=QAction
+        )
         self.__action("&Edit", self.edit_point, two_menus_p | _Enable.P_ONE,
                       to=QAction)
         self.action_p_lock = self.__action("&Grounded", self.lock_points,

@@ -269,11 +269,8 @@ class IOMethodInterface(ActionMethodInterface, ABC):
         try:
             args_list = parse_params(expr)
         except LarkError:
-            QMessageBox.warning(
-                self,
-                "Loading failed",
-                f"Your expression is in an incorrect format."
-            )
+            QMessageBox.warning(self, "Loading failed",
+                                "Your expression is in an incorrect format.")
         else:
             for args in args_list:
                 links = args.links.split(',')
