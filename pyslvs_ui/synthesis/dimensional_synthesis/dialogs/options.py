@@ -16,7 +16,7 @@ from qtpy.QtWidgets import (
     QSpinBox,
     QWidget,
 )
-from pyslvs.metaheuristics import PARAMS, DEFAULT_PARAMS, AlgorithmType
+from pyslvs.metaheuristics import default, AlgorithmType
 from pyslvs_ui.info import html
 from .options_ui import Ui_Dialog
 
@@ -31,7 +31,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
 
     def __init__(
         self,
-        algorithm: AlgorithmType,
+        opt: AlgorithmType,
         settings: Dict[str, _Value],
         parent: QWidget
     ):
@@ -40,9 +40,8 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags()
                             & ~Qt.WindowContextHelpButtonHint)
-        self.setWindowTitle(f"{algorithm.value} Options")
-
-        self.algorithm = algorithm
+        self.setWindowTitle(f"{opt.value} Options")
+        self.opt = opt
         self.__init_alg_table()
         self.alg_table.setColumnWidth(0, 200)
         self.alg_table.setColumnWidth(1, 90)
@@ -75,7 +74,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                     self.alg_table.setCellWidget(i, 1, spinbox)
                     i += 1
 
-        if self.algorithm == AlgorithmType.RGA:
+        if self.opt == AlgorithmType.RGA:
             write_table(
                 floats=[
                     ("Crossover Rate", 'pCross',
@@ -88,7 +87,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("The power value when matching chromosome."))
                 ]
             )
-        elif self.algorithm == AlgorithmType.Firefly:
+        elif self.opt == AlgorithmType.Firefly:
             write_table(
                 floats=[
                     ("Alpha value", 'alpha', html(
@@ -102,7 +101,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         "The attraction of two firefly in 0 distance."))
                 ]
             )
-        elif self.algorithm == AlgorithmType.DE:
+        elif self.opt == AlgorithmType.DE:
             write_table(
                 integers=[
                     ("Evolutionary strategy (0-9)", 'strategy',
@@ -132,26 +131,22 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.max_time_m.setValue((max_time % 3600) // 60)
             self.max_time_s.setValue(max_time % 3600 % 60)
         self.report.setValue(settings['report'])
-        if self.algorithm == AlgorithmType.RGA:
+        if self.opt == AlgorithmType.RGA:
             self.pop_size.setValue(settings['nPop'])
             for i, tag in enumerate(('pCross', 'pMute', 'pWin', 'bDelta')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-        elif self.algorithm == AlgorithmType.Firefly:
+        elif self.opt == AlgorithmType.Firefly:
             self.pop_size.setValue(settings['n'])
             for i, tag in enumerate(('alpha', 'beta_min', 'gamma', 'beta0')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-        elif self.algorithm == AlgorithmType.DE:
+        elif self.opt == AlgorithmType.DE:
             self.pop_size.setValue(settings['NP'])
             for i, tag in enumerate(('strategy', 'F', 'CR')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-        elif self.algorithm == AlgorithmType.TLBO:
+        elif self.opt == AlgorithmType.TLBO:
             self.pop_size.setValue(settings['class_size'])
 
     @Slot(name='on_reset_button_clicked')
     def __reset(self) -> None:
         """Reset the settings to default."""
-        # Differential Evolution (Default)
-        d: Dict[str, _Value] = {}
-        d.update(DEFAULT_PARAMS)
-        d.update(PARAMS[self.algorithm])
-        self.__set_args(d)
+        self.__set_args(default(self.opt))

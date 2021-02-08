@@ -23,7 +23,7 @@ from lark.exceptions import LarkError
 from openpyxl import load_workbook
 from pyslvs import expr_solving, parse_pos, parse_vpoints, t_config
 from pyslvs.optimization import norm_path
-from pyslvs.metaheuristics import AlgorithmType, DEFAULT_PARAMS, PARAMS
+from pyslvs.metaheuristics import AlgorithmType, default
 from qtpy.QtCore import QModelIndex, Slot
 from qtpy.QtGui import QIcon, QPixmap
 from qtpy.QtWidgets import (
@@ -92,9 +92,7 @@ class Optimizer(QWidget, Ui_Form):
         self.prefer = parent.prefer
         # Data and functions
         self.mechanism_data = []
-        self.alg_options = {}
-        self.alg_options.update(DEFAULT_PARAMS)
-        self.alg_options.update(PARAMS[AlgorithmType.DE])
+        self.alg_options = default(AlgorithmType.DE)
         # Canvas
         self.preview_canvas = PreviewCanvas(self)
         self.preview_layout.addWidget(self.preview_canvas)
@@ -107,10 +105,10 @@ class Optimizer(QWidget, Ui_Form):
         header = self.parameter_list.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         self.algorithm_options = {}
-        for option in PARAMS:
-            button = QRadioButton(option.value, self)
+        for opt in AlgorithmType:
+            button = QRadioButton(opt.value, self)
             button.clicked.connect(self.__set_algorithm_default)
-            self.algorithm_options[option] = button
+            self.algorithm_options[opt] = button
             self.algorithm_layout.addWidget(button)
         self.clear()
 
@@ -790,10 +788,9 @@ class Optimizer(QWidget, Ui_Form):
     def __set_algorithm_default(self) -> None:
         """Set the algorithm settings to default."""
         self.alg_options.clear()
-        self.alg_options.update(DEFAULT_PARAMS)
-        for option, button in self.algorithm_options.items():
+        for opt, button in self.algorithm_options.items():
             if button.isChecked():
-                self.alg_options.update(PARAMS[option])
+                self.alg_options.update(default(opt))
 
     @Slot(name='on_advance_button_clicked')
     def __show_advance(self) -> None:

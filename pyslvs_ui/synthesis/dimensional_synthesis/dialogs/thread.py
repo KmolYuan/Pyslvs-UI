@@ -7,14 +7,14 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Dict, Any
+from typing import cast, Dict, Any
 from time import process_time
 from platform import system, release, machine
 from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
-from pyslvs.optimization import FMatch
-from pyslvs.metaheuristics import ALGORITHM, AlgorithmType
+from pyslvs.optimization import FMatch, FConfig
+from pyslvs.metaheuristics import algorithm, AlgorithmType, AlgorithmConfig
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
 
@@ -34,7 +34,7 @@ class DimensionalThread(BaseThread):
         super(DimensionalThread, self).__init__(parent)
         self.algorithm = algorithm
         self.mech = mech
-        self.planar = FMatch(self.mech)
+        self.planar = FMatch(cast(FConfig, self.mech))
         self.settings = settings
         self.loop = 1
 
@@ -60,14 +60,14 @@ class DimensionalThread(BaseThread):
     def __algorithm(self) -> Dict[str, Any]:
         """Get the algorithm result."""
         t0 = process_time()
-        algorithm = ALGORITHM[self.algorithm](
+        a = algorithm(self.algorithm)(
             self.planar,
-            self.settings,
+            cast(AlgorithmConfig, self.settings),
             progress_fun=self.progress_update.emit,
             interrupt_fun=lambda: self.is_stop,
         )
-        expression = algorithm.run()
-        tf = algorithm.history()
+        expression = a.run()
+        tf = a.history()
         time_spend = process_time() - t0
         info = cpu.info[0]
         my_cpu = info.get("model name", info.get('ProcessorNameString', ''))
