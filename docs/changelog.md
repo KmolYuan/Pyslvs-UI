@@ -9,7 +9,8 @@
 
 **Development**:
 
-+ None.
++ Dropped the support of Python 3.7.
+    + Start using `TypedDict` typing.
 
 ## Version 21.01
 

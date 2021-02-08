@@ -6,28 +6,20 @@ environment:
   MSYS_DIR: C:\msys64
   APPVEYOR_CONSOLE_DISABLE_PTY: true
   matrix:
-    - PY: 37
-      COMPILER: mingw32
-    - PY: 38
-      COMPILER: mingw32
-    - PY: 39
-      COMPILER: mingw32
+    - COMPILER: mingw32
+      PY: 38
+    - COMPILER: mingw32
+      PY: 39
       DEPLOY: "true"
-    - PY: 37
-      COMPILER: msvc
-    - PY: 38
-      COMPILER: msvc
-    - PY: 39
-      COMPILER: msvc
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
-      PY: 3.7
+    - COMPILER: msvc
+      PY: 38
+    - COMPILER: msvc
+      PY: 39
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       PY: 3.8
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       PY: 3.9
       DEPLOY: "true"
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-      PY: 3.7
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       PY: 3.8
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave

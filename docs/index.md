@@ -21,7 +21,7 @@ See the Ubuntu and macOS platform testing on Travis CI:
     Feel free to uninstall Pyslvs by [uninstall guide](#uninstall).
 
 !!! warning
-    Pyslvs requires Python 3.7 or above.
+    Pyslvs requires Python 3.8 or above.
 
 === "PyPI"
 

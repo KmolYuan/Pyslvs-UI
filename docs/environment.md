@@ -17,7 +17,6 @@ The actual test and deployment platforms on CI/CD service:
 
 | Platforms (64-bit) | Windows | macOS | Ubuntu |
 |:------------------:|:-------:|:-----:|:------:|
-| Python 3.7 | O | O | O |
 | Python 3.8 | O | O | O |
 | Python 3.9 | O | O | O |
 
@@ -50,10 +49,10 @@ So any operation about Python will not required `sudo` or `--user` option.
 # Install supported version of Pyslvs
 # The devlopment tools need to prepare first (like openssl, sqlite3)
 pyenv install --list  # show all available versions
-pyenv install 3.7.4
-pyenv global 3.7.4
-python --version  # Python 3.7.4
-pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.7.4/lib/python3.7/site-packages/pip (python 3.7)
+pyenv install 3.8.0
+pyenv global 3.8.0
+python --version  # Python 3.8.0
+pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.8.0/lib/python3.8/site-packages/pip (python 3.8)
 ```
 
 ### Windows
