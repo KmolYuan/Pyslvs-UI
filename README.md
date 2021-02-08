@@ -75,7 +75,7 @@ There are more detailed instructions in the documentation.
 Pyslvs has a solver backend that can works without the GUI:
 
 ```python
-from pyslvs import example_list, parse_vpoints, t_config
+from pyslvs import example_list, parse_vpoints, t_config, expr_solving
 
 # Get example with name
 expr, inputs = example_list("Jansen's linkage (Single)")
