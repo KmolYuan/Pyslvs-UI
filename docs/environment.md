@@ -62,17 +62,28 @@ pip --version  # pip 19.2.2 from /home/user/.pyenv/versions/3.8.0/lib/python3.8/
 
 Shell script tool: Git bash, [MinGW] or [Msys 2].
 
+Dummy name `PYTHON_PATH` is a location where your Python installed.
+
++ Use `where python` command to find the executable path directly.
++ The path might be `~\.pyenv\pyenv-win\versions\3.x.x` if you installed by pyenv-win.
++ Virtual environment will be subject to the original location where you installed.
+
 === "Visual C++"
     Install from [official website](https://visualstudio.microsoft.com/downloads).
 
     ```batch
     REM Apply patches
-    platform\set_pycompiler C:\Python37 msvc
+    platform\set_pycompiler.bat %PYTHON_PATH% msvc
     ```
 
 === "Msys"
     Use [Msys 2] and [MinGW] 64-bit,
     they also can be installed by Windows package manager [Chocolatey](https://chocolatey.org/).
+
+    ```batch
+    REM The program path should be added in to environment variable (with administrator).
+    setx Path "C:\tools\msys64\usr\bin;%Path%" /M
+    ```
 
     ```bash
     # Install tools for Msys.
@@ -85,10 +96,8 @@ Shell script tool: Git bash, [MinGW] or [Msys 2].
     # Install patch
     pacman -S patch
 
-    # And the programs should be added in to environment variable (with administrator).
-    setx Path "C:\tools\msys64\usr\bin;%Path%" /M
-
-    platform\set_pycompiler C:\Python37 mingw32
+    # Run as an executable
+    ./platform/set_pycompiler $PYTHON_PATH mingw32
     ```
 
 [Msys 2]: http://www.msys2.org/
