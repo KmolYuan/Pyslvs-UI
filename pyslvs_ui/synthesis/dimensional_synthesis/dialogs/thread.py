@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import cast, Dict, Any
+from typing import cast, Dict, List, Any
 from time import process_time
 from platform import system, release, machine
 from numpy.distutils.cpuinfo import cpu
@@ -69,7 +69,7 @@ class DimensionalThread(BaseThread):
         expression = a.run()
         tf = a.history()
         time_spend = process_time() - t0
-        info = cpu.info[0]
+        info = cast(List[Dict[str, Any]], cpu.info)[0]
         my_cpu = info.get("model name", info.get('ProcessorNameString', ''))
         last_gen = tf[-1][0]
         mechanism = {
