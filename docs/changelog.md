@@ -6,6 +6,7 @@
 
 + UI improvement. (Menu and functions)
 + Display the callback time of the objective function.
++ Add a function for plotting normalized path.
 
 **Development**:
 

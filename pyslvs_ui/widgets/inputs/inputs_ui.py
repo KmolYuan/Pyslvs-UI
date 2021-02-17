@@ -14,7 +14,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(446, 673)
+        Form.resize(446, 697)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/motor.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -348,6 +348,12 @@ class Ui_Form(object):
         self.plot_signature = QtWidgets.QCheckBox(self.plot_groupbox)
         self.plot_signature.setObjectName("plot_signature")
         self.gridLayout.addWidget(self.plot_signature, 1, 1, 1, 1)
+        self.plot_norm = QtWidgets.QCheckBox(self.plot_groupbox)
+        self.plot_norm.setObjectName("plot_norm")
+        self.gridLayout.addWidget(self.plot_norm, 2, 1, 1, 1)
+        self.plot_norm_pca = QtWidgets.QCheckBox(self.plot_groupbox)
+        self.plot_norm_pca.setObjectName("plot_norm_pca")
+        self.gridLayout.addWidget(self.plot_norm_pca, 3, 1, 1, 1)
         self.verticalLayout_4.addLayout(self.gridLayout)
         self.verticalLayout_6.addWidget(self.plot_groupbox)
         self.tab_widget.addTab(self.analysis_tab, icon10, "")
@@ -415,4 +421,6 @@ class Ui_Form(object):
         self.plot_pos.setText(_translate("Form", "Position"))
         self.plot_curvature.setText(_translate("Form", "Curvature"))
         self.plot_signature.setText(_translate("Form", "Path Signature"))
+        self.plot_norm.setText(_translate("Form", "Normalized Path"))
+        self.plot_norm_pca.setText(_translate("Form", "Normalized Path (PCA)"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.analysis_tab), _translate("Form", "Analysis"))

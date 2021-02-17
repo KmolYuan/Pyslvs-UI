@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>446</width>
-    <height>673</height>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -731,6 +731,20 @@
              <widget class="QCheckBox" name="plot_signature">
               <property name="text">
                <string>Path Signature</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QCheckBox" name="plot_norm">
+              <property name="text">
+               <string>Normalized Path</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QCheckBox" name="plot_norm_pca">
+              <property name="text">
+               <string>Normalized Path (PCA)</string>
               </property>
              </widget>
             </item>
