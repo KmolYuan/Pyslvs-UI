@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
-    <height>697</height>
+    <width>445</width>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -689,10 +689,10 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="3" column="0">
-             <widget class="QCheckBox" name="plot_jerk">
+            <item row="1" column="2">
+             <widget class="QCheckBox" name="plot_norm_pca">
               <property name="text">
-               <string>Jerk</string>
+               <string>Normalization (PCA)</string>
               </property>
              </widget>
             </item>
@@ -703,10 +703,24 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QCheckBox" name="plot_acc">
+            <item row="2" column="2">
+             <widget class="QCheckBox" name="plot_fourier">
               <property name="text">
-               <string>Acceleration</string>
+               <string>Fourier Transform</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="plot_jerk">
+              <property name="text">
+               <string>Jerk</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="plot_norm">
+              <property name="text">
+               <string>Normalization</string>
               </property>
              </widget>
             </item>
@@ -720,31 +734,24 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QCheckBox" name="plot_curvature">
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="plot_acc">
               <property name="text">
-               <string>Curvature</string>
+               <string>Acceleration</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="0" column="1">
              <widget class="QCheckBox" name="plot_signature">
               <property name="text">
                <string>Path Signature</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QCheckBox" name="plot_norm">
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="plot_curvature">
               <property name="text">
-               <string>Normalized Path</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QCheckBox" name="plot_norm_pca">
-              <property name="text">
-               <string>Normalized Path (PCA)</string>
+               <string>Curvature</string>
               </property>
              </widget>
             </item>

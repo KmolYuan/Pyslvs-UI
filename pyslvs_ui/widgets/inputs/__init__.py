@@ -16,7 +16,8 @@ from typing import (
 )
 from csv import writer
 from copy import copy
-from numpy import array, ndarray, hypot, arctan2
+from numpy import array, ndarray, hypot, arctan2, vstack
+from numpy.fft import fft
 from qtpy.QtCore import Signal, Slot, QTimer
 from qtpy.QtWidgets import (
     QWidget, QMessageBox, QInputDialog, QListWidgetItem, QApplication,
@@ -584,29 +585,32 @@ class InputsWidget(QWidget, Ui_Form):
                 pos[:] -= array(slider_data.get(joint_wrt, []))
             else:
                 pos[:] -= array(data[joint_wrt])
-        vel = derivative(pos)
-        acc = derivative(vel)
-        cur = curvature(data[joint])
+
+        def fourier():
+            """Fourier Transformation function."""
+            v = fft(pos[:, 0] + pos[:, 1] * 1j)
+            return vstack([v.real, v.imag]).T
+
         plot = {}
-        plot_count = 0
+        row = 0
         for button, value in [
             (self.plot_pos, lambda: pos),
-            (self.plot_vel, lambda: vel),
-            (self.plot_acc, lambda: acc),
-            (self.plot_jerk, lambda: derivative(acc)),
-            (self.plot_curvature, lambda: cur),
-            (self.plot_signature, lambda: path_signature(cur)),
+            (self.plot_vel, vel := lambda: derivative(pos)),
+            (self.plot_acc, acc := lambda: derivative(vel())),
+            (self.plot_jerk, lambda: derivative(acc())),
+            (self.plot_curvature, cur := lambda: curvature(data[joint])),
+            (self.plot_signature, lambda: path_signature(cur())),
             (self.plot_norm, lambda: norm_path(pos)),
             (self.plot_norm_pca, lambda: norm_pca(pos)),
+            (self.plot_fourier, fourier),
         ]:  # type: QCheckBox, Callable[[], ndarray]
             if button.isChecked():
-                plot_count += 1
+                row += 1
                 plot[button.text()] = value()
-        if plot_count < 1:
+        if row < 1:
             QMessageBox.warning(self, "No target", "No any plotting target.")
             return
         polar = self.p_coord_sys.isChecked()
-        row = plot_count
         col = 1
         if polar:
             row, col = col, row

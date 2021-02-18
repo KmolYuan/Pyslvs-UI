@@ -39,7 +39,7 @@ HAS_SCIPY = has_module('scipy')
 SYS_INFO = [
     f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
-    f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
+    f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro} ({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
     f"Qt wrapper: {API}",
     f"Qt: {QT_VERSION}",
