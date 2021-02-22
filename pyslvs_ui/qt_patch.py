@@ -15,16 +15,9 @@ __email__ = "pyslvs@gmail.com"
 from abc import ABCMeta
 from qtpy import API_NAME
 from qtpy.QtCore import __version__, QObject
-from importlib import import_module
+from importlib.metadata import version
 
-if API_NAME == 'PyQt5':
-    from qtpy.QtCore import PYQT_VERSION_STR
-    API = f"{API_NAME} {PYQT_VERSION_STR}"
-elif API_NAME == 'PySide2':
-    API = f"{API_NAME} {getattr(import_module('PySide2'), '__version__')}"
-else:
-    raise ModuleNotFoundError("module not found: PyQt5 or PySide2")
-
+API = f"{API_NAME} {version(API_NAME)}"
 QT_VERSION = __version__
 qt_image_suffix = []
 qt_image_format = []
