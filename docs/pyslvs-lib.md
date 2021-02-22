@@ -139,3 +139,44 @@ Submodule `pyslvs.optimization`.
   Dimensional synthesis for normalized four-bar linkages. (defect free)
 
   This function is not implemented yet.
+
+## Meta-heuristic Algorithms
+
+$$
+\min_x F(x) = E + \sum_i g_i(x)
+$$
+
+Pyslvs provides some search algorithms for optimization problems.
+The algorithm requires an **objective function** $F(x)$,
+which accept **variables** $x$, and returns a **fitness value** $E$ to minimize.
+The objective function is subject to several **constraints** $g_i(x)$
+that provides a sum of **penalty values** on the fitness value.
+
+As shown in the example, objective function is created through inheriting a base class `ObjFunc`.
+The upper bound and lower bound are set by initialization method `__cinit__`,
+and the fitness value is defined by `fitness` method.
+The final result is defined by `result` method, which usually is your variables.
+
+```cython
+cimport cython
+from numpy import float64 as f64
+from pyslvs.metaheuristic cimport ObjFunc
+
+
+@cython.final
+cdef class TestObj(ObjFunc):
+    """
+    f(x) = x1^2 + 8*x2
+    """
+
+    def __cinit__(self):
+        self.ub = array([100, 100], dtype=f64)
+        self.lb = array([0, 0], dtype=f64)
+
+    cdef double fitness(self, double[:] v) nogil:
+        return v[0] * v[0] + 8 * v[1]
+
+    cpdef object result(self, double[:] v):
+        """x = (0, 0)"""
+        return tuple(v)
+```
