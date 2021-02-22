@@ -16,7 +16,7 @@ from typing import (
 )
 from csv import writer
 from copy import copy
-from numpy import array, ndarray, hypot, arctan2, vstack
+from numpy import array, ndarray, hypot, arctan2, vstack, hstack
 from numpy.fft import fft
 from qtpy.QtCore import Signal, Slot, QTimer
 from qtpy.QtWidgets import (
@@ -56,6 +56,13 @@ def _no_auto_path(path: Mapping[str, _T]) -> Mapping[str, _T]:
 def _variable_int(text: str) -> int:
     """Change variable text to index."""
     return int(text.split()[-1].replace("Point", ""))
+
+
+def _fourier(pos: ndarray) -> ndarray:
+    """Fourier Transformation function."""
+    c = pos[:, 0] + pos[:, 1] * 1j
+    v = fft(hstack([c, c, c]))[len(c):len(c) * 2]
+    return vstack([v.real, v.imag]).T
 
 
 class InputsWidget(QWidget, Ui_Form):
@@ -585,12 +592,6 @@ class InputsWidget(QWidget, Ui_Form):
                 pos[:] -= array(slider_data.get(joint_wrt, []))
             else:
                 pos[:] -= array(data[joint_wrt])
-
-        def fourier():
-            """Fourier Transformation function."""
-            v = fft(pos[:, 0] + pos[:, 1] * 1j)
-            return vstack([v.real, v.imag]).T
-
         plot = {}
         row = 0
         for button, value in [
@@ -602,7 +603,7 @@ class InputsWidget(QWidget, Ui_Form):
             (self.plot_signature, lambda: path_signature(cur())),
             (self.plot_norm, lambda: norm_path(pos)),
             (self.plot_norm_pca, lambda: norm_pca(pos)),
-            (self.plot_fourier, fourier),
+            (self.plot_fourier, lambda: _fourier(pos)),
         ]:  # type: QCheckBox, Callable[[], ndarray]
             if button.isChecked():
                 row += 1
