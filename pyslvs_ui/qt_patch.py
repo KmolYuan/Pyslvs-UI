@@ -5,8 +5,7 @@
 Customized class will define below.
 """
 
-__all__ = ['API', 'QT_VERSION', 'qt_image_suffix', 'qt_image_format',
-           'QABCMeta']
+__all__ = ['API', 'qt_image_suffix', 'qt_image_format', 'QABCMeta']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
@@ -14,11 +13,10 @@ __email__ = "pyslvs@gmail.com"
 
 from abc import ABCMeta
 from qtpy import API_NAME
-from qtpy.QtCore import __version__, QObject
+from qtpy.QtCore import QObject
 from importlib.metadata import version
 
 API = f"{API_NAME} {version(API_NAME)}"
-QT_VERSION = __version__
 qt_image_suffix = []
 qt_image_format = []
 for suffix, name in (
