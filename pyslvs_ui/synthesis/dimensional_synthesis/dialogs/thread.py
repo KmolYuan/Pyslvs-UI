@@ -26,16 +26,16 @@ class DimensionalThread(BaseThread):
 
     def __init__(
         self,
-        algorithm: AlgorithmType,
+        alg: AlgorithmType,
         mech: Dict[str, Any],
         settings: Dict[str, Any],
         parent: QWidget
     ):
         super(DimensionalThread, self).__init__(parent)
-        self.algorithm = algorithm
-        self.mech = mech
-        self.planar = FPlanar(cast(FConfig, self.mech))
-        self.settings = settings
+        self.alg = alg
+        self.mech = cast(FConfig, mech)
+        self.planar = FPlanar(self.mech)
+        self.settings = cast(AlgorithmConfig, settings)
         self.loop = 1
 
     def set_loop(self, loop: int) -> None:
@@ -48,21 +48,21 @@ class DimensionalThread(BaseThread):
             logger.debug(f"- [P{name}] ({len(path)})")
         t0 = process_time()
         for self.loop in range(self.loop):
-            logger.info(f"Algorithm [{self.loop + 1}]: {self.algorithm}")
+            logger.info(f"Algorithm [{self.loop + 1}]: {self.alg}")
             if self.is_stop:
                 # Cancel the remaining tasks
                 logger.info("Canceled.")
                 continue
-            self.result.emit(self.__algorithm())
+            self.result.emit(self.__task())
         logger.info(f"total cost time: {process_time() - t0:.02f} [s]")
         self.finished.emit()
 
-    def __algorithm(self) -> Dict[str, Any]:
+    def __task(self) -> Dict[str, Any]:
         """Get the algorithm result."""
         t0 = process_time()
-        a = algorithm(self.algorithm)(
+        a = algorithm(self.alg)(
             self.planar,
-            cast(AlgorithmConfig, self.settings),
+            self.settings,
             progress_fun=self.progress_update.emit,
             interrupt_fun=lambda: self.is_stop,
         )
@@ -73,7 +73,7 @@ class DimensionalThread(BaseThread):
         my_cpu = info.get("model name", info.get('ProcessorNameString', ''))
         last_gen = tf[-1][0]
         mechanism = {
-            'algorithm': self.algorithm.value,
+            'algorithm': self.alg.value,
             'time': time_spend,
             'last_gen': last_gen,
             'last_fitness': tf[-1][1],
