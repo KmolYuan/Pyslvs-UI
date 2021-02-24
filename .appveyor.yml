@@ -15,9 +15,9 @@ environment:
       PY: 38
     - COMPILER: msvc
       PY: 39
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PY: 3.8
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PY: 3.9
       DEPLOY: "true"
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
