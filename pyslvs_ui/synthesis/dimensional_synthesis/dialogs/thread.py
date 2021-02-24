@@ -13,7 +13,7 @@ from platform import system, release, machine
 from numpy.distutils.cpuinfo import cpu
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QWidget
-from pyslvs.optimization import FMatch, FConfig
+from pyslvs.optimization import FPlanar, FConfig
 from pyslvs.metaheuristics import algorithm, AlgorithmType, AlgorithmConfig
 from pyslvs_ui.info import logger
 from pyslvs_ui.synthesis.thread import BaseThread
@@ -34,7 +34,7 @@ class DimensionalThread(BaseThread):
         super(DimensionalThread, self).__init__(parent)
         self.algorithm = algorithm
         self.mech = mech
-        self.planar = FMatch(cast(FConfig, self.mech))
+        self.planar = FPlanar(cast(FConfig, self.mech))
         self.settings = settings
         self.loop = 1
 
