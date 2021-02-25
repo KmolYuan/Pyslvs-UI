@@ -626,7 +626,7 @@ method.
 
 Generate path with four-bar dimensions.
 
-Normalized parameters are $[L_0, L_2, L_3, L_4, lpha]$.
+Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
 
 ### uniform\_four_bar()
 
@@ -765,21 +765,21 @@ Get all example names.
 
 | key | return |
 |:---:|:------:|
-| str | Dict\[str, Any] |
+| str | Collection |
 
 The example data of collections.
 
 The format of each configuration is:
 
-+ `Expression`: Mechanism expression of the structure.
++ `expression`: Mechanism expression of the structure.
     + type: str
 + `input`: Input pairs.
     + type: Sequence[Tuple[int, int]]
-+ `Graph`: The generalized chain graph in edge set.
++ `graph`: The generalized chain graph in edge set.
     + type: Sequence[Tuple[int, int]]
-+ `Placement`: The grounded joints setting. (`x`, `y`, `r`)
++ `placement`: The grounded joints setting. (`x`, `y`, `r`)
     + type: Dict[int, Optional[Tuple[float, float, float]]]
-+ `Target`: The target joints settings.
++ `target`: The target joints settings.
     + type: Dict[int, Optional[Sequence[Tuple[float, float]]]]
 + `cus`: The custom joints on specific link. (link number correspond to
     the graph expression.)
@@ -799,7 +799,7 @@ Get all collection names.
 
 | path | n | return |
 |:----:|:---:|:------:|
-| Sequence\[Tuple\[float, float]] | int | ndarray |
+| Union\[Sequence\[Tuple\[float, float]], numpy.ndarray] | int | ndarray |
 |   | 0 |   |
 
 Curve fitting using Elliptical Fourier Descriptor.
@@ -1131,9 +1131,7 @@ This function will be directly called in the algorithms.
 |:----:|:---:|:------:|
 |   | ndarray | FVal |
 
-Is an abstract method.
-
-Return the result from the variable list `v`.
+The result function. Default is the best variable vector `v`.
 
 ### Algorithm
 
@@ -1151,7 +1149,7 @@ It is used to build the Meta-heuristic Algorithms.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
+|   | ObjFunc\[~FVal] | AlgorithmConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 Is an abstract method.
@@ -1162,7 +1160,8 @@ and all abstract methods should be implemented.
 The format of argument `settings` can be customized.
 
 The argument `progress_fun` will be called when update progress,
-and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
+and the argument `interrupt_fun` will check the interrupt status from
+GUI or subprocess.
 
 #### Algorithm.history()
 
@@ -1175,6 +1174,14 @@ Return the history of the process.
 The first value is generation (iteration);
 the second value is fitness;
 the third value is time in second.
+
+#### Algorithm.result()
+
+| self | return |
+|:----:|:------:|
+|   | Tuple\[numpy.ndarray, float] |
+
+Return the best variable vector and its fitness.
 
 #### Algorithm.run()
 
@@ -1206,24 +1213,24 @@ The implementation of Real-coded Genetic Algorithm.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
+|   | ObjFunc\[~FVal] | GAConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
 
-+ `nPop`: Population
++ `pop_num`: Population
     + type: int
     + default: 500
-+ `pCross`: Crossover rate
++ `cross`: Crossover rate
     + type: float (0.~1.)
     + default: 0.95
-+ `pMute`: Mutation rate
++ `mutate`: Mutation rate
     + type: float (0.~1.)
     + default: 0.05
-+ `pWin`: Win rate
++ `win`: Win rate
     + type: float (0.~1.)
     + default: 0.95
-+ `bDelta`: Delta value
++ `delta`: Delta value
     + type: float
     + default: 5.
 + `max_gen` or `min_fit` or `max_time`: Limitation of termination
@@ -1248,6 +1255,16 @@ Return the history of the process.
 The first value is generation (iteration);
 the second value is fitness;
 the third value is time in second.
+
+#### Genetic.result()
+
+| self | return |
+|:----:|:------:|
+|   | Tuple\[numpy.ndarray, float] |
+
+Is a static method.
+
+Return the best variable vector and its fitness.
 
 #### Genetic.run()
 
@@ -1281,7 +1298,7 @@ The implementation of Firefly Algorithm.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
+|   | ObjFunc\[~FVal] | FAConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
@@ -1324,6 +1341,16 @@ The first value is generation (iteration);
 the second value is fitness;
 the third value is time in second.
 
+#### Firefly.result()
+
+| self | return |
+|:----:|:------:|
+|   | Tuple\[numpy.ndarray, float] |
+
+Is a static method.
+
+Return the best variable vector and its fitness.
+
 #### Firefly.run()
 
 | self | return |
@@ -1356,7 +1383,7 @@ The implementation of Differential Evolution.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
+|   | ObjFunc\[~FVal] | DEConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The argument `func` is a object inherit from [Verification],
@@ -1404,6 +1431,16 @@ The first value is generation (iteration);
 the second value is fitness;
 the third value is time in second.
 
+#### Differential.result()
+
+| self | return |
+|:----:|:------:|
+|   | Tuple\[numpy.ndarray, float] |
+
+Is a static method.
+
+Return the best variable vector and its fitness.
+
 #### Differential.run()
 
 | self | return |
@@ -1436,7 +1473,7 @@ The implementation of Teaching Learning Based Optimization.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | Dict\[str, Any] | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
+|   | ObjFunc\[~FVal] | TOBLConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
 |   |   |   | None | None |   |
 
 The format of argument `settings`:
@@ -1466,6 +1503,16 @@ Return the history of the process.
 The first value is generation (iteration);
 the second value is fitness;
 the third value is time in second.
+
+#### TeachingLearning.result()
+
+| self | return |
+|:----:|:------:|
+|   | Tuple\[numpy.ndarray, float] |
+
+Is a static method.
+
+Return the best variable vector and its fitness.
 
 #### TeachingLearning.run()
 
@@ -1497,11 +1544,27 @@ Is an enum class.
 
 Enum type of algorithms.
 
+### algorithm()
+
+| opt | return |
+|:---:|:------:|
+| AlgorithmType | Type\[Algorithm] |
+
+Return the class of the algorithms.
+
+### default()
+
+| opt | return |
+|:---:|:------:|
+| AlgorithmType | Dict\[str, Union\[int, float]] |
+
+Return the default settings of the algorithms.
+
 ## Module `pyslvs.optimization`
 
 Pyslvs optimization targets.
 
-### FMatch
+### FPlanar
 
 Inherited from `ObjFunc`.
 
@@ -1509,7 +1572,7 @@ A fast matching method that adds mapping angles to variables.
 
 Allowing defects.
 
-#### FMatch.\_\_init__()
+#### FPlanar.\_\_init__()
 
 | self | **args | **kwargs | return |
 |:----:|:------:|:--------:|:------:|
@@ -1517,7 +1580,7 @@ Allowing defects.
 
 Initialize self.  See help(type(self)) for accurate signature.
 
-#### FMatch.is\_two_kernel()
+#### FPlanar.is\_two_kernel()
 
 | self | return |
 |:----:|:------:|
@@ -1526,7 +1589,7 @@ Initialize self.  See help(type(self)) for accurate signature.
 Input a generic data (variable array), return the mechanism
 expression.
 
-#### FMatch.result()
+#### FPlanar.result()
 
 | self | v | return |
 |:----:|:---:|:------:|
@@ -1542,7 +1605,7 @@ expression.
 | Any | Any | Any |
 |   | 1 |   |
 
-Python wrapper of normalization function.
+Normalization function.
 
 ### curvature()
 
@@ -1579,6 +1642,7 @@ K = \int^t_0 |\kappa(t)| dt
 $$
 
 ```python
+from pyslvs.optimization import curvature, path_signature
 path_signature(curvature(...))
 ```
 
@@ -1603,10 +1667,43 @@ S &= \arg\max\{C_n(j)\} t
 $$
 
 ```python
+from pyslvs.optimization import curvature, path_signature, cross_correlation
 ps1 = path_signature(curvature(...))
 ps2 = path_signature(curvature(...))
 cc = cross_correlation(ps1, ps2)
 ```
+
+### NPlanar
+
+Inherited from `ObjFunc`.
+
+A normalized matching method.
+
+Defects free. Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
+
+![pxy](img/uniform_four_bar.png)
+
+#### NPlanar.\_\_init__()
+
+| self | **args | **kwargs | return |
+|:----:|:------:|:--------:|:------:|
+|   | Any | Any | Any |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### NPlanar.result()
+
+| self | v | return |
+|:----:|:---:|:------:|
+|   | Any | Any |
+
+### norm_pca()
+
+| path | return |
+|:----:|:------:|
+| Any | Any |
+
+Normalization function by PCA.
 
 [VPoint]: #vpoint
 [VLink]: #vlink
