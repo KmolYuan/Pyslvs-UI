@@ -159,7 +159,7 @@ The final result is defined by `result` method, which usually is your variables.
 
 ```cython
 cimport cython
-from numpy import float64 as f64
+from numpy import array, float64 as f64
 from pyslvs.metaheuristic cimport ObjFunc
 
 
@@ -179,4 +179,27 @@ cdef class TestObj(ObjFunc):
     cpdef object result(self, double[:] v):
         """x = (0, 0)"""
         return tuple(v)
+```
+
+The function object can be created with specific optionals by designing initialization function,
+but there are no options in this example.
+
+We choose a algorithm called "Real-coded Genetic Algorithm" (RGA) to solve this problem.
+
+This example is recorded in `pyslvs.metaheuristics.test`.
+
+```python
+from numpy import array
+from matplotlib.pyplot import plot, show
+from pyslvs.metaheuristics import AlgorithmType, algorithm, default
+from pyslvs.metaheuristics.test import TestObj
+
+t = AlgorithmType.RGA
+a = algorithm(t)(TestObj(), default(t))
+# Show answer
+ans = a.run()
+# Plot convergance graph
+h = array(a.history())
+plot(h[:, 0], h[:, 1], 'ro-')
+show()
 ```
