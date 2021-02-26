@@ -13,6 +13,8 @@
 + Dropped Qt RCC support.
 + Dropped the support of Python 3.7.
     + Start using `TypedDict` typing.
+    + Use `importlib.metadata`.
+    + Use assignment expression.
 + Rename scripts.
 
 ## Version 21.01
