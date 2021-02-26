@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
-    <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
+    <normaloff>icons:link.png</normaloff>icons:link.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>

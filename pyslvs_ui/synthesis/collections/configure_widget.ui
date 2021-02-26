@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
+    <normaloff>icons:configure.png</normaloff>icons:configure.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
@@ -27,7 +27,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+         <normaloff>icons:collections.png</normaloff>icons:collections.png</iconset>
        </property>
       </widget>
      </item>
@@ -38,7 +38,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+         <normaloff>icons:save_file.png</normaloff>icons:save_file.png</iconset>
        </property>
       </widget>
      </item>
@@ -56,7 +56,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
+         <normaloff>icons:structure.png</normaloff>icons:structure.png</iconset>
        </property>
       </widget>
      </item>
@@ -67,7 +67,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+         <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
        </property>
       </widget>
      </item>
@@ -85,7 +85,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+         <normaloff>icons:clean.png</normaloff>icons:clean.png</iconset>
        </property>
       </widget>
      </item>
@@ -127,7 +127,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+             <normaloff>icons:properties.png</normaloff>icons:properties.png</iconset>
            </property>
           </widget>
          </item>
@@ -218,7 +218,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../../icons.qrc">
-                 <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+                 <normaloff>icons:motor.png</normaloff>icons:motor.png</iconset>
                </property>
               </widget>
              </item>
@@ -232,7 +232,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../../icons.qrc">
-                 <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                 <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
                </property>
               </widget>
              </item>

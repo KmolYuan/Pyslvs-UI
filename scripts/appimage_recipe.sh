@@ -32,17 +32,11 @@ python --version
 python -m pip --version
 
 # Run virtualenv
-python -m pip install virtualenv || exit
-python -m virtualenv usr --always-copy --verbose
+python -m venv usr --copies
 source usr/bin/activate
 
 python --version
 python -m pip --version
-
-# Install python dependencies
-cd "${REPODIR}" || exit
-python -m pip install -e .
-cd "${APPDIR}" || exit
 
 # Copy all built-in scripts
 PYVER=$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))")
@@ -55,7 +49,7 @@ rm -fr "${MY_PYDIR}/distutils"
 echo "Copy builtin scripts from '${PYDIR}' to '${MY_PYDIR}' ..."
 cd "${PYDIR}" || exit
 for p in "*.py" "*.so"; do
-  find . -name "${p}" -exec install -v -D {} "${MY_PYDIR}"/{} \;
+  find . -name "${p}" -not -path "./site-packages/*" -exec install -D {} "${MY_PYDIR}"/{} \;
 done
 
 cd "${MY_PYDIR}" || exit
@@ -65,7 +59,12 @@ done
 
 # Python libraries
 cd "${APPDIR}" || exit
-cp -n -v "$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")"/libpython3*.so* usr/lib
+cp -n "$(python -c "from distutils import sysconfig;print(sysconfig.get_config_var('SCRIPTDIR'))")"/libpython3*.so* usr/lib
+
+# Install python dependencies
+cd "${REPODIR}" || exit
+python -m pip install .
+cd "${APPDIR}" || exit
 
 # Set version
 VERSION=$(python -c "from pyslvs_ui import __version__;print(__version__)")
@@ -74,21 +73,18 @@ echo "${VERSION}"
 deactivate
 
 ########################################################################
-# "Install" app in the AppDir
+# Make a launcher
 ########################################################################
 
-LAUNCHER="${APPDIR}/usr/bin/${LOWERAPP}"
-cat >${LAUNCHER} <<EOF
+LAUNCHER=${APPDIR}/usr/bin/${LOWERAPP}
+cat >"${LAUNCHER}" <<EOF
 #!/bin/sh
 LD_LIBRARY_PATH="."
 export QT_PLUGIN_PATH="."
 HERE=\$(readlink -f "\$(dirname "\$(readlink -f "\${0}")")")
-exec "\${HERE}/python" "\${HERE}/pyslvs_ui" "\$@"
+exec "\${HERE}/python" -m pyslvs_ui "\$@"
 EOF
-chmod +x ${LAUNCHER}
-
-cd "${REPODIR}/pyslvs_ui" || exit
-find . -name "*.py" -exec install -v -D {} "${APPDIR}/usr/bin/pyslvs_ui"/{} \;
+chmod +x "${LAUNCHER}"
 
 ########################################################################
 # Finalize the AppDir
@@ -109,7 +105,7 @@ EOF
 
 # Make the AppImage ask to "install" itself into the menu
 get_desktopintegration ${LOWERAPP}
-cp -n -v "${REPODIR}/pyslvs_ui/icons/main.png" "${LOWERAPP}.png"
+cp -n "${REPODIR}/pyslvs_ui/icons/main.png" "${LOWERAPP}.png"
 
 ########################################################################
 # Bundle dependencies

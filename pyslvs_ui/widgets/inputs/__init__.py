@@ -616,7 +616,7 @@ class InputsWidget(QWidget, Ui_Form):
         if polar:
             row, col = col, row
         dlg = DataChartDialog(self, "Analysis", row, col, polar)
-        dlg.setWindowIcon(QIcon(QPixmap(":/icons/formula.png")))
+        dlg.setWindowIcon(QIcon(QPixmap("icons:formula.png")))
         ax = dlg.ax()
         for p, (title, xy) in enumerate(plot.items()):
             ax_i = ax[p]

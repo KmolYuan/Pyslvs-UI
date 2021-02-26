@@ -17,7 +17,7 @@ class Ui_Dialog(object):
         Dialog.setEnabled(True)
         Dialog.resize(586, 494)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons:main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
@@ -112,7 +112,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "About Pyslvs"))
         self.iconLabel.setWhatsThis(_translate("Dialog", "Pyslvs Icon!"))
-        self.iconLabel.setText(_translate("Dialog", "<html><head/><body><p><img width=\"80\" src=\":/icons/main.png\"/></p></body></html>"))
+        self.iconLabel.setText(_translate("Dialog", "<html><head/><body><p><img width=\"80\" src=\"icons:main.png\"/></p></body></html>"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.AboutTab), _translate("Dialog", "About"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.LicenseTab), _translate("Dialog", "LICENSE"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.VersionsTab), _translate("Dialog", "Versions"))

@@ -66,7 +66,7 @@ class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         self.setWindowFlags(self.windowFlags()
                             & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(f"Export {self.format_name} module project")
-        self.setWindowIcon(QIcon(QPixmap(f":/icons/{self.format_icon}")))
+        self.setWindowIcon(QIcon(QPixmap(f"icons:{self.format_icon}")))
         self.assembly_label.setText(self.assembly_description)
         self.frame_label.setText(self.frame_description)
         self.path_edit.setPlaceholderText(env)

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../../桌面/Pyslvs-UI/pyslvs_ui/icons.qrc">
-    <normaloff>:/icons/calculator.png</normaloff>:/icons/calculator.png</iconset>
+    <normaloff>icons:calculator.png</normaloff>icons:calculator.png</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>

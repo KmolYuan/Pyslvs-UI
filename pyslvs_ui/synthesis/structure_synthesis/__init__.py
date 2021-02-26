@@ -116,7 +116,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         # Context menu
         self.pop_menu_topo = QMenu(self)
         self.to_collection = QAction(
-            QIcon(QPixmap(":/icons/collections.png")),
+            QIcon(QPixmap("icons:collections.png")),
             "Add to collections",
             self
         )

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
-    <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
+    <normaloff>icons:dimensional_synthesis.png</normaloff>icons:dimensional_synthesis.png</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>

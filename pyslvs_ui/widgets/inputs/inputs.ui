@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+    <normaloff>icons:motor.png</normaloff>icons:motor.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_7">
    <property name="leftMargin">
@@ -35,7 +35,7 @@
      <widget class="QWidget" name="inputs_tab">
       <attribute name="icon">
        <iconset resource="../../icons.qrc">
-        <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+        <normaloff>icons:motor.png</normaloff>icons:motor.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Inputs</string>
@@ -116,7 +116,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../icons.qrc">
-                <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+                <normaloff>icons:arrow_down.png</normaloff>icons:arrow_down.png</iconset>
               </property>
              </widget>
             </item>
@@ -142,7 +142,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+                  <normaloff>icons:arrow_up.png</normaloff>icons:arrow_up.png</iconset>
                 </property>
                </widget>
               </item>
@@ -153,7 +153,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+                  <normaloff>icons:arrow_down.png</normaloff>icons:arrow_down.png</iconset>
                 </property>
                </widget>
               </item>
@@ -177,7 +177,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                  <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
                 </property>
                </widget>
               </item>
@@ -327,8 +327,8 @@
               </property>
               <property name="icon">
                <iconset resource="../../icons.qrc">
-                <normaloff>:/icons/play.png</normaloff>
-                <activeon>:/icons/pause.png</activeon>:/icons/play.png</iconset>
+                <normaloff>icons:play.png</normaloff>
+                <activeon>icons:pause.png</activeon>icons:play.png</iconset>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -348,7 +348,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../icons.qrc">
-                <normaloff>:/icons/interrupted.png</normaloff>:/icons/interrupted.png</iconset>
+                <normaloff>icons:interrupted.png</normaloff>icons:interrupted.png</iconset>
               </property>
              </widget>
             </item>
@@ -359,7 +359,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../icons.qrc">
-                <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
+                <normaloff>icons:record.png</normaloff>icons:record.png</iconset>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -373,7 +373,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../icons.qrc">
-                <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+                <normaloff>icons:merge.png</normaloff>icons:merge.png</iconset>
               </property>
              </widget>
             </item>
@@ -387,7 +387,7 @@
      <widget class="QWidget" name="analysis_tab">
       <attribute name="icon">
        <iconset resource="../../icons.qrc">
-        <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+        <normaloff>icons:formula.png</normaloff>icons:formula.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Analysis</string>
@@ -473,7 +473,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
+               <normaloff>icons:data_update.png</normaloff>icons:data_update.png</iconset>
              </property>
             </widget>
            </item>
@@ -484,7 +484,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+               <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
              </property>
             </widget>
            </item>
@@ -508,7 +508,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+               <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
              </property>
             </widget>
            </item>
@@ -547,7 +547,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+             <normaloff>icons:merge.png</normaloff>icons:merge.png</iconset>
            </property>
           </widget>
          </item>
@@ -558,7 +558,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+             <normaloff>icons:merge.png</normaloff>icons:merge.png</iconset>
            </property>
           </widget>
          </item>
@@ -576,7 +576,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+             <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
            </property>
           </widget>
          </item>
@@ -596,7 +596,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+             <normaloff>icons:formula.png</normaloff>icons:formula.png</iconset>
            </property>
           </widget>
          </item>
@@ -607,7 +607,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../icons.qrc">
-             <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+             <normaloff>icons:motor.png</normaloff>icons:motor.png</iconset>
            </property>
           </widget>
          </item>

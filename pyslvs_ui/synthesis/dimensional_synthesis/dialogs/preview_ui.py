@@ -151,7 +151,7 @@ class Ui_Dialog(object):
         self.verticalLayout_9.addWidget(self.cc_plot_label)
         self.cc_plot_button = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/formula.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons:formula.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.cc_plot_button.setIcon(icon)
         self.cc_plot_button.setObjectName("cc_plot_button")
         self.verticalLayout_9.addWidget(self.cc_plot_button)

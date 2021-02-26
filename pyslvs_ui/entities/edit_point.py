@@ -38,7 +38,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags()
                             & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
-        self.icon = QIcon(QPixmap(":/icons/link.png"))
+        self.icon = QIcon(QPixmap("icons:link.png"))
         self.vpoints = vpoints
         self.vlinks = vlinks
         vpoints_count = len(vpoints)

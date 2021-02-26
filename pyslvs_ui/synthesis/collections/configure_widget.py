@@ -98,7 +98,7 @@ class _ConfigureCanvas(PreviewCanvas):
 
 def _set_warning(label: QLabel, warning: bool) -> None:
     """Show a warning sign front of label."""
-    warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
+    warning_icon = "<img width=\"15\" src=\"icons:warning.png\"/> "
     label.setText(label.text().replace(warning_icon, ''))
     if warning:
         label.setText(warning_icon + label.text())

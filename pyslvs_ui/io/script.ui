@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
-    <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
+    <normaloff>icons:script.png</normaloff>icons:script.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>

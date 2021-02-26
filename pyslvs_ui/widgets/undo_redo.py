@@ -486,7 +486,7 @@ class AddStorage(QUndoCommand):
         """Add mechanism expression to 'expr' attribute."""
         item = QListWidgetItem(self.name)
         item.expr = self.mechanism
-        item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
+        item.setIcon(QIcon(QPixmap("icons:mechanism.png")))
         self.widget.addItem(item)
 
     def undo(self) -> None:
@@ -518,7 +518,7 @@ class DeleteStorage(QUndoCommand):
         """Create a new item and recover expression."""
         item = QListWidgetItem(self.name)
         item.expr = self.mechanism
-        item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
+        item.setIcon(QIcon(QPixmap("icons:mechanism.png")))
         self.widget.insertItem(self.row, item)
 
 

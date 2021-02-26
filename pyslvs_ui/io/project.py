@@ -46,7 +46,7 @@ class ProjectWidget(QWidget, Ui_Form):
         w = QWidget(self)
         layout = QVBoxLayout(w)
         layout.addWidget(undo_view)
-        history_icon = QIcon(QPixmap(":/icons/history.png"))
+        history_icon = QIcon(QPixmap("icons:history.png"))
         self.history_tabs.addTab(w, history_icon, "Mechanism")
         # Settings
         self.prefer = parent.prefer

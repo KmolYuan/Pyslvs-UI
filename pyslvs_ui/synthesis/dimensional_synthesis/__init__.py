@@ -486,7 +486,7 @@ class Optimizer(QWidget, Ui_Form):
             interrupt_icon = "question.png"
         else:
             interrupt_icon = "interrupted.png"
-        item.setIcon(QIcon(QPixmap(f":/icons/{interrupt_icon}")))
+        item.setIcon(QIcon(QPixmap(f"icons:{interrupt_icon}")))
         if interrupt == 'False':
             interrupt_text = "No interrupt."
         else:

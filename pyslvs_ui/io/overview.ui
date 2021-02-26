@@ -12,7 +12,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
-    <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+    <normaloff>icons:id.png</normaloff>icons:id.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -34,7 +34,7 @@
       </property>
       <attribute name="icon">
        <iconset resource="../icons.qrc">
-        <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
+        <normaloff>icons:mechanism.png</normaloff>icons:mechanism.png</iconset>
       </attribute>
       <attribute name="label">
        <string>Mechanism</string>
@@ -77,7 +77,7 @@
       </property>
       <attribute name="icon">
        <iconset resource="../icons.qrc">
-        <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
+        <normaloff>icons:motor.png</normaloff>icons:motor.png</iconset>
       </attribute>
       <attribute name="label">
        <string>Inputs</string>
@@ -124,7 +124,7 @@
       </property>
       <attribute name="icon">
        <iconset resource="../icons.qrc">
-        <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+        <normaloff>icons:collections.png</normaloff>icons:collections.png</iconset>
       </attribute>
       <attribute name="label">
        <string>Collections</string>
@@ -171,7 +171,7 @@
       </property>
       <attribute name="icon">
        <iconset resource="../icons.qrc">
-        <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
+        <normaloff>icons:dimensional_synthesis.png</normaloff>icons:dimensional_synthesis.png</iconset>
       </attribute>
       <attribute name="label">
        <string>Dimensional Synthesis</string>
@@ -200,7 +200,7 @@
       </property>
       <attribute name="icon">
        <iconset resource="../icons.qrc">
-        <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+        <normaloff>icons:picture.png</normaloff>icons:picture.png</iconset>
       </attribute>
       <attribute name="label">
        <string>Background Image</string>

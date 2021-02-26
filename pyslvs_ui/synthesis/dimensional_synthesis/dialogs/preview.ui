@@ -301,7 +301,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../../icons.qrc">
-               <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+               <normaloff>icons:formula.png</normaloff>icons:formula.png</iconset>
              </property>
             </widget>
            </item>

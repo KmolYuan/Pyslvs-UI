@@ -286,7 +286,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         text_list = [
             f"Max generation: {mechanism.get('last_gen', 'N/A')}",
             f"Fitness: {fitness}",
-            f"<img src=\":/icons/{inter_icon}\" width=\"15\"/>"
+            f"<img src=\"icons:{inter_icon}\" width=\"15\"/>"
             f"Interrupted at: {inter}"
         ]
         for k, v in mechanism['settings'].items():

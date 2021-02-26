@@ -10,6 +10,7 @@
 
 **Development**:
 
++ Dropped Qt RCC support.
 + Dropped the support of Python 3.7.
     + Start using `TypedDict` typing.
 
