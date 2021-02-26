@@ -1667,9 +1667,10 @@ S &= \arg\max\{C_n(j)\} t
 $$
 
 ```python
-from pyslvs.optimization import curvature, path_signature, cross_correlation
+from pyslvs.optimization import curvature, path_signature
 ps1 = path_signature(curvature(...))
 ps2 = path_signature(curvature(...))
+from pyslvs.optimization import cross_correlation
 cc = cross_correlation(ps1, ps2)
 ```
 
