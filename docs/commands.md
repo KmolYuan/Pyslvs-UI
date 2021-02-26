@@ -47,13 +47,13 @@ python -m build --sdist
 Use PyInstaller: (Windows and macOS)
 
 ```bash
-./scripts/pyinstaller_recipe.sh
+./scripts/pyinstaller.sh
 ```
 
 Use AppImage: (Linux)
 
 ```bash
-./scripts/appimage_recipe.sh
+./scripts/appimage.sh
 ```
 
 ## Documentation Generation

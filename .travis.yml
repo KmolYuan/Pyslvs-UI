@@ -13,7 +13,7 @@ before_install:
   - python3 -m pip install -e . -U
 
 script:
-  - bash ./scripts/appimage_recipe.sh
+  - bash ./scripts/appimage.sh
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
