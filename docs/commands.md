@@ -59,14 +59,14 @@ Use AppImage: (Linux)
 ## Documentation Generation
 
 ```bash
-./scripts/gen_doc.sh
+./scripts/doc.sh
 ```
 
 ## Qt Resources Generation
 
 ```bash
-python scripts/compile_resource.py --ui
-python scripts/compile_resource.py --qrc
+python scripts/uic.py --ui
+python scripts/uic.py --qrc
 ```
 
 ## Uninstallation
