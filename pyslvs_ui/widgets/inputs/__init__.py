@@ -16,7 +16,8 @@ from typing import (
 )
 from csv import writer
 from copy import copy
-from numpy import array, hypot, arctan2
+from numpy import array, ndarray, hypot, arctan2, vstack, hstack
+from numpy.fft import fft
 from qtpy.QtCore import Signal, Slot, QTimer
 from qtpy.QtWidgets import (
     QWidget, QMessageBox, QInputDialog, QListWidgetItem, QApplication,
@@ -24,7 +25,9 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint
-from pyslvs.optimization import curvature, derivative, path_signature
+from pyslvs.optimization import (
+    curvature, derivative, path_signature, norm_path, norm_pca,
+)
 from pyslvs_ui.info import logger
 from pyslvs_ui.graphics import DataChartDialog
 from pyslvs_ui.widgets.undo_redo import (
@@ -53,6 +56,13 @@ def _no_auto_path(path: Mapping[str, _T]) -> Mapping[str, _T]:
 def _variable_int(text: str) -> int:
     """Change variable text to index."""
     return int(text.split()[-1].replace("Point", ""))
+
+
+def _fourier(pos: ndarray) -> ndarray:
+    """Fourier Transformation function."""
+    c = pos[:, 0] + pos[:, 1] * 1j
+    v = fft(hstack([c, c, c]))[len(c):len(c) * 2]
+    return vstack([v.real, v.imag]).T
 
 
 class InputsWidget(QWidget, Ui_Form):
@@ -565,7 +575,7 @@ class InputsWidget(QWidget, Ui_Form):
 
     @Slot(name='on_plot_button_clicked')
     def __plot(self) -> None:
-        """Plot the data. Show the X and Y axises as two line."""
+        """Plot the data. Show the X and Y axes as two line."""
         joint = self.plot_joint.currentIndex()
         name = self.__current_path_name()
         data = self.__paths.get(name, [])
@@ -582,39 +592,31 @@ class InputsWidget(QWidget, Ui_Form):
                 pos[:] -= array(slider_data.get(joint_wrt, []))
             else:
                 pos[:] -= array(data[joint_wrt])
-        vel = derivative(pos)
-        acc = derivative(vel)
-        cur = curvature(data[joint])
         plot = {}
-        plot_count = 0
-        if self.plot_pos.isChecked():
-            plot_count += 1
-            plot["Position"] = pos
-        if self.plot_vel.isChecked():
-            plot_count += 1
-            plot["Velocity"] = vel
-        if self.plot_acc.isChecked():
-            plot_count += 1
-            plot["Acceleration"] = acc
-        if self.plot_jerk.isChecked():
-            plot_count += 1
-            plot["Jerk"] = derivative(acc)
-        if self.plot_curvature.isChecked():
-            plot_count += 1
-            plot["Curvature"] = cur
-        if self.plot_signature.isChecked():
-            plot_count += 1
-            plot["Path Signature"] = path_signature(cur)
-        if plot_count < 1:
+        row = 0
+        for button, value in [
+            (self.plot_pos, lambda: pos),
+            (self.plot_vel, vel := lambda: derivative(pos)),
+            (self.plot_acc, acc := lambda: derivative(vel())),
+            (self.plot_jerk, lambda: derivative(acc())),
+            (self.plot_curvature, cur := lambda: curvature(data[joint])),
+            (self.plot_signature, lambda: path_signature(cur())),
+            (self.plot_norm, lambda: norm_path(pos)),
+            (self.plot_norm_pca, lambda: norm_pca(pos)),
+            (self.plot_fourier, lambda: _fourier(pos)),
+        ]:  # type: QCheckBox, Callable[[], ndarray]
+            if button.isChecked():
+                row += 1
+                plot[button.text()] = value()
+        if row < 1:
             QMessageBox.warning(self, "No target", "No any plotting target.")
             return
         polar = self.p_coord_sys.isChecked()
-        row = plot_count
         col = 1
         if polar:
             row, col = col, row
         dlg = DataChartDialog(self, "Analysis", row, col, polar)
-        dlg.setWindowIcon(QIcon(QPixmap(":/icons/formula.png")))
+        dlg.setWindowIcon(QIcon(QPixmap("icons:formula.png")))
         ax = dlg.ax()
         for p, (title, xy) in enumerate(plot.items()):
             ax_i = ax[p]

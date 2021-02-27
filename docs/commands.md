@@ -47,26 +47,26 @@ python -m build --sdist
 Use PyInstaller: (Windows and macOS)
 
 ```bash
-./scripts/pyinstaller_recipe.sh
+./scripts/pyinstaller.sh
 ```
 
 Use AppImage: (Linux)
 
 ```bash
-./scripts/appimage_recipe.sh
+./scripts/appimage.sh
 ```
 
 ## Documentation Generation
 
 ```bash
-./scripts/gen_doc.sh
+./scripts/doc.sh
 ```
 
 ## Qt Resources Generation
 
 ```bash
-python scripts/compile_resource.py --ui
-python scripts/compile_resource.py --qrc
+python scripts/uic.py --ui
+python scripts/uic.py --qrc
 ```
 
 ## Uninstallation

@@ -12,7 +12,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
+    <normaloff>icons:dimensional_synthesis.png</normaloff>icons:dimensional_synthesis.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
@@ -49,7 +49,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/data_update.png</normaloff>:/icons/data_update.png</iconset>
+               <normaloff>icons:data_update.png</normaloff>icons:data_update.png</iconset>
              </property>
             </widget>
            </item>
@@ -60,7 +60,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+               <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
              </property>
             </widget>
            </item>
@@ -87,7 +87,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+               <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
              </property>
             </widget>
            </item>
@@ -101,7 +101,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../icons.qrc">
-               <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+               <normaloff>icons:merge.png</normaloff>icons:merge.png</iconset>
              </property>
             </widget>
            </item>
@@ -125,7 +125,7 @@
       <widget class="QWidget" name="structure">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/structure.png</normaloff>:/icons/structure.png</iconset>
+         <normaloff>icons:structure.png</normaloff>icons:structure.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Structure</string>
@@ -140,7 +140,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+              <normaloff>icons:collections.png</normaloff>icons:collections.png</iconset>
             </property>
            </widget>
           </item>
@@ -151,7 +151,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+              <normaloff>icons:save_file.png</normaloff>icons:save_file.png</iconset>
             </property>
            </widget>
           </item>
@@ -169,7 +169,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+              <normaloff>icons:clean.png</normaloff>icons:clean.png</iconset>
             </property>
            </widget>
           </item>
@@ -240,7 +240,7 @@
            <widget class="QPushButton" name="expr_copy">
             <property name="icon">
              <iconset resource="../../icons.qrc">
-              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+              <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
             </property>
            </widget>
           </item>
@@ -251,7 +251,7 @@
       <widget class="QWidget" name="target_path">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/dimensional_synthesis.png</normaloff>:/icons/dimensional_synthesis.png</iconset>
+         <normaloff>icons:dimensional_synthesis.png</normaloff>icons:dimensional_synthesis.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Target path</string>
@@ -312,7 +312,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+                    <normaloff>icons:paste.png</normaloff>icons:paste.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -323,7 +323,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                    <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -334,7 +334,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                    <normaloff>icons:clean.png</normaloff>icons:clean.png</iconset>
                   </property>
                   <property name="autoDefault">
                    <bool>false</bool>
@@ -355,7 +355,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+                    <normaloff>icons:arrow_up.png</normaloff>icons:arrow_up.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -366,7 +366,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+                    <normaloff>icons:arrow_down.png</normaloff>icons:arrow_down.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -390,7 +390,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                    <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -401,7 +401,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../../icons.qrc">
-                    <normaloff>:/icons/translate.png</normaloff>:/icons/translate.png</iconset>
+                    <normaloff>icons:translate.png</normaloff>icons:translate.png</iconset>
                   </property>
                   <property name="checkable">
                    <bool>true</bool>
@@ -424,7 +424,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/save_file.png</normaloff>:/icons/save_file.png</iconset>
+                  <normaloff>icons:save_file.png</normaloff>icons:save_file.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -444,7 +444,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+                  <normaloff>icons:loadfile.png</normaloff>icons:loadfile.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -464,7 +464,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/excel.png</normaloff>:/icons/excel.png</iconset>
+                  <normaloff>icons:excel.png</normaloff>icons:excel.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -481,7 +481,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+                  <normaloff>icons:properties.png</normaloff>icons:properties.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -505,7 +505,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+                  <normaloff>icons:formula.png</normaloff>icons:formula.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -522,7 +522,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../icons.qrc">
-                  <normaloff>:/icons/normalization.png</normaloff>:/icons/normalization.png</iconset>
+                  <normaloff>icons:normalization.png</normaloff>icons:normalization.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -556,7 +556,7 @@
       <widget class="QWidget" name="algorithm">
        <attribute name="icon">
         <iconset resource="../../icons.qrc">
-         <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
+         <normaloff>icons:synthesis.png</normaloff>icons:synthesis.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Algorithm</string>
@@ -575,7 +575,7 @@
           </property>
           <property name="icon">
            <iconset resource="../../icons.qrc">
-            <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+            <normaloff>icons:properties.png</normaloff>icons:properties.png</iconset>
           </property>
          </widget>
         </item>
@@ -647,7 +647,7 @@
      </property>
      <property name="icon">
       <iconset resource="../../icons.qrc">
-       <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
+       <normaloff>icons:play.png</normaloff>icons:play.png</iconset>
      </property>
      <property name="autoDefault">
       <bool>true</bool>

@@ -248,10 +248,10 @@ class MainWindowBase(MainWindowABC, ABC):
         undo = self.cmd_stack.createUndoAction(self, "Undo")
         redo.setShortcuts(["Ctrl+Shift+Z", "Ctrl+Y"])
         redo.setStatusTip("Backtracking undo action.")
-        redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
+        redo.setIcon(QIcon(QPixmap("icons:redo.png")))
         undo.setShortcut("Ctrl+Z")
         undo.setStatusTip("Recover last action.")
-        undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
+        undo.setIcon(QIcon(QPixmap("icons:undo.png")))
         self.menu_edit.insertActions(self.action_new_point, [undo, redo])
         self.menu_edit.insertSeparator(self.action_new_point)
 
@@ -278,7 +278,7 @@ class MainWindowBase(MainWindowABC, ABC):
 
         # Select all button on the Point and Link tab as corner widget
         select_all_button = QPushButton()
-        select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
+        select_all_button.setIcon(QIcon(QPixmap("icons:select_all.png")))
         select_all_button.setToolTip("Select all")
         select_all_button.setStatusTip("Select all item of point table.")
 
@@ -430,7 +430,7 @@ class MainWindowBase(MainWindowABC, ABC):
             ("Vertical alignment", "vertical_align"),
             ("Horizontal alignment", "horizontal_align"),
         ]):
-            icon = f":/icons/{icon}.png"
+            icon = f"icons:{icon}.png"
             action = QAction(QIcon(QPixmap(icon)), text, self)
             action.triggered.connect(switch_icon(i, icon))
             menu.addAction(action)
@@ -457,7 +457,7 @@ class MainWindowBase(MainWindowABC, ABC):
             ("Rotate mode", "rotate", "Edit by 1 DOF moving."),
             ("Reflect mode", "reflect", "Edit by flip axis."),
         ]):
-            action = QAction(QIcon(QPixmap(f":/icons/{icon}.png")), text, self)
+            action = QAction(QIcon(QPixmap(f"icons:{icon}.png")), text, self)
             action.triggered.connect(free_move_mode_func(i, action.icon()))
             action.setShortcut(f"Ctrl+{i + 1}")
             action.setShortcutContext(Qt.WindowShortcut)

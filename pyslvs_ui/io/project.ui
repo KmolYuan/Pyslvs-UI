@@ -12,7 +12,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
-    <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+    <normaloff>icons:id.png</normaloff>icons:id.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -108,7 +108,7 @@
         <widget class="QToolButton" name="background_choose_dir">
          <property name="icon">
           <iconset resource="../icons.qrc">
-           <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+           <normaloff>icons:loadfile.png</normaloff>icons:loadfile.png</iconset>
          </property>
         </widget>
        </item>
@@ -203,7 +203,7 @@
        </property>
        <property name="icon">
         <iconset resource="../icons.qrc">
-         <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+         <normaloff>icons:id.png</normaloff>icons:id.png</iconset>
        </property>
       </widget>
      </item>
@@ -214,7 +214,7 @@
        </property>
        <property name="icon">
         <iconset resource="../icons.qrc">
-         <normaloff>:/icons/id.png</normaloff>:/icons/id.png</iconset>
+         <normaloff>icons:id.png</normaloff>icons:id.png</iconset>
        </property>
       </widget>
      </item>
@@ -235,7 +235,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
+            <normaloff>icons:dxf.png</normaloff>icons:dxf.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -252,7 +252,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/solvespace.png</normaloff>:/icons/solvespace.png</iconset>
+            <normaloff>icons:solvespace.png</normaloff>icons:solvespace.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -269,7 +269,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
+            <normaloff>icons:script.png</normaloff>icons:script.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -286,7 +286,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+            <normaloff>icons:picture.png</normaloff>icons:picture.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -303,7 +303,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
+            <normaloff>icons:pmks.png</normaloff>icons:pmks.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -320,7 +320,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/capture.png</normaloff>:/icons/capture.png</iconset>
+            <normaloff>icons:capture.png</normaloff>icons:capture.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -346,7 +346,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
+            <normaloff>icons:example.png</normaloff>icons:example.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -363,7 +363,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/pmks.png</normaloff>:/icons/pmks.png</iconset>
+            <normaloff>icons:pmks.png</normaloff>icons:pmks.png</iconset>
           </property>
           <property name="iconSize">
            <size>

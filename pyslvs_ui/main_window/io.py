@@ -508,7 +508,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def show_expr(self) -> None:
         """Output as expression."""
         dlg = ScriptDialog(
-            QIcon(QPixmap(":/icons/id.png")),
+            QIcon(QPixmap("icons:id.png")),
             _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
             + self.get_expression(indent=4),
             "Pyslvs expression",
@@ -524,7 +524,7 @@ class IOMethodInterface(ActionMethodInterface, ABC):
     def py_script(self) -> None:
         """Output to Python script for Jupyter notebook."""
         dlg = ScriptDialog(
-            QIcon(QPixmap(":/icons/script.png")),
+            QIcon(QPixmap("icons:script.png")),
             _PREFIX + f"\"{self.project_widget.base_file_name()}\"\n"
             + slvs_process_script(
                 tuple(vpoint.expr() for vpoint in self.vpoint_list),

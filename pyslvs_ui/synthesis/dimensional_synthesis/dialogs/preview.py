@@ -57,11 +57,15 @@ class _DynamicCanvas(AnimationCanvas):
             for j in range(i):
                 if j in same:
                     i -= 1
-            self.target_path[i] = norm_path(p) if use_norm else p
+            if use_norm:
+                self.target_path[i] = [(x, y) for x, y in norm_path(p)]
+            else:
+                self.target_path[i] = p
         self.path.path = []
         for i, p in enumerate(path):
             if i in self.target_path and use_norm:
-                self.path.path.append(norm_path(efd_fitting(p)))
+                self.path.path.append([(x, y)
+                                       for x, y in norm_path(efd_fitting(p))])
             else:
                 self.path.path.append(p)
         self.__index = 0
@@ -282,7 +286,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         text_list = [
             f"Max generation: {mechanism.get('last_gen', 'N/A')}",
             f"Fitness: {fitness}",
-            f"<img src=\":/icons/{inter_icon}\" width=\"15\"/>"
+            f"<img src=\"icons:{inter_icon}\" width=\"15\"/>"
             f"Interrupted at: {inter}"
         ]
         for k, v in mechanism['settings'].items():

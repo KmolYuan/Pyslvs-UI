@@ -37,7 +37,7 @@ class Collections(QWidget):
         layout = QVBoxLayout(self)
         self.tab_widget = QTabWidget(self)
         layout.addWidget(self.tab_widget)
-        self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
+        self.setWindowIcon(QIcon(QPixmap("icons:collections.png")))
         self.structure_widget = StructureWidget(parent)
         self.configure_widget = ConfigureWidget(
             self.structure_widget.add_collection,

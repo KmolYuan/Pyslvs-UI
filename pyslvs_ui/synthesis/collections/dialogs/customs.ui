@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
-    <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
+    <normaloff>icons:configure.png</normaloff>icons:configure.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -72,7 +72,7 @@
           </property>
           <property name="icon">
            <iconset resource="../../../icons.qrc">
-            <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+            <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
           </property>
          </widget>
         </item>
@@ -149,7 +149,7 @@
           </property>
           <property name="icon">
            <iconset resource="../../../icons.qrc">
-            <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+            <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
           </property>
          </widget>
         </item>

@@ -5,27 +5,19 @@
 Customized class will define below.
 """
 
-__all__ = ['API', 'QT_VERSION', 'qt_image_suffix', 'qt_image_format',
-           'QABCMeta']
+__all__ = ['API', 'qt_image_suffix', 'qt_image_format', 'QABCMeta']
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from abc import ABCMeta
+from os.path import join, dirname, abspath
+from importlib.metadata import version
 from qtpy import API_NAME
-from qtpy.QtCore import __version__, QObject
-from importlib import import_module
+from qtpy.QtCore import QObject, QDir
 
-if API_NAME == 'PyQt5':
-    from qtpy.QtCore import PYQT_VERSION_STR
-    API = f"{API_NAME} {PYQT_VERSION_STR}"
-elif API_NAME == 'PySide2':
-    API = f"{API_NAME} {getattr(import_module('PySide2'), '__version__')}"
-else:
-    raise ModuleNotFoundError("module not found: PyQt5 or PySide2")
-
-QT_VERSION = __version__
+API = f"{API_NAME} {version(API_NAME)}"
 qt_image_suffix = []
 qt_image_format = []
 for suffix, name in (
@@ -44,6 +36,7 @@ for suffix, name in (
 qt_image_suffix = tuple(qt_image_suffix)
 qt_image_format = tuple(qt_image_format)
 del suffix, name
+QDir.addSearchPath("icons", join(abspath(dirname(__file__)), "icons"))
 
 
 class QABCMeta(type(QObject), ABCMeta):  # type: ignore

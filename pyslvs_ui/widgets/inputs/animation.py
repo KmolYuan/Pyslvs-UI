@@ -176,7 +176,7 @@ class AnimateDialog(QDialog):
         main_layout.addLayout(layout)
         main_layout.addWidget(self.canvas)
         layout = QHBoxLayout(self)
-        self.play = QPushButton(QIcon(QPixmap(":/icons/play.png")), "", self)
+        self.play = QPushButton(QIcon(QPixmap("icons:play.png")), "", self)
         self.play.setCheckable(True)
         self.play.clicked.connect(self.__play)
         layout.addWidget(self.play)

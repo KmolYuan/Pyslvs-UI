@@ -29,7 +29,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.path_edit)
         self.choose_dir_button = QtWidgets.QToolButton(Dialog)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/loadfile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons:loadfile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.choose_dir_button.setIcon(icon)
         self.choose_dir_button.setObjectName("choose_dir_button")
         self.horizontalLayout_2.addWidget(self.choose_dir_button)

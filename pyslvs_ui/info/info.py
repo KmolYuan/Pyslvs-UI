@@ -22,7 +22,7 @@ from argparse import ArgumentParser
 from dataclasses import dataclass
 from pyslvs import __version__ as _kernel_ver
 from pyslvs_ui import __version__
-from pyslvs_ui.qt_patch import API, QT_VERSION
+from pyslvs_ui.qt_patch import API
 
 assert _kernel_ver == __version__, (
     f"different version between kernel and interface: "
@@ -39,10 +39,9 @@ HAS_SCIPY = has_module('scipy')
 SYS_INFO = [
     f"Pyslvs {__version__}",
     f"OS Type: {system()} {release()} [{machine()}]",
-    f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro}({_vi.releaselevel})",
+    f"Python Version: {_vi.major}.{_vi.minor}.{_vi.micro} ({_vi.releaselevel})",
     f"Python Compiler: {python_compiler()}",
-    f"Qt wrapper: {API}",
-    f"Qt: {QT_VERSION}",
+    f"Qt: {API}",
 ]
 if HAS_SLVS:
     SYS_INFO.append(f"Python-Solvespace: {version('python_solvespace')}")

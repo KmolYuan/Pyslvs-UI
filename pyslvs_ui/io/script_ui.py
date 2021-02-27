@@ -17,7 +17,7 @@ class Ui_Dialog(object):
         Dialog.setEnabled(True)
         Dialog.resize(533, 564)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons:script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setAutoFillBackground(True)
         Dialog.setSizeGripEnabled(True)

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
-    <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
+    <normaloff>icons:bearing.png</normaloff>icons:bearing.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -175,7 +175,7 @@
           </property>
           <property name="icon">
            <iconset resource="../icons.qrc">
-            <normaloff>:/icons/calculator.png</normaloff>:/icons/calculator.png</iconset>
+            <normaloff>icons:calculator.png</normaloff>icons:calculator.png</iconset>
           </property>
           <property name="iconSize">
            <size>

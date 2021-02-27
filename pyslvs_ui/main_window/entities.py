@@ -506,17 +506,15 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         ))
         self.cmd_stack.endMacro()
 
-    @Slot(name="on_action_scale_points_triggered")
+    @Slot(name='on_action_scale_points_triggered')
     def __set_scale(self) -> None:
         """Scale the mechanism."""
         dlg = _ScaleDialog(self)
         if not dlg.exec_():
             dlg.deleteLater()
             return
-
         factor = dlg.factor()
         dlg.deleteLater()
-
         self.cmd_stack.beginMacro(f"Scale mechanism: {factor}")
         for row in range(self.entities_point.rowCount()):
             args = self.entities_point.row_data(row)

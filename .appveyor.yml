@@ -15,9 +15,9 @@ environment:
       PY: 38
     - COMPILER: msvc
       PY: 39
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PY: 3.8
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PY: 3.9
       DEPLOY: "true"
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
@@ -54,12 +54,12 @@ install:
   - python -m pip install -e . -U
 
 build_script:
-  - cmd: bash ./scripts/pyinstaller_recipe.sh
+  - cmd: bash ./scripts/pyinstaller.sh
   - sh: |
       if [[ "$(uname)" == "Darwin" ]]; then
-        bash ./scripts/pyinstaller_recipe.sh
+        bash ./scripts/pyinstaller.sh
       else
-        bash ./scripts/appimage_recipe.sh
+        bash ./scripts/appimage.sh
       fi
 
 after_build:

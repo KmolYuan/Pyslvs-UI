@@ -42,7 +42,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         self.vpoints = vpoints
         self.vlinks = vlinks
         icon = self.windowIcon()
-        self.icon = QIcon(QPixmap(":/icons/bearing.png"))
+        self.icon = QIcon(QPixmap("icons:bearing.png"))
         for i, e in enumerate(color_names):
             self.color_box.insertItem(i, color_icon(e), e)
         for i in range(len(self.vpoints)):
