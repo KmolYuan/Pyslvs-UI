@@ -11,17 +11,19 @@ REPODIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")/..")
 cd "${REPODIR}" || exit
 
 # Run virtualenv
-pip install virtualenv || exit
-python -m virtualenv ENV --always-copy --verbose
-source ENV/bin/activate
+python -m venv ENV --copies
+if [[ "$(uname)" == "Darwin" ]]; then
+  source ENV/bin/activate
+else
+  source ENV/Scripts/activate
+fi
 
 # Show python and pip versions
 python --version
 python -m pip --version
 
 # Install python dependencies
-python -m pip install -e .
-cd "${REPODIR}" || exit
+python -m pip install .
 
 ########################################################################
 # Pack executable
