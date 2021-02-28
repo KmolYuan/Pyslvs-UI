@@ -34,25 +34,24 @@ COMPILERVER=$(python -c "import platform;print(''.join(platform.python_compiler(
 SYSVER=$(python -c "import platform;print(platform.machine().lower())")
 EXENAME=pyslvs-${PYSLVSVER}.${COMPILERVER}-${SYSVER}
 if [[ "$(uname)" == "Darwin" ]]; then
-  FLAG=-w
+  CONSOLE=-w
   ICON=icns
+  ICON_PATH="pyslvs_ui/icons/*:pyslvs_ui/icons"
 else
-  FLAG=
+  CONSOLE=-c
   ICON=ico
+  ICON_PATH="pyslvs_ui/icons/*;pyslvs_ui/icons"
 fi
-
-cat >"${REPODIR}/hook.py" <<EOF
-# -*- coding: utf-8 -*-
-from pyslvs_ui.__main__ import main
-main()
-EOF
 
 # Run PyInstaller
 python -m pip install https://github.com/pyinstaller/pyinstaller/tarball/develop || exit
-python -m PyInstaller ${FLAG} -F hook.py -i pyslvs_ui/icons/main.${ICON} -n ${APP}
-rm -f "${REPODIR}/hook.py"
+python -m PyInstaller ${CONSOLE} -F "${REPODIR}/scripts/entry.py" -n ${APP} \
+  -i "pyslvs_ui/icons/main.${ICON}" \
+  --add-data ${ICON_PATH} \
+  --additional-hooks-dir "${REPODIR}/scripts"
 cd "${REPODIR}/dist" || exit
 if [[ "$(uname)" == "Darwin" ]]; then
+  ls -A -1
   mv ${APP} "${EXENAME}.run"
   mv ${APP}.app "${EXENAME}.app"
   "${EXENAME}.run" test

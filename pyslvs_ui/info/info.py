@@ -16,7 +16,6 @@ from typing import Optional
 from importlib.util import find_spec
 from enum import auto, IntEnum
 from sys import version_info as _vi
-from importlib.metadata import version
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from dataclasses import dataclass
@@ -43,10 +42,6 @@ SYS_INFO = [
     f"Python Compiler: {python_compiler()}",
     f"Qt: {API}",
 ]
-if HAS_SLVS:
-    SYS_INFO.append(f"Python-Solvespace: {version('python_solvespace')}")
-if HAS_SCIPY:
-    SYS_INFO.append(f"SciPy: {version('scipy')}")
 SYS_INFO = tuple(SYS_INFO)
 del has_module
 
