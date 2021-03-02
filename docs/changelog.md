@@ -15,6 +15,7 @@
     + Start using `TypedDict` typing.
     + Use `importlib.metadata`.
     + Use assignment expression.
++ Create a hook for PyInstaller.
 + Rename scripts.
 
 ## Version 21.01
