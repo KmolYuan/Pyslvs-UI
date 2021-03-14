@@ -7,8 +7,8 @@ APP=Pyslvs
 # Create a virtual environment
 ########################################################################
 
-REPODIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")/..")
-cd "${REPODIR}" || exit
+cd "$(dirname "${0}")/.." || exit
+REPODIR=${PWD}
 
 # Run virtualenv
 python -m venv ENV --copies

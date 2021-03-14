@@ -11,8 +11,9 @@ LOWERAPP=${APP,,}
 # Create the AppDir
 ########################################################################
 
-REPODIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")/..")
-cd "${REPODIR}" || exit
+cd "$(dirname "${0}")/.." || exit
+REPODIR=${PWD}
+
 ENV=${REPODIR}/ENV
 APPDIR=${ENV}/${APP}.AppDir
 mkdir -p "${APPDIR}"
