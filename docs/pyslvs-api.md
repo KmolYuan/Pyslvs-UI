@@ -1,771 +1,59 @@
 # Pyslvs API
 
 ## Module `pyslvs`
+<a id="pyslvs"></a>
 
 Kernel of Pyslvs.
 
-### get_vlinks()
+### all_collections()
 
-| vpoints | return |
-|:-------:|:------:|
-| Iterable\[VPoint] | List\[VLink] |
-
-Get VLinks from a list of VPoint `vpoints`.
-
-### VJoint
-
-Inherited from `IntEnum`.
-
-Is an enum class.
-
-| R | P | RP |
-|:---:|:---:|:---:|
-| `1` | `2` | `3` |
-
-Enumeration values of Joint types.
-
-### VPoint
-
-Inherited from `object`.
-
-| links | c | type | color | color_str | type_str | x | y | angle | HOLDER |
-|:-----:|:---:|:----:|:-----:|:---------:|:--------:|:---:|:---:|:-----:|:------:|
-| Sequence\[str] | ndarray | VJoint | Optional\[Tuple\[int, int, int]] | str | str | float | float | float | ClassVar\[VPoint] |
-
-Mechanism expression class.
-
-#### VPoint.\_\_init__()
-
-| self | links | type_int | angle | color_str | x | y | color_func | return |
-|:----:|:-----:|:--------:|:-----:|:---------:|:---:|:---:|:----------:|:------:|
-|   | Iterable\[str] | VJoint | float | str | float | float | Optional\[Callable\[\[str], Tuple\[int, int, int]]] | Any |
-|   |   |   |   |   |   |   | None |   |
-
-The attributes will match to the object attributes of [VPoint] objects.
-
-Where the color function `color_func` needs to transform the color string `color_str` into RGB format.
-If color information is not needed, the `color_func` can be `None`.
-
-!!! note
-    Some of the attributes are not work in some of the joint types.
-
-#### VPoint.copy()
-
-| self | return |
-|:----:|:------:|
-|   | VPoint |
-
-The copy method of the VPoint object.
-
-#### VPoint.cx
-
-Is a property.
-
-X value of current coordinate.
-If it's slider, the pin coordinate will be returned.
-
-#### VPoint.cy
-
-Is a property.
-
-Y value of current coordinate.
-If it's slider, the pin coordinate will be returned.
-
-#### VPoint.disable_offset()
-
-| self | return |
-|:----:|:------:|
-|   | None |
-
-Disable offset setting of the joint.
-
-#### VPoint.distance()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | VPoint | float |
-
-Return the distance between two VPoint objects.
-
-#### VPoint.expr()
-
-| self | return |
-|:----:|:------:|
-|   | str |
-
-Return the literal mechanism expression of the joint.
-
-#### VPoint.grounded()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return true if the joint pin is connected to ground link.
-
-#### VPoint.has_offset()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return true if the offset setting is enabled.
-
-#### VPoint.is_slider()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return true for slider type.
-
-#### VPoint.is\_slot_link()
-
-| self | link | return |
-|:----:|:----:|:------:|
-|   | str | bool |
-
-Return true if the slot is on the link `link_name`.
-
-#### VPoint.link_pos()
-
-| self | link | return |
-|:----:|:----:|:------:|
-|   | str | Coord |
-
-Return the position for the vlink.
-
-#### VPoint.locate()
-
-| self | x | y | return |
-|:----:|:---:|:---:|:------:|
-|   | float | float | None |
-
-The update function of original coordinate.
-
-#### VPoint.move()
-
-| self | c1 | c2 | return |
-|:----:|:---:|:---:|:------:|
-|   | Tuple\[float, float] | Optional\[Tuple\[float, float]] | None |
-|   |   | None |   |
-
-The update function of current coordinate(s).
-The 2nd placement is the pin coordinate of slider joints.
-
-If there is only one argument for a slider joint,
-the slot and pin coordinates will be set to the same position.
-
-#### VPoint.no_link()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return true if there is no any link in links attribute.
-
-#### VPoint.offset()
-
-| self | return |
-|:----:|:------:|
-|   | float |
-
-Return the offset constraint value of the joint.
-
-#### VPoint.pin_grounded()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return true if the point is at the same link.
-
-#### VPoint.r_joint()
-
-| links | x | y | return |
-|:-----:|:---:|:---:|:------:|
-| Iterable\[str] | float | float | VPoint |
-
-Is a static method.
-
-A fast constructor of revolute joints.
-
-#### VPoint.replace_link()
-
-| self | link1 | link2 | return |
-|:----:|:-----:|:-----:|:------:|
-|   | str | str | None |
-
-Replace the value in links attribute.
-
-#### VPoint.rotate()
-
-| self | angle | return |
-|:----:|:-----:|:------:|
-|   | float | None |
-
-The update function of angle attribute.
-
-#### VPoint.same_link()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | VPoint | bool |
-
-Return true if the point is at the same link.
-
-#### VPoint.set_links()
-
-| self | links | return |
-|:----:|:-----:|:------:|
-|   | Iterable\[str] | None |
-
-The update function of links attribute.
-
-#### VPoint.set_offset()
-
-| self | offset | return |
-|:----:|:------:|:------:|
-|   | float | None |
-
-The update function of slider offset.
-It will also enable offset value after called.
-
-#### VPoint.slider_joint()
-
-| links | type_int | angle | x | y | return |
-|:-----:|:--------:|:-----:|:---:|:---:|:------:|
-| Iterable\[str] | VJoint | float | float | float | VPoint |
-
-Is a static method.
-
-A fast constructor of slider joints.
-
-#### VPoint.slope_angle()
-
-| self | p | num1 | num2 | return |
-|:----:|:---:|:----:|:----:|:------:|
-|   | VPoint | int | int | float |
-|   |   | 2 | 2 |   |
-
-Return the value `hypot(p_x - m_x, p_y - m_y)`,
-where `m_x`, `m_y` is the value of the joint,
-and `p_x`, `p_y` is the value of `p`.
-
-The option `num1` and `num2` is the position of current coordinate
-attribute.
-
-#### VPoint.sx
-
-Is a property.
-
-X value of slot coordinate.
-
-#### VPoint.sy
-
-Is a property.
-
-Y value of slot coordinate.
-
-#### VPoint.to_coord()
-
-| self | ind | return |
-|:----:|:---:|:------:|
-|   | int | Coord |
-
-Obtain coordinate by Coord object.
-
-#### VPoint.true_offset()
-
-| self | return |
-|:----:|:------:|
-|   | float |
-
-Return the current offset value of the joint.
-
-### VLink
-
-Inherited from `object`.
-
-| name | color_str | color | points | HOLDER | FRAME |
-|:----:|:---------:|:-----:|:------:|:------:|:-----:|
-| str | str | Optional\[Tuple\[int, int, int]] | Sequence\[int] | ClassVar\[VLink] | ClassVar\[str] |
-
-Mechanism expression class in link's view.
-
-#### VLink.\_\_init__()
-
-| self | name | color_str | points | color_func | return |
-|:----:|:----:|:---------:|:------:|:----------:|:------:|
-|   | str | str | Iterable\[int] | Optional\[Callable\[\[str], Tuple\[int, int, int]]] | Any |
-|   |   |   |   | None |   |
-
-The attributes will match to the object attributes of [VLink] objects.
-
-Where the color function `color_func` needs to transform the color string `color_str` into RGB format.
-If color information is not needed, the `color_func` can be `None`.
-
-#### VLink.points_pos()
-
-| self | vpoints | return |
-|:----:|:-------:|:------:|
-|   | Iterable\[VPoint] | Sequence\[Coord] |
-
-Get link positions from a VPoint list.
-
-#### VLink.set_points()
-
-| self | points | return |
-|:----:|:------:|:------:|
-|   | Iterable\[int] | None |
-
-The update function of points attribute.
-
-### Coord
-
-Inherited from `object`.
-
-| x | y |
-|:---:|:---:|
-| float | float |
-
-A data class used to store coordinates.
-
-#### Coord.\_\_init__()
-
-| self | x | y | return |
-|:----:|:---:|:---:|:------:|
-|   | float | float | Any |
-
-The constructor of Coordinate class.
-
-#### Coord.distance()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | Coord | float |
-
-Return the distance between two coordinates.
-
-#### Coord.is_nan()
-
-| self | return |
-|:----:|:------:|
-|   | bool |
-
-Return true if the coordinate value is not a number.
-
-#### Coord.slope_angle()
-
-| self | p | return |
-|:----:|:---:|:------:|
-|   | Coord | float |
-
-Slope angle of two coordinates.
-
-### SolverSystem
-
-Inherited from `object`.
-
-Sketch Solve solver.
-
-!!! note
-    The object attributes of such type are unable to access.
-
-#### SolverSystem.\_\_init__()
-
-| self | vpoints | inputs | data_dict | return |
-|:----:|:-------:|:------:|:---------:|:------:|
-|   | Sequence\[VPoint] | Optional\[Mapping\[Tuple\[int, int], float]] | Optional\[Mapping\[Union\[int, Tuple\[int, int]], Union\[Coord, float]]] | Any |
-|   |   | None | None |   |
-
-The expression `vpoints` solver function of BFGS method by giving
-the input pairs `inputs` and link length `data_dict` requirements.
-
-!!! note
-    The format of input pairs:
-
-    + Revolut joints: `{(base, driver): angle}`
-    + Slider joints: `{(base, base): offset}`
-
-The format of `data_dict`:
-
-+ Specific coordinates: Dict\[int, List\[Coord]]
-+ Specific link length: Dict\[Tuple\[int, int], float]
-
-The `data_dict` parameter will reformat its keys into `frozenset` type.
-
-#### SolverSystem.same_points()
-
-| self | vpoints_ | return |
-|:----:|:--------:|:------:|
-|   | Sequence\[VPoint] | bool |
-
-Return true if two expressions are same.
-
-#### SolverSystem.set_data()
-
-| self | data_dict | return |
-|:----:|:---------:|:------:|
-|   | Union\[Mapping\[Tuple\[int, int], float], Mapping\[int, Coord]] | None |
-
-Set the values of `data_dict` parameter from original constructor.
-Two groups of `dict` keys must be the same or subset.
-
-#### SolverSystem.set_inputs()
-
-| self | inputs | return |
-|:----:|:------:|:------:|
-|   | Mapping\[Tuple\[int, int], float] | None |
-
-Set the values of `inputs` parameter from original constructor.
-Two groups of `dict` keys must be the same or subset.
-
-#### SolverSystem.show_data()
-
-| self | return |
-|:----:|:------:|
-|   | FrozenSet\[Union\[int, Tuple\[int, int]]] |
-
-Show the current keys of `data_dict` parameter from original
-constructor.
-
-#### SolverSystem.show_inputs()
-
-| self | return |
-|:----:|:------:|
-|   | FrozenSet\[Tuple\[int, int]] |
-
-Show the current input pairs keys from original constructor.
-
-#### SolverSystem.solve()
-
-| self | return |
-|:----:|:------:|
-|   | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
-
-Solve the conditions and return the result, raise ValueError if
-not succeeded.
-The joint position will returned by its index correspondingly.
-
-+ Revolute joints: Tuple[float, float]
-+ Slider joints: Tuple[Tuple[float, float], Tuple[float, float]]
-
-### t_config()
-
-| vpoints | inputs | status | return |
-|:-------:|:------:|:------:|:------:|
-| Sequence\[VPoint] | Sequence\[Tuple\[int, int]] | Optional\[Dict\[int, bool]] | EStack |
-|   |   | None |   |
-
-Generate the Triangle solution stack by mechanism expression `vpoints_`.
-
-The argument `inputs` is a list of input pairs.
-The argument `status` will track the configuration of each point,
-which is optional.
-
-### EStack
-
-Inherited from `object`.
-
-| well_done |
-|:---------:|
-| bool |
-
-Triangle solution stack, generated from [`t_config`](#t_config).
-It is pointless to call the constructor.
-
-#### EStack.\_\_init__()
-
-| self | **args | **kwargs | return |
-|:----:|:------:|:--------:|:------:|
-|   | Any | Any | Any |
-
-Initialize self.  See help(type(self)) for accurate signature.
-
-#### EStack.as_list()
-
-| self | return |
-|:----:|:------:|
-|   | List\[Tuple\[str, ...]] |
-
-Copy the dataset as list object.
-
-### pxy()
-
-| c1 | x | y | return |
-|:---:|:---:|:---:|:------:|
-| Coord | float | float | Coord |
-
-The PXY function requires one point and offset values, get the
-position of second point.
-
-In the following picture, `c1` correspond to "A", `d0` correspond to "X",
-`d1` correspond to "Y", `return` correspond to "B", the sign of value are
-correspond to coordinate system.
-
-![pxy](img/pxy.png)
-
-### ppp()
-
-| c1 | c2 | c3 | return |
-|:---:|:---:|:---:|:------:|
-| Coord | Coord | Coord | Coord |
-
-The PPP function is used to solve parallel linkage.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`c3` correspond to "C", `return` correspond to "D".
-
-![ppp](img/ppp.png)
-
-### plap()
-
-| c1 | d0 | a0 | c2 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Optional\[Coord] | bool | Coord |
-|   |   |   | None | False |   |
-
-The PLAP function requires two points, one distance and one angle,
-obtained the position of third point. The unit of `a0` is degree.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond
-to "C".
-If `c2` is not given, "alpha" will be set to zero.
-
-![plap](img/plap.png)
-
-Set `inverse` option to `True` can make `a0` value as negative.
-
-### pllp()
-
-| c1 | d0 | d1 | c2 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Coord | bool | Coord |
-|   |   |   |   | False |   |
-
-The PLLP function requires two points and two distances, obtained the
-position of third point.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to
-"C".
-
-![pllp](img/pllp.png)
-
-Set `inverse` option to `True` can make the result upside down.
-
-### plpp()
-
-| c1 | d0 | c2 | c3 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | Coord | Coord | bool | Coord |
-|   |   |   |   | False |   |
-
-The PLPP function requires three points and one distance, obtained the
-position of fourth point.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`c3` correspond to "C", `d0` correspond to "L0", `return` correspond to "D".
-
-![plpp](img/plpp.png)
-
-Set `inverse` option to `True` can make the result to the another side
-between `c1` and line `c2` `c3`.
-
-### palp()
-
-| c1 | a0 | d0 | c2 | inverse | return |
-|:---:|:---:|:---:|:---:|:-------:|:------:|
-| Coord | float | float | Coord | bool | Coord |
-|   |   |   |   | False |   |
-
-The PALP function requires two points, one angle and one distance,
-obtained the position of fourth point.
-
-In the following picture, `c1` correspond to "A", `c2` correspond to "B",
-`d0` correspond to "L0", `a0` correspond to "alpha", `return` correspond
-to "C".
-
-![palp](img/palp.png)
-
-Set `inverse` option to `True` can make the result upside down.
-
-### vpoint_dof()
-
-| vpoints | return |
-|:-------:|:------:|
-| Sequence\[VPoint] | int |
-
-Return the DOF of the mechanism expression `vpoints`.
-
-### expr_solving()
-
-| exprs | vpoints | angles | return |
-|:-----:|:-------:|:------:|:------:|
-| EStack | Sequence\[VPoint] | Optional\[Mapping\[Tuple\[int, int], float]] | List\[Union\[Tuple\[float, float], Tuple\[Tuple\[float, float], Tuple\[float, float]]]] |
-|   |   | None |   |
-
-Solver function of Triangular method and BFGS method, for mechanism
-expression `vpoints`.
-
-The triangle expression stack `expr` is generated from
-[`t_config`](#t_config).
-
-Solver function will not handle slider input pairs in argument `angles`,
-which is only support revolute joints. In another way, the slider input
-pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset)
-method.
-
-### uniform_path()
-
-| v | n | return |
-|:---:|:---:|:------:|
-| ndarray | int | ndarray |
-
-Generate path with four-bar dimensions.
-
-Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
-
-### uniform\_four_bar()
-
-| ml | n | return |
-|:---:|:---:|:------:|
-| float | int | ndarray |
-
-Generate n four bar mechanisms from maximum lengths.
-
-These mechanisms have coupling points.
-Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
-
-![pxy](img/uniform_four_bar.png)
-
-### uniform_expr()
-
-| v | return |
-|:---:|:------:|
-| ndarray | List\[VPoint] |
-
-Turn the uniform link length into expression.
-
-### color_rgb()
-
-| name | return |
-|:----:|:------:|
-| str | Tuple\[int, int, int] |
-
-Get color by name.
-
-Get RGB color data by name, return `(0, 0, 0)` if it is invalid.
-Also support `"(R, G, B)"` string format.
-
-### parse_params()
-
-| expr | return |
-|:----:|:------:|
-| str | List\[expression\_parser.PointArgs] |
-
-Parse mechanism expression into VPoint constructor arguments.
-
-### parse_pos()
-
-| expr | return |
-|:----:|:------:|
-| str | List\[Tuple\[float, float]] |
-
-Parse mechanism expression into coordinates.
-
-### parse_vpoints()
-
-| expr | return |
-|:----:|:------:|
-| str | List\[VPoint] |
-
-Parse mechanism expression into VPoint objects.
-
-### parse_vlinks()
-
-| expr | return |
-|:----:|:------:|
-| str | List\[VLink] |
-
-Parse mechanism expression into VLink objects.
-
-### edges_view()
-
-| graph | return |
-|:-----:|:------:|
-| Graph | Iterator\[Tuple\[int, Tuple\[int, int]]] |
-
-The iterator will yield the sorted edges from `graph`.
-
-### graph2vpoints()
-
-| graph | pos | cus | same | grounded | return |
-|:-----:|:---:|:---:|:----:|:--------:|:------:|
-| Graph | Dict\[int, Tuple\[float, float]] | Optional\[Dict\[int, int]] | Optional\[Dict\[int, int]] | Optional\[int] | List\[VPoint] |
-|   |   | None | None | None |   |
-
-Transform `graph` into [VPoint] objects. The vertices are mapped to links.
-
-+ `pos`: Position for each vertices.
-+ `cus`: Extra points on the specific links.
-+ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
-+ `grounded`: The ground link of vertices.
-
-### PointArgs
-
-Inherited from `object`.
-
-Is a data class.
-
-| links | type | color | x | y |
-|:-----:|:----:|:-----:|:---:|:---:|
-| str | str | str | float | float |
-
-Point table argument.
-
-### LinkArgs
-
-Inherited from `object`.
-
-Is a data class.
-
-| name | color | points |
-|:----:|:-----:|:------:|
-| str | str | str |
-
-Link table argument.
-
-### example_list()
-
-| key | return |
-|:---:|:------:|
-| str | Tuple\[str, Sequence\[Tuple\[int, int]]] |
-
-The example data of mechanisms.
-
-The format of each mechanism is:
-
-+ `[0]`: Mechanism expression.
-    + type: str
-+ `[1]`: Input pairs.
-    + type: Tuple[Tuple[int, int], ...]]
-
-### all_examples()
+*Full name:* `pyslvs.all_collections`
+<a id="pyslvs-all_collections"></a>
 
 | return |
 |:------:|
-| Iterator\[str] |
+| `collections.abc.Iterator[str]` |
+
+Get all collection names.
+
+### all_examples()
+
+*Full name:* `pyslvs.all_examples`
+<a id="pyslvs-all_examples"></a>
+
+| return |
+|:------:|
+| `collections.abc.Iterator[str]` |
 
 Get all example names.
 
+### class Collection
+
+*Full name:* `pyslvs.Collection`
+<a id="pyslvs-collection"></a>
+
+| Bases |
+|:-----:|
+| `TypedDict` |
+
+| Members | Type |
+|:-------:|:----:|
+| `cus` | `dict[int, int]` |
+| `expression` | `str` |
+| `graph` | `collections.abc.Sequence[tuple[int, int]]` |
+| `input` | `collections.abc.Sequence[tuple[Tuple[int, int], Sequence[float]]]` |
+| `placement` | <code>dict[int, Tuple[float, float, float] &#124; None]</code> |
+| `same` | `dict[int, int]` |
+| `target` | <code>dict[int, Sequence[Tuple[float, float]] &#124; None]</code> |
+
 ### collection_list()
+
+*Full name:* `pyslvs.collection_list`
+<a id="pyslvs-collection_list"></a>
 
 | key | return |
 |:---:|:------:|
-| str | Collection |
+| `str` | `Collection` |
 
 The example data of collections.
 
@@ -787,102 +75,1169 @@ The format of each configuration is:
 + `same`: The multiple joints setting.
     + type: Dict[int, int]
 
-### all_collections()
+### color_rgb()
 
-| return |
-|:------:|
-| Iterator\[str] |
+*Full name:* `pyslvs.color_rgb`
+<a id="pyslvs-color_rgb"></a>
 
-Get all collection names.
+| name | return |
+|:----:|:------:|
+| `str` | `tuple[int, int, int]` |
+
+Get color by name.
+
+Get RGB color data by name, return `(0, 0, 0)` if it is invalid.
+Also support `"(R, G, B)"` string format.
+
+### class Coord
+
+*Full name:* `pyslvs.Coord`
+<a id="pyslvs-coord"></a>
+
+| Members | Type |
+|:-------:|:----:|
+| `x` | `float` |
+| `y` | `float` |
+
+A data class used to store coordinates.
+
+#### Coord.\_\_init\_\_()
+
+*Full name:* `pyslvs.Coord.__init__`
+<a id="pyslvs-coord-__init__"></a>
+
+| self | x | y | return |
+|:----:|:---:|:---:|:------:|
+| `Self` | `float` | `float` | `Any` |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### Coord.distance()
+
+*Full name:* `pyslvs.Coord.distance`
+<a id="pyslvs-coord-distance"></a>
+
+| self | p | return |
+|:----:|:---:|:------:|
+| `Self` | `Coord` | `float` |
+
+Return the distance between two coordinates.
+
+#### Coord.is_nan()
+
+*Full name:* `pyslvs.Coord.is_nan`
+<a id="pyslvs-coord-is_nan"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Return true if the coordinate value is not a number.
+
+#### Coord.slope_angle()
+
+*Full name:* `pyslvs.Coord.slope_angle`
+<a id="pyslvs-coord-slope_angle"></a>
+
+| self | p | return |
+|:----:|:---:|:------:|
+| `Self` | `Coord` | `float` |
+
+Slope angle of two coordinates.
+
+### edges_view()
+
+*Full name:* `pyslvs.edges_view`
+<a id="pyslvs-edges_view"></a>
+
+| graph | return |
+|:-----:|:------:|
+| `pyslvs.expression_parser.graph.Graph` | `collections.abc.Iterator[tuple[int, Tuple[int, int]]]` |
+
+The iterator will yield the sorted edges from `graph`.
 
 ### efd_fitting()
 
+*Full name:* `pyslvs.efd_fitting`
+<a id="pyslvs-efd_fitting"></a>
+
 | path | n | return |
 |:----:|:---:|:------:|
-| Union\[Sequence\[Tuple\[float, float]], numpy.ndarray] | int | ndarray |
-|   | 0 |   |
+| <code>collections.abc.Sequence[Tuple[float, float]] &#124; numpy.ndarray</code> | `int` | `numpy.ndarray` |
+|   | `0` |   |   |
 
 Curve fitting using Elliptical Fourier Descriptor.
 
 The path `path` will be translated to Fourier descriptor coefficients,
 then regenerate a new path as a `n` x 4 NumPy array.
 
+### class EStack
+
+*Full name:* `pyslvs.EStack`
+<a id="pyslvs-estack"></a>
+
+| Members | Type |
+|:-------:|:----:|
+| `well_done` | `bool` |
+
+Triangle solution stack, generated from [`t_config`](#t_config).
+It is pointless to call the constructor.
+
+#### EStack.as_list()
+
+*Full name:* `pyslvs.EStack.as_list`
+<a id="pyslvs-estack-as_list"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `list[tuple[str, ...]]` |
+
+Copy the dataset as list object.
+
+### example_list()
+
+*Full name:* `pyslvs.example_list`
+<a id="pyslvs-example_list"></a>
+
+| key | return |
+|:---:|:------:|
+| `str` | `tuple[str, collections.abc.Sequence[Tuple[int, int]]]` |
+
+The example data of mechanisms.
+
+The format of each mechanism is:
+
++ `[0]`: Mechanism expression.
+    + type: str
++ `[1]`: Input pairs.
+    + type: Tuple[Tuple[int, int], ...]]
+
+### expr_solving()
+
+*Full name:* `pyslvs.expr_solving`
+<a id="pyslvs-expr_solving"></a>
+
+| exprs | vpoints | angles | return |
+|:-----:|:-------:|:------:|:------:|
+| `pyslvs.tinycadlib.topo_config.EStack` | `collections.abc.Sequence[pyslvs.tinycadlib.expression.VPoint]` | <code>collections.abc.Mapping[Tuple[int, int], float] &#124; None</code> | <code>list[_Coord &#124; Tuple[_Coord, _Coord]]</code> |
+|   |   | `None` |   |   |
+
+Solver function of Triangular method and BFGS method, for mechanism
+expression `vpoints`.
+
+The triangle expression stack `expr` is generated from
+[`t_config`](#t_config).
+
+Solver function will not handle slider input pairs in argument `angles`,
+which is only support revolute joints. In another way, the slider input
+pairs can be set by [`VPoint.disable_offset()`](#vpointdisable_offset)
+method.
+
 ### get_include()
+
+*Full name:* `pyslvs.get_include`
+<a id="pyslvs-get_include"></a>
 
 | return |
 |:------:|
-| str |
+| `str` |
 
 Get include directory.
 
+### get_vlinks()
+
+*Full name:* `pyslvs.get_vlinks`
+<a id="pyslvs-get_vlinks"></a>
+
+| vpoints | return |
+|:-------:|:------:|
+| `collections.abc.Iterable[VPoint]` | `list[VLink]` |
+
+Get VLinks from a list of VPoint `vpoints`.
+
+### graph2vpoints()
+
+*Full name:* `pyslvs.graph2vpoints`
+<a id="pyslvs-graph2vpoints"></a>
+
+| graph | pos | cus | same | grounded | return |
+|:-----:|:---:|:---:|:----:|:--------:|:------:|
+| `pyslvs.expression_parser.graph.Graph` | `dict[int, tuple[float, float]]` | <code>dict[int, int] &#124; None</code> | <code>dict[int, int] &#124; None</code> | <code>int &#124; None</code> | `list[pyslvs.expression_parser.expression.VPoint]` |
+|   |   | `None` | `None` | `None` |   |   |
+
+Transform `graph` into [VPoint] objects. The vertices are mapped to links.
+
++ `pos`: Position for each vertices.
++ `cus`: Extra points on the specific links.
++ `same`: Multiple joint setting. The joints are according to [`edges_view`](#edges_view).
++ `grounded`: The ground link of vertices.
+
+### class LinkArgs
+
+*Full name:* `pyslvs.LinkArgs`
+<a id="pyslvs-linkargs"></a>
+
+| Decorators |
+|:----------:|
+| `@dataclasses.dataclass(repr=False, eq=False)` |
+
+| Members | Type |
+|:-------:|:----:|
+| `color` | `str` |
+| `name` | `str` |
+| `points` | `str` |
+
+Link table argument.
+
+### palp()
+
+*Full name:* `pyslvs.palp`
+<a id="pyslvs-palp"></a>
+
+| c1 | a0 | d0 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| `pyslvs.tinycadlib.expression.Coord` | `float` | `float` | `pyslvs.tinycadlib.expression.Coord` | `bool` | `pyslvs.tinycadlib.expression.Coord` |
+|   |   |   |   | `False` |   |   |
+
+The PALP function requires two points, one angle and one distance,
+obtained the position of fourth point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `a0` correspond to "alpha", `return` correspond
+to "C".
+
+![palp](img/palp.png)
+
+Set `inverse` option to `True` can make the result upside down.
+
+### parse_params()
+
+*Full name:* `pyslvs.parse_params`
+<a id="pyslvs-parse_params"></a>
+
+| expr | return |
+|:----:|:------:|
+| `str` | `list[PointArgs]` |
+
+Parse mechanism expression into VPoint constructor arguments.
+
+### parse_pos()
+
+*Full name:* `pyslvs.parse_pos`
+<a id="pyslvs-parse_pos"></a>
+
+| expr | return |
+|:----:|:------:|
+| `str` | `list[tuple[float, float]]` |
+
+Parse mechanism expression into coordinates.
+
+### parse_vlinks()
+
+*Full name:* `pyslvs.parse_vlinks`
+<a id="pyslvs-parse_vlinks"></a>
+
+| expr | return |
+|:----:|:------:|
+| `str` | `list[pyslvs.expression_parser.expression.VLink]` |
+
+Parse mechanism expression into VLink objects.
+
+### parse_vpoints()
+
+*Full name:* `pyslvs.parse_vpoints`
+<a id="pyslvs-parse_vpoints"></a>
+
+| expr | return |
+|:----:|:------:|
+| `str` | `list[pyslvs.expression_parser.expression.VPoint]` |
+
+Parse mechanism expression into VPoint objects.
+
+### plap()
+
+*Full name:* `pyslvs.plap`
+<a id="pyslvs-plap"></a>
+
+| c1 | d0 | a0 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| `pyslvs.tinycadlib.expression.Coord` | `float` | `float` | <code>pyslvs.tinycadlib.expression.Coord &#124; None</code> | `bool` | `pyslvs.tinycadlib.expression.Coord` |
+|   |   |   | `None` | `False` |   |   |
+
+The PLAP function requires two points, one distance and one angle,
+obtained the position of third point. The unit of `a0` is degree.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `a0` correspond to "beta", `return` correspond
+to "C".
+If `c2` is not given, "alpha" will be set to zero.
+
+![plap](img/plap.png)
+
+Set `inverse` option to `True` can make `a0` value as negative.
+
+### pllp()
+
+*Full name:* `pyslvs.pllp`
+<a id="pyslvs-pllp"></a>
+
+| c1 | d0 | d1 | c2 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| `pyslvs.tinycadlib.expression.Coord` | `float` | `float` | `pyslvs.tinycadlib.expression.Coord` | `bool` | `pyslvs.tinycadlib.expression.Coord` |
+|   |   |   |   | `False` |   |   |
+
+The PLLP function requires two points and two distances, obtained the
+position of third point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`d0` correspond to "L0", `d1` correspond to "L1", `return` correspond to
+"C".
+
+![pllp](img/pllp.png)
+
+Set `inverse` option to `True` can make the result upside down.
+
+### plpp()
+
+*Full name:* `pyslvs.plpp`
+<a id="pyslvs-plpp"></a>
+
+| c1 | d0 | c2 | c3 | inverse | return |
+|:---:|:---:|:---:|:---:|:-------:|:------:|
+| `pyslvs.tinycadlib.expression.Coord` | `float` | `pyslvs.tinycadlib.expression.Coord` | `pyslvs.tinycadlib.expression.Coord` | `bool` | `pyslvs.tinycadlib.expression.Coord` |
+|   |   |   |   | `False` |   |   |
+
+The PLPP function requires three points and one distance, obtained the
+position of fourth point.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`c3` correspond to "C", `d0` correspond to "L0", `return` correspond to "D".
+
+![plpp](img/plpp.png)
+
+Set `inverse` option to `True` can make the result to the another side
+between `c1` and line `c2` `c3`.
+
+### class PointArgs
+
+*Full name:* `pyslvs.PointArgs`
+<a id="pyslvs-pointargs"></a>
+
+| Decorators |
+|:----------:|
+| `@dataclasses.dataclass(repr=False, eq=False)` |
+
+| Members | Type |
+|:-------:|:----:|
+| `color` | `str` |
+| `links` | `str` |
+| `type` | `str` |
+| `x` | `float` |
+| `y` | `float` |
+
+Point table argument.
+
+### ppp()
+
+*Full name:* `pyslvs.ppp`
+<a id="pyslvs-ppp"></a>
+
+| c1 | c2 | c3 | return |
+|:---:|:---:|:---:|:------:|
+| `pyslvs.tinycadlib.expression.Coord` | `pyslvs.tinycadlib.expression.Coord` | `pyslvs.tinycadlib.expression.Coord` | `pyslvs.tinycadlib.expression.Coord` |
+
+The PPP function is used to solve parallel linkage.
+
+In the following picture, `c1` correspond to "A", `c2` correspond to "B",
+`c3` correspond to "C", `return` correspond to "D".
+
+![ppp](img/ppp.png)
+
+### pxy()
+
+*Full name:* `pyslvs.pxy`
+<a id="pyslvs-pxy"></a>
+
+| c1 | x | y | return |
+|:---:|:---:|:---:|:------:|
+| `pyslvs.tinycadlib.expression.Coord` | `float` | `float` | `pyslvs.tinycadlib.expression.Coord` |
+
+The PXY function requires one point and offset values, get the
+position of second point.
+
+In the following picture, `c1` correspond to "A", `d0` correspond to "X",
+`d1` correspond to "Y", `return` correspond to "B", the sign of value are
+correspond to coordinate system.
+
+![pxy](img/pxy.png)
+
+### class SolverSystem
+
+*Full name:* `pyslvs.SolverSystem`
+<a id="pyslvs-solversystem"></a>
+
+Sketch Solve solver.
+
+!!! note
+    The object attributes of such type are unable to access.
+
+#### SolverSystem.\_\_init\_\_()
+
+*Full name:* `pyslvs.SolverSystem.__init__`
+<a id="pyslvs-solversystem-__init__"></a>
+
+| self | vpoints | inputs | data_dict | return |
+|:----:|:-------:|:------:|:---------:|:------:|
+| `Self` | `collections.abc.Sequence[pyslvs.bfgs.expression.VPoint]` | <code>collections.abc.Mapping[Tuple[int, int], float] &#124; None</code> | <code>collections.abc.Mapping[_PointPair, Union[Coord, float]] &#124; None</code> | `Any` |
+|   |   | `None` | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### SolverSystem.same_points()
+
+*Full name:* `pyslvs.SolverSystem.same_points`
+<a id="pyslvs-solversystem-same_points"></a>
+
+| self | vpoints_ | return |
+|:----:|:--------:|:------:|
+| `Self` | `collections.abc.Sequence[pyslvs.bfgs.expression.VPoint]` | `bool` |
+
+Return true if two expressions are same.
+
+#### SolverSystem.set_data()
+
+*Full name:* `pyslvs.SolverSystem.set_data`
+<a id="pyslvs-solversystem-set_data"></a>
+
+| self | data_dict | return |
+|:----:|:---------:|:------:|
+| `Self` | <code>collections.abc.Mapping[Tuple[int, int], float] &#124; collections.abc.Mapping[int, Coord]</code> | `None` |
+
+Set the values of `data_dict` parameter from original constructor.
+Two groups of `dict` keys must be the same or subset.
+
+#### SolverSystem.set_inputs()
+
+*Full name:* `pyslvs.SolverSystem.set_inputs`
+<a id="pyslvs-solversystem-set_inputs"></a>
+
+| self | inputs | return |
+|:----:|:------:|:------:|
+| `Self` | `collections.abc.Mapping[tuple[int, int], float]` | `None` |
+
+Set the values of `inputs` parameter from original constructor.
+Two groups of `dict` keys must be the same or subset.
+
+#### SolverSystem.show_data()
+
+*Full name:* `pyslvs.SolverSystem.show_data`
+<a id="pyslvs-solversystem-show_data"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | <code>frozenset[int &#124; Tuple[int, int]]</code> |
+
+Show the current keys of `data_dict` parameter from original
+constructor.
+
+#### SolverSystem.show_inputs()
+
+*Full name:* `pyslvs.SolverSystem.show_inputs`
+<a id="pyslvs-solversystem-show_inputs"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `frozenset[tuple[int, int]]` |
+
+Show the current input pairs keys from original constructor.
+
+#### SolverSystem.solve()
+
+*Full name:* `pyslvs.SolverSystem.solve`
+<a id="pyslvs-solversystem-solve"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | <code>list[_Coord &#124; Tuple[_Coord, _Coord]]</code> |
+
+Solve the conditions and return the result, raise ValueError if
+not succeeded.
+The joint position will returned by its index correspondingly.
+
++ Revolute joints: Tuple[float, float]
++ Slider joints: Tuple[Tuple[float, float], Tuple[float, float]]
+
+### t_config()
+
+*Full name:* `pyslvs.t_config`
+<a id="pyslvs-t_config"></a>
+
+| vpoints | inputs | status | return |
+|:-------:|:------:|:------:|:------:|
+| `collections.abc.Sequence[pyslvs.topo_config.expression.VPoint]` | `collections.abc.Sequence[tuple[int, int]]` | <code>dict[int, bool] &#124; None</code> | `EStack` |
+|   |   | `None` |   |   |
+
+Generate the Triangle solution stack by mechanism expression `vpoints_`.
+
+The argument `inputs` is a list of input pairs.
+The argument `status` will track the configuration of each point,
+which is optional.
+
+### uniform_expr()
+
+*Full name:* `pyslvs.uniform_expr`
+<a id="pyslvs-uniform_expr"></a>
+
+| v | return |
+|:---:|:------:|
+| `numpy.ndarray` | `list[pyslvs.tinycadlib.expression.VPoint]` |
+
+Turn the uniform link length into expression.
+
+### uniform\_four\_bar()
+
+*Full name:* `pyslvs.uniform_four_bar`
+<a id="pyslvs-uniform_four_bar"></a>
+
+| ml | n | return |
+|:---:|:---:|:------:|
+| `float` | `int` | `numpy.ndarray` |
+
+Generate n four bar mechanisms from maximum lengths.
+
+These mechanisms have coupling points.
+Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
+
+![pxy](img/uniform_four_bar.png)
+
+### uniform_path()
+
+*Full name:* `pyslvs.uniform_path`
+<a id="pyslvs-uniform_path"></a>
+
+| v | n | return |
+|:---:|:---:|:------:|
+| `numpy.ndarray` | `int` | `numpy.ndarray` |
+
+Generate path with four-bar dimensions.
+
+Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
+
+### class VJoint
+
+*Full name:* `pyslvs.VJoint`
+<a id="pyslvs-vjoint"></a>
+
+| Bases |
+|:-----:|
+| `enum.IntEnum` |
+
+| Enums |
+|:-----:|
+| R |
+| P |
+| RP |
+
+An enumeration.
+
+### class VLink
+
+*Full name:* `pyslvs.VLink`
+<a id="pyslvs-vlink"></a>
+
+| Members | Type |
+|:-------:|:----:|
+| `FRAME` | `ClassVar[str]` |
+| `HOLDER` | `ClassVar[VLink]` |
+| `color` | <code>tuple[int, int, int] &#124; None</code> |
+| `color_str` | `str` |
+| `name` | `str` |
+| `points` | `collections.abc.Sequence[int]` |
+
+Mechanism expression class in link's view.
+
+#### VLink.\_\_contains\_\_()
+
+*Full name:* `pyslvs.VLink.__contains__`
+<a id="pyslvs-vlink-__contains__"></a>
+
+| self | point | return |
+|:----:|:-----:|:------:|
+| `Self` | `int` | `bool` |
+
+Return key in self.
+
+#### VLink.\_\_init\_\_()
+
+*Full name:* `pyslvs.VLink.__init__`
+<a id="pyslvs-vlink-__init__"></a>
+
+| self | name | color_str | points | color_func | return |
+|:----:|:----:|:---------:|:------:|:----------:|:------:|
+| `Self` | `str` | `str` | `collections.abc.Iterable[int]` | <code>Callable[[str], _Color] &#124; None</code> | `Any` |
+|   |   |   |   | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### VLink.points_pos()
+
+*Full name:* `pyslvs.VLink.points_pos`
+<a id="pyslvs-vlink-points_pos"></a>
+
+| self | vpoints | return |
+|:----:|:-------:|:------:|
+| `Self` | `collections.abc.Iterable[VPoint]` | `collections.abc.Sequence[Coord]` |
+
+Get link positions from a VPoint list.
+
+#### VLink.set_points()
+
+*Full name:* `pyslvs.VLink.set_points`
+<a id="pyslvs-vlink-set_points"></a>
+
+| self | points | return |
+|:----:|:------:|:------:|
+| `Self` | `collections.abc.Iterable[int]` | `None` |
+
+The update function of points attribute.
+
+### class VPoint
+
+*Full name:* `pyslvs.VPoint`
+<a id="pyslvs-vpoint"></a>
+
+| Members | Type |
+|:-------:|:----:|
+| `HOLDER` | `ClassVar[VPoint]` |
+| `angle` | `float` |
+| `c` | `numpy.ndarray` |
+| `color` | <code>tuple[int, int, int] &#124; None</code> |
+| `color_str` | `str` |
+| `links` | `collections.abc.Sequence[str]` |
+| `type` | `VJoint` |
+| `type_str` | `str` |
+| `x` | `float` |
+| `y` | `float` |
+
+Mechanism expression class.
+
+#### VPoint.\_\_getitem\_\_()
+
+*Full name:* `pyslvs.VPoint.__getitem__`
+<a id="pyslvs-vpoint-__getitem__"></a>
+
+| self | i | return |
+|:----:|:---:|:------:|
+| `Self` | `int` | `float` |
+
+Return self[key].
+
+#### VPoint.\_\_init\_\_()
+
+*Full name:* `pyslvs.VPoint.__init__`
+<a id="pyslvs-vpoint-__init__"></a>
+
+| self | links | type_int | angle | color_str | x | y | color_func | return |
+|:----:|:-----:|:--------:|:-----:|:---------:|:---:|:---:|:----------:|:------:|
+| `Self` | `collections.abc.Iterable[str]` | `VJoint` | `float` | `str` | `float` | `float` | <code>Callable[[str], _Color] &#124; None</code> | `Any` |
+|   |   |   |   |   |   |   | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### VPoint.copy()
+
+*Full name:* `pyslvs.VPoint.copy`
+<a id="pyslvs-vpoint-copy"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `VPoint` |
+
+The copy method of the VPoint object.
+
+#### VPoint.cx()
+
+*Full name:* `pyslvs.VPoint.cx`
+<a id="pyslvs-vpoint-cx"></a>
+
+| Decorators |
+|:----------:|
+| `@property` |
+
+| self | return |
+|:----:|:------:|
+| `Self` | `float` |
+
+X value of current coordinate.
+If it's slider, the pin coordinate will be returned.
+
+#### VPoint.cy()
+
+*Full name:* `pyslvs.VPoint.cy`
+<a id="pyslvs-vpoint-cy"></a>
+
+| Decorators |
+|:----------:|
+| `@property` |
+
+| self | return |
+|:----:|:------:|
+| `Self` | `float` |
+
+Y value of current coordinate.
+If it's slider, the pin coordinate will be returned.
+
+#### VPoint.disable_offset()
+
+*Full name:* `pyslvs.VPoint.disable_offset`
+<a id="pyslvs-vpoint-disable_offset"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `None` |
+
+Disable offset setting of the joint.
+
+#### VPoint.distance()
+
+*Full name:* `pyslvs.VPoint.distance`
+<a id="pyslvs-vpoint-distance"></a>
+
+| self | p | return |
+|:----:|:---:|:------:|
+| `Self` | `VPoint` | `float` |
+
+Return the distance between two VPoint objects.
+
+#### VPoint.expr()
+
+*Full name:* `pyslvs.VPoint.expr`
+<a id="pyslvs-vpoint-expr"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `str` |
+
+Return the literal mechanism expression of the joint.
+
+#### VPoint.grounded()
+
+*Full name:* `pyslvs.VPoint.grounded`
+<a id="pyslvs-vpoint-grounded"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Return true if the joint pin is connected to ground link.
+
+#### VPoint.has_offset()
+
+*Full name:* `pyslvs.VPoint.has_offset`
+<a id="pyslvs-vpoint-has_offset"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Return true if the offset setting is enabled.
+
+#### VPoint.is_slider()
+
+*Full name:* `pyslvs.VPoint.is_slider`
+<a id="pyslvs-vpoint-is_slider"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Return true for slider type.
+
+#### VPoint.is\_slot\_link()
+
+*Full name:* `pyslvs.VPoint.is_slot_link`
+<a id="pyslvs-vpoint-is_slot_link"></a>
+
+| self | link | return |
+|:----:|:----:|:------:|
+| `Self` | `str` | `bool` |
+
+Return true if the slot is on the link `link_name`.
+
+#### VPoint.link_pos()
+
+*Full name:* `pyslvs.VPoint.link_pos`
+<a id="pyslvs-vpoint-link_pos"></a>
+
+| self | link | return |
+|:----:|:----:|:------:|
+| `Self` | `str` | `Coord` |
+
+Return the position for the vlink.
+
+#### VPoint.locate()
+
+*Full name:* `pyslvs.VPoint.locate`
+<a id="pyslvs-vpoint-locate"></a>
+
+| self | x | y | return |
+|:----:|:---:|:---:|:------:|
+| `Self` | `float` | `float` | `None` |
+
+The update function of original coordinate.
+
+#### VPoint.move()
+
+*Full name:* `pyslvs.VPoint.move`
+<a id="pyslvs-vpoint-move"></a>
+
+| self | c1 | c2 | return |
+|:----:|:---:|:---:|:------:|
+| `Self` | `tuple[float, float]` | <code>tuple[float, float] &#124; None</code> | `None` |
+|   |   | `None` |   |   |
+
+The update function of current coordinate(s).
+The 2nd placement is the pin coordinate of slider joints.
+
+If there is only one argument for a slider joint,
+the slot and pin coordinates will be set to the same position.
+
+#### VPoint.no_link()
+
+*Full name:* `pyslvs.VPoint.no_link`
+<a id="pyslvs-vpoint-no_link"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Return true if there is no any link in links attribute.
+
+#### VPoint.offset()
+
+*Full name:* `pyslvs.VPoint.offset`
+<a id="pyslvs-vpoint-offset"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `float` |
+
+Return the offset constraint value of the joint.
+
+#### VPoint.pin_grounded()
+
+*Full name:* `pyslvs.VPoint.pin_grounded`
+<a id="pyslvs-vpoint-pin_grounded"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Return true if the point is at the same link.
+
+#### VPoint.r_joint()
+
+*Full name:* `pyslvs.VPoint.r_joint`
+<a id="pyslvs-vpoint-r_joint"></a>
+
+| Decorators |
+|:----------:|
+| `@staticmethod` |
+
+| links | x | y | return |
+|:-----:|:---:|:---:|:------:|
+| `collections.abc.Iterable[str]` | `float` | `float` | `VPoint` |
+
+A fast constructor of revolute joints.
+
+#### VPoint.replace_link()
+
+*Full name:* `pyslvs.VPoint.replace_link`
+<a id="pyslvs-vpoint-replace_link"></a>
+
+| self | link1 | link2 | return |
+|:----:|:-----:|:-----:|:------:|
+| `Self` | `str` | `str` | `None` |
+
+Replace the value in links attribute.
+
+#### VPoint.rotate()
+
+*Full name:* `pyslvs.VPoint.rotate`
+<a id="pyslvs-vpoint-rotate"></a>
+
+| self | angle | return |
+|:----:|:-----:|:------:|
+| `Self` | `float` | `None` |
+
+The update function of angle attribute.
+
+#### VPoint.same_link()
+
+*Full name:* `pyslvs.VPoint.same_link`
+<a id="pyslvs-vpoint-same_link"></a>
+
+| self | p | return |
+|:----:|:---:|:------:|
+| `Self` | `VPoint` | `bool` |
+
+Return true if the point is at the same link.
+
+#### VPoint.set_links()
+
+*Full name:* `pyslvs.VPoint.set_links`
+<a id="pyslvs-vpoint-set_links"></a>
+
+| self | links | return |
+|:----:|:-----:|:------:|
+| `Self` | `collections.abc.Iterable[str]` | `None` |
+
+The update function of links attribute.
+
+#### VPoint.set_offset()
+
+*Full name:* `pyslvs.VPoint.set_offset`
+<a id="pyslvs-vpoint-set_offset"></a>
+
+| self | offset | return |
+|:----:|:------:|:------:|
+| `Self` | `float` | `None` |
+
+The update function of slider offset.
+It will also enable offset value after called.
+
+#### VPoint.slider_joint()
+
+*Full name:* `pyslvs.VPoint.slider_joint`
+<a id="pyslvs-vpoint-slider_joint"></a>
+
+| Decorators |
+|:----------:|
+| `@staticmethod` |
+
+| links | type_int | angle | x | y | return |
+|:-----:|:--------:|:-----:|:---:|:---:|:------:|
+| `collections.abc.Iterable[str]` | `VJoint` | `float` | `float` | `float` | `VPoint` |
+
+A fast constructor of slider joints.
+
+#### VPoint.slope_angle()
+
+*Full name:* `pyslvs.VPoint.slope_angle`
+<a id="pyslvs-vpoint-slope_angle"></a>
+
+| self | p | num1 | num2 | return |
+|:----:|:---:|:----:|:----:|:------:|
+| `Self` | `VPoint` | `int` | `int` | `float` |
+|   |   | `2` | `2` |   |   |
+
+Return the value `hypot(p_x - m_x, p_y - m_y)`,
+where `m_x`, `m_y` is the value of the joint,
+and `p_x`, `p_y` is the value of `p`.
+
+The option `num1` and `num2` is the position of current coordinate
+attribute.
+
+#### VPoint.sx()
+
+*Full name:* `pyslvs.VPoint.sx`
+<a id="pyslvs-vpoint-sx"></a>
+
+| Decorators |
+|:----------:|
+| `@property` |
+
+| self | return |
+|:----:|:------:|
+| `Self` | `float` |
+
+X value of slot coordinate.
+
+#### VPoint.sy()
+
+*Full name:* `pyslvs.VPoint.sy`
+<a id="pyslvs-vpoint-sy"></a>
+
+| Decorators |
+|:----------:|
+| `@property` |
+
+| self | return |
+|:----:|:------:|
+| `Self` | `float` |
+
+Y value of slot coordinate.
+
+#### VPoint.to_coord()
+
+*Full name:* `pyslvs.VPoint.to_coord`
+<a id="pyslvs-vpoint-to_coord"></a>
+
+| self | ind | return |
+|:----:|:---:|:------:|
+| `Self` | `int` | `Coord` |
+
+Obtain coordinate by Coord object.
+
+#### VPoint.true_offset()
+
+*Full name:* `pyslvs.VPoint.true_offset`
+<a id="pyslvs-vpoint-true_offset"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `float` |
+
+Return the current offset value of the joint.
+
+### vpoint_dof()
+
+*Full name:* `pyslvs.vpoint_dof`
+<a id="pyslvs-vpoint_dof"></a>
+
+| vpoints | return |
+|:-------:|:------:|
+| `collections.abc.Sequence[pyslvs.tinycadlib.expression.VPoint]` | `int` |
+
+Return the DOF of the mechanism expression `vpoints`.
+
 ## Module `pyslvs.graph`
+<a id="pyslvs-graph"></a>
 
 Pyslvs graph functions.
 
-### link_assortment()
+### contracted_graph()
+
+*Full name:* `pyslvs.graph.contracted_graph`
+<a id="pyslvs-graph-contracted_graph"></a>
+
+| link_num | stop_func | return |
+|:--------:|:---------:|:------:|
+| `collections.abc.Sequence[int]` | <code>Callable[[], bool] &#124; None</code> | `list[pyslvs.graph.structural.graph.Graph]` |
+|   | `None` |   |   |
+
+Generate contracted graphs by link assortment `link_num`.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+### contracted\_link\_assortment()
+
+*Full name:* `pyslvs.graph.contracted_link_assortment`
+<a id="pyslvs-graph-contracted_link_assortment"></a>
 
 | g | return |
 |:---:|:------:|
-| Graph | List\[int] |
-
-Return link assortment of the graph.
-
-### contracted\_link_assortment()
-
-| g | return |
-|:---:|:------:|
-| Graph | List\[int] |
+| `Graph` | `list[int]` |
 
 Return contracted link assortment of the graph.
 
-### labeled_enumerate()
+### contracted\_link\_synthesis()
 
-| g | return |
-|:---:|:------:|
-| Graph | List\[Tuple\[int, Graph]] |
+*Full name:* `pyslvs.graph.contracted_link_synthesis`
+<a id="pyslvs-graph-contracted_link_synthesis"></a>
 
-Enumerate each node with labeled except isomorphism.
+| link_num_list | stop_func | return |
+|:-------------:|:---------:|:------:|
+| `collections.abc.Sequence[int]` | <code>Callable[[], bool] &#124; None</code> | `list[tuple[int, ...]]` |
+|   | `None` |   |   |
 
-### Graph
+Return contracted link assortment by link assortment `link_num_list`.
 
-Inherited from `object`.
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
 
-| edges | vertices |
-|:-----:|:--------:|
-| Tuple\[Tuple\[int, int], ...] | Tuple\[int, ...] |
+### conventional_graph()
+
+*Full name:* `pyslvs.graph.conventional_graph`
+<a id="pyslvs-graph-conventional_graph"></a>
+
+| cg_list | c_j_list | no_degenerate | stop_func | return |
+|:-------:|:--------:|:-------------:|:---------:|:------:|
+| `list[pyslvs.graph.structural.graph.Graph]` | `collections.abc.Sequence[int]` | `int` | <code>Callable[[], bool] &#124; None</code> | `list[pyslvs.graph.structural.graph.Graph]` |
+|   |   | `1` | `None` |   |   |
+
+Generate conventional graphs by contracted graphs `cg_list` and
+contracted link assortment `c_j_list`.
+
+The degenerate setting `no_degenerate` has following option:
+
++ `0`: No degenerate.
++ `1`: Only degenerate.
++ Else: All graphs.
+
+The check stop function `stop_func` object for GUI or subprocess,
+return `True` to terminate this function.
+
+### external\_loop\_layout()
+
+*Full name:* `pyslvs.graph.external_loop_layout`
+<a id="pyslvs-graph-external_loop_layout"></a>
+
+| graph | node_mode | scale | return |
+|:-----:|:---------:|:-----:|:------:|
+| `pyslvs.graph.layout.graph.Graph` | `bool` | `float` | `dict[int, tuple[float, float]]` |
+|   |   | `1.0` |   |   |
+
+Layout position decided by outer loop (max cycle).
+
+Return the layout position decided by external loop.
+Argument `node_mode` will transform edges into vertices.
+Argument `scale` will resize the position by scale factor.
+
+### class Graph
+
+*Full name:* `pyslvs.graph.Graph`
+<a id="pyslvs-graph-graph"></a>
+
+| Members | Type |
+|:-------:|:----:|
+| `edges` | `tuple[tuple[int, int], ...]` |
+| `vertices` | `tuple[int, ...]` |
 
 The undirected graph class, support multigraph.
 
-#### Graph.\_\_init__()
+#### Graph.\_\_init\_\_()
+
+*Full name:* `pyslvs.graph.Graph.__init__`
+<a id="pyslvs-graph-graph-__init__"></a>
 
 | self | edges | return |
 |:----:|:-----:|:------:|
-|   | Iterable\[Tuple\[int, int]] | Any |
+| `Self` | `collections.abc.Iterable[tuple[int, int]]` | `Any` |
 
-Input edges of the graph. The vertices symbols are
-positive continuously integer.
+Initialize self.  See help(type(self)) for accurate signature.
 
 #### Graph.add_edge()
 
+*Full name:* `pyslvs.graph.Graph.add_edge`
+<a id="pyslvs-graph-graph-add_edge"></a>
+
 | self | n1 | n2 | return |
 |:----:|:---:|:---:|:------:|
-|   | int | int | None |
+| `Self` | `int` | `int` | `None` |
 
 Add edge `n1` to `n2`.
 
 #### Graph.add_vertices()
 
+*Full name:* `pyslvs.graph.Graph.add_vertices`
+<a id="pyslvs-graph-graph-add_vertices"></a>
+
 | self | vertices | return |
 |:----:|:--------:|:------:|
-|   | Iterable\[int] | None |
+| `Self` | `collections.abc.Iterable[int]` | `None` |
 
 Add vertices from iterable object `vertices`.
 
 #### Graph.adjacency_matrix()
 
+*Full name:* `pyslvs.graph.Graph.adjacency_matrix`
+<a id="pyslvs-graph-graph-adjacency_matrix"></a>
+
 | self | return |
 |:----:|:------:|
-|   | ndarray |
+| `Self` | `numpy.ndarray` |
 
 Generate a adjacency matrix.
 
@@ -891,17 +1246,23 @@ Where $A[i, j] = 1$ if edge `(i, j)` exist.
 
 #### Graph.copy()
 
+*Full name:* `pyslvs.graph.Graph.copy`
+<a id="pyslvs-graph-graph-copy"></a>
+
 | self | return |
 |:----:|:------:|
-|   | Graph |
+| `Self` | `Graph` |
 
 The copy method of the Graph object.
 
 #### Graph.degree_code()
 
+*Full name:* `pyslvs.graph.Graph.degree_code`
+<a id="pyslvs-graph-graph-degree_code"></a>
+
 | self | return |
 |:----:|:------:|
-|   | int |
+| `Self` | `int` |
 
 Generate a degree code.
 
@@ -912,17 +1273,23 @@ The degree code is the maximum value of the permutation.
 
 #### Graph.degrees()
 
+*Full name:* `pyslvs.graph.Graph.degrees`
+<a id="pyslvs-graph-graph-degrees"></a>
+
 | self | return |
 |:----:|:------:|
-|   | Dict\[int, int] |
+| `Self` | `dict[int, int]` |
 
 Return the degrees of each vertex.
 
 #### Graph.dof()
 
+*Full name:* `pyslvs.graph.Graph.dof`
+<a id="pyslvs-graph-graph-dof"></a>
+
 | self | return |
 |:----:|:------:|
-|   | int |
+| `Self` | `int` |
 
 Return DOF of the graph.
 
@@ -938,43 +1305,58 @@ Return DOF of the graph.
 
 #### Graph.duplicate()
 
+*Full name:* `pyslvs.graph.Graph.duplicate`
+<a id="pyslvs-graph-graph-duplicate"></a>
+
 | self | vertices | times | return |
 |:----:|:--------:|:-----:|:------:|
-|   | Iterable\[int] | int | Graph |
+| `Self` | `collections.abc.Iterable[int]` | `int` | `Graph` |
 
 Make graph duplicate by specific `vertices`. Return a new graph.
 
-#### Graph.has\_cut_link()
+#### Graph.has\_cut\_link()
+
+*Full name:* `pyslvs.graph.Graph.has_cut_link`
+<a id="pyslvs-graph-graph-has_cut_link"></a>
 
 | self | return |
 |:----:|:------:|
-|   | bool |
+| `Self` | `bool` |
 
 Return true if the graph has any cut links.
 
 #### Graph.has_triangle()
 
+*Full name:* `pyslvs.graph.Graph.has_triangle`
+<a id="pyslvs-graph-graph-has_triangle"></a>
+
 | self | return |
 |:----:|:------:|
-|   | bool |
+| `Self` | `bool` |
 
 Return true if the graph has triangle.
 
 #### Graph.is_connected()
 
+*Full name:* `pyslvs.graph.Graph.is_connected`
+<a id="pyslvs-graph-graph-is_connected"></a>
+
 | self | without | return |
 |:----:|:-------:|:------:|
-|   | int | bool |
-|   | -1 |   |
+| `Self` | `int` | `bool` |
+|   | `-1` |   |   |
 
 Return `True` if the graph is connected.
 Set the argument `without` to ignore one vertex.
 
 #### Graph.is_degenerate()
 
+*Full name:* `pyslvs.graph.Graph.is_degenerate`
+<a id="pyslvs-graph-graph-is_degenerate"></a>
+
 | self | return |
 |:----:|:------:|
-|   | bool |
+| `Self` | `bool` |
 
 Return true if this kinematic chain is degenerate.
 
@@ -983,191 +1365,167 @@ Return true if this kinematic chain is degenerate.
 
 #### Graph.is_isomorphic()
 
+*Full name:* `pyslvs.graph.Graph.is_isomorphic`
+<a id="pyslvs-graph-graph-is_isomorphic"></a>
+
 | self | graph | return |
 |:----:|:-----:|:------:|
-|   | Graph | bool |
+| `Self` | `Graph` | `bool` |
 
 Return true if two graphs is isomorphic.
 
 Default is using VF2 algorithm.
 
-#### Graph.is\_isomorphic\_degree_code()
+#### Graph.is\_isomorphic\_degree\_code()
+
+*Full name:* `pyslvs.graph.Graph.is_isomorphic_degree_code`
+<a id="pyslvs-graph-graph-is_isomorphic_degree_code"></a>
 
 | self | graph | return |
 |:----:|:-----:|:------:|
-|   | Graph | bool |
+| `Self` | `Graph` | `bool` |
 
 Compare isomorphism by degree code algorithm.
 
 + <https://doi.org/10.1115/1.2919236>
 
-#### Graph.is\_isomorphic_vf2()
+#### Graph.is\_isomorphic\_vf2()
+
+*Full name:* `pyslvs.graph.Graph.is_isomorphic_vf2`
+<a id="pyslvs-graph-graph-is_isomorphic_vf2"></a>
 
 | self | graph | return |
 |:----:|:-----:|:------:|
-|   | Graph | bool |
+| `Self` | `Graph` | `bool` |
 
 Compare isomorphism by VF2 algorithm,
 one of the high performance isomorphic algorithms.
 
 #### Graph.neighbors()
 
+*Full name:* `pyslvs.graph.Graph.neighbors`
+<a id="pyslvs-graph-graph-neighbors"></a>
+
 | self | n | return |
 |:----:|:---:|:------:|
-|   | int | Tuple\[int, ...] |
+| `Self` | `int` | `tuple[int, ...]` |
 
 Return the neighbors of the vertex `n`.
 
 ### is_planar()
 
+*Full name:* `pyslvs.graph.is_planar`
+<a id="pyslvs-graph-is_planar"></a>
+
 | g | return |
 |:---:|:------:|
-| Graph | bool |
+| `pyslvs.graph.planar.graph.Graph` | `bool` |
 
 Return true if the graph is a planar graph.
 
-### external\_loop_layout()
+### labeled_enumerate()
 
-| graph | node_mode | scale | return |
-|:-----:|:---------:|:-----:|:------:|
-| Graph | bool | float | Dict\[int, Tuple\[float, float]] |
-|   |   | 1.0 |   |
+*Full name:* `pyslvs.graph.labeled_enumerate`
+<a id="pyslvs-graph-labeled_enumerate"></a>
 
-Layout position decided by outer loop (max cycle).
+| g | return |
+|:---:|:------:|
+| `Graph` | `list[tuple[int, Graph]]` |
 
-Return the layout position decided by external loop.
-Argument `node_mode` will transform edges into vertices.
-Argument `scale` will resize the position by scale factor.
+Enumerate each node with labeled except isomorphism.
 
-### conventional_graph()
+### link_assortment()
 
-| cg_list | c\_j_list | no_degenerate | stop_func | return |
-|:-------:|:--------:|:-------------:|:---------:|:------:|
-| List\[Graph] | Sequence\[int] | int | Optional[Callable[[], bool]] | List\[Graph] |
-|   |   | 1 | None |   |
+*Full name:* `pyslvs.graph.link_assortment`
+<a id="pyslvs-graph-link_assortment"></a>
 
-Generate conventional graphs by contracted graphs `cg_list` and
-contracted link assortment `c_j_list`.
+| g | return |
+|:---:|:------:|
+| `Graph` | `list[int]` |
 
-The degenerate setting `no_degenerate` has following option:
-
-+ `0`: No degenerate.
-+ `1`: Only degenerate.
-+ Else: All graphs.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
-
-### contracted_graph()
-
-| link_num | stop_func | return |
-|:--------:|:---------:|:------:|
-| Sequence\[int] | Optional[Callable[[], bool]] | List\[Graph] |
-|   | None |   |
-
-Generate contracted graphs by link assortment `link_num`.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
+Return link assortment of the graph.
 
 ### link_synthesis()
 
+*Full name:* `pyslvs.graph.link_synthesis`
+<a id="pyslvs-graph-link_synthesis"></a>
+
 | nl | nj | stop_func | return |
 |:---:|:---:|:---------:|:------:|
-| int | int | Optional[Callable[[], bool]] | List\[Tuple\[int, ...]] |
-|   |   | None |   |
+| `int` | `int` | <code>Callable[[], bool] &#124; None</code> | `list[tuple[int, ...]]` |
+|   |   | `None` |   |   |
 
 Return link assortment by number of links `nl` and number of joints `nj`.
 
 The check stop function `stop_func` object for GUI or subprocess,
 return `True` to terminate this function.
 
-### contracted\_link_synthesis()
-
-| link\_num_list | stop_func | return |
-|:-------------:|:---------:|:------:|
-| Sequence\[int] | Optional[Callable[[], bool]] | List\[Tuple\[int, ...]] |
-|   | None |   |
-
-Return contracted link assortment by link assortment `link_num_list`.
-
-The check stop function `stop_func` object for GUI or subprocess,
-return `True` to terminate this function.
-
 ## Module `pyslvs.metaheuristics`
+<a id="pyslvs-metaheuristics"></a>
 
 Kernel of Metaheuristic Algorithm.
 
-### ObjFunc
+### algorithm()
 
-Inherited from `Generic`. Parameters: `~FVal`
+*Full name:* `pyslvs.metaheuristics.algorithm`
+<a id="pyslvs-metaheuristics-algorithm"></a>
 
-Objective function base class.
+| opt | return |
+|:---:|:------:|
+| `AlgorithmType` | `type[pyslvs.metaheuristics.utility.Algorithm]` |
 
-It is used to build the objective function for Meta-heuristic Algorithms.
+Return the class of the algorithms.
 
-#### ObjFunc.\_\_init__()
+### class Algorithm
 
-| self | **args | **kwargs | return |
-|:----:|:------:|:--------:|:------:|
-|   | Any | Any | Any |
+*Full name:* `pyslvs.metaheuristics.Algorithm`
+<a id="pyslvs-metaheuristics-algorithm"></a>
 
-Initialize self.  See help(type(self)) for accurate signature.
+| Bases |
+|:-----:|
+| `Generic[FVal]` |
 
-#### ObjFunc.fitness()
-
-| self | v | return |
-|:----:|:---:|:------:|
-|   | ndarray | float64 |
-
-Is an abstract method.
-
-(`cdef` function) Return the fitness from the variable list `v`.
-This function will be directly called in the algorithms.
-
-#### ObjFunc.result()
-
-| self | v | return |
-|:----:|:---:|:------:|
-|   | ndarray | FVal |
-
-The result function. Default is the best variable vector `v`.
-
-### Algorithm
-
-Inherited from `Generic`. Parameters: `~FVal`
-
-| func |
-|:----:|
-| ObjFunc\[~FVal] |
+| Members | Type |
+|:-------:|:----:|
+| `func` | `ObjFunc[FVal]` |
 
 Algorithm base class.
 
 It is used to build the Meta-heuristic Algorithms.
 
-#### Algorithm.\_\_init__()
+#### Algorithm.\_\_class\_getitem\_\_()
+
+*Full name:* `pyslvs.metaheuristics.Algorithm.__class_getitem__`
+<a id="pyslvs-metaheuristics-algorithm-__class_getitem__"></a>
+
+| cls | item | return |
+|:---:|:----:|:------:|
+| `Self` | `Any` | `Any` |
+
+#### Algorithm.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.Algorithm.__init__`
+<a id="pyslvs-metaheuristics-algorithm-__init__"></a>
+
+| Decorators |
+|:----------:|
+| `@abc.abstractmethod` |
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | AlgorithmConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
-|   |   |   | None | None |   |
+| `Self` | `ObjFunc[FVal]` | `pyslvs.metaheuristics.utility.config_types.AlgorithmConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
 
-Is an abstract method.
-
-The argument `func` is an object inherit from [ObjFunc],
-and all abstract methods should be implemented.
-
-The format of argument `settings` can be customized.
-
-The argument `progress_fun` will be called when update progress,
-and the argument `interrupt_fun` will check the interrupt status from
-GUI or subprocess.
+Initialize self.  See help(type(self)) for accurate signature.
 
 #### Algorithm.history()
 
+*Full name:* `pyslvs.metaheuristics.Algorithm.history`
+<a id="pyslvs-metaheuristics-algorithm-history"></a>
+
 | self | return |
 |:----:|:------:|
-|   | Sequence\[Tuple\[int, float, float]] |
+| `Self` | `numpy.ndarray` |
 
 Return the history of the process.
 
@@ -1177,17 +1535,23 @@ the third value is time in second.
 
 #### Algorithm.result()
 
+*Full name:* `pyslvs.metaheuristics.Algorithm.result`
+<a id="pyslvs-metaheuristics-algorithm-result"></a>
+
 | self | return |
 |:----:|:------:|
-|   | Tuple\[numpy.ndarray, float] |
+| `Self` | `tuple[numpy.ndarray, float]` |
 
 Return the best variable vector and its fitness.
 
 #### Algorithm.run()
 
+*Full name:* `pyslvs.metaheuristics.Algorithm.run`
+<a id="pyslvs-metaheuristics-algorithm-run"></a>
+
 | self | return |
 |:----:|:------:|
-|   | FVal |
+| `Self` | `FVal` |
 
 Run and return the result and convergence history.
 
@@ -1199,459 +1563,267 @@ which type is `Tuple[int, float, float]]`.
 The first of them is generation,
 the second is fitness, and the last one is time in second.
 
-### Genetic
-
-Inherited from `Algorithm`.
-
-| func |
-|:----:|
-| ObjFunc\[~FVal] |
-
-The implementation of Real-coded Genetic Algorithm.
-
-#### Genetic.\_\_init__()
-
-| self | func | settings | progress_fun | interrupt_fun | return |
-|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | GAConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
-|   |   |   | None | None |   |
-
-The format of argument `settings`:
-
-+ `pop_num`: Population
-    + type: int
-    + default: 500
-+ `cross`: Crossover rate
-    + type: float (0.~1.)
-    + default: 0.95
-+ `mutate`: Mutation rate
-    + type: float (0.~1.)
-    + default: 0.05
-+ `win`: Win rate
-    + type: float (0.~1.)
-    + default: 0.95
-+ `delta`: Delta value
-    + type: float
-    + default: 5.
-+ `max_gen` or `min_fit` or `max_time`: Limitation of termination
-    + type: int / float / float
-    + default: Raise `ValueError`
-+ `report`: Report per generation
-    + type: int
-    + default: 10
-
-Others arguments are same as [`Differential.__init__()`](#differential9595init__).
-
-#### Genetic.history()
-
-| self | return |
-|:----:|:------:|
-|   | Sequence\[Tuple\[int, float, float]] |
-
-Is a static method.
-
-Return the history of the process.
-
-The first value is generation (iteration);
-the second value is fitness;
-the third value is time in second.
-
-#### Genetic.result()
-
-| self | return |
-|:----:|:------:|
-|   | Tuple\[numpy.ndarray, float] |
-
-Is a static method.
-
-Return the best variable vector and its fitness.
-
-#### Genetic.run()
-
-| self | return |
-|:----:|:------:|
-|   | FVal |
-
-Is a static method.
-
-Run and return the result and convergence history.
-
-The first place of `return` is came from
-calling [`ObjFunc.result()`](#objfuncresult).
-
-The second place of `return` is a list of generation data,
-which type is `Tuple[int, float, float]]`.
-The first of them is generation,
-the second is fitness, and the last one is time in second.
-
-### Firefly
-
-Inherited from `Algorithm`.
-
-| func |
-|:----:|
-| ObjFunc\[~FVal] |
-
-The implementation of Firefly Algorithm.
-
-#### Firefly.\_\_init__()
-
-| self | func | settings | progress_fun | interrupt_fun | return |
-|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | FAConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
-|   |   |   | None | None |   |
-
-The format of argument `settings`:
-
-+ `n`: Population
-    + type: int
-    + default: 80
-+ `alpha`: Alpha factor
-    + type: float (0.~1.)
-    + default: 0.01
-+ `beta_min`: Minimal attraction
-    + type: float (0.~1.)
-    + default: 0.2
-+ `beta0`: Attraction rate
-    + type: float (0.~1.)
-    + default: 1.
-+ `gamma`: Gamma rate
-    + type: float (0.~1.)
-    + default: 1.
-+ `max_gen` or `min_fit` or `max_time`: Limitation of termination
-    + type: int / float / float
-    + default: Raise `ValueError`
-+ `report`: Report per generation
-    + type: int
-    + default: 10
-
-Others arguments are same as [`Differential.__init__()`](#differential9595init__).
-
-#### Firefly.history()
-
-| self | return |
-|:----:|:------:|
-|   | Sequence\[Tuple\[int, float, float]] |
-
-Is a static method.
-
-Return the history of the process.
-
-The first value is generation (iteration);
-the second value is fitness;
-the third value is time in second.
-
-#### Firefly.result()
-
-| self | return |
-|:----:|:------:|
-|   | Tuple\[numpy.ndarray, float] |
-
-Is a static method.
-
-Return the best variable vector and its fitness.
-
-#### Firefly.run()
-
-| self | return |
-|:----:|:------:|
-|   | FVal |
-
-Is a static method.
-
-Run and return the result and convergence history.
-
-The first place of `return` is came from
-calling [`ObjFunc.result()`](#objfuncresult).
-
-The second place of `return` is a list of generation data,
-which type is `Tuple[int, float, float]]`.
-The first of them is generation,
-the second is fitness, and the last one is time in second.
-
-### Differential
-
-Inherited from `Algorithm`.
-
-| func |
-|:----:|
-| ObjFunc\[~FVal] |
-
-The implementation of Differential Evolution.
-
-#### Differential.\_\_init__()
-
-| self | func | settings | progress_fun | interrupt_fun | return |
-|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | DEConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
-|   |   |   | None | None |   |
-
-The argument `func` is a object inherit from [Verification],
-and all abstract methods should be implemented.
-
-The format of argument `settings`:
-
-+ `strategy`: Strategy
-    + type: int (0~9)
-    + default: 0
-+ `NP`: Population
-    + type: int
-    + default: 400
-+ `F`: Weight factor
-    + type: float (0.~1.)
-    + default: 0.6
-+ `CR`: Crossover rate
-    + type: float (0.~1.)
-    + default: 0.9
-+ `max_gen` or `min_fit` or `max_time` or `slow_down`: Limitation of termination
-    + type: int / float / float / float
-    + default: Raise `ValueError`
-+ `report`: Report per generation
-    + type: int
-    + default: 10
-
-!!! note
-    The option `slow_down` is a percent value that
-    current fitness difference of two generation is divide by last one.
-
-The argument `progress_fun` will be called when update progress,
-and the argument `interrupt_fun` will check the interrupt status from GUI or subprocess.
-
-#### Differential.history()
-
-| self | return |
-|:----:|:------:|
-|   | Sequence\[Tuple\[int, float, float]] |
-
-Is a static method.
-
-Return the history of the process.
-
-The first value is generation (iteration);
-the second value is fitness;
-the third value is time in second.
-
-#### Differential.result()
-
-| self | return |
-|:----:|:------:|
-|   | Tuple\[numpy.ndarray, float] |
-
-Is a static method.
-
-Return the best variable vector and its fitness.
-
-#### Differential.run()
-
-| self | return |
-|:----:|:------:|
-|   | FVal |
-
-Is a static method.
-
-Run and return the result and convergence history.
-
-The first place of `return` is came from
-calling [`ObjFunc.result()`](#objfuncresult).
-
-The second place of `return` is a list of generation data,
-which type is `Tuple[int, float, float]]`.
-The first of them is generation,
-the second is fitness, and the last one is time in second.
-
-### TeachingLearning
-
-Inherited from `Algorithm`.
-
-| func |
-|:----:|
-| ObjFunc\[~FVal] |
-
-The implementation of Teaching Learning Based Optimization.
-
-#### TeachingLearning.\_\_init__()
-
-| self | func | settings | progress_fun | interrupt_fun | return |
-|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-|   | ObjFunc\[~FVal] | TOBLConfig | Optional\[Callable\[\[int, str], None]] | Optional[Callable[[], bool]] | Any |
-|   |   |   | None | None |   |
-
-The format of argument `settings`:
-
-+ `class_size`: The number of students per class
-    + type: int
-    + default: 50
-+ `max_gen` or `min_fit` or `max_time`: Limitation of termination
-    + type: int / float / float
-    + default: Raise `ValueError`
-+ `report`: Report per generation
-    + type: int
-    + default: 10
-
-Others arguments are same as [`Differential.__init__()`](#differential9595init__).
-
-#### TeachingLearning.history()
-
-| self | return |
-|:----:|:------:|
-|   | Sequence\[Tuple\[int, float, float]] |
-
-Is a static method.
-
-Return the history of the process.
-
-The first value is generation (iteration);
-the second value is fitness;
-the third value is time in second.
-
-#### TeachingLearning.result()
-
-| self | return |
-|:----:|:------:|
-|   | Tuple\[numpy.ndarray, float] |
-
-Is a static method.
-
-Return the best variable vector and its fitness.
-
-#### TeachingLearning.run()
-
-| self | return |
-|:----:|:------:|
-|   | FVal |
-
-Is a static method.
-
-Run and return the result and convergence history.
-
-The first place of `return` is came from
-calling [`ObjFunc.result()`](#objfuncresult).
-
-The second place of `return` is a list of generation data,
-which type is `Tuple[int, float, float]]`.
-The first of them is generation,
-the second is fitness, and the last one is time in second.
-
-### AlgorithmType
-
-Inherited from `str`.
-
-Is an enum class.
-
-| RGA | Firefly | DE | TLBO |
-|:---:|:-------:|:---:|:----:|
-| `'Real-coded Genetic Algorithm'` | `'Firefly Algorithm'` | `'Differential Evolution'` | `'Teaching Learning Based Optimization'` |
+### class AlgorithmConfig
+
+*Full name:* `pyslvs.metaheuristics.AlgorithmConfig`
+<a id="pyslvs-metaheuristics-algorithmconfig"></a>
+
+| Bases |
+|:-----:|
+| `TypedDict` |
+
+| Members | Type |
+|:-------:|:----:|
+| `max_gen` | `int` |
+| `max_time` | `float` |
+| `min_fit` | `float` |
+| `parallel` | `bool` |
+| `report` | `int` |
+| `slow_down` | `float` |
+
+### class AlgorithmType
+
+*Full name:* `pyslvs.metaheuristics.AlgorithmType`
+<a id="pyslvs-metaheuristics-algorithmtype"></a>
+
+| Decorators |
+|:----------:|
+| `@enum.unique` |
+
+| Bases |
+|:-----:|
+| `str` |
+| `enum.Enum` |
+
+| Enums |
+|:-----:|
+| RGA |
+| Firefly |
+| DE |
+| TLBO |
 
 Enum type of algorithms.
 
-### algorithm()
+### class DEConfig
 
-| opt | return |
-|:---:|:------:|
-| AlgorithmType | Type\[Algorithm] |
+*Full name:* `pyslvs.metaheuristics.DEConfig`
+<a id="pyslvs-metaheuristics-deconfig"></a>
 
-Return the class of the algorithms.
+| Bases |
+|:-----:|
+| `AlgorithmConfig` |
+
+| Members | Type |
+|:-------:|:----:|
+| `CR` | `float` |
+| `F` | `float` |
+| `NP` | `int` |
+| `strategy` | `int` |
 
 ### default()
 
+*Full name:* `pyslvs.metaheuristics.default`
+<a id="pyslvs-metaheuristics-default"></a>
+
 | opt | return |
 |:---:|:------:|
-| AlgorithmType | Dict\[str, Union\[int, float]] |
+| `AlgorithmType` | <code>dict[str, int &#124; float]</code> |
 
 Return the default settings of the algorithms.
 
-## Module `pyslvs.optimization`
+### class Differential
 
-Pyslvs optimization targets.
+*Full name:* `pyslvs.metaheuristics.Differential`
+<a id="pyslvs-metaheuristics-differential"></a>
 
-### FPlanar
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.de.utility.Algorithm` |
 
-Inherited from `ObjFunc`.
+The implementation of Differential Evolution.
 
-A fast matching method that adds mapping angles to variables.
+#### Differential.\_\_init\_\_()
 
-Allowing defects.
+*Full name:* `pyslvs.metaheuristics.Differential.__init__`
+<a id="pyslvs-metaheuristics-differential-__init__"></a>
 
-#### FPlanar.\_\_init__()
-
-| self | **args | **kwargs | return |
-|:----:|:------:|:--------:|:------:|
-|   | Any | Any | Any |
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.de.utility.ObjFunc[pyslvs.metaheuristics.de.utility.FVal]` | `pyslvs.metaheuristics.de.config_types.DEConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
 
 Initialize self.  See help(type(self)) for accurate signature.
 
-#### FPlanar.is\_two_kernel()
+### class FAConfig
 
-| self | return |
-|:----:|:------:|
-|   | Any |
+*Full name:* `pyslvs.metaheuristics.FAConfig`
+<a id="pyslvs-metaheuristics-faconfig"></a>
 
-Input a generic data (variable array), return the mechanism
-expression.
+| Bases |
+|:-----:|
+| `AlgorithmConfig` |
 
-#### FPlanar.result()
+| Members | Type |
+|:-------:|:----:|
+| `alpha` | `float` |
+| `beta0` | `float` |
+| `beta_min` | `float` |
+| `gamma` | `float` |
+| `n` | `int` |
+
+### class Firefly
+
+*Full name:* `pyslvs.metaheuristics.Firefly`
+<a id="pyslvs-metaheuristics-firefly"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.firefly.utility.Algorithm` |
+
+The implementation of Firefly Algorithm.
+
+#### Firefly.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.Firefly.__init__`
+<a id="pyslvs-metaheuristics-firefly-__init__"></a>
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.firefly.utility.ObjFunc[pyslvs.metaheuristics.firefly.utility.FVal]` | `pyslvs.metaheuristics.firefly.config_types.FAConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+### class GAConfig
+
+*Full name:* `pyslvs.metaheuristics.GAConfig`
+<a id="pyslvs-metaheuristics-gaconfig"></a>
+
+| Bases |
+|:-----:|
+| `AlgorithmConfig` |
+
+| Members | Type |
+|:-------:|:----:|
+| `cross` | `float` |
+| `delta` | `float` |
+| `mutate` | `float` |
+| `pop_num` | `int` |
+| `win` | `float` |
+
+### class Genetic
+
+*Full name:* `pyslvs.metaheuristics.Genetic`
+<a id="pyslvs-metaheuristics-genetic"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.rga.utility.Algorithm` |
+
+The implementation of Real-coded Genetic Algorithm.
+
+#### Genetic.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.Genetic.__init__`
+<a id="pyslvs-metaheuristics-genetic-__init__"></a>
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.rga.utility.ObjFunc[pyslvs.metaheuristics.rga.utility.FVal]` | `pyslvs.metaheuristics.rga.config_types.GAConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+### class ObjFunc
+
+*Full name:* `pyslvs.metaheuristics.ObjFunc`
+<a id="pyslvs-metaheuristics-objfunc"></a>
+
+| Bases |
+|:-----:|
+| `Generic[FVal]` |
+
+Objective function base class.
+
+It is used to build the objective function for Meta-heuristic Algorithms.
+
+#### ObjFunc.fitness()
+
+*Full name:* `pyslvs.metaheuristics.ObjFunc.fitness`
+<a id="pyslvs-metaheuristics-objfunc-fitness"></a>
+
+| Decorators |
+|:----------:|
+| `@abc.abstractmethod` |
 
 | self | v | return |
 |:----:|:---:|:------:|
-|   | Any | Any |
+| `Self` | `numpy.ndarray` | `numpy.double` |
 
-Input a generic data (variable array), return the mechanism
-expression.
+(`cdef` function) Return the fitness from the variable list `v`.
+This function will be directly called in the algorithms.
 
-### norm_path()
+#### ObjFunc.result()
 
-| path | scale | return |
-|:----:|:-----:|:------:|
-| Any | Any | Any |
-|   | 1 |   |
+*Full name:* `pyslvs.metaheuristics.ObjFunc.result`
+<a id="pyslvs-metaheuristics-objfunc-result"></a>
 
-Normalization function.
+| self | v | return |
+|:----:|:---:|:------:|
+| `Self` | `numpy.ndarray` | `FVal` |
 
-### curvature()
+The result function. Default is the best variable vector `v`.
 
-| path | return |
-|:----:|:------:|
-| Any | Any |
+### class TeachingLearning
 
-Calculate the signed curvature and return as an array.
+*Full name:* `pyslvs.metaheuristics.TeachingLearning`
+<a id="pyslvs-metaheuristics-teachinglearning"></a>
 
-$$
-\kappa(t) = \frac{x'y'' - x''y'}{(x'^2 + y'^2)^\frac{3}{2}}
-$$
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.tlbo.utility.Algorithm` |
 
-### derivative()
+The implementation of Teaching Learning Based Optimization.
 
-| p | return |
-|:---:|:------:|
-| Any | Any |
+#### TeachingLearning.\_\_init\_\_()
 
-Differential function. Return $p'$.
+*Full name:* `pyslvs.metaheuristics.TeachingLearning.__init__`
+<a id="pyslvs-metaheuristics-teachinglearning-__init__"></a>
 
-### path_signature()
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.tlbo.utility.ObjFunc[pyslvs.metaheuristics.tlbo.utility.FVal]` | `pyslvs.metaheuristics.tlbo.config_types.TOBLConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
 
-| k | maximum | return |
-|:---:|:-------:|:------:|
-| Any | Any | Any |
-|   | 100.0 |   |
+Initialize self.  See help(type(self)) for accurate signature.
 
-Require a curvature, return path signature.
-It's composed by curvature $\kappa$ and a $K$ value.
+### class TOBLConfig
 
-$$
-K = \int^t_0 |\kappa(t)| dt
-$$
+*Full name:* `pyslvs.metaheuristics.TOBLConfig`
+<a id="pyslvs-metaheuristics-toblconfig"></a>
 
-```python
-from pyslvs.optimization import curvature, path_signature
-path_signature(curvature(...))
-```
+| Bases |
+|:-----:|
+| `AlgorithmConfig` |
+
+| Members | Type |
+|:-------:|:----:|
+| `class_size` | `int` |
+
+## Module `pyslvs.optimization`
+<a id="pyslvs-optimization"></a>
+
+Pyslvs optimization targets.
 
 ### cross_correlation()
 
+*Full name:* `pyslvs.optimization.cross_correlation`
+<a id="pyslvs-optimization-cross_correlation"></a>
+
 | p1 | p2 | t | return |
 |:---:|:---:|:---:|:------:|
-| Any | Any | Any | Any |
-|   |   | 0.1 |   |
+| `numpy.ndarray` | `numpy.ndarray` | `float` | `numpy.ndarray` |
+|   |   | `0.1` |   |   |
 
 Compare signature and return as an 1d array.
 
@@ -1667,16 +1839,170 @@ S &= \arg\max\{C_n(j)\} t
 $$
 
 ```python
-from pyslvs.optimization import curvature, path_signature
-ps1 = path_signature(curvature(...))
-ps2 = path_signature(curvature(...))
-from pyslvs.optimization import cross_correlation
-cc = cross_correlation(ps1, ps2)
+>>> from pyslvs.optimization import curvature, path_signature
+>>> ps1 = path_signature(curvature(...))
+>>> ps2 = path_signature(curvature(...))
+>>> from pyslvs.optimization import cross_correlation
+>>> cc = cross_correlation(ps1, ps2)
 ```
 
-### NPlanar
+### curvature()
 
-Inherited from `ObjFunc`.
+*Full name:* `pyslvs.optimization.curvature`
+<a id="pyslvs-optimization-curvature"></a>
+
+| path | return |
+|:----:|:------:|
+| `collections.abc.Iterable[tuple[float, float]]` | `numpy.ndarray` |
+
+Calculate the signed curvature and return as an array.
+
+$$
+\kappa(t) = \frac{x'y'' - x''y'}{(x'^2 + y'^2)^\frac{3}{2}}
+$$
+
+### derivative()
+
+*Full name:* `pyslvs.optimization.derivative`
+<a id="pyslvs-optimization-derivative"></a>
+
+| path | return |
+|:----:|:------:|
+| `numpy.ndarray` | `numpy.ndarray` |
+
+Differential function. Return $p'$.
+
+### class FConfig
+
+*Full name:* `pyslvs.optimization.FConfig`
+<a id="pyslvs-optimization-fconfig"></a>
+
+| Bases |
+|:-----:|
+| `TypedDict` |
+
+| Members | Type |
+|:-------:|:----:|
+| `expression` | `collections.abc.Sequence[pyslvs.expression.VPoint]` |
+| `input` | `collections.abc.Sequence[tuple[Tuple[int, int], Sequence[float]]]` |
+| `lower` | `float` |
+| `placement` | `dict[int, tuple[float, float, float]]` |
+| `same` | `dict[int, int]` |
+| `shape_only` | `bool` |
+| `target` | `dict[int, collections.abc.Sequence[Tuple[float, float]]]` |
+| `upper` | `float` |
+
+### class FPlanar
+
+*Full name:* `pyslvs.optimization.FPlanar`
+<a id="pyslvs-optimization-fplanar"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.ObjFunc[str]` |
+
+| Members | Type |
+|:-------:|:----:|
+| `callback` | `int` |
+
+A fast matching method that adds mapping angles to variables.
+
+Allowing defects.
+
+#### FPlanar.\_\_init\_\_()
+
+*Full name:* `pyslvs.optimization.FPlanar.__init__`
+<a id="pyslvs-optimization-fplanar-__init__"></a>
+
+| self | mech | return |
+|:----:|:----:|:------:|
+| `Self` | `pyslvs.optimization.f_planar.utility.FConfig` | `Any` |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+#### FPlanar.fitness()
+
+*Full name:* `pyslvs.optimization.FPlanar.fitness`
+<a id="pyslvs-optimization-fplanar-fitness"></a>
+
+| self | v | return |
+|:----:|:---:|:------:|
+| `Self` | `numpy.ndarray` | `numpy.double` |
+
+The fitness is the error between target path and self.
+
+Chromosome format: (decided by upper and lower)
+
+v: `[Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]`
+
+#### FPlanar.is\_two\_kernel()
+
+*Full name:* `pyslvs.optimization.FPlanar.is_two_kernel`
+<a id="pyslvs-optimization-fplanar-is_two_kernel"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `bool` |
+
+Input a generic data (variable array), return the mechanism
+expression.
+
+#### FPlanar.result()
+
+*Full name:* `pyslvs.optimization.FPlanar.result`
+<a id="pyslvs-optimization-fplanar-result"></a>
+
+| self | v | return |
+|:----:|:---:|:------:|
+| `Self` | `numpy.ndarray` | `str` |
+
+Input a generic data (variable array), return the mechanism
+expression.
+
+### class NConfig
+
+*Full name:* `pyslvs.optimization.NConfig`
+<a id="pyslvs-optimization-nconfig"></a>
+
+| Bases |
+|:-----:|
+| `TypedDict` |
+
+| Members | Type |
+|:-------:|:----:|
+| `target` | `collections.abc.Sequence[tuple[float, float]]` |
+
+### norm_path()
+
+*Full name:* `pyslvs.optimization.norm_path`
+<a id="pyslvs-optimization-norm_path"></a>
+
+| path | scale | return |
+|:----:|:-----:|:------:|
+| `collections.abc.Iterable[tuple[float, float]]` | `float` | `numpy.ndarray` |
+|   | `1` |   |   |
+
+Normalization function.
+
+### norm_pca()
+
+*Full name:* `pyslvs.optimization.norm_pca`
+<a id="pyslvs-optimization-norm_pca"></a>
+
+| path | return |
+|:----:|:------:|
+| `collections.abc.Iterable[tuple[float, float]]` | `numpy.ndarray` |
+
+Normalization function by PCA.
+
+### class NPlanar
+
+*Full name:* `pyslvs.optimization.NPlanar`
+<a id="pyslvs-optimization-nplanar"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.ObjFunc[str]` |
 
 A normalized matching method.
 
@@ -1684,35 +2010,105 @@ Defects free. Normalized parameters are $[L_0, L_2, L_3, L_4, \alpha]$.
 
 ![pxy](img/uniform_four_bar.png)
 
-#### NPlanar.\_\_init__()
+#### NPlanar.\_\_init\_\_()
 
-| self | **args | **kwargs | return |
-|:----:|:------:|:--------:|:------:|
-|   | Any | Any | Any |
+*Full name:* `pyslvs.optimization.NPlanar.__init__`
+<a id="pyslvs-optimization-nplanar-__init__"></a>
+
+| self | mech | return |
+|:----:|:----:|:------:|
+| `Self` | `pyslvs.optimization.n_planar.utility.NConfig` | `Any` |
 
 Initialize self.  See help(type(self)) for accurate signature.
 
-#### NPlanar.result()
+#### NPlanar.fitness()
+
+*Full name:* `pyslvs.optimization.NPlanar.fitness`
+<a id="pyslvs-optimization-nplanar-fitness"></a>
 
 | self | v | return |
 |:----:|:---:|:------:|
-|   | Any | Any |
+| `Self` | `numpy.ndarray` | `numpy.double` |
 
-### norm_pca()
+#### NPlanar.result()
 
-| path | return |
-|:----:|:------:|
-| Any | Any |
+*Full name:* `pyslvs.optimization.NPlanar.result`
+<a id="pyslvs-optimization-nplanar-result"></a>
 
-Normalization function by PCA.
+| self | v | return |
+|:----:|:---:|:------:|
+| `Self` | `numpy.ndarray` | `str` |
 
-[VPoint]: #vpoint
-[VLink]: #vlink
-[pxy]: #pxy
-[ppp]: #ppp
-[plap]: #plap
-[pllp]: #pllp
-[plpp]: #plpp
-[palp]: #palp
-[Graph]: #graph
-[ObjFunc]: #objfunc
+### path_signature()
+
+*Full name:* `pyslvs.optimization.path_signature`
+<a id="pyslvs-optimization-path_signature"></a>
+
+| k | maximum | return |
+|:---:|:-------:|:------:|
+| `numpy.ndarray` | `float` | `numpy.ndarray` |
+|   | `100` |   |   |
+
+Require a curvature, return path signature.
+It's composed by curvature $\kappa$ and a $K$ value.
+
+$$
+K = \int^t_0 |\kappa(t)| dt
+$$
+
+```python
+>>> from pyslvs.optimization import curvature, path_signature
+>>> path_signature(curvature(...))
+```
+
+## Module `pyslvs.metaheuristics.test`
+<a id="pyslvs-metaheuristics-test"></a>
+
+### class TestObj
+
+*Full name:* `pyslvs.metaheuristics.test.TestObj`
+<a id="pyslvs-metaheuristics-test-testobj"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.test.utility.ObjFunc[float]` |
+
+Test objective function.
+
+f(x) = x1^2 + 8*x2
+
+#### TestObj.fitness()
+
+*Full name:* `pyslvs.metaheuristics.test.TestObj.fitness`
+<a id="pyslvs-metaheuristics-test-testobj-fitness"></a>
+
+| self | v | return |
+|:----:|:---:|:------:|
+| `Self` | `numpy.ndarray` | `numpy.double` |
+
+#### TestObj.result()
+
+*Full name:* `pyslvs.metaheuristics.test.TestObj.result`
+<a id="pyslvs-metaheuristics-test-testobj-result"></a>
+
+| self | v | return |
+|:----:|:---:|:------:|
+| `Self` | `numpy.ndarray` | `float` |
+
+### with_mp()
+
+*Full name:* `pyslvs.metaheuristics.test.with_mp`
+<a id="pyslvs-metaheuristics-test-with_mp"></a>
+
+| return |
+|:------:|
+| `None` |
+
+### without_mp()
+
+*Full name:* `pyslvs.metaheuristics.test.without_mp`
+<a id="pyslvs-metaheuristics-test-without_mp"></a>
+
+| return |
+|:------:|
+| `None` |
