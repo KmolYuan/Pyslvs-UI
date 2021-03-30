@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None.
++ Documentation improvement.
 
 **Development**:
 
