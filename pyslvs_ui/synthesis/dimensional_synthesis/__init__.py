@@ -823,15 +823,7 @@ class Optimizer(QWidget, Ui_Form):
             )
         else:
             raise ValueError("invalid option")
-        pop_size = dlg.pop_size.value()
-        if algorithm == AlgorithmType.RGA:
-            self.alg_options['nPop'] = pop_size
-        elif algorithm == AlgorithmType.Firefly:
-            self.alg_options['n'] = pop_size
-        elif algorithm == AlgorithmType.DE:
-            self.alg_options['NP'] = pop_size
-        elif algorithm == AlgorithmType.TLBO:
-            self.alg_options['class_size'] = pop_size
+        self.alg_options['pop_num'] = dlg.pop_size.value()
         for row in range(dlg.alg_table.rowCount()):
             option = dlg.alg_table.item(row, 0).text()
             self.alg_options[option] = dlg.alg_table.cellWidget(row, 1).value()
