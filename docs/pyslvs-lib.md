@@ -160,7 +160,7 @@ The final result is defined by `result` method, which usually is your variables.
 ```cython
 cimport cython
 from numpy import array, float64 as f64
-from pyslvs.metaheuristic cimport ObjFunc
+from pyslvs.metaheuristics cimport ObjFunc
 
 
 @cython.final

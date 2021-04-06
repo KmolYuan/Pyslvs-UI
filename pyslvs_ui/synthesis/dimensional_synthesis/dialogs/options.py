@@ -87,7 +87,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
                         html("The power value when matching chromosome."))
                 ]
             )
-        elif self.opt == AlgorithmType.Firefly:
+        elif self.opt == AlgorithmType.FA:
             write_table(
                 floats=[
                     ("Alpha value", 'alpha', html(
@@ -135,7 +135,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
             self.pop_size.setValue(settings['nPop'])
             for i, tag in enumerate(('pCross', 'pMute', 'pWin', 'bDelta')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
-        elif self.opt == AlgorithmType.Firefly:
+        elif self.opt == AlgorithmType.FA:
             self.pop_size.setValue(settings['n'])
             for i, tag in enumerate(('alpha', 'beta_min', 'gamma', 'beta0')):
                 self.alg_table.cellWidget(i, 1).setValue(settings[tag])
