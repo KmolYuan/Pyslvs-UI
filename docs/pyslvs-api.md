@@ -161,10 +161,10 @@ The iterator will yield the sorted edges from `graph`.
 *Full name:* `pyslvs.efd_fitting`
 <a id="pyslvs-efd_fitting"></a>
 
-| path | n | return |
-|:----:|:---:|:------:|
-| <code>collections.abc.Sequence[Tuple[float, float]] &#124; numpy.ndarray</code> | `int` | `numpy.ndarray` |
-|   | `0` |   |   |
+| path | n | harmonic | return |
+|:----:|:---:|:--------:|:------:|
+| <code>collections.abc.Sequence[Tuple[float, float]] &#124; numpy.ndarray</code> | `int` | <code>int &#124; None</code> | `numpy.ndarray` |
+|   | `0` | `None` |   |   |
 
 Curve fitting using Elliptical Fourier Descriptor.
 
@@ -1101,6 +1101,182 @@ Return the current offset value of the joint.
 
 Return the DOF of the mechanism expression `vpoints`.
 
+## Module `pyslvs.efd`
+<a id="pyslvs-efd"></a>
+
+The source code refer from "spatial_efd" module.
+
+### calculate_efd()
+
+*Full name:* `pyslvs.efd.calculate_efd`
+<a id="pyslvs-efd-calculate_efd"></a>
+
+| contour | harmonic | return |
+|:-------:|:--------:|:------:|
+| `numpy.ndarray` | `int` | `numpy.ndarray` |
+|   | `10` |   |   |
+
+Compute the Elliptical Fourier Descriptors for a polygon.
+
+Implements Kuhl and Giardina method of computing the coefficients
+An, Bn, Cn, Dn for a specified number of harmonics. This code is adapted
+from the pyefd module. See the original paper for more detail:
+
+Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image processing, 18(3), 236-258.
+
+Args:
+    contour: A n x 2 numpy array represents a path.
+    harmonic: The number of harmonics to compute for the given
+        shape, defaults to 10.
+Returns:
+    A numpy array of shape (harmonics, 4) representing the
+    four coefficients for each harmonic computed.
+
+### fourier_power()
+
+*Full name:* `pyslvs.efd.fourier_power`
+<a id="pyslvs-efd-fourier_power"></a>
+
+| coeffs | nyq | threshold | return |
+|:------:|:---:|:---------:|:------:|
+| `numpy.ndarray` | `int` | `float` | `int` |
+|   |   | `1.0` |   |   |
+
+Compute the total Fourier power and find the minimum number of harmonics
+required to exceed the threshold fraction of the total power.
+
+This is a good method for identifying the number of harmonics to use to
+describe a polygon. For more details see:
+
+C. np_costa et al. / Postharvest Biology and Technology 54 (2009) 38-47
+
+Warning:
+    The number of coefficients must be >= the Nyquist Frequency.
+Args:
+    coeffs: A numpy array of shape (n, 4) representing the
+        four coefficients for each harmonic computed.
+    nyq: The Nyquist Frequency.
+    threshold: The threshold fraction of the total Fourier power,
+        the default is 1.
+Returns:
+    The number of harmonics required to represent the contour above
+    the threshold Fourier power.
+
+### inverse_transform()
+
+*Full name:* `pyslvs.efd.inverse_transform`
+<a id="pyslvs-efd-inverse_transform"></a>
+
+| coeffs | locus_v | n | harmonic | return |
+|:------:|:-------:|:---:|:--------:|:------:|
+| `numpy.ndarray` | `tuple[float, float]` | `int` | `int` | `numpy.ndarray` |
+
+Perform an inverse fourier transform to convert the coefficients back into
+spatial coordinates.
+
+Implements Kuhl and Giardina method of computing the performing the
+transform for a specified number of harmonics. This code is adapted
+from the pyefd module. See the original paper for more detail:
+
+Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image procesnp_sing, 18(3), 236-258.
+
+Args:
+    coeffs: A numpy array of shape (n, 4) representing the
+        four coefficients for each harmonic computed.
+    locus_v: The x,y coordinates of the centroid of the contour being
+        generated. Use calculate_dc_coefficients() to generate the correct
+        locus for a shape.
+    n: The number of coordinate pairs to compute. A larger value will
+        result in a more complex shape at the expense of increased
+        computational time.
+    harmonic: The number of harmonics to be used to generate
+        coordinates. Must be <= coeffs.shape[0]. Supply a
+        smaller value to produce coordinates for a more generalized shape.
+Returns:
+    A n x 2 numpy array represents a contour.
+
+### locus()
+
+*Full name:* `pyslvs.efd.locus`
+<a id="pyslvs-efd-locus"></a>
+
+| contour | return |
+|:-------:|:------:|
+| `numpy.ndarray` | `tuple[float, float]` |
+
+Compute the dc coefficients, used as the locus when calling
+inverse_transform().
+
+This code is adapted from the pyefd module. See the original paper for
+more detail:
+
+Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image procesnp_sing, 18(3), 236-258.
+
+Args:
+    contour: A n x 2 numpy array represents a path.
+Returns:
+    A tuple containing the c and d coefficients.
+
+### normalize_efd()
+
+*Full name:* `pyslvs.efd.normalize_efd`
+<a id="pyslvs-efd-normalize_efd"></a>
+
+| coeffs | norm | return |
+|:------:|:----:|:------:|
+| `numpy.ndarray` | `bool` | `tuple[numpy.ndarray, float]` |
+|   | `True` |   |   |
+
+Normalize the Elliptical Fourier Descriptor coefficients for a polygon.
+
+Implements Kuhl and Giardina method of normalizing the coefficients
+An, Bn, Cn, Dn. Performs 3 separate normalizations. First, it makes the
+data location invariant by re-scaling the data to a common origin.
+Secondly, the data is rotated with respect to the major axis. Thirdly,
+the coefficients are normalized with regard to the absolute value of A_1.
+This code is adapted from the pyefd module. See the original paper for
+more detail:
+
+Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image procesnp_sing, 18(3), 236-258.
+
+Args:
+    coeffs: A numpy array of shape (n, 4) representing the
+        four coefficients for each harmonic computed.
+    norm: Set to True (the default) to perform the third
+        normalization and false to return the data withot this procesnp_sing
+        step. Set this to False when plotting a comparison between the
+        input data and the Fourier ellipse.
+Returns:
+    A tuple consisting of a numpy.ndarray of shape (harmonics, 4)
+    representing the four coefficients for each harmonic computed and
+    the rotation in radians applied to the normalized contour.
+
+### rotate_contour()
+
+*Full name:* `pyslvs.efd.rotate_contour`
+<a id="pyslvs-efd-rotate_contour"></a>
+
+| contour | angle | centroid | return |
+|:-------:|:-----:|:--------:|:------:|
+| `numpy.ndarray` | `float` | `tuple[float, float]` | `numpy.ndarray` |
+
+Rotates a contour about a point by a given amount expressed in degrees.
+
+Operates by calling rotatePoint() on each x,y pair in turn. X and Y must
+have the same dimensions.
+
+Args:
+    contour: A n x 2 numpy array represents a path.
+    angle: The angle in radians for the contour to be rotated by.
+    centroid: A tuple containing the x,y coordinates of the centroid to
+        rotate the contour about.
+Returns:
+    A n x 2 numpy array represents a contour.
+
 ## Module `pyslvs.graph`
 <a id="pyslvs-graph"></a>
 
@@ -1513,7 +1689,7 @@ It is used to build the Meta-heuristic Algorithms.
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-| `Self` | `ObjFunc[FVal]` | `pyslvs.metaheuristics.utility.config_types.AlgorithmConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+| `Self` | `ObjFunc[FVal]` | `pyslvs.metaheuristics.utility.config_types.Setting` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
 |   |   |   | `None` | `None` |   |   |
 
 Initialize self.  See help(type(self)) for accurate signature.
@@ -1563,24 +1739,6 @@ which type is `Tuple[int, float, float]]`.
 The first of them is generation,
 the second is fitness, and the last one is time in second.
 
-### class AlgorithmConfig
-
-*Full name:* `pyslvs.metaheuristics.AlgorithmConfig`
-<a id="pyslvs-metaheuristics-algorithmconfig"></a>
-
-| Bases |
-|:-----:|
-| `TypedDict` |
-
-| Members | Type |
-|:-------:|:----:|
-| `max_gen` | `int` |
-| `max_time` | `float` |
-| `min_fit` | `float` |
-| `parallel` | `bool` |
-| `report` | `int` |
-| `slow_down` | `float` |
-
 ### class AlgorithmType
 
 *Full name:* `pyslvs.metaheuristics.AlgorithmType`
@@ -1598,27 +1756,35 @@ the second is fitness, and the last one is time in second.
 | Enums |
 |:-----:|
 | RGA |
-| Firefly |
 | DE |
+| PSO |
+| FA |
 | TLBO |
 
 Enum type of algorithms.
 
-### class DEConfig
+### class DE
 
-*Full name:* `pyslvs.metaheuristics.DEConfig`
-<a id="pyslvs-metaheuristics-deconfig"></a>
+*Full name:* `pyslvs.metaheuristics.DE`
+<a id="pyslvs-metaheuristics-de"></a>
 
 | Bases |
 |:-----:|
-| `AlgorithmConfig` |
+| `pyslvs.metaheuristics.de.utility.Algorithm` |
 
-| Members | Type |
-|:-------:|:----:|
-| `CR` | `float` |
-| `F` | `float` |
-| `NP` | `int` |
-| `strategy` | `int` |
+The implementation of Differential Evolution.
+
+#### DE.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.DE.__init__`
+<a id="pyslvs-metaheuristics-de-__init__"></a>
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.de.utility.ObjFunc[pyslvs.metaheuristics.de.utility.FVal]` | `pyslvs.metaheuristics.de.config_types.DESetting` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
 
 ### default()
 
@@ -1631,37 +1797,52 @@ Enum type of algorithms.
 
 Return the default settings of the algorithms.
 
-### class Differential
+### class DESetting
 
-*Full name:* `pyslvs.metaheuristics.Differential`
-<a id="pyslvs-metaheuristics-differential"></a>
+*Full name:* `pyslvs.metaheuristics.DESetting`
+<a id="pyslvs-metaheuristics-desetting"></a>
 
 | Bases |
 |:-----:|
-| `pyslvs.metaheuristics.de.utility.Algorithm` |
+| `Setting` |
 
-The implementation of Differential Evolution.
+| Members | Type |
+|:-------:|:----:|
+| `cr` | `float` |
+| `f` | `float` |
+| `strategy` | `pyslvs.metaheuristics.config_types.de.Strategy` |
 
-#### Differential.\_\_init\_\_()
+### class FA
 
-*Full name:* `pyslvs.metaheuristics.Differential.__init__`
-<a id="pyslvs-metaheuristics-differential-__init__"></a>
+*Full name:* `pyslvs.metaheuristics.FA`
+<a id="pyslvs-metaheuristics-fa"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.fa.utility.Algorithm` |
+
+The implementation of Firefly Algorithm.
+
+#### FA.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.FA.__init__`
+<a id="pyslvs-metaheuristics-fa-__init__"></a>
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-| `Self` | `pyslvs.metaheuristics.de.utility.ObjFunc[pyslvs.metaheuristics.de.utility.FVal]` | `pyslvs.metaheuristics.de.config_types.DEConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+| `Self` | `pyslvs.metaheuristics.fa.utility.ObjFunc[pyslvs.metaheuristics.fa.utility.FVal]` | `pyslvs.metaheuristics.fa.config_types.FASetting` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
 |   |   |   | `None` | `None` |   |   |
 
 Initialize self.  See help(type(self)) for accurate signature.
 
-### class FAConfig
+### class FASetting
 
-*Full name:* `pyslvs.metaheuristics.FAConfig`
-<a id="pyslvs-metaheuristics-faconfig"></a>
+*Full name:* `pyslvs.metaheuristics.FASetting`
+<a id="pyslvs-metaheuristics-fasetting"></a>
 
 | Bases |
 |:-----:|
-| `AlgorithmConfig` |
+| `Setting` |
 
 | Members | Type |
 |:-------:|:----:|
@@ -1669,70 +1850,6 @@ Initialize self.  See help(type(self)) for accurate signature.
 | `beta0` | `float` |
 | `beta_min` | `float` |
 | `gamma` | `float` |
-| `n` | `int` |
-
-### class Firefly
-
-*Full name:* `pyslvs.metaheuristics.Firefly`
-<a id="pyslvs-metaheuristics-firefly"></a>
-
-| Bases |
-|:-----:|
-| `pyslvs.metaheuristics.firefly.utility.Algorithm` |
-
-The implementation of Firefly Algorithm.
-
-#### Firefly.\_\_init\_\_()
-
-*Full name:* `pyslvs.metaheuristics.Firefly.__init__`
-<a id="pyslvs-metaheuristics-firefly-__init__"></a>
-
-| self | func | settings | progress_fun | interrupt_fun | return |
-|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-| `Self` | `pyslvs.metaheuristics.firefly.utility.ObjFunc[pyslvs.metaheuristics.firefly.utility.FVal]` | `pyslvs.metaheuristics.firefly.config_types.FAConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
-|   |   |   | `None` | `None` |   |   |
-
-Initialize self.  See help(type(self)) for accurate signature.
-
-### class GAConfig
-
-*Full name:* `pyslvs.metaheuristics.GAConfig`
-<a id="pyslvs-metaheuristics-gaconfig"></a>
-
-| Bases |
-|:-----:|
-| `AlgorithmConfig` |
-
-| Members | Type |
-|:-------:|:----:|
-| `cross` | `float` |
-| `delta` | `float` |
-| `mutate` | `float` |
-| `pop_num` | `int` |
-| `win` | `float` |
-
-### class Genetic
-
-*Full name:* `pyslvs.metaheuristics.Genetic`
-<a id="pyslvs-metaheuristics-genetic"></a>
-
-| Bases |
-|:-----:|
-| `pyslvs.metaheuristics.rga.utility.Algorithm` |
-
-The implementation of Real-coded Genetic Algorithm.
-
-#### Genetic.\_\_init\_\_()
-
-*Full name:* `pyslvs.metaheuristics.Genetic.__init__`
-<a id="pyslvs-metaheuristics-genetic-__init__"></a>
-
-| self | func | settings | progress_fun | interrupt_fun | return |
-|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-| `Self` | `pyslvs.metaheuristics.rga.utility.ObjFunc[pyslvs.metaheuristics.rga.utility.FVal]` | `pyslvs.metaheuristics.rga.config_types.GAConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
-|   |   |   | `None` | `None` |   |   |
-
-Initialize self.  See help(type(self)) for accurate signature.
 
 ### class ObjFunc
 
@@ -1774,10 +1891,93 @@ This function will be directly called in the algorithms.
 
 The result function. Default is the best variable vector `v`.
 
-### class TeachingLearning
+### class PSO
 
-*Full name:* `pyslvs.metaheuristics.TeachingLearning`
-<a id="pyslvs-metaheuristics-teachinglearning"></a>
+*Full name:* `pyslvs.metaheuristics.PSO`
+<a id="pyslvs-metaheuristics-pso"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.pso.utility.Algorithm` |
+
+Algorithm base class.
+
+It is used to build the Meta-heuristic Algorithms.
+
+#### PSO.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.PSO.__init__`
+<a id="pyslvs-metaheuristics-pso-__init__"></a>
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.pso.utility.ObjFunc[pyslvs.metaheuristics.pso.utility.FVal]` | `pyslvs.metaheuristics.pso.config_types.PSOSetting` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+### class RGA
+
+*Full name:* `pyslvs.metaheuristics.RGA`
+<a id="pyslvs-metaheuristics-rga"></a>
+
+| Bases |
+|:-----:|
+| `pyslvs.metaheuristics.rga.utility.Algorithm` |
+
+The implementation of Real-coded Genetic Algorithm.
+
+#### RGA.\_\_init\_\_()
+
+*Full name:* `pyslvs.metaheuristics.RGA.__init__`
+<a id="pyslvs-metaheuristics-rga-__init__"></a>
+
+| self | func | settings | progress_fun | interrupt_fun | return |
+|:----:|:----:|:--------:|:------------:|:-------------:|:------:|
+| `Self` | `pyslvs.metaheuristics.rga.utility.ObjFunc[pyslvs.metaheuristics.rga.utility.FVal]` | `pyslvs.metaheuristics.rga.config_types.RGASetting` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+|   |   |   | `None` | `None` |   |   |
+
+Initialize self.  See help(type(self)) for accurate signature.
+
+### class RGASetting
+
+*Full name:* `pyslvs.metaheuristics.RGASetting`
+<a id="pyslvs-metaheuristics-rgasetting"></a>
+
+| Bases |
+|:-----:|
+| `Setting` |
+
+| Members | Type |
+|:-------:|:----:|
+| `cross` | `float` |
+| `delta` | `float` |
+| `mutate` | `float` |
+| `win` | `float` |
+
+### class Setting
+
+*Full name:* `pyslvs.metaheuristics.Setting`
+<a id="pyslvs-metaheuristics-setting"></a>
+
+| Bases |
+|:-----:|
+| `TypedDict` |
+
+| Members | Type |
+|:-------:|:----:|
+| `max_gen` | `int` |
+| `max_time` | `float` |
+| `min_fit` | `float` |
+| `parallel` | `bool` |
+| `pop_num` | `int` |
+| `report` | `int` |
+| `slow_down` | `float` |
+
+### class TLBO
+
+*Full name:* `pyslvs.metaheuristics.TLBO`
+<a id="pyslvs-metaheuristics-tlbo"></a>
 
 | Bases |
 |:-----:|
@@ -1785,30 +1985,26 @@ The result function. Default is the best variable vector `v`.
 
 The implementation of Teaching Learning Based Optimization.
 
-#### TeachingLearning.\_\_init\_\_()
+#### TLBO.\_\_init\_\_()
 
-*Full name:* `pyslvs.metaheuristics.TeachingLearning.__init__`
-<a id="pyslvs-metaheuristics-teachinglearning-__init__"></a>
+*Full name:* `pyslvs.metaheuristics.TLBO.__init__`
+<a id="pyslvs-metaheuristics-tlbo-__init__"></a>
 
 | self | func | settings | progress_fun | interrupt_fun | return |
 |:----:|:----:|:--------:|:------------:|:-------------:|:------:|
-| `Self` | `pyslvs.metaheuristics.tlbo.utility.ObjFunc[pyslvs.metaheuristics.tlbo.utility.FVal]` | `pyslvs.metaheuristics.tlbo.config_types.TOBLConfig` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
+| `Self` | `pyslvs.metaheuristics.tlbo.utility.ObjFunc[pyslvs.metaheuristics.tlbo.utility.FVal]` | `pyslvs.metaheuristics.tlbo.config_types.TOBLSetting` | <code>Callable[[int, str], None] &#124; None</code> | <code>Callable[[], bool] &#124; None</code> | `Any` |
 |   |   |   | `None` | `None` |   |   |
 
 Initialize self.  See help(type(self)) for accurate signature.
 
-### class TOBLConfig
+### class TOBLSetting
 
-*Full name:* `pyslvs.metaheuristics.TOBLConfig`
-<a id="pyslvs-metaheuristics-toblconfig"></a>
+*Full name:* `pyslvs.metaheuristics.TOBLSetting`
+<a id="pyslvs-metaheuristics-toblsetting"></a>
 
 | Bases |
 |:-----:|
-| `AlgorithmConfig` |
-
-| Members | Type |
-|:-------:|:----:|
-| `class_size` | `int` |
+| `Setting` |
 
 ## Module `pyslvs.optimization`
 <a id="pyslvs-optimization"></a>
@@ -2061,6 +2257,51 @@ $$
 >>> path_signature(curvature(...))
 ```
 
+## Module `pyslvs.metaheuristics.config_types`
+<a id="pyslvs-metaheuristics-config_types"></a>
+
+### class PSOSetting
+
+*Full name:* `pyslvs.metaheuristics.config_types.PSOSetting`
+<a id="pyslvs-metaheuristics-config_types-psosetting"></a>
+
+| Bases |
+|:-----:|
+| `Setting` |
+
+| Members | Type |
+|:-------:|:----:|
+| `cognition` | `float` |
+| `social` | `float` |
+| `velocity` | `float` |
+
+## Module `pyslvs.metaheuristics.de`
+<a id="pyslvs-metaheuristics-de"></a>
+
+### class Strategy
+
+*Full name:* `pyslvs.metaheuristics.de.Strategy`
+<a id="pyslvs-metaheuristics-de-strategy"></a>
+
+| Bases |
+|:-----:|
+| `enum.IntEnum` |
+
+| Enums |
+|:-----:|
+| S1 |
+| S2 |
+| S3 |
+| S4 |
+| S5 |
+| S6 |
+| S7 |
+| S8 |
+| S9 |
+| S0 |
+
+An enumeration.
+
 ## Module `pyslvs.metaheuristics.test`
 <a id="pyslvs-metaheuristics-test"></a>
 
@@ -2094,21 +2335,3 @@ f(x) = x1^2 + 8*x2
 | self | v | return |
 |:----:|:---:|:------:|
 | `Self` | `numpy.ndarray` | `float` |
-
-### with_mp()
-
-*Full name:* `pyslvs.metaheuristics.test.with_mp`
-<a id="pyslvs-metaheuristics-test-with_mp"></a>
-
-| return |
-|:------:|
-| `None` |
-
-### without_mp()
-
-*Full name:* `pyslvs.metaheuristics.test.without_mp`
-<a id="pyslvs-metaheuristics-test-without_mp"></a>
-
-| return |
-|:------:|
-| `None` |
