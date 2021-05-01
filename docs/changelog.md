@@ -4,7 +4,7 @@
 
 **Features**:
 
-+ None.
++ Add PSO method for optimization.
 
 **Development**:
 
