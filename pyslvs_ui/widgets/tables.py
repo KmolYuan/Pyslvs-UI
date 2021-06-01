@@ -392,8 +392,8 @@ class SelectionLabel(QLabel):
                     continue
                 vpoint0 = self.vpoints[points[i - 1]]
                 vpoint1 = self.vpoints[points[i]]
-                distances.append(f"{vpoint1.distance(vpoint0):.04}")
-                angles.append(f"{vpoint0.slope_angle(vpoint1):.04}°")
+                distances.append(f"{vpoint1.distance(vpoint0):.06}")
+                angles.append(f"{vpoint0.slope_angle(vpoint1):.06}°")
             ds_t = ", ".join(distances)
             as_t = ", ".join(angles)
             text += f" | {ds_t} | {as_t}"
