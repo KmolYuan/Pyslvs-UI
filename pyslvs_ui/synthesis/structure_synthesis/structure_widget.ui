@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset>
     <normaloff>icons:number.png</normaloff>icons:number.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -40,7 +40,7 @@
         <string>Copy expression.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset>
          <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
        </property>
       </widget>
@@ -54,7 +54,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset>
          <normaloff>icons:collections.png</normaloff>icons:collections.png</iconset>
        </property>
       </widget>
@@ -65,7 +65,7 @@
         <string>Analyze current mechanism from canvas.</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons.qrc">
+        <iconset>
          <normaloff>icons:merge_from.png</normaloff>icons:merge_from.png</iconset>
        </property>
        <property name="autoDefault">
@@ -235,7 +235,7 @@
             </sizepolicy>
            </property>
            <property name="icon">
-            <iconset resource="../../icons.qrc">
+            <iconset>
              <normaloff>icons:clean.png</normaloff>icons:clean.png</iconset>
            </property>
           </widget>
@@ -287,7 +287,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../icons.qrc">
+            <iconset>
              <normaloff>icons:data_update.png</normaloff>icons:data_update.png</iconset>
            </property>
           </widget>
@@ -364,7 +364,7 @@
             </sizepolicy>
            </property>
            <property name="icon">
-            <iconset resource="../../icons.qrc">
+            <iconset>
              <normaloff>icons:clean.png</normaloff>icons:clean.png</iconset>
            </property>
           </widget>
@@ -407,7 +407,7 @@
             <string>Save as list</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons.qrc">
+            <iconset>
              <normaloff>icons:save_file.png</normaloff>icons:save_file.png</iconset>
            </property>
           </widget>
@@ -421,7 +421,7 @@
             <string>Save as image</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons.qrc">
+            <iconset>
              <normaloff>icons:picture.png</normaloff>icons:picture.png</iconset>
            </property>
           </widget>
@@ -438,7 +438,7 @@
             <string>Load the edges data from text file, then save them to image files.</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons.qrc">
+            <iconset>
              <normaloff>icons:edges_to_atlas.png</normaloff>icons:edges_to_atlas.png</iconset>
            </property>
            <property name="iconSize">
@@ -494,8 +494,5 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../icons.qrc"/>
- </resources>
  <connections/>
 </ui>

@@ -14,7 +14,7 @@
    <string>Preference</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>icons:settings.png</normaloff>icons:settings.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -476,9 +476,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>button_box</sender>

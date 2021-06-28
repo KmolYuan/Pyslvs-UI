@@ -14,7 +14,7 @@
    <string>Path process</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset>
     <normaloff>icons:formula.png</normaloff>icons:formula.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -28,7 +28,7 @@
     <widget class="QTabWidget" name="tabWidget">
      <widget class="QWidget" name="fitting">
       <attribute name="icon">
-       <iconset resource="../../../icons.qrc">
+       <iconset>
         <normaloff>icons:fitting.png</normaloff>icons:fitting.png</iconset>
       </attribute>
       <attribute name="title">
@@ -194,7 +194,7 @@
             <string>Curve Fitting</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset>
              <normaloff>icons:fitting.png</normaloff>icons:fitting.png</iconset>
            </property>
           </widget>
@@ -218,7 +218,7 @@
      </widget>
      <widget class="QWidget" name="move_tab">
       <attribute name="icon">
-       <iconset resource="../../../icons.qrc">
+       <iconset>
         <normaloff>icons:translate.png</normaloff>icons:translate.png</iconset>
       </attribute>
       <attribute name="title">
@@ -335,7 +335,7 @@
             <string>Move</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset>
              <normaloff>icons:translate.png</normaloff>icons:translate.png</iconset>
            </property>
            <property name="default">
@@ -362,7 +362,7 @@
      </widget>
      <widget class="QWidget" name="rotate_tab">
       <attribute name="icon">
-       <iconset resource="../../../icons.qrc">
+       <iconset>
         <normaloff>icons:rotate.png</normaloff>icons:rotate.png</iconset>
       </attribute>
       <attribute name="title">
@@ -434,7 +434,7 @@
             <string>Rotate</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset>
              <normaloff>icons:rotate.png</normaloff>icons:rotate.png</iconset>
            </property>
           </widget>
@@ -458,7 +458,7 @@
      </widget>
      <widget class="QWidget" name="scale_tab">
       <attribute name="icon">
-       <iconset resource="../../../icons.qrc">
+       <iconset>
         <normaloff>icons:aim.png</normaloff>icons:aim.png</iconset>
       </attribute>
       <attribute name="title">
@@ -615,7 +615,7 @@
             <string>Scale</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../icons.qrc">
+            <iconset>
              <normaloff>icons:aim.png</normaloff>icons:aim.png</iconset>
            </property>
            <property name="default">
@@ -674,9 +674,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../icons.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>button_box</sender>

@@ -14,7 +14,7 @@
    <string>Point</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>icons:bearing.png</normaloff>icons:bearing.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -174,7 +174,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../icons.qrc">
+           <iconset>
             <normaloff>icons:calculator.png</normaloff>icons:calculator.png</iconset>
           </property>
           <property name="iconSize">
@@ -269,9 +269,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>button_box</sender>

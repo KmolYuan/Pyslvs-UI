@@ -17,7 +17,7 @@
    <string>About Pyslvs</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>icons:main.png</normaloff>icons:main.png</iconset>
   </property>
   <property name="sizeGripEnabled">

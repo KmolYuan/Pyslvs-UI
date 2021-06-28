@@ -14,7 +14,7 @@
    <string>Custom points</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset>
     <normaloff>icons:configure.png</normaloff>icons:configure.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -71,7 +71,7 @@
            <string>Delete</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../icons.qrc">
+           <iconset>
             <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
           </property>
          </widget>
@@ -148,7 +148,7 @@
            <string>Delete</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../icons.qrc">
+           <iconset>
             <normaloff>icons:delete.png</normaloff>icons:delete.png</iconset>
           </property>
          </widget>
@@ -184,9 +184,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../icons.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>button_box</sender>

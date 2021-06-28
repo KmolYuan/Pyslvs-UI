@@ -300,7 +300,7 @@
               <string>Plot</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../icons.qrc">
+              <iconset>
                <normaloff>icons:formula.png</normaloff>icons:formula.png</iconset>
              </property>
             </widget>
@@ -355,8 +355,5 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../icons.qrc"/>
- </resources>
  <connections/>
 </ui>

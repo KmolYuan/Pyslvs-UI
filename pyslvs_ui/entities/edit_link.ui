@@ -14,7 +14,7 @@
    <string>Link</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>icons:link.png</normaloff>icons:link.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -151,9 +151,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>button_box</sender>

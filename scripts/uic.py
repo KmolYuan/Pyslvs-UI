@@ -37,7 +37,8 @@ def gen_ui():
                 script_new = sub(r"from [\w.]+ import [\w]+_rc\n", "",
                                  f.read()
                                  .replace("from PyQt5", "from qtpy")
-                                 .replace("from PySide2", "from qtpy"))
+                                 .replace("from PySide2", "from qtpy")
+                                 .replace(root + "/", ""))
                 f.seek(0)
                 f.truncate()
                 f.write(script_new)

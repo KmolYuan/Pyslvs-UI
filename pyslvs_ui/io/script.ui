@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>icons:script.png</normaloff>icons:script.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -88,9 +88,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>button_box</sender>
