@@ -138,9 +138,10 @@ class MainWindow(IOMethodInterface):
             return
         # Add the path
         i = 0
-        while f"Algorithm_{i}" in self.inputs_widget.paths():
+        while f"Mechanism {i}" in self.inputs_widget.paths():
             i += 1
-        self.inputs_widget.add_path(f"Algorithm_{i}", path, {})
+        if path:
+            self.inputs_widget.add_path(f"Mechanism {i}", path, {})
 
     @Slot(name='on_console_connect_button_clicked')
     def console_connect(self) -> None:

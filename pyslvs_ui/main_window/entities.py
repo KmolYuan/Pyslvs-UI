@@ -13,6 +13,8 @@ from typing import (
 )
 from abc import abstractmethod, ABC
 from collections import Counter
+from math import sin, cos, radians, isnan
+from numpy import array
 from qtpy.QtCore import Slot
 from qtpy.QtWidgets import (
     QDialogButtonBox,
@@ -25,7 +27,10 @@ from qtpy.QtWidgets import (
     QMessageBox,
     QInputDialog,
 )
-from pyslvs import VJoint, VLink, edges_view, SolverSystem, PointArgs, LinkArgs
+from pyslvs import (
+    VJoint, VPoint, VLink, edges_view, SolverSystem, PointArgs,
+    LinkArgs, uniform_expr
+)
 from pyslvs.graph import Graph
 from pyslvs_ui.entities import EditPointDialog, EditLinkDialog
 from pyslvs_ui.widgets import (
@@ -67,7 +72,7 @@ class _ScaleDialog(QDialog):
         layout = QHBoxLayout()
         label = QLabel(name, self)
         option.setValue(1)
-        option.setMaximum(10000)
+        option.setMaximum(99999)
         option.setMinimum(0.01)
         layout.addWidget(label)
         layout.addWidget(option)
@@ -148,6 +153,41 @@ class _LinkLengthDialog(QDialog):
     def get_length(self) -> float:
         """Get current length."""
         return self.length.value()
+
+
+class _FourBarDialog(QDialog):
+    """Four-bar dialog."""
+
+    def __init__(self, parent: MainWindowBase):
+        super(_FourBarDialog, self).__init__(parent)
+        self.setWindowTitle("Four-bar Mechanism")
+        self.main_layout = QVBoxLayout(self)
+        for name, label, min_v, max_v in [
+            ('x0', 'X offset', -99999, 99999),
+            ('y0', 'Y offset', -99999, 99999),
+            ('alpha', 'Rotation angle (deg)', 0, 360),
+            ('l0', 'Length of ground link', 0.0001, 99999),
+            ('l1', 'Length of crank link', 0.0001, 99999),
+            ('l2', 'Length of coupler link', 0.0001, 99999),
+            ('l3', 'Length of follower link', 0.0001, 99999),
+            ('l4', 'Length of extended coupler link', 0.0001, 99999),
+            ('gamma', 'Angle of extended coupler link (deg)', 0, 360),
+        ]:
+            spinbox = QDoubleSpinBox(self)
+            spinbox.setDecimals(4)
+            spinbox.setMinimum(min_v)
+            spinbox.setMaximum(max_v)
+            setattr(self, name, spinbox)
+            layout = QHBoxLayout(self)
+            layout.addWidget(QLabel(label, self))
+            layout.addWidget(spinbox)
+            self.main_layout.addLayout(layout)
+        button_box = QDialogButtonBox(self)
+        button_box.setStandardButtons(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+        self.main_layout.addWidget(button_box)
 
 
 class EntitiesMethodInterface(MainWindowBase, ABC):
@@ -460,15 +500,16 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
         row = self.entities_point.currentRow()
         self.__edit_point(row if row > -1 else 0)
 
+    @Slot()
     def lock_points(self) -> None:
         """Turn a group of points to fixed on ground or not."""
         to_fixed = self.action_p_lock.isChecked()
-        selected_rows = self.entities_point.selected_rows()
+        selected = self.entities_point.selected_rows()
         self.cmd_stack.beginMacro(
             f"{'Grounded' if to_fixed else 'Ungrounded'} "
-            f"{sorted(selected_rows)}"
+            f"{sorted(selected)}"
         )
-        for row in selected_rows:
+        for row in selected:
             new_links = list(self.vpoint_list[row].links)
             if to_fixed:
                 if VLink.FRAME not in new_links:
@@ -505,6 +546,35 @@ class EntitiesMethodInterface(MainWindowBase, ABC):
             args
         ))
         self.cmd_stack.endMacro()
+
+    @Slot(name='on_action_new_fourbar_triggered')
+    def __new_fourbar(self) -> None:
+        """Create four-bar linkage."""
+        dlg = _FourBarDialog(self)
+        if not dlg.exec_():
+            dlg.deleteLater()
+            return
+        x0 = dlg.x0.value()
+        y0 = dlg.y0.value()
+        alpha = radians(dlg.alpha.value())
+        l0 = dlg.l0.value()
+        l1 = dlg.l1.value()
+        l2 = dlg.l2.value()
+        l3 = dlg.l3.value()
+        l4 = dlg.l4.value()
+        gamma = radians(dlg.gamma.value())
+        expr = uniform_expr(array([l0 / l1, l2 / l1, l3 / l1, l4 / l1, gamma]))
+        new_expr = []
+        for vp in expr:
+            if isnan(vp.x) or isnan(vp.y):
+                QMessageBox.warning(self, "Solved error", "Invalid dimension.")
+                return
+            x = vp.c[0, 0] * l1
+            y = vp.c[0, 1] * l1
+            new_expr.append(VPoint(vp.links, VJoint.R, 0., '',
+                                   cos(alpha) * x - sin(alpha) * y + x0,
+                                   sin(alpha) * x + cos(alpha) * y + y0))
+        self.merge_result('M[' + ','.join(p.expr() for p in new_expr) + ']', [])
 
     @Slot(name='on_action_scale_points_triggered')
     def __set_scale(self) -> None:

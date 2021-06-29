@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 21.06
+
+**Features**:
+
++ Add four-bar linkage generating function.
+
+**Development**:
+
++ None.
+
 ## Version 21.05
 
 **Features**:

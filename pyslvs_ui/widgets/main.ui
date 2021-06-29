@@ -907,6 +907,8 @@
     <addaction name="separator"/>
     <addaction name="action_scale_points"/>
     <addaction name="action_set_link_length"/>
+    <addaction name="separator"/>
+    <addaction name="action_new_fourbar"/>
    </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_edit"/>
@@ -1228,6 +1230,14 @@
    </property>
    <property name="statusTip">
     <string>Scale the mechanism by specified factor.</string>
+   </property>
+  </action>
+  <action name="action_new_fourbar">
+   <property name="text">
+    <string>Four-bar Mechanism</string>
+   </property>
+   <property name="statusTip">
+    <string>Create a four-bar linkage by parameters.</string>
    </property>
   </action>
   <action name="action_save">
