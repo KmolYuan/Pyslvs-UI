@@ -45,7 +45,6 @@ install:
   - sh: source ~/venv${PY}/bin/activate
   # Show Python
   - python --version
-  - python -m pip --version
   # Set Python compiler to MinGW
   - cmd: platform\set_pycompiler %PYTHON_DIR% %COMPILER%
   - sh: '[[ "$(uname)" == "Darwin" ]] && ln -s /usr/local/bin/greadlink /usr/local/bin/readlink || true'

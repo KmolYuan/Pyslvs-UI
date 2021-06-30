@@ -8,6 +8,8 @@
 
 **Development**:
 
++ Pyslvs-UI become a `setup.cfg` only package.
+  (<https://setuptools.readthedocs.io/en/latest/setuptools.html#setup-cfg-only-projects>)
 + Warning for different kernel version instead of raising error.
 
 ## Version 21.05
