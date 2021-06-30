@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None.
++ Warning for different kernel version instead of raising error.
 
 ## Version 21.05
 

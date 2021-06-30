@@ -19,13 +19,8 @@ from sys import version_info as _vi
 from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from dataclasses import dataclass
-from pyslvs import __version__ as _kernel_ver
 from pyslvs_ui import __version__
 from pyslvs_ui.qt_patch import API
-
-assert _kernel_ver == __version__, (
-    f"different version between kernel and interface: "
-    f"{_kernel_ver}, {__version__}")
 
 
 def has_module(name: str) -> bool:
