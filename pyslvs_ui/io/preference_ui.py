@@ -215,14 +215,14 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.settings_misc_groupBox)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.button_box = QtWidgets.QDialogButtonBox(Dialog)
-        self.button_box.setOrientation(QtCore.Qt.Horizontal)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok|QtWidgets.QDialogButtonBox.RestoreDefaults)
-        self.button_box.setObjectName("button_box")
-        self.verticalLayout_2.addWidget(self.button_box)
+        self.btn_box = QtWidgets.QDialogButtonBox(Dialog)
+        self.btn_box.setOrientation(QtCore.Qt.Horizontal)
+        self.btn_box.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok|QtWidgets.QDialogButtonBox.RestoreDefaults)
+        self.btn_box.setObjectName("btn_box")
+        self.verticalLayout_2.addWidget(self.btn_box)
 
         self.retranslateUi(Dialog)
-        self.button_box.accepted.connect(Dialog.accept)
+        self.btn_box.accepted.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

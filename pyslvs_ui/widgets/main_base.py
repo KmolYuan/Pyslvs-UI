@@ -277,18 +277,18 @@ class MainWindowBase(MainWindowABC, ABC):
         )
 
         # Select all button on the Point and Link tab as corner widget
-        select_all_button = QPushButton()
-        select_all_button.setIcon(QIcon(QPixmap("icons:select_all.png")))
-        select_all_button.setToolTip("Select all")
-        select_all_button.setStatusTip("Select all item of point table.")
+        select_all_btn = QPushButton()
+        select_all_btn.setIcon(QIcon(QPixmap("icons:select_all.png")))
+        select_all_btn.setToolTip("Select all")
+        select_all_btn.setStatusTip("Select all item of point table.")
 
         @Slot()
         def table_select_all() -> None:
             """Distinguish table by tab index."""
             self.__tables[self.entities_tab.currentIndex()].selectAll()
 
-        select_all_button.clicked.connect(table_select_all)
-        self.entities_tab.setCornerWidget(select_all_button)
+        select_all_btn.clicked.connect(table_select_all)
+        self.entities_tab.setCornerWidget(select_all_btn)
         select_all_action = QAction("Select all point", self)
         select_all_action.triggered.connect(table_select_all)
         select_all_action.setShortcut("Ctrl+A")
@@ -357,7 +357,7 @@ class MainWindowBase(MainWindowABC, ABC):
         # Inputs widget
         self.inputs_widget = InputsWidget(self)
         self.inputs_tab_layout.addWidget(self.inputs_widget)
-        self.free_move_button.toggled.connect(
+        self.free_move_btn.toggled.connect(
             self.inputs_widget.variable_value_reset)
         self.inputs_widget.about_to_resolve.connect(self.resolve)
 
@@ -370,7 +370,7 @@ class MainWindowBase(MainWindowABC, ABC):
 
         self.main_canvas.selected.connect(inputs_selection)
         self.main_canvas.no_selected.connect(self.inputs_widget.clear_selection)
-        self.inputs_widget.update_preview_button.clicked.connect(
+        self.inputs_widget.update_preview_btn.clicked.connect(
             self.main_canvas.update_preview_path)
 
         # Synthesis collections
@@ -403,8 +403,8 @@ class MainWindowBase(MainWindowABC, ABC):
         self.console_widget.hide()
         # Connect to GUI button
         debug_mode = ARGUMENTS.debug_mode
-        self.console_disconnect_button.setEnabled(not debug_mode)
-        self.console_connect_button.setEnabled(debug_mode)
+        self.console_disconnect_btn.setEnabled(not debug_mode)
+        self.console_connect_btn.setEnabled(debug_mode)
         # Splitter stretch factor
         self.main_splitter.setStretchFactor(0, 4)
         self.main_splitter.setStretchFactor(1, 15)
@@ -421,7 +421,7 @@ class MainWindowBase(MainWindowABC, ABC):
             @Slot()
             def func() -> None:
                 self.alignment_mode = m
-                self.alignment_button.setIcon(QIcon(QPixmap(icon_name)))
+                self.alignment_btn.setIcon(QIcon(QPixmap(icon_name)))
 
             return func
 
@@ -434,8 +434,8 @@ class MainWindowBase(MainWindowABC, ABC):
             action = QAction(QIcon(QPixmap(icon)), text, self)
             action.triggered.connect(switch_icon(i, icon))
             menu.addAction(action)
-        self.alignment_button.setMenu(menu)
-        self.alignment_button.clicked.connect(self.point_alignment)
+        self.alignment_btn.setMenu(menu)
+        self.alignment_btn.clicked.connect(self.point_alignment)
 
     def __free_move(self) -> None:
         """Menu of free move mode."""
@@ -443,7 +443,7 @@ class MainWindowBase(MainWindowABC, ABC):
         def free_move_mode_func(j: int, icon_qt: QIcon) -> Callable[[], None]:
             @Slot()
             def func() -> None:
-                self.free_move_button.setIcon(icon_qt)
+                self.free_move_btn.setIcon(icon_qt)
                 self.main_canvas.set_free_move(j)
                 self.entities_tab.setCurrentIndex(0)
                 self.inputs_widget.variable_stop.click()
@@ -465,7 +465,7 @@ class MainWindowBase(MainWindowABC, ABC):
             menu.addAction(action)
             if i == 0:
                 self.free_move_disable = action
-        self.free_move_button.setMenu(menu)
+        self.free_move_btn.setMenu(menu)
 
     def __options(self) -> None:
         """Signal connection for option widgets.

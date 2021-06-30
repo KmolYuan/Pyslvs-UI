@@ -63,17 +63,17 @@ class ProjectWidget(QWidget, Ui_Form):
         # Environment path
         self.env_path = parent.env_path
 
-        self.overview_button.clicked.connect(parent.show_overview)
-        self.ex_expression_button.clicked.connect(parent.show_expr)
-        self.ex_dxf_button.clicked.connect(parent.export_dxf)
-        self.ex_slvs_button.clicked.connect(parent.export_slvs)
-        self.ex_pmks_button.clicked.connect(parent.save_pmks)
-        self.ex_py_button.clicked.connect(parent.py_script)
-        self.ex_image_button.clicked.connect(parent.export_image)
-        self.ex_capture_button.clicked.connect(parent.save_picture_clipboard)
+        self.overview_btn.clicked.connect(parent.show_overview)
+        self.ex_expression_btn.clicked.connect(parent.show_expr)
+        self.ex_dxf_btn.clicked.connect(parent.export_dxf)
+        self.ex_slvs_btn.clicked.connect(parent.export_slvs)
+        self.ex_pmks_btn.clicked.connect(parent.save_pmks)
+        self.ex_py_btn.clicked.connect(parent.py_script)
+        self.ex_image_btn.clicked.connect(parent.export_image)
+        self.ex_capture_btn.clicked.connect(parent.save_picture_clipboard)
 
-        self.im_pmks_button.clicked.connect(parent.import_pmks_url)
-        self.im_example_button.clicked.connect(lambda: self.load_example(is_import=True))
+        self.im_pmks_btn.clicked.connect(parent.import_pmks_url)
+        self.im_example_btn.clicked.connect(lambda: self.load_example(is_import=True))
 
         self.background_option.textChanged.connect(parent.main_canvas.set_background)
         self.background_opacity_option.valueChanged.connect(parent.main_canvas.set_background_opacity)

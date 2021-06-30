@@ -74,7 +74,7 @@ class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         self.vpoints = vpoints
         self.v_to_slvs = v_to_slvs
 
-    @Slot(name='on_choose_dir_button_clicked')
+    @Slot(name='on_choose_dir_btn_clicked')
     def __set_dir(self) -> None:
         """Choose path and it will be set as environment variable
          if accepted.
@@ -87,7 +87,7 @@ class OutputDialog(QDialog, Ui_Dialog, metaclass=QABCMeta):
         if path:
             self.path_edit.setText(path)
 
-    @Slot(name='on_button_box_accepted')
+    @Slot(name='on_btn_box_accepted')
     def __accepted(self) -> None:
         """Use the file path to export the project."""
         qdir = QDir(_get_name(self.path_edit, ispath=True))

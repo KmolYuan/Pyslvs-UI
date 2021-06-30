@@ -143,20 +143,20 @@ class StructureSynthesis(QWidget, Ui_Form):
         self.nj_input_old_value = 0
         self.dof.setValue(1)
 
-    @Slot(name='on_assortment_clear_button_clicked')
+    @Slot(name='on_assortment_clear_btn_clicked')
     def __clear_assortment(self) -> None:
         """Clear the number synthesis list."""
         self.link_assortment_list.clear()
         self.assortment.clear()
 
-    @Slot(name='on_structure_list_clear_button_clicked')
+    @Slot(name='on_structure_list_clear_btn_clicked')
     def __clear_structure_list(self) -> None:
         """Clear the structure list."""
         self.answer.clear()
         self.structure_list.clear()
         self.time_label.setText("")
 
-    @Slot(name='on_from_mechanism_button_clicked')
+    @Slot(name='on_from_mechanism_btn_clicked')
     def __from_mechanism(self) -> None:
         """From a generalized mechanism of main canvas."""
         if self.vpoints and self.vlinks:
@@ -236,7 +236,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             self.nj_input_old_value = n2
             self.nl_input_old_value = n1
 
-    @Slot(name='on_number_synthesis_button_clicked')
+    @Slot(name='on_number_synthesis_btn_clicked')
     def __number_synthesis(self) -> None:
         """Synthesis of link assortment."""
         self.__clear_assortment()
@@ -282,7 +282,7 @@ class StructureSynthesis(QWidget, Ui_Form):
         """Set painting time of atlas."""
         self.paint_time_label.setText(f"{t:.04f}s")
 
-    @Slot(name='on_structure_synthesis_button_clicked')
+    @Slot(name='on_structure_synthesis_btn_clicked')
     def __structure_synthesis(self) -> None:
         """Structural synthesis - find by contracted links."""
         self.__clear_structure_list()
@@ -304,7 +304,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             jobs = [item]
         self.__structural_combine(jobs)
 
-    @Slot(name='on_structure_synthesis_all_button_clicked')
+    @Slot(name='on_structure_synthesis_all_btn_clicked')
     def __structure_synthesis_all(self) -> None:
         """Structural synthesis - find all."""
         self.__clear_structure_list()
@@ -520,7 +520,7 @@ class StructureSynthesis(QWidget, Ui_Form):
             f.write('\n'.join(str(G.edges) for G in self.answer))
         self.save_reply_box("edges expression", file_name)
 
-    @Slot(name='on_edges2atlas_button_clicked')
+    @Slot(name='on_edges2atlas_btn_clicked')
     def __edges2atlas(self) -> None:
         """Turn the text files into a atlas image.
 

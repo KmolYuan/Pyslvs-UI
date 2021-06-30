@@ -84,11 +84,11 @@ class EditPointDialog(QDialog, Ui_Dialog):
     @Slot(int, name='on_color_box_currentIndexChanged')
     def __set_color(self, _=None) -> None:
         """Change the color icon of pick button."""
-        self.color_pick_button.setIcon(self.color_box.itemIcon(
+        self.color_pick_btn.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
 
-    @Slot(name='on_color_pick_button_clicked')
+    @Slot(name='on_color_pick_btn_clicked')
     def __set_rgb(self) -> None:
         """Add a custom color from current color."""
         color = QColorDialog.getColor(

@@ -57,7 +57,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
                 self.quote_choose.addItem(f'P{i}')
         self.quote_choose.setCurrentIndex(self.quote_choose.findText(s_old))
 
-    @Slot(name='on_add_button_clicked')
+    @Slot(name='on_add_btn_clicked')
     def __add_cus(self) -> None:
         """Add a custom point by dependents."""
         row = self.link_choose.currentIndex()
@@ -76,7 +76,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.custom_list.addItem(f"{new_name} -> {self.link_choose.itemText(row)}")
         self.joint_combobox.addItem(new_name)
 
-    @Slot(name='on_delete_button_clicked')
+    @Slot(name='on_delete_btn_clicked')
     def __delete_cus(self) -> None:
         """Remove a custom point."""
         row = self.custom_list.currentRow()
@@ -117,7 +117,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
                 continue
             self.joint_choose.addItem(joint)
 
-    @Slot(name='on_add_mj_button_clicked')
+    @Slot(name='on_add_mj_btn_clicked')
     def __add_multi_joint(self) -> None:
         """Add a multiple joint by dependents."""
         s = self.joint_choose.currentText()
@@ -130,7 +130,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.multiple_list.addItem(f"{s} -> {qs}")
         self.__reload_quote_choose()
 
-    @Slot(name='on_delete_mj_button_clicked')
+    @Slot(name='on_delete_mj_btn_clicked')
     def __delete_multi_joint(self) -> None:
         """Remove a multiple joint."""
         row = self.multiple_list.currentRow()

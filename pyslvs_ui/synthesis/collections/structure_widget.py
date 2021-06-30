@@ -70,16 +70,16 @@ class StructureWidget(QWidget, Ui_Form):
     def clear(self) -> None:
         """Clear all sub-widgets."""
         for button in (
-            self.merge_button,
-            self.configure_button,
-            self.duplicate_button,
+            self.merge_btn,
+            self.configure_btn,
+            self.duplicate_btn,
         ):
             button.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
         self.__clear_selection()
 
-    @Slot(name='on_clear_button_clicked')
+    @Slot(name='on_clear_btn_clicked')
     def __user_clear(self) -> None:
         """Ask user before clear."""
         if not self.collections:
@@ -180,7 +180,7 @@ class StructureWidget(QWidget, Ui_Form):
         for edges in collections:
             self.add_collection(edges)
 
-    @Slot(name='on_add_by_edges_button_clicked')
+    @Slot(name='on_add_by_edges_btn_clicked')
     def __add_from_edges(self) -> None:
         """Add collection by input string."""
         edges_str = ""
@@ -203,7 +203,7 @@ class StructureWidget(QWidget, Ui_Form):
         else:
             self.add_collection(edges)
 
-    @Slot(name='on_add_by_files_button_clicked')
+    @Slot(name='on_add_by_files_btn_clicked')
     def __add_from_files(self) -> None:
         """Append atlas by text files."""
         file_names = self.input_from_multiple(
@@ -299,9 +299,9 @@ class StructureWidget(QWidget, Ui_Form):
         will be in same appearance.
         """
         for button in (
-            self.delete_button,
-            self.configure_button,
-            self.duplicate_button,
+            self.delete_btn,
+            self.configure_btn,
+            self.duplicate_btn,
         ):
             button.setEnabled(item is not None)
         self.selection_window.clear()
@@ -331,9 +331,9 @@ class StructureWidget(QWidget, Ui_Form):
         self.link_assortment_label.setText(str(link_assortment(g)))
         self.contracted_link_assortment_label.setText(str(contracted_link_assortment(g)))
         # Buttons
-        self.duplicate_button.setEnabled(link_is_node)
-        self.configure_button.setEnabled(not link_is_node)
-        self.merge_button.setEnabled(not link_is_node)
+        self.duplicate_btn.setEnabled(link_is_node)
+        self.configure_btn.setEnabled(not link_is_node)
+        self.merge_btn.setEnabled(not link_is_node)
         self.__grounded()
 
     def __clear_selection(self) -> None:
@@ -356,7 +356,7 @@ class StructureWidget(QWidget, Ui_Form):
             QApplication.clipboard().setText(string)
             self.edges_text.selectAll()
 
-    @Slot(name='on_delete_button_clicked')
+    @Slot(name='on_delete_btn_clicked')
     def __delete_collection(self) -> None:
         """Delete the selected collection."""
         row = self.collection_list.currentRow()
@@ -374,7 +374,7 @@ class StructureWidget(QWidget, Ui_Form):
         self.__clear_selection()
         self.project_no_save()
 
-    @Slot(name='on_duplicate_button_clicked')
+    @Slot(name='on_duplicate_btn_clicked')
     def __make_duplicate(self) -> None:
         """Make current graph symmetric."""
         row = self.collection_list.currentRow()
@@ -406,7 +406,7 @@ class StructureWidget(QWidget, Ui_Form):
         new_graph = graph.duplicate(targets, times)
         self.add_collection(new_graph.edges)
 
-    @Slot(name='on_configure_button_clicked')
+    @Slot(name='on_configure_btn_clicked')
     def __configuration(self) -> None:
         """Triangular iteration."""
         self.layout_sender.emit(
@@ -447,7 +447,7 @@ class StructureWidget(QWidget, Ui_Form):
             self.collections_grounded.append(graph_)
             self.grounded_list.addItem(item)
 
-    @Slot(name='on_merge_button_clicked')
+    @Slot(name='on_merge_btn_clicked')
     def __grounded_merge(self) -> None:
         """Merge the grounded result."""
         item = self.grounded_list.currentItem()

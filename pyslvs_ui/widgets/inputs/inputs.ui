@@ -467,7 +467,7 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QPushButton" name="update_preview_button">
+            <widget class="QPushButton" name="update_preview_btn">
              <property name="statusTip">
               <string>Refresh preview path data.</string>
              </property>
@@ -538,7 +538,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="show_button">
+          <widget class="QPushButton" name="show_btn">
            <property name="statusTip">
             <string>Show this joint only.</string>
            </property>
@@ -552,7 +552,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="show_all_button">
+          <widget class="QPushButton" name="show_all_btn">
            <property name="text">
             <string>Show all</string>
            </property>
@@ -567,7 +567,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QPushButton" name="cp_data_button">
+          <widget class="QPushButton" name="cp_data_btn">
            <property name="statusTip">
             <string>Copy the data of this joint to clipboard.</string>
            </property>
@@ -581,7 +581,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="plot_button">
+          <widget class="QPushButton" name="plot_btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -601,7 +601,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="animate_button">
+          <widget class="QPushButton" name="animate_btn">
            <property name="text">
             <string>Vector Animate</string>
            </property>

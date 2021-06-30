@@ -139,7 +139,7 @@ class Optimizer(QWidget, Ui_Form):
         """Return true if the panel is no target settings."""
         return self.target_points.count() > 0
 
-    @Slot(name='on_clear_button_clicked')
+    @Slot(name='on_clear_btn_clicked')
     def __user_clear(self) -> None:
         if not self.profile_name.text():
             return
@@ -202,7 +202,7 @@ class Optimizer(QWidget, Ui_Form):
         """Paste path data from clipboard."""
         self.__read_path_from_csv(QApplication.clipboard().text())
 
-    @Slot(name='on_import_csv_button_clicked')
+    @Slot(name='on_import_csv_btn_clicked')
     def __import_csv(self) -> None:
         """Paste path data from a text file."""
         file_name = self.input_from(
@@ -224,7 +224,7 @@ class Optimizer(QWidget, Ui_Form):
         else:
             self.set_path(path, clear=clear)
 
-    @Slot(name='on_append_path_button_clicked')
+    @Slot(name='on_append_path_btn_clicked')
     def __append_path(self):
         """Append path from text."""
         raw, ok = QInputDialog.getMultiLineText(self, "Append path",
@@ -232,7 +232,7 @@ class Optimizer(QWidget, Ui_Form):
         if ok and raw:
             self.__read_path_from_csv(raw, clear=False)
 
-    @Slot(name='on_save_path_button_clicked')
+    @Slot(name='on_save_path_btn_clicked')
     def __save_path(self):
         """Save current path."""
         path = self.current_path()
@@ -245,7 +245,7 @@ class Optimizer(QWidget, Ui_Form):
             f.write("\n".join(f"{x}, {y}" for x, y in path))
         self.save_reply_box("Path file", file_name)
 
-    @Slot(name='on_import_xlsx_button_clicked')
+    @Slot(name='on_import_xlsx_btn_clicked')
     def __import_xlsx(self) -> None:
         """Paste path data from a Excel file."""
         file_name = self.input_from(
@@ -279,7 +279,7 @@ class Optimizer(QWidget, Ui_Form):
 
         self.set_path(get_path(name))
 
-    @Slot(name='on_edit_path_button_clicked')
+    @Slot(name='on_edit_path_btn_clicked')
     def __adjust_path(self) -> None:
         """Show up path adjust dialog and
         get back the changes of current target path.
@@ -290,7 +290,7 @@ class Optimizer(QWidget, Ui_Form):
         dlg.deleteLater()
         self.__current_path_changed()
 
-    @Slot(name='on_norm_path_button_clicked')
+    @Slot(name='on_norm_path_btn_clicked')
     def __norm_path(self) -> None:
         """Normalize current path."""
         scale, ok = QInputDialog.getDouble(
@@ -319,7 +319,7 @@ class Optimizer(QWidget, Ui_Form):
     @Slot(float, float)
     def set_point(self, x: float, y: float) -> None:
         """Set the coordinate of current target path."""
-        if not self.edit_target_point_button.isChecked():
+        if not self.edit_target_point_btn.isChecked():
             return
         for i, (cx, cy) in enumerate(self.current_path()):
             if hypot(x - cx, y - cy) < 10 / self.get_zoom():
@@ -387,14 +387,14 @@ class Optimizer(QWidget, Ui_Form):
             and self.expression_string.text()
         )
         for button in (
-            self.save_path_button,
-            self.edit_path_button,
-            self.norm_path_button,
-            self.synthesis_button,
+            self.save_path_btn,
+            self.edit_path_btn,
+            self.norm_path_btn,
+            self.synthesis_btn,
         ):
             button.setEnabled(n)
 
-    @Slot(name='on_synthesis_button_clicked')
+    @Slot(name='on_synthesis_btn_clicked')
     def __synthesis(self) -> None:
         """Start synthesis."""
         # Check if the amount of the target points are same
@@ -497,7 +497,7 @@ class Optimizer(QWidget, Ui_Form):
         item.setToolTip(text)
         self.result_list.addItem(item)
 
-    @Slot(name='on_delete_button_clicked')
+    @Slot(name='on_delete_btn_clicked')
     def __delete_result(self) -> None:
         """Delete a result."""
         row = self.result_list.currentRow()
@@ -519,8 +519,8 @@ class Optimizer(QWidget, Ui_Form):
         """Set enable if there has any result."""
         enable = self.result_list.currentRow() > -1
         for button in (
-            self.merge_button,
-            self.delete_button,
+            self.merge_btn,
+            self.delete_btn,
             self.result_load_settings,
             self.result_clipboard
         ):
@@ -538,7 +538,7 @@ class Optimizer(QWidget, Ui_Form):
         dlg.exec_()
         dlg.deleteLater()
 
-    @Slot(name='on_merge_button_clicked')
+    @Slot(name='on_merge_btn_clicked')
     def __merge_result(self) -> None:
         """Merge mechanism into main canvas."""
         row = self.result_list.currentRow()
@@ -792,7 +792,7 @@ class Optimizer(QWidget, Ui_Form):
             if button.isChecked():
                 self.alg_options.update(default(opt))
 
-    @Slot(name='on_advance_button_clicked')
+    @Slot(name='on_advance_btn_clicked')
     def __show_advance(self) -> None:
         """Get the settings from advance dialog."""
         for option, button in self.algorithm_options.items():

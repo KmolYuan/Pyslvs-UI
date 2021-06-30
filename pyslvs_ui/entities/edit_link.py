@@ -68,7 +68,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
     @Slot()
     def __is_ok(self) -> None:
         """Set button box enable if options are ok."""
-        self.button_box.button(QDialogButtonBox.Ok).setEnabled(
+        self.btn_box.button(QDialogButtonBox.Ok).setEnabled(
             self.__legal_name(self.name_edit.text())
         )
 
@@ -103,17 +103,17 @@ class EditLinkDialog(QDialog, Ui_Dialog):
             for p in points:
                 self.no_selected.addItem(self.__point_item(p))
         not_ground = index > 0
-        for widget in (self.name_edit, self.color_box, self.color_pick_button):
+        for widget in (self.name_edit, self.color_box, self.color_pick_btn):
             widget.setEnabled(not_ground)
 
     @Slot(int, name='on_color_box_currentIndexChanged')
     def __set_color(self, _=None) -> None:
         """Change the color icon of pick button."""
-        self.color_pick_button.setIcon(self.color_box.itemIcon(
+        self.color_pick_btn.setIcon(self.color_box.itemIcon(
             self.color_box.currentIndex()
         ))
 
-    @Slot(name='on_color_pick_button_clicked')
+    @Slot(name='on_color_pick_btn_clicked')
     def __set_rgb(self) -> None:
         """Add a custom color from current color."""
         color = color_qt(self.color_box.currentText())

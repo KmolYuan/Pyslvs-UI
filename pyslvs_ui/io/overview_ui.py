@@ -136,14 +136,14 @@ class Ui_Dialog(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
-        self.button_box = QtWidgets.QDialogButtonBox(Dialog)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
-        self.button_box.setObjectName("button_box")
-        self.horizontalLayout.addWidget(self.button_box)
+        self.btn_box = QtWidgets.QDialogButtonBox(Dialog)
+        self.btn_box.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
+        self.btn_box.setObjectName("btn_box")
+        self.horizontalLayout.addWidget(self.btn_box)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
-        self.button_box.rejected.connect(Dialog.reject)
+        self.btn_box.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

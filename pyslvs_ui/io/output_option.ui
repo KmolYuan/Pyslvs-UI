@@ -30,7 +30,7 @@
       <widget class="QLineEdit" name="path_edit"/>
      </item>
      <item>
-      <widget class="QToolButton" name="choose_dir_button">
+      <widget class="QToolButton" name="choose_dir_btn">
        <property name="text">
         <string>...</string>
        </property>
@@ -227,7 +227,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="button_box">
+      <widget class="QDialogButtonBox" name="btn_box">
        <property name="standardButtons">
         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
        </property>
@@ -239,7 +239,7 @@
  </widget>
  <connections>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>rejected()</signal>
    <receiver>Dialog</receiver>
    <slot>reject()</slot>

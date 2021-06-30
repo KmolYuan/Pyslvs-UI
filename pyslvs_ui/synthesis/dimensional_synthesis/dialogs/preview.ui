@@ -295,7 +295,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="cc_plot_button">
+            <widget class="QPushButton" name="cc_plot_btn">
              <property name="text">
               <string>Plot</string>
              </property>

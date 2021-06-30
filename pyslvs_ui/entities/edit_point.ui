@@ -55,7 +55,7 @@
         <widget class="QComboBox" name="color_box"/>
        </item>
        <item>
-        <widget class="QPushButton" name="color_pick_button">
+        <widget class="QPushButton" name="color_pick_btn">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -237,7 +237,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QDialogButtonBox" name="button_box">
+      <widget class="QDialogButtonBox" name="btn_box">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -271,7 +271,7 @@
  </widget>
  <connections>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>accepted()</signal>
    <receiver>Dialog</receiver>
    <slot>accept()</slot>
@@ -287,7 +287,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>rejected()</signal>
    <receiver>Dialog</receiver>
    <slot>reject()</slot>

@@ -252,15 +252,15 @@ class Ui_Dialog(object):
         self.preview_label = QtWidgets.QLabel(Dialog)
         self.preview_label.setObjectName("preview_label")
         self.verticalLayout.addWidget(self.preview_label)
-        self.button_box = QtWidgets.QDialogButtonBox(Dialog)
-        self.button_box.setOrientation(QtCore.Qt.Horizontal)
-        self.button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.button_box.setObjectName("button_box")
-        self.verticalLayout.addWidget(self.button_box)
+        self.btn_box = QtWidgets.QDialogButtonBox(Dialog)
+        self.btn_box.setOrientation(QtCore.Qt.Horizontal)
+        self.btn_box.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.btn_box.setObjectName("btn_box")
+        self.verticalLayout.addWidget(self.btn_box)
 
         self.retranslateUi(Dialog)
-        self.button_box.rejected.connect(Dialog.reject)
-        self.button_box.accepted.connect(Dialog.accept)
+        self.btn_box.rejected.connect(Dialog.reject)
+        self.btn_box.accepted.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

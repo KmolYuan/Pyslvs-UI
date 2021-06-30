@@ -65,7 +65,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
             path = path[:-1]
         return path
 
-    @Slot(name='on_fitting_preview_button_clicked')
+    @Slot(name='on_fitting_preview_btn_clicked')
     def __fitting_preview(self) -> None:
         """Curve fitting preview."""
         dlg = DataChartDialog(self, "Preview")
@@ -78,14 +78,14 @@ class EditPathDialog(QDialog, Ui_Dialog):
         dlg.exec()
         dlg.deleteLater()
 
-    @Slot(name='on_fitting_button_clicked')
+    @Slot(name='on_fitting_btn_clicked')
     def __fitting(self) -> None:
         """Curve fitting function."""
         path = self.__gen_fitting()
         self.set_path(path)
         self.accept()
 
-    @Slot(name='on_move_button_clicked')
+    @Slot(name='on_move_btn_clicked')
     def __move(self) -> None:
         """Translate function."""
         mx = self.move_x.value()
@@ -95,7 +95,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
         self.set_path(self.path + offset)
         self.accept()
 
-    @Slot(name='on_rotate_button_clicked')
+    @Slot(name='on_rotate_btn_clicked')
     def __rotate(self) -> None:
         """Rotate by origin."""
         angle = radians(self.rotate_angle.value())
@@ -107,7 +107,7 @@ class EditPathDialog(QDialog, Ui_Dialog):
         self.set_path(path)
         self.accept()
 
-    @Slot(name='on_scale_button_clicked')
+    @Slot(name='on_scale_btn_clicked')
     def __scale(self) -> None:
         """Scale function."""
         ox = self.scale_rx.value()

@@ -162,7 +162,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         ]:
             _set_warning(label, True)
 
-    @Slot(name='on_clear_button_clicked')
+    @Slot(name='on_clear_btn_clicked')
     def __user_clear(self) -> bool:
         """Ask user before clear."""
         if not self.configure_canvas.graph.vertices:
@@ -177,7 +177,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             return True
         return False
 
-    @Slot(name='on_add_collection_button_clicked')
+    @Slot(name='on_add_collection_btn_clicked')
     def __add_collection(self) -> None:
         """Add the graph back to structure collections."""
         self.add_collection(tuple(self.configure_canvas.graph.edges))
@@ -317,7 +317,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             'same': self.configure_canvas.same.copy(),
         }
 
-    @Slot(name='on_load_button_clicked')
+    @Slot(name='on_load_btn_clicked')
     def __from_profile(self) -> None:
         """Show up the dialog to load structure data."""
         dlg = CollectionsDialog(
@@ -364,7 +364,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         # Expression
         self.expr_show.setText(params['expression'])
 
-    @Slot(name='on_target_button_clicked')
+    @Slot(name='on_target_btn_clicked')
     def __set_target(self) -> None:
         """Show up target joints dialog."""
         dlg = TargetsDialog(
@@ -417,7 +417,7 @@ class ConfigureWidget(QWidget, Ui_Form):
             self.grounded_list.currentRow()
         )))
 
-    @Slot(name='on_save_button_clicked')
+    @Slot(name='on_save_btn_clicked')
     def __save(self) -> None:
         """Save the profile to database."""
         if self.profile_name.text():
@@ -438,7 +438,7 @@ class ConfigureWidget(QWidget, Ui_Form):
         self.profile_name.setText(name)
         self.project_no_save()
 
-    @Slot(name='on_clipboard_button_clicked')
+    @Slot(name='on_clipboard_btn_clicked')
     def __copy(self) -> None:
         """Copy the mechanism params into clipboard."""
         QApplication.clipboard().setText(

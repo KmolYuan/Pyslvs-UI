@@ -260,7 +260,7 @@ class ActionMethodInterface(StorageMethodInterface, ABC):
         self.canvas_layout.insertWidget(pos, self.nav_toolbar)
         self.canvas_layout.insertWidget(1, self.zoom_widget)
 
-    @Slot(bool, name='on_grid_mode_button_toggled')
+    @Slot(bool, name='on_grid_mode_btn_toggled')
     def __set_grid_mode(self, enabled: bool) -> None:
         """Return grid mode state."""
         self.main_canvas.set_snap(self.prefer.snap_option if enabled else 0.)

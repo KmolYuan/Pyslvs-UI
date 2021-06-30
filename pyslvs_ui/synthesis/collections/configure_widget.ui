@@ -21,7 +21,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="load_button">
+      <widget class="QPushButton" name="load_btn">
        <property name="statusTip">
         <string>Triangular iteration data and common structure data collections.</string>
        </property>
@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="save_button">
+      <widget class="QPushButton" name="save_btn">
        <property name="statusTip">
         <string>Save this iteration profile to data collections.</string>
        </property>
@@ -50,7 +50,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="add_collection_button">
+      <widget class="QPushButton" name="add_collection_btn">
        <property name="statusTip">
         <string>Turn this structure diagram back to structure collections.</string>
        </property>
@@ -61,7 +61,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="clipboard_button">
+      <widget class="QPushButton" name="clipboard_btn">
        <property name="statusTip">
         <string>Save this iteration profile to clipboard as a string.</string>
        </property>
@@ -79,7 +79,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="clear_button">
+      <widget class="QPushButton" name="clear_btn">
        <property name="statusTip">
         <string>Create a new iteration profile.</string>
        </property>
@@ -167,7 +167,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="target_button">
+              <widget class="QPushButton" name="target_btn">
                <property name="text">
                 <string>Targets</string>
                </property>

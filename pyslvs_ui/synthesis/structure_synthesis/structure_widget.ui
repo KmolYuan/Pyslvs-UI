@@ -60,7 +60,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="from_mechanism_button">
+      <widget class="QPushButton" name="from_mechanism_btn">
        <property name="statusTip">
         <string>Analyze current mechanism from canvas.</string>
        </property>
@@ -214,7 +214,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QPushButton" name="number_synthesis_button">
+          <widget class="QPushButton" name="number_synthesis_btn">
            <property name="statusTip">
             <string>Find the possible number of different joints.</string>
            </property>
@@ -227,7 +227,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="assortment_clear_button">
+          <widget class="QPushButton" name="assortment_clear_btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -330,7 +330,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QPushButton" name="structure_synthesis_all_button">
+          <widget class="QPushButton" name="structure_synthesis_all_btn">
            <property name="maximumSize">
             <size>
              <width>100</width>
@@ -349,14 +349,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="structure_synthesis_button">
+          <widget class="QPushButton" name="structure_synthesis_btn">
            <property name="text">
             <string>Find by Assortment</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="structure_list_clear_button">
+          <widget class="QPushButton" name="structure_list_clear_btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -427,7 +427,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="edges2atlas_button">
+          <widget class="QPushButton" name="edges2atlas_btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>

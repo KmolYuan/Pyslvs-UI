@@ -197,7 +197,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="overview_button">
+      <widget class="QPushButton" name="overview_btn">
        <property name="text">
         <string>Project overview</string>
        </property>
@@ -208,7 +208,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ex_expression_button">
+      <widget class="QPushButton" name="ex_expression_btn">
        <property name="text">
         <string>Mechanism expression</string>
        </property>
@@ -229,7 +229,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
-         <widget class="QPushButton" name="ex_dxf_button">
+         <widget class="QPushButton" name="ex_dxf_btn">
           <property name="statusTip">
            <string>Export as DXF format.</string>
           </property>
@@ -246,7 +246,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QPushButton" name="ex_slvs_button">
+         <widget class="QPushButton" name="ex_slvs_btn">
           <property name="statusTip">
            <string>Export as Solvespace format.</string>
           </property>
@@ -263,7 +263,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="ex_py_button">
+         <widget class="QPushButton" name="ex_py_btn">
           <property name="statusTip">
            <string>Export as Python script.</string>
           </property>
@@ -280,7 +280,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QPushButton" name="ex_image_button">
+         <widget class="QPushButton" name="ex_image_btn">
           <property name="statusTip">
            <string>Export as image formats.</string>
           </property>
@@ -297,7 +297,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QPushButton" name="ex_pmks_button">
+         <widget class="QPushButton" name="ex_pmks_btn">
           <property name="statusTip">
            <string>Export as PMKS URL.</string>
           </property>
@@ -314,7 +314,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QPushButton" name="ex_capture_button">
+         <widget class="QPushButton" name="ex_capture_btn">
           <property name="statusTip">
            <string>Capture the main canvas into clipboard.</string>
           </property>
@@ -340,7 +340,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QPushButton" name="im_example_button">
+         <widget class="QPushButton" name="im_example_btn">
           <property name="statusTip">
            <string>Import from an example.</string>
           </property>
@@ -357,7 +357,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="im_pmks_button">
+         <widget class="QPushButton" name="im_pmks_btn">
           <property name="statusTip">
            <string>Import from PMKS URL.</string>
           </property>

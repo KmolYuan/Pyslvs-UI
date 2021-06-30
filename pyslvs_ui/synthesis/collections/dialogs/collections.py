@@ -70,7 +70,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     @Slot(str, name='on_collections_list_currentTextChanged')
     def __can_open(self, _=None) -> None:
         """Set the button box to enable when data is already."""
-        self.button_box.button(QDialogButtonBox.Open).setEnabled(
+        self.btn_box.button(QDialogButtonBox.Open).setEnabled(
             self.collections_list.currentRow() > -1
         )
 
@@ -78,13 +78,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         """Set the buttons to enable when user choose a data."""
         has_collection = bool(self.collections)
         for button in [
-            self.rename_button,
-            self.copy_button,
-            self.delete_button
+            self.rename_btn,
+            self.copy_btn,
+            self.delete_btn
         ]:
             button.setEnabled(has_collection)
 
-    @Slot(name='on_rename_button_clicked')
+    @Slot(name='on_rename_btn_clicked')
     def __rename(self) -> None:
         """Show up a string input to change the data name."""
         row = self.collections_list.currentRow()
@@ -112,7 +112,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         item.setText(name)
         self.project_no_save()
 
-    @Slot(name='on_copy_button_clicked')
+    @Slot(name='on_copy_btn_clicked')
     def __copy(self) -> None:
         """Ask a name to copy a data."""
         row = self.collections_list.currentRow()
@@ -140,7 +140,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.collections_list.addItem(name)
         self.project_no_save()
 
-    @Slot(name='on_delete_button_clicked')
+    @Slot(name='on_delete_btn_clicked')
     def __delete(self) -> None:
         """Delete a data."""
         row = self.collections_list.currentRow()
@@ -182,7 +182,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.params = deepcopy(self.collections[self.name])
         self.preview_canvas.from_profile(self.params)
 
-    @Slot(name='on_project_button_clicked')
+    @Slot(name='on_project_btn_clicked')
     def __from_canvas(self) -> None:
         """Get a collection data from current mechanism."""
         try:
@@ -208,7 +208,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__choose_common()
         self.accept()
 
-    @Slot(name='on_button_box_accepted')
+    @Slot(name='on_btn_box_accepted')
     @Slot(QListWidgetItem, name='on_collections_list_itemDoubleClicked')
     def __load_collections(self, _=None) -> None:
         """Load a project data and close."""

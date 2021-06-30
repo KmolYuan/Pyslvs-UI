@@ -104,7 +104,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
             f"{t_min % 60:02d}"
         )
 
-    @Slot(name='on_start_button_clicked')
+    @Slot(name='on_start_btn_clicked')
     def __start(self) -> None:
         """Start the process."""
         loop = self.loopTime.value()
@@ -115,9 +115,9 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.work.set_loop(loop)
         self.timer.start()
         self.work.start()
-        self.start_button.setEnabled(False)
+        self.start_btn.setEnabled(False)
         self.loopTime.setEnabled(False)
-        self.interrupt_button.setEnabled(True)
+        self.interrupt_btn.setEnabled(True)
 
     @Slot(dict)
     def __get_result(self, mechanism: Dict[str, Any]) -> None:
@@ -132,7 +132,7 @@ class ProgressDialog(QDialog, Ui_Dialog):
         self.work.wait()
         self.accept()
 
-    @Slot(name='on_interrupt_button_clicked')
+    @Slot(name='on_interrupt_btn_clicked')
     def __interrupt(self) -> None:
         """Interrupt the process."""
         if self.work.isRunning():

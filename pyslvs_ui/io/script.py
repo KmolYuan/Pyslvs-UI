@@ -164,7 +164,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint
                             & ~Qt.WindowContextHelpButtonHint)
         self.setWindowIcon(icon)
-        self.button_box.button(QDialogButtonBox.Close).setDefault(True)
+        self.btn_box.button(QDialogButtonBox.Close).setDefault(True)
         # Calculation function
         if exprs is not None:
             script += "\n###\n" + _expr_to_script(exprs)
@@ -176,7 +176,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
         self.output_to = parent.output_to
         self.save_reply_box = parent.save_reply_box
         self.setWindowTitle(self.filename)
-        self.button_box.button(QDialogButtonBox.Save).clicked.connect(
+        self.btn_box.button(QDialogButtonBox.Save).clicked.connect(
             self.__save)
 
         # Compressed script
@@ -201,7 +201,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
             f.write(self.script_view.toPlainText())
         self.save_reply_box("Script", path)
 
-    @Slot(name='on_copy_button_clicked')
+    @Slot(name='on_copy_btn_clicked')
     def __copy(self) -> None:
         """Copy to clipboard."""
         QApplication.clipboard().setText(

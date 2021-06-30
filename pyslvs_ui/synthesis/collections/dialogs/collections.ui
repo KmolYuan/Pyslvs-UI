@@ -88,7 +88,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="QPushButton" name="project_button">
+             <widget class="QPushButton" name="project_btn">
               <property name="text">
                <string>Mechanism</string>
               </property>
@@ -106,7 +106,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="rename_button">
+             <widget class="QPushButton" name="rename_btn">
               <property name="text">
                <string>Rename</string>
               </property>
@@ -120,7 +120,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="copy_button">
+             <widget class="QPushButton" name="copy_btn">
               <property name="text">
                <string>Copy</string>
               </property>
@@ -144,7 +144,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="delete_button">
+             <widget class="QPushButton" name="delete_btn">
               <property name="text">
                <string>Delete</string>
               </property>
@@ -182,7 +182,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="button_box">
+      <widget class="QDialogButtonBox" name="btn_box">
        <property name="standardButtons">
         <set>QDialogButtonBox::Close|QDialogButtonBox::Open</set>
        </property>
@@ -194,7 +194,7 @@
  </widget>
  <connections>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>rejected()</signal>
    <receiver>Dialog</receiver>
    <slot>reject()</slot>
@@ -210,7 +210,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>accepted()</signal>
    <receiver>Dialog</receiver>
    <slot>accept()</slot>

@@ -165,14 +165,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="start_button">
+      <widget class="QPushButton" name="start_btn">
        <property name="text">
         <string>Start</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="interrupt_button">
+      <widget class="QPushButton" name="interrupt_btn">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -182,7 +182,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="button_box">
+      <widget class="QDialogButtonBox" name="btn_box">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -200,7 +200,7 @@
  </widget>
  <connections>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>rejected()</signal>
    <receiver>Dialog</receiver>
    <slot>reject()</slot>

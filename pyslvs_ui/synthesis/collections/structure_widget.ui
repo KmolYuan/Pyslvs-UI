@@ -21,7 +21,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="add_by_files_button">
+      <widget class="QPushButton" name="add_by_files_btn">
        <property name="statusTip">
         <string>Add the chain by edge expression from text files.</string>
        </property>
@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="add_by_edges_button">
+      <widget class="QPushButton" name="add_by_edges_btn">
        <property name="statusTip">
         <string>Add the chain by edge expression.</string>
        </property>
@@ -91,7 +91,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="delete_button">
+      <widget class="QPushButton" name="delete_btn">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -105,7 +105,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="clear_button">
+      <widget class="QPushButton" name="clear_btn">
        <property name="statusTip">
         <string>Delete all of structures.</string>
        </property>
@@ -394,7 +394,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="duplicate_button">
+              <widget class="QPushButton" name="duplicate_btn">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -408,7 +408,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="configure_button">
+              <widget class="QPushButton" name="configure_btn">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -425,7 +425,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="merge_button">
+              <widget class="QPushButton" name="merge_btn">
                <property name="enabled">
                 <bool>false</bool>
                </property>

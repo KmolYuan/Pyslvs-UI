@@ -304,7 +304,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         """Set mouse position."""
         self.mouse_pos.setText(f"({x:.04f}, {y:.04f})")
 
-    @Slot(name='on_cc_plot_button_clicked')
+    @Slot(name='on_cc_plot_btn_clicked')
     def __cc_plot(self):
         """Plot cross correlation."""
         p = int(self.plot_joint.currentText().replace('P', ''))

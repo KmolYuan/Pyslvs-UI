@@ -58,14 +58,14 @@ class _ScaleDialog(QDialog):
         self.__add_option("Enlarge", self.enlarge)
         self.__add_option("Shrink", self.shrink)
 
-        button_box = QDialogButtonBox(self)
-        button_box.setStandardButtons(
+        btn_box = QDialogButtonBox(self)
+        btn_box.setStandardButtons(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
-        button_box.button(QDialogButtonBox.Ok).setEnabled(
+        btn_box.accepted.connect(self.accept)
+        btn_box.rejected.connect(self.reject)
+        btn_box.button(QDialogButtonBox.Ok).setEnabled(
             bool(parent.vpoint_list))
-        self.main_layout.addWidget(button_box)
+        self.main_layout.addWidget(btn_box)
 
     def __add_option(self, name: str, option: QDoubleSpinBox) -> None:
         """Add widgets for option."""
@@ -110,14 +110,14 @@ class _LinkLengthDialog(QDialog):
         self.leader.setCurrentIndex(0)
         self.length.setMaximum(100000)
 
-        button_box = QDialogButtonBox(self)
-        button_box.setStandardButtons(
+        btn_box = QDialogButtonBox(self)
+        btn_box.setStandardButtons(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
-        button_box.button(QDialogButtonBox.Ok).setEnabled(
+        btn_box.accepted.connect(self.accept)
+        btn_box.rejected.connect(self.reject)
+        btn_box.button(QDialogButtonBox.Ok).setEnabled(
             bool(parent.vpoint_list))
-        self.main_layout.addWidget(button_box)
+        self.main_layout.addWidget(btn_box)
 
     @Slot(str)
     def __set_follower(self, leader: str) -> None:
@@ -182,12 +182,12 @@ class _FourBarDialog(QDialog):
             layout.addWidget(QLabel(label, self))
             layout.addWidget(spinbox)
             self.main_layout.addLayout(layout)
-        button_box = QDialogButtonBox(self)
-        button_box.setStandardButtons(
+        btn_box = QDialogButtonBox(self)
+        btn_box.setStandardButtons(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
-        self.main_layout.addWidget(button_box)
+        btn_box.accepted.connect(self.accept)
+        btn_box.rejected.connect(self.reject)
+        self.main_layout.addWidget(btn_box)
 
 
 class EntitiesMethodInterface(MainWindowBase, ABC):

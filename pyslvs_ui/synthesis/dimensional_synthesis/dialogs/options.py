@@ -81,7 +81,7 @@ class AlgorithmOptionDialog(QDialog, Ui_Dialog):
         for i, tag in enumerate(self.dft):
             self.alg_table.cellWidget(i, 1).setValue(settings.get(tag, self.dft[tag]))
 
-    @Slot(name='on_reset_button_clicked')
+    @Slot(name='on_reset_btn_clicked')
     def __reset(self) -> None:
         """Reset the settings to default."""
         self.__set_args(default(self.opt))

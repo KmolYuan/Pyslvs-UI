@@ -313,7 +313,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
             elif solve_kernel == Kernel.SOLVESPACE:
                 result, _ = _slvs_solve(
                     self.vpoint_list,
-                    input_pair if not self.free_move_button.isChecked() else {}
+                    input_pair if not self.free_move_btn.isChecked() else {}
                 )
             elif solve_kernel == Kernel.SKETCH_SOLVE:
                 result = SolverSystem(self.vpoint_list, input_pair).solve()
@@ -382,7 +382,7 @@ class SolverMethodInterface(EntitiesMethodInterface, ABC):
                             result, _ = _slvs_solve(
                                 vpoints,
                                 {}
-                                if self.free_move_button.isChecked() else
+                                if self.free_move_btn.isChecked() else
                                 input_pair
                             )
                         elif solve_kernel == Kernel.SKETCH_SOLVE:

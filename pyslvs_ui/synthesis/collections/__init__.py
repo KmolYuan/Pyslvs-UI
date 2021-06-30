@@ -53,7 +53,7 @@ class Collections(QWidget):
             self.configure_widget.windowIcon(),
             "Configuration"
         )
-        self.structure_widget.configure_button.clicked.connect(
+        self.structure_widget.configure_btn.clicked.connect(
             lambda: self.tab_widget.setCurrentIndex(1)
         )
         self.structure_widget.layout_sender.connect(

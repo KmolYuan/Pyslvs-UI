@@ -80,7 +80,7 @@ class InputsWidget(QWidget, Ui_Form):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
         # parent's function pointer
-        self.free_move_button = parent.free_move_button
+        self.free_move_btn = parent.free_move_btn
         self.entities_point = parent.entities_point
         self.entities_link = parent.entities_link
         self.vpoints = parent.vpoint_list
@@ -265,7 +265,7 @@ class InputsWidget(QWidget, Ui_Form):
         enabled = row > -1
         is_rotatable = (
             enabled
-            and not self.free_move_button.isChecked()
+            and not self.free_move_btn.isChecked()
             and self.right_input()
         )
         self.dial.setEnabled(is_rotatable)
@@ -500,7 +500,7 @@ class InputsWidget(QWidget, Ui_Form):
             num += 1
         self.add_path(name_copy, copy(self.__paths[name]), {})
 
-    @Slot(name='on_cp_data_button_clicked')
+    @Slot(name='on_cp_data_btn_clicked')
     def __copy_path_data(self) -> None:
         """Copy current path data to clipboard."""
         data = self.__paths[self.__current_path_name()]
@@ -510,12 +510,12 @@ class InputsWidget(QWidget, Ui_Form):
             f"[{x}, {y}]," for x, y in data[self.plot_joint.currentIndex()]
         ))
 
-    @Slot(name='on_show_button_clicked')
+    @Slot(name='on_show_btn_clicked')
     def __show_path(self) -> None:
         """Show specified path."""
         self.main_canvas.set_path_show(self.plot_joint.currentIndex())
 
-    @Slot(name='on_show_all_button_clicked')
+    @Slot(name='on_show_all_btn_clicked')
     def __show_all_path(self) -> None:
         """Show all paths."""
         self.record_show.setChecked(True)
@@ -559,7 +559,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.variable_list.setCurrentItem(item)
 
-    @Slot(name='on_animate_button_clicked')
+    @Slot(name='on_animate_btn_clicked')
     def __animate(self) -> None:
         """Make a motion animation."""
         name = self.__current_path_name()
@@ -573,7 +573,7 @@ class InputsWidget(QWidget, Ui_Form):
         dlg.exec_()
         dlg.deleteLater()
 
-    @Slot(name='on_plot_button_clicked')
+    @Slot(name='on_plot_btn_clicked')
     def __plot(self) -> None:
         """Plot the data. Show the X and Y axes as two line."""
         joint = self.plot_joint.currentIndex()

@@ -76,9 +76,9 @@ class MainWindow(IOMethodInterface):
     @Slot(int, name='on_zoom_bar_valueChanged')
     def __set_zoom(self, value: int) -> None:
         """Reset the text when zoom bar changed."""
-        self.zoom_button.setText(f'{value}px')
+        self.zoom_btn.setText(f'{value}px')
 
-    @Slot(name='on_zoom_cus_button_clicked')
+    @Slot(name='on_zoom_cus_btn_clicked')
     def __customize_zoom(self) -> None:
         """Customize zoom value."""
         value, ok = QInputDialog.getInt(
@@ -93,7 +93,7 @@ class MainWindow(IOMethodInterface):
         if ok:
             self.zoom_bar.setValue(value)
 
-    @Slot(name='on_reset_canvas_button_clicked')
+    @Slot(name='on_reset_canvas_btn_clicked')
     def __reset_zoom(self) -> None:
         """Reset to default zoom."""
         self.main_canvas.zoom_to_fit()
@@ -143,22 +143,22 @@ class MainWindow(IOMethodInterface):
         if path:
             self.inputs_widget.add_path(f"Mechanism {i}", path, {})
 
-    @Slot(name='on_console_connect_button_clicked')
+    @Slot(name='on_console_connect_btn_clicked')
     def console_connect(self) -> None:
         """Turn the OS command line (stdout) log to console."""
         logger.info("Connect to GUI console.")
         XStream.stdout().message_written.connect(self.__append_to_console)
-        self.console_connect_button.setEnabled(False)
-        self.console_disconnect_button.setEnabled(True)
+        self.console_connect_btn.setEnabled(False)
+        self.console_disconnect_btn.setEnabled(True)
         logger.info("Connect to GUI console.")
 
-    @Slot(name='on_console_disconnect_button_clicked')
+    @Slot(name='on_console_disconnect_btn_clicked')
     def console_disconnect(self) -> None:
         """Turn the console log to OS command line (stdout)."""
         logger.info("Disconnect from GUI console.")
         XStream.back()
-        self.console_connect_button.setEnabled(True)
-        self.console_disconnect_button.setEnabled(False)
+        self.console_connect_btn.setEnabled(True)
+        self.console_disconnect_btn.setEnabled(False)
         logger.info("Disconnect from GUI console.")
 
     @Slot(str)

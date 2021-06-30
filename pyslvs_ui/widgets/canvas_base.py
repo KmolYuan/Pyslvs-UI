@@ -69,8 +69,8 @@ class _Selector:
         x_right = max(self.x, self.sx)
         x_left = min(self.x, self.sx)
         y_top = max(self.y, self.sy)
-        y_button = min(self.y, self.sy)
-        return x_left <= x <= x_right and y_button <= y <= y_top
+        y_btn = min(self.y, self.sy)
+        return x_left <= x <= x_right and y_btn <= y <= y_top
 
     def to_rect(self, zoom: float) -> QRectF:
         """Return limit as QRectF type."""

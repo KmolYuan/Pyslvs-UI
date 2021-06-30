@@ -139,7 +139,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="fitting_preview_button">
+          <widget class="QPushButton" name="fitting_preview_btn">
            <property name="text">
             <string>Preview</string>
            </property>
@@ -189,7 +189,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="fitting_button">
+          <widget class="QPushButton" name="fitting_btn">
            <property name="text">
             <string>Curve Fitting</string>
            </property>
@@ -330,7 +330,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="move_button">
+          <widget class="QPushButton" name="move_btn">
            <property name="text">
             <string>Move</string>
            </property>
@@ -429,7 +429,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="rotate_button">
+          <widget class="QPushButton" name="rotate_btn">
            <property name="text">
             <string>Rotate</string>
            </property>
@@ -610,7 +610,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="scale_button">
+          <widget class="QPushButton" name="scale_btn">
            <property name="text">
             <string>Scale</string>
            </property>
@@ -658,7 +658,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="button_box">
+      <widget class="QDialogButtonBox" name="btn_box">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -676,7 +676,7 @@
  </widget>
  <connections>
   <connection>
-   <sender>button_box</sender>
+   <sender>btn_box</sender>
    <signal>rejected()</signal>
    <receiver>Dialog</receiver>
    <slot>reject()</slot>

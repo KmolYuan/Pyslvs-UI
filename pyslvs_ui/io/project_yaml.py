@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import cast, Type
 from re import sub
 from numpy import float64
 from yaml import safe_load, safe_dump
@@ -16,7 +17,8 @@ from qtpy.QtWidgets import QMessageBox
 from .format_editor import FormatEditor, ProjectFormat
 
 # Add a patch for numpy numbers
-SafeRepresenter.add_representer(float64, SafeRepresenter.represent_float)
+SafeRepresenter.add_representer(cast(Type[float], float64),
+                                SafeRepresenter.represent_float)
 
 
 class YamlEditor(FormatEditor):

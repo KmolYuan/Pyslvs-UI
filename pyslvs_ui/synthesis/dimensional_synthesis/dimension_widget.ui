@@ -78,7 +78,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="delete_button">
+            <widget class="QPushButton" name="delete_btn">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -92,7 +92,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="merge_button">
+            <widget class="QPushButton" name="merge_btn">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -163,7 +163,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="clear_button">
+           <widget class="QPushButton" name="clear_btn">
             <property name="statusTip">
              <string>Clear the current profile and settings.</string>
             </property>
@@ -395,7 +395,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="edit_target_point_button">
+                 <widget class="QPushButton" name="edit_target_point_btn">
                   <property name="statusTip">
                    <string>User can edit target point immediately.</string>
                   </property>
@@ -418,7 +418,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QPushButton" name="save_path_button">
+               <widget class="QPushButton" name="save_path_btn">
                 <property name="statusTip">
                  <string>Save current path as csv file.</string>
                 </property>
@@ -435,7 +435,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="import_csv_button">
+               <widget class="QPushButton" name="import_csv_btn">
                 <property name="statusTip">
                  <string>Import path from CSV format.</string>
                 </property>
@@ -455,7 +455,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="import_xlsx_button">
+               <widget class="QPushButton" name="import_xlsx_btn">
                 <property name="statusTip">
                  <string>Import path from Microsoft Excel format.</string>
                 </property>
@@ -475,7 +475,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="append_path_button">
+               <widget class="QPushButton" name="append_path_btn">
                 <property name="statusTip">
                  <string>Append new points from text.</string>
                 </property>
@@ -499,7 +499,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="edit_path_button">
+               <widget class="QPushButton" name="edit_path_btn">
                 <property name="statusTip">
                  <string>Edit the target path.</string>
                 </property>
@@ -516,7 +516,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="norm_path_button">
+               <widget class="QPushButton" name="norm_path_btn">
                 <property name="statusTip">
                  <string>Apply normalization on current path.</string>
                 </property>
@@ -566,7 +566,7 @@
          <layout class="QVBoxLayout" name="algorithm_layout"/>
         </item>
         <item>
-         <widget class="QPushButton" name="advance_button">
+         <widget class="QPushButton" name="advance_btn">
           <property name="statusTip">
            <string>More algorithm settings.</string>
           </property>
@@ -629,7 +629,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="synthesis_button">
+    <widget class="QPushButton" name="synthesis_btn">
      <property name="enabled">
       <bool>false</bool>
      </property>

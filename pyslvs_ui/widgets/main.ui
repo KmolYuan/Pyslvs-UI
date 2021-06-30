@@ -450,7 +450,7 @@
                 <number>3</number>
                </property>
                <item>
-                <widget class="QPushButton" name="zoom_cus_button">
+                <widget class="QPushButton" name="zoom_cus_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -531,7 +531,7 @@
                 <number>3</number>
                </property>
                <item>
-                <widget class="QPushButton" name="zoom_button">
+                <widget class="QPushButton" name="zoom_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -557,7 +557,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="reset_canvas_button">
+                <widget class="QPushButton" name="reset_canvas_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -593,7 +593,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="grid_mode_button">
+                <widget class="QPushButton" name="grid_mode_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -622,7 +622,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="alignment_button">
+                <widget class="QToolButton" name="alignment_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -648,7 +648,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="free_move_button">
+                <widget class="QPushButton" name="free_move_btn">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -780,7 +780,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="console_disconnect_button">
+                <widget class="QPushButton" name="console_disconnect_btn">
                  <property name="statusTip">
                   <string>Disconnect from GUI console.</string>
                  </property>
@@ -791,7 +791,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="console_connect_button">
+                <widget class="QPushButton" name="console_connect_btn">
                  <property name="statusTip">
                   <string>Connect to GUI console.</string>
                  </property>
@@ -1382,7 +1382,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>zoom_button</sender>
+   <sender>zoom_btn</sender>
    <signal>toggled(bool)</signal>
    <receiver>zoom_widget</receiver>
    <slot>setVisible(bool)</slot>

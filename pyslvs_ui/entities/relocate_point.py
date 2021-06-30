@@ -99,8 +99,8 @@ class RelocateDialog(QDialog, SubUiDialog):
         self.preview_label.setText(f"({c.x}, {c.y})")
         self.__x = c.x
         self.__y = c.y
-        ok_button = self.button_box.button(QDialogButtonBox.Ok)
-        ok_button.setEnabled(not (isnan(c.x) or isnan(c.y)))
+        ok_btn = self.btn_box.button(QDialogButtonBox.Ok)
+        ok_btn.setEnabled(not (isnan(c.x) or isnan(c.y)))
 
     def get_x(self) -> float:
         """Get final x position."""
