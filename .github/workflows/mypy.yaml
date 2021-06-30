@@ -14,5 +14,4 @@ jobs:
           python -m pip install pip mypy -U
           pip install -e . -U
       - name: Lint with mypy
-        run: |
-          mypy pyslvs_ui --install-types --non-interactive
+        run: mypy pyslvs_ui --install-types --non-interactive
