@@ -8,8 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Union
-from qtpy.QtCore import QSize
-from qtpy.QtGui import QColor, QIcon, QPixmap
+from pyslvs_ui.qt.QtCore import QSize
+from pyslvs_ui.qt.QtGui import QColor, QIcon, QPixmap
 from pyslvs import color_names, color_rgb
 
 _Color = Union[str, Tuple[int, int, int], None]

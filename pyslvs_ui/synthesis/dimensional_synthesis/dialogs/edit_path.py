@@ -12,8 +12,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import TYPE_CHECKING
 from math import cos, sin, atan2, radians, hypot
 from numpy import ndarray, array, linspace, concatenate, full_like
-from qtpy.QtCore import Slot, Qt
-from qtpy.QtWidgets import QDialog
+from pyslvs_ui.qt.QtCore import Slot, Qt
+from pyslvs_ui.qt.QtWidgets import QDialog
 from pyslvs import efd_fitting
 from pyslvs_ui.graphics import DataChartDialog
 from pyslvs_ui.info import HAS_SCIPY

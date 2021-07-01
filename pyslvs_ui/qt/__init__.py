@@ -14,10 +14,10 @@ __email__ = "pyslvs@gmail.com"
 from abc import ABCMeta
 from os.path import join, dirname, abspath
 from importlib.metadata import version
-from qtpy import API_NAME
-from qtpy.QtCore import QObject, QDir
+from .backend import BACKEND
+from .QtCore import QObject, QDir
 
-API = f"{API_NAME} {version(API_NAME)}"
+API = f"{BACKEND} {version(BACKEND)}"
 qt_image_suffix = []
 qt_image_format = []
 for suffix, name in (
@@ -36,7 +36,7 @@ for suffix, name in (
 qt_image_suffix = tuple(qt_image_suffix)
 qt_image_format = tuple(qt_image_format)
 del suffix, name
-QDir.addSearchPath("icons", join(abspath(dirname(__file__)), "icons"))
+QDir.addSearchPath("icons", abspath(join(dirname(__file__), "..", "icons")))
 
 
 class QABCMeta(type(QObject), ABCMeta):  # type: ignore

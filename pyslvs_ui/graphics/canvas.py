@@ -16,15 +16,15 @@ from dataclasses import dataclass, field
 from enum import auto, unique, IntEnum
 from math import radians, sin, cos, atan2, hypot, isnan
 from functools import reduce
-from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF, Signal
-from qtpy.QtWidgets import QWidget, QSizePolicy
-from qtpy.QtGui import (
+from pyslvs_ui.qt.QtCore import Slot, Qt, QPointF, QRectF, QSizeF, Signal
+from pyslvs_ui.qt.QtWidgets import QWidget, QSizePolicy
+from pyslvs_ui.qt.QtGui import (
     QPolygonF, QPainter, QBrush, QPen, QColor, QFont,
     QPainterPath, QImage, QPaintEvent, QMouseEvent,
 )
 from pyslvs import VPoint, edges_view, parse_pos
 from pyslvs.graph import Graph
-from pyslvs_ui.qt_patch import QABCMeta
+from pyslvs_ui.qt import QABCMeta
 from .color import color_num, color_qt, target_path_style
 
 _T = TypeVar('_T')

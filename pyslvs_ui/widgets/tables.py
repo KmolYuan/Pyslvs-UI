@@ -18,8 +18,8 @@ from typing import (
     TYPE_CHECKING, Tuple, List, Iterator, Sequence, Union, Optional,
     TypeVar, Generic,
 )
-from qtpy.QtCore import Signal, Qt, QTimer, Slot
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtCore import Signal, Qt, QTimer, Slot
+from pyslvs_ui.qt.QtWidgets import (
     QTableWidget,
     QSizePolicy,
     QAbstractItemView,
@@ -30,9 +30,9 @@ from qtpy.QtWidgets import (
     QLabel,
     QWidget,
 )
-from qtpy.QtGui import QKeyEvent
+from pyslvs_ui.qt.QtGui import QKeyEvent
 from pyslvs import EStack, VPoint, VLink, PointArgs, LinkArgs
-from pyslvs_ui.qt_patch import QABCMeta
+from pyslvs_ui.qt import QABCMeta
 from pyslvs_ui.graphics import color_icon
 
 if TYPE_CHECKING:

@@ -13,15 +13,15 @@ from typing import (
 from abc import ABC
 from dataclasses import Field, fields
 from lark.exceptions import LarkError
-from qtpy.QtCore import Slot, QUrl, QFile, QFileInfo, QMimeData
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtCore import Slot, QUrl, QFile, QFileInfo, QMimeData
+from pyslvs_ui.qt.QtWidgets import (
     QApplication,
     QMessageBox,
     QInputDialog,
     QFileDialog,
     QProgressDialog,
 )
-from qtpy.QtGui import (
+from pyslvs_ui.qt.QtGui import (
     QDesktopServices,
     QPixmap,
     QIcon,
@@ -30,7 +30,7 @@ from qtpy.QtGui import (
 )
 from pyslvs import parse_params, VLink
 from pyslvs_ui import __version__
-from pyslvs_ui.qt_patch import qt_image_format, qt_image_suffix
+from pyslvs_ui.qt import qt_image_format, qt_image_suffix
 from pyslvs_ui.info import (
     ARGUMENTS,
     logger,

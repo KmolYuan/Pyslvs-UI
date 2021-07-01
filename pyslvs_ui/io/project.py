@@ -12,18 +12,18 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, Mapping, Union
 from os.path import join
-from qtpy.QtCore import Slot, QFileInfo, QDateTime
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtCore import Slot, QFileInfo, QDateTime
+from pyslvs_ui.qt.QtWidgets import (
     QUndoView,
     QVBoxLayout,
     QWidget,
     QInputDialog,
     QMessageBox,
 )
-from qtpy.QtGui import QPixmap, QIcon
+from pyslvs_ui.qt.QtGui import QPixmap, QIcon
 from pyslvs import example_list, all_examples
 from pyslvs_ui.info import logger, size_format
-from pyslvs_ui.qt_patch import qt_image_format
+from pyslvs_ui.qt import qt_image_format
 from .project_yaml import YamlEditor
 from .project_pickle import PickleEditor
 from .project_ui import Ui_Form

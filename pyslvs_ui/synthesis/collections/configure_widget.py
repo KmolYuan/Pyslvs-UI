@@ -15,8 +15,8 @@ from typing import (
 )
 from math import hypot
 import pprint
-from qtpy.QtCore import Signal, Slot
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtCore import Signal, Slot
+from pyslvs_ui.qt.QtWidgets import (
     QWidget,
     QMessageBox,
     QInputDialog,
@@ -24,7 +24,7 @@ from qtpy.QtWidgets import (
     QLabel,
     QApplication,
 )
-from qtpy.QtGui import QMouseEvent
+from pyslvs_ui.qt.QtGui import QMouseEvent
 from pyslvs import edges_view, graph2vpoints, parse_pos
 from pyslvs.graph import Graph
 from pyslvs_ui.graphics import PreviewCanvas

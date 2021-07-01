@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from qtpy.QtCore import Qt, Signal, Slot, QSize
-from qtpy.QtWidgets import QWidget, QDial, QGraphicsView, QGraphicsScene
+from pyslvs_ui.qt.QtCore import Qt, Signal, Slot, QSize
+from pyslvs_ui.qt.QtWidgets import QWidget, QDial, QGraphicsView, QGraphicsScene
 
 
 class QRotatableView(QGraphicsView):

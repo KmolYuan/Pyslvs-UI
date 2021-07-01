@@ -14,7 +14,7 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Sequence, Dict, Optional
 from time import process_time
-from qtpy.QtCore import (
+from pyslvs_ui.qt.QtCore import (
     Slot,
     Qt,
     QSize,
@@ -22,7 +22,7 @@ from qtpy.QtCore import (
     QPoint,
     QPointF,
 )
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtWidgets import (
     QWidget,
     QMenu,
     QAction,
@@ -35,9 +35,9 @@ from qtpy.QtWidgets import (
     QTreeWidgetItem,
     QHeaderView,
 )
-from qtpy.QtGui import QIcon, QPixmap, QImage, QPainter
+from pyslvs_ui.qt.QtGui import QIcon, QPixmap, QImage, QPainter
 from pyslvs.graph import Graph, link_assortment, contracted_link_assortment
-from pyslvs_ui.qt_patch import qt_image_format
+from pyslvs_ui.qt import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engines
 from .thread import assortment_eval, LinkThread, GraphThread
 from .structure_widget_ui import Ui_Form

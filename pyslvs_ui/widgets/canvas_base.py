@@ -14,9 +14,9 @@ from abc import ABC, abstractmethod
 from enum import IntEnum, auto, unique
 from dataclasses import dataclass, field
 from math import degrees, sin, cos, atan2, hypot
-from qtpy.QtCore import Signal, Slot, Qt, QRectF, QPoint, QPointF, QLineF
-from qtpy.QtWidgets import QApplication
-from qtpy.QtGui import QPolygonF, QFont, QPen, QColor, QPaintEvent, QMouseEvent
+from pyslvs_ui.qt.QtCore import Signal, Slot, Qt, QRectF, QPoint, QPointF, QLineF
+from pyslvs_ui.qt.QtWidgets import QApplication
+from pyslvs_ui.qt.QtGui import QPolygonF, QFont, QPen, QColor, QPaintEvent, QMouseEvent
 from pyslvs import VJoint, VPoint, VLink
 from pyslvs_ui.graphics import (
     convex_hull, BaseCanvas, color_qt, LINK_COLOR, RangeDetector,

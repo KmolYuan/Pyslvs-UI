@@ -8,8 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List, Dict, Any
-from qtpy.QtCore import Qt, QTimer, Signal, Slot
-from qtpy.QtWidgets import QDialog
+from pyslvs_ui.qt.QtCore import Qt, QTimer, Signal, Slot
+from pyslvs_ui.qt.QtWidgets import QDialog
 from pyslvs.metaheuristics import AlgorithmType
 from pyslvs_ui.info import logger
 from .progress_ui import Ui_Dialog

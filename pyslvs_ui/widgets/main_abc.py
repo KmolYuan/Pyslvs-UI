@@ -11,11 +11,11 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, List, Sequence, Dict, Mapping, Optional, Any
 from abc import abstractmethod
-from qtpy.QtCore import Qt, QPoint
-from qtpy.QtWidgets import QMainWindow
+from pyslvs_ui.qt.QtCore import Qt, QPoint
+from pyslvs_ui.qt.QtWidgets import QMainWindow
 from pyslvs import VPoint
 from pyslvs.graph import Graph
-from pyslvs_ui.qt_patch import QABCMeta
+from pyslvs_ui.qt import QABCMeta
 from .main_ui import Ui_MainWindow
 
 _Coord = Tuple[float, float]

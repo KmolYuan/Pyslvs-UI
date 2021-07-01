@@ -10,12 +10,14 @@ __email__ = "pyslvs@gmail.com"
 from os import walk
 from os.path import join
 from re import sub
-from qtpy import PYQT5
 
-if PYQT5:
+try:
     from PyQt5.uic import compileUi
-else:
-    raise ModuleNotFoundError("no compiler found")
+except ImportError:
+    try:
+        from PyQt6.uic import compileUi
+    except ImportError:
+        raise ModuleNotFoundError("no compiler found")
 
 
 def gen_ui():
@@ -36,8 +38,8 @@ def gen_ui():
                 f.seek(0)
                 script_new = sub(r"from [\w.]+ import [\w]+_rc\n", "",
                                  f.read()
-                                 .replace("from PyQt5", "from qtpy")
-                                 .replace("from PySide2", "from qtpy")
+                                 .replace("from PyQt5", "from pyslvs_ui.qt")
+                                 .replace("from PyQt6", "from pyslvs_ui.qt")
                                  .replace(root + "/", ""))
                 f.seek(0)
                 f.truncate()

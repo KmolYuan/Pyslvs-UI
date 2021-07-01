@@ -9,8 +9,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Sequence, Mapping, Any
 from numpy import array
-from qtpy.QtCore import Qt, QSize
-from qtpy.QtWidgets import QDialog, QVBoxLayout, QTabWidget, QWidget
+from pyslvs_ui.qt.QtCore import Qt, QSize
+from pyslvs_ui.qt.QtWidgets import QDialog, QVBoxLayout, QTabWidget, QWidget
 from pyslvs_ui.graphics import DataChart
 
 

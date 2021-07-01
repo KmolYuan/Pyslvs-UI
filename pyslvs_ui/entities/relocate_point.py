@@ -11,8 +11,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING
 from math import isnan, radians
-from qtpy.QtCore import Slot
-from qtpy.QtWidgets import QDialog, QDialogButtonBox
+from pyslvs_ui.qt.QtCore import Slot
+from pyslvs_ui.qt.QtWidgets import QDialog, QDialogButtonBox
 from pyslvs import plap, pllp, Coord
 from pyslvs_ui.widgets import QRotatableView
 from .relocate_point_ui import Ui_Dialog as SubUiDialog

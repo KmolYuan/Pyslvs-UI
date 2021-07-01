@@ -18,8 +18,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Tuple, Sequence, Dict, Any
-from qtpy.QtWidgets import QWidget, QVBoxLayout, QTabWidget
-from qtpy.QtGui import QIcon, QPixmap
+from pyslvs_ui.qt.QtWidgets import QWidget, QVBoxLayout, QTabWidget
+from pyslvs_ui.qt.QtGui import QIcon, QPixmap
 from .structure_widget import StructureWidget
 from .configure_widget import ConfigureWidget
 from .dialogs import CollectionsDialog

@@ -9,8 +9,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Sequence, Dict, Mapping, Optional
 from abc import ABC
-from qtpy.QtCore import Slot
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtCore import Slot
+from pyslvs_ui.qt.QtWidgets import (
     QApplication,
     QListWidgetItem,
     QInputDialog,

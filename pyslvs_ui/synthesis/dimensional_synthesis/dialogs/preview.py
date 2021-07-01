@@ -11,9 +11,9 @@ from math import isnan
 from itertools import chain
 from typing import Tuple, List, Dict, Sequence, Any
 from numpy import linspace, concatenate
-from qtpy.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
-from qtpy.QtWidgets import QDialog, QWidget
-from qtpy.QtGui import QPen, QFont, QPaintEvent
+from pyslvs_ui.qt.QtCore import Slot, Qt, QTimer, QPointF, QRectF, QSizeF
+from pyslvs_ui.qt.QtWidgets import QDialog, QWidget
+from pyslvs_ui.qt.QtGui import QPen, QFont, QPaintEvent
 from pyslvs import (
     color_rgb, get_vlinks, VPoint, VLink, parse_vpoints, efd_fitting,
 )

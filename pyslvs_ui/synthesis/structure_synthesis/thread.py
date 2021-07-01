@@ -8,8 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Sequence, Dict, List
-from qtpy.QtCore import Signal
-from qtpy.QtWidgets import QWidget, QTreeWidgetItem
+from pyslvs_ui.qt.QtCore import Signal
+from pyslvs_ui.qt.QtWidgets import QWidget, QTreeWidgetItem
 from pyslvs.graph import (
     link_synthesis,
     contracted_link_synthesis,

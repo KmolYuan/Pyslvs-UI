@@ -20,7 +20,7 @@ from platform import system, release, machine, python_compiler
 from argparse import ArgumentParser
 from dataclasses import dataclass
 from pyslvs_ui import __version__
-from pyslvs_ui.qt_patch import API
+from pyslvs_ui.qt import API
 
 
 def has_module(name: str) -> bool:

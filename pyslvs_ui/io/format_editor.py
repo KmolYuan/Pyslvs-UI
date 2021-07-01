@@ -9,10 +9,10 @@ from enum import unique, auto, IntEnum
 from typing import (
     TYPE_CHECKING, Tuple, List, Sequence, Dict, Mapping, Union, Any,
 )
-from qtpy.QtCore import QObject, QFileInfo
-from qtpy.QtWidgets import QProgressDialog, QMessageBox
+from pyslvs_ui.qt.QtCore import QObject, QFileInfo
+from pyslvs_ui.qt.QtWidgets import QProgressDialog, QMessageBox
 from pyslvs_ui import __version__
-from pyslvs_ui.qt_patch import QABCMeta
+from pyslvs_ui.qt import QABCMeta
 from pyslvs_ui.info import logger
 from .overview import OverviewDialog
 

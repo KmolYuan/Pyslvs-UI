@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from pickle import load, dump, UnpicklingError, HIGHEST_PROTOCOL
-from qtpy.QtWidgets import QMessageBox
+from pyslvs_ui.qt.QtWidgets import QMessageBox
 from .format_editor import FormatEditor
 
 

@@ -16,7 +16,7 @@ from os.path import join, expanduser
 from platform import system
 from logging import (DEBUG, INFO, ERROR, basicConfig, getLogger, Handler,
                      StreamHandler, LogRecord)
-from qtpy.QtCore import QObject, Signal
+from pyslvs_ui.qt.QtCore import QObject, Signal
 from .info import ARGUMENTS, SYS_INFO
 
 logger = getLogger('matplotlib')

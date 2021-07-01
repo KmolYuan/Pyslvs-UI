@@ -15,8 +15,8 @@ from abc import abstractmethod, ABC
 from collections import Counter
 from math import sin, cos, radians, isnan
 from numpy import array
-from qtpy.QtCore import Slot
-from qtpy.QtWidgets import (
+from pyslvs_ui.qt.QtCore import Slot
+from pyslvs_ui.qt.QtWidgets import (
     QDialogButtonBox,
     QDialog,
     QDoubleSpinBox,
