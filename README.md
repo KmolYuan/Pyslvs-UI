@@ -40,7 +40,7 @@ A GUI-based ([PyQt5]) tool used to design 2D linkage mechanism.
 
 If you have any question, please post on GitHub issue or contact <pyslvs@gmail.com>.
 
-[PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
+[PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download
 [Solvespace]: http://solvespace.com
 [Pyslvs]: https://github.com/KmolYuan/pyslvs
 [Sketch Solve]: https://code.google.com/archive/p/sketchsolve/
