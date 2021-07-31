@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, Tuple, List, Sequence, Set, Optional
 from qrcode import make
 from qrcode.image.base import BaseImage
 from numpy import full, ndarray, uint8
-from pyslvs_ui.qt.QtCore import Slot, Qt
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import (
     QApplication,
     QDialog,
     QDialogButtonBox,
@@ -25,7 +25,7 @@ from pyslvs_ui.qt.QtWidgets import (
     QLineEdit,
     QSizePolicy,
 )
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap, QImage, QWheelEvent, QFont
+from qtpy.QtGui import QIcon, QPixmap, QImage, QWheelEvent, QFont
 from .script_ui import Ui_Dialog
 
 if TYPE_CHECKING:

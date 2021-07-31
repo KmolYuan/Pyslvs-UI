@@ -24,8 +24,8 @@ from typing import (
     Generic, Optional, TypeVar,
 )
 from abc import abstractmethod
-from pyslvs_ui.qt.QtCore import Qt
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import (
     QUndoCommand,
     QTableWidgetItem,
     QListWidget,
@@ -33,9 +33,9 @@ from pyslvs_ui.qt.QtWidgets import (
     QLineEdit,
     QWidget,
 )
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap
+from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint, VPoint, VLink, color_rgb, PointArgs, LinkArgs
-from pyslvs_ui.qt import QABCMeta
+from pyslvs_ui.qt_patch import QABCMeta
 from .tables import BaseTableWidget, PointTableWidget, LinkTableWidget
 
 _Coord = Tuple[float, float]

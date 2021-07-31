@@ -4,12 +4,12 @@
 
 from typing import Sequence, Tuple, Mapping
 from math import cos, sin, atan2, hypot, degrees
-from pyslvs_ui.qt.QtCore import Qt, Slot, QTimer
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Qt, Slot, QTimer
+from qtpy.QtWidgets import (
     QWidget, QDialog, QVBoxLayout, QHBoxLayout, QSlider, QPushButton, QLabel,
     QSpacerItem, QSizePolicy, QDoubleSpinBox, QComboBox,
 )
-from pyslvs_ui.qt.QtGui import QPaintEvent, QPen, QPixmap, QIcon
+from qtpy.QtGui import QPaintEvent, QPen, QPixmap, QIcon
 from numpy import array, ndarray, isclose, isnan
 from pyslvs import VPoint, VLink, VJoint
 from pyslvs.optimization import derivative

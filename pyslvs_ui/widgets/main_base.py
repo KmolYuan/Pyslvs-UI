@@ -20,8 +20,8 @@ from typing import (
 from abc import abstractmethod, ABC
 from enum import Flag, auto, unique
 from dataclasses import dataclass, field, fields, Field, astuple
-from pyslvs_ui.qt.QtCore import Slot, Qt, QPoint, QDir, QSettings
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Slot, Qt, QPoint, QDir, QSettings
+from qtpy.QtWidgets import (
     QAction,
     QWidget,
     QMenu,
@@ -29,7 +29,7 @@ from pyslvs_ui.qt.QtWidgets import (
     QPushButton,
     QUndoStack,
 )
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap
+from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink, color_rgb
 from pyslvs_ui.info import ARGUMENTS, logger, Kernel
 from pyslvs_ui.io import ProjectWidget, ProjectFormat

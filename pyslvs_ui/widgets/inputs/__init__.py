@@ -18,12 +18,12 @@ from csv import writer
 from copy import copy
 from numpy import array, ndarray, hypot, arctan2, vstack, hstack
 from numpy.fft import fft
-from pyslvs_ui.qt.QtCore import Signal, Slot, QTimer
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Signal, Slot, QTimer
+from qtpy.QtWidgets import (
     QWidget, QMessageBox, QInputDialog, QListWidgetItem, QApplication,
     QCheckBox,
 )
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap
+from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VJoint
 from pyslvs.optimization import (
     curvature, derivative, path_signature, norm_path, norm_pca,

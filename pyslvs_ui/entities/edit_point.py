@@ -8,9 +8,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List, Union
-from pyslvs_ui.qt.QtCore import Slot, Qt
-from pyslvs_ui.qt.QtWidgets import QDialog, QListWidgetItem, QColorDialog, QWidget
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import QDialog, QListWidgetItem, QColorDialog, QWidget
+from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink, color_names
 from pyslvs_ui.graphics import color_qt, color_icon
 from .utility import set_custom_color, add_custom_color

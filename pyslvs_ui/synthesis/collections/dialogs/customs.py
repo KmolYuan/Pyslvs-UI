@@ -10,8 +10,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING
-from pyslvs_ui.qt.QtCore import Slot, Qt
-from pyslvs_ui.qt.QtWidgets import QDialog
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import QDialog
 from .customs_ui import Ui_Dialog
 
 if TYPE_CHECKING:

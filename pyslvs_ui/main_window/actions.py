@@ -9,8 +9,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import cast, Sequence, Callable, Union
 from abc import ABC
-from pyslvs_ui.qt.QtCore import Slot, QPoint
-from pyslvs_ui.qt.QtWidgets import QAction, QApplication, QTableWidget
+from qtpy.QtCore import Slot, QPoint
+from qtpy.QtWidgets import QAction, QApplication, QTableWidget
 from pyslvs import VLink
 from pyslvs_ui.graphics import BaseCanvas
 from pyslvs_ui.widgets import EditPointTable, EditLinkTable, Preferences

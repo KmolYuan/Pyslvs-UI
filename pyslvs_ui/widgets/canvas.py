@@ -13,9 +13,9 @@ from collections import deque
 from typing import (
     cast, TYPE_CHECKING, List, Tuple, Sequence, Union, Mapping,
 )
-from pyslvs_ui.qt.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
-from pyslvs_ui.qt.QtWidgets import QApplication, QToolTip, QWidget
-from pyslvs_ui.qt.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
+from qtpy.QtCore import Slot, Qt, QRectF, QPoint, QPointF, QSizeF
+from qtpy.QtWidgets import QApplication, QToolTip, QWidget
+from qtpy.QtGui import QRegion, QCursor, QWheelEvent, QPixmap, QImage
 from pyslvs import VJoint
 from .canvas_base import MainCanvasBase, FreeMode, SelectMode, ZoomBy
 

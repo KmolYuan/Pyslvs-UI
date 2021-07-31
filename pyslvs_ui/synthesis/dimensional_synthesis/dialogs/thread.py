@@ -10,8 +10,8 @@ __email__ = "pyslvs@gmail.com"
 from typing import cast, Dict, Any
 from time import process_time
 from platform import system, release, machine, processor
-from pyslvs_ui.qt.QtCore import Signal
-from pyslvs_ui.qt.QtWidgets import QWidget
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QWidget
 from pyslvs.optimization import FPlanar, FConfig
 from pyslvs.metaheuristics import algorithm, AlgorithmType, Setting
 from pyslvs_ui.info import logger

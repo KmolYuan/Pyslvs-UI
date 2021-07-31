@@ -11,7 +11,7 @@ from typing import cast, Tuple, List, Sequence, Set, Dict, Union, Optional, Any
 from math import radians, cos, sin
 from abc import ABC, abstractmethod
 from traceback import format_exc
-from pyslvs_ui.qt.QtCore import Slot
+from qtpy.QtCore import Slot
 from pyslvs import (
     edges_view,
     graph2vpoints,

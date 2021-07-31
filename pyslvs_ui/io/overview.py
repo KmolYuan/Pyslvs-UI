@@ -8,9 +8,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence, Mapping, Any
-from pyslvs_ui.qt.QtCore import Qt
-from pyslvs_ui.qt.QtWidgets import QWidget, QDialog, QListWidgetItem
-from pyslvs_ui.qt.QtGui import QPixmap
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QWidget, QDialog, QListWidgetItem
+from qtpy.QtGui import QPixmap
 from .overview_ui import Ui_Dialog
 
 _Paths = Sequence[Sequence[Tuple[float, float]]]

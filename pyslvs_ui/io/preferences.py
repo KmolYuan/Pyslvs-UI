@@ -9,8 +9,8 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import Optional
 from dataclasses import fields, Field
-from pyslvs_ui.qt.QtCore import Slot
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Slot
+from qtpy.QtWidgets import (
     QDialog,
     QLineEdit,
     QSpinBox,
@@ -20,7 +20,7 @@ from pyslvs_ui.qt.QtWidgets import (
     QDialogButtonBox,
     QMessageBox,
 )
-from pyslvs_ui.qt.QtGui import QCloseEvent
+from qtpy.QtGui import QCloseEvent
 from pyslvs_ui.info import KERNELS, Kernel
 from pyslvs_ui.widgets import Preferences, MainWindowBase
 from .format_editor import ProjectFormat

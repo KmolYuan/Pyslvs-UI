@@ -20,9 +20,9 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence
-from pyslvs_ui.qt.QtCore import Slot
-from pyslvs_ui.qt.QtWidgets import QMessageBox, QInputDialog
-from pyslvs_ui.qt.QtGui import QTextCursor, QCloseEvent
+from qtpy.QtCore import Slot
+from qtpy.QtWidgets import QMessageBox, QInputDialog
+from qtpy.QtGui import QTextCursor, QCloseEvent
 from pyslvs_ui.info import XStream, logger
 from .io import IOMethodInterface
 

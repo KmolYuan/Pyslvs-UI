@@ -7,8 +7,8 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from pyslvs_ui.qt.QtWidgets import QComboBox
-from pyslvs_ui.qt.QtGui import QColor
+from qtpy.QtWidgets import QComboBox
+from qtpy.QtGui import QColor
 from pyslvs_ui.graphics import color_icon
 
 

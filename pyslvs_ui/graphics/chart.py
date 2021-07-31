@@ -11,8 +11,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Sequence, List
-from pyslvs_ui.qt.QtCore import Qt
-from pyslvs_ui.qt.QtWidgets import QWidget, QVBoxLayout, QDialog
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QWidget, QVBoxLayout, QDialog
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import (

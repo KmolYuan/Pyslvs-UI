@@ -8,8 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Mapping, Tuple, Optional
-from pyslvs_ui.qt.QtCore import Qt, QSize, QPointF
-from pyslvs_ui.qt.QtGui import QImage, QPainter, QBrush, QPen, QIcon, QPixmap, QFont
+from qtpy.QtCore import Qt, QSize, QPointF
+from qtpy.QtGui import QImage, QPainter, QBrush, QPen, QIcon, QPixmap, QFont
 from pyslvs import edges_view
 from pyslvs.graph import Graph, external_loop_layout
 from pyslvs_ui.info import logger

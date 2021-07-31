@@ -13,7 +13,7 @@ from numpy import float64
 from yaml import safe_load, safe_dump
 from yaml.error import YAMLError
 from yaml.representer import SafeRepresenter
-from pyslvs_ui.qt.QtWidgets import QMessageBox
+from qtpy.QtWidgets import QMessageBox
 from .format_editor import FormatEditor, ProjectFormat
 
 # Add a patch for numpy numbers

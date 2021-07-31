@@ -10,8 +10,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List, Iterable, Iterator
-from pyslvs_ui.qt.QtCore import Slot, Qt
-from pyslvs_ui.qt.QtWidgets import QWidget, QDialog, QListWidget, QListWidgetItem
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import QWidget, QDialog, QListWidget, QListWidgetItem
 from .targets_ui import Ui_Dialog
 
 

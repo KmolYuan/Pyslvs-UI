@@ -8,8 +8,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import cast, Mapping, Union
-from pyslvs_ui.qt.QtCore import Slot, Qt
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Slot, Qt
+from qtpy.QtWidgets import (
     QDialog,
     QTableWidgetItem,
     QDoubleSpinBox,

@@ -24,9 +24,9 @@ from openpyxl import load_workbook
 from pyslvs import expr_solving, parse_pos, parse_vpoints, t_config
 from pyslvs.optimization import norm_path
 from pyslvs.metaheuristics import AlgorithmType, default
-from pyslvs_ui.qt.QtCore import QModelIndex, Slot
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import QModelIndex, Slot
+from qtpy.QtGui import QIcon, QPixmap
+from qtpy.QtWidgets import (
     QApplication,
     QDoubleSpinBox,
     QHeaderView,

@@ -22,9 +22,9 @@ def main() -> None:
     from platform import system
     from pyslvs_ui.info import ARGUMENTS, logger
     if ARGUMENTS.cmd in {'gui', None}:
-        from pyslvs_ui.qt.QtCore import Qt, qInstallMessageHandler
-        from pyslvs_ui.qt.QtWidgets import QApplication, QSplashScreen
-        from pyslvs_ui.qt.QtGui import QPixmap
+        from qtpy.QtCore import Qt, qInstallMessageHandler
+        from qtpy.QtWidgets import QApplication, QSplashScreen
+        from qtpy.QtGui import QPixmap
         _app = QApplication(argv)
         # Depress Qt warning
         qInstallMessageHandler(lambda _0, _1, _2: None)

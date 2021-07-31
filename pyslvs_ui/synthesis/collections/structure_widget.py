@@ -10,8 +10,8 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import TYPE_CHECKING, List, Tuple, Sequence, Dict, Iterable
-from pyslvs_ui.qt.QtCore import Signal, Slot, Qt, QSize, QPointF, QCoreApplication
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Signal, Slot, Qt, QSize, QPointF, QCoreApplication
+from qtpy.QtWidgets import (
     QMessageBox,
     QProgressDialog,
     QListWidgetItem,
@@ -19,7 +19,7 @@ from pyslvs_ui.qt.QtWidgets import (
     QWidget,
     QApplication,
 )
-from pyslvs_ui.qt.QtGui import QImage, QPainter, QPixmap
+from qtpy.QtGui import QImage, QPainter, QPixmap
 from pyslvs.graph import (
     Graph,
     link_assortment,
@@ -28,7 +28,7 @@ from pyslvs.graph import (
     is_planar,
     external_loop_layout,
 )
-from pyslvs_ui.qt import qt_image_format
+from pyslvs_ui.qt_patch import qt_image_format
 from pyslvs_ui.graphics import graph2icon, engine_picker, engines
 from .dialogs.targets import TargetsDialog
 from .structure_widget_ui import Ui_Form

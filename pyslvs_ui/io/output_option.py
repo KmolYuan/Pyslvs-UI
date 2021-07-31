@@ -12,8 +12,8 @@ from typing import Tuple, Callable, Sequence, Iterable, Set, Dict
 from os.path import isdir, isfile
 from shutil import which
 from subprocess import Popen, DEVNULL
-from pyslvs_ui.qt.QtCore import Slot, Qt, QDir
-from pyslvs_ui.qt.QtWidgets import (
+from qtpy.QtCore import Slot, Qt, QDir
+from qtpy.QtWidgets import (
     QDialog,
     QMessageBox,
     QFileDialog,
@@ -27,9 +27,9 @@ from pyslvs_ui.qt.QtWidgets import (
     QSizePolicy,
     QSpacerItem,
 )
-from pyslvs_ui.qt.QtGui import QIcon, QPixmap
+from qtpy.QtGui import QIcon, QPixmap
 from pyslvs import VPoint, VLink
-from pyslvs_ui.qt import QABCMeta
+from pyslvs_ui.qt_patch import QABCMeta
 from .slvs import slvs2_frame, slvs2_part
 from .dxf import DXF_VERSIONS, DXF_VERSIONS_MAP, dxf_frame, dxf_boundary
 from .output_option_ui import Ui_Dialog
