@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 21.08
+
++ Periodic update.
+
+## Version 21.07
+
++ Periodic update.
+
 ## Version 21.06
 
 **Features**:
@@ -14,13 +22,7 @@
 
 ## Version 21.05
 
-**Features**:
-
-+ None.
-
-**Development**:
-
-+ None.
++ Periodic update.
 
 ## Version 21.04
 
