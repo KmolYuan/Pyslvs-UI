@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 21.09
+
+**Features**:
+
++ Bug fixed at the import function of the dimensional synthesis.
+
+**Development**:
+
++ None.
+
 ## Version 21.08
 
 + Periodic update.
