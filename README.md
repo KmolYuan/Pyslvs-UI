@@ -105,4 +105,4 @@ mkdocs serve
 
 # Cite
 
-Please see the [reference](https://pyslvs-ui.readthedocs.io/en/stable/references/#cite).
+Please see the [reference](https://pyslvs-ui.readthedocs.io/en/stable/references.html#cite).
