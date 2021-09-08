@@ -8,7 +8,7 @@
 
 **Development**:
 
-+ None.
++ Support MSVC 1929.
 
 ## Version 21.08
 
