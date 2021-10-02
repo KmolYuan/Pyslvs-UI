@@ -57,7 +57,7 @@ class Kernel(IntEnum):
 @dataclass(repr=False, eq=False)
 class Arguments:
     """Argument container."""
-    cmd: Optional[str]
+    cmd: Optional[str] = None
     c: str = ""
     filepath: str = ""
     kernel: str = ""
@@ -68,7 +68,7 @@ class Arguments:
     appimage_offset: bool = False
 
 
-def parse_args() -> Arguments:
+def parse_args() -> None:
     parser = ArgumentParser(
         prog='pyslvs',
         description=(
@@ -149,19 +149,7 @@ def parse_args() -> Arguments:
              "such as WebGL (webgl:[port])"
     )
     gui_info = gui_cmd.add_argument_group("information options")
-    extract_cmd = s.add_parser(
-        'extract',
-        help="extract data from a supported file",
-        add_help=False
-    )
-    extract_cmd.add_argument(
-        'filepath',
-        default="",
-        type=str,
-        help="input file path"
-    )
-    extract_info = extract_cmd.add_argument_group("information options")
-    for group in (main_info, gui_info, extract_info):
+    for group in (main_info, gui_info):
         group.add_argument(
             '-h',
             '--help',
@@ -193,12 +181,12 @@ def parse_args() -> Arguments:
             help="obtain offset value of 'mount' command, then mount it with: "
                  "\"sudo mount PACKAGE MOUNT -o offset=VALUE\""
         )
-    return Arguments(**vars(parser.parse_args()))
+    global ARGUMENTS
+    ARGUMENTS = Arguments(**vars(parser.parse_args()))
 
 
+ARGUMENTS = Arguments()
 KERNELS = [Kernel.PYSLVS, Kernel.SKETCH_SOLVE]
 if HAS_SLVS:
     KERNELS.insert(1, Kernel.SOLVESPACE)
 KERNELS = tuple(KERNELS)
-ARGUMENTS = parse_args()
-del parse_args

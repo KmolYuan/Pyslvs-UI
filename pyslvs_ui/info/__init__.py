@@ -7,7 +7,9 @@ __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .info import KERNELS, SYS_INFO, ARGUMENTS, HAS_SLVS, HAS_SCIPY, Kernel
+from .info import (
+    KERNELS, SYS_INFO, ARGUMENTS, HAS_SLVS, HAS_SCIPY, Kernel, parse_args,
+)
 from .about import PyslvsAbout, html, check_update
 from .logging_handler import logger, XStream
 

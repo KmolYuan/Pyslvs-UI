@@ -33,7 +33,7 @@ PYSLVSVER=$(python -c "from pyslvs_ui import __version__;print(__version__)")
 COMPILERVER=$(python -c "import platform;print(''.join(platform.python_compiler().split()[:2]).replace('.', '').lower())")
 SYSVER=$(python -c "import platform;print(platform.machine().lower())")
 EXENAME=pyslvs-${PYSLVSVER}.${COMPILERVER}-${SYSVER}
-if [[ "$(uname)" == "Darwin" ]]; then
+if [[ "$(uname)" == "Darwin" ]] || [[ "$(uname)" == "Linux" ]]; then
   CONSOLE=-w
   ICON=icns
   ICON_PATH="pyslvs_ui/icons/*:pyslvs_ui/icons"
@@ -50,7 +50,7 @@ python -m PyInstaller ${CONSOLE} -F "${REPODIR}/scripts/entry.py" -n ${APP} \
   --add-data ${ICON_PATH} \
   --additional-hooks-dir "${REPODIR}/scripts"
 cd "${REPODIR}/dist" || exit
-if [[ "$(uname)" == "Darwin" ]]; then
+if [[ "$(uname)" == "Darwin" ]] || [[ "$(uname)" == "Linux" ]]; then
   ls -A -1
   mv ${APP} "${EXENAME}.run"
   mv ${APP}.app "${EXENAME}.app"

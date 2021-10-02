@@ -20,7 +20,8 @@ def main() -> None:
     from sys import argv, exit
     from logging import shutdown
     from platform import system
-    from pyslvs_ui.info import ARGUMENTS, logger
+    from pyslvs_ui.info import ARGUMENTS, parse_args, logger
+    parse_args()
     if ARGUMENTS.cmd in {'gui', None}:
         from qtpy.QtCore import Qt, qInstallMessageHandler
         from qtpy.QtWidgets import QApplication, QSplashScreen
@@ -53,9 +54,6 @@ def main() -> None:
         import_module('pyslvs_ui.main_window')
         logger.info("All module loaded successfully.")
         logger.info(f"Loaded with: {process_time() - t0:.02f}s")
-    elif ARGUMENTS.cmd == 'extract':
-        logger.info(f"Start CLI: {process_time() - t0:.02f}s")
-        # TODO: CLI mode
     else:
         raise ValueError(f"unknown command: {ARGUMENTS.cmd}")
     shutdown()
