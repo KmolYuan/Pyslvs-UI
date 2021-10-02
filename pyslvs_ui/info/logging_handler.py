@@ -14,8 +14,10 @@ import sys
 from os import remove
 from os.path import join, expanduser
 from platform import system
-from logging import (DEBUG, INFO, ERROR, basicConfig, getLogger, Handler,
-                     StreamHandler, LogRecord)
+from logging import (
+    DEBUG, INFO, ERROR, basicConfig, getLogger, Handler,
+    StreamHandler, LogRecord,
+)
 from qtpy.QtCore import QObject, Signal
 from .info import ARGUMENTS, SYS_INFO
 
@@ -31,7 +33,7 @@ if system() not in {'Windows', 'Darwin'}:
     _log_path = join(expanduser("~"), _log_path)
 
 
-def _sign_in_logger() -> None:
+def sign_in_logger() -> None:
     basicConfig(
         level=DEBUG if ARGUMENTS.debug_mode else INFO,
         filename=_log_path,
@@ -94,7 +96,3 @@ class XStream(QObject):
         XStream.__stdout = None
         XStream.__stderr = None
         logger.addHandler(_std_handler)
-
-
-_sign_in_logger()
-del _sign_in_logger

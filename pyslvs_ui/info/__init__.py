@@ -11,7 +11,7 @@ from .info import (
     KERNELS, SYS_INFO, ARGUMENTS, HAS_SLVS, HAS_SCIPY, Kernel, parse_args,
 )
 from .about import PyslvsAbout, html, check_update
-from .logging_handler import logger, XStream
+from .logging_handler import logger, sign_in_logger, XStream
 
 
 def size_format(num: float) -> str:

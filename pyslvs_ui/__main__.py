@@ -20,8 +20,9 @@ def main() -> None:
     from sys import argv, exit
     from logging import shutdown
     from platform import system
-    from pyslvs_ui.info import ARGUMENTS, parse_args, logger
+    from pyslvs_ui.info import ARGUMENTS, parse_args, sign_in_logger, logger
     parse_args()
+    sign_in_logger()
     if ARGUMENTS.cmd in {'gui', None}:
         from qtpy.QtCore import Qt, qInstallMessageHandler
         from qtpy.QtWidgets import QApplication, QSplashScreen

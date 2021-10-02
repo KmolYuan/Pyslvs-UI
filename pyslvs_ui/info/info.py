@@ -181,8 +181,8 @@ def parse_args() -> None:
             help="obtain offset value of 'mount' command, then mount it with: "
                  "\"sudo mount PACKAGE MOUNT -o offset=VALUE\""
         )
-    global ARGUMENTS
-    ARGUMENTS = Arguments(**vars(parser.parse_args()))
+    args = Arguments(**vars(parser.parse_args()))
+    ARGUMENTS.__dict__.update(args.__dict__)
 
 
 ARGUMENTS = Arguments()
