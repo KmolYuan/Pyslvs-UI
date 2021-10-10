@@ -6,7 +6,7 @@ __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2021"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
-__version__ = "21.09.0"
+__version__ = "21.10.0"
 
 from warnings import warn
 from pyslvs import __version__ as __kernel_version__
