@@ -190,25 +190,25 @@ class MainCanvasBase(BaseCanvas, ABC):
         pos_y = -self.oy
         neg_x = -self.ox
         neg_y = self.height() - self.oy
-        self.painter.drawLine(neg_x, pos_y, pos_x, pos_y)
-        self.painter.drawLine(neg_x, neg_y, pos_x, neg_y)
-        self.painter.drawLine(neg_x, pos_y, neg_x, neg_y)
-        self.painter.drawLine(pos_x, pos_y, pos_x, neg_y)
+        self.painter.drawLine(QLineF(neg_x, pos_y, pos_x, pos_y))
+        self.painter.drawLine(QLineF(neg_x, neg_y, pos_x, neg_y))
+        self.painter.drawLine(QLineF(neg_x, pos_y, neg_x, neg_y))
+        self.painter.drawLine(QLineF(pos_x, pos_y, pos_x, neg_y))
 
-    def __draw_point(self, i: int, vpoint: VPoint) -> None:
+    def __draw_point(self, i: int, vpt: VPoint) -> None:
         """Draw a point."""
-        connected = len(vpoint.links) - 1
-        if vpoint.type in {VJoint.P, VJoint.RP}:
-            pen = QPen(color_qt(vpoint.color))
+        connected = len(vpt.links) - 1
+        if vpt.type in {VJoint.P, VJoint.RP}:
+            pen = QPen(color_qt(vpt.color))
             pen.setWidth(2)
             # Draw slot point and pin point
-            for j, (cx, cy) in enumerate(vpoint.c):
+            for j, (cx, cy) in enumerate(vpt.c):
                 # Slot point
-                if j == 0 or vpoint.type == VJoint.P:
+                if j == 0 or vpt.type == VJoint.P:
                     if self.monochrome:
                         color = Qt.black
                     else:
-                        color = color_qt(vpoint.color)
+                        color = color_qt(vpt.color)
                     pen.setColor(color)
                     self.painter.setPen(pen)
                     cp = QPointF(cx, -cy) * self.zoom
@@ -223,43 +223,41 @@ class MainCanvasBase(BaseCanvas, ABC):
                             text += f":({cx:.02f}, {cy:.02f})"
                         self.painter.drawText(cp + rp, text)
                 else:
-                    grounded = (len(vpoint.c) == len(vpoint.links)
-                                and vpoint.links[j] == VLink.FRAME)
-                    self.draw_point(i, cx, cy, grounded, vpoint.color,
-                                    connected)
+                    grounded = (len(vpt.c) == len(vpt.links)
+                                and vpt.links[j] == VLink.FRAME)
+                    self.draw_point(i, cx, cy, grounded, vpt.color, connected)
             # Slider line
-            pen.setColor(color_qt(vpoint.color).darker())
+            pen.setColor(color_qt(vpt.color).darker())
             self.painter.setPen(pen)
-            qline_m = QLineF(
-                QPointF(vpoint.c[1, 0], -vpoint.c[1, 1]) * self.zoom,
-                QPointF(vpoint.c[0, 0], -vpoint.c[0, 1]) * self.zoom
+            line_m = QLineF(
+                QPointF(vpt.c[1, 0], -vpt.c[1, 1]) * self.zoom,
+                QPointF(vpt.c[0, 0], -vpt.c[0, 1]) * self.zoom
             )
-            nv = qline_m.normalVector()
+            nv = line_m.normalVector()
             nv.setLength(self.joint_size)
             nv.setPoints(nv.p2(), nv.p1())
-            qline_1 = nv.normalVector()
-            qline_1.setLength(qline_m.length())
-            self.painter.drawLine(qline_1)
+            line1 = nv.normalVector()
+            line1.setLength(line_m.length())
+            self.painter.drawLine(line1)
             nv.setLength(nv.length() * 2)
             nv.setPoints(nv.p2(), nv.p1())
-            qline_2 = nv.normalVector()
-            qline_2.setLength(qline_m.length())
-            qline_2.setAngle(qline_2.angle() + 180)
-            self.painter.drawLine(qline_2)
+            line2 = nv.normalVector()
+            line2.setLength(line_m.length())
+            line2.setAngle(line2.angle() + 180)
+            self.painter.drawLine(line2)
         else:
-            self.draw_point(i, vpoint.cx, vpoint.cy, vpoint.grounded(),
-                            vpoint.color, connected)
-
+            self.draw_point(i, vpt.cx, vpt.cy, vpt.grounded(), vpt.color,
+                            connected)
         # For selects function
         if self.select_mode == SelectMode.JOINT and (i in self.selections):
             pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
             self.painter.setPen(pen)
-            self.painter.drawRect(
-                vpoint.cx * self.zoom - 12,
-                vpoint.cy * -self.zoom - 12,
+            self.painter.drawRect(QRectF(
+                vpt.cx * self.zoom - 12,
+                vpt.cy * -self.zoom - 12,
                 24, 24
-            )
+            ))
 
     def __draw_link(self, vlink: VLink) -> None:
         """Draw a link."""

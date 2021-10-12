@@ -458,15 +458,17 @@ class InputsWidget(QWidget, Ui_Form):
     def __path_dlg(self, item: QListWidgetItem) -> None:
         """View path data."""
         name = item.text().split(":", maxsplit=1)[0]
-        try:
-            paths = self.__paths[name]
-        except KeyError:
+        if name not in self.__paths:
             return
-        points_text = ", ".join(f"Point{i}" for i in range(len(paths)))
+        paths = self.__paths[name]
+        if paths:
+            points_text = ", ".join(f"Point{i}" for i in range(len(paths)))
+        else:
+            points_text = "nothing"
         if QMessageBox.question(
             self,
             "Path data",
-            f"This path data including {points_text}.",
+            f"This path data includes {points_text}.",
             (QMessageBox.Save | QMessageBox.Close),
             QMessageBox.Close
         ) != QMessageBox.Save:
@@ -506,9 +508,14 @@ class InputsWidget(QWidget, Ui_Form):
         data = self.__paths[self.__current_path_name()]
         if not data:
             return
-        QApplication.clipboard().setText('\n'.join(
-            f"[{x}, {y}]," for x, y in data[self.plot_joint.currentIndex()]
-        ))
+        index = self.plot_joint.currentIndex()
+        if self.copy_as_csv.isChecked():
+            text = '\n'.join(f"{x},{y}" for x, y in data[index])
+        elif self.copy_as_array.isChecked():
+            text = '\n'.join(f"[{x}, {y}]," for x, y in data[index])
+        else:
+            raise ValueError("invalid option")
+        QApplication.clipboard().setText(text)
 
     @Slot(name='on_show_btn_clicked')
     def __show_path(self) -> None:

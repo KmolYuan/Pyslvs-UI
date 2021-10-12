@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from enum import auto, unique, IntEnum
 from math import radians, sin, cos, atan2, hypot, isnan
 from functools import reduce
-from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF, Signal
+from qtpy.QtCore import Slot, Qt, QPointF, QRectF, QSizeF, Signal, QLineF
 from qtpy.QtWidgets import QWidget, QSizePolicy
 from qtpy.QtGui import (
     QPolygonF, QPainter, QBrush, QPen, QColor, QFont,
@@ -217,10 +217,10 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         self.painter.setPen(pen)
         x_l = -self.ox
         x_r = self.width() - self.ox
-        self.painter.drawLine(x_l, 0, x_r, 0)
+        self.painter.drawLine(QLineF(x_l, 0, x_r, 0))
         y_t = self.height() - self.oy
         y_b = -self.oy
-        self.painter.drawLine(0, y_b, 0, y_t)
+        self.painter.drawLine(QLineF(0, y_b, 0, y_t))
 
         def indexing(v: float) -> int:
             """Draw tick."""
@@ -378,7 +378,7 @@ class BaseCanvas(QWidget, metaclass=QABCMeta):
         y2 = (y1 + y2) / 2 - 7.5 * sin(a)
         first_point = QPointF(x2, -y2)
         if line:
-            self.painter.drawLine(x1, -y1, x2, -y2)
+            self.painter.drawLine(QLineF(x1, -y1, x2, -y2))
         self.painter.drawLine(first_point, QPointF(
             x2 + 15 * cos(a + radians(20)),
             -y2 - 15 * sin(a + radians(20))

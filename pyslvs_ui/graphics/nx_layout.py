@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Mapping, Tuple, Optional
-from qtpy.QtCore import Qt, QSize, QPointF
+from qtpy.QtCore import Qt, QSize, QPointF, QLineF
 from qtpy.QtGui import QImage, QPainter, QBrush, QPen, QIcon, QPixmap, QFont
 from pyslvs import edges_view
 from pyslvs.graph import Graph, external_loop_layout
@@ -107,7 +107,7 @@ def graph2icon(
             else:
                 pen.setColor(Qt.black)
             painter.setPen(pen)
-            painter.drawLine(pos[l1][0], -pos[l1][1], pos[l2][0], -pos[l2][1])
+            painter.drawLine(QLineF(pos[l1][0], -pos[l1][1], pos[l2][0], -pos[l2][1]))
     else:
         color = color_qt('dark-gray') if monochrome else LINK_COLOR
         color.setAlpha(150)

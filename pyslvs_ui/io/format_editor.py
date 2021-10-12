@@ -43,7 +43,7 @@ class ProjectFormat(IntEnum):
         elif self == ProjectFormat.PICKLE:
             return "Pickle"
         else:
-            raise KeyError("invalid format")
+            raise ValueError("invalid format")
 
 
 class FormatEditor(QObject, metaclass=QABCMeta):
