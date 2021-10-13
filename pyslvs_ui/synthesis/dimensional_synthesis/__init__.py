@@ -193,9 +193,13 @@ class Optimizer(QWidget, Ui_Form):
     @Slot(name='on_path_copy_clicked')
     def __copy_path(self) -> None:
         """Copy the current path coordinates to clipboard."""
-        QApplication.clipboard().setText('\n'.join(
-            f"[{x}, {y}]," for x, y in self.current_path()
-        ))
+        if self.copy_as_csv.isChecked():
+            text = '\n'.join(f"{x},{y}" for x, y in self.current_path())
+        elif self.copy_as_array.isChecked():
+            text = '\n'.join(f"[{x}, {y}]," for x, y in self.current_path())
+        else:
+            raise ValueError("invalid option")
+        QApplication.clipboard().setText(text)
 
     @Slot(name='on_path_paste_clicked')
     def __paste_path(self) -> None:
