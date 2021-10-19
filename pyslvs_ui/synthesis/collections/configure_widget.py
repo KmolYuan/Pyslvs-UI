@@ -405,10 +405,10 @@ class ConfigureWidget(QWidget, Ui_Form):
                     if row == link:
                         link_expr.append(f"P{joint}")
                 link_expr_str = ','.join(sorted(set(link_expr)))
-                if row == self.grounded_list.currentRow():
-                    link_expr_list.insert(0, link_expr_str)
-                else:
+                if row != self.grounded_list.currentRow():
                     link_expr_list.append(link_expr_str)
+                else:
+                    link_expr_list.insert(0, link_expr_str)
         self.expr_show.setText(self.get_expression(graph2vpoints(
             self.configure_canvas.graph,
             self.configure_canvas.pos,
