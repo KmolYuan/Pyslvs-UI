@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 21.10
+
+**Features**:
+
++ Enhance "Copy Curve Data" options.
+
+**Development**:
+
++ None.
+
 ## Version 21.09
 
 **Features**:

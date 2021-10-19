@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
+    <width>457</width>
     <height>714</height>
    </rect>
   </property>
@@ -256,7 +256,7 @@
        <attribute name="title">
         <string>Target path</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <widget class="QSplitter" name="down_splitter">
           <property name="orientation">
@@ -280,6 +280,46 @@
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QGroupBox" name="copy_format_groupbox">
+                <property name="title">
+                 <string>Copy</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QRadioButton" name="copy_as_csv">
+                   <property name="text">
+                    <string>Comma-Separated Values</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="copy_as_array">
+                   <property name="text">
+                    <string>Array-like</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="path_copy">
+                   <property name="statusTip">
+                    <string>Copy the path data as a string.</string>
+                   </property>
+                   <property name="text">
+                    <string>Copy Curve Data</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
@@ -313,17 +353,6 @@
                   <property name="icon">
                    <iconset>
                     <normaloff>icons:paste.png</normaloff>icons:paste.png</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="path_copy">
-                  <property name="statusTip">
-                   <string>Copy the path data as a string.</string>
-                  </property>
-                  <property name="icon">
-                   <iconset>
-                    <normaloff>icons:copy.png</normaloff>icons:copy.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -656,5 +685,6 @@
    </item>
   </layout>
  </widget>
+ <resources/>
  <connections/>
 </ui>
