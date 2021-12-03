@@ -44,7 +44,7 @@ else
 fi
 
 # Run PyInstaller
-python -m pip install https://github.com/pyinstaller/pyinstaller/tarball/develop || exit
+python -m pip install PyInstaller || exit
 python -m PyInstaller ${CONSOLE} -F "${REPODIR}/scripts/entry.py" -n ${APP} \
   -i "pyslvs_ui/icons/main.${ICON}" \
   --add-data ${ICON_PATH} \
@@ -55,7 +55,7 @@ if [[ "$(uname)" == "Darwin" ]] || [[ "$(uname)" == "Linux" ]]; then
   mv ${APP} "${EXENAME}.run"
   mv ${APP}.app "${EXENAME}.app"
   "${EXENAME}.run" test
-  zip -r "${EXENAME}.app.zip" "${EXENAME}.app"
+  7z a -tzip "${EXENAME}.zip" "${EXENAME}.app"
 else
   mv ${APP}.exe "${EXENAME}.exe"
   "${EXENAME}.exe" test
