@@ -1,12 +1,10 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/d2rxv6psmuj5fco9?svg=true)](https://ci.appveyor.com/project/KmolYuan/pyslvs-ui)
-[![Build status](https://img.shields.io/travis/KmolYuan/Pyslvs-UI.svg?logo=travis)](https://travis-ci.org/KmolYuan/Pyslvs-UI)
+[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/KmolYuan/Pyslvs-UI.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/KmolYuan/Pyslvs-UI/context:python)
+
 [![Documentation Status](https://readthedocs.org/projects/pyslvs-ui/badge/?version=latest)](https://pyslvs-ui.readthedocs.io/en/latest/?badge=latest)
+[![sourceforge](https://img.shields.io/badge/site-sourceforge-green.svg)](https://sourceforge.net/projects/pyslvs/)
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/KmolYuan/Pyslvs-UI.svg)](https://github.com/KmolYuan/Pyslvs-UI/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-UI/total.svg)](https://github.com/KmolYuan/Pyslvs-UI/releases)
-
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/KmolYuan/Pyslvs-UI.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/KmolYuan/Pyslvs-UI/context:python)
-[![PyPI](https://img.shields.io/pypi/v/pyslvs-ui.svg)](https://pypi.org/project/pyslvs-ui/)
-[![sourceforge](https://img.shields.io/badge/site-sourceforge-green.svg)](https://sourceforge.net/projects/pyslvs/)
 
 [![kernel](https://img.shields.io/badge/kernel-pyslvs-orange.svg)](https://github.com/KmolYuan/pyslvs)
 [![kernel](https://img.shields.io/badge/kernel-python--solvespace-orange.svg)](https://github.com/KmolYuan/solvespace)
