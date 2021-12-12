@@ -52,6 +52,8 @@ Python binding Solvespace solver libraries.
 | CURVE_CURVE_TANGENT |
 | LENGTH_DIFFERENCE |
 
+Symbol of the constraint types.
+
 ### class Entity
 
 *Full name:* `python_solvespace.Entity`
@@ -64,6 +66,8 @@ Python binding Solvespace solver libraries.
 | `params` | `Params` |
 
 The handles of entities.
+
+This handle **should** be dropped after system removed.
 
 #### Entity.is_3d()
 
@@ -318,6 +322,8 @@ Signature is same as [quaternion_u](#quaternion_u).
 | DIDNT_CONVERGE |
 | TOO_MANY_UNKNOWNS |
 
+Symbol of the result flags.
+
 ### class SolverSystem
 
 *Full name:* `python_solvespace.SolverSystem`
@@ -325,8 +331,7 @@ Signature is same as [quaternion_u](#quaternion_u).
 
 A solver system of Python-Solvespace.
 
-The operation of entities and constraints are using the methods of this
-class.
+The operation of entities and constraints are using the methods of this class.
 
 #### SolverSystem.\_\_init\_\_()
 
@@ -338,6 +343,15 @@ class.
 | `Self` | `None` |
 
 Initialize self.  See help(type(self)) for accurate signature.
+
+#### SolverSystem.\_\_reduce\_\_()
+
+*Full name:* `python_solvespace.SolverSystem.__reduce__`
+<a id="python_solvespace-solversystem-__reduce__"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `Any` |
 
 #### SolverSystem.add_arc()
 
@@ -549,6 +563,17 @@ Coincident two entities.
 | [is_point] | [is_line] | Optional |
 | [is_point] | [is_circle] | Optional |
 
+#### SolverSystem.cons_len()
+
+*Full name:* `python_solvespace.SolverSystem.cons_len`
+<a id="python_solvespace-solversystem-cons_len"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `int` |
+
+The length of parameter list.
+
 #### SolverSystem.constraints()
 
 *Full name:* `python_solvespace.SolverSystem.constraints`
@@ -560,6 +585,17 @@ Coincident two entities.
 
 Return the number of each constraint type.
 The name of constraints is represented by string.
+
+#### SolverSystem.copy()
+
+*Full name:* `python_solvespace.SolverSystem.copy`
+<a id="python_solvespace-solversystem-copy"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `SolverSystem` |
+
+Copy the solver.
 
 #### SolverSystem.create\_2d\_base()
 
@@ -632,7 +668,7 @@ two 3d points (`e1` and `e2`).
 | `Self` | `int` |
 
 Return the degrees of freedom of current group.
-Only can be called after solving.
+Only can be called after solved.
 
 #### SolverSystem.dragged()
 
@@ -645,6 +681,30 @@ Only can be called after solving.
 |   |   | `Entity.FREE_IN_3D` |   |   |
 
 Dragged constraint of a point (`e1`) on the work plane (`wp`).
+
+#### SolverSystem.entity()
+
+*Full name:* `python_solvespace.SolverSystem.entity`
+<a id="python_solvespace-solversystem-entity"></a>
+
+| self | i | return |
+|:----:|:---:|:------:|
+| `Self` | `int` | `Entity` |
+
+Generate entity handle, it can only be used with this system.
+
+Negative index is allowed.
+
+#### SolverSystem.entity_len()
+
+*Full name:* `python_solvespace.SolverSystem.entity_len`
+<a id="python_solvespace-solversystem-entity_len"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `int` |
+
+The length of parameter list.
 
 #### SolverSystem.equal()
 
@@ -754,6 +814,17 @@ a line (`e2`) on work plane (`wp`).
 Parallel constraint between two lines (`e1` and `e2`) on
 the work plane (`wp`).
 
+#### SolverSystem.param_len()
+
+*Full name:* `python_solvespace.SolverSystem.param_len`
+<a id="python_solvespace-solversystem-param_len"></a>
+
+| self | return |
+|:----:|:------:|
+| `Self` | `int` |
+
+The length of parameter list.
+
 #### SolverSystem.params()
 
 *Full name:* `python_solvespace.SolverSystem.params`
@@ -761,7 +832,7 @@ the work plane (`wp`).
 
 | self | p | return |
 |:----:|:---:|:------:|
-| `Self` | `Params` | `tuple[float, ...]` |
+| `Self` | `Params` | `list[float]` |
 
 Get the parameters from a [Params] handle (`p`) belong to this
 system.
@@ -825,8 +896,7 @@ Set the current group (`g`).
 |:----:|:---:|:------:|:------:|
 | `Self` | `Params` | `collections.abc.Sequence[float]` | `None` |
 
-Set the parameters from a [Params] handle (`p`) belong to this
-system.
+Set the parameters from a [Params] handle (`p`) belong to this system.
 The values is come from `params`, length must be equal to the handle.
 
 #### SolverSystem.solve()
