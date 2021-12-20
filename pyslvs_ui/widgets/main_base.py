@@ -125,10 +125,14 @@ class _Context:
         meta = []
         for enable in _Enable:  # type: _Enable
             if enable in key:
+                if enable.name is None:
+                    raise ValueError("invalid enum")
                 meta.append(getattr(self, enable.name.lower()))
         return tuple(meta)
 
     def __setitem__(self, key: _Enable, value: _Action) -> None:
+        if key.name is None:
+            raise ValueError("invalid enum")
         self.__setattr__(key.name.lower(), value)
 
 
