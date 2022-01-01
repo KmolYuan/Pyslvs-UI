@@ -6,7 +6,7 @@ from __future__ import annotations
 
 __all__ = ['ProjectFormat', 'ProjectWidget']
 __author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2021"
+__copyright__ = "Copyright (C) 2016-2022"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 

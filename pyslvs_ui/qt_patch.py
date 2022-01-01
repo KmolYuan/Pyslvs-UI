@@ -7,7 +7,7 @@ Customized class will define below.
 
 __all__ = ['API', 'qt_image_suffix', 'qt_image_format', 'QABCMeta']
 __author__ = "Yuan Chang"
-__copyright__ = "Copyright (C) 2016-2021"
+__copyright__ = "Copyright (C) 2016-2022"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
