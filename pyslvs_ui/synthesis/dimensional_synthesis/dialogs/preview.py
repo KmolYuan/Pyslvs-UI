@@ -124,8 +124,6 @@ class _DynamicCanvas(AnimationCanvas):
         self.draw_ranges()
         # Draw points
         for i in range(len(self.vpoints)):
-            if not self.pos[i]:
-                continue
             self.__draw_point(i)
 
         self.painter.end()
