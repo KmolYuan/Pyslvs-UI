@@ -528,7 +528,7 @@ Where `origin` is the origin point of the plane;
 | self | e1 | e2 | value | wp | inverse | return |
 |:----:|:---:|:---:|:-----:|:---:|:-------:|:------:|
 | `Self` | `Entity` | `Entity` | `float` | `Entity` | `bool` | `None` |
-|   |   |   |   |   | `False` |   |   |
+|   |   |   |   | `Entity.FREE_IN_3D` | `False` |   |   |
 
 Degrees angle (`value`) constraint between two 2d lines (`e1` and
 `e2`) on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
@@ -614,9 +614,9 @@ return the handle of work plane.
 *Full name:* `python_solvespace.SolverSystem.diameter`
 <a id="python_solvespace-solversystem-diameter"></a>
 
-| self | e1 | value | wp | return |
-|:----:|:---:|:-----:|:---:|:------:|
-| `Self` | `Entity` | `float` | `Entity` | `None` |
+| self | e1 | value | return |
+|:----:|:---:|:-----:|:------:|
+| `Self` | `Entity` | `float` | `None` |
 
 Diameter (`value`) constraint of a circular entities.
 
@@ -656,7 +656,7 @@ If `value` is equal to zero, then turn into
 | `Self` | `Entity` | `Entity` | `float` | `None` |
 
 Projected distance (`value`) constraint between
-two 3d points (`e1` and `e2`).
+two 2D/3D points (`e1` and `e2`).
 
 #### SolverSystem.dof()
 
@@ -728,14 +728,15 @@ Equal constraint between two entities.
 | [is_circle] | [is_circle] | Optional |
 | [is_circle] | [is_arc] | Optional |
 
-#### SolverSystem.equal\_included\_angle()
+#### SolverSystem.equal_angle()
 
-*Full name:* `python_solvespace.SolverSystem.equal_included_angle`
-<a id="python_solvespace-solversystem-equal_included_angle"></a>
+*Full name:* `python_solvespace.SolverSystem.equal_angle`
+<a id="python_solvespace-solversystem-equal_angle"></a>
 
 | self | e1 | e2 | e3 | e4 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
 | `Self` | `Entity` | `Entity` | `Entity` | `Entity` | `Entity` | `None` |
+|   |   |   |   |   | `Entity.FREE_IN_3D` |   |   |
 
 Constraint that 2D line 1 (`e1`) and line 2 (`e2`),
 line 3 (`e3`) and line 4 (`e4`) must have same included angle on work
@@ -749,10 +750,10 @@ plane `wp`.
 | self | e1 | e2 | e3 | e4 | wp | return |
 |:----:|:---:|:---:|:---:|:---:|:---:|:------:|
 | `Self` | `Entity` | `Entity` | `Entity` | `Entity` | `Entity` | `None` |
+|   |   |   |   |   | `Entity.FREE_IN_3D` |   |   |
 
 Constraint that point 1 (`e1`) and line 1 (`e2`),
-point 2 (`e3`) and line 2  (`e4`) must have same distance on work
-plane `wp`.
+point 2 (`e3`) and line 2  (`e4`) must have same distance on work plane `wp`.
 
 #### SolverSystem.failures()
 
@@ -846,11 +847,10 @@ The length of tuple is decided by handle.
 | self | e1 | e2 | wp | inverse | return |
 |:----:|:---:|:---:|:---:|:-------:|:------:|
 | `Self` | `Entity` | `Entity` | `Entity` | `bool` | `None` |
-|   |   |   |   | `False` |   |   |
+|   |   |   | `Entity.FREE_IN_3D` | `False` |   |   |
 
 Perpendicular constraint between two 2d lines (`e1` and `e2`)
-on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with
-`inverse` option.
+on the work plane (`wp`) with `inverse` option.
 
 #### SolverSystem.ratio()
 
@@ -860,9 +860,9 @@ on the work plane (`wp` can not be [Entity.FREE_IN_3D]) with
 | self | e1 | e2 | value | wp | return |
 |:----:|:---:|:---:|:-----:|:---:|:------:|
 | `Self` | `Entity` | `Entity` | `float` | `Entity` | `None` |
+|   |   |   |   | `Entity.FREE_IN_3D` |   |   |
 
-The ratio (`value`) constraint between two 2D lines (`e1` and
-`e2`).
+The ratio (`value`) constraint between two 2D lines (`e1` and `e2`).
 
 #### SolverSystem.same_orientation()
 
@@ -873,8 +873,7 @@ The ratio (`value`) constraint between two 2D lines (`e1` and
 |:----:|:---:|:---:|:------:|
 | `Self` | `Entity` | `Entity` | `None` |
 
-Equal orientation constraint between two 3d normals (`e1` and
-`e2`).
+Equal orientation constraint between two 3d normals (`e1` and `e2`).
 
 #### SolverSystem.set_group()
 
@@ -908,8 +907,6 @@ The values is come from `params`, length must be equal to the handle.
 |:----:|:------:|
 | `Self` | `int` |
 
-Start the solving, return the result flag.
-
 #### SolverSystem.symmetric()
 
 *Full name:* `python_solvespace.SolverSystem.symmetric`
@@ -926,7 +923,7 @@ Symmetric constraint between two points.
 |:---------------:|:---------------:|:---------------:|:-----------------:|
 | [is_point_3d] | [is_point_3d] | [is_work_plane] | [Entity.FREE_IN_3D] |
 | [is_point_2d] | [is_point_2d] | [is_work_plane] | [Entity.FREE_IN_3D] |
-| [is_point_2d] | [is_point_2d] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
+| [is_point_2d] | [is_point_2d] | [is_line_2d] | not [Entity.FREE_IN_3D] |
 
 #### SolverSystem.symmetric_h()
 
@@ -938,8 +935,7 @@ Symmetric constraint between two points.
 | `Self` | `Entity` | `Entity` | `Entity` | `None` |
 
 Symmetric constraint between two 2D points (`e1` and `e2`)
-with horizontal line on the work plane (`wp` can not be
-[Entity.FREE_IN_3D]).
+with horizontal line on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 #### SolverSystem.symmetric_v()
 
@@ -951,8 +947,7 @@ with horizontal line on the work plane (`wp` can not be
 | `Self` | `Entity` | `Entity` | `Entity` | `None` |
 
 Symmetric constraint between two 2D points (`e1` and `e2`)
-with vertical line on the work plane (`wp` can not be
-[Entity.FREE_IN_3D]).
+with vertical line on the work plane (`wp` can not be [Entity.FREE_IN_3D]).
 
 #### SolverSystem.tangent()
 
@@ -969,11 +964,9 @@ work plane (`wp`).
 
 | Entity 1 (`e1`) | Entity 2 (`e2`) | Work plane (`wp`) |
 |:---------------:|:---------------:|:-----------------:|
-| [is_arc] | [is_line_2d] | Is not [Entity.FREE_IN_3D] |
+| [is_arc] | [is_line_2d] | not [Entity.FREE_IN_3D] |
 | [is_cubic] | [is_line_3d] | [Entity.FREE_IN_3D] |
-| [is_arc] | [is_cubic] | Is not [Entity.FREE_IN_3D] |
-| [is_arc] | [is_arc] | Is not [Entity.FREE_IN_3D] |
-| [is_cubic] | [is_cubic] | Optional |
+| [is_arc]/[is_cubic] | [is_arc]/[is_cubic] | not [Entity.FREE_IN_3D] |
 
 #### SolverSystem.vertical()
 
