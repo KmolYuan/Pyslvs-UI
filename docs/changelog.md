@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 22.05
+
++ Periodic update.
+
 ## Version 22.04
 
 + Periodic update.
