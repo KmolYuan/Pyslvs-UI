@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 22.06
+
++ Periodic update.
+
 ## Version 22.05
 
 + Periodic update.
