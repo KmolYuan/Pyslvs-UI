@@ -32,7 +32,7 @@ jobs:
       - if: matrix.pyver == '3.10' && matrix.os == 'ubuntu-latest'
         name: Pack (AppImage)
         run: ./scripts/appimage.sh
-      - if: matrix.pyver == '3.9' && matrix.os != 'ubuntu-latest'
+      - if: matrix.pyver == '3.10' && matrix.os != 'ubuntu-latest'
         name: Pack (PyInstaller)
         shell: bash
         run: ./scripts/pyinstaller.sh
@@ -42,7 +42,7 @@ jobs:
         with:
           name: ${{ matrix.os }}-py${{ matrix.pyver }}
           path: out/*.AppImage
-      - if: matrix.pyver == '3.9' && matrix.os != 'ubuntu-latest'
+      - if: matrix.pyver == '3.10' && matrix.os != 'ubuntu-latest'
         name: Upload artifact (PyInstaller)
         uses: actions/upload-artifact@v2
         with:
@@ -53,7 +53,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: out/*.AppImage
-      - if: startsWith(github.ref, 'refs/tags/v') && matrix.pyver == '3.9' && matrix.os != 'ubuntu-latest'
+      - if: startsWith(github.ref, 'refs/tags/v') && matrix.pyver == '3.10' && matrix.os != 'ubuntu-latest'
         name: Upload binaries to release (PyInstaller)
         uses: softprops/action-gh-release@v1
         with:
